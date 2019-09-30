@@ -132,7 +132,7 @@ def _findPeaks(xseries, yseries, detector):
                detector["species"][ident]["r"]*mult >= xseries[peak["max"]]:
                 results[ident] = {"A": peak["a"], "h": yseries[peak["max"]], "rt": xseries[peak["max"]]}
                 if "rf" in detector["species"][ident]:
-                    results[ident]["X"] = peak["a"]*detector["species"][ident]["rf"]
+                    results[ident]["X"] = max(0, peak["a"] / detector["species"][ident]["rf"])
     return results
                 
                 #ax[0].fill_between(x[peak["l"]:peak["r"]], yseries[peak["l"]:peak["r"]], bline[peak["l"]-peak["bl"]:peak["r"]-peak["bl"]])

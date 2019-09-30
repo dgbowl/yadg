@@ -39,12 +39,17 @@ def _inferTodoFiles(importdict, **kwargs):
         filetype = "file"
     if "folders" in importdict:
         for folder in importdict["folders"]:
-            assert os.path.exists(folder), \
-                f"YADG: folder {folder} doesn't exist"
-            for fn in os.listdir(folder):
-                if fn.startswith(importdict.get("prefix", "")) and \
-                fn.endswith(importdict.get("suffix", "")):
-                    todofiles.append(os.path.join(folder, fn))
+            try:
+                print(folder)
+                assert os.path.exists(folder) or args.ignore, \
+                    f"YADG: folder {folder} doesn't exist"
+                for fn in os.listdir(folder):
+                    if fn.startswith(importdict.get("prefix", "")) and \
+                    fn.endswith(importdict.get("suffix", "")):
+                        todofiles.append(os.path.join(folder, fn))
+            except FileNotFoundError:
+                if args.ignore:
+                    pass
     if "files" in importdict:
         importdict["paths"] = importdict.pop("files")
     if "paths" in importdict:
@@ -79,30 +84,32 @@ def _processSchemaFile(schemafile):
         for tf in todofiles:
             print(f'YADG: processing item {tf}')
             data["results"].append(handler(tf, **step.get("parameters", {})))
-        tostore.append(data)
         if step["export"].lower() in ["false", "none"]:
             pass
-        else:
+        elif len(data["results"]) > 0:
             with open(step["export"], "w") as ofile:
                 json.dump(data, ofile, indent=1)
+            tostore.append(data)
     return(tostore)
     
 
 parser = argparse.ArgumentParser(usage='%(prog)s [options] schemafile')
 parser.add_argument('schemafile', 
                     help='schemafile to be processed by the script.')
-parser.add_argument("--dump", nargs=1, 
+parser.add_argument("--dump", 
                     help='Dump processed schemafile into a specified json file.',
                     default=False)
 parser.add_argument("--version",
                     action='version', version=f'%(prog)s version {_VERSION}')
+parser.add_argument("--ignore-file-errors", dest="ignore", action="store_true",
+                    help='Ignore file opening errors while processing schemafile',
+                    default=False)
 args = parser.parse_args()
 
 if __name__ == "__main__":
     print("Processing input json: {:s}".format(args.schemafile))
     tostore = _processSchemaFile(args.schemafile)
-    print(args.dump)
     if args.dump:
-        with open(args.dump.pop(), "w") as ofile:
+        with open(args.dump, "w") as ofile:
             json.dump(tostore, ofile, indent=1)
             

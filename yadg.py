@@ -83,10 +83,16 @@ def _processSchemaFile(schemafile):
         data["results"] = []
         for tf in todofiles:
             print(f'YADG: processing item {tf}')
-            data["results"].append(handler(tf, **step.get("parameters", {})))
+            ret = handler(tf, **step.get("parameters", {}))
+            if isinstance(ret, dict):
+                data["results"].append(ret)
+            elif isinstance(ret, list): 
+                data["results"] += ret
         if step["export"].lower() in ["false", "none"]:
             pass
         elif len(data["results"]) > 0:
+            if data["results"][-1] == None:
+                data["results"] = data["results"][:-1]
             with open(step["export"], "w") as ofile:
                 json.dump(data, ofile, indent=1)
             tostore.append(data)

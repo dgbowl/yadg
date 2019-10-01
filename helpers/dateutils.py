@@ -1,6 +1,9 @@
-import math
 import datetime
-from scipy.optimize import curve_fit
+
+def coerceDashedDate(ds):
+    year, month, day, hour, minute, second = [int(j) for j in ds.split("-")]
+    dt = datetime.datetime(year, month, day, hour=hour, minute=minute, second=second)
+    return dt.timestamp()
 
 def coerceDateTime(ds):
     date, time, noon = ds.split()

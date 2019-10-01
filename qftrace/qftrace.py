@@ -1,10 +1,10 @@
 import os
 import datetime
 from . import q0refl
+from helpers import *
 from scipy.signal import find_peaks
 import math
 
-import matplotlib.pyplot as plt
 
 def _prune(p0, freq, comp, cutoff = 0.4):
     pruned = []
@@ -30,8 +30,6 @@ def _prune(p0, freq, comp, cutoff = 0.4):
         else:
             break
     return pf[1:-1], pc[1:-1]
-
-
 
 def _fit(freq, comp, iterations = 5, cutoff = 0.4, height=1.0):
     results = {
@@ -68,10 +66,8 @@ def _fit(freq, comp, iterations = 5, cutoff = 0.4, height=1.0):
 
 def process(fn, **kwargs):
     dirname, basename = os.path.split(fn)
-    year, month, day, hour, minute, second = [int(i) for i in basename[:-4].split("-")]
-    dt = datetime.datetime(year, month, day, hour=hour, minute=minute, second=second)
     results = {
-              "uts": dt.timestamp(),
+              "uts": dateutils.coerceDashedDate(basename[:-4]),
               "path": fn
               }
     with open(fn, "r") as infile:

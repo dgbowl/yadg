@@ -1,4 +1,5 @@
 from helpers import *
+import json
 
 def _inferCalibration(**kwargs):
     calibkeys = ["Tcal", "Tcalfile", "MFCcal", "MFCcalfile"]
@@ -38,18 +39,19 @@ def process(fn, **kwargs):
             if "Tcal" in calibration:
                 point["T"] = raw["T_f"] * calibration["Tcal"].get("slope", 1) + calibration["Tcal"].get("intercept", 0)
             if "MFCcal" in calibration:
-                to_normalize = []
+                X = {}
                 for mfc in ["N2", "O2", "alkane", "CO/CO2", "saturator"]:
-                    flow = raw[mfc] * calibration["MFCcal"].get(mfc, {}).get("slope", 1) + calibration["MFCcal"].get(mfc, {}).get("intercept", 0)
+                    flow = raw[mfc] * calibration["MFCcal"].get(mfc, {}).get("slope", 1.0) + \
+                                      calibration["MFCcal"].get(mfc, {}).get("intercept", 0.0) * int(raw[mfc] > 0)
                     for species, percentage in calibration["MFCcal"].get(mfc, {}).get("content", {mfc: 1.0}).items():
-                        point[species] = point.get(species, 0) + percentage * flow
-                        if species not in to_normalize:
-                            to_normalize.append(species)
-                total = sum([point[species] for species in to_normalize])
-                for species in to_normalize:
-                    point[species] = point[species] / total
+                        X[species] = X.get(species, 0.0) + percentage * flow
+                total = sum([X[species] for species in X])
+                for species in X:
+                    X[species] = X[species] / total
+                point["X"] = X
                 for mfc in ["flow low", "flow high"]:
-                    flow = raw[mfc] * calibration["MFCcal"].get(mfc, {}).get("slope", 1) + calibration["MFCcal"].get(mfc, {}).get("intercept", 0)
+                    flow = raw[mfc] * calibration["MFCcal"].get(mfc, {}).get("slope", 1) + \
+                                      calibration["MFCcal"].get(mfc, {}).get("intercept", 0) * int(raw[mfc] > 0)
                     point["flow"] = point.get("flow", 0) + flow
         results.append(point)
     return(results)

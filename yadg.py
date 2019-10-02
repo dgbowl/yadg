@@ -88,13 +88,14 @@ def _processSchemaFile(schemafile):
                 data["results"].append(ret)
             elif isinstance(ret, list): 
                 data["results"] += ret
-        if step["export"].lower() in ["false", "none"]:
-            pass
-        elif len(data["results"]) > 0:
+        if len(data["results"]) > 0:
             if data["results"][-1] == None:
                 data["results"] = data["results"][:-1]
-            with open(step["export"], "w") as ofile:
-                json.dump(data, ofile, indent=1)
+            if step["export"].lower() in ["false", "none"]:
+                pass
+            else:
+                with open(step["export"], "w") as ofile:
+                    json.dump(data, ofile, indent=1)
             tostore.append(data)
     return(tostore)
     

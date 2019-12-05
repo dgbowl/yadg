@@ -11,7 +11,8 @@ def process(fn, **kwargs):
         "origfn": lines.pop(0).split("File:")[1].strip(),
         "method": lines.pop(0).split("Method:")[1].strip(),
         "user": lines.pop(0).split("Name:")[1].strip(),
-        "uts": dateutils.coerceDateTime(lines.pop(0).split("Time:")[1].strip())
+        "uts": dateutils.coerceDateTime(lines.pop(0).split("Time:")[1].strip()),
+        "trace": {}
     }
     samplerates = [each.strip() for each in lines.pop(0).split("Rate:")[1].split()]
     if samplerates[-1] == "Hz":
@@ -40,14 +41,14 @@ def process(fn, **kwargs):
         assert xu == xunits[0], \
             f'GCASC: X axis units inconsistent: {xu} vs {xunits[0]} in {fn}.'
     dt = 60 if xunits[0] == "Minutes" else 1
-    trace["units"] = {"t": "s"}
     x = [i * xmuls[0] * dt / samplerate[0] for i in range(points[0])]
-    trace["trace"] = {"t": x}
     for i in range(ndet):
         y = []
         for ii in range(points[i]):
             y.append(float(lines.pop(0).strip()) * ymuls[i])
-        trace["units"][f'det_{i+1}'] = yunits[i]
-        trace["trace"][f'det_{i+1}'] = y
-    return trace
+        trace["trace"][f'det_{i+1}'] = {
+                                       "units": {"t": "s", "y": yunits[i]},
+                                       "t": x, "y": y
+                                       }
+    return [trace]
 

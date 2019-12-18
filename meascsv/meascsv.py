@@ -47,7 +47,10 @@ def process(fn, **kwargs):
                         X[species] = X.get(species, 0.0) + percentage * flow
                 total = sum([X[species] for species in X])
                 for species in X:
-                    X[species] = X[species] / total
+                    if total > 0:
+                        X[species] = X[species] / total
+                    else:
+                        X[species] = 0
                 point["x"] = X
                 for mfc in ["flow low", "flow high"]:
                     flow = raw[mfc] * calibration["MFCcal"].get(mfc, {}).get("slope", 1) + \

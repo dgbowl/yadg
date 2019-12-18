@@ -65,7 +65,7 @@ def running_mean(x, width):
     return np.convolve(x, np.ones((width,))/width, mode="same")
 
 def _findPeaks(xseries, yseries, detector):
-    debug = True
+    debug = False
     if debug:
         fig = plt.figure(figsize=(5,3), dpi=128)
         ax = [fig.add_subplot(1,1,1)]

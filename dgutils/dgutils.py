@@ -108,7 +108,7 @@ def pointdata(datagram, pars):
     ffac = ufloat(1 / results["params"]["mcpt"]["rp_nm"], 0)
     
     results["params"]["cavity"]["Qfac"] = [Qfac.n, Qfac.s, "-"]
-    results["params"]["cavity"]["ffac"] = [ffac, 0, "-"]
+    results["params"]["cavity"]["ffac"] = [ffac.n, ffac.s, "-"]
 
     # inlet flow composition
     xin = []

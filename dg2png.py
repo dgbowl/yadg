@@ -1,15 +1,12 @@
-import os
+#!/usr/bin/env python3
 import json
-import matplotlib
-import matplotlib.pyplot as plt
-import datetime
+import argparse
+import hashlib
 import numpy as np
 from operator import itemgetter
 from uncertainties import ufloat
-import argparse
-import hashlib
-import helpers.conductivity as conductivity
-import helpers.conversion as conversion
+import matplotlib
+import matplotlib.pyplot as plt
 
 from dgutils import *
 

@@ -23,6 +23,9 @@ def coerceStringDate(ds):
     dt = datetime.datetime.strptime(ds, "%d %b %Y %H:%M")
     return dt.timestamp()
 
-def now():
+def now(asstr=False):
     dt = datetime.datetime.now()
-    return dt.timestamp()
+    if asstr:
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        return dt.timestamp()

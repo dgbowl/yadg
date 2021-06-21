@@ -3,10 +3,14 @@ import json
 import argparse
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy.interpolate import UnivariateSpline as spline
 from uncertainties import ufloat, umath
 from scipy import constants as const
 
 from dgutils import *
+from helpers import *
+
+from helpers.version import _VERSION
 
 parser = argparse.ArgumentParser(description="Create a png file from a datagram using params.")
 parser.add_argument("--datagram", required=True,
@@ -17,6 +21,8 @@ parser.add_argument("--preset", default="handbook",
                     help='Which protocol does the datagram correspond to?')
 parser.add_argument("--keepdata", default=False, action="store_true",
                     help='Keep individual datapoints in each section?')
+parser.add_argument("--saveas", default="dump.json",
+                    help='Where to save the processed file.')
 
 args = parser.parse_args()
 
@@ -152,6 +158,11 @@ elif args.preset == "perovskite":
     flowvar = ["06", "07", "08"]
     feedvar = ["09", "10"]
     selconv = ["06", "07", "08", "09"]
+elif args.preset == "oldhandbook":
+    tempvar = ["07","08","09"]
+    flowvar = ["03","04","05","06"]
+    feedvar = ["09","10"]
+    selconv = ["03","04","05","06","07"]
 
 # flow variation:
 tau = []
@@ -187,12 +198,15 @@ lXpm = []
 sig = []
 for sec in sections:
     if sec["id"] in tempvar:
-        T.append(ufloat(*sec["T"])+273.15)
-        invT.append(1/(ufloat(*sec["T"])+273.15))
-        lsig.append(umath.log(ufloat(*sec["σ"])))
-        lXp.append(umath.log(ufloat(*sec["Xp"])))
-        lXpm.append(umath.log(ufloat(*sec["Xp/m"])))
-        sig.append(ufloat(*sec["σ"]))
+        try:
+            T.append(ufloat(*sec["T"])+273.15)
+            invT.append(1/(ufloat(*sec["T"])+273.15))
+            lsig.append(umath.log(ufloat(*sec["σ"])))
+            lXp.append(umath.log(ufloat(*sec["Xp"])))
+            lXpm.append(umath.log(ufloat(*sec["Xp/m"])))
+            sig.append(ufloat(*sec["σ"]))
+        except ValueError:
+            continue
 if len(sig) == len(tempvar):
     for prop, tag, unit in [[lsig, "EA(σ)", "kJ/mol"],
                             [lXp, "EA(X)", "kJ/mol"],
@@ -251,26 +265,37 @@ for sec in sections:
         SpCO.append(ufloat(*sec["Sp"]["CO"]) + ufloat(*sec["Sp"]["CO2"]))
         SpCH.append(ufloat(*sec["Sp"]["propylene"]))
 if len(Xp) == len(selconv):
-    for prop, tag, convs in [[SpCO, "SCOx", [5, 10]],
-                             [SpCH, "Spropylene", [5, 10]]]:
-        popt, pcov = curve_fit(polynomial, [i.n for i in Xp], [i.n for i in prop],
-                               sigma = [i.s for i in prop], absolute_sigma = True)
-        perr = np.sqrt(np.diag(pcov))
-        pars = [ufloat(popt[i], perr[i]) for i in range(len(popt))]
-        fits[f"{tag}(Xp)"] = [[popt[i], perr[i]] for i in range(len(popt))]
+    sort = np.argsort(Xp)
+    for prop, tag, convs in [[SpCO, "SCOx", [5,10]],
+                             [SpCH, "Spropylene", [5,10]]]:
+        cs = spline([Xp[i].n for i in sort], [prop[i].n for i in sort],
+                    w = [1/prop[i].s for i in sort], k = 2)
+        csp = spline([Xp[i].n for i in sort], [prop[i].n+prop[i].s for i in sort],
+                    w = [1/prop[i].s for i in sort], k = 2)
+        csm = spline([Xp[i].n for i in sort], [prop[i].n-prop[i].s for i in sort],
+                    w = [1/prop[i].s for i in sort], k = 2)
         for conv in convs:
-            results[f"{tag}({conv}%)"] = [
-                polynomial(conv, *pars).n,
-                polynomial(conv, *pars).s,
-                "%"
-            ]
-pd["fits"] = fits
+            sel = float(cs(conv))
+            if sel > 0 and sel < 100:
+                results[f"{tag}({conv}%)"] = [
+                    sel,
+                    max(abs(csp(conv)-cs(conv)), abs(csm(conv)-cs(conv))),
+                    "%"
+                ]
 pd["results"] = results
 
 if not args.keepdata:
     del pd["data"]
 
-with open("dump.json", "w") as ofile:
+pd["metadata"].update({
+    "dg2json": {
+        "version": _VERSION,
+        "preset": args.preset,
+        "date": dateutils.now(asstr=True)
+    }
+})
+
+with open(args.saveas, "w") as ofile:
     json.dump(pd, ofile, indent=1)
 
 

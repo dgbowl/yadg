@@ -16,9 +16,8 @@ from qftrace import *
 from meascsv import *
 from helpers import *
 from dgutils import *
-#from dbutils import *
 
-_VERSION = "2.0"
+from helpers.version import _VERSION
 
 
 def _inferDatagramHandler(datagramtype):
@@ -70,7 +69,16 @@ def _processSchemaFile(schemafile):
         schemasteps = json.load(infile)
     tostore = []
     for step in schemasteps:
-        data = {"input": step.copy()}
+        data = {
+            "input": step.copy(),
+            "metadata": {
+                "yadg": {
+                    "version": _VERSION,
+                    "schema": schemafile,
+                    "date": dateutils.now(asstr=True)
+                }
+            }
+        }
         print(f'YADG: processing step {schemasteps.index(step)} in {schemafile}:')
         assert "datagram" in step, \
             f'YADG: no "datagram" field in schema step.'

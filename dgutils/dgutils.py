@@ -2,10 +2,9 @@ import json
 import numpy as np
 from dbutils import *
 from helpers import *
+from helpers.version import _VERSION
 from operator import itemgetter
 from uncertainties import ufloat, umath
-
-_VERSION = 0.1
 
 def combine(filelist, **kwargs):
     datagramlist = []
@@ -71,10 +70,12 @@ def pointdata(datagram, pars):
             }   
         },
         "metadata": {
-            "sample": pars["sample"]["name"],
-            "id": pars["sample"]["id"],
-            "rep": pars["sample"]["rep"],
-            "date": pars["date"]
+            "sample": {
+                "name": pars["sample"]["name"],
+                "id": pars["sample"]["id"],
+                "rep": pars["sample"]["rep"],
+                "date": pars["date"]
+            }
         },
         "data": []
     }
@@ -188,8 +189,14 @@ def pointdata(datagram, pars):
                         else:
                             r[k] = [v.n, v.s, "%"]
                 res.append(r)
+        metadata = section.get("metadata", {})
+        metadata["dgutils.pointdata"] = {
+            "version": _VERSION,
+            "date": dateutils.now(asstr=True)
+        }
         results["data"].append({
             "input": section["input"],
+            "metadata": metadata,
             "results": res
             })
     return results

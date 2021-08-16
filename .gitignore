@@ -2,4 +2,3 @@
 *.py[cod]
 *$py.class
 samples/
-qftrace/q0refl.py

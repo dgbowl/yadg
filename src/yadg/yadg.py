@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,13 +10,19 @@ import argparse
 
 from uncertainties import ufloat
 
-from gctrace import *
-from qftrace import *
-from meascsv import *
-from helpers import *
-from dgutils import *
+import yadg.gctrace
+import yadg.qftrace
+import yadg.meascsv
+import yadg.helpers
+import yadg.dgutils
 
-from helpers.version import _VERSION
+#from yadg.gctrace import *
+#from yadg.qftrace import *
+#from yadg.meascsv import *
+#from yadg.helpers import *
+#from yadg.dgutils import *
+
+from yadg.helpers.version import _VERSION
 
 
 def _inferDatagramHandler(datagramtype):
@@ -107,24 +112,26 @@ def _processSchemaFile(schemafile):
             tostore.append(data)
     return(tostore)
     
-
-parser = argparse.ArgumentParser(usage='%(prog)s [options] schemafile')
-parser.add_argument('schemafile', 
-                    help='schemafile to be processed by the script.')
-parser.add_argument("--dump", 
-                    help='Dump processed schemafile into a specified json file.',
-                    default=False)
-parser.add_argument("--version",
-                    action='version', version=f'%(prog)s version {_VERSION}')
-parser.add_argument("--ignore-file-errors", dest="ignore", action="store_true",
-                    help='Ignore file opening errors while processing schemafile',
-                    default=False)
-args = parser.parse_args()
-
-if __name__ == "__main__":
-    print("Processing input json: {:s}".format(args.schemafile))
+def main():
+    parser = argparse.ArgumentParser(usage='%(prog)s [options] schemafile')
+    parser.add_argument('schemafile', 
+                        help='schemafile to be processed by the script.')
+    parser.add_argument("--dump", 
+                        help='Dump processed schemafile into a specified json file.',
+                        default=False)
+    parser.add_argument("--version",
+                        action='version', version=f'%(prog)s version {_VERSION}')
+    parser.add_argument("--ignore-file-errors", dest="ignore", action="store_true",
+                        help='Ignore file opening errors while processing schemafile',
+                        default=False)
+    args = parser.parse_args()
     tostore = _processSchemaFile(args.schemafile)
+    print("Processing input json: {:s}".format(args.schemafile))
     if args.dump:
         with open(args.dump, "w") as ofile:
             json.dump(tostore, ofile, indent=1)
+
+if __name__ == "__main__":
+    main()
+
             

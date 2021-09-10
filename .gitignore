@@ -2,3 +2,6 @@
 *.py[cod]
 *$py.class
 samples/
+dist/
+*.egg-info
+*.egg

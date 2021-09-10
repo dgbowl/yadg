@@ -1,14 +1,13 @@
 import os
 import datetime
-try:
-    from . import q0refl
-except ImportError:
-    pass
-from . import lorentz
-from . import naive
-from helpers import *
 from scipy.signal import find_peaks
 import math
+
+from . import q0refl
+from . import lorentz
+from . import naive
+from ..helpers import *
+
 
 
 def _fit(freq, comp, method, **kwargs):

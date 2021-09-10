@@ -10,7 +10,7 @@ import copy
 import matplotlib
 import matplotlib.pyplot as plt
 
-from helpers import *
+from ..helpers import *
 from . import gcasc
 from . import chromtab
 

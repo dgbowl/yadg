@@ -1,5 +1,5 @@
 import datetime
-from helpers import *
+#from helpers import *
 
 def process(fn, **kwargs):
     with open(fn, "r", encoding="utf8", errors="ignore") as infile:

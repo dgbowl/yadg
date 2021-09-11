@@ -1,2 +1,2 @@
-from . import qftrace
+from .qftrace import *
 

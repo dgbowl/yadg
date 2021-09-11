@@ -1,4 +1,9 @@
 import setuptools
+import os
+
+with open(os.path.join("src", "yadg", "helpers", "version.py")) as code:
+    exec(code.read())
+print(_VERSION)
 
 with open("README.md", "r", encoding="utf-8") as infile:
     readme = infile.read()
@@ -7,7 +12,7 @@ packagedir = "src"
 
 setuptools.setup(
     name = "yadg",
-    version = "3.0.7",
+    version = _VERSION,
     author = "Peter Kraus",
     author_email = "peter@tondon.de",
     description = "Yet Another DataGram",
@@ -29,12 +34,14 @@ setuptools.setup(
         'matplotlib',
         'numpy',
         'scipy',
-        'uncertainties'
+        'uncertainties',
+        'peakutils'
     ],
     entry_points = {
         "console_scripts": [
-            'yatest=yadg.test_yadg:main',
-            'yadg=yadg.yadg:main'
+            'yadg=yadg.yadg:main',
+            'dg2json=yadg.dg2json:main',
+            'dg2png=yadg.dg2png:main'
         ]
     }
 )

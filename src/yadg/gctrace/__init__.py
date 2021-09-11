@@ -1,1 +1,1 @@
-from . import gctrace
+from .gctrace import *

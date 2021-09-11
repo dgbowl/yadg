@@ -27,11 +27,11 @@ from yadg.helpers.version import _VERSION
 
 def _inferDatagramHandler(datagramtype):
     if datagramtype == "gctrace":
-        return gctrace.process
+        return yadg.gctrace.process
     if datagramtype == "qftrace":
-        return qftrace.process
+        return yadg.qftrace.process
     if datagramtype == "meascsv":
-        return meascsv.process
+        return yadg.meascsv.process
     
 
 def _inferTodoFiles(importdict, **kwargs):
@@ -80,7 +80,7 @@ def _processSchemaFile(schemafile):
                 "yadg": {
                     "version": _VERSION,
                     "schema": schemafile,
-                    "date": dateutils.now(asstr=True)
+                    "date": yadg.helpers.dateutils.now(asstr=True)
                 }
             }
         }

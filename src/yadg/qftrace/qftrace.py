@@ -3,10 +3,8 @@ import datetime
 from scipy.signal import find_peaks
 import math
 
-from . import q0refl
-from . import lorentz
-from . import naive
-from ..helpers import *
+from qftrace import q0refl, lorentz, naive
+from helpers import *
 
 
 

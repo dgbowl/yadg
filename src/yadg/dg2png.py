@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import json
 import argparse
 import hashlib
@@ -8,10 +8,9 @@ from uncertainties import ufloat
 import matplotlib
 import matplotlib.pyplot as plt
 
+import dgutils
 
-import yadg.dgutils
-
-def main():
+def run():
     parser = argparse.ArgumentParser(description="Create a png file from a datagram using params.")
     parser.add_argument("--datagram", required=True,
                         help='datagram file (processed data in json form)')
@@ -61,7 +60,7 @@ def main():
     with open(args.params, "r") as infile:
         pars = json.load(infile)
     
-    pd = yadg.dgutils.pointdata(jsdata, pars)
+    pd = dgutils.pointdata(jsdata, pars)
     
     # split the datagram into mcpt, gc, and instrument data
     
@@ -188,3 +187,6 @@ def main():
     if args.draw:
         plt.show()
     fig.savefig(f'plot.png', format="png", dpi=300)
+
+if __name__ == "__main__":
+    run()

@@ -7,9 +7,9 @@ from scipy.interpolate import UnivariateSpline as spline
 from uncertainties import ufloat, umath
 from scipy import constants as const
 
-import yadg.dgutils
-import yadg.helpers
-from yadg.helpers.version import _VERSION
+import dgutils
+import helpers
+from helpers.version import _VERSION
 
 def main():
     parser = argparse.ArgumentParser(description="Create a png file from a datagram using params.")
@@ -37,7 +37,7 @@ def main():
     with open(args.params, "r") as infile:
         pars = json.load(infile)
     
-    pd = yadg.dgutils.pointdata(jsdata, pars)
+    pd = dgutils.pointdata(jsdata, pars)
     results = {}
     sections = []
     fits = {}
@@ -291,11 +291,13 @@ def main():
         "dg2json": {
             "version": _VERSION,
             "preset": args.preset,
-            "date": yadg.helpers.dateutils.now(asstr=True)
+            "date": helpers.dateutils.now(asstr=True)
         }
     })
     
     with open(args.saveas, "w") as ofile:
         json.dump(pd, ofile, indent=1)
 
+if __name__ == "__main__":
+    run()
 

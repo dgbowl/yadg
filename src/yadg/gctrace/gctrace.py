@@ -10,9 +10,8 @@ import copy
 import matplotlib
 import matplotlib.pyplot as plt
 
-from ..helpers import *
-from . import gcasc
-from . import chromtab
+from helpers import *
+from gctrace import gcasc, chromtab
 
 def parseFilename(fn, folder, detpar, debug = 0):
     if debug:

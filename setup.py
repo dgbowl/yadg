@@ -39,9 +39,9 @@ setuptools.setup(
     ],
     entry_points = {
         "console_scripts": [
-            'yadg=yadg.yadg:main',
+            'yadg=yadg.yadg:run',
             'dg2json=yadg.dg2json:main',
-            'dg2png=yadg.dg2png:main'
+            'dg2png=yadg.dg2png:run'
         ]
     }
 )

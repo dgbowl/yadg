@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-from core.main import run
+import core
 
 if __name__ == "__main__":
-    run()    
+    core.run()    

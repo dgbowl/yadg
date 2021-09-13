@@ -3,7 +3,6 @@ import os
 
 with open(os.path.join("src", "yadg", "helpers", "version.py")) as code:
     exec(code.read())
-print(_VERSION)
 
 with open("README.md", "r", encoding="utf-8") as infile:
     readme = infile.read()
@@ -31,15 +30,16 @@ setuptools.setup(
     packages = setuptools.find_packages(where = packagedir),
     python_requires = ">=3.6",
     install_requires = [
-        'matplotlib',
-        'numpy',
-        'scipy',
-        'uncertainties',
-        'peakutils'
+        "matplotlib",
+        "numpy",
+        "scipy",
+        "uncertainties",
+        "peakutils",
+        "pytest"
     ],
     entry_points = {
         "console_scripts": [
-            'yadg=yadg.yadg:run',
+            'yadg=yadg.core:run',
             'dg2json=yadg.dg2json:main',
             'dg2png=yadg.dg2png:run'
         ]

@@ -1,0 +1,20 @@
+[
+    {
+    "datagram": "dummy",
+    "import": {
+        "paths": [
+            "."
+        ]
+    },
+    "export": "False"
+    },
+    {
+        "datagram": "dummy",
+        "import": {
+            "paths": [
+                "nonsense.json"
+            ]
+        },
+        "export": "False"
+    }
+]

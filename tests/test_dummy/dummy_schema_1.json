@@ -1,0 +1,11 @@
+[
+    {
+    "datagram": "dummy",
+    "import": {
+        "folders": [
+            "."
+        ]
+    },
+    "export": "False"
+    }
+]

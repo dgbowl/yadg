@@ -1,4 +1,5 @@
 import datetime
+import math
 
 def coerceDashedDate(ds):
     dt = datetime.datetime.strptime(ds, "%Y-%m-%d-%H-%M-%S")
@@ -28,4 +29,4 @@ def now(asstr=False):
     if asstr:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
     else:
-        return dt.timestamp()
+        return math.floor(dt.timestamp())

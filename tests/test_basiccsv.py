@@ -6,6 +6,13 @@ from collections.abc import Iterable
 
 from yadg import core
 
+# tests for the basiccsv module:
+#  - test_datagram_from_basiccsv:
+#    - tests csv and ssv import
+#    - tests that the correct number of lines is parsed
+#    - tests that correct values are assigned
+#    - tests specifying units in file and as dict
+
 @pytest.fixture
 def datadir(tmpdir, request):
     """
@@ -16,10 +23,8 @@ def datadir(tmpdir, request):
     """
     filename = request.module.__file__
     test_dir, _ = os.path.splitext(filename)
-
     if os.path.isdir(test_dir):
         dir_util.copy_tree(test_dir, str(tmpdir))
-
     return tmpdir
 
 def datagram_from_basiccsv(input, datadir):

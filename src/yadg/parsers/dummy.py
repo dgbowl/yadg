@@ -5,7 +5,8 @@ def process(fn, **kwargs):
     """
     A dummy parser.
 
-    This parser checks whether the file specified in `fn` exists.
+    This parser simply returns the current time, the filename provided, and any
+    `kwargs` passed.
 
     Parameters
     ----------
@@ -17,7 +18,7 @@ def process(fn, **kwargs):
     result = {
             "uts": dateutils.now(),
             "fn": fn,
-            "exists": os.path.exists(fn)
+            "kwargs": kwargs
     }
     
     return [result]

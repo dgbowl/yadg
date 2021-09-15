@@ -9,11 +9,11 @@ import qftrace
 import meascsv
 import helpers
 import dgutils
-from parsers import dummy
+from parsers import dummy, basiccsv
 from helpers.version import _VERSION
 
 
-def _inferDatagramHandler(datagramtype):
+def _infer_datagram_handler(datagramtype):
     if datagramtype == "gctrace":
         return gctrace.process
     if datagramtype == "qftrace":
@@ -22,38 +22,63 @@ def _inferDatagramHandler(datagramtype):
         return meascsv.process
     if datagramtype == "dummy":
         return dummy.process
-    
+    if datagramtype == "basiccsv":
+        return basiccsv.process
 
-def _inferTodoFiles(importdict, permissive = False, **kwargs):
+def _infer_todo_files(importdict, permissive = False):
+    """
+    File enumerator function.
+
+    This function enumerates all paths to be processed by yadg using the "import"
+    key within a schema step. Currently, the specification allows for folders,
+    files or paths.
+
+    Parameters
+    ----------
+    importdict : dict
+        Dictionary describing the paths to process. Has to contain one, and only
+        one, of the following keys: "folders", "files", "paths". Additional keys
+        that are processed here are "prefix", "suffix", and "contains".
+    
+    permissive : bool, optional
+        If true, yadg will not complain if a path specified in `importdict` is 
+        not present. Default is false.
+
+    """
     methods = ["folders", "files", "paths"]
     assert len(set(methods) & set(importdict)) == 1, \
-        f'YADG: wrong "import" method specification in importdict: {set(methods) & set(importdict)}'
+        logging.error(f'wrong "import" method specification in importdict: '
+                      f'{set(methods) & set(importdict)}')
     todofiles = []
     if "folders" in importdict or "files" in importdict or "paths" in importdict:
         filetype = "file"
-    if "folders" in importdict:
-        for folder in importdict["folders"]:
-            try:
-                assert os.path.exists(folder) or permissive, \
-                    f"YADG: folder {folder} doesn't exist"
-                for fn in os.listdir(folder):
-                    if fn.startswith(importdict.get("prefix", "")) and \
-                    fn.endswith(importdict.get("suffix", "")):
-                        todofiles.append(os.path.join(folder, fn))
-            except FileNotFoundError:
-                if permissive:
-                    pass
     if "files" in importdict:
         importdict["paths"] = importdict.pop("files")
+    if "folders" in importdict:
+        for folder in importdict["folders"]:
+            exists = os.path.exists(folder)
+            assert exists or permissive, \
+                logging.error(f"Specified folder {folder} doesn't exist.")
+            if exists:
+                for fn in os.listdir(folder):
+                    if fn.startswith(importdict.get("prefix", "")) and \
+                       fn.endswith(importdict.get("suffix", "")) and \
+                       importdict.get("contains", "") in fn: 
+                        todofiles.append(os.path.join(folder, fn))
+            else:
+                logging.warning(f"Specified folder {folder} doesn't exist.")
     if "paths" in importdict:
         for path in importdict["paths"]:
-            if not permissive:
-                assert os.path.exists(path), \
-                    f"YADG: file {path} doesn't exist"
-            todofiles.append(path)
+            exists = os.path.exists(path)
+            assert exists or permissive, \
+                logging.error(f"Specified path {path} doesn't exist.")
+            if exists:
+                todofiles.append(path)
+            else:
+                logging.warning(f"Specified path {path} doesn't exist.")
     return sorted(todofiles), filetype
 
-def _loadResource(resource, resourcetype, **kwargs):
+def _load_resource(resource, resourcetype, **kwargs):
     if resourcetype == "file":
         with open(resource, "r", encoding="utf8", errors='ignore') as infile:
             result = infile.readlines()
@@ -82,20 +107,21 @@ def process_schema(schema, permissive = False):
             "metadata": {
                 "yadg": {
                     "version": _VERSION,
-                    "date": helpers.dateutils.now(asstr=True)
+                    "date": helpers.dateutils.now(asstr=True),
+                    "command": sys.argv
                 }
             }
         }
-        logging.info(f'YADG: processing step {schema.index(step)}:')
+        logging.info(f'process_schema: processing step {schema.index(step)}:')
         assert "datagram" in step, \
-            f'YADG: no "datagram" field in schema step.'
+            logging.error('process_schema: No "datagram" field in schema step.')
         assert "import" in step, \
-            f'YADG: no "import" field in schema step.'
-        handler = _inferDatagramHandler(step["datagram"])
-        todofiles, filetype = _inferTodoFiles(step["import"], permissive)
+            logging.error('process_schema: No "import" field in schema step.')
+        handler = _infer_datagram_handler(step["datagram"])
+        todofiles, filetype = _infer_todo_files(step["import"], permissive)
         data["results"] = []
         for tf in todofiles:
-            logging.debug(f'YADG: processing item {tf}')
+            logging.debug(f'process_schema: processing item {tf}')
             ret = handler(tf, **step.get("parameters", {}))
             if isinstance(ret, dict):
                 data["results"].append(ret)
@@ -104,12 +130,11 @@ def process_schema(schema, permissive = False):
         if len(data["results"]) > 0:
             if data["results"][-1] == None:
                 data["results"] = data["results"][:-1]
-            if "export" not in step or step["export"].lower() in ["false", "none"]:
-                pass
-            else:
+            if "export" in step and step["export"].lower() not in ["false", "none"]:
                 with open(step["export"], "w") as ofile:
                     json.dump(data, ofile, indent=1)
             tostore.append(data)
+    print(len(tostore))
     return(tostore)
 
 def _parse_arguments():

@@ -1,11 +1,8 @@
 [
     {
-    "datagram": "dummy",
-    "import": {
-        "folders": [
-            "."
-        ]
-    },
-    "export": "False"
+        "datagram": "dummy",
+        "import": {
+            "files": ["dummy_schema_1.json"]
+        }
     }
 ]

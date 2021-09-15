@@ -6,6 +6,17 @@ from collections.abc import Iterable
 
 from yadg import core
 
+# tests for the dummy module:
+#  - test_datagram_from_schema_dict:
+#    - tests creating datagrams from a dictionary
+#    - tests path parsing for folders, files and paths
+#    - tests path parsing for prefix, suffix, contains
+#  - test_datagram_from_schema_path:
+#    - tests creating datagrams from a json file
+#    - tests path parsing for folders, files and paths
+#    - tests passing parameters as kwargs
+
+
 @pytest.fixture
 def datadir(tmpdir, request):
     """
@@ -16,10 +27,8 @@ def datadir(tmpdir, request):
     """
     filename = request.module.__file__
     test_dir, _ = os.path.splitext(filename)
-
     if os.path.isdir(test_dir):
         dir_util.copy_tree(test_dir, str(tmpdir))
-
     return tmpdir
 
 def datagram_from_schema_file(inp_fn, datadir):
@@ -28,41 +37,36 @@ def datagram_from_schema_file(inp_fn, datadir):
         schema = json.load(infile)
     return core.process_schema(schema, permissive = True)
 
-def datagram_from_schema_path(inp_dict, datadir):
-    inp_dict["import"]["paths"] = [datadir.join(i) for i in inp_dict["import"]["paths"]]
+def datagram_from_schema_dict(inp_dict):
     return core.process_schema([inp_dict], permissive = True)
 
+dict_1 = {"datagram": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}
+dict_2 = {"datagram": "dummy", "import": {"paths": ["dummy_schema_2.json"]}}
+dict_3 = {"datagram": "dummy", "import": {"folders": ["."], "contains": "schema"}}
+dict_4 = {"datagram": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
+dict_5 = {"datagram": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
 
-dict_1 = {
-    "datagram": "dummy",
-    "import": {
-        "paths": ["dummy_schema_1"]
-    }
-}
-
-dict_2 = {
-    "datagram": "dummy",
-    "import": {
-        "paths": ["dummy_schema_2.json"]
-    }
-}
-
-@pytest.mark.parametrize("inp_dict, tf", [
-    (dict_1, False),
-    (dict_2, True)
+@pytest.mark.parametrize("inp_dict, l_dg, l_res", [
+    (dict_1, 0, 0),
+    (dict_2, 1, 1),
+    (dict_3, 1, 2),
+    (dict_4, 1, 2),
+    (dict_5, 1, 1),
 ])
-def test_datagram_from_schema_dict(inp_dict, tf, datadir):
-    ret = datagram_from_schema_path(inp_dict, datadir)
-    print(ret)
-    assert ret[0]["results"][0]["exists"] is tf
+def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
+    os.chdir(datadir)
+    ret = datagram_from_schema_dict(inp_dict)
+    assert len(ret) == l_dg
+    if l_dg > 0:
+        assert len(ret[0]["results"]) == l_res
 
-
-@pytest.mark.parametrize("inp_fn, l", [
-    ("dummy_schema_1.json", 1),
-    ("dummy_schema_2.json", 2)
+@pytest.mark.parametrize("inp_fn, ts", [
+    ("dummy_schema_1.json", {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
+    ("dummy_schema_2.json", {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}})
 ])
-def test_datagram_from_schema_file(inp_fn, l, datadir):
+def test_datagram_from_schema_file(inp_fn, ts, datadir):
+    os.chdir(datadir)
     ret = datagram_from_schema_file(inp_fn, datadir)
-    print(json.dumps(ret, indent=1))
-    assert isinstance(ret, Iterable) and len(ret) == l
-
+    assert isinstance(ret, Iterable)
+    assert len(ret) == ts["nsteps"]
+    assert ret[ts["step"]]["results"][ts["item"]]["kwargs"] == ts["kwargs"]

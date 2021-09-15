@@ -1,20 +1,16 @@
 [
     {
-    "datagram": "dummy",
-    "import": {
-        "paths": [
-            "."
-        ]
-    },
-    "export": "False"
+        "datagram": "dummy",
+        "import": {
+            "paths": ["dummy_schema_1.json"]
+        }
     },
     {
         "datagram": "dummy",
         "import": {
-            "paths": [
-                "nonsense.json"
-            ]
+            "folders": ["."], 
+            "suffix": ".json"
         },
-        "export": "False"
+        "parameters": {"k": "v"}
     }
 ]

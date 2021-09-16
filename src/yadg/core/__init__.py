@@ -1,1 +1,1 @@
-from .main import run, process_schema
+from .main import run, process_schema, schema_validator

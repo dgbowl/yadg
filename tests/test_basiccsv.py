@@ -28,12 +28,13 @@ def datadir(tmpdir, request):
     return tmpdir
 
 def datagram_from_basiccsv(input, datadir):
-    schema = {
+    schema = [{
         "datagram": "basiccsv",
         "import": {"files": [datadir.join(input["case"])]},
         "parameters": input.get("parameters", {})
-    }
-    return core.process_schema([schema])
+    }]
+    core.schema_validator(schema)
+    return core.process_schema(schema)
 
 @pytest.mark.parametrize("input, ts", [
     ({"case": "case_uts_units.csv"}, 

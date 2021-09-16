@@ -25,7 +25,95 @@ def _infer_datagram_handler(datagramtype):
     if datagramtype == "basiccsv":
         return basiccsv.process
 
-def _infer_todo_files(importdict, permissive = False):
+def schema_validator(schema, permissive = False):
+    """
+    Schema validator. 
+    
+    Checks the overall schema format, checks every schema step for required keys,
+    and checks whether required parameters for datagrams are provided.
+
+    The conditions are:
+    - schema has to be a list or a tuple
+    - each element of this list is a dict, called step
+    - each step has to have a "datagram" and "import" entry:
+        - the "datagram" entry has to be a string containing the requested parser
+        - the "import" entry has to be a dictionary containing:
+            - exactly one entry out of "files", "folders", or "paths"
+            - any of "prefix", "suffix", "contains" entries
+    - other allowed entries are: 
+        - "tag" (string) for step tagging,
+        - "export" (string) for step export,
+        - "parameters" (dict) for specifying other parameters for the parser:
+    - no other entries are permitted
+
+    Parameters
+    ----------
+    schema : list, tuple
+        The schema to be validated.
+    
+    permissive : bool, optional
+        When `True`, the files will not be checked for IO errors. Folders are 
+        always checked.
+
+    """
+
+    assert isinstance(schema, (list, tuple)), \
+        logging.error("schema_validator: Provided schema is neither list nor a tuple.")
+    requiredkeys = {
+        "datagram": ["dummy", "basiccsv"], 
+        "import": {"one": ["files", "folders", "paths"], 
+                   "any": ["prefix", "suffix", "contains"]}
+    }
+    for step in schema:
+        si = schema.index(step)
+        allowedkeys = {
+            "tag": f"{si:03d}", 
+            "export": None, 
+            "parameters": {}
+        }
+        assert isinstance(step, dict), \
+            logging.error(f"schema_validator: Step {si} of schema is not a dict.")
+        assert len(set(requiredkeys.keys()) & set(step.keys())) == len(requiredkeys.keys()), \
+            logging.error(f"schema_validator: Step {si} does not contain all "
+                          f"required keys: {list(requiredkeys.keys())}")
+        for key, vallowed in requiredkeys.items():
+            if isinstance(vallowed, list):
+                assert step[key] in vallowed, \
+                    logging.error(f"schema_validator: Undefined key {step[key]} was"
+                                  f"supplied for a required key {key}")
+            else:
+                assert len(set(step[key]) & set(vallowed["one"])) == 1, \
+                    logging.error(f"schema_validator: More than one of exclusive "
+                                  f"'{key}' entries {vallowed['one']} was provided.")
+                for kkey in step[key]:
+                    if kkey in vallowed["one"]:
+                        continue
+                    assert kkey in vallowed["any"], \
+                        logging.error(f"schema_validator: Undefined key {kkey} was"
+                                      f"supplied for a required key {key}.")
+        if "paths" in step["import"]:
+            step["import"]["files"] = step["import"].pop("paths")
+        if "files" in step["import"] and not permissive:
+            for path in step["import"]["files"]:
+                assert os.path.exists(path) and os.path.isfile(path), \
+                    logging.error(f"schema_validator: File {path} specified in "
+                                  f"'import' of step {si} is not a file.")
+        if "folders" in step["import"]:
+            for path in step["import"]["folders"]:
+                assert os.path.exists(path) and os.path.isdir(path), \
+                    logging.error(f"schema_validator: Folder {path} specified in "
+                                  f"'import' of step {si} is not a folder.")
+        for key, kdef in allowedkeys.items():
+            if key in step:
+                assert isinstance(step[key], type(kdef)) or step[key] is None, \
+                    logging.error(f"schema_validator: Step {si} contains {key} of "
+                                  f"the wrong type {type(step[key])}.")
+            if key not in step or step[key] is None:
+                step[key] = kdef
+
+
+
+def _infer_todo_files(importdict):
     """
     File enumerator function.
 
@@ -36,55 +124,25 @@ def _infer_todo_files(importdict, permissive = False):
     Parameters
     ----------
     importdict : dict
-        Dictionary describing the paths to process. Has to contain one, and only
-        one, of the following keys: "folders", "files", "paths". Additional keys
-        that are processed here are "prefix", "suffix", and "contains".
-    
-    permissive : bool, optional
-        If true, yadg will not complain if a path specified in `importdict` is 
-        not present. Default is false.
+        Dictionary describing the paths to process. A valid schema has to contain 
+        one, and only one, of the following keys: "folders", "files". Additional 
+        keys that are processed here are "prefix", "suffix", and "contains".
 
     """
-    methods = ["folders", "files", "paths"]
-    assert len(set(methods) & set(importdict)) == 1, \
-        logging.error(f'wrong "import" method specification in importdict: '
-                      f'{set(methods) & set(importdict)}')
     todofiles = []
-    if "folders" in importdict or "files" in importdict or "paths" in importdict:
-        filetype = "file"
-    if "files" in importdict:
-        importdict["paths"] = importdict.pop("files")
     if "folders" in importdict:
         for folder in importdict["folders"]:
-            exists = os.path.exists(folder)
-            assert exists or permissive, \
-                logging.error(f"Specified folder {folder} doesn't exist.")
-            if exists:
-                for fn in os.listdir(folder):
-                    if fn.startswith(importdict.get("prefix", "")) and \
-                       fn.endswith(importdict.get("suffix", "")) and \
-                       importdict.get("contains", "") in fn: 
-                        todofiles.append(os.path.join(folder, fn))
-            else:
-                logging.warning(f"Specified folder {folder} doesn't exist.")
-    if "paths" in importdict:
-        for path in importdict["paths"]:
-            exists = os.path.exists(path)
-            assert exists or permissive, \
-                logging.error(f"Specified path {path} doesn't exist.")
-            if exists:
-                todofiles.append(path)
-            else:
-                logging.warning(f"Specified path {path} doesn't exist.")
-    return sorted(todofiles), filetype
+            for fn in os.listdir(folder):
+                if fn.startswith(importdict.get("prefix", "")) and \
+                   fn.endswith(importdict.get("suffix", "")) and \
+                   importdict.get("contains", "") in fn: 
+                    todofiles.append(os.path.join(folder, fn))
+    if "files" in importdict:
+        for path in importdict["files"]:
+            todofiles.append(path)
+    return sorted(todofiles)
 
-def _load_resource(resource, resourcetype, **kwargs):
-    if resourcetype == "file":
-        with open(resource, "r", encoding="utf8", errors='ignore') as infile:
-            result = infile.readlines()
-    return result
-
-def process_schema(schema, permissive = False):
+def process_schema(schema):
     """
     Main worker function of `yadg`. 
     
@@ -118,7 +176,9 @@ def process_schema(schema, permissive = False):
         assert "import" in step, \
             logging.error('process_schema: No "import" field in schema step.')
         handler = _infer_datagram_handler(step["datagram"])
-        todofiles, filetype = _infer_todo_files(step["import"], permissive)
+        todofiles = _infer_todo_files(step["import"])
+        if len(todofiles) == 0:
+            logging.warning("process_schema: ")
         data["results"] = []
         for tf in todofiles:
             logging.debug(f'process_schema: processing item {tf}')
@@ -130,11 +190,10 @@ def process_schema(schema, permissive = False):
         if len(data["results"]) > 0:
             if data["results"][-1] == None:
                 data["results"] = data["results"][:-1]
-            if "export" in step and step["export"].lower() not in ["false", "none"]:
+            if "export" in step and step["export"] is not None:
                 with open(step["export"], "w") as ofile:
                     json.dump(data, ofile, indent=1)
             tostore.append(data)
-    print(len(tostore))
     return(tostore)
 
 def _parse_arguments():
@@ -156,7 +215,7 @@ def _parse_arguments():
     parser.add_argument("--version",
                         action="version", version=f'%(prog)s version {_VERSION}')
     parser.add_argument("--ignore-file-errors", 
-                        dest="ignore", action="store_true",
+                        dest="permissive", action="store_true",
                         help='Ignore file opening errors while processing schemafile',
                         default=False)
     parser.add_argument("--log", "--debug", "--loglevel", dest="debug",
@@ -185,13 +244,16 @@ def run():
 
     args = _parse_arguments()
     if args.schemafile:
-        logging.info(f"Processing input json: {args.schemafile}")
+        logging.info(f"run: Processing input json: {args.schemafile}")
         with open(args.schemafile, "r") as infile:
             schema = json.load(infile)
     elif args.folder and args.preset:
-        logging.critical("Specifying schema from folder and preset"
+        logging.critical("run: Specifying schema from folder and preset"
                          "is not yet implemented.")
         sys.exit()
+    
+    schema_validator(schema, args.permissive)
+    
     datagram = process_schema(schema)
     if args.dump:
         with open(args.dump, "w") as ofile:

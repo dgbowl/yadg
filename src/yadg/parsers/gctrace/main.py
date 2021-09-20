@@ -9,9 +9,10 @@ import numpy as np
 import copy
 import matplotlib
 import matplotlib.pyplot as plt
+import logging
 
 from helpers import *
-from gctrace import gcasc, chromtab
+from parsers.gctrace import datasc, chromtab
 
 def parseFilename(fn, folder, detpar, debug = 0):
     if debug:
@@ -221,27 +222,69 @@ def _findPeaks(xseries, yseries, detector):
     return results
     
     
-def _parseDetectorSpec(**kwargs):
-    instspecs = ["detectors", "calfile"]
-    assert len(set(instspecs) & set(kwargs)) == 1, \
-        f'GCTRACE: you have to provide instrument data either as a "calfile" or in a "detectors" structure'
-    if "calfile" in kwargs:
-        with open(kwargs["calfile"], "r") as infile:
-            jsdata = json.load(infile)
-            assert "detectors" in jsdata, \
-                f'GCTRACE: "calfile" formatted improperly: has to contain a "detectors" entry.'
-            detectors = jsdata["detectors"]
+def _parse_detector_spec(calfile, detectors, species):
+    if calfile is not None:
+        with open(calfile, "r") as infile:
+            calib = json.load(infile)
     else:
-        detectors = kwargs["detectors"]
-    return detectors
+        calib = {"detectors": {}, "species": {}}
+    if detectors != {}:
+        calib["detectors"] = detectors
+    if species != {}:
+        calib["species"] = species
+    return calib
 
-def process(fn, **kwargs):
-    detectors = _parseDetectorSpec(**kwargs)
-    tracetype = kwargs.get("tracetype", "gcasc")
-    if tracetype == "gcasc":
-        results = gcasc.process(fn, **kwargs)
+def process(fn, tracetype = "datasc", **kwargs):
+    """
+    GC chromatogram parser.
+
+    This parser processes GC chromatograms in signal(time) format. When provided
+    with a calibration file, this tool will integrate the trace, and provide the
+    peak areas, retention times, and concentrations of the detected species.
+
+    Parameters
+    ----------
+
+    fn : string
+        The file containing the trace(s) to parse.
+    
+    detectors : dict, optional
+        Detector specification. Matches and identifies a trace in the `fn` file.
+        If provided, overrides data provided in `calfile`, below.
+    
+    species : dict, optional
+        Species specification. Per-detector species can be listed here, providing
+        an expected retention time range for the peak maximum. Additionally,
+        calibration data can be supplied here. Overrides data provided in
+        `calfile`, below.
+
+    calfile : string, optional
+        Path to a json file containing the `detectors` and `species` spec. Either
+        `calfile` and/or `species` and `detectors` have to be provided.
+    
+    tracetype : string, optional
+        Determines the output file format. Currently supported formats are 
+        `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion 
+        json file). The default is `"datasc"`.
+    """
+    assert "calfile" in kwargs or ("species" in kwargs and "detectors" in kwargs), \
+        logging.error("gctrace: Neither 'calfile' nor 'species' and 'detectors' "
+                      "were provided. Fit cannot proceed.")
+    calib = _parse_detector_spec(calfile = kwargs.get("calfile", None), 
+                                 detectors = kwargs.get("detectors", {}),
+                                 species = kwargs.get("species", {}))
+    if tracetype == "datasc" or tracetype == "gctrace":
+        _ts, _meta, _comm = datasc.process(fn, **kwargs)
     elif tracetype == "chromtab":
-        results = chromtab.process(fn, **kwargs)
+        _ts, _meta, _comm = chromtab.process(fn, **kwargs)
+#    elif tracetype == "fusion":
+#        _ts, _meta, _comm = fusion.process(fn, **kwargs)
+    print(_ts[0].keys())
+    for t in _ts[0]["traces"]:
+        print(len(t["x"]), len(t["y"]))
+        print(t["x"][40], t["y"][40])
+    assert False
+    
     for ri in range(len(results)):
         for det in detectors:
             if detectors[det]["id"] in results[ri]["trace"]:

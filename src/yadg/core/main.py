@@ -8,7 +8,7 @@ import logging
 #import qftrace
 #import meascsv
 
-from parsers import dummy, basiccsv, qftrace
+from parsers import dummy, basiccsv, qftrace, gctrace
 from helpers.version import _VERSION
 from helpers import dateutils
 import dgutils
@@ -20,8 +20,8 @@ def _infer_datagram_handler(datagramtype):
 
     Add your parser here.
     """
-    #if datagramtype == "gctrace":
-    #    return gctrace.process
+    if datagramtype == "gctrace":
+        return gctrace.process
     if datagramtype == "qftrace":
         return qftrace.process
     #if datagramtype == "meascsv":
@@ -66,7 +66,7 @@ def schema_validator(schema, permissive = False):
         logging.error("schema_validator: Provided schema is neither list nor a tuple.")
     requiredkeys = {
         "datagram": {
-            "one": ["dummy", "basiccsv", "qftrace"],
+            "one": ["dummy", "basiccsv", "qftrace", "gctrace"],
             "any": []
         }, 
         "import": {

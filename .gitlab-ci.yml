@@ -35,6 +35,9 @@ before_script:
 
 build:
   stage: build
+  only:
+    - master
+    - merge_requests
   script:
     - python setup.py bdist_wheel
   artifacts:
@@ -43,6 +46,9 @@ build:
 
 test:
   stage: test
+  only:
+    - master
+    - merge_requests
   needs: [build]
   script:
     - pip install dist/*

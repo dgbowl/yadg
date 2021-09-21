@@ -1,49 +1,14 @@
-import os
 from helpers import dateutils
-import datetime
 import logging
 
-def _infer_timestamp_from(headers):
-    if "uts" in headers:
-        return ([headers.index("uts")], None)
-    elif "timestamp" in headers:
-        return ([headers.index("timestamp")], "%Y-%m-%d %H:%M:%S")
-    elif "date" in headers:
-        if "time" in headers:
-            return ([headers.index("date"), headers.index("time")],
-                    ["%Y-%m-%d", "%H:%M:%S"])
-        else:
-            return ([headers.index("date")], "%Y-%m-%d")
-    elif len(set(["day", "month", "year"], headers)) == 3:
-        cols = [headers.index("day"), headers.index("month"), headers.index("year")]
-        forms = ["%d", "%m", "%Y"]
-        if "hour" in headers:
-            cols.append(headers.index("hour"))
-            forms.append("%H")
-            if "minute" in headers:
-                cols.append(headers.index("minute"))
-                forms.append("%M")
-                if "second" in headers:
-                    cols.append(headers.index("second"))
-                    forms.append("%S")
-        return (cols, forms)
-    logging.error("Timestamp could not be deduced.")
-
-def _compute_timestamp_from(values, formats):
-    if len(values) == 1:
-        if formats is None:
-            return float(values[0])
-        else:
-            return datetime.datetime.strptime(values[0], formats)
-
 def process(fn, sep = ",", rtol = 0.001, atol = 0, 
-            sigma = {}, units = None, **kwargs):
+            sigma = {}, units = None, timestamp = None, **kwargs):
     """
     A basic csv parser.
 
     This parser processes a csv file. The header of the csv file consists of one
     or two lines, with the column headers in the first line and the units in the
-    second. The parser also attempts to combine columns to produce a timestamp, 
+    second. The parser also attempts to parse column names to produce a timestamp, 
     and save all other columns as floats or strings. The default uncertainty is 
     0.1%.
 
@@ -70,14 +35,17 @@ def process(fn, sep = ",", rtol = 0.001, atol = 0,
         Column-specific unit specification. If present, 2nd line is treated as
         data. If omitted, 2nd line is treated as units.
 
+    timestamp : dict, optional
+        Specification for timestamping. Allowed keys are "date", "time",
+        "timestamp", "uts". The entries can be column indices (int), or tuples
+        consisting  of a column index (int), and format (str).
     """
-    
     with open(fn, "r") as infile:
         lines = infile.readlines()
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
 
-    datecolumns, dateformat = _infer_timestamp_from(headers)
+    datecolumns, datefunc = dateutils._infer_timestamp_from(headers, spec = timestamp)
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(sep)]
@@ -98,7 +66,7 @@ def process(fn, sep = ",", rtol = 0.001, atol = 0,
     for line in lines[si:]:
         element = {}
         columns = [column.strip() for column in line.split(sep)]
-        element["uts"] = _compute_timestamp_from([columns[i] for i in datecolumns], dateformat)
+        element["uts"] = datefunc(*[columns[i] for i in datecolumns])
         for header in headers:
             ci = headers.index(header)
             if ci in datecolumns:
@@ -106,10 +74,10 @@ def process(fn, sep = ",", rtol = 0.001, atol = 0,
             try:
                 _val = float(columns[ci])
                 _tols = sigma.get(header, {"rtol": rtol, "atol": atol})
-                _sigma = max(abs(_val * _tols["rtol"]), _tols["atol"])
+                _sigma = max(abs(_val * _tols.get("rtol", 0)), _tols.get("atol", 0))
                 _unit = units.get(header)
                 element[header] = [_val, _sigma, _unit]
             except ValueError:
                 element[header] = columns[ci]
         data.append(element)
-    return data
+    return data, None, None

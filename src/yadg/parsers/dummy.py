@@ -21,4 +21,4 @@ def process(fn, **kwargs):
             "kwargs": kwargs
     }
     
-    return [result]
+    return [result], None, None

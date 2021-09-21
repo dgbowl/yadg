@@ -2,7 +2,6 @@ import pytest
 import os
 import json
 from distutils import dir_util
-from collections.abc import Iterable
 
 from yadg import core
 
@@ -48,15 +47,15 @@ dict_3 = {"datagram": "dummy", "import": {"folders": ["."], "contains": "schema"
 dict_4 = {"datagram": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
 dict_5 = {"datagram": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
 
-@pytest.mark.parametrize("inp_dict, l_dg, l_res", [(dict_1, 0, 0), (dict_2, 1, 1), 
+@pytest.mark.parametrize("inp_dict, l_dg, l_res", [(dict_1, 1, 0), (dict_2, 1, 1), 
                                                    (dict_3, 1, 2), (dict_4, 1, 2), 
                                                    (dict_5, 1, 1)])
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_dict(inp_dict)
-    assert len(ret) == l_dg
+    assert len(ret["data"]) == l_dg
     if l_dg > 0:
-        assert len(ret[0]["results"]) == l_res
+        assert len(ret["data"][0]["timesteps"]) == l_res
 
 @pytest.mark.parametrize("inp_fn, ts", [("dummy_schema_1.json", 
                                          {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
@@ -65,6 +64,10 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
 def test_datagram_from_schema_file(inp_fn, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_file(inp_fn, datadir)
-    assert isinstance(ret, Iterable)
-    assert len(ret) == ts["nsteps"]
-    assert ret[ts["step"]]["results"][ts["item"]]["kwargs"] == ts["kwargs"]
+    assert isinstance(ret, dict)
+    assert len(set(ret.keys()) & set(["metadata", "data"])) == 2
+    assert isinstance(ret["metadata"]["yadg"], dict)
+    assert isinstance(ret["metadata"]["date"], str)
+    assert len(ret["data"]) == ts["nsteps"]
+    assert isinstance(ret["data"][ts["step"]]["metadata"], dict)
+    assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["kwargs"] == ts["kwargs"]

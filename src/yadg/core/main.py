@@ -4,22 +4,28 @@ import sys
 import os
 import logging
 
-import gctrace
-import qftrace
-import meascsv
-import helpers
-import dgutils
+#import gctrace
+#import qftrace
+#import meascsv
+
 from parsers import dummy, basiccsv
 from helpers.version import _VERSION
+from helpers import dateutils
+import dgutils
 
 
 def _infer_datagram_handler(datagramtype):
-    if datagramtype == "gctrace":
-        return gctrace.process
-    if datagramtype == "qftrace":
-        return qftrace.process
-    if datagramtype == "meascsv":
-        return meascsv.process
+    """
+    Helper function to distribute work to parsers.
+
+    Add your parser here.
+    """
+    #if datagramtype == "gctrace":
+    #    return gctrace.process
+    #if datagramtype == "qftrace":
+    #    return qftrace.process
+    #if datagramtype == "meascsv":
+    #    return meascsv.process
     if datagramtype == "dummy":
         return dummy.process
     if datagramtype == "basiccsv":
@@ -54,15 +60,19 @@ def schema_validator(schema, permissive = False):
     permissive : bool, optional
         When `True`, the files will not be checked for IO errors. Folders are 
         always checked.
-
     """
-
+    # schema has to be a list or a tuple
     assert isinstance(schema, (list, tuple)), \
         logging.error("schema_validator: Provided schema is neither list nor a tuple.")
     requiredkeys = {
-        "datagram": ["dummy", "basiccsv"], 
-        "import": {"one": ["files", "folders", "paths"], 
-                   "any": ["prefix", "suffix", "contains"]}
+        "datagram": {
+            "one": ["dummy", "basiccsv"],
+            "any": []
+        }, 
+        "import": {
+            "one": ["files", "folders", "paths"], 
+            "any": ["prefix", "suffix", "contains"]
+        }
     }
     for step in schema:
         si = schema.index(step)
@@ -71,26 +81,28 @@ def schema_validator(schema, permissive = False):
             "export": None, 
             "parameters": {}
         }
+        # step in a schema has to be a dict
         assert isinstance(step, dict), \
             logging.error(f"schema_validator: Step {si} of schema is not a dict.")
+        # all required keys have to be in a step
         assert len(set(requiredkeys.keys()) & set(step.keys())) == len(requiredkeys.keys()), \
             logging.error(f"schema_validator: Step {si} does not contain all "
                           f"required keys: {list(requiredkeys.keys())}")
-        for key, vallowed in requiredkeys.items():
-            if isinstance(vallowed, list):
-                assert step[key] in vallowed, \
-                    logging.error(f"schema_validator: Undefined key {step[key]} was"
-                                  f"supplied for a required key {key}")
-            else:
-                assert len(set(step[key]) & set(vallowed["one"])) == 1, \
-                    logging.error(f"schema_validator: More than one of exclusive "
-                                  f"'{key}' entries {vallowed['one']} was provided.")
-                for kkey in step[key]:
-                    if kkey in vallowed["one"]:
+        for kreq, vreq in requiredkeys.items():
+            # exactly one of entries in "one" must be present
+            assert (isinstance(step[kreq], str) and step[kreq] in vreq["one"]) or \
+                   (isinstance(step[kreq], dict) and len(set(step[kreq]) & set(vreq["one"])) == 1), \
+                logging.error(f"schema_validator: More than one of exclusive "
+                              f"'{kreq}' entries from {vreq['one']} was provided.")
+            # additionally, only entries in "any" are present
+            if isinstance(step[kreq], dict):
+                for key in step[kreq]:
+                    if key in vreq["one"]:
                         continue
-                    assert kkey in vallowed["any"], \
-                        logging.error(f"schema_validator: Undefined key {kkey} was"
-                                      f"supplied for a required key {key}.")
+                    assert key in vreq["any"], \
+                        logging.error(f"schema_validator: Undefined entry {key} was"
+                                      f"supplied as a parameter for a required key {kreq}.")
+        # validate "import" spec
         if "paths" in step["import"]:
             step["import"]["files"] = step["import"].pop("paths")
         if "files" in step["import"] and not permissive:
@@ -103,6 +115,7 @@ def schema_validator(schema, permissive = False):
                 assert os.path.exists(path) and os.path.isdir(path), \
                     logging.error(f"schema_validator: Folder {path} specified in "
                                   f"'import' of step {si} is not a folder.")
+        # additionally, only entries in allowedkeys are permitted; fill defaults
         for key, kdef in allowedkeys.items():
             if key in step:
                 assert isinstance(step[key], type(kdef)) or step[key] is None, \
@@ -110,9 +123,23 @@ def schema_validator(schema, permissive = False):
                                   f"the wrong type {type(step[key])}.")
             if key not in step or step[key] is None:
                 step[key] = kdef
-
-
-
+        # validate supplied parameters
+        for key, val in step["parameters"].items():
+            # validation of "timestamp" spec
+            if key == "timestamp":
+                assert isinstance(val, dict), \
+                    logging.error(f"schema_validator: Value of {key} in 'parameters'"
+                                  f" of step {si} is not a dict.")
+                allowedtimestamps = ["uts", "timestamp", "date", "time"]
+                for k, v in val.items():
+                    assert k in allowedtimestamps, \
+                        logging.error("schema_validator: timestamp has to be one of "
+                                      f"{allowedtimestamps}, not {k}.")
+                    assert (isinstance(v, (tuple, list)) and len(v) == 2) or isinstance(v, int), \
+                        logging.error("schema_validator: timestamp specification has"
+                                      "to be column index (int), or a tuple/list "
+                                      "with a column index (int) and format (string).")
+                    
 def _infer_todo_files(importdict):
     """
     File enumerator function.
@@ -128,6 +155,10 @@ def _infer_todo_files(importdict):
         one, and only one, of the following keys: "folders", "files". Additional 
         keys that are processed here are "prefix", "suffix", and "contains".
 
+    Returns
+    -------
+    todofiles : list
+        A sorted list of paths which match the `importdict` spec.
     """
     todofiles = []
     if "folders" in importdict:
@@ -154,47 +185,56 @@ def process_schema(schema):
     ----------
     schema : list
         A fully validated schema
-    permissive : bool, optional
-        Whether the processor should ignore file errors. 
-    """
 
-    tostore = []
+    Returns
+    -------
+    datagram : dict
+        A fully qualified datagram, including toplevel metadata.
+    """
+    datagram = {
+        "metadata": {
+            "yadg": dgutils._yadg_metadata(),
+            "date": dateutils.now(asstr=True)
+        },
+        "data": []
+    }
     for step in schema:
-        data = {
+        metadata = {
             "input": step.copy(),
-            "metadata": {
-                "yadg": {
-                    "version": _VERSION,
-                    "date": helpers.dateutils.now(asstr=True),
-                    "command": sys.argv
-                }
-            }
+            "tag": step["tag"]
         }
+        common = {}
+        timesteps = []
         logging.info(f'process_schema: processing step {schema.index(step)}:')
-        assert "datagram" in step, \
-            logging.error('process_schema: No "datagram" field in schema step.')
-        assert "import" in step, \
-            logging.error('process_schema: No "import" field in schema step.')
         handler = _infer_datagram_handler(step["datagram"])
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:
-            logging.warning("process_schema: ")
-        data["results"] = []
+            logging.warning(f"process_schema: No files processed by step {step['tag']}")
         for tf in todofiles:
             logging.debug(f'process_schema: processing item {tf}')
-            ret = handler(tf, **step.get("parameters", {}))
-            if isinstance(ret, dict):
-                data["results"].append(ret)
-            elif isinstance(ret, list): 
-                data["results"] += ret
-        if len(data["results"]) > 0:
-            if data["results"][-1] == None:
-                data["results"] = data["results"][:-1]
-            if "export" in step and step["export"] is not None:
-                with open(step["export"], "w") as ofile:
-                    json.dump(data, ofile, indent=1)
-            tostore.append(data)
-    return(tostore)
+            _ts, _meta, _common = handler(tf, **step.get("parameters", {}))
+            assert isinstance(_ts, list), \
+                logging.critical(f"process_schema: Handler for {step['datagram']} yields"
+                                 " timesteps that are not a list.")
+            timesteps += _ts
+            assert isinstance(_meta, dict) or _meta is None, \
+                logging.critical(f"process_schema: Handler for {step['datagram']} yields"
+                                 " metadata that are not a dict.")
+            if _meta is not None:
+                metadata.update(_meta)
+            assert isinstance(_common, dict) or _common is None, \
+                logging.critical(f"process_schema: Handler for {step['datagram']} yields"
+                                 " common data that are not a dict.")
+            if _common is not None:
+                common.update(_common)
+        if common == {}:
+            datagram["data"].append({"metadata": metadata, "timesteps": timesteps})
+        else:
+            datagram["data"].append({"metadata": metadata, "common": common, "timesteps": timesteps})
+        if "export" in step and step["export"] is not None:
+            with open(step["export"], "w") as ofile:
+                json.dump(datagram, ofile, indent=1)
+    return datagram
 
 def _parse_arguments():
     parser = argparse.ArgumentParser(usage = """
@@ -241,7 +281,6 @@ def run():
     according to the input.
 
     """
-
     args = _parse_arguments()
     if args.schemafile:
         logging.info(f"run: Processing input json: {args.schemafile}")

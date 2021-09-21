@@ -6,3 +6,4 @@ def _yadg_metadata():
         "version": _VERSION,
         "command": "".join(sys.argv)
     }
+    return metadata

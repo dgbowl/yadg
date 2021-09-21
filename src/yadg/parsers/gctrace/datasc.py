@@ -61,5 +61,5 @@ def process(fn, **kwargs):
             "y": [[y, ymuls[ti], yunits[ti]] for y in ys]
         })
         si += npoints[ti]
-    return [trace], None, common
+    return trace, common
 

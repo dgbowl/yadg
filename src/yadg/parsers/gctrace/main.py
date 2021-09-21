@@ -10,6 +10,7 @@ import copy
 import matplotlib
 import matplotlib.pyplot as plt
 import logging
+from uncertainties import ufloat
 
 from helpers import *
 from parsers.gctrace import datasc, chromtab
@@ -64,24 +65,68 @@ def lowpass(values, width = 10, cut=2):
 def running_mean(x, width):
     return np.convolve(x, np.ones((width,))/width, mode="same")
 
-def _findPeaks(xseries, yseries, detector):
-    debug = False
-    if debug:
-        fig = plt.figure(figsize=(5,3), dpi=128)
-        ax = [fig.add_subplot(1,1,1)]
-        x = range(len(yseries))
-        ax[0].plot(x, yseries)
-    # 1) let's smoothen the chromatogram based on supplied or good default parameters
-    smooth = savgol_filter(yseries, window_length=detector.get("window", 7),
-                                    polyorder=detector.get("poly", 3))
-    smgrad = np.gradient(smooth)
-    smhess = np.gradient(smgrad)
-    # 2) find peaks and inflection points
-    peaks, _ = find_peaks(yseries, prominence=detector.get("prominence", 1e-4*max(yseries)))
-    neg_peaks, _ = find_peaks([-y for y in yseries], prominence=detector.get("prominence", 1e-4*max(yseries)))
-    gradmax, _ = find_peaks(smgrad, prominence=0.1*detector.get("prominence", 1e-3*max(smgrad)))
-    gradmin, _ = find_peaks(-smgrad, prominence=0.1*detector.get("prominence", 1e-3*max(smgrad)))
-    peakdata = []
+def _find_peaks(xs, ys, detector):
+    xseries = [i.n for i in xs]
+    yseries = [i.n for i in ys]
+    # find positive and negative peak indices
+    peaks = {}
+    res, _ = find_peaks(yseries, prominence=detector.get("prominence", 1e-4*max(yseries)))
+    peaks["+"] = res
+    res, _ = find_peaks(yseries, prominence=detector.get("prominence", 1e-4*max(yseries)))
+    peaks["-"] = res
+    # smoothen the chromatogram based on supplied parameters
+    smooth = savgol_filter(yseries,
+                           window_length=detector.get("window", 7),
+                           polyorder=detector.get("polyorder", 3))
+    # gradient: find peaks and inflection points
+    grad = np.gradient(smooth)
+    res, _ = find_peaks(grad, prominence=0.1*detector.get("prominence", 1e-3*max(grad)))
+    peaks["gradmax"] = res
+    res, _ = find_peaks(-grad, prominence=0.1*detector.get("prominence", 1e-3*max(grad)))
+    peaks["gradmin"] = res
+    res = np.where(np.diff(np.sign(grad)) != 0)[0] + 1
+    peaks["gradzero"] = res
+    # hessian: find peaks
+    hess = np.gradient(grad)
+    res = np.where(np.diff(np.sign(hess)) != 0)[0] + 1
+    peaks["hesszero"] = res
+    return peaks
+
+def _integrate_peaks(xs, ys, peakdata, specdata):
+    debug = True
+    truepeaks = {}
+    for name, species in specdata.items():
+        assert species.get("rf", 1) > 0, \
+            logging.error(f"gctrace: RF of species {name} is less than 0. "
+                          "Negative peaks not yet supported.")
+        for pmax in peakdata["+"]:
+            if xs[pmax].n > species["l"] and xs[pmax].n < species["r"]:
+                truepeaks[name] = pmax
+    print(truepeaks)
+    fig = plt.figure(figsize=(5,3), dpi=128)
+    ax = [fig.add_subplot(1,1,1)]
+    ax[0].plot([x.n for x in xs], [y.n for y in ys])
+    ax[0].scatter([xs[i].n for i in peakdata["+"]], [ys[i].n for i in peakdata["+"]], color="C0")
+    ax[0].scatter([xs[v].n for k, v in truepeaks.items()], [ys[v].n for k, v in truepeaks.items()], color="r", marker = "x")
+    #ax[0].scatter([xs[i].n for i in peakdata["gradzero"]], [ys[i].n for i in peakdata["gradzero"]], color="k")
+    ax[0].scatter([xs[i].n for i in peakdata["hesszero"]], [ys[i].n for i in peakdata["hesszero"]], color="k", marker = "x")
+    
+    for pname, pmax in truepeaks.items():
+        pi = list(peakdata["+"]).index(pmax)
+        nextpeak = peakdata["+"][pi+1]
+        prevpeak = peakdata["+"][pi-1]
+        for hess in peakdata["hesszero"]:
+            if hess > pmax:
+                nexthess = hess
+                break
+        hi = list(peakdata["hesszero"]).index(nexthess)
+        prevhess = peakdata["hesszero"][hi-1]
+        pprevhess = peakdata["hesszero"][hi-2]
+        nnexthess = peakdata["hesszero"][hi+1]
+        print(pname, prevpeak, pprevhess, prevhess, pmax, nexthess, nnexthess, nextpeak)
+        ax[0].plot([x.n for x in xs[prevhess:nexthess]], [y.n for y in ys[prevhess:nexthess]], color="C1", linestyle=":")
+    plt.show()
+    assert False
     # 3) filter found peaks based on detector spec
     mult = detector["species"].get("units", "s")
     if mult == "min":
@@ -227,11 +272,22 @@ def _parse_detector_spec(calfile, detectors, species):
         with open(calfile, "r") as infile:
             calib = json.load(infile)
     else:
-        calib = {"detectors": {}, "species": {}}
+        calib = {}
     if detectors != {}:
-        calib["detectors"] = detectors
+        for name, det in detectors.items():
+            try:
+                calib[name].update(det)
+            except KeyError:
+                calib[name] = det
     if species != {}:
-        calib["species"] = species
+        for name, sp in species.items():
+            assert name in calib, \
+                logging.error(f"gctrace: Detector with name {name} specified in "
+                              "supplied 'species' but previously undefined.")
+            try:
+                calib[name]["species"].update(sp)
+            except KeyError:
+                calib[name]["species"] = sp
     return calib
 
 def process(fn, tracetype = "datasc", **kwargs):
@@ -274,17 +330,25 @@ def process(fn, tracetype = "datasc", **kwargs):
                                  detectors = kwargs.get("detectors", {}),
                                  species = kwargs.get("species", {}))
     if tracetype == "datasc" or tracetype == "gctrace":
-        _ts, _meta, _comm = datasc.process(fn, **kwargs)
-    elif tracetype == "chromtab":
-        _ts, _meta, _comm = chromtab.process(fn, **kwargs)
+        _trace, _common = datasc.process(fn, **kwargs)
+#    elif tracetype == "chromtab":
+#        _ts, _meta, _comm = chromtab.process(fn, **kwargs)
 #    elif tracetype == "fusion":
 #        _ts, _meta, _comm = fusion.process(fn, **kwargs)
-    print(_ts[0].keys())
-    for t in _ts[0]["traces"]:
+    print(_trace.keys())
+    for t in _trace["traces"]:
         print(len(t["x"]), len(t["y"]))
         print(t["x"][40], t["y"][40])
+    for name, spec in calib.items():
+        print(name)
+        xseries = [ufloat(*i) for i in _trace["traces"][spec["id"]]["x"]]
+        yseries = [ufloat(*i) for i in _trace["traces"][spec["id"]]["y"]]
+        peaks = _find_peaks(xseries, yseries, spec["peakdetect"])
+
+        areas = _integrate_peaks(xseries, yseries, peaks, spec["species"])
     assert False
-    
+        
+        
     for ri in range(len(results)):
         for det in detectors:
             if detectors[det]["id"] in results[ri]["trace"]:

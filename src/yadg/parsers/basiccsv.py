@@ -1,8 +1,8 @@
 from helpers import dateutils
 import logging
 
-def process(fn, sep = ",", rtol = 0.001, atol = 0, 
-            sigma = {}, units = None, timestamp = None, **kwargs):
+def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
+            units = None, timestamp = None, **kwargs):
     """
     A basic csv parser.
 

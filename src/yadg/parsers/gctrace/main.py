@@ -65,25 +65,20 @@ def lowpass(values, width = 10, cut=2):
 def running_mean(x, width):
     return np.convolve(x, np.ones((width,))/width, mode="same")
 
-def _find_peaks(xs, ys, detector):
-    xseries = [i.n for i in xs]
+def _find_peak_maxima(ys, peakdetect):
     yseries = [i.n for i in ys]
     # find positive and negative peak indices
     peaks = {}
-    res, _ = find_peaks(yseries, prominence=detector.get("prominence", 1e-4*max(yseries)))
+    res, _ = find_peaks(yseries, prominence=peakdetect.get("prominence", 1e-4*max(yseries)))
     peaks["+"] = res
-    res, _ = find_peaks(yseries, prominence=detector.get("prominence", 1e-4*max(yseries)))
+    res, _ = find_peaks(yseries, prominence=peakdetect.get("prominence", 1e-4*max(yseries)))
     peaks["-"] = res
     # smoothen the chromatogram based on supplied parameters
     smooth = savgol_filter(yseries,
-                           window_length=detector.get("window", 7),
-                           polyorder=detector.get("polyorder", 3))
+                           window_length=peakdetect.get("window", 7),
+                           polyorder=peakdetect.get("polyorder", 3))
     # gradient: find peaks and inflection points
     grad = np.gradient(smooth)
-    res, _ = find_peaks(grad, prominence=0.1*detector.get("prominence", 1e-3*max(grad)))
-    peaks["gradmax"] = res
-    res, _ = find_peaks(-grad, prominence=0.1*detector.get("prominence", 1e-3*max(grad)))
-    peaks["gradmin"] = res
     res = np.where(np.diff(np.sign(grad)) != 0)[0] + 1
     peaks["gradzero"] = res
     # hessian: find peaks
@@ -92,40 +87,184 @@ def _find_peaks(xs, ys, detector):
     peaks["hesszero"] = res
     return peaks
 
+def _find_peak_edges(ys, peakdata, detector):
+    threshold = detector.get("threshold", 1.0)
+    #fig = plt.figure(figsize=(5,3), dpi=128)
+    #ax = [fig.add_subplot(1,1,1)]
+    #ax[0].plot([x.n for x in xs], [y.n for y in ys])
+    #ax[0].scatter(range(len(peakdata["+"])], [ys[i].n for i in peakdata["+"]], color="C0")
+    #ax[0].scatter([xs[i].n for i in peakdata["gradzero"]], [ys[i].n for i in peakdata["gradzero"]], color="k", marker = "+")
+    #ax[0].scatter([xs[i].n for i in peakdata["hesszero"]], [ys[i].n for i in peakdata["hesszero"]], color="k", marker = "x")
+    
+    allpeaks = []
+    for pi in range(len(peakdata["+"])):
+        pmax = peakdata["+"][pi]
+        for i in range(len(peakdata["hesszero"])):
+            if peakdata["hesszero"][i] > pmax:
+                hi = i
+                break
+        for i in range(len(peakdata["gradzero"])):
+            if peakdata["gradzero"][i] > pmax:
+                gi = i
+                break
+        # right of peak: 
+        rlim = False
+        # peak goes at least to the first inflection point, defined by hi.
+        # If there's a minimum between the first and second inflection point, 
+        # that's the end of our peak:
+        for i in peakdata["gradzero"][gi:]:
+            if i > peakdata["hesszero"][hi] and i < peakdata["hesszero"][hi+1]:
+                rlim = i
+            elif i > peakdata["hesszero"][hi+1]:
+                break
+        # If there's not a minimum, we keep looking at inflection points until
+        # the difference in their height is below threshold:
+        if not rlim:
+            ppt = [peakdata["hesszero"][hi], ys[peakdata["hesszero"][hi]]]
+            for i in peakdata["hesszero"][hi+1:]:
+                pt = [i, ys[i]]
+                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
+                if abs(dp[1]/dp[0]) < threshold:
+                    rlim = i
+                    break
+                ppt = pt
+        # left of peak:
+        llim = False
+        for i in peakdata["gradzero"][:gi][::-1]:
+            if i > peakdata["hesszero"][hi-2] and i < peakdata["hesszero"][hi-1]:
+                llim = i
+            elif i < peakdata["hesszero"][hi-1]:
+                break
+        if not llim:
+            ppt = [peakdata["hesszero"][hi-1], ys[peakdata["hesszero"][hi-1]]]
+            for i in peakdata["hesszero"][:hi-1][::-1]:
+                pt = [i, ys[i]]
+                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
+                if abs(dp[1]/dp[0]) < threshold:
+                    llim = i
+                    break
+                ppt = pt
+        assert rlim and llim, \
+            logging.error("gctrace: Peak end finding failed.")
+        #truepeaks[pname].update({"llim": llim, "rlim": rlim})
+        #print(pname, pmax, peakdata["hesszero"][hi], peakdata["gradzero"][gi])
+        #ax[0].plot([x.n for x in xs[llim:pmax]], [y.n for y in ys[llim:pmax]], color="C2", linestyle="--")
+        #ax[0].plot([x.n for x in xs[pmax:rlim]], [y.n for y in ys[pmax:rlim]], color="C1", linestyle="--")
+        allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
+    return allpeaks
+
+def _baseline_correct(xs, ys, peakdata):
+    interpolants = []
+    for p in peakdata:
+        if len(interpolants) == 0:
+            interpolants.append([p["llim"], p["rlim"]])
+        else:
+            if interpolants[-1][1] == p["llim"]:
+                interpolants[-1][1] = p["rlim"]
+            else:
+                interpolants.append([p["llim"], p["rlim"]])
+    baseline = {"x": xs, "y": ys}
+    for pair in interpolants:
+        npoints = pair[1] - pair[0]
+        interp = list(np.interp(range(npoints), 
+                                [0, npoints], 
+                                [baseline["y"][pair[0]].n, baseline["y"][pair[1]].n]))
+        baseline["y"] = baseline["y"][:pair[0]] + interp + baseline["y"][pair[1]:]
+    corrected = {
+        "x": xs,
+        "y": [ys[i] - baseline["y"][i] for i in range(len(ys))],
+    }
+    return corrected
+
 def _integrate_peaks(xs, ys, peakdata, specdata):
-    debug = True
     truepeaks = {}
     for name, species in specdata.items():
         assert species.get("rf", 1) > 0, \
             logging.error(f"gctrace: RF of species {name} is less than 0. "
                           "Negative peaks not yet supported.")
-        for pmax in peakdata["+"]:
-            if xs[pmax].n > species["l"] and xs[pmax].n < species["r"]:
-                truepeaks[name] = pmax
-    print(truepeaks)
+        for p in peakdata:
+            if xs[p["max"]] > species["l"] and xs[p["max"]] < species["r"]:
+                truepeaks[name] = p
+                break
+    trace = _baseline_correct(xs, ys, peakdata)
     fig = plt.figure(figsize=(5,3), dpi=128)
     ax = [fig.add_subplot(1,1,1)]
-    ax[0].plot([x.n for x in xs], [y.n for y in ys])
-    ax[0].scatter([xs[i].n for i in peakdata["+"]], [ys[i].n for i in peakdata["+"]], color="C0")
-    ax[0].scatter([xs[v].n for k, v in truepeaks.items()], [ys[v].n for k, v in truepeaks.items()], color="r", marker = "x")
-    #ax[0].scatter([xs[i].n for i in peakdata["gradzero"]], [ys[i].n for i in peakdata["gradzero"]], color="k")
-    ax[0].scatter([xs[i].n for i in peakdata["hesszero"]], [ys[i].n for i in peakdata["hesszero"]], color="k", marker = "x")
+    ax[0].plot([x.n for x in trace["x"]], [y.n for y in trace["y"]])
+    ax[0].plot([trace["x"][p["max"]].n for p in peakdata], [trace["y"][p["max"]].n for p in peakdata], color="C0", linestyle="", marker="o")
     
-    for pname, pmax in truepeaks.items():
-        pi = list(peakdata["+"]).index(pmax)
-        nextpeak = peakdata["+"][pi+1]
-        prevpeak = peakdata["+"][pi-1]
-        for hess in peakdata["hesszero"]:
-            if hess > pmax:
-                nexthess = hess
+    for k, v in truepeaks.items():
+        ax[0].plot(trace["x"][v["max"]].n, trace["y"][v["max"]].n, color="r", fillstyle="none", linestyle="", marker="o")
+        ax[0].plot([i.n for i in trace["x"][v["llim"]:v["rlim"]+1]], [i.n for i in trace["y"][v["llim"]:v["rlim"]+1]], color="r", linestyle=":", marker="")
+        A = np.trapz([i for i in trace["y"][v["llim"]:v["rlim"]+1]], [i for i in trace["x"][v["llim"]:v["rlim"]+1]])
+        truepeaks[k]["A"] = A
+        truepeaks[k]["h"] = trace["y"][v["max"]]
+    #plt.show() 
+    return truepeaks
+
+    allpeaks = []
+    for pi in range(len(peakdata["+"])):
+        pmax = peakdata["+"][pi]
+        for i in range(len(peakdata["hesszero"])):
+            if peakdata["hesszero"][i] > pmax:
+                hi = i
                 break
-        hi = list(peakdata["hesszero"]).index(nexthess)
-        prevhess = peakdata["hesszero"][hi-1]
-        pprevhess = peakdata["hesszero"][hi-2]
-        nnexthess = peakdata["hesszero"][hi+1]
-        print(pname, prevpeak, pprevhess, prevhess, pmax, nexthess, nnexthess, nextpeak)
-        ax[0].plot([x.n for x in xs[prevhess:nexthess]], [y.n for y in ys[prevhess:nexthess]], color="C1", linestyle=":")
+        for i in range(len(peakdata["gradzero"])):
+            if peakdata["gradzero"][i] > pmax:
+                gi = i
+                break
+        # right of peak: 
+        rlim = False
+        # peak goes at least to the first inflection point, defined by hi.
+        # If there's a minimum between the first and second inflection point, 
+        # that's the end of our peak:
+        for i in peakdata["gradzero"][gi:]:
+            if i > peakdata["hesszero"][hi] and i < peakdata["hesszero"][hi+1]:
+                rlim = i
+            elif i > peakdata["hesszero"][hi+1]:
+                break
+        # If there's not a minimum, we keep looking at inflection points until
+        # the difference in their height is below threshold:
+        if not rlim:
+            ppt = [xs[peakdata["hesszero"][hi]], ys[peakdata["hesszero"][hi]]]
+            for i in peakdata["hesszero"][hi+1:]:
+                pt = [xs[i], ys[i]]
+                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
+                print(dp, dp[1]/dp[0])
+                if abs(dp[1]/dp[0]) < threshold:
+                    rlim = i
+                    break
+                ppt = pt
+        # left of peak:
+        llim = False
+        for i in peakdata["gradzero"][:gi][::-1]:
+            if i > peakdata["hesszero"][hi-2] and i < peakdata["hesszero"][hi-1]:
+                llim = i
+            elif i < peakdata["hesszero"][hi-1]:
+                break
+        if not llim:
+            ppt = [xs[peakdata["hesszero"][hi-1]], ys[peakdata["hesszero"][hi-1]]]
+            for i in peakdata["hesszero"][:hi-1][::-1]:
+                pt = [xs[i], ys[i]]
+                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
+                print(dp, dp[1]/dp[0])
+                if abs(dp[1]/dp[0]) < threshold:
+                    llim = i
+                    break
+                ppt = pt
+        assert rlim and llim, \
+            logging.error("gctrace: Peak end finding failed.")
+        #truepeaks[pname].update({"llim": llim, "rlim": rlim})
+        #print(pname, pmax, peakdata["hesszero"][hi], peakdata["gradzero"][gi])
+        ax[0].plot([x.n for x in xs[llim:pmax]], [y.n for y in ys[llim:pmax]], color="C2", linestyle="--")
+        ax[0].plot([x.n for x in xs[pmax:rlim]], [y.n for y in ys[pmax:rlim]], color="C1", linestyle="--")
+        allpeaks.append({"l": llim, "r": rlim, "max": pmax})
+    
+    #for pname, pvals in truepeaks.items():
+    #    pmax = pvals["pmax"]
+    #    pi = list(peakdata["+"]).index(pmax)
     plt.show()
+    return 0
+    print(truepeaks)
     assert False
     # 3) filter found peaks based on detector spec
     mult = detector["species"].get("units", "s")
@@ -265,7 +404,20 @@ def _integrate_peaks(xs, ys, peakdata, specdata):
         plt.tight_layout(rect=(0.0,0.0,1,1))
         plt.show()
     return results
-    
+
+def _calib_handler(x, calib):
+    print("x: ", x)
+    print("cal: ", calib)
+    assert "linear" in calib, \
+        logging.error("calib: Only linear calibrations are supported")
+    if "linear" in calib:
+        c = calib["linear"].get("intercept", 0)
+        m = calib["linear"]["slope"]
+        conv = (x / m) - c
+    tol = max(conv.s, calib.get("atol", 0), abs(conv * calib.get("rtol", 0)))
+    return ufloat(conv.n, tol)
+
+
     
 def _parse_detector_spec(calfile, detectors, species):
     if calfile is not None:
@@ -335,17 +487,29 @@ def process(fn, tracetype = "datasc", **kwargs):
 #        _ts, _meta, _comm = chromtab.process(fn, **kwargs)
 #    elif tracetype == "fusion":
 #        _ts, _meta, _comm = fusion.process(fn, **kwargs)
-    print(_trace.keys())
-    for t in _trace["traces"]:
-        print(len(t["x"]), len(t["y"]))
-        print(t["x"][40], t["y"][40])
+    _peaks = {}
     for name, spec in calib.items():
-        print(name)
+        units = {
+            "x": _trace["traces"][spec["id"]]["x"][0][2],
+            "y": _trace["traces"][spec["id"]]["y"][0][2]
+        }
         xseries = [ufloat(*i) for i in _trace["traces"][spec["id"]]["x"]]
         yseries = [ufloat(*i) for i in _trace["traces"][spec["id"]]["y"]]
-        peaks = _find_peaks(xseries, yseries, spec["peakdetect"])
+        peakdata = _find_peak_maxima(yseries, spec.get("peakdetect", {}))
+        allpeaks = _find_peak_edges(yseries, peakdata, spec.get("peakdetect", {}))
+        species = _integrate_peaks(xseries, yseries, allpeaks, spec["species"])
+        _peaks[name] = {}
+        for k, v in species.items():
+            print("vA: ", v["A"])
+            x = _calib_handler(v["A"], spec["species"][k]["calib"])
+            _peaks[name][k] = {
+                "peak": { "max": v["max"], "llim": v["llim"], "rlim": v["rlim"]},
+                "A": [v["A"].n, v["A"].s, f"{units['y']}·{units['x']}"],
+                "h": [v["h"].n, v["h"].s, units["y"]],
+                "x": [x.n, x.s, "%"]
+            }
+    print(_peaks)
 
-        areas = _integrate_peaks(xseries, yseries, peaks, spec["species"])
     assert False
         
         

@@ -29,7 +29,9 @@ def datadir(tmpdir, request):
 def datagram_from_gctrace(input, datadir):
     schema = [{
         "datagram": "gctrace",
-        "import": {"folders": [datadir], "suffix": "dat.asc"},
+        "import": {"folders": [datadir], 
+                   "prefix": input["prefix"],
+                   "suffix": input["suffix"]},
         "parameters": input.get("parameters", {})
     }]
     core.schema_validator(schema)
@@ -69,26 +71,84 @@ gc_5890_FHI["sp"] = {
         "CO":        {"l": 16.00*60, "r": 16.34*60, "calib": {"linear": {"slope":  911.73}}}
     },
     "FID": {
-        "CO":        {"l":  8.53*60, "r":  8.69*60, "calib": {"linear": {"slope": 1873.56}}},
-        "methane":   {"l":  8.69*60, "r":  8.78*60, "calib": {"linear": {"slope": 1795.41}}},
-        "CO2":       {"l":  8.82*60, "r":  8.98*60, "calib": {"linear": {"slope": 1841.64}}},
-        "ethylene":  {"l":  9.03*60, "r":  9.17*60, "calib": {"linear": {"slope": 3565.07}}},
-        "ethane":    {"l":  9.21*60, "r":  9.30*60, "calib": {"linear": {"slope": 3570.01}}},
-        "propylene": {"l":  9.92*60, "r":  9.99*60, "calib": {"linear": {"slope": 5306.26}}},
-        "propane":   {"l":  9.99*60, "r": 10.13*60, "calib": {"linear": {"slope": 5326.11}}},
-        "butane":    {"l": 11.50*60, "r": 11.60*60, "calib": {"linear": {"slope": 7121.53}}},
-        "acetic":    {"l":  4.16*60, "r":  4.34*60, "calib": {"linear": {"slope": 3565.07}}},
-        "acrylic":   {"l":  5.12*60, "r":  5.30*60, "calib": {"linear": {"slope": 5306.26}}}
+        "CO":        {"l":  511.8, "r":  521.4, "calib": {"linear": {"slope": 1873.56}}},
+        "methane":   {"l":  521.4, "r":  526.8, "calib": {"linear": {"slope": 1795.41}}},
+        "CO2":       {"l":  529.2, "r":  538.8, "calib": {"linear": {"slope": 1841.64}}},
+        "ethylene":  {"l":  541.8, "r":  550.2, "calib": {"linear": {"slope": 3565.07}}},
+        "ethane":    {"l":  552.6, "r":  558.0, "calib": {"linear": {"slope": 3570.01}}},
+        "propylene": {"l":  595.2, "r":  602.0, "calib": {"linear": {"slope": 5306.26}}},
+        "propane":   {"l":  602.0, "r":  606.0, "calib": {"linear": {"slope": 5326.11}}},
+        "butane":    {"l":  690.0, "r":  696.0, "calib": {"linear": {"slope": 7121.53}}},
+        "acetic":    {"l":  249.6, "r":  260.4, "calib": {"linear": {"slope": 3565.07}}},
+        "acrylic":   {"l":  307.2, "r":  318.0, "calib": {"linear": {"slope": 5306.26}}}
+    }
+}
+
+gcms_chromtab = {}
+gcms_chromtab["det"] = {
+    "MS": {
+        "id": 0,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 5,
+            "prominence": 1e5,
+            "threshold": 1e2
+        },
+        "prefer": True
+    },
+    "TCD": {
+        "id": 1,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 2,
+            "prominence": 1e5,
+            "threshold": 1e2
+        }
+    },
+    "FID": {
+        "id": 2,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 2,
+            "prominence": 1e5,
+            "threshold": 1e2
+        }
+    }
+}
+gcms_chromtab["sp"] = {
+    "MS": {
+        "N2":      {"l": 1.721*60, "r": 1.871*60},
+        "CH3OH":   {"l": 1.871*60, "r": 1.997*60},
+        "CH2O":    {"l": 2.140*60, "r": 2.195*60},
+        "CH3OCHO": {"l": 2.194*60, "r": 2.254*60}
+    },
+    "TCD": {
+        "CO2": {"l": 2.990*60, "r": 3.157*60},
+        "H2":  {"l": 4.312*60, "r": 4.506*60},
+        "O2":  {"l": 4.510*60, "r": 4.690*60},
+        "N2":  {"l": 4.700*60, "r": 4.965*60}
+    },
+    "FID": {
+        "CH3OH":   {"l": 1.850*60, "r": 2.140*60},
+        "CH3OCHO": {"l": 2.140*60, "r": 2.628*60}
     }
 }
 
 @pytest.mark.parametrize("input, ts", [
-    ({"parameters": {"tracetype": "datasc", "species": gc_5890_FHI["sp"], "detectors": gc_5890_FHI["det"]}},
-     {}),  
+    ({"prefix": "2019-12-03", "suffix": "dat.asc", 
+      "parameters": {"tracetype": "datasc", "species": gc_5890_FHI["sp"], "detectors": gc_5890_FHI["det"]},},
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "polyarc+TCD_PK_09b.met", "xout": {"propane": 0.022, "N2": 0.915}}),  
+    ({"prefix": "CHROMTAB", "suffix": "CSV", 
+      "parameters": {"tracetype": "chromtab", "species": gcms_chromtab["sp"], "detectors": gcms_chromtab["det"]},},
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),   
 ])
 def test_datagram_from_gctrace(input, ts, datadir):
-    print("test input")
-    print(input)
     ret = datagram_from_gctrace(input, datadir)
-    print(ret)
-    assert False
+    assert len(ret["data"]) == ts["nsteps"]
+    step = ret["data"][ts["step"]]
+    assert step["metadata"]["gcparams"]["method"].endswith(ts["method"])
+    assert len(step["timesteps"]) == ts["ntsteps"]
+    for tstep in step["timesteps"]:
+        print(tstep["xout"])
+        for k, v in ts["xout"].items():
+            assert tstep["xout"][k][0] == pytest.approx(v, rel = 0.02)

@@ -2,10 +2,21 @@ from helpers import dateutils
 import logging
 
 def process(fn, **kwargs):
+    """
+    EZ-Chrome export parser.
+
+    One chromatogram per file with multiple traces. A header section
+    is followed by y-values for each trace. x-values have to be 
+    deduced using number of points, frequency, and x-multiplier.
+    """
     with open(fn, "r", encoding="utf8",  errors='ignore') as infile:
         lines = infile.readlines()
-    common = {"gcparams": {}}
-    trace = {"fn": fn, "traces": []}
+    metadata = {
+        "type": "gctrace.datasc",
+        "gcparams": {}
+    }
+    common = {}
+    chrom = {"fn": fn, "traces": []}
     _, datefunc = dateutils._infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%m/%d/%Y %H:%M:%S %p"]})
     
@@ -13,13 +24,13 @@ def process(fn, **kwargs):
         for key in ["Version", "Maxchannels", "Method", "User Name"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                common["gcparams"][k] = line.split(f"{key}:")[1].strip()
+                metadata["gcparams"][k] = line.split(f"{key}:")[1].strip()
         for key in ["Sample ID", "Data File"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                trace[k] = line.split(f"{key}:")[1].strip()
+                chrom[k] = line.split(f"{key}:")[1].strip()
         if line.startswith("Acquisition Date and Time:"):
-            trace["uts"] = datefunc(line.split("Time:")[1].strip())
+            chrom["uts"] = datefunc(line.split("Time:")[1].strip())
         if line.startswith("Sampling Rate:"):
             assert "Hz" in line, \
                 logging.error(f"datasc: Incorrect units for rate in file {fn}: {line}")
@@ -56,10 +67,10 @@ def process(fn, **kwargs):
         dt = 60
         xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si:si+npoints[ti]]]
-        trace["traces"].append({
+        chrom["traces"].append({
             "x": [[x, 0.5 * xmuls[ti] * dt / samplerates[ti], "s"] for x in xs],
             "y": [[y, ymuls[ti], yunits[ti]] for y in ys]
         })
         si += npoints[ti]
-    return trace, common
+    return [chrom], metadata, common
 

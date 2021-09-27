@@ -40,17 +40,23 @@ def schema_validator(schema: Union[list, tuple], permissive: bool = False):
     and checks whether required parameters for datagrams are provided.
 
     The conditions are:
+    
     - schema has to be a list or a tuple
     - each element of this list is a dict, called step
     - each step has to have a "datagram" and "import" entry:
-        - the "datagram" entry has to be a string containing the requested parser
-        - the "import" entry has to be a dictionary containing:
-            - exactly one entry out of "files", "folders", or "paths"
-            - any of "prefix", "suffix", "contains" entries
-    - other allowed entries are: 
-        - "tag" (string) for step tagging,
-        - "export" (string) for step export,
-        - "parameters" (dict) for specifying other parameters for the parser:
+    
+      - the `"datagram"` entry has to be a string containing the requested parser
+      - the `"import"` entry has to be a dictionary containing:
+      
+        - exactly one entry out of `"files"`, `"folders"`, or `"paths"`
+        - any of `"prefix"`, `"suffix"`, `"contains"` entries
+        
+    - other allowed entries are:
+    
+      - `"tag"` (str) for step tagging,
+      - `"export"` (str) for step export,
+      - `"parameters"` (dict) for specifying other parameters for the parser:
+      
     - no other entries are permitted
 
     Parameters
@@ -189,7 +195,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
 
     Returns
     -------
-    datagram
+    dict
         A fully qualified datagram, including toplevel metadata.
     """
     datagram = {

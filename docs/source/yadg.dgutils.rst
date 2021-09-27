@@ -4,16 +4,12 @@ yadg.dgutils package
 Submodules
 ----------
 
-yadg.dgutils.dgutils module
----------------------------
 
 .. automodule:: yadg.dgutils.dgutils
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.dgutils.helpers module
----------------------------
 
 .. automodule:: yadg.dgutils.helpers
    :members:

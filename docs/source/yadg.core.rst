@@ -4,8 +4,6 @@ yadg.core package
 Submodules
 ----------
 
-yadg.core.main module
----------------------
 
 .. automodule:: yadg.core.main
    :members:

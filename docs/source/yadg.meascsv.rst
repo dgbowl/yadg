@@ -4,8 +4,6 @@ yadg.meascsv package
 Submodules
 ----------
 
-yadg.meascsv.meascsv module
----------------------------
 
 .. automodule:: yadg.meascsv.meascsv
    :members:

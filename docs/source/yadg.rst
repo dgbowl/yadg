@@ -16,24 +16,18 @@ Subpackages
 Submodules
 ----------
 
-yadg.dg2json module
--------------------
 
 .. automodule:: yadg.dg2json
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.dg2png module
-------------------
 
 .. automodule:: yadg.dg2png
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.yadg module
-----------------
 
 .. automodule:: yadg.yadg
    :members:

@@ -64,7 +64,7 @@ def process(fn, **kwargs):
         elif len(parts) == 2:
             x, y = [float(i) for i in parts]
             tolx = 0.5 * 10**(-len(parts[0].split(".")[1].strip()))
-            toly = 1
+            toly = 1.0
             trace["x"].append([x * 60, tolx * 60, "s"])
             trace["y"].append([y, toly, "-"])
     chrom["traces"].append(trace)

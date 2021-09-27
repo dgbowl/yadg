@@ -12,7 +12,7 @@ import logging
 from uncertainties import ufloat
 
 from helpers import *
-from parsers.gctrace import datasc, chromtab
+from parsers.gctrace import datasc, chromtab, fusion
 
 def _find_peak_maxima(ys, peakdetect):
     yseries = [i.n for i in ys]
@@ -97,7 +97,7 @@ def _find_peak_edges(ys, peakdata, detector):
     return allpeaks
 
 _default_calib = {
-    "linear": {"slope": 1, "intercept": 0},
+    "linear": {"slope": 1.0, "intercept": 0},
     "atol": 0, "rtol": 1e-3
 }
 
@@ -140,6 +140,8 @@ def _integrate_peaks(xs, ys, peakdata, specdata):
     #ax = [fig.add_subplot(1,1,1)]
     #ax[0].plot([x.n for x in trace["x"]], [y.n for y in trace["y"]])
     #ax[0].plot([trace["x"][p["max"]].n for p in peakdata], [trace["y"][p["max"]].n for p in peakdata], color="C0", linestyle="", marker="o")
+    #for k, v in truepeaks.items():
+    #    ax[0].plot([x.n for x in trace["x"][v["llim"]:v["rlim"]]], [y.n for y in trace["y"][v["llim"]:v["rlim"]]], color="g")
     #plt.show() 
     return truepeaks
 
@@ -221,8 +223,8 @@ def process(fn, tracetype = "datasc", **kwargs):
         _data, _meta, _common = datasc.process(fn, **kwargs)
     elif tracetype == "chromtab":
         _data, _meta, _common = chromtab.process(fn, **kwargs)
-#    elif tracetype == "fusion":
-#        _ts, _meta, _comm = fusion.process(fn, **kwargs)
+    elif tracetype == "fusion":
+        _data, _meta, _common = fusion.process(fn, **kwargs)
     results = []
     for chrom in _data:
         peaks = {}

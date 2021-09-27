@@ -5,6 +5,7 @@ from distutils import dir_util
 import datetime
 
 from yadg import core
+from general import object_is_datagram
 
 # tests for the basiccsv module:
 #  - test_datagram_from_qftrace:
@@ -55,6 +56,7 @@ def datagram_from_qftrace(input, datadir):
 ])
 def test_datagram_from_qftrace(input, ts, datadir):
     ret = datagram_from_qftrace(input, datadir)
+    object_is_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     step = ret["data"][ts["step"]]
     assert len(step["timesteps"]) == ts["ntimesteps"]

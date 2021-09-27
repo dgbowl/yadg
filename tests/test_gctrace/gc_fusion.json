@@ -1,0 +1,28 @@
+{
+    "TCD1": {
+        "id": 0,
+        "peakdetect": {
+            "window": 11,
+            "polyorder": 3,
+            "prominence": 1e1,
+            "threshold": 1e1
+        },
+        "species": {
+            "H2":  {"l": 52.0, "r":  57.0, "calib": {"linear": {"slope": 70496.60525}}},
+            "O2":  {"l": 59.0, "r":  62.0},
+            "N2":  {"l": 67.0, "r":  72.0},
+            "CH4": {"l": 82.0, "r":  85.0},
+            "CO":  {"l": 98.0, "r": 103.0}
+        }
+    },
+    "TCD2": {
+        "id": 1,
+        "peakdetect": {
+            "window": 11,
+            "polyorder": 3,
+            "prominence": 1e4,
+            "threshold": 1e2
+        },
+        "species":{}
+    }
+}

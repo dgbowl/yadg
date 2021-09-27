@@ -36,7 +36,7 @@ def now(asstr = False, tz = datetime.timezone.utc):
     if asstr:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
     else:
-        return math.floor(dt.timestamp())
+        return dt.timestamp()
 
 def _infer_timestamp_from(headers, spec = None, tz = datetime.timezone.utc):
     """

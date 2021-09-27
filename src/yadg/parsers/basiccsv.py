@@ -40,6 +40,9 @@ def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
         "timestamp", "uts". The entries can be column indices (int), or tuples
         consisting  of a column index (int), and format (str).
     """
+    metadata = {
+        "fn": str(fn)
+    }
     with open(fn, "r") as infile:
         lines = infile.readlines()
     assert len(lines) >= 2
@@ -80,4 +83,4 @@ def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
             except ValueError:
                 element[header] = columns[ci]
         data.append(element)
-    return data, None, None
+    return data, metadata, None

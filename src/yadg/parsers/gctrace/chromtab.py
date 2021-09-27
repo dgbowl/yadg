@@ -27,7 +27,8 @@ def process(fn, **kwargs):
 
     Multiple chromatograms per file with multiple traces. Each chromatogram
     starts with a header section, and is followed by each trace, which 
-    includes a header line and x,y-data.
+    includes a header line and x,y-data. Method is not available, but sampleid
+    and detector names are included.
     """
     with open(fn, "r", encoding="utf8", errors="ignore") as infile:
         lines = infile.readlines()
@@ -38,7 +39,7 @@ def process(fn, **kwargs):
     }
     common = {}
     chroms = []
-    chrom = {"fn": fn, "traces": []}
+    chrom = {"fn": fn, "traces": [], "detectors": []}
     trace = {"x": [], "y": []}
     for li in range(len(lines)):
         line = lines[li].strip()
@@ -48,9 +49,9 @@ def process(fn, **kwargs):
                 if trace != {"x": [], "y": []}:
                     chrom["traces"].append(trace)
                     trace = {"x": [], "y": []}
-                if chrom != {"fn": fn, "traces": []}:
+                if chrom != {"fn": fn, "traces": [], "detectors": []}:
                     chroms.append(chrom)
-                    chrom = {"fn": fn, "traces": []}
+                    chrom = {"fn": fn, "traces": [], "detectors": []}
                 headers = [p.replace('"', "") for p in parts]
             else:
                 columns = [p.replace('"', "") for p in parts]
@@ -58,6 +59,7 @@ def process(fn, **kwargs):
                 chrom["uts"] = ret.pop("uts")
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:
+            chrom["detectors"].append(parts[0].replace('"', ""))
             if trace != {"x": [], "y": []}:
                 chrom["traces"].append(trace)
                 trace = {"x": [], "y": []}

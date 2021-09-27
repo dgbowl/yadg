@@ -1,46 +1,49 @@
 import numpy as np
 
-def _list_validator(l):
+def _list_validator(l: list) -> bool:
     if len(l) == 3:
         return _float_list(l)
     else:
         return _general_list(l)
 
-def _float_list(l):
+def _float_list(l: list) -> bool:
     if (isinstance(l[0], (float, np.inexact, complex)) and \
         isinstance(l[1], (float, np.inexact, complex)) and isinstance(l[2], str)): 
         return True
     else:
         return _general_list(l)
 
-def _general_list(l):
+def _general_list(l: list) -> bool:
     for v in l:
         if isinstance(v, list):
-            assert _list_validator(v)
+            return _list_validator(v)
         elif isinstance(v, dict):
-            assert _dict_validator(v)
+            return _dict_validator(v)
         else:
             assert isinstance(v, str) or isinstance(v, (int, np.integer)), \
                 "List elements have to be one of [str, int, dict, list], " \
                 f"but entry id:{l.index(v)}:{type(v)} is neither: {l}"
     return True
 
-def _dict_validator(d):
+def _dict_validator(d: dict) -> bool:
     for k, v in d.items():
         if isinstance(v, (float, np.inexact)):
             assert k == "uts", \
                 f"Only 'uts':float can be a float entry, not '{k}'."
         elif isinstance(v, list):
-            assert _list_validator(v)
+            return _list_validator(v)
         elif isinstance(v, dict):
-            assert _dict_validator(v)
+            return _dict_validator(v)
         else:
             assert isinstance(v, str) or isinstance(v, (int, np.integer)), \
                 "Dict elements have to be one of [str, int, dict, list], " \
                 f"but '{k}':{type(v)} is neither: {v}"
     return True
 
-def object_is_datagram(dg):
+def object_is_datagram(dg: dict):
+    """
+    Testing function for datagram structure and values.
+    """
     # top level tests
     assert isinstance(dg, dict), \
         "Datagram must be a dict."

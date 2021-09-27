@@ -12,9 +12,10 @@ from parsers import dummy, basiccsv, qftrace, gctrace
 from helpers.version import _VERSION
 from helpers import dateutils
 import dgutils
+from typing import Union, Callable
 
 
-def _infer_datagram_handler(datagramtype):
+def _infer_datagram_handler(datagramtype: str) -> Callable:
     """
     Helper function to distribute work to parsers.
 
@@ -31,7 +32,7 @@ def _infer_datagram_handler(datagramtype):
     if datagramtype == "basiccsv":
         return basiccsv.process
 
-def schema_validator(schema, permissive = False):
+def schema_validator(schema: Union[list, tuple], permissive: bool = False):
     """
     Schema validator. 
     
@@ -54,10 +55,10 @@ def schema_validator(schema, permissive = False):
 
     Parameters
     ----------
-    schema : list, tuple
+    schema
         The schema to be validated.
     
-    permissive : bool, optional
+    permissive
         When `True`, the files will not be checked for IO errors. Folders are 
         always checked.
     """
@@ -140,7 +141,7 @@ def schema_validator(schema, permissive = False):
                                       "to be column index (int), or a tuple/list "
                                       "with a column index (int) and format (string).")
                     
-def _infer_todo_files(importdict):
+def _infer_todo_files(importdict: dict) -> list:
     """
     File enumerator function.
 
@@ -150,14 +151,14 @@ def _infer_todo_files(importdict):
 
     Parameters
     ----------
-    importdict : dict
+    importdict
         Dictionary describing the paths to process. A valid schema has to contain 
         one, and only one, of the following keys: "folders", "files". Additional 
         keys that are processed here are "prefix", "suffix", and "contains".
 
     Returns
     -------
-    todofiles : list
+    todofiles
         A sorted list of paths which match the `importdict` spec.
     """
     todofiles = []
@@ -173,7 +174,7 @@ def _infer_todo_files(importdict):
             todofiles.append(path)
     return sorted(todofiles)
 
-def process_schema(schema):
+def process_schema(schema: Union[list, tuple]) -> dict:
     """
     Main worker function of `yadg`. 
     
@@ -183,12 +184,12 @@ def process_schema(schema):
 
     Parameters
     ----------
-    schema : list
+    schema
         A fully validated schema
 
     Returns
     -------
-    datagram : dict
+    datagram
         A fully qualified datagram, including toplevel metadata.
     """
     datagram = {
@@ -236,7 +237,7 @@ def process_schema(schema):
                 json.dump(datagram, ofile, indent=1)
     return datagram
 
-def _parse_arguments():
+def _parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(usage = """
         %(prog)s [options] --schemafile [schemafile]
         %(prog)s [options] --preset [preset] --folder [folder]
@@ -297,5 +298,3 @@ def run():
     if args.dump:
         with open(args.dump, "w") as ofile:
             json.dump(datagram, ofile, indent=1)
-
-            

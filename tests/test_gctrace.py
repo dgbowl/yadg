@@ -39,26 +39,23 @@ def datagram_from_gctrace(input, datadir):
     return core.process_schema(schema)
 
 @pytest.mark.parametrize("input, ts", [
-    #({"prefix": "2019-12-03", "suffix": "dat.asc", 
-    #  "parameters": {"tracetype": "datasc", "calfile": "gc_5890_FHI.json"},},
-    # {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "polyarc+TCD_PK_09b.met", "xout": {"propane": 0.022, "N2": 0.915}}),  
-    #({"prefix": "CHROMTAB", "suffix": "CSV", 
-    #  "parameters": {"tracetype": "chromtab", "calfile": "gc_chromtab.json"},},
-    # {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),   
-    #({"prefix": "CHROMTAB", "suffix": "CSV", 
-    #  "parameters": {"tracetype": "chromtab", "species": gctrace_chromtab["sp"], "detectors": gctrace_chromtab["det"]},},
-    # {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),    
+    ({"prefix": "2019-12-03", "suffix": "dat.asc", 
+      "parameters": {"tracetype": "datasc", "calfile": "gc_5890_FHI.json"},},
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "polyarc+TCD_PK_09b.met", "xout": {"propane": 0.022, "N2": 0.915}}),  
+    ({"prefix": "CHROMTAB", "suffix": "CSV", 
+      "parameters": {"tracetype": "chromtab", "calfile": "gc_chromtab.json"},},
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),   
+    ({"prefix": "CHROMTAB", "suffix": "CSV", 
+      "parameters": {"tracetype": "chromtab", "species": gctrace_chromtab["sp"], "detectors": gctrace_chromtab["det"]},},
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),    
     ({"prefix": "", "suffix": "fusion-data", 
-      "parameters": {"tracetype": "fusion", "calfile": "gc_fusion.json"},},
-     {"nsteps": 1, "step": 0, "ntsteps": 5, "method": "n/a", "xout": {"N2": 0.74}}),    
+      "parameters": {"tracetype": "fusion", "calfile": "gc_fusion.json"}},
+     {"nsteps": 1, "step": 0, "ntsteps": 5, "method": "AS_Cal_20210702", "xout": {}}),    
 ])
 def test_datagram_from_gctrace(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_gctrace(input, datadir)
     object_is_datagram(ret)
-    for ts in ret["data"][0]["timesteps"]:
-        print(ts["peaks"]["TCD1"].get("H2", ""))
-    assert False
     assert len(ret["data"]) == ts["nsteps"]
     step = ret["data"][ts["step"]]
     assert step["metadata"]["gcparams"]["method"].endswith(ts["method"])

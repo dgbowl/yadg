@@ -7,7 +7,9 @@ def process(fn, **kwargs):
 
     One chromatogram per file with multiple traces. A header section
     is followed by y-values for each trace. x-values have to be 
-    deduced using number of points, frequency, and x-multiplier.
+    deduced using number of points, frequency, and x-multiplier. Method name
+    is available, but detector names are not - they are assigned their numerical
+    index in the file.
     """
     with open(fn, "r", encoding="utf8",  errors='ignore') as infile:
         lines = infile.readlines()
@@ -16,7 +18,7 @@ def process(fn, **kwargs):
         "gcparams": {}
     }
     common = {}
-    chrom = {"fn": fn, "traces": []}
+    chrom = {"fn": fn, "traces": [], "detectors": []}
     _, datefunc = dateutils._infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%m/%d/%Y %H:%M:%S %p"]})
     
@@ -64,6 +66,7 @@ def process(fn, **kwargs):
         assert xunits[ti] == "Minutes", \
             logging.error(f"datasc: X units label of trace {ti} in {fn} "
                           "was not understood.")
+        chrom["detectors"].append(f"{ti}")
         dt = 60
         xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si:si+npoints[ti]]]

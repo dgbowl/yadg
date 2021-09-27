@@ -3,31 +3,13 @@ import logging
 import json
 import numpy as np
 
-def _process_headers(headers, columns):
-    res = {}
-    _, datefunc = dateutils._infer_timestamp_from([], 
-                            spec = {"timestamp": [0, "%d %b %Y %H:%M"]})
-    assert len(headers) == len(columns), \
-        logging.error(f"chromtab: The number of headers and columns "
-                      f"do not match on line {lines.index(line)} of file {fn}.")
-    assert "Date Acquired" in headers, \
-        logging.error("chromtab: Cannot infer date.")
-    res["uts"] = datefunc(columns[headers.index("Date Acquired")].strip())
-    fn = ""
-    if "Path" in headers:
-        fn += columns[headers.index("Path")]
-    if "File" in headers:
-        fn += columns[headers.index("File")]
-    res["datafile"] = fn
-    if "Sample" in headers:
-        res["sampleid"] = columns[headers.index("Sample")]
-    return res
-
 def process(fn, **kwargs):
     """
     Fusion json format.
 
     One chromatogram per file with multiple traces, and pre-analysed results.
+    Only a subset of the metadata is retained, including the method name,
+    detector names, and information about assigned peaks.
     """
     with open(fn, "r", encoding="utf8", errors="ignore") as infile:
         jsdata = json.load(infile)
@@ -35,7 +17,13 @@ def process(fn, **kwargs):
     metadata = {
         "type": "gctrace.fusion",
         "gcparams": {
-            "method": jsdata.get("methodName", "")
+            "method": jsdata.get("methodName", ""),
+            "sampleid": jsdata.get("annotations", {}).get("name", ""),
+            "valve": {
+                "valvename": jsdata.get("annotations", {}).get("valcoPositionName", ""),
+                "valveid": jsdata.get("annotations", {}).get("valcoPosition", None)
+            },
+            "version": jsdata.get("softwareVersion", {}).get("version", "")
         }
     }
     common = {}
@@ -44,9 +32,10 @@ def process(fn, **kwargs):
     chrom = {
         "fn": str(fn), 
         "traces": [],
-        "uts": datefunc(jsdata["runTimeStamp"].split(".")[0])
+        "uts": datefunc(jsdata["runTimeStamp"].split(".")[0]),
+        "detectors": sorted(jsdata["detectors"].keys())
     }
-    for detname in sorted(jsdata["detectors"].keys()):
+    for detname in chrom["detectors"]:
         detdict = jsdata["detectors"][detname]
         trace = {"x": [], "y": []}
         xmul = detdict["nValuesPerSecond"]
@@ -57,7 +46,21 @@ def process(fn, **kwargs):
         xtol = 0.5 * 1/xmul
         trace["x"] = [[x, xtol, "s"] for x in xs]
         trace["y"] = [[float(y), 1.0, "-"] for y in detdict["values"]]
+        if "analysis" in detdict:
+            trace["peaks"] = {}
+            for peak in detdict["analysis"]["peaks"]:
+                if "label" not in peak:
+                    continue
+                if "baselinePoints" in peak:
+                    nbp = peak["baselinePoints"]["start"] - peak["baselinePoints"]["end"]
+                else:
+                    nbp = 0
+                h = [float(peak.get("height", 0.0)), 0.5, "-"]
+                A = [float(peak.get("area", 0.0)), 0.5 * nbp, "-"]
+                c = [float(peak.get("concentration", 0.0)), 0.0, "vol%"]
+                trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
         chrom["traces"].append(trace)
+        
     return [chrom], metadata, common
     
 

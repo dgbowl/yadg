@@ -1,7 +1,7 @@
 from helpers import dateutils
 import logging
 
-def process(fn, **kwargs):
+def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.
 

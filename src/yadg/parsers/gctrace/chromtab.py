@@ -1,7 +1,7 @@
 from helpers import dateutils
 import logging
 
-def _process_headers(headers, columns):
+def _process_headers(headers: list, columns: list) -> dict:
     res = {}
     _, datefunc = dateutils._infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%d %b %Y %H:%M"]})
@@ -21,7 +21,7 @@ def _process_headers(headers, columns):
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn, **kwargs):
+def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 

@@ -3,7 +3,7 @@ import logging
 import json
 import numpy as np
 
-def process(fn, **kwargs):
+def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     Fusion json format.
 

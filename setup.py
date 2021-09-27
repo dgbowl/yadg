@@ -35,7 +35,8 @@ setuptools.setup(
         "scipy",
         "uncertainties",
         "peakutils",
-        "pytest"
+        "pytest",
+        "sphinx"
     ],
     entry_points = {
         "console_scripts": [

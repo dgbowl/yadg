@@ -34,7 +34,7 @@ def datadir(tmpdir, request):
 
 def datagram_from_basiccsv(input, datadir):
     schema = [{
-        "datagram": "basiccsv",
+        "parser": "basiccsv",
         "import": {"files": [datadir.join(input["case"])]},
         "parameters": input.get("parameters", {})
     }]

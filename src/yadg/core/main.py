@@ -3,59 +3,96 @@ import json
 import sys
 import os
 import logging
-
-#import gctrace
-#import qftrace
-#import meascsv
+from typing import Union, Callable
 
 from parsers import dummy, basiccsv, qftrace, gctrace
 from helpers.version import _VERSION
 from helpers import dateutils
 import dgutils
-from typing import Union, Callable
 
-
-def _infer_datagram_handler(datagramtype: str) -> Callable:
+def _infer_datagram_handler(parser: str) -> Callable:
     """
-    Helper function to distribute work to parsers.
+    Helper function to distribute work to `parser`s.
 
-    Add your parser here.
+    Add your `parser` here.
     """
-    if datagramtype == "gctrace":
+    if parser == "gctrace":
         return gctrace.process
-    if datagramtype == "qftrace":
+    if parser == "qftrace":
         return qftrace.process
     #if datagramtype == "meascsv":
     #    return meascsv.process
-    if datagramtype == "dummy":
+    if parser == "dummy":
         return dummy.process
-    if datagramtype == "basiccsv":
+    if parser == "basiccsv":
         return basiccsv.process
 
-def schema_validator(schema: Union[list, tuple], permissive: bool = False):
+def _infer_todo_files(importdict: dict) -> list:
+    """
+    File enumerator function.
+
+    This function enumerates all paths to be processed by yadg using the "import"
+    key within a schema step. Currently, the specification allows for folders,
+    files or paths.
+
+    Parameters
+    ----------
+    importdict
+        A (dict) describing the paths to process. A valid schema has to contain 
+        one, and only one, of the following keys: ``"folders"``, ``"files"``. 
+        Additional keys that are processed here are ``"prefix"``, ``"suffix"``, 
+        and ``"contains"``.
+
+    Returns
+    -------
+    todofiles
+        A sorted list of paths which match the ``importdict`` spec.
+    """
+    todofiles = []
+    if "folders" in importdict:
+        for folder in importdict["folders"]:
+            for fn in os.listdir(folder):
+                if fn.startswith(importdict.get("prefix", "")) and \
+                   fn.endswith(importdict.get("suffix", "")) and \
+                   importdict.get("contains", "") in fn: 
+                    todofiles.append(os.path.join(folder, fn))
+    if "files" in importdict:
+        for path in importdict["files"]:
+            todofiles.append(path)
+    return sorted(todofiles)
+
+def schema_validator(schema: Union[list, tuple], strictfiles: bool = False) -> True:
     """
     Schema validator. 
     
-    Checks the overall schema format, checks every schema step for required keys,
-    and checks whether required parameters for datagrams are provided.
+    Checks the overall `schema` format, checks every `step` of the `schema` for 
+    required entries, and checks whether required parameters for each `parser` 
+    are provided.
 
-    The conditions are:
+    The specification is:
     
-    - schema has to be a list or a tuple
-    - each element of this list is a dict, called step
-    - each step has to have a "datagram" and "import" entry:
+    - The `schema` has to be (Union[list, tuple])
+    - Each element of this parent list is a `step` (dict)
+    - Each `step` has to have the ``"parser"`` and ``"import"`` entries:
     
-      - the `"datagram"` entry has to be a string containing the requested parser
-      - the `"import"` entry has to be a dictionary containing:
+      - The ``"parser"`` (str) entry has contain the name of the requested 
+        parser module. This entry is processed in the :meth:`_infer_datagram_handler`
+        function in this module.
+      - The ``"import"`` (dict) entry has to contain:
       
-        - exactly one entry out of `"files"`, `"folders"`, or `"paths"`
-        - any of `"prefix"`, `"suffix"`, `"contains"` entries
+        - Exactly **one** entry out of ``"files"``, ``"folders"``, or ``"paths"``.
+          This entry must be a (list) even if only one element is provided. 
+        - Any combination of ``"prefix"``, ``"suffix"``, ``"contains"`` entries,
+          which must be a (str). These entries specify the matching of files 
+          within folders accordingly.
         
-    - other allowed entries are:
+    - The only other allowed entries are:
     
-      - `"tag"` (str) for step tagging,
-      - `"export"` (str) for step export,
-      - `"parameters"` (dict) for specifying other parameters for the parser:
+      - ``"tag"`` (str): for defining a tag for each `step`; by default assigned
+        the numerical index of the `step` within the `schema`.
+      - ``"export"`` (str): for `step` export; if the processed `step` should be
+        exported as a ``json`` file which is kept available for other `step`\ s
+      - ``"parameters"`` (dict): for specifying other parameters for the parser.
       
     - no other entries are permitted
 
@@ -64,15 +101,20 @@ def schema_validator(schema: Union[list, tuple], permissive: bool = False):
     schema
         The schema to be validated.
     
-    permissive
+    strictfiles
         When `True`, the files will not be checked for IO errors. Folders are 
         always checked.
+    
+    Returns
+    -------
+    True: bool
+        When the `schema` is valid and passes all assertions, `True` is returned.
     """
     # schema has to be a list or a tuple
     assert isinstance(schema, (list, tuple)), \
         logging.error("schema_validator: Provided schema is neither list nor a tuple.")
     requiredkeys = {
-        "datagram": {
+        "parser": {
             "one": ["dummy", "basiccsv", "qftrace", "gctrace"],
             "any": []
         }, 
@@ -112,7 +154,7 @@ def schema_validator(schema: Union[list, tuple], permissive: bool = False):
         # validate "import" spec
         if "paths" in step["import"]:
             step["import"]["files"] = step["import"].pop("paths")
-        if "files" in step["import"] and not permissive:
+        if "files" in step["import"] and not strictfiles:
             for path in step["import"]["files"]:
                 assert os.path.exists(path) and os.path.isfile(path), \
                     logging.error(f"schema_validator: File {path} specified in "
@@ -146,43 +188,11 @@ def schema_validator(schema: Union[list, tuple], permissive: bool = False):
                         logging.error("schema_validator: timestamp specification has"
                                       "to be column index (int), or a tuple/list "
                                       "with a column index (int) and format (string).")
+    return True
                     
-def _infer_todo_files(importdict: dict) -> list:
-    """
-    File enumerator function.
-
-    This function enumerates all paths to be processed by yadg using the "import"
-    key within a schema step. Currently, the specification allows for folders,
-    files or paths.
-
-    Parameters
-    ----------
-    importdict
-        Dictionary describing the paths to process. A valid schema has to contain 
-        one, and only one, of the following keys: "folders", "files". Additional 
-        keys that are processed here are "prefix", "suffix", and "contains".
-
-    Returns
-    -------
-    todofiles
-        A sorted list of paths which match the `importdict` spec.
-    """
-    todofiles = []
-    if "folders" in importdict:
-        for folder in importdict["folders"]:
-            for fn in os.listdir(folder):
-                if fn.startswith(importdict.get("prefix", "")) and \
-                   fn.endswith(importdict.get("suffix", "")) and \
-                   importdict.get("contains", "") in fn: 
-                    todofiles.append(os.path.join(folder, fn))
-    if "files" in importdict:
-        for path in importdict["files"]:
-            todofiles.append(path)
-    return sorted(todofiles)
-
 def process_schema(schema: Union[list, tuple]) -> dict:
     """
-    Main worker function of `yadg`. 
+    Main worker function of **yadg**. 
     
     Takes in a validated `schema` as an argument and returns a single annotated 
     `datagram` created from the `schema`. It is the job of the user to supply
@@ -195,7 +205,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
 
     Returns
     -------
-    dict
+    datagram: dict
         A fully qualified datagram, including toplevel metadata.
     """
     datagram = {
@@ -213,7 +223,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
         common = {}
         timesteps = []
         logging.info(f'process_schema: processing step {schema.index(step)}:')
-        handler = _infer_datagram_handler(step["datagram"])
+        handler = _infer_datagram_handler(step["parser"])
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:
             logging.warning(f"process_schema: No files processed by step {step['tag']}")
@@ -281,11 +291,14 @@ def run():
     """
     Main execution function.
 
-    This is the function executed when `yadg` is launched using the executable
-    or via `python yadg.py`. The function 1) processes the command line 
-    arguments, 2) loads or composes the `schema`, 3) validates the `schema`,
-    4) processess the `schema` into a `datagram`, and 5) saves the `datagram`
-    according to the input.
+    This is the function executed when **yadg** is launched using the executable
+    or via `python yadg.py`. The function: 
+    
+      1) processes the command line arguments into ``args``, 
+      2) loads or composes the `schema` based on ``args``, 
+      3) validates the `schema`,
+      4) processes the `schema` into a `datagram`, and 
+      5) saves the `datagram` into a ``json`` file according to the ``args``.
 
     """
     args = _parse_arguments()

@@ -47,21 +47,22 @@ def object_is_datagram(dg: dict):
     # top level tests
     assert isinstance(dg, dict), \
         "Datagram must be a dict."
-    assert len(set(["metadata", "data"]) & set(dg.keys())) == 2 and \
+    assert len({"metadata", "data"}.intersection(dg.keys())) == 2 and \
         isinstance(dg["metadata"], dict) and isinstance(dg["data"], list), \
         "Datagram must have 'metadata':dict and 'data':list entries."
     # metadata contents
-    assert len(set(["yadg", "date"]) & set(dg["metadata"].keys())) == 2 and \
+    assert len({"yadg", "date"}.intersection(dg["metadata"].keys())) == 2 and \
         isinstance(dg["metadata"]["yadg"], dict) and isinstance(dg["metadata"]["date"], str), \
         "Top-level 'metadata' entry must contain the entries 'yadg':dict and 'date':str."
     # data contents
     for step in dg["data"]:
         keys = step.keys()
-        assert len(set(["metadata", "timesteps"]) & set(keys)) == 2 and \
+        assert len({"metadata", "timesteps"}.intersection(keys)) == 2 and \
             isinstance(step["metadata"], dict) and isinstance(step["timesteps"], list) and \
             (("common" in keys and len(keys) == 3 and isinstance(step["common"], dict)) or (len(keys) == 2)), \
             "Each step has to have a 'metadata':dict and 'timesteps':list entries," \
             "additionally a 'common':dict entry is allowed."
+        print(all(["fn" in ts for ts in step["timesteps"]]))
         assert ("fn" in step["metadata"] and isinstance(step["metadata"]["fn"], str)) ^ \
             (all(["fn" in ts for ts in step["timesteps"]]) and \
              all([isinstance(ts["fn"], str) for ts in step["timesteps"]])), \

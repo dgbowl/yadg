@@ -1,8 +1,8 @@
-dummy_1 = {"datagram": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}
-dummy_2 = {"datagram": "dummy", "import": {"paths": ["dummy_schema_2.json"]}}
-dummy_3 = {"datagram": "dummy", "import": {"folders": ["."], "contains": "schema"}}
-dummy_4 = {"datagram": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
-dummy_5 = {"datagram": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
+dummy_1 = {"parser": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}
+dummy_2 = {"parser": "dummy", "import": {"paths": ["dummy_schema_2.json"]}}
+dummy_3 = {"parser": "dummy", "import": {"folders": ["."], "contains": "schema"}}
+dummy_4 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
+dummy_5 = {"parser": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
 
 gctrace_chromtab = {
     "det":  {

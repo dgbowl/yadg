@@ -29,7 +29,7 @@ def datadir(tmpdir, request):
 
 def datagram_from_qftrace(input, datadir):
     schema = [{
-        "datagram": "qftrace",
+        "parser": "qftrace",
         "import": {"folders": [datadir]},
         "parameters": input.get("parameters", {})
     }]

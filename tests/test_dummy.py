@@ -43,20 +43,26 @@ def datagram_from_schema_dict(inp_dict):
     core.schema_validator(schema)
     return core.process_schema(schema)
 
-@pytest.mark.parametrize("inp_dict, l_dg, l_res", [pytest.param(dummy_1, 1, 0, marks=pytest.mark.xfail), 
-                        (dummy_2, 1, 1),(dummy_3, 1, 2), (dummy_4, 1, 2),(dummy_5, 1, 1)])
+@pytest.mark.parametrize("inp_dict, l_dg, l_res", [
+    (dummy_1, 1, 0),
+    (dummy_2, 1, 1),
+    (dummy_3, 1, 2), 
+    (dummy_4, 1, 2),
+    (dummy_5, 1, 1)
+])
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_dict(inp_dict)
+    print(ret)
     object_is_datagram(ret)
     assert len(ret["data"]) == l_dg
     if l_dg > 0:
         assert len(ret["data"][0]["timesteps"]) == l_res
 
-@pytest.mark.parametrize("inp_fn, ts", [("dummy_schema_1.json", 
-                                         {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
-                                        ("dummy_schema_2.json", 
-                                         {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}})])
+@pytest.mark.parametrize("inp_fn, ts", [
+    ("dummy_schema_1.json", {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
+    ("dummy_schema_2.json", {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}})
+])
 def test_datagram_from_schema_file(inp_fn, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_file(inp_fn, datadir)

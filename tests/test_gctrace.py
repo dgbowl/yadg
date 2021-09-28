@@ -29,7 +29,7 @@ def datadir(tmpdir, request):
 
 def datagram_from_gctrace(input, datadir):
     schema = [{
-        "datagram": "gctrace",
+        "parser": "gctrace",
         "import": {"folders": ["."], 
                    "prefix": input["prefix"],
                    "suffix": input["suffix"]},

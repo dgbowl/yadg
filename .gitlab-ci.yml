@@ -11,6 +11,7 @@ image: python:latest
 stages:
   - build
   - test
+  - pages
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -54,13 +55,13 @@ test:
     - pip install dist/*
     - pytest
 
-#pages:
-#  script:
-#    - pip install sphinx sphinx-rtd-theme
-#    - cd doc ; make html
-#    - mv build/html/ ../public/
-#  artifacts:
-#    paths:
-#      - public
-#  rules:
-#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+pages:
+  stage: pages
+  only:
+    - master
+  script:
+    - pip install sphinx sphinx-rtd-theme
+    - sphinx-build -b html docs/source public
+  artifacts:
+    paths:
+      - public

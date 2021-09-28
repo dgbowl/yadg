@@ -36,7 +36,8 @@ setuptools.setup(
         "uncertainties",
         "peakutils",
         "pytest",
-        "sphinx"
+        "sphinx",
+        "sphinx-autodoc-typehints"
     ],
     entry_points = {
         "console_scripts": [

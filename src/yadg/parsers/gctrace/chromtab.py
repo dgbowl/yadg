@@ -1,9 +1,9 @@
-from helpers import dateutils
 import logging
+import dgutils
 
 def _process_headers(headers: list, columns: list) -> dict:
     res = {}
-    _, datefunc = dateutils._infer_timestamp_from([], 
+    _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%d %b %Y %H:%M"]})
     assert len(headers) == len(columns), \
         logging.error(f"chromtab: The number of headers and columns "

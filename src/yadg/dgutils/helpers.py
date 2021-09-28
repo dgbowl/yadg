@@ -1,5 +1,5 @@
 import sys
-from helpers.version import _VERSION
+from dgutils.version import _VERSION
 
 def _yadg_metadata():
     metadata = {

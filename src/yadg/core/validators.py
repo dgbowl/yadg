@@ -43,22 +43,43 @@ def _dict_validator(d: dict) -> bool:
                 f"but '{k}':{type(v)} is neither: {v}"
     return True
 
-def validate_datagram(dg: dict) -> True:
+def validate_datagram(datagram: dict) -> True:
     """
-    Testing function for datagram structure and values.
+    Datagram validator.
+
+    Checks the overall `datagram` format using a series of assertions.
+
+    The current `datagram` specification is:
+
+    -  The `datagram` must be a (dict) with two entries:
+
+       - ``"metadata"`` (dict): A top-level entry containing metadata. 
+       - ``"data"`` (list): List corresponding to a sequence of `step`\ s.
+
+    Parameters
+    ----------
+    datagram
+        The `datagram` to be validated.
+    
+    Returns
+    -------
+    True: bool
+        If the `datagram` passes all assertions, returns `True`. Else,
+        an AssertionError is raised.
+
     """
     # top level tests
-    assert isinstance(dg, dict), \
+    assert isinstance(datagram, dict), \
         "Datagram must be a dict."
-    assert len({"metadata", "data"}.intersection(dg.keys())) == 2 and \
-        isinstance(dg["metadata"], dict) and isinstance(dg["data"], list), \
+    assert len({"metadata", "data"}.intersection(datagram.keys())) == 2 and \
+        isinstance(datagram["metadata"], dict) and isinstance(datagram["data"], list), \
         "Datagram must have 'metadata':dict and 'data':list entries."
     # metadata contents
-    assert len({"yadg", "date"}.intersection(dg["metadata"].keys())) == 2 and \
-        isinstance(dg["metadata"]["yadg"], dict) and isinstance(dg["metadata"]["date"], str), \
+    assert len({"yadg", "date"}.intersection(datagram["metadata"].keys())) == 2 and \
+        isinstance(datagram["metadata"]["yadg"], dict) and isinstance(datagram["metadata"]["date"], str), \
         "Top-level 'metadata' entry must contain the entries 'yadg':dict and 'date':str."
     # data contents
-    for step in dg["data"]:
+    for step in datagram["data"]:
         keys = step.keys()
         assert len({"metadata", "timesteps"}.intersection(keys)) == 2 and \
             isinstance(step["metadata"], dict) and isinstance(step["timesteps"], list) and \
@@ -90,7 +111,8 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = False) -> Tr
     
     Checks the overall `schema` format, checks every `step` of the `schema` for 
     required entries, and checks whether required parameters for each `parser` 
-    are provided.
+    are provided. The validator additionally fills in optional parameters, where
+    necessary for a valid `schema`.
 
     The specification is:
     
@@ -125,8 +147,9 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = False) -> Tr
         The schema to be validated.
     
     strictfiles
-        When `True`, the files will not be checked for IO errors. Folders are 
-        always checked.
+        When `True`, any files specified using the ``"files"`` option will not 
+        be checked for existence. Note that folders (specified via ``"folders"``) 
+        are always checked.
     
     Returns
     -------

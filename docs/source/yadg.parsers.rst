@@ -13,12 +13,16 @@ Subpackages
 Submodules
 ----------
 
+yadg.parsers.basiccsv module
+----------------------------
 
 .. automodule:: yadg.parsers.basiccsv
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.parsers.dummy module
+-------------------------
 
 .. automodule:: yadg.parsers.dummy
    :members:

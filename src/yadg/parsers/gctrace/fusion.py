@@ -1,7 +1,7 @@
-from helpers import dateutils
 import logging
 import json
 import numpy as np
+import dgutils
 
 def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
@@ -27,7 +27,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         }
     }
     common = {}
-    _, datefunc = dateutils._infer_timestamp_from([], 
+    _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%Y-%m-%dT%H:%M:%S"]})
     chrom = {
         "fn": str(fn), 

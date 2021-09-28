@@ -1,5 +1,5 @@
-from helpers import dateutils
 import logging
+import dgutils
 
 def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
@@ -19,7 +19,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     }
     common = {}
     chrom = {"fn": fn, "traces": [], "detectors": []}
-    _, datefunc = dateutils._infer_timestamp_from([], 
+    _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%m/%d/%Y %H:%M:%S %p"]})
     
     for line in lines:

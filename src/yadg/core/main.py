@@ -6,8 +6,6 @@ import logging
 from typing import Union, Callable
 
 from parsers import dummy, basiccsv, qftrace, gctrace
-from helpers.version import _VERSION
-from helpers import dateutils
 from core import validators
 import dgutils
 
@@ -73,17 +71,21 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     Parameters
     ----------
     schema
-        A fully validated schema
+        A fully validated `schema`. Use the function
+        :meth:`yadg.core.validators.validate_schema` to validate your `schema`.
 
     Returns
     -------
     datagram: dict
-        A fully qualified datagram, including toplevel metadata.
+        An unvalidated `datagram`. The `parser`\ s included in **yadg** should
+        return a valid `datagram`; any custom `parser`\ s might not do so. 
+        Use the function :meth:`yadg.core.validators.validate_datagram` to 
+        validate the resulting `datagram`.
     """
     datagram = {
         "metadata": {
             "yadg": dgutils._yadg_metadata(),
-            "date": dateutils.now(asstr=True)
+            "date": dgutils.now(asstr=True)
         },
         "data": []
     }

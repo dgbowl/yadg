@@ -90,4 +90,4 @@ inlet flow and GC data) that corresponds to the conditions at the end of each
 temperature ramp `step` highlighted above.
 
 Further information about the `schema` can be found in the documentation of the
-`schema` validator function: :meth:`yadg.core.main.schema_validator`.
+`schema` validator function: :meth:`yadg.core.validators.validate_schema`.

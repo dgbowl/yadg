@@ -11,3 +11,7 @@ experiment.
 
 .. include:: datagram.rst
 
+.. toctree::
+   :maxdepth: 3
+
+   modules

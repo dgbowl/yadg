@@ -9,10 +9,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 import logging
 from uncertainties import ufloat
-
-from helpers import *
-from parsers.gctrace import datasc, chromtab, fusion
 from typing import Union
+
+from parsers.gctrace import datasc, chromtab, fusion
+
 
 def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
     """

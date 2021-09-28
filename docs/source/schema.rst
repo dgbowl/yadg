@@ -1,5 +1,5 @@
-What is a `schema`:
-```````````````````
+What is a `schema`
+``````````````````
 A `schema` is an object defining the files and folders to be processed by 
 **yadg**, as well as the types of parsers and the parser options to be applied.
 One can think of a `schema` as a representation of a single experiment, containing
@@ -34,14 +34,15 @@ separate steps in the schema to process all of these files:
         }
     ]
 
-A valid `schema` is therefore a ``list``, with each `step` within that `schema`
-a ``dict``. In each `step`, the entries ``"datagram"`` and ``"import"`` have to
+A valid `schema` is therefore a :class:`list`, with each `step` within that `schema`
+a :class:`dict`. In each `step`, the entries ``"datagram"`` and ``"import"`` have to
 be specified, telling **yadg** which `parser` to use and which files or folders
 to process, respectively.
 
-Other allowed entries are: ``"tag"``, for a ``str`` tag of a certain
-`step`; ``"export"``, for individual exporting of `step`\ s; and ``"parameters"``,
-for specifying additional parameters for the `parser`.
+Other allowed entries are: ``"tag"``, for a :class:`str` tag of a certain
+`step`; ``"export"``, a :class:`str` defining the location for individual 
+export of `step`\ s; and ``"parameters"``, a :class:`dict` for specifying 
+additional parameters for the `parser`.
 
 However, a `schema` can contain more than one `step` with the same ``"datagram"``
 entry. This is valuable if one wants to split a certain timeseries into smaller
@@ -90,4 +91,4 @@ inlet flow and GC data) that corresponds to the conditions at the end of each
 temperature ramp `step` highlighted above.
 
 Further information about the `schema` can be found in the documentation of the
-`schema` validator function: :meth:`yadg.core.validators.validate_schema`.
+`schema` validator function: :func:`yadg.core.validators.validate_schema`.

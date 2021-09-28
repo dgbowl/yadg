@@ -116,28 +116,31 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = False) -> Tr
 
     The specification is:
     
-    - The `schema` has to be (Union[list, tuple])
-    - Each element of this parent list is a `step` (dict)
+    - The `schema` has to be a :class:`(Union[list, tuple])`
+    - Each element of this parent list is a `step`, of type :class:`(dict)`
     - Each `step` has to have the ``"parser"`` and ``"import"`` entries:
     
-      - The ``"parser"`` (str) entry has contain the name of the requested 
-        parser module. This entry is processed in the :meth:`_infer_datagram_handler`
-        function in this module.
-      - The ``"import"`` (dict) entry has to contain:
+      - The ``"parser"`` is a :class:`(str)` entry that has to contain the name 
+        of the requested parser module. This entry is processed in the 
+        :func:`yadg.core.main._infer_datagram_handler` function in the core module.
+      - The ``"import"`` is a :class:`(dict)` entry has to contain:
       
         - Exactly **one** entry out of ``"files"``, ``"folders"``, or ``"paths"``.
-          This entry must be a (list) even if only one element is provided. 
-        - Any combination of ``"prefix"``, ``"suffix"``, ``"contains"`` entries,
-          which must be a (str). These entries specify the matching of files 
-          within folders accordingly.
+          This entry must be a :class:`(list)` even if only one element is provided. 
+        - Any combination of ``"prefix"``, ``"suffix"``, ``"contains"`` entries.
+          They must be of type :class:`(str)`. These entries specify the matching 
+          of files within folders accordingly.
         
     - The only other allowed entries are:
     
-      - ``"tag"`` (str): for defining a tag for each `step`; by default assigned
-        the numerical index of the `step` within the `schema`.
-      - ``"export"`` (str): for `step` export; if the processed `step` should be
-        exported as a ``json`` file which is kept available for other `step`\ s
-      - ``"parameters"`` (dict): for specifying other parameters for the parser.
+      - ``"tag"`` :class:`(str)`: for defining a tag for each `step`; by default 
+        assigned the numerical index of the `step` within the `schema`.
+      - ``"export"`` :class:`(str)`: for exporting a single `step`; whether the 
+        processed `step` should be exported as a ``json`` file. This file is kept 
+        available for other `step`\ s, but will be removed at the end of `schema`
+        processing.
+      - ``"parameters"`` :class:`(dict)`: for specifying other parameters for 
+        each of the parsers.
       
     - no other entries are permitted
 

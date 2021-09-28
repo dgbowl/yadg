@@ -5,7 +5,6 @@ from distutils import dir_util
 import datetime
 
 from yadg import core
-from general import object_is_datagram
 
 # tests for the basiccsv module:
 #  - test_datagram_from_basiccsv:
@@ -38,7 +37,7 @@ def datagram_from_basiccsv(input, datadir):
         "import": {"files": [datadir.join(input["case"])]},
         "parameters": input.get("parameters", {})
     }]
-    core.schema_validator(schema)
+    assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
 @pytest.mark.parametrize("input, ts", [
@@ -77,8 +76,7 @@ def datagram_from_basiccsv(input, datadir):
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)
-    print(ret["data"][0]["metadata"])
-    object_is_datagram(ret)
+    assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     step = ret["data"][ts["step"]]["timesteps"]
     assert len(step) == ts["nrows"]

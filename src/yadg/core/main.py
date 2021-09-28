@@ -8,6 +8,7 @@ from typing import Union, Callable
 from parsers import dummy, basiccsv, qftrace, gctrace
 from helpers.version import _VERSION
 from helpers import dateutils
+from core import validators
 import dgutils
 
 def _infer_datagram_handler(parser: str) -> Callable:
@@ -60,135 +61,6 @@ def _infer_todo_files(importdict: dict) -> list:
         for path in importdict["files"]:
             todofiles.append(path)
     return sorted(todofiles)
-
-def schema_validator(schema: Union[list, tuple], strictfiles: bool = False) -> True:
-    """
-    Schema validator. 
-    
-    Checks the overall `schema` format, checks every `step` of the `schema` for 
-    required entries, and checks whether required parameters for each `parser` 
-    are provided.
-
-    The specification is:
-    
-    - The `schema` has to be (Union[list, tuple])
-    - Each element of this parent list is a `step` (dict)
-    - Each `step` has to have the ``"parser"`` and ``"import"`` entries:
-    
-      - The ``"parser"`` (str) entry has contain the name of the requested 
-        parser module. This entry is processed in the :meth:`_infer_datagram_handler`
-        function in this module.
-      - The ``"import"`` (dict) entry has to contain:
-      
-        - Exactly **one** entry out of ``"files"``, ``"folders"``, or ``"paths"``.
-          This entry must be a (list) even if only one element is provided. 
-        - Any combination of ``"prefix"``, ``"suffix"``, ``"contains"`` entries,
-          which must be a (str). These entries specify the matching of files 
-          within folders accordingly.
-        
-    - The only other allowed entries are:
-    
-      - ``"tag"`` (str): for defining a tag for each `step`; by default assigned
-        the numerical index of the `step` within the `schema`.
-      - ``"export"`` (str): for `step` export; if the processed `step` should be
-        exported as a ``json`` file which is kept available for other `step`\ s
-      - ``"parameters"`` (dict): for specifying other parameters for the parser.
-      
-    - no other entries are permitted
-
-    Parameters
-    ----------
-    schema
-        The schema to be validated.
-    
-    strictfiles
-        When `True`, the files will not be checked for IO errors. Folders are 
-        always checked.
-    
-    Returns
-    -------
-    True: bool
-        When the `schema` is valid and passes all assertions, `True` is returned.
-    """
-    # schema has to be a list or a tuple
-    assert isinstance(schema, (list, tuple)), \
-        logging.error("schema_validator: Provided schema is neither list nor a tuple.")
-    requiredkeys = {
-        "parser": {
-            "one": ["dummy", "basiccsv", "qftrace", "gctrace"],
-            "any": []
-        }, 
-        "import": {
-            "one": ["files", "folders", "paths"], 
-            "any": ["prefix", "suffix", "contains"]
-        }
-    }
-    for step in schema:
-        si = schema.index(step)
-        allowedkeys = {
-            "tag": f"{si:03d}", 
-            "export": None, 
-            "parameters": {}
-        }
-        # step in a schema has to be a dict
-        assert isinstance(step, dict), \
-            logging.error(f"schema_validator: Step {si} of schema is not a dict.")
-        # all required keys have to be in a step
-        assert len(set(requiredkeys.keys()) & set(step.keys())) == len(requiredkeys.keys()), \
-            logging.error(f"schema_validator: Step {si} does not contain all "
-                          f"required keys: {list(requiredkeys.keys())}")
-        for kreq, vreq in requiredkeys.items():
-            # exactly one of entries in "one" must be present
-            assert (isinstance(step[kreq], str) and step[kreq] in vreq["one"]) or \
-                   (isinstance(step[kreq], dict) and len(set(step[kreq]) & set(vreq["one"])) == 1), \
-                logging.error(f"schema_validator: More than one of exclusive "
-                              f"'{kreq}' entries from {vreq['one']} was provided.")
-            # additionally, only entries in "any" are present
-            if isinstance(step[kreq], dict):
-                for key in step[kreq]:
-                    if key in vreq["one"]:
-                        continue
-                    assert key in vreq["any"], \
-                        logging.error(f"schema_validator: Undefined entry {key} was"
-                                      f"supplied as a parameter for a required key {kreq}.")
-        # validate "import" spec
-        if "paths" in step["import"]:
-            step["import"]["files"] = step["import"].pop("paths")
-        if "files" in step["import"] and not strictfiles:
-            for path in step["import"]["files"]:
-                assert os.path.exists(path) and os.path.isfile(path), \
-                    logging.error(f"schema_validator: File {path} specified in "
-                                  f"'import' of step {si} is not a file.")
-        if "folders" in step["import"]:
-            for path in step["import"]["folders"]:
-                assert os.path.exists(path) and os.path.isdir(path), \
-                    logging.error(f"schema_validator: Folder {path} specified in "
-                                  f"'import' of step {si} is not a folder.")
-        # additionally, only entries in allowedkeys are permitted; fill defaults
-        for key, kdef in allowedkeys.items():
-            if key in step:
-                assert isinstance(step[key], type(kdef)) or step[key] is None, \
-                    logging.error(f"schema_validator: Step {si} contains {key} of "
-                                  f"the wrong type {type(step[key])}.")
-            if key not in step or step[key] is None:
-                step[key] = kdef
-        # validate supplied parameters
-        for key, val in step["parameters"].items():
-            # validation of "timestamp" spec
-            if key == "timestamp":
-                assert isinstance(val, dict), \
-                    logging.error(f"schema_validator: Value of {key} in 'parameters'"
-                                  f" of step {si} is not a dict.")
-                allowedtimestamps = ["uts", "timestamp", "date", "time"]
-                for k, v in val.items():
-                    assert k in allowedtimestamps, \
-                        logging.error("schema_validator: timestamp has to be one of "
-                                      f"{allowedtimestamps}, not {k}.")
-                    assert (isinstance(v, (tuple, list)) and len(v) == 2) or isinstance(v, int), \
-                        logging.error("schema_validator: timestamp specification has"
-                                      "to be column index (int), or a tuple/list "
-                                      "with a column index (int) and format (string).")
-    return True
                     
 def process_schema(schema: Union[list, tuple]) -> dict:
     """
@@ -311,7 +183,7 @@ def run():
                          "is not yet implemented.")
         sys.exit()
     
-    schema_validator(schema, args.permissive)
+    assert validators.validate_schema(schema, args.permissive)
     
     datagram = process_schema(schema)
     if args.dump:

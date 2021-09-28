@@ -1,11 +1,8 @@
 import pytest
 import os
-import json
 from distutils import dir_util
-import datetime
 
 from yadg import core
-from general import object_is_datagram
 
 # tests for the basiccsv module:
 #  - test_datagram_from_qftrace:
@@ -33,11 +30,10 @@ def datagram_from_qftrace(input, datadir):
         "import": {"folders": [datadir]},
         "parameters": input.get("parameters", {})
     }]
-    core.schema_validator(schema)
+    assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
 @pytest.mark.parametrize("input, ts", [
-    
     ({"parameters": {"method": "naive"}},
      {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
       "npeaks": 2, "peak": 0, "Q": 2626.506, "f": 7173245000.0}),  
@@ -56,7 +52,7 @@ def datagram_from_qftrace(input, datadir):
 ])
 def test_datagram_from_qftrace(input, ts, datadir):
     ret = datagram_from_qftrace(input, datadir)
-    object_is_datagram(ret)
+    assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     step = ret["data"][ts["step"]]
     assert len(step["timesteps"]) == ts["ntimesteps"]

@@ -4,7 +4,6 @@ import json
 from distutils import dir_util
 
 from yadg import core
-from general import object_is_datagram
 from schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
 
 # tests for the dummy module:
@@ -35,12 +34,12 @@ def datagram_from_schema_file(inp_fn, datadir):
     jsonpath = datadir.join(inp_fn)
     with open(jsonpath, "r") as infile:
         schema = json.load(infile)
-    core.schema_validator(schema)
+    assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
 def datagram_from_schema_dict(inp_dict):
     schema = [inp_dict]
-    core.schema_validator(schema)
+    assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
 @pytest.mark.parametrize("inp_dict, l_dg, l_res", [
@@ -53,8 +52,7 @@ def datagram_from_schema_dict(inp_dict):
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_dict(inp_dict)
-    print(ret)
-    object_is_datagram(ret)
+    assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == l_dg
     if l_dg > 0:
         assert len(ret["data"][0]["timesteps"]) == l_res
@@ -66,6 +64,6 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
 def test_datagram_from_schema_file(inp_fn, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_schema_file(inp_fn, datadir)
-    object_is_datagram(ret)
+    assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["kwargs"] == ts["kwargs"]

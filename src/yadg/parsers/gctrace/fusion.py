@@ -33,9 +33,12 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         "fn": str(fn), 
         "traces": [],
         "uts": datefunc(jsdata["runTimeStamp"].split(".")[0]),
-        "detectors": sorted(jsdata["detectors"].keys())
+        "detectors": {}
     }
-    for detname in chrom["detectors"]:
+    detid = 0
+    for detname in sorted(jsdata["detectors"].keys()):
+        chrom["detectors"][detname] = {"id": detid}
+        detid += 1
         detdict = jsdata["detectors"][detname]
         trace = {"x": [], "y": []}
         xmul = detdict["nValuesPerSecond"]

@@ -245,6 +245,9 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
         peaks = {}
         comp = []
         for detname, spec in gcspec.items():
+            for det in chrom["detectors"].keys():
+                if chrom["detectors"][det]["id"] == spec["id"]:
+                    chrom["detectors"][det]["calname"] = detname
             units = {
                 "x": chrom["traces"][spec["id"]]["x"][0][2],
                 "y": chrom["traces"][spec["id"]]["y"][0][2]

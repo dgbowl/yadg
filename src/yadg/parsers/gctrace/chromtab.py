@@ -39,7 +39,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     }
     common = {}
     chroms = []
-    chrom = {"fn": fn, "traces": [], "detectors": []}
+    chrom = {"fn": fn, "traces": [], "detectors": {}}
     trace = {"x": [], "y": []}
     for li in range(len(lines)):
         line = lines[li].strip()
@@ -49,9 +49,9 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
                 if trace != {"x": [], "y": []}:
                     chrom["traces"].append(trace)
                     trace = {"x": [], "y": []}
-                if chrom != {"fn": fn, "traces": [], "detectors": []}:
+                if chrom != {"fn": fn, "traces": [], "detectors": {}}:
                     chroms.append(chrom)
-                    chrom = {"fn": fn, "traces": [], "detectors": []}
+                    chrom = {"fn": fn, "traces": [], "detectors": {}}
                 headers = [p.replace('"', "") for p in parts]
             else:
                 columns = [p.replace('"', "") for p in parts]
@@ -59,10 +59,10 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
                 chrom["uts"] = ret.pop("uts")
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:
-            chrom["detectors"].append(parts[0].replace('"', ""))
             if trace != {"x": [], "y": []}:
                 chrom["traces"].append(trace)
                 trace = {"x": [], "y": []}
+            chrom["detectors"][parts[0].replace('"', "")] = {"id": len(chrom["traces"])}
         elif len(parts) == 2:
             x, y = [float(i) for i in parts]
             tolx = 0.5 * 10**(-len(parts[0].split(".")[1].strip()))

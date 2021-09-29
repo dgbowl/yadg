@@ -18,7 +18,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         "gcparams": {}
     }
     common = {}
-    chrom = {"fn": fn, "traces": [], "detectors": []}
+    chrom = {"fn": fn, "traces": [], "detectors": {}}
     _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%m/%d/%Y %H:%M:%S %p"]})
     
@@ -66,7 +66,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         assert xunits[ti] == "Minutes", \
             logging.error(f"datasc: X units label of trace {ti} in {fn} "
                           "was not understood.")
-        chrom["detectors"].append(f"{ti}")
+        chrom["detectors"][f"{ti}"] = {"id": ti}
         dt = 60
         xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si:si+npoints[ti]]]

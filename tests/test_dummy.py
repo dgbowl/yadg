@@ -5,16 +5,19 @@ from distutils import dir_util
 
 from yadg import core
 from schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
+from schemas import fail_1, fail_2, fail_3, fail_4, fail_5
 
 # tests for the dummy module:
 #  - test_datagram_from_schema_dict:
 #    - tests creating datagrams from a dictionary
-#    - tests path parsing for folders, files and paths
+#    - tests path parsing for folders, files
 #    - tests path parsing for prefix, suffix, contains
 #  - test_datagram_from_schema_path:
 #    - tests creating datagrams from a json file
 #    - tests path parsing for folders, files and paths
 #    - tests passing parameters as kwargs
+#  - test_schema_validator:
+#    - makes sure schema_validator throws correct exceptions
 
 @pytest.fixture
 def datadir(tmpdir, request):
@@ -67,3 +70,16 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["kwargs"] == ts["kwargs"]
+
+@pytest.mark.parametrize("inp_dict, expr", [
+    (fail_1, r"'parser'"),
+    (fail_2, r"'dumm'"),
+    (fail_3, r"2 were provided"),
+    (fail_4, r"0 were provided"),
+    (fail_5, r"'key'"),
+])
+def test_schema_validator(inp_dict, expr, datadir):
+    os.chdir(datadir)
+    with pytest.raises(AssertionError, match = expr):
+        assert core.validators.validate_schema([inp_dict])
+    

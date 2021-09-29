@@ -1,7 +1,7 @@
 import setuptools
 import os
 
-with open(os.path.join("src", "yadg", "helpers", "version.py")) as code:
+with open(os.path.join("src", "yadg", "dgutils", "version.py")) as code:
     exec(code.read())
 
 with open("README.md", "r", encoding="utf-8") as infile:

@@ -2,7 +2,7 @@
     {
         "parser": "dummy",
         "import": {
-            "paths": ["dummy_schema_1.json"]
+            "files": ["dummy_schema_1.json"]
         }
     },
     {

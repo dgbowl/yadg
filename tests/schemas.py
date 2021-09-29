@@ -1,8 +1,13 @@
 dummy_1 = {"parser": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}
-dummy_2 = {"parser": "dummy", "import": {"paths": ["dummy_schema_2.json"]}}
+dummy_2 = {"parser": "dummy", "import": {"files": ["dummy_schema_2.json"]}}
 dummy_3 = {"parser": "dummy", "import": {"folders": ["."], "contains": "schema"}}
 dummy_4 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
 dummy_5 = {"parser": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
+fail_1 = {"parse": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
+fail_2 = {"parser": "dumm", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
+fail_3 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"], "folders": ["."]}}
+fail_4 = {"parser": "dummy", "import": {}}
+fail_5 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}, "key": "value"}
 
 gctrace_chromtab = {
     "det":  {

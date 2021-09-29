@@ -28,14 +28,6 @@ yadg.dgutils.helpers module
    :undoc-members:
    :show-inheritance:
 
-yadg.dgutils.version module
----------------------------
-
-.. automodule:: yadg.dgutils.version
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

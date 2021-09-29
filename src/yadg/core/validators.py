@@ -118,7 +118,7 @@ def _step_validator(item: Union[list, dict, str], spec: dict) -> True:
             initem = set(spec["one"]).intersection(item)
             assert len(initem) == 1, f"validate_schema: Exactly one of entries in " \
                                      f"{spec['one']} has to be provided in item {item}, " \
-                                     f"but {len(initem)} were provided: {initem}"
+                                     f"but {len(initem)} were provided: {initem}."
         for k in item:
             s = False
             for d in ["all", "one", "any"]:

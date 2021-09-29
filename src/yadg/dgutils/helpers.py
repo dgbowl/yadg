@@ -1,9 +1,9 @@
 import sys
-from dgutils.version import _VERSION
+from importlib import metadata as ilmd
 
 def _yadg_metadata():
     metadata = {
-        "version": _VERSION,
+        "version": ilmd.version('yadg'),
         "command": "".join(sys.argv)
     }
     return metadata

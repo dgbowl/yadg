@@ -4,6 +4,7 @@ import sys
 import os
 import logging
 from typing import Union, Callable
+from importlib import metadata
 
 from parsers import dummy, basiccsv, qftrace, gctrace
 from core import validators
@@ -144,7 +145,7 @@ def _parse_arguments() -> argparse.Namespace:
     parser.add_argument("--folder",
                         help="Specify the folder on which to apply the [preset].")
     parser.add_argument("--version",
-                        action="version", version=f'%(prog)s version {_VERSION}')
+                        action="version", version=f'%(prog)s version {metadata.version("yadg")}')
     parser.add_argument("--ignore-file-errors", 
                         dest="permissive", action="store_true",
                         help='Ignore file opening errors while processing schemafile',

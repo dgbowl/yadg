@@ -1,8 +1,8 @@
 import setuptools
 import os
 
-with open(os.path.join("src", "yadg", "dgutils", "version.py")) as code:
-    exec(code.read())
+with open("VERSION", "r") as infile:
+    version = infile.read().strip()
 
 with open("README.md", "r", encoding="utf-8") as infile:
     readme = infile.read()
@@ -11,7 +11,7 @@ packagedir = "src"
 
 setuptools.setup(
     name = "yadg",
-    version = _VERSION,
+    version = version,
     author = "Peter Kraus",
     author_email = "peter@tondon.de",
     description = "Yet Another DataGram",
@@ -28,13 +28,11 @@ setuptools.setup(
     ],
     package_dir = {"": packagedir},
     packages = setuptools.find_packages(where = packagedir),
-    python_requires = ">=3.6",
+    python_requires = ">=3.8",
     install_requires = [
-        "matplotlib",
         "numpy",
         "scipy",
         "uncertainties",
-        "peakutils",
         "pytest",
         "sphinx",
         "sphinx-autodoc-typehints"

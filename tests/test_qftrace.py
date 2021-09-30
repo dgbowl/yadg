@@ -58,7 +58,8 @@ def test_datagram_from_qftrace(input, ts, datadir):
     assert len(step["timesteps"]) == ts["ntimesteps"]
     tstep = step["timesteps"][ts["timestep"]]
     assert len(tstep["trace"]["f"]) == ts["tracelen"] and \
-           len(tstep["trace"]["Γ"]) == ts["tracelen"] and \
+           len(tstep["trace"]["Re(Γ)"]) == ts["tracelen"] and \
+           len(tstep["trace"]["Im(Γ)"]) == ts["tracelen"] and \
            len(tstep["trace"]["abs(Γ)"]) == ts["tracelen"]
     assert tstep["npeaks"] == ts["npeaks"]
     assert len(tstep["Q"]) == ts["npeaks"]

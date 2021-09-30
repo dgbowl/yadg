@@ -1,26 +1,25 @@
 import os
 import logging
 from scipy.signal import find_peaks
-from uncertainties import ufloat, umath
-from uncertainties import unumpy as unp
+from uncertainties import ufloat, unumpy
 import numpy as np
 
 import dgutils
 from parsers.qftrace import kajfez, lorentz, naive, prune
 
-def _fit(freq, gamma, absgamma, method, height, distance, cutoff, threshold):
+def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray, 
+         method: str, height: float, distance: float, cutoff: float, 
+         threshold: float) -> tuple[int, list, list]:
     """
     Function that fits Q and f from Γ(f).
     """
-    results = {
-        "Q": [],
-        "f": []
-    }
-    mag = [-10 * unp.log(ufloat(*i),10) for i in absgamma]
+    Qs = []
+    fs = []
+    mag = -10 * unumpy.log10(absgamma)
     peaks, _ = find_peaks([i.n for i in mag], height = height, distance = distance)
-    if len(peaks) == 0:
-        peaks = [np.argmax(mag)]
-    results["npeaks"] = len(peaks)
+    assert len(peaks) > 0, \
+        logging.error("qftrace: No peaks were found.")
+    npeaks = len(peaks)
     if method == "lorentz":
         _prune = prune.gradient
         _fitq = lorentz.fit
@@ -34,12 +33,12 @@ def _fit(freq, gamma, absgamma, method, height, distance, cutoff, threshold):
         _fitq = naive.fit
         _ppar = threshold
     for p in peaks:
-        pf, pg, pag = _prune(p, [ufloat(*i) for i in freq], [i[0] for i in gamma], 
-                            [ufloat(*i) for i in absgamma], _ppar)
+        pf, pg, pag = _prune(p, freq, gamma, absgamma, _ppar)
         Q, f = _fitq(pf, pg, pag)
-        results["Q"].append([Q.n, Q.s, "-"])
-        results["f"].append([f.n, f.s, "Hz"])
-    return results
+        Qs.append([Q.n, Q.s, "-"])
+        fs.append([f.n, f.s, "Hz"])
+    assert len(Qs) == npeaks and len(fs) == npeaks
+    return Qs, fs
 
 def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
             method: str = "kajfez", height: float = 1.0, distance: float = 5000.0,
@@ -112,18 +111,26 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
     _tols = {"atol": atol, "rtol": rtol}
     data["trace"] = {
         "f": [],
-        "Γ": [],
+        "Re(Γ)": [],
+        "Im(Γ)": [],
         "abs(Γ)": []
     }
+    freq = []
+    gamma = []
+    absgamma = []
     for line in lines:
         f, r, i = line.strip().split()
         f = float(f)
         ftol = max(sigma.get("f", _tols)["atol"], abs(f*sigma.get("f", _tols)["rtol"]))
+        freq.append(ufloat(f, ftol))
         data["trace"]["f"].append([f, ftol, "Hz"])
         c = complex(float(r), float(i))
+        gamma.append(c)
         ctol = max(sigma.get("Γ", _tols)["atol"], abs(c*sigma.get("Γ", _tols)["rtol"]))
-        data["trace"]["Γ"].append([c, complex(ctol, ctol), "-"])
-        data["trace"]["abs(Γ)"].append([abs(c), abs(complex(ctol,ctol)), "-"])
+        data["trace"]["Re(Γ)"].append([float(r), ctol, "-"])
+        data["trace"]["Im(Γ)"].append([float(i), ctol, "-"])
+        absgamma.append(ufloat(abs(c), abs(complex(ctol, ctol))))
+        data["trace"]["abs(Γ)"].append([abs(c), abs(complex(ctol, ctol)), "-"])
     common["height"] = height
     common["distance"] = distance
     common["method"] = method
@@ -131,6 +138,9 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
         common["cutoff"] = cutoff
     else:
         common["threshold"] = threshold
-    data.update(_fit(data["trace"]["f"], data["trace"]["Γ"], data["trace"]["abs(Γ)"], 
-                     method, height, distance, cutoff, threshold))
+    Q, f = _fit(np.asarray(freq), np.asarray(gamma), np.asarray(absgamma), 
+                method, height, distance, cutoff, threshold)
+    data["Q"] = Q
+    data["f"] = f
+    data["npeaks"] = len(Q)
     return [data], None, common

@@ -9,6 +9,7 @@ from uncertainties import ufloat
 from typing import Union
 
 from parsers.gctrace import datasc, chromtab, fusion
+from dgutils import calib_handler
 
 
 def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
@@ -98,11 +99,6 @@ def _find_peak_edges(ys: list[ufloat], peakdata: dict, detector: dict) -> dict:
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 
-_default_calib = {
-    "linear": {"slope": 1.0, "intercept": 0},
-    "atol": 0, "rtol": 1e-3
-}
-
 def _baseline_correct(xs: list[ufloat], ys: list[ufloat], peakdata: dict) -> dict:
     """
     Function that corrects the trace defined by [`xs`, `ys`], using a baseline
@@ -151,19 +147,7 @@ def _integrate_peaks(xs: list[ufloat], ys: list[ufloat], peakdata: dict, specdat
         truepeaks[k]["A"] = A
         truepeaks[k]["h"] = trace["y"][v["max"]]
     return truepeaks
-
-def _calib_handler(x, calib = None, atol = 0, rtol = 0):
-    if calib is None:
-        calib = _default_calib
-    assert "linear" in calib, \
-        logging.error("calib: Only linear calibrations are supported")
-    if "linear" in calib:
-        c = calib["linear"].get("intercept", 0)
-        m = calib["linear"]["slope"]
-        conv = (x - c) / m
-    tol = max(conv.s, calib.get("atol", atol), abs(conv * calib.get("rtol", rtol)))
-    return ufloat(conv.n, tol)
-    
+   
 def _parse_detector_spec(calfile: Union[str, None], detectors: dict, species: dict) -> dict:
     """
     Combines the GC spec from the json file specified in `calfile` with the dict
@@ -252,6 +236,7 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
                 "x": chrom["traces"][spec["id"]]["x"][0][2],
                 "y": chrom["traces"][spec["id"]]["y"][0][2]
             }
+            units["A"] = f'{units["y"]} ' if units["y"] != "-" else '' + units["x"]
             xseries = [ufloat(*i) for i in chrom["traces"][spec["id"]]["x"]]
             yseries = [ufloat(*i) for i in chrom["traces"][spec["id"]]["y"]]
             peakmax = _find_peak_maxima(yseries, spec.get("peakdetect", {}))
@@ -259,16 +244,16 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
             integrated = _integrate_peaks(xseries, yseries, peakspec, spec["species"])
             peaks[detname] = {}
             for k, v in integrated.items():
-                x = _calib_handler(v["A"], spec["species"][k].get("calib", None))
                 peaks[detname][k] = {
                     "peak": { "max": v["max"], "llim": v["llim"], "rlim": v["rlim"]},
-                    "A": [v["A"].n, v["A"].s, f"{units['y']}·{units['x']}"],
+                    "A": [v["A"].n, v["A"].s, units["A"]],
                     "h": [v["h"].n, v["h"].s, units["y"]]
                 }
                 if spec["species"][k].get("calib", None) is not None:
+                    x = calib_handler(v["A"], spec["species"][k]["calib"])
                     peaks[detname][k]["c"] = [
                         max(0.0, x.n), x.s,
-                        spec["species"][k].get("calib",{}).get("unit", "vol%")
+                        spec["species"][k]["calib"].get("unit", "vol%")
                     ]
                 if k not in comp:
                     comp.append(k)

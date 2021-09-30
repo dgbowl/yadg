@@ -1,7 +1,8 @@
 import logging
 import dgutils
 
-def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, atol: float = 0, rtol: float = 0, 
+            **kwargs: dict) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.
 
@@ -69,10 +70,12 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         chrom["detectors"][f"{ti}"] = {"id": ti}
         dt = 60
         xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
+        xtol = max(atol, 0.5 * xmuls[ti] * dt / samplerates[ti], rtol * max(xs))
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si:si+npoints[ti]]]
+        ytol = max(atol, rtol * max(ys), ymuls[ti])
         chrom["traces"].append({
-            "x": [[x, 0.5 * xmuls[ti] * dt / samplerates[ti], "s"] for x in xs],
-            "y": [[y, ymuls[ti], yunits[ti]] for y in ys]
+            "x": [[x, xtol, "s"] for x in xs],
+            "y": [[y, ytol, yunits[ti]] for y in ys]
         })
         si += npoints[ti]
     return [chrom], metadata, common

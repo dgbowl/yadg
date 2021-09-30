@@ -148,7 +148,8 @@ def _integrate_peaks(xs: list[ufloat], ys: list[ufloat], peakdata: dict, specdat
         truepeaks[k]["h"] = trace["y"][v["max"]]
     return truepeaks
    
-def _parse_detector_spec(calfile: Union[str, None], detectors: dict, species: dict) -> dict:
+def _parse_detector_spec(calfile: str = None, detectors: dict = None, 
+                         species: dict = None) -> dict:
     """
     Combines the GC spec from the json file specified in `calfile` with the dict
     definitions provided in `detectors` and `species`.
@@ -158,13 +159,13 @@ def _parse_detector_spec(calfile: Union[str, None], detectors: dict, species: di
             calib = json.load(infile)
     else:
         calib = {}
-    if detectors != {}:
+    if isinstance(detectors, dict):
         for name, det in detectors.items():
             try:
                 calib[name].update(det)
             except KeyError:
                 calib[name] = det
-    if species != {}:
+    if isinstance(species, dict):
         for name, sp in species.items():
             assert name in calib, \
                 logging.error(f"gctrace: Detector with name {name} specified in "
@@ -175,7 +176,10 @@ def _parse_detector_spec(calfile: Union[str, None], detectors: dict, species: di
                 calib[name]["species"] = sp
     return calib
 
-def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
+            species: dict = None, calfile: str = None, 
+            atol: float = 0, rtol: float = 0,
+             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
 
@@ -188,6 +192,11 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
     fn
         The file containing the trace(s) to parse.
     
+    tracetype
+        Determines the output file format. Currently supported formats are 
+        `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion 
+        json file). The default is `"datasc"`.
+
     detectors
         Detector specification. Matches and identifies a trace in the `fn` file.
         If provided, overrides data provided in `calfile`, below.
@@ -202,28 +211,29 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
         Path to a json file containing the `detectors` and `species` spec. Either
         `calfile` and/or `species` and `detectors` have to be provided.
     
-    tracetype
-        Determines the output file format. Currently supported formats are 
-        `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion 
-        json file). The default is `"datasc"`.
+    atol
+        The default absolute uncertainty used for the [x, y] values in the trace.
+        By default set to 0.
 
+    rtol
+        The default relative uncertainty used for the [x, y] values in the trace.
+        By default set to 0.
+    
     Returns
     -------
     tuple[list, dict, dict]
         A tuple containing the results list and the metadata and common dicts.
     """
-    assert "calfile" in kwargs or ("species" in kwargs and "detectors" in kwargs), \
+    assert calfile is not None or (species is not None and detectors is not None), \
         logging.error("gctrace: Neither 'calfile' nor 'species' and 'detectors' "
                       "were provided. Fit cannot proceed.")
-    gcspec = _parse_detector_spec(calfile = kwargs.get("calfile", None), 
-                                  detectors = kwargs.get("detectors", {}),
-                                  species = kwargs.get("species", {}))
+    gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, **kwargs)
+        _data, _meta, _common = datasc.process(fn, atol, rtol, **kwargs)
     elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, **kwargs)
+        _data, _meta, _common = chromtab.process(fn, atol, rtol, **kwargs)
     elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, **kwargs)
+        _data, _meta, _common = fusion.process(fn, atol, rtol, **kwargs)
     results = []
     for chrom in _data:
         peaks = {}

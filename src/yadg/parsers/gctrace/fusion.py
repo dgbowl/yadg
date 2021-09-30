@@ -3,7 +3,7 @@ import json
 import numpy as np
 import dgutils
 
-def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, atol: float = 0.0, rtol: float = 0.0, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     Fusion json format.
 
@@ -46,9 +46,10 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         assert len(detdict["values"]) == npoints, \
             logging.error(f"fusion: Inconsistent trace length in file {fn}.")
         xs = np.linspace(0, npoints/xmul, num=npoints)
-        xtol = 0.5 * 1/xmul
+        xtol = max(0.5 * 1/xmul, atol, rtol * max(xs))
+        ytol = max(1.0, atol, rtol * max(detdict["values"]))
         trace["x"] = [[x, xtol, "s"] for x in xs]
-        trace["y"] = [[float(y), 1.0, "-"] for y in detdict["values"]]
+        trace["y"] = [[float(y), ytol, "-"] for y in detdict["values"]]
         if "analysis" in detdict:
             trace["peaks"] = {}
             for peak in detdict["analysis"]["peaks"]:

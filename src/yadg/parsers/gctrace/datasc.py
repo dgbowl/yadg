@@ -19,7 +19,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
         "gcparams": {}
     }
     common = {}
-    chrom = {"fn": fn, "traces": [], "detectors": {}}
+    chrom = {"fn": str(fn), "traces": [], "detectors": {}}
     _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%m/%d/%Y %H:%M:%S %p"]})
     

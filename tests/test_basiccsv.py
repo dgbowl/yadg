@@ -34,7 +34,7 @@ def datadir(tmpdir, request):
 def datagram_from_basiccsv(input, datadir):
     schema = [{
         "parser": "basiccsv",
-        "import": {"files": [datadir.join(input["case"])]},
+        "import": {"files": [str(datadir.join(input["case"]))]},
         "parameters": input.get("parameters", {})
     }]
     assert core.validators.validate_schema(schema)
@@ -80,8 +80,6 @@ def datagram_from_basiccsv(input, datadir):
     ({"case": "case_uts_units.csv",
       "parameters": {"atol": 0.1, "convert": {"T": {"header": "T", "calib": {"linear": {"intercept": 273.15}}, "unit": "K"}}}},
      {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
-    
-    
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)
@@ -96,5 +94,6 @@ def test_datagram_from_basiccsv(input, ts, datadir):
         assert step[ts["point"]][ts["prop"]][2] == ts["unit"]
     else:
         assert step[ts["point"]][ts["prop"]] == ts["value"]
+    json.dumps(ret)
     
 

@@ -1,4 +1,3 @@
-import numpy as np
 import logging
 import os
 from typing import Union
@@ -12,8 +11,8 @@ def _list_validator(l: list) -> bool:
         return _general_list(l)
 
 def _float_list(l: list) -> bool:
-    if (isinstance(l[0], (float, np.inexact, complex)) and \
-        isinstance(l[1], (float, np.inexact, complex)) and isinstance(l[2], str)): 
+    if (isinstance(l[0], float) and \
+        isinstance(l[1], float) and isinstance(l[2], str)): 
         return True
     else:
         return _general_list(l)
@@ -25,14 +24,14 @@ def _general_list(l: list) -> bool:
         elif isinstance(v, dict):
             return _dict_validator(v)
         else:
-            assert isinstance(v, str) or isinstance(v, (int, np.integer)), \
+            assert isinstance(v, str) or isinstance(v, int), \
                 "List elements have to be one of [str, int, dict, list], " \
                 f"but entry id:{l.index(v)}:{type(v)} is neither: {l}"
     return True
 
 def _dict_validator(d: dict) -> bool:
     for k, v in d.items():
-        if isinstance(v, (float, np.inexact)):
+        if isinstance(v, float):
             assert k == "uts", \
                 f"Only 'uts':float can be a float entry, not '{k}'."
         elif isinstance(v, list):
@@ -40,7 +39,7 @@ def _dict_validator(d: dict) -> bool:
         elif isinstance(v, dict):
             return _dict_validator(v)
         else:
-            assert isinstance(v, str) or isinstance(v, (int, np.integer)), \
+            assert isinstance(v, str) or isinstance(v, int), \
                 "Dict elements have to be one of [str, int, dict, list], " \
                 f"but '{k}':{type(v)} is neither: {v}"
     return True

@@ -40,7 +40,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     }
     common = {}
     chroms = []
-    chrom = {"fn": fn, "traces": [], "detectors": {}}
+    chrom = {"fn": str(fn), "traces": [], "detectors": {}}
     trace = {"x": [], "y": []}
     for li in range(len(lines)):
         line = lines[li].strip()

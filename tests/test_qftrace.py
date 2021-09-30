@@ -1,5 +1,6 @@
 import pytest
 import os
+import json
 from distutils import dir_util
 
 from yadg import core
@@ -27,7 +28,7 @@ def datadir(tmpdir, request):
 def datagram_from_qftrace(input, datadir):
     schema = [{
         "parser": "qftrace",
-        "import": {"folders": [datadir]},
+        "import": {"folders": [str(datadir)]},
         "parameters": input.get("parameters", {})
     }]
     assert core.validators.validate_schema(schema)
@@ -67,4 +68,4 @@ def test_datagram_from_qftrace(input, ts, datadir):
     assert tstep["Q"][ts["peak"]][0] == pytest.approx(ts["Q"], abs = 1)
     assert tstep["f"][ts["peak"]][0] == pytest.approx(ts["f"], abs = 10)
     assert 1/tstep["Q"][1][0] - 1/tstep["Q"][0][0] == pytest.approx(0.00035, abs = 0.00005)
-    
+    json.dumps(ret)

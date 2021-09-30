@@ -5,20 +5,19 @@ import math
 from scipy.signal import find_peaks, savgol_filter
 import numpy as np
 import logging
-from uncertainties import ufloat
+from uncertainties import ufloat, UFloat
 from typing import Union
 
 from parsers.gctrace import datasc, chromtab, fusion
 from dgutils import calib_handler
 
 
-def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
+def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
     """
     Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter.
     Returns the peak maxima, minima, and zero-points of the smoothened
     gradient and Hessian.
     """
-    yseries = [i.n for i in ys]
     # find positive and negative peak indices
     peaks = {}
     res, _ = find_peaks(yseries, prominence=peakdetect.get("prominence", 1e-4*max(yseries)))
@@ -27,8 +26,8 @@ def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
     peaks["-"] = res
     # smoothen the chromatogram based on supplied parameters
     smooth = savgol_filter(yseries,
-                           window_length=peakdetect.get("window", 7),
-                           polyorder=peakdetect.get("polyorder", 3))
+                           window_length = peakdetect.get("window", 7),
+                           polyorder = peakdetect.get("polyorder", 3))
     # gradient: find peaks and inflection points
     grad = np.gradient(smooth)
     res = np.where(np.diff(np.sign(grad)) != 0)[0] + 1
@@ -39,7 +38,7 @@ def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
     peaks["hesszero"] = res
     return peaks
 
-def _find_peak_edges(ys: list[ufloat], peakdata: dict, detector: dict) -> dict:
+def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
     """
     A function that, given the y-values of a trace in `ys` and the maxima,
     inflection points etc. in `peakdata`, and the peak integration `"threshold"`
@@ -99,7 +98,7 @@ def _find_peak_edges(ys: list[ufloat], peakdata: dict, detector: dict) -> dict:
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 
-def _baseline_correct(xs: list[ufloat], ys: list[ufloat], peakdata: dict) -> dict:
+def _baseline_correct(yfloat: list[float], yufloat: list[UFloat], peakdata: dict) -> list[UFloat]:
     """
     Function that corrects the trace defined by [`xs`, `ys`], using a baseline
     created from the linear interpolation between the `"llim"` and `"rlim"` of
@@ -114,20 +113,16 @@ def _baseline_correct(xs: list[ufloat], ys: list[ufloat], peakdata: dict) -> dic
                 interpolants[-1][1] = p["rlim"]
             else:
                 interpolants.append([p["llim"], p["rlim"]])
-    baseline = {"x": xs, "y": [y.n for y in ys]}
+    baseline = yfloat
     for pair in interpolants:
         npoints = pair[1] - pair[0]
-        interp = list(np.interp(range(npoints), 
-                                [0, npoints], 
-                                [baseline["y"][pair[0]], baseline["y"][pair[1]]]))
-        baseline["y"] = baseline["y"][:pair[0]] + interp + baseline["y"][pair[1]:]
-    corrected = {
-        "x": xs,
-        "y": [ys[i] - baseline["y"][i] for i in range(len(ys))],
-    }
+        interp = list(np.interp(range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]]))
+        baseline = baseline[:pair[0]] + interp + baseline[pair[1]:]
+    corrected = [yufloat[i] - baseline[i] for i in range(len(yufloat))]
     return corrected
 
-def _integrate_peaks(xs: list[ufloat], ys: list[ufloat], peakdata: dict, specdata: dict) -> dict:
+def _integrate_peaks(xs: list[UFloat], yfloat: list[float], yufloat: list[UFloat], 
+                     peakdata: dict, specdata: dict) -> dict:
     """
     A function which, given a trace in [`xs`, `ys`], `peakdata` containing the
     boundaries `"llim"` and `"rlim"` for each `peak`, and `specdata` containing
@@ -141,11 +136,11 @@ def _integrate_peaks(xs: list[ufloat], ys: list[ufloat], peakdata: dict, specdat
             if xs[p["max"]] > species["l"] and xs[p["max"]] < species["r"]:
                 truepeaks[name] = p
                 break
-    trace = _baseline_correct(xs, ys, peakdata)
+    ys = _baseline_correct(yfloat, yufloat, peakdata)
     for k, v in truepeaks.items():
-        A = np.trapz([i for i in trace["y"][v["llim"]:v["rlim"]+1]], [i for i in trace["x"][v["llim"]:v["rlim"]+1]])
+        A = np.trapz([i for i in ys[v["llim"]:v["rlim"]+1]], [i for i in xs[v["llim"]:v["rlim"]+1]])
         truepeaks[k]["A"] = A
-        truepeaks[k]["h"] = trace["y"][v["max"]]
+        truepeaks[k]["h"] = yufloat[v["max"]]
     return truepeaks
    
 def _parse_detector_spec(calfile: str = None, detectors: dict = None, 
@@ -247,11 +242,12 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
                 "y": chrom["traces"][spec["id"]]["y"][0][2]
             }
             units["A"] = f'{units["y"]} ' if units["y"] != "-" else '' + units["x"]
-            xseries = [ufloat(*i) for i in chrom["traces"][spec["id"]]["x"]]
-            yseries = [ufloat(*i) for i in chrom["traces"][spec["id"]]["y"]]
-            peakmax = _find_peak_maxima(yseries, spec.get("peakdetect", {}))
-            peakspec = _find_peak_edges(yseries, peakmax, spec.get("peakdetect", {}))
-            integrated = _integrate_peaks(xseries, yseries, peakspec, spec["species"])
+            yfloat = [i[0] for i in chrom["traces"][spec["id"]]["y"]]
+            xufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["x"]]
+            yufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["y"]]
+            peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
+            peakspec = _find_peak_edges(yfloat, peakmax, spec.get("peakdetect", {}))
+            integrated = _integrate_peaks(xufloat, yfloat, yufloat, peakspec, spec["species"])
             peaks[detname] = {}
             for k, v in integrated.items():
                 peaks[detname][k] = {

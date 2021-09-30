@@ -1,0 +1,40 @@
+{
+    "TCD1": {
+        "id": 0,
+        "peakdetect": {
+            "window": 11,
+            "polyorder": 3,
+            "prominence": 1e1,
+            "threshold": 1e1
+        },
+        "species": {
+            "H2":  {"l": 52.0, "r":  57.0, "calib": {"linear": {"slope": 70510.76475, "intercept": -57.87918}, "atol": 0.0008}},
+            "O2":  {"l": 59.0, "r":  62.0},
+            "N2":  {"l": 67.0, "r":  72.0, "calib": null},
+            "CH4": {"l": 82.0, "r":  85.0, "calib": {"linear": {"slope": 13232.38946, "intercept": -13.49018}, "atol": 0.0010}},
+            "CO":  {"l": 98.0, "r": 103.0, "calib": {"linear": {"slope":  6200.87925, "intercept": -23.74938}, "atol": 0.0038}}
+        }
+    },
+    "TCD2": {
+        "id": 1,
+        "peakdetect": {
+            "window": 11,
+            "polyorder": 3,
+            "prominence": 1e1,
+            "threshold": 1e1
+        },
+        "species":{
+            "CO2":             {"l":  28.0, "r":  34.0, "calib": {"linear": {"slope":  63361.17895, "intercept": 138.59760}, "atol": 0.0022}},
+            "C2H4":            {"l":  37.0, "r":  42.0, "calib": {"linear": {"slope":  66113.54030, "intercept": -17.49510}, "atol": 0.0003}},
+            "C2H6":            {"l":  43.0, "r":  48.0, "calib": {"linear": {"slope":  68379.33349, "intercept": -49.14738}, "atol": 0.0007}},
+            "C3H6":            {"l":  80.0, "r":  83.2, "calib": {"linear": {"slope":  89945.25805, "intercept": -16.66415}, "atol": 0.0002}},
+            "C3H8":            {"l":  83.2, "r":  90.0},
+            "MeOH":            {"l":  91.0, "r":  98.0},
+            "Acetaldehyde":    {"l":  98.0, "r": 105.0},
+            "EtOH":            {"l": 115.0, "r": 125.0},
+            "Propionaldehyde": {"l": 130.0, "r": 134.0},
+            "Acetone":         {"l": 134.0, "r": 138.0},
+            "1-propanol":      {"l": 147.0, "r": 155.0}
+        }
+    }
+}

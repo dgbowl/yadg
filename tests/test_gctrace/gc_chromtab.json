@@ -1,0 +1,46 @@
+{
+    "MS": {
+        "id": 0,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 5,
+            "prominence": 1e5,
+            "threshold": 1e2
+        },
+        "prefer": true,
+        "species": {
+            "N2":      {"l": 103.26, "r": 112.26, "calib": {"linear": {"slope": 1.0}}},
+            "CH3OH":   {"l": 112.26, "r": 119.82, "calib": {"linear": {"slope": 1.0}}},
+            "CH2O":    {"l": 128.40, "r": 131.64, "calib": {"linear": {"slope": 1.0}}},
+            "CH3OCHO": {"l": 131.64, "r": 135.24, "calib": {"linear": {"slope": 1.0}}}
+        }
+    },
+    "TCD": {
+        "id": 1,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 2,
+            "prominence": 1e5,
+            "threshold": 1e2
+        },
+        "species": {
+            "CO2": {"l": 179.4, "r": 189.4, "calib": {"linear": {"slope": 1.0}}},
+            "H2":  {"l": 258.7, "r": 270.4, "calib": {"linear": {"slope": 1.0}}},
+            "O2":  {"l": 270.6, "r": 281.4, "calib": {"linear": {"slope": 1.0}}},
+            "N2":  {"l": 282.0, "r": 297.9, "calib": {"linear": {"slope": 1.0}}}
+        }
+    },
+    "FID": {
+        "id": 2,
+        "peakdetect": {
+            "window": 15,
+            "polyorder": 2,
+            "prominence": 1e5,
+            "threshold": 1e2
+        },
+        "species":{
+            "CH3OH":   {"l": 111.0, "r": 128.4, "calib": {"linear": {"slope": 1.0}}},
+            "CH3OCHO": {"l": 128.4, "r": 157.7, "calib": {"linear": {"slope": 1.0}}}
+        }
+    }
+}

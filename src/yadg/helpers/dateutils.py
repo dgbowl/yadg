@@ -1,31 +1,9 @@
 import datetime
 import math
 import logging
+from typing import Callable
 
-def coerceDashedDate(ds):
-    dt = datetime.datetime.strptime(ds, "%Y-%m-%d-%H-%M-%S")
-    #year, month, day, hour, minute, second = [int(j) for j in ds.split("-")]
-    #dt = datetime.datetime(year, month, day, hour=hour, minute=minute, second=second)
-    return dt.timestamp()
-
-def coerceDateTime(ds):
-    #dt = datetime.datetime.strptime(ds, "%m/%d/%Y %H:%M:%S %p")
-    # print(ds)
-    date, time, noon = ds.split()
-    month, day, year = [int(each) for each in date.split("/")]
-    hour, minute, second = [int(each) for each in time.split(":")]
-    if noon == "PM" and hour < 12:
-        hour += 12
-    elif noon == "AM" and hour == 12:
-        hour = 0
-    dt = datetime.datetime(year, month, day, hour=hour, minute=minute, second=second)
-    return dt.timestamp()
-
-def coerceStringDate(ds):
-    dt = datetime.datetime.strptime(ds, "%d %b %Y %H:%M")
-    return dt.timestamp()
-
-def now(asstr = False, tz = datetime.timezone.utc):
+def now(asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc):
     """
     Wrapper around datetime.now()
 
@@ -36,9 +14,11 @@ def now(asstr = False, tz = datetime.timezone.utc):
     if asstr:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
     else:
-        return math.floor(dt.timestamp())
+        return dt.timestamp()
 
-def _infer_timestamp_from(headers, spec = None, tz = datetime.timezone.utc):
+def _infer_timestamp_from(headers: list,
+                          spec: dict = None,
+                          tz: datetime.timezone = datetime.timezone.utc) -> tuple[list, Callable]:
     """
     Convenience function for timestamping
 
@@ -49,17 +29,24 @@ def _infer_timestamp_from(headers, spec = None, tz = datetime.timezone.utc):
 
     Parameters
     ----------
-    headers : array
+    headers
         An array of strings. If `spec` is not supplied, must contain either "uts"
         (float) or "timestep" (ISO 8601).
 
-    spec : dict, optional
+    spec
         A specification of timestamp elements with associated column indices and
         optional formats. Currently accepted combinations of keys are: "uts";
         "timestamp"; "date" and / or "time".
     
-    tz : datetime.timezone, optional
+    tz
         Timezone to use for conversion. By default, UTC is used.
+
+    Returns
+    -------
+    tuple[list, Callable]
+        A tuple containing a list of indices of columns, and a Callable to which
+        the columns have to be passed to obtain a uts timestamp.
+    
     """
     if spec is not None:
         if "uts" in spec:

@@ -72,7 +72,6 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0,
                 logging.info(f"Converting unit ' ' to '-' for {header}.")
                 units["header"] = "-"
         si = 1
-    
     data = []
     for line in lines[si:]:
         element = {}

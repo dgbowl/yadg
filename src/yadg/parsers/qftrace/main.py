@@ -16,7 +16,7 @@ def _fit(freq, gamma, absgamma, method, height, distance, cutoff, threshold):
         "Q": [],
         "f": []
     }
-    mag = [-10*unp.log(ufloat(*i),10) for i in absgamma]
+    mag = [-10 * unp.log(ufloat(*i),10) for i in absgamma]
     peaks, _ = find_peaks([i.n for i in mag], height = height, distance = distance)
     if len(peaks) == 0:
         peaks = [np.argmax(mag)]
@@ -41,8 +41,9 @@ def _fit(freq, gamma, absgamma, method, height, distance, cutoff, threshold):
         results["f"].append([f.n, f.s, "Hz"])
     return results
 
-def process(fn, atol = 0, rtol = 5e-7, sigma = {}, method = "kajfez", 
-            height = 1.0, distance = 5000, cutoff = 0.4, threshold = 1e-6, **kwargs):
+def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
+            method: str = "kajfez", height: float = 1.0, distance: float = 5000.0,
+            cutoff: float = 0.4, threshold: float = 1e-6, **kwargs) -> tuple[list, dict, dict]:
     """
     VNA reflection trace parser.
 
@@ -53,36 +54,36 @@ def process(fn, atol = 0, rtol = 5e-7, sigma = {}, method = "kajfez",
 
     Parameters
     ----------
-    fn : string
+    fn
         File to process
 
-    atol : float, optional
+    atol
         Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.
 
-    rtol : float, optional
-        Default relative uncertainty in f and Re(Γ) / Im(Γ). By default set to
-        5e-7, as 7 significant digits are printed in the standard output.
+    rtol
+        Default relative uncertainty in f and Re(Γ) / Im(Γ). By default set to 
+        5e-7, as significant digits are printed in the standard output.
     
-    sigma : dict, optional
+    sigma
         Property-specific `atol` and `rtol` can be supplied here.
     
-    method : string, optional
-        Method for fitting Q and f to Γ(f) data. One of "naive", "lorentz", or 
-        "kajfez". Default is "kajfez".
+    method
+        Method for fitting Q and f to Γ(f) data. One of ``"naive"``, ``"lorentz"``,
+        or ``"kajfez"``. Default is ``"kajfez"``.
     
-    cutoff : float, optional
+    cutoff
         Parameter passed to the cutoff-based pruning routine, defining the 
         cutoff threshold for the normalisation. Default is 0.4.
     
-    threshold: float, optional
+    threshold
         Parameter passed to the gradient-based pruning routine, defining the
         minimum gradient below which the trace gets pruned. Default is 1e-6.
 
-    height : float, optional
-        Parameter for the peak-picker, 
+    height
+        Parameter for the peak-picker.
 
-    distance : float, optional
-        Parameter for the peak-picker, 
+    distance
+        Parameter for the peak-picker.
 
     """
     # create timestamp
@@ -120,7 +121,7 @@ def process(fn, atol = 0, rtol = 5e-7, sigma = {}, method = "kajfez",
         ftol = max(sigma.get("f", _tols)["atol"], abs(f*sigma.get("f", _tols)["rtol"]))
         data["trace"]["f"].append([f, ftol, "Hz"])
         c = complex(float(r), float(i))
-        ctol = max(sigma.get("f", _tols)["atol"], abs(c*sigma.get("f", _tols)["rtol"]))
+        ctol = max(sigma.get("Γ", _tols)["atol"], abs(c*sigma.get("Γ", _tols)["rtol"]))
         data["trace"]["Γ"].append([c, complex(ctol, ctol), "-"])
         data["trace"]["abs(Γ)"].append([abs(c), abs(complex(ctol,ctol)), "-"])
     common["height"] = height

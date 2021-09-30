@@ -1,7 +1,7 @@
 import logging
 import dgutils
 
-def process(fn: str, atol: float = 0, rtol: float = 0, 
+def process(fn: str, atol: float = 0.0, rtol: float = 0.0, 
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.

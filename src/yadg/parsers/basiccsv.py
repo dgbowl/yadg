@@ -2,7 +2,7 @@ import logging
 from uncertainties import ufloat
 import dgutils
 
-def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0, 
+def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0, 
             sigma: dict = {}, units: dict = None, timestamp: dict = None,
             convert: dict = None, **kwargs):
     """

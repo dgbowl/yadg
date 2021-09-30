@@ -21,7 +21,8 @@ def _process_headers(headers: list, columns: list) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, atol: float = 0, rtol: float = 0, **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, atol: float = 0.0, rtol: float = 0.0, 
+            **kwargs: dict) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 

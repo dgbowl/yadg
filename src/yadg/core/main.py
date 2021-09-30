@@ -3,144 +3,30 @@ import json
 import sys
 import os
 import logging
-
-#import gctrace
-#import qftrace
-#import meascsv
+from typing import Union, Callable
+from importlib import metadata
 
 from parsers import dummy, basiccsv, qftrace, gctrace
-from helpers.version import _VERSION
-from helpers import dateutils
+from core import validators
 import dgutils
-from typing import Union, Callable
 
-
-def _infer_datagram_handler(datagramtype: str) -> Callable:
+def _infer_datagram_handler(parser: str) -> Callable:
     """
-    Helper function to distribute work to parsers.
+    Helper function to distribute work to `parser`s.
 
-    Add your parser here.
+    Add your `parser` here.
     """
-    if datagramtype == "gctrace":
+    if parser == "gctrace":
         return gctrace.process
-    if datagramtype == "qftrace":
+    if parser == "qftrace":
         return qftrace.process
     #if datagramtype == "meascsv":
     #    return meascsv.process
-    if datagramtype == "dummy":
+    if parser == "dummy":
         return dummy.process
-    if datagramtype == "basiccsv":
+    if parser == "basiccsv":
         return basiccsv.process
 
-def schema_validator(schema: Union[list, tuple], permissive: bool = False):
-    """
-    Schema validator. 
-    
-    Checks the overall schema format, checks every schema step for required keys,
-    and checks whether required parameters for datagrams are provided.
-
-    The conditions are:
-    - schema has to be a list or a tuple
-    - each element of this list is a dict, called step
-    - each step has to have a "datagram" and "import" entry:
-        - the "datagram" entry has to be a string containing the requested parser
-        - the "import" entry has to be a dictionary containing:
-            - exactly one entry out of "files", "folders", or "paths"
-            - any of "prefix", "suffix", "contains" entries
-    - other allowed entries are: 
-        - "tag" (string) for step tagging,
-        - "export" (string) for step export,
-        - "parameters" (dict) for specifying other parameters for the parser:
-    - no other entries are permitted
-
-    Parameters
-    ----------
-    schema
-        The schema to be validated.
-    
-    permissive
-        When `True`, the files will not be checked for IO errors. Folders are 
-        always checked.
-    """
-    # schema has to be a list or a tuple
-    assert isinstance(schema, (list, tuple)), \
-        logging.error("schema_validator: Provided schema is neither list nor a tuple.")
-    requiredkeys = {
-        "datagram": {
-            "one": ["dummy", "basiccsv", "qftrace", "gctrace"],
-            "any": []
-        }, 
-        "import": {
-            "one": ["files", "folders", "paths"], 
-            "any": ["prefix", "suffix", "contains"]
-        }
-    }
-    for step in schema:
-        si = schema.index(step)
-        allowedkeys = {
-            "tag": f"{si:03d}", 
-            "export": None, 
-            "parameters": {}
-        }
-        # step in a schema has to be a dict
-        assert isinstance(step, dict), \
-            logging.error(f"schema_validator: Step {si} of schema is not a dict.")
-        # all required keys have to be in a step
-        assert len(set(requiredkeys.keys()) & set(step.keys())) == len(requiredkeys.keys()), \
-            logging.error(f"schema_validator: Step {si} does not contain all "
-                          f"required keys: {list(requiredkeys.keys())}")
-        for kreq, vreq in requiredkeys.items():
-            # exactly one of entries in "one" must be present
-            assert (isinstance(step[kreq], str) and step[kreq] in vreq["one"]) or \
-                   (isinstance(step[kreq], dict) and len(set(step[kreq]) & set(vreq["one"])) == 1), \
-                logging.error(f"schema_validator: More than one of exclusive "
-                              f"'{kreq}' entries from {vreq['one']} was provided.")
-            # additionally, only entries in "any" are present
-            if isinstance(step[kreq], dict):
-                for key in step[kreq]:
-                    if key in vreq["one"]:
-                        continue
-                    assert key in vreq["any"], \
-                        logging.error(f"schema_validator: Undefined entry {key} was"
-                                      f"supplied as a parameter for a required key {kreq}.")
-        # validate "import" spec
-        if "paths" in step["import"]:
-            step["import"]["files"] = step["import"].pop("paths")
-        if "files" in step["import"] and not permissive:
-            for path in step["import"]["files"]:
-                assert os.path.exists(path) and os.path.isfile(path), \
-                    logging.error(f"schema_validator: File {path} specified in "
-                                  f"'import' of step {si} is not a file.")
-        if "folders" in step["import"]:
-            for path in step["import"]["folders"]:
-                assert os.path.exists(path) and os.path.isdir(path), \
-                    logging.error(f"schema_validator: Folder {path} specified in "
-                                  f"'import' of step {si} is not a folder.")
-        # additionally, only entries in allowedkeys are permitted; fill defaults
-        for key, kdef in allowedkeys.items():
-            if key in step:
-                assert isinstance(step[key], type(kdef)) or step[key] is None, \
-                    logging.error(f"schema_validator: Step {si} contains {key} of "
-                                  f"the wrong type {type(step[key])}.")
-            if key not in step or step[key] is None:
-                step[key] = kdef
-        # validate supplied parameters
-        for key, val in step["parameters"].items():
-            # validation of "timestamp" spec
-            if key == "timestamp":
-                assert isinstance(val, dict), \
-                    logging.error(f"schema_validator: Value of {key} in 'parameters'"
-                                  f" of step {si} is not a dict.")
-                allowedtimestamps = ["uts", "timestamp", "date", "time"]
-                for k, v in val.items():
-                    assert k in allowedtimestamps, \
-                        logging.error("schema_validator: timestamp has to be one of "
-                                      f"{allowedtimestamps}, not {k}.")
-                    assert (isinstance(v, (tuple, list)) and len(v) == 2) or isinstance(v, int), \
-                        logging.error("schema_validator: timestamp specification has"
-                                      "to be column index (int), or a tuple/list "
-                                      "with a column index (int) and format (string).")
-                    
 def _infer_todo_files(importdict: dict) -> list:
     """
     File enumerator function.
@@ -152,14 +38,15 @@ def _infer_todo_files(importdict: dict) -> list:
     Parameters
     ----------
     importdict
-        Dictionary describing the paths to process. A valid schema has to contain 
-        one, and only one, of the following keys: "folders", "files". Additional 
-        keys that are processed here are "prefix", "suffix", and "contains".
+        A (dict) describing the paths to process. A valid schema has to contain 
+        one, and only one, of the following keys: ``"folders"``, ``"files"``. 
+        Additional keys that are processed here are ``"prefix"``, ``"suffix"``, 
+        and ``"contains"``.
 
     Returns
     -------
     todofiles
-        A sorted list of paths which match the `importdict` spec.
+        A sorted list of paths which match the ``importdict`` spec.
     """
     todofiles = []
     if "folders" in importdict:
@@ -173,10 +60,10 @@ def _infer_todo_files(importdict: dict) -> list:
         for path in importdict["files"]:
             todofiles.append(path)
     return sorted(todofiles)
-
+                    
 def process_schema(schema: Union[list, tuple]) -> dict:
     """
-    Main worker function of `yadg`. 
+    Main worker function of **yadg**. 
     
     Takes in a validated `schema` as an argument and returns a single annotated 
     `datagram` created from the `schema`. It is the job of the user to supply
@@ -185,17 +72,21 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     Parameters
     ----------
     schema
-        A fully validated schema
+        A fully validated `schema`. Use the function
+        :meth:`yadg.core.validators.validate_schema` to validate your `schema`.
 
     Returns
     -------
-    datagram
-        A fully qualified datagram, including toplevel metadata.
+    datagram: dict
+        An unvalidated `datagram`. The `parser`\ s included in **yadg** should
+        return a valid `datagram`; any custom `parser`\ s might not do so. 
+        Use the function :meth:`yadg.core.validators.validate_datagram` to 
+        validate the resulting `datagram`.
     """
     datagram = {
         "metadata": {
             "yadg": dgutils._yadg_metadata(),
-            "date": dateutils.now(asstr=True)
+            "date": dgutils.now(asstr=True)
         },
         "data": []
     }
@@ -207,7 +98,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
         common = {}
         timesteps = []
         logging.info(f'process_schema: processing step {schema.index(step)}:')
-        handler = _infer_datagram_handler(step["datagram"])
+        handler = _infer_datagram_handler(step["parser"])
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:
             logging.warning(f"process_schema: No files processed by step {step['tag']}")
@@ -254,7 +145,7 @@ def _parse_arguments() -> argparse.Namespace:
     parser.add_argument("--folder",
                         help="Specify the folder on which to apply the [preset].")
     parser.add_argument("--version",
-                        action="version", version=f'%(prog)s version {_VERSION}')
+                        action="version", version=f'%(prog)s version {metadata.version("yadg")}')
     parser.add_argument("--ignore-file-errors", 
                         dest="permissive", action="store_true",
                         help='Ignore file opening errors while processing schemafile',
@@ -275,11 +166,14 @@ def run():
     """
     Main execution function.
 
-    This is the function executed when `yadg` is launched using the executable
-    or via `python yadg.py`. The function 1) processes the command line 
-    arguments, 2) loads or composes the `schema`, 3) validates the `schema`,
-    4) processess the `schema` into a `datagram`, and 5) saves the `datagram`
-    according to the input.
+    This is the function executed when **yadg** is launched using the executable
+    or via `python yadg.py`. The function: 
+    
+      1) processes the command line arguments into ``args``, 
+      2) loads or composes the `schema` based on ``args``, 
+      3) validates the `schema`,
+      4) processes the `schema` into a `datagram`, and 
+      5) saves the `datagram` into a ``json`` file according to the ``args``.
 
     """
     args = _parse_arguments()
@@ -292,7 +186,7 @@ def run():
                          "is not yet implemented.")
         sys.exit()
     
-    schema_validator(schema, args.permissive)
+    assert validators.validate_schema(schema, args.permissive)
     
     datagram = process_schema(schema)
     if args.dump:

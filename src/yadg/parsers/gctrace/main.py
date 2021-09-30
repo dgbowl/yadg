@@ -4,15 +4,12 @@ import json
 import math
 from scipy.signal import find_peaks, savgol_filter
 import numpy as np
-import copy
-import matplotlib
-import matplotlib.pyplot as plt
 import logging
 from uncertainties import ufloat
-
-from helpers import *
-from parsers.gctrace import datasc, chromtab, fusion
 from typing import Union
+
+from parsers.gctrace import datasc, chromtab, fusion
+
 
 def _find_peak_maxima(ys: list[ufloat], peakdetect: dict) -> dict:
     """
@@ -47,11 +44,6 @@ def _find_peak_edges(ys: list[ufloat], peakdata: dict, detector: dict) -> dict:
     inflection points etc. in `peakdata`, and the peak integration `"threshold"`
     in `detector`, finds the edges `"llim"` and `"rlim"` of each peak.
     """
-    #fig = plt.figure(figsize=(5,3), dpi=128)
-    #ax = [fig.add_subplot(1,1,1)]
-    #ax[0].plot(range(len(ys)), [y.n for y in ys])
-    #ax[0].plot([p for p in peakdata["+"]],[ys[p].n for p in peakdata["+"]],color="C0", linestyle="", marker="o")
-    #plt.show()
     threshold = detector.get("threshold", 1.0)
     allpeaks = []
     for pi in range(len(peakdata["+"])):
@@ -158,13 +150,6 @@ def _integrate_peaks(xs: list[ufloat], ys: list[ufloat], peakdata: dict, specdat
         A = np.trapz([i for i in trace["y"][v["llim"]:v["rlim"]+1]], [i for i in trace["x"][v["llim"]:v["rlim"]+1]])
         truepeaks[k]["A"] = A
         truepeaks[k]["h"] = trace["y"][v["max"]]
-    #fig = plt.figure(figsize=(5,3), dpi=128)
-    #ax = [fig.add_subplot(1,1,1)]
-    #ax[0].plot([x.n for x in trace["x"]], [y.n for y in trace["y"]])
-    #ax[0].plot([trace["x"][p["max"]].n for p in peakdata], [trace["y"][p["max"]].n for p in peakdata], color="C0", linestyle="", marker="o")
-    #for k, v in truepeaks.items():
-    #    ax[0].plot([x.n for x in trace["x"][v["llim"]:v["rlim"]]], [y.n for y in trace["y"][v["llim"]:v["rlim"]]], color="r")
-    #plt.show() 
     return truepeaks
 
 def _calib_handler(x, calib = None, atol = 0, rtol = 0):
@@ -260,6 +245,9 @@ def process(fn: str, tracetype: str = "datasc", **kwargs: dict) -> tuple[list, d
         peaks = {}
         comp = []
         for detname, spec in gcspec.items():
+            for det in chrom["detectors"].keys():
+                if chrom["detectors"][det]["id"] == spec["id"]:
+                    chrom["detectors"][det]["calname"] = detname
             units = {
                 "x": chrom["traces"][spec["id"]]["x"][0][2],
                 "y": chrom["traces"][spec["id"]]["y"][0][2]

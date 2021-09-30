@@ -1,7 +1,7 @@
-from helpers import dateutils
 import logging
 import json
 import numpy as np
+import dgutils
 
 def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
     """
@@ -27,15 +27,18 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
         }
     }
     common = {}
-    _, datefunc = dateutils._infer_timestamp_from([], 
+    _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%Y-%m-%dT%H:%M:%S"]})
     chrom = {
         "fn": str(fn), 
         "traces": [],
         "uts": datefunc(jsdata["runTimeStamp"].split(".")[0]),
-        "detectors": sorted(jsdata["detectors"].keys())
+        "detectors": {}
     }
-    for detname in chrom["detectors"]:
+    detid = 0
+    for detname in sorted(jsdata["detectors"].keys()):
+        chrom["detectors"][detname] = {"id": detid}
+        detid += 1
         detdict = jsdata["detectors"][detname]
         trace = {"x": [], "y": []}
         xmul = detdict["nValuesPerSecond"]

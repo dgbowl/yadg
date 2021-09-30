@@ -1,6 +1,6 @@
 [
     {
-        "datagram": "dummy",
+        "parser": "dummy",
         "import": {
             "files": ["dummy_schema_1.json"]
         }

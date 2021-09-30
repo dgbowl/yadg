@@ -1,5 +1,5 @@
 import os
-from helpers import dateutils
+import dgutils
 
 def process(fn, **kwargs):
     """
@@ -16,7 +16,7 @@ def process(fn, **kwargs):
     """
     
     result = {
-            "uts": dateutils.now(),
+            "uts": dgutils.now(),
             "fn": fn,
             "kwargs": kwargs
     }

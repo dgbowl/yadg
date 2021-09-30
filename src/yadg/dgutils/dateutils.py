@@ -1,5 +1,4 @@
 import datetime
-import math
 import logging
 from typing import Callable
 
@@ -16,9 +15,8 @@ def now(asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc):
     else:
         return dt.timestamp()
 
-def _infer_timestamp_from(headers: list,
-                          spec: dict = None,
-                          tz: datetime.timezone = datetime.timezone.utc) -> tuple[list, Callable]:
+def infer_timestamp_from(headers: list, spec: dict = None,
+                         tz: datetime.timezone = datetime.timezone.utc) -> tuple[list, Callable]:
     """
     Convenience function for timestamping
 

@@ -4,7 +4,6 @@ import json
 from distutils import dir_util
 
 from yadg import core
-from general import object_is_datagram
 from schemas import gctrace_chromtab
 
 # tests for the basiccsv module:
@@ -29,13 +28,13 @@ def datadir(tmpdir, request):
 
 def datagram_from_gctrace(input, datadir):
     schema = [{
-        "datagram": "gctrace",
+        "parser": "gctrace",
         "import": {"folders": ["."], 
                    "prefix": input["prefix"],
                    "suffix": input["suffix"]},
         "parameters": input.get("parameters", {})
     }]
-    core.schema_validator(schema)
+    assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
 @pytest.mark.parametrize("input, ts", [
@@ -55,7 +54,7 @@ def datagram_from_gctrace(input, datadir):
 def test_datagram_from_gctrace(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_gctrace(input, datadir)
-    object_is_datagram(ret)
+    assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     step = ret["data"][ts["step"]]
     assert step["metadata"]["gcparams"]["method"].endswith(ts["method"])

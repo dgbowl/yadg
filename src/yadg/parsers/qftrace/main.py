@@ -5,8 +5,8 @@ from uncertainties import ufloat, umath
 from uncertainties import unumpy as unp
 import numpy as np
 
+import dgutils
 from parsers.qftrace import kajfez, lorentz, naive, prune
-from helpers import dateutils
 
 def _fit(freq, gamma, absgamma, method, height, distance, cutoff, threshold):
     """
@@ -86,7 +86,7 @@ def process(fn, atol = 0, rtol = 5e-7, sigma = {}, method = "kajfez",
 
     """
     # create timestamp
-    _, datefunc = dateutils._infer_timestamp_from([], 
+    _, datefunc = dgutils.infer_timestamp_from([], 
                             spec = {"timestamp": [0, "%Y-%m-%d-%H-%M-%S"]})
     dirname, basename = os.path.split(fn)
     data = {

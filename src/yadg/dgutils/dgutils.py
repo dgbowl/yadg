@@ -3,8 +3,6 @@ import numpy as np
 from operator import itemgetter
 from uncertainties import ufloat, umath
 
-from helpers import *
-from helpers.version import _VERSION
 
 def combine(filelist, **kwargs):
     datagramlist = []

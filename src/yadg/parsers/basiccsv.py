@@ -1,5 +1,5 @@
-from helpers import dateutils
 import logging
+import dgutils
 
 def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
             units = None, timestamp = None, **kwargs):
@@ -48,7 +48,7 @@ def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
 
-    datecolumns, datefunc = dateutils._infer_timestamp_from(headers, spec = timestamp)
+    datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp)
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(sep)]

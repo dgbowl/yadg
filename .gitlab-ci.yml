@@ -62,7 +62,7 @@ pages:
     - merge_requests
   script:
     - pip install dist/*
-    - pip install sphinx sphinx-rtd-theme sphinx-autodocs-typehints
+    - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
     - sphinx-apidoc -o docs/source src
     - sphinx-build -b html docs/source public
   artifacts:

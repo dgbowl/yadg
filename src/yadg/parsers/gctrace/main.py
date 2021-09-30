@@ -1,12 +1,8 @@
-import sys
-import os
 import json
-import math
 from scipy.signal import find_peaks, savgol_filter
 import numpy as np
 import logging
 from uncertainties import ufloat, UFloat
-from typing import Union
 
 from parsers.gctrace import datasc, chromtab, fusion
 from dgutils import calib_handler
@@ -251,7 +247,7 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
             peaks[detname] = {}
             for k, v in integrated.items():
                 peaks[detname][k] = {
-                    "peak": { "max": v["max"], "llim": v["llim"], "rlim": v["rlim"]},
+                    "peak": {"max": v["max"], "llim": v["llim"], "rlim": v["rlim"]},
                     "A": [v["A"].n, v["A"].s, units["A"]],
                     "h": [v["h"].n, v["h"].s, units["y"]]
                 }

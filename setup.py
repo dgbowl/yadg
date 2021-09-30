@@ -33,9 +33,7 @@ setuptools.setup(
         "numpy",
         "scipy",
         "uncertainties",
-        "pytest",
-        "sphinx",
-        "sphinx-autodoc-typehints"
+        "pytest"
     ],
     entry_points = {
         "console_scripts": [

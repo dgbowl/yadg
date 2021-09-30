@@ -59,8 +59,11 @@ pages:
   stage: pages
   only:
     - master
+    - merge_requests
   script:
-    - pip install sphinx sphinx-rtd-theme
+    - pip install dist/*
+    - pip install sphinx sphinx-rtd-theme sphinx-autodocs-typehints
+    - sphinx-apidoc -o docs/source src
     - sphinx-build -b html docs/source public
   artifacts:
     paths:

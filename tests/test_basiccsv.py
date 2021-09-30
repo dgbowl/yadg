@@ -42,7 +42,7 @@ def datagram_from_basiccsv(input, datadir):
 
 @pytest.mark.parametrize("input, ts", [
     ({"case": "case_uts_units.csv"},
-     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "flow", "point": 0, "sigma": 0.015, "value": 15.0, "unit": "ml/min"}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "flow", "point": 0, "sigma": 0.0, "value": 15.0, "unit": "ml/min"}),
     ({"case": "case_uts_units.csv",
       "parameters": {"timestamp": {"uts": 0}}}, 
      {"nsteps": 1, "step": 0, "nrows": 6, "prop": "uts", "point": 2, "value": 1631626610.0}),
@@ -73,6 +73,15 @@ def datagram_from_basiccsv(input, datadir):
     ({"case": "case_time_custom.csv",
       "parameters": {"timestamp": {"time": [0, "%I.%M%p"]}}}, 
      {"nsteps": 1, "step": 0, "nrows": 3, "prop": "uts", "point": 1, "value": 43200}), 
+    ({"case": "case_timestamp.ssv", 
+      "parameters": {"sep": ";", "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
+      "convert": {"flow": {"header": "flow", "calib": {"linear": {"slope": 1e-6/60}, "atol": 1e-8}, "unit": "m3/s"}}}}, 
+     {"nsteps": 1, "step": 0, "nrows": 7, "prop": "flow", "point": 0, "sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s"}),
+    ({"case": "case_uts_units.csv",
+      "parameters": {"atol": 0.1, "convert": {"T": {"header": "T", "calib": {"linear": {"intercept": 273.15}}, "unit": "K"}}}},
+     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
+    
+    
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)

@@ -1,8 +1,10 @@
 import logging
+from uncertainties import ufloat
 import dgutils
 
-def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
-            units = None, timestamp = None, **kwargs):
+def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0, 
+            sigma: dict = {}, units: dict = None, timestamp: dict = None,
+            convert: dict = None, **kwargs):
     """
     A basic csv parser.
 
@@ -14,31 +16,37 @@ def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
 
     Parameters
     ----------
-    fn : string
+    fn
         File to process
     
-    sep : string, optional
+    sep
         Separator to use. Default is "," for csv.
 
-    rtol : float, optional
-        The default relative uncertainty accross all float values. A conservative
-        value of 0.1% is used as default.
-    
-    atol : float, optional
-        The default absolute uncertainty accross all float values. By default set
-        to 0, i.e. the rtol is always used.
+    atol
+        The default absolute uncertainty accross all float values in csv columns. 
+        By default set to 0.
 
-    sigma : dict, optional
-        Column-specific `atol` and `rtol` values can be supplied here.
+    rtol
+        The default relative uncertainty accross all float values in csv columns. 
+        By default set to 0.
+
+    sigma
+        Column-specific ``atol`` and ``rtol`` values can be supplied here.
     
-    units : dict, optional
+    units
         Column-specific unit specification. If present, 2nd line is treated as
         data. If omitted, 2nd line is treated as units.
 
-    timestamp : dict, optional
-        Specification for timestamping. Allowed keys are "date", "time",
-        "timestamp", "uts". The entries can be column indices (int), or tuples
-        consisting  of a column index (int), and format (str).
+    timestamp
+        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
+        ``"timestamp"``, ``"uts"``. The entries can be column indices 
+        :class:`(int)`, or a ::class:`tuple(int, str)` consisting of a column 
+        index :class:`(int)`, and format :class:`(str)`.
+    
+    convert
+        Specification for column conversion. Each entry will form a new datapoint,
+        must contain a valid ``"header"`` entry and a ``"calib"`` specification.
+
     """
     metadata = {
         "fn": str(fn)
@@ -76,10 +84,15 @@ def process(fn, sep = ",", atol = 0, rtol = 0.001, sigma = {},
                 continue
             try:
                 _val = float(columns[ci])
-                _tols = sigma.get(header, {"rtol": rtol, "atol": atol})
-                _sigma = max(abs(_val * _tols.get("rtol", 0)), _tols.get("atol", 0))
+                _tols = sigma.get(header, {})
+                _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
                 _unit = units.get(header)
                 element[header] = [_val, _sigma, _unit]
+                if convert is not None:
+                    for nk, spec in convert.items():
+                        if header == spec["header"]:
+                            y = dgutils.calib_handler(ufloat(_val, _sigma), spec["calib"])
+                            element[nk] = [y.n, y.s, spec.get("unit", "-")]
             except ValueError:
                 element[header] = columns[ci]
         data.append(element)

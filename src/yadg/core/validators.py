@@ -3,6 +3,8 @@ import logging
 import os
 from typing import Union
 
+from yadg.core.spec import spec
+
 def _list_validator(l: list) -> bool:
     if len(l) == 3:
         return _float_list(l)
@@ -110,7 +112,7 @@ def _step_validator(item: Union[list, dict, str], spec: dict) -> True:
     assert isinstance(item, spec["type"]), f"validate_schema: item '{item}' does " \
                                            f"not match prescribed type in spec " \
                                            f"'{spec['type']}'."
-    if len({"all", "one", "any"}.intersection(spec)) > 0 and spec["type"] in [list, dict]:
+    if len({"all", "one", "any", "each"}.intersection(spec)) > 0 and spec["type"] in [list, dict]:
         for k, v in spec.get("all", {}).items():
             assert k in item, f"validate_schema: required entry '{k}' was not " \
                               f"specified in item '{item}'."
@@ -124,8 +126,12 @@ def _step_validator(item: Union[list, dict, str], spec: dict) -> True:
             for d in ["all", "one", "any"]:
                 if k in spec.get(d, []):
                     s = d
-            assert s, f"validate_schema: Key '{k}' in item {item} is not understood."
-            assert _step_validator(item[k], spec[s][k])
+            assert s or spec.get("allow", False) or "each" in spec, \
+                f"validate_schema: Key '{k}' in item {item} is not understood."
+            if s:
+                assert _step_validator(item[k], spec[s][k])
+            elif "each" in spec:
+                assert _step_validator(item[k], spec["each"])
     elif len({"all", "one", "any"}.intersection(spec)) > 0 and spec["type"] in [str]:
         if "all" in spec:
             assert len(spec["all"]) == 1 and item in spec["all"], \
@@ -137,6 +143,8 @@ def _step_validator(item: Union[list, dict, str], spec: dict) -> True:
             assert item in spec["any"], \
                     f"validate_schema: Item '{item}' is not in {spec['any']}."
     return True
+
+
 
 def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> True:
     """
@@ -192,36 +200,9 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
     True: bool
         When the `schema` is valid and passes all assertions, `True` is returned.
     """
-    spec = {
-        "type": dict,
-        "all": {
-            "parser": {
-                "type": str,
-                "one": ["dummy", "basiccsv", "qftrace", "gctrace"]
-            },
-            "import": {
-                "type": dict,
-                "one": {
-                    "files": {"type": list},
-                    "folders": {"type": list}
-                },
-                "any": {
-                    "prefix": {"type": str},
-                    "suffix": {"type": str},
-                    "contains": {"type": str}
-                }
-            }
-        },
-        "any": {
-            "tag": {"type": str},
-            "export": {"type": str},
-            "parameters": {"type": dict}
-        }
-    }
     # schema has to be a list or a tuple
     assert isinstance(schema, (list, tuple)), "schema_validator: Provided schema " \
                                               "is neither a list nor a tuple."
-    
     for step in schema:
         si = schema.index(step)
         # schema has to meet spec defined above

@@ -1,7 +1,6 @@
-import os
 import dgutils
 
-def process(fn, **kwargs):
+def process(fn: str, **kwargs: dict) -> tuple[list, None, None]:
     """
     A dummy parser.
 

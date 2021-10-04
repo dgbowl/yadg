@@ -36,10 +36,11 @@ def datagram_from_basiccsv(input, datadir):
         "metadata": {"provenance": "manual", "schema_version": "0.1"},
         "steps": [{
           "parser": "basiccsv",
-          "import": {"files": [str(datadir.join(input["case"]))]},
+          "import": {"files": [input["case"]]},
           "parameters": input.get("parameters", {})
         }]
     }
+    os.chdir(datadir)
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
@@ -82,6 +83,9 @@ def datagram_from_basiccsv(input, datadir):
      {"nsteps": 1, "step": 0, "nrows": 7, "prop": "flow", "point": 0, "sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s"}),
     ({"case": "case_uts_units.csv",
       "parameters": {"atol": 0.1, "convert": {"T": {"header": "T", "calib": {"linear": {"intercept": 273.15}}, "unit": "K"}}}},
+     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
+    ({"case": "case_uts_units.csv",
+      "parameters": {"atol": 0.1, "calfile": "calib.json"}},
      {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):

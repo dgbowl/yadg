@@ -63,3 +63,4 @@ def test_datagram_from_gctrace(input, ts, datadir):
         print(tstep["xout"])
         for k, v in ts["xout"].items():
             assert tstep["xout"][k][0] == pytest.approx(v, rel = 0.02)
+    json.dumps(ret)

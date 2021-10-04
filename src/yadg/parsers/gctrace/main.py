@@ -169,8 +169,7 @@ def _parse_detector_spec(calfile: str = None, detectors: dict = None,
 
 def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
             species: dict = None, calfile: str = None, 
-            atol: float = 0, rtol: float = 0,
-             **kwargs: dict) -> tuple[list, dict, dict]:
+            atol: float = 0, rtol: float = 0, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
 
@@ -247,7 +246,11 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
             peaks[detname] = {}
             for k, v in integrated.items():
                 peaks[detname][k] = {
-                    "peak": {"max": v["max"], "llim": v["llim"], "rlim": v["rlim"]},
+                    "peak": { 
+                        "max": int(v["max"]), 
+                        "llim": int(v["llim"]), 
+                        "rlim": int(v["rlim"])
+                    },
                     "A": [v["A"].n, v["A"].s, units["A"]],
                     "h": [v["h"].n, v["h"].s, units["y"]]
                 }

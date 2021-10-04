@@ -59,6 +59,7 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     assert len(ret["data"]) == l_dg
     if l_dg > 0:
         assert len(ret["data"][0]["timesteps"]) == l_res
+    json.dumps(ret)
 
 @pytest.mark.parametrize("inp_fn, ts", [
     ("dummy_schema_1.json", {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
@@ -70,6 +71,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["kwargs"] == ts["kwargs"]
+    json.dumps(ret)
 
 @pytest.mark.parametrize("inp_dict, expr", [
     (fail_1, r"'parser'"),

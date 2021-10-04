@@ -46,18 +46,54 @@ def _dict_validator(d: dict) -> bool:
     return True
 
 def validator(item: Union[list, dict, str], spec: dict) -> True:
+    """
+    Worker validator function. 
+    
+    This function checks that ``item`` matches the specification supplied in 
+    ``spec``. The ``spec`` :class:`(dict)` can have the following entries:
+
+    - ``"type"`` :class:`(type)`\ , a required entry, defining the type of ``item``,
+    - ``"all"`` :class:`(dict)` defining a set of required keywords and their
+      respective ``spec``,
+    - ``"any"`` :class:`(dict)` defining a set of optional keywords and their
+      respective ``spec``,
+    - ``"one"`` :class:`(dict)` defining a set of mutually exclusive keywords and
+      their respective ``spec``,
+    - ``"each"`` :class:`(dict)` providing the ``spec`` for any keywords not 
+      listed in ``"all"``, ``"any"``, or ``"one"``,
+    - ``"allow"`` :class:`(bool)` a switch whether to allow unspecified keys.
+
+    To extend the existing `datagram` and `schema` specs, look into 
+    :mod:`yadg.core.spec_datagram` and :mod:`yadg.core.spec_schema`, respectively.
+
+    Parameters
+    ----------
+    item
+        The ``item`` to be validated.
+    
+    spec
+        The ``spec`` with which to validate the ``item``
+    
+    Returns
+    -------
+    True: bool
+        If the ``item`` matches the ``spec``, returns `True`. Otherwise, an
+        `AssertionError` is raised.
+
+    """
     assert isinstance(item, spec["type"]), f"validator: item '{item}' does " \
                                            f"not match prescribed type in spec " \
                                            f"'{spec['type']}'."
-    if len({"all", "one", "any", "each"}.intersection(spec)) > 0 and spec["type"] in [list, dict]:
+    if len({"all", "one", "any", "each"}.intersection(spec)) > 0 and \
+       spec["type"] in [list, dict]:
         for k, v in spec.get("all", {}).items():
             assert k in item, f"validator: required entry '{k}' was not " \
                               f"specified in item '{item}'."
         if "one" in spec:
             initem = set(spec["one"]).intersection(item)
             assert len(initem) == 1, f"validator: Exactly one of entries in " \
-                                     f"{spec['one']} has to be provided in item {item}, " \
-                                     f"but {len(initem)} were provided: {initem}."
+                            f"{spec['one']} has to be provided in item " \
+                            f"{item}, but {len(initem)} were provided: {initem}."
         for k in item:
             s = False
             for d in ["all", "one", "any"]:
@@ -97,8 +133,12 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
 
     The specification is:
     
-    - The `schema` has to be a :class:`(Union[list, tuple])`
-    - Each element of this parent list is a `step`, of type :class:`(dict)`
+    - The `schema` has to be a :class:`(dict)` with a top-level ``"metadata"``
+      :class:`(dict)` and ``"steps"`` :class:`(list)` entries
+    - The ``"metadata"`` entry has to specify the ``"provenance"`` of the `schema`,
+      as well as the ``"schema_version"`` :class:`(str)`. Other entries may be
+      specified.
+    - Each element within the ``"steps"`` list is a `step`, of type :class:`(dict)`
     - Each `step` has to have the ``"parser"`` and ``"import"`` entries:
     
       - The ``"parser"`` is a :class:`(str)` entry that has to contain the name 
@@ -139,6 +179,7 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
     -------
     True: bool
         When the `schema` is valid and passes all assertions, `True` is returned.
+        Otherwise, an `AssertionError` is raised.
     """
     # schema has to meet the spec
     assert validator(schema, yadg.core.schema)
@@ -165,7 +206,8 @@ def validate_datagram(datagram: dict) -> True:
     """
     Datagram validator.
 
-    Checks the overall `datagram` format using a series of assertions.
+    Checks the overall `datagram` format against the `datagram` spec, and ensures
+    that each floating-point value is accompanied by standard deviation and unit.
 
     The current `datagram` specification is:
 
@@ -173,6 +215,24 @@ def validate_datagram(datagram: dict) -> True:
 
        - ``"metadata"`` :class:`(dict)`: A top-level entry containing metadata. 
        - ``"data"`` :class:`(list[dict])`: List corresponding to a sequence of `steps`.
+    
+    - The ``"metadata"`` entry has to contain information about the ``"provenance"``
+      of the `datagram`, the creation date using ISO8601 format in ``"date"`` 
+      :class:`(str)` entry, a full copy of the input `schema` in the ``"input_schema"``
+      entry, and version information in ``"datagram_version"`` :class:`(str)`.
+    
+    - Each element in the ``"data"`` corresponds to a single `step` from the `schema`.
+    - Each `step` in ``"data"`` has to contain a ``"metadata"`` :class:`(dict)` entry,
+      and a ``"timesteps"`` :class:`(list)`; an optional ``"common"`` :class:`(dict)` 
+      data block can be provided.
+    - Each timestep in the ``"timesteps"`` list has to specify a timestamp using the
+      Unix Timestamp format in ``"uts"`` :class:`(float)` entry. Any other entries
+      are allowed, including :class:`(str)`, :class:`(int)`, :class:`(list)`, or 
+      :class:`(dict)`. 
+    
+    .. note:: 
+        A floating-point entry has to be specified using a :class:`list(`\ ``value``\ 
+        :class:`(float)`\ ``, error``\ :class:`(float)`\ ``, unit``\ :class:`(str))` format.
 
     Parameters
     ----------

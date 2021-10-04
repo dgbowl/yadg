@@ -12,6 +12,22 @@ yadg.core.main module
    :undoc-members:
    :show-inheritance:
 
+yadg.core.spec\_datagram module
+-------------------------------
+
+.. automodule:: yadg.core.spec_datagram
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.core.spec\_schema module
+-----------------------------
+
+.. automodule:: yadg.core.spec_schema
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 yadg.core.validators module
 ---------------------------
 

@@ -1,5 +1,5 @@
-src
-===
+yadg
+====
 
 .. toctree::
    :maxdepth: 4

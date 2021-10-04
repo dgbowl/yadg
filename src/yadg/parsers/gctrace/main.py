@@ -32,7 +32,7 @@ def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
     hess = np.gradient(grad)
     res = np.where(np.diff(np.sign(hess)) != 0)[0] + 1
     peaks["hesszero"] = res
-    return peaks
+    return smooth, peaks
 
 def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
     """
@@ -54,43 +54,40 @@ def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
                 break
         # right of peak: 
         rlim = False
-        # peak goes at least to the first inflection point, defined by hi.
-        # If there's a minimum between the first and second inflection point, 
-        # that's the end of our peak:
-        for i in peakdata["gradzero"][gi:]:
-            if i > peakdata["hesszero"][hi] and i < peakdata["hesszero"][hi+1]:
-                rlim = i
-            elif i > peakdata["hesszero"][hi+1]:
+        rmin = False
+        rthr = False
+        for xi in range(peakdata["hesszero"][hi], len(ys)):
+            if xi in peakdata["gradzero"] and not rmin:
+                rmin = xi
+            if xi in peakdata["hesszero"][hi:]:
+                rhi = xi
+            elif xi > peakdata["hesszero"][hi+1]:
+                dx = xi - rhi
+                dy = ys[xi] - ys[rhi]
+                if abs(dy/dx) < threshold and not rthr:
+                    rthr = xi
+            if rthr and rmin:
                 break
-        # If there's not a minimum, we keep looking at inflection points until
-        # the difference in their height is below threshold:
-        if not rlim:
-            ppt = [peakdata["hesszero"][hi], ys[peakdata["hesszero"][hi]]]
-            for i in peakdata["hesszero"][hi+1:]:
-                pt = [i, ys[i]]
-                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
-                if abs(dp[1]/dp[0]) < threshold:
-                    rlim = i
-                    break
-                ppt = pt
-        # left of peak:
-        llim = False
-        for i in peakdata["gradzero"][:gi][::-1]:
-            if i > peakdata["hesszero"][hi-2] and i < peakdata["hesszero"][hi-1]:
-                llim = i
-            elif i < peakdata["hesszero"][hi-1]:
+        rlim = min(rthr if rthr else len(ys), rmin if rmin else len(ys))
+        # left of peak
+        lmin = False
+        lthr = False
+        lhi = pmax
+        for xi in range(0, peakdata["hesszero"][hi-1])[::-1]:
+            if xi in peakdata["gradzero"] and not lmin:
+                lmin = xi
+            if xi in peakdata["hesszero"][:hi-1]:
+                lhi = xi
+            elif xi < peakdata["hesszero"][hi-2]:
+                dx = xi - lhi
+                dy = ys[xi] - ys[lhi]
+                if abs(dy/dx) < threshold and not lthr:
+                    lthr = xi
+            if lthr and lmin:
                 break
-        if not llim:
-            ppt = [peakdata["hesszero"][hi-1], ys[peakdata["hesszero"][hi-1]]]
-            for i in peakdata["hesszero"][:hi-1][::-1]:
-                pt = [i, ys[i]]
-                dp = [ppt[0] - pt[0], ppt[1] - pt[1]]
-                if abs(dp[1]/dp[0]) < threshold:
-                    llim = i
-                    break
-                ppt = pt
-        assert rlim and llim, \
-            logging.error("gctrace: Peak end finding failed.")
+        llim = max(lthr if lthr else 0, lmin if lmin else 0)
+        if llim == 0:
+            logging.warning("gctrace: possible mismatch of peak start")
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 
@@ -240,8 +237,8 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
             yfloat = [i[0] for i in chrom["traces"][spec["id"]]["y"]]
             xufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["x"]]
             yufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["y"]]
-            peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
-            peakspec = _find_peak_edges(yfloat, peakmax, spec.get("peakdetect", {}))
+            smooth, peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
+            peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
             integrated = _integrate_peaks(xufloat, yfloat, yufloat, peakspec, spec["species"])
             peaks[detname] = {}
             for k, v in integrated.items():

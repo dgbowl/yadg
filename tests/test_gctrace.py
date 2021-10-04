@@ -43,16 +43,20 @@ def datagram_from_gctrace(input, datadir):
 @pytest.mark.parametrize("input, ts", [
     ({"prefix": "2019-12-03", "suffix": "dat.asc", 
       "parameters": {"tracetype": "datasc", "calfile": "gc_5890_FHI.json"},},
-     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "polyarc+TCD_PK_09b.met", "xout": {"propane": 0.022, "N2": 0.915}}),  
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "polyarc+TCD_PK_09b.met", 
+      "tstep": 2, "xout": {"propane": 0.022, "N2": 0.915}}),  
     ({"prefix": "CHROMTAB", "suffix": "CSV", 
       "parameters": {"tracetype": "chromtab", "calfile": "gc_chromtab.json"},},
-     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),   
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", 
+      "tstep": 2, "xout": {"N2": 0.674, "CH3OH": 0.320}}),   
     ({"prefix": "CHROMTAB", "suffix": "CSV", 
       "parameters": {"tracetype": "chromtab", "species": gctrace_chromtab["sp"], "detectors": gctrace_chromtab["det"]},},
-     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", "xout": {"N2": 0.74}}),    
+     {"nsteps": 1, "step": 0, "ntsteps": 3, "method": "n/a", 
+      "tstep": 0, "xout": {"N2": 0.647, "CH3OH": 0.343}}),    
     ({"prefix": "", "suffix": "fusion-data", 
       "parameters": {"tracetype": "fusion", "calfile": "gc_fusion.json"}},
-     {"nsteps": 1, "step": 0, "ntsteps": 5, "method": "AS_Cal_20210702", "xout": {}}),    
+     {"nsteps": 1, "step": 0, "ntsteps": 5, "method": "AS_Cal_20210702",
+      "tstep": 0, "xout": {"H2": 0.99}}),    
 ])
 def test_datagram_from_gctrace(input, ts, datadir):
     os.chdir(datadir)
@@ -62,8 +66,8 @@ def test_datagram_from_gctrace(input, ts, datadir):
     step = ret["data"][ts["step"]]
     assert step["metadata"]["gcparams"]["method"].endswith(ts["method"])
     assert len(step["timesteps"]) == ts["ntsteps"]
-    for tstep in step["timesteps"]:
-        print(tstep["xout"])
-        for k, v in ts["xout"].items():
-            assert tstep["xout"][k][0] == pytest.approx(v, rel = 0.02)
+    tstep = step["timesteps"][ts["tstep"]]
+    print(tstep["xout"])
+    for k, v in ts["xout"].items():
+        assert tstep["xout"][k][0] == pytest.approx(v, rel = 0.01)
     json.dumps(ret)

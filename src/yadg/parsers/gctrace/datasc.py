@@ -21,7 +21,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     common = {}
     chrom = {"fn": str(fn), "traces": [], "detectors": {}}
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%m/%d/%Y %H:%M:%S %p"}})
+                            spec = {"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}})
     
     for line in lines:
         for key in ["Version", "Maxchannels", "Method", "User Name"]:

@@ -2,10 +2,10 @@
     "MS": {
         "id": 0,
         "peakdetect": {
-            "window": 15,
-            "polyorder": 5,
+            "window": 3,
+            "polyorder": 2,
             "prominence": 1e5,
-            "threshold": 1e2
+            "threshold": 1
         },
         "prefer": true,
         "species": {
@@ -18,10 +18,10 @@
     "TCD": {
         "id": 1,
         "peakdetect": {
-            "window": 15,
+            "window": 3,
             "polyorder": 2,
             "prominence": 1e5,
-            "threshold": 1e2
+            "threshold": 1
         },
         "species": {
             "CO2": {"l": 179.4, "r": 189.4, "calib": {"linear": {"slope": 1.0}}},

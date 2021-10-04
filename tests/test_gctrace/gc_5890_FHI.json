@@ -4,7 +4,8 @@
         "peakdetect": {
             "window": 3,
             "polyorder": 2,
-            "prominence": 0.3
+            "prominence": 5e-1,
+            "threshold": 1
         },
         "species": {
             "CO2":       {"l":  210.0, "r": 226.2, "calib": {"inverse": {"slope":  761.60}}},
@@ -22,9 +23,10 @@
     "FID": {
         "id": 0,
         "peakdetect": {
-            "window": 7,
-            "polyorder": 5,
-            "prominence": 2e-2
+            "window": 3,
+            "polyorder": 2,
+            "prominence": 5e-1,
+            "threshold": 1
         },
         "species": {
             "CO":        {"l":  511.8, "r":  521.4, "calib": {"inverse": {"slope": 1873.56}}},

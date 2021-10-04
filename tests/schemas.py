@@ -11,9 +11,9 @@ fail_5 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps"
 
 gctrace_chromtab = {
     "det":  {
-        "MS":  {"id": 0, "peakdetect": {"window": 15, "polyorder": 5, "prominence": 1e5, "threshold": 1e2}, "prefer": True},
-        "TCD": {"id": 1, "peakdetect": {"window": 15, "polyorder": 2, "prominence": 1e5, "threshold": 1e2}},
-        "FID": {"id": 2, "peakdetect": {"window": 15, "polyorder": 2, "prominence": 1e5, "threshold": 1e2}}
+        "MS":  {"id": 0, "peakdetect": {"window": 3, "polyorder": 2, "prominence": 1e5, "threshold": 1.0}, "prefer": True},
+        "TCD": {"id": 1, "peakdetect": {"window": 3, "polyorder": 2, "prominence": 1e5, "threshold": 1.0}},
+        "FID": {"id": 2, "peakdetect": {"window": 3, "polyorder": 2, "prominence": 1e5, "threshold": 1.0}}
     },
     "sp":   {
         "MS": {

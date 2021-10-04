@@ -104,10 +104,8 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
                 assert validator(item[k], spec[s][k])
             elif "each" in spec:
                 if spec["type"] == list:
-                    print("we're a list")
                     assert validator(k, spec["each"])
                 else:
-                    print("we're not")
                     assert validator(item[k], spec["each"])
     elif len({"all", "one", "any"}.intersection(spec)) > 0 and spec["type"] in [str]:
         if "all" in spec:

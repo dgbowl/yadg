@@ -2,13 +2,13 @@
     "TCD1": {
         "id": 0,
         "peakdetect": {
-            "window": 11,
-            "polyorder": 3,
-            "prominence": 1e1,
-            "threshold": 1e1
+            "window": 3,
+            "polyorder": 2,
+            "prominence": 10,
+            "threshold": 10
         },
         "species": {
-            "H2":  {"l": 52.0, "r":  57.0, "calib": {"linear": {"slope": 70510.76475, "intercept": -57.87918}, "atol": 0.0008}},
+            "H2":  {"l": 52.0, "r":  59.0, "calib": {"linear": {"slope": 70510.76475, "intercept": -57.87918}, "atol": 0.0008}},
             "O2":  {"l": 59.0, "r":  62.0},
             "N2":  {"l": 67.0, "r":  72.0, "calib": null},
             "CH4": {"l": 82.0, "r":  85.0, "calib": {"linear": {"slope": 13232.38946, "intercept": -13.49018}, "atol": 0.0010}},
@@ -18,10 +18,10 @@
     "TCD2": {
         "id": 1,
         "peakdetect": {
-            "window": 11,
-            "polyorder": 3,
-            "prominence": 1e1,
-            "threshold": 1e1
+            "window": 3,
+            "polyorder": 2,
+            "prominence": 10,
+            "threshold": 10
         },
         "species":{
             "CO2":             {"l":  28.0, "r":  34.0, "calib": {"linear": {"slope":  63361.17895, "intercept": 138.59760}, "atol": 0.0022}},

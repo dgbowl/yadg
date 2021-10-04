@@ -33,10 +33,10 @@
     "FID": {
         "id": 2,
         "peakdetect": {
-            "window": 15,
+            "window": 3,
             "polyorder": 2,
             "prominence": 1e5,
-            "threshold": 1e2
+            "threshold": 1
         },
         "species":{
             "CH3OH":   {"l": 111.0, "r": 128.4, "calib": {"linear": {"slope": 1.0}}},

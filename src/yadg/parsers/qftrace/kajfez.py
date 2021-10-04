@@ -1,4 +1,4 @@
-from uncertainties import ufloat
+from uncertainties import ufloat, unumpy
 import numpy as np
 
 def fit(freq, gamma, absgamma, **kwargs):
@@ -14,10 +14,10 @@ def fit(freq, gamma, absgamma, **kwargs):
     reasonable error estimates.
     """
     niter = kwargs.get("iterations", 5)
-    fre = np.array([i.n for i in freq])
+    fre = unumpy.nominal_values(freq)
     n = len(fre)
-    gam1 = np.array(gamma)
-    agam1 = np.abs(gam1)
+    gam1 = gamma
+    agam1 = unumpy.nominal_values(absgamma)
     dia = np.min(agam1)
     idia = np.argmax(agam1)
     f0 = fre[idia]

@@ -21,7 +21,8 @@ def _process_headers(headers: list, columns: list) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, atol: float = 0.0, rtol: float = 0.0, 
+            **kwargs: dict) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 
@@ -65,8 +66,8 @@ def process(fn: str, **kwargs: dict) -> tuple[list, dict, dict]:
             chrom["detectors"][parts[0].replace('"', "")] = {"id": len(chrom["traces"])}
         elif len(parts) == 2:
             x, y = [float(i) for i in parts]
-            tolx = 0.5 * 10**(-len(parts[0].split(".")[1].strip()))
-            toly = 1.0
+            tolx = max(0.5 * 10**(-len(parts[0].split(".")[1].strip())), atol, rtol * x)
+            toly = max(atol, rtol * abs(y))
             trace["x"].append([x * 60, tolx * 60, "s"])
             trace["y"].append([y, toly, "-"])
     chrom["traces"].append(trace)

@@ -17,7 +17,7 @@ def process(fn, **kwargs):
     
     result = {
             "uts": dgutils.now(),
-            "fn": fn,
+            "fn": str(fn),
             "kwargs": kwargs
     }
     

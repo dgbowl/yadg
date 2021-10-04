@@ -66,8 +66,6 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
         lines = infile.readlines()
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    print(headers)
-    print(timestamp)
     datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp)
     if units is None:
         units = {}

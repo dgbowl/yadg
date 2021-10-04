@@ -87,7 +87,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
     """
     # create timestamp
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": [0, "%Y-%m-%d-%H-%M-%S"]})
+                            spec = {"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}})
     dirname, basename = os.path.split(fn)
     data = {
             "uts": datefunc(os.path.splitext(basename)[0]),

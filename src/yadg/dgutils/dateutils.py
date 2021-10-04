@@ -48,9 +48,18 @@ def infer_timestamp_from(headers: list, spec: dict = None,
     """
     if spec is not None:
         if "uts" in spec:
-            return [spec["uts"]], float
+            return [spec["uts"].get("index", None)], float
         if "timestamp" in spec:
-            if isinstance(spec["timestamp"], int):
+            if "format" in spec["timestamp"]:
+                def retfunc(value):
+                    dtn = datetime.datetime.strptime(value, spec["timestamp"]["format"])
+                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
+                                           day = dtn.day, hour = dtn.hour,
+                                           minute = dtn.minute, second = dtn.second,
+                                           tzinfo = tz)
+                    return dt.timestamp()
+                return [spec["timestamp"].get("index", None)], retfunc
+            else:
                 logging.debug("dateutils: Assuming specified column containing "
                               "the timestamp is in ISO 8601 format")
                 def retfunc(value):
@@ -60,16 +69,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                                            minute = dtn.minute, second = dtn.second,
                                            tzinfo = tz)
                     return dt.timestamp()
-                return [spec["timestamp"]], retfunc
-            else:
-                def retfunc(value):
-                    dtn = datetime.datetime.strptime(value, spec["timestamp"][1])
-                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
-                    return dt.timestamp()
-                return [spec["timestamp"][0]], retfunc
+                return [spec["timestamp"].get("index", None)], retfunc
         if "date" in spec or "time" in spec:
             specdict = {
                 "date": datetime.datetime.fromtimestamp(0, tz = tz).timestamp,
@@ -77,7 +77,16 @@ def infer_timestamp_from(headers: list, spec: dict = None,
             }
             cols = [None, None]
             if "date" in spec:
-                if isinstance(spec["date"], int):
+                if "format" in spec["date"]:
+                    def datefn(value):
+                        dtn = datetime.datetime.strptime(value, spec["date"]["format"])
+                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
+                                           day = dtn.day, hour = dtn.hour,
+                                           minute = dtn.minute, second = dtn.second,
+                                           tzinfo = tz)
+                        return dt.timestamp()
+                    cols[0] = spec["date"].get("index", None)
+                else:
                     logging.debug("dateutils: Assuming specified column containing "
                                 "the date is in ISO 8601 format")
                     def datefn(value):
@@ -87,19 +96,16 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                                            minute = dtn.minute, second = dtn.second,
                                            tzinfo = tz)
                         return dt.timestamp()
-                    cols[0] = spec["date"]
-                else:
-                    def datefn(value):
-                        dtn = datetime.datetime.strptime(value, spec["date"][1])
-                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
-                        return dt.timestamp()
-                    cols[0] = spec["date"][0]
+                    cols[0] = spec["date"].get("index", None)
                 specdict["date"] = datefn
             if "time" in spec:
-                if isinstance(spec["time"], int):
+                if "format" in spec["time"]:
+                    def timefn(value):
+                        t = datetime.datetime.strptime(value, spec["time"]["format"])
+                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, seconds = t.second)
+                        return td.total_seconds()
+                    cols[1] = spec["time"].get("index", None)
+                else:
                     logging.debug("dateutils: Assuming specified column containing "
                                   "the time is in ISO 8601 format")
                     def timefn(value):
@@ -107,13 +113,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                         td = datetime.timedelta(hours = t.hour, minutes = t.minute,
                                                 seconds = t.second)
                         return td.total_seconds()
-                    cols[1] = spec["time"]
-                else:
-                    def timefn(value):
-                        t = datetime.datetime.strptime(value, spec["time"][1])
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, seconds = t.second)
-                        return td.total_seconds()
-                    cols[1] = spec["time"][0]
+                    cols[1] = spec["time"].get("index", None)   
                 specdict["time"] = timefn
             if cols[0] is None:
                 return [cols[1]], specdict["time"]

@@ -76,6 +76,14 @@ schema_step = {
     }
 }
 
+timestamp = {
+    "type": dict,
+    "any": {
+        "index": {"type": int},
+        "format": {"type": str}
+    }
+}
+
 # general parameters
 schema_step["any"]["parameters"]["any"].update({
     "atol": {"type": float},
@@ -86,14 +94,23 @@ schema_step["any"]["parameters"]["any"].update({
             "type": dict, 
             "any": {"atol": {"type": float}, "rtol": {"type": float}}
         }
-    }
+    },
+    "calfile": {"type": str}
 })
 
 # basiccsv parameters
 schema_step["any"]["parameters"]["any"].update({
     "sep": {"type": str},
     "units": {"type": dict, "each": {"type": str}},
-    "timestamp": {"type": dict},
+    "timestamp": {
+        "type": dict, 
+        "any": {
+            "timestamp": timestamp,
+            "uts": timestamp,
+            "date": timestamp,
+            "time": timestamp
+        }
+    },
     "convert": convert
 })
 
@@ -101,8 +118,7 @@ schema_step["any"]["parameters"]["any"].update({
 schema_step["any"]["parameters"]["any"].update({
     "tracetype": {"type": str, "one": ["datasc", "chromtab", "fusion"]},
     "species": species,
-    "detectors": detectors,
-    "calfile": {"type": str}
+    "detectors": detectors
 })
 
 # qftrace parameters

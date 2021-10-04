@@ -4,7 +4,7 @@ import dgutils
 def _process_headers(headers: list, columns: list) -> dict:
     res = {}
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": [0, "%d %b %Y %H:%M"]})
+                            spec = {"timestamp": {"format": "%d %b %Y %H:%M"}})
     assert len(headers) == len(columns), \
         logging.error(f"chromtab: The number of headers and columns "
                       f"do not match on line {lines.index(line)} of file {fn}.")

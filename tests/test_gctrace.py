@@ -27,13 +27,16 @@ def datadir(tmpdir, request):
     return tmpdir
 
 def datagram_from_gctrace(input, datadir):
-    schema = [{
-        "parser": "gctrace",
-        "import": {"folders": ["."], 
-                   "prefix": input["prefix"],
-                   "suffix": input["suffix"]},
-        "parameters": input.get("parameters", {})
-    }]
+    schema =  {
+        "metadata": {"provenance": "manual", "schema_version": "0.1"},
+        "steps": [{
+            "parser": "gctrace",
+            "import": {
+                "folders": ["."], "prefix": input["prefix"], "suffix": input["suffix"]
+                },
+            "parameters": input.get("parameters", {})
+        }]
+    }
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 

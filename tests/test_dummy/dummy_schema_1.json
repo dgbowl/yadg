@@ -1,8 +1,14 @@
-[
-    {
-        "parser": "dummy",
-        "import": {
-            "files": ["dummy_schema_1.json"]
+{
+    "metadata": {
+        "provenance": "manual",
+        "schema_version": "0.1"
+    },
+    "steps": [
+        {
+            "parser": "dummy",
+            "import": {
+                "files": ["dummy_schema_1.json"]
+            }
         }
-    }
-]
+    ]
+}

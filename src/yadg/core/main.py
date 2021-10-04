@@ -85,19 +85,22 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     """
     datagram = {
         "metadata": {
-            "yadg": dgutils._yadg_metadata(),
-            "date": dgutils.now(asstr=True)
+            "provenance": {
+                "yadg": dgutils.get_yadg_metadata(),
+            },
+            "date": dgutils.now(asstr=True),
+            "input_schema": schema.copy(),
+            "datagram_version": "0.1"
         },
         "data": []
     }
-    for step in schema:
+    for step in schema["steps"]:
         metadata = {
-            "input": step.copy(),
             "tag": step["tag"]
         }
         common = {}
         timesteps = []
-        logging.info(f'process_schema: processing step {schema.index(step)}:')
+        logging.info(f'process_schema: processing step {schema["steps"].index(step)}:')
         handler = _infer_datagram_handler(step["parser"])
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:

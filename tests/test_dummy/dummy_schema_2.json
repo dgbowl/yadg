@@ -1,16 +1,17 @@
-[
-    {
-        "parser": "dummy",
-        "import": {
-            "files": ["dummy_schema_1.json"]
-        }
+{
+    "metadata": {
+        "provenance": "manual",
+        "schema_version": "0.1"
     },
-    {
-        "parser": "dummy",
-        "import": {
-            "folders": ["."], 
-            "suffix": ".json"
+    "steps": [
+        {
+            "parser": "dummy",
+            "import": {"files": ["dummy_schema_1.json"]}
         },
+        {
+        "parser": "dummy",
+        "import": {"folders": ["."], "suffix": ".json"},
         "parameters": {"k": "v"}
-    }
-]
+        } 
+    ]
+}

@@ -1,13 +1,13 @@
-dummy_1 = {"parser": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}
-dummy_2 = {"parser": "dummy", "import": {"files": ["dummy_schema_2.json"]}}
-dummy_3 = {"parser": "dummy", "import": {"folders": ["."], "contains": "schema"}}
-dummy_4 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
-dummy_5 = {"parser": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}
-fail_1 = {"parse": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
-fail_2 = {"parser": "dumm", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}
-fail_3 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"], "folders": ["."]}}
-fail_4 = {"parser": "dummy", "import": {}}
-fail_5 = {"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}, "key": "value"}
+dummy_1 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}]}
+dummy_2 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"files": ["dummy_schema_2.json"]}}]}
+dummy_3 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": "schema"}}]}
+dummy_4 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}]}
+dummy_5 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"folders": ["."], "prefix": "dummy", "contains": "1"}}]}
+fail_1 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parse": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}]}
+fail_2 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dumm", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}}]}
+fail_3 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"], "folders": ["."]}}]}
+fail_4 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {}}]}
+fail_5 = {"metadata": {"provenance": "manual", "schema_version": "0.1"}, "steps": [{"parser": "dummy", "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}, "key": "value"}]}
 
 gctrace_chromtab = {
     "det":  {

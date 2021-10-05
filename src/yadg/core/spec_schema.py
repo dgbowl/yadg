@@ -12,7 +12,7 @@ calib = {
         "poly": {"type": dict, "each": {"type": float}},
         "polynomial": {"type": dict, "each": {"type": float}}
     },
-    "any": {"atol": {"type": float}, "rtol": {"type": float}}
+    "any": {"atol": {"type": float}, "rtol": {"type": float}, "forcezero": {"type": bool}}
 }
 
 peakdetect = {
@@ -49,9 +49,17 @@ species = {
 convert = {
     "type": dict, 
     "each": {
-        "type": dict, 
-        "all": {"header": {"type": str}, "calib": calib},
-        "any": {"unit": {"type": str}}
+        "type": dict,
+        "each": {
+            "type": dict,
+            "any": {
+                "calib": calib,
+                "fraction": {"type": float}
+            }
+        },
+        "any": {
+            "unit": {"type": str}
+        }
     }
 }
 

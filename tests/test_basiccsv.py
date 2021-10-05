@@ -46,61 +46,69 @@ def datagram_from_basiccsv(input, datadir):
 
 @pytest.mark.parametrize("input, ts", [
     ({"case": "case_uts_units.csv"},
-     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "flow", "point": 0, "sigma": 0.0, "value": 15.0, "unit": "ml/min"}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"flow": {"sigma": 0.0, "value": 15.0, "unit": "ml/min"}}}),
     ({"case": "case_uts_units.csv",
       "parameters": {"timestamp": {"uts": {"index": 0}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "uts", "point": 2, "value": 1631626610.0}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 2, "pars": {"uts": {"value": 1631626610.0}}}),
     ({"case": "case_timestamp.ssv", 
       "parameters": {"sep": ";", "units": {"flow": "ml/min", "T": "K", "p": "atm"}, "sigma": {"flow": {"rtol": 0.1}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 7, "prop": "flow", "point": 0, "sigma": 1.5, "value": 15.0, "unit": "ml/min"}),
+     {"nsteps": 1, "step": 0, "nrows": 7, "point": 0, "pars": {"flow": {"sigma": 1.5, "value": 15.0, "unit": "ml/min"}}}),
     ({"case": "case_timestamp.ssv", 
       "parameters": {"sep": ";", "units": {"flow": "ml/min", "T": "K", "p": "atm"}, "timestamp": {"timestamp": {"index": 0}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 7, "prop": "uts", "point": 3, "value": 1631284405.0}),
+     {"nsteps": 1, "step": 0, "nrows": 7, "point": 3, "pars": {"uts": {"value": 1631284405.0}}}),
     ({"case": "case_custom_ts.tsv",
       "parameters": {"sep": "\t", "timestamp": {"timestamp": {"index": 1, "format": "%d.%m.%Y %I:%M:%S%p"}}, "sigma": {"T": {"atol": 0.05}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 5, "prop": "T", "point": 3, "value": 351.2, "sigma": 0.05, "unit": "K"}),
+     {"nsteps": 1, "step": 0, "nrows": 5, "point": 3, "pars": {"T": {"value": 351.2, "sigma": 0.05, "unit": "K"}}}),
     ({"case": "case_custom_ts.tsv",
       "parameters": {"sep": "\t", "timestamp": {"timestamp": {"index": 1, "format": "%d.%m.%Y %I:%M:%S%p"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 5, "prop": "uts", "point": 4, "value": 1631280585.0}),
+     {"nsteps": 1, "step": 0, "nrows": 5, "point": 4, "pars": {"uts": {"value": 1631280585.0}}}),
     ({"case": "case_custom_ts.tsv",
       "parameters": {"sep": "\t", "timestamp": {"timestamp": {"index": 1, "format": "%d.%m.%Y %I:%M:%S%p"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 5, "prop": "uts", "point": 2, "value": 1631276985.0}),
+     {"nsteps": 1, "step": 0, "nrows": 5, "point": 2, "pars": {"uts": {"value": 1631276985.0}}}),
     ({"case": "case_custom_ts.tsv",
       "parameters": {"sep": "\t", "timestamp": {"timestamp": {"index": 1, "format": "%d.%m.%Y %I:%M:%S%p"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 5, "prop": "uts", "point": 0, "value": 1631273385.0}),
+     {"nsteps": 1, "step": 0, "nrows": 5, "point": 0, "pars": {"uts": {"value": 1631273385.0}}}),
     ({"case": "case_date_time_iso.csv",
       "parameters": {"timestamp": {"date": {"index": 0}, "time": {"index": 1}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 4, "prop": "uts", "point": 1, "value": 1610659800.0}),
+     {"nsteps": 1, "step": 0, "nrows": 4, "point": 1, "pars": {"uts": {"value": 1610659800.0}}}),
     ({"case": "case_time_custom.csv",
       "parameters": {"timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 3, "prop": "uts", "point": 0, "value": 43140}),
+     {"nsteps": 1, "step": 0, "nrows": 3, "point": 0, "pars": {"uts": {"value": 43140}}}),
     ({"case": "case_time_custom.csv",
       "parameters": {"timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 3, "prop": "uts", "point": 1, "value": 43200}), 
+     {"nsteps": 1, "step": 0, "nrows": 3, "point": 1, "pars": {"uts": {"value": 43200}}}),
     ({"case": "case_timestamp.ssv", 
       "parameters": {"sep": ";", "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
-      "convert": {"flow": {"header": "flow", "calib": {"linear": {"slope": 1e-6/60}, "atol": 1e-8}, "unit": "m3/s"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 7, "prop": "flow", "point": 0, "sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s"}),
+      "convert": {"flow": {"flow": {"calib": {"linear": {"slope": 1e-6/60}, "atol": 1e-8}}, "unit": "m3/s"}}}}, 
+     {"nsteps": 1, "step": 0, "nrows": 7, "point": 0, "pars": {"flow": {"sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s"}}}),
     ({"case": "case_uts_units.csv",
-      "parameters": {"atol": 0.1, "convert": {"T": {"header": "T", "calib": {"linear": {"intercept": 273.15}}, "unit": "K"}}}},
-     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
+      "parameters": {"atol": 0.1, "convert": {"T": {"T": {"calib": {"linear": {"intercept": 273.15}}}, "unit": "K"}}}},
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K"}}}),
     ({"case": "case_uts_units.csv",
       "parameters": {"atol": 0.1, "calfile": "calib.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 6, "prop": "T", "point": 0, "sigma": 0.1, "value": 296.25, "unit": "K"}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K"}}}),
+    ({"case": "measurement.csv",
+      "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0, "pars": {"C3H8": {"sigma": 0.0, "value": 0.0, "unit": "ml/min"}, "N2": {"sigma": 0.0, "value": 30.361, "unit": "ml/min"}, "O2": {"sigma": 0.0, "value": 1.579, "unit": "ml/min"}}}),
+    ({"case": "measurement.csv",
+      "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 100, "pars": {"C3H8": {"sigma": 0.0, "value": 1.204, "unit": "ml/min"}, "N2": {"sigma": 0.0, "value": 35.146, "unit": "ml/min"}, "O2": {"sigma": 0.0, "value": 3.577, "unit": "ml/min"}}}),
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)
     assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
-    step = ret["data"][ts["step"]]["timesteps"]
-    assert len(step) == ts["nrows"]
-    if ts["prop"] != "uts":
-        assert len(step[ts["point"]][ts["prop"]]) == 3
-        assert step[ts["point"]][ts["prop"]][0] == ts["value"]
-        assert step[ts["point"]][ts["prop"]][1] == ts["sigma"]
-        assert step[ts["point"]][ts["prop"]][2] == ts["unit"]
-    else:
-        assert step[ts["point"]][ts["prop"]] == ts["value"]
+    steps = ret["data"][ts["step"]]["timesteps"]
+    assert len(steps) == ts["nrows"]
+    tstep = steps[ts["point"]]
+    for tk, tv in ts["pars"].items():
+        if tk != "uts":
+            assert len(tstep[tk]) == 3
+            assert tstep[tk][0] == pytest.approx(tv["value"], abs = 0.001)
+            assert tstep[tk][1] == pytest.approx(tv["sigma"], rel = 0.1)
+            assert tstep[tk][2] == tv["unit"]
+        else:
+            assert tstep[tk] == tv["value"]
     json.dumps(ret)
     
 

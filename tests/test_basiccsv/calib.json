@@ -1,12 +1,14 @@
 {
     "T": {
-        "header": "T", 
-        "calib": {"linear": {"intercept": 273.15}}, 
+        "T": {
+            "calib": {"linear": {"intercept": 273.15}}
+        }, 
         "unit": "K"
     },
     "flow": {
-        "header": "flow", 
-        "calib": {"linear": {"slope": 1.6666e-8}, "atol": 1e-8}, 
+        "flow": {
+            "calib": {"linear": {"slope": 1.6666e-8}, "atol": 1e-8}
+        }, 
         "unit": "m3/s"
     }
 }

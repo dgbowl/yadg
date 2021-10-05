@@ -97,11 +97,17 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
                 _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
                 _unit = units.get(header)
                 element[header] = [_val, _sigma, _unit]
-                for nk, spec in calib.items():
-                    if header == spec["header"]:
-                        y = dgutils.calib_handler(ufloat(_val, _sigma), spec["calib"])
-                        element[nk] = [y.n, y.s, spec.get("unit", "-")]
             except ValueError:
                 element[header] = columns[ci]
+        for nk, spec in calib.items():
+            y = ufloat(0, 0)
+            for ck, v in spec.items():
+                if ck not in headers:
+                    if ck != "unit":
+                        logging.warning(f"{ck}")
+                else:
+                    dy = dgutils.calib_handler(ufloat(*element[ck]), v.get("calib", None))
+                    y += dy * v.get("fraction", 1.0)
+            element[nk] = [y.n, y.s, spec.get("unit", "-")]
         data.append(element)
     return data, metadata, None

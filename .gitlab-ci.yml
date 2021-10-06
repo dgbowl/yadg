@@ -6,7 +6,7 @@
 
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest
+image: python:3.9.7-alpine
 
 stages:
   - build
@@ -55,16 +55,27 @@ test:
     - pip install dist/*
     - pytest
 
-pages:
+pages-master:
   stage: pages
   only:
     - master
-    - merge_requests
+  needs: [build]
   script:
     - pip install dist/*
     - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
     - sphinx-apidoc -o docs/source src
-    - sphinx-build -b html docs/source public
+    - sphinx-build -W -b html docs/source public
   artifacts:
     paths:
       - public
+
+pages-mr:
+  stage: pages
+  only:
+    - merge_requests
+  needs: [build]
+  script:
+    - pip install dist/*
+    - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+    - sphinx-apidoc -o docs/source src
+    - sphinx-build -W -b html docs/source public

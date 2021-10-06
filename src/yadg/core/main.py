@@ -189,9 +189,11 @@ def run():
                          "is not yet implemented.")
         sys.exit()
     
+    logging.debug("run: Validating schema.")
     assert validators.validate_schema(schema, args.permissive)
-    
+    logging.debug("run: Processing schema")
     datagram = process_schema(schema)
     if args.dump:
+        logging.info(f"run: Saving data to {args.dump}")
         with open(args.dump, "w") as ofile:
             json.dump(datagram, ofile, indent=1)

@@ -32,11 +32,14 @@ def datadir(tmpdir, request):
     return tmpdir
 
 def datagram_from_basiccsv(input, datadir):
-    schema = [{
-        "parser": "basiccsv",
-        "import": {"files": [str(datadir.join(input["case"]))]},
-        "parameters": input.get("parameters", {})
-    }]
+    schema = {
+        "metadata": {"provenance": "manual", "schema_version": "0.1"},
+        "steps": [{
+          "parser": "basiccsv",
+          "import": {"files": [str(datadir.join(input["case"]))]},
+          "parameters": input.get("parameters", {})
+        }]
+    }
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 

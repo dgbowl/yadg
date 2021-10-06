@@ -40,8 +40,7 @@ def datagram_from_schema_file(inp_fn, datadir):
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
-def datagram_from_schema_dict(inp_dict):
-    schema = [inp_dict]
+def datagram_from_schema_dict(schema):
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 
@@ -83,5 +82,5 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 def test_schema_validator(inp_dict, expr, datadir):
     os.chdir(datadir)
     with pytest.raises(AssertionError, match = expr):
-        assert core.validators.validate_schema([inp_dict])
+        assert core.validators.validate_schema(inp_dict)
     

@@ -20,8 +20,9 @@ three separate `step`\ s in the schema to process all relevant output files:
 
 .. code-block:: json
 
-    [
-        {
+    {
+        "metadata": {"provenance": "manual", "schema_version": "1.0"},
+        "steps": [{
             "datagram": "basiccsv",
             "import": {"files": ["foo.csv"]},
             "tag": "flowdata",
@@ -33,13 +34,15 @@ three separate `step`\ s in the schema to process all relevant output files:
             "datagram": "gctrace",
             "import": {"folders": ["./GC/"]},
             "parameters": {"tracetype": "fusion"}
-        }
-    ]
+        }]
+    }
 
-A valid `schema` is therefore a :class:`list`, with each `step` within that 
-`schema` being a :class:`dict`. In each `step`, the entries ``"parser"`` and 
-``"import"`` have to be specified, telling **yadg** which `parser` to use and 
-which files or folders to process, respectively.
+A valid `schema` is therefore a :class:`dict`, with a top-level ``"metadata"``
+entry describing the schema provenance and version; and a top-level ``"steps"``
+entry, which is a :class:`list` containing the definitions for the experimental
+`step`\ s. Each `step` within the `schema` is a :class:`dict`. In each `step`, 
+the entries ``"parser"`` and ``"import"`` have to be specified, telling **yadg** 
+which `parser` to use and which files or folders to process, respectively.
 
 Other allowed entries are: 
 
@@ -58,10 +61,11 @@ follows:
 
 
 .. code-block:: json
-   :emphasize-lines: 12-13,16-17,20-21
+   :emphasize-lines: 12-14,16-18,20-22
 
-    [
-        {
+    {
+        "metadata": {"provenance": "manual", "schema_version": "1.0"},
+        "steps": [{
             "datagram": "basiccsv",
             "import": {"files": ["foo.csv"]},
             "tag": "flowdata",
@@ -88,8 +92,8 @@ follows:
             "datagram": "gctrace",
             "import": {"folders": ["./GC/"]},
             "parameters": {"tracetype": "fusion"}
-        }
-    ]
+        }]
+    }
 
 From this `schema`, the catalytic conversion can be obtained by combining the
 inlet flow and outlet composition (GC) data. The activation energy can then be 
@@ -101,3 +105,5 @@ Arrhenius fit.
 
     Further information about the `schema` can be found in the documentation of 
     the `schema` validator function: :func:`yadg.core.validators.validate_schema`.
+    The whole `schema` specification is present in the :mod:`yadg.core.spec_schema`
+    module.

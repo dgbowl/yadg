@@ -26,11 +26,14 @@ def datadir(tmpdir, request):
     return tmpdir
 
 def datagram_from_qftrace(input, datadir):
-    schema = [{
-        "parser": "qftrace",
-        "import": {"folders": [str(datadir)]},
-        "parameters": input.get("parameters", {})
-    }]
+    schema = {
+        "metadata": {"provenance": "manual", "schema_version": "0.1"},
+        "steps": [{
+            "parser": "qftrace",
+            "import": {"folders": [str(datadir)]},
+            "parameters": input.get("parameters", {})
+        }]
+    }
     assert core.validators.validate_schema(schema)
     return core.process_schema(schema)
 

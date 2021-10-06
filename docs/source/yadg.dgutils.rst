@@ -4,6 +4,14 @@ yadg.dgutils package
 Submodules
 ----------
 
+yadg.dgutils.calib module
+-------------------------
+
+.. automodule:: yadg.dgutils.calib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 yadg.dgutils.dateutils module
 -----------------------------
 

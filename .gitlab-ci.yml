@@ -6,7 +6,7 @@
 
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest
+image: python:3.9-slim-bullseye
 
 stages:
   - build
@@ -55,13 +55,27 @@ test:
     - pip install dist/*
     - pytest
 
-pages:
+pages-master:
   stage: pages
   only:
     - master
+  needs: [build]
   script:
-    - pip install sphinx sphinx-rtd-theme
-    - sphinx-build -b html docs/source public
+    - pip install dist/*
+    - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+    - sphinx-apidoc -o docs/source src/yadg
+    - sphinx-build -W -b html docs/source public
   artifacts:
     paths:
       - public
+
+pages-mr:
+  stage: pages
+  only:
+    - merge_requests
+  needs: [build]
+  script:
+    - pip install dist/*
+    - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+    - sphinx-apidoc -o docs/source src/yadg
+    - sphinx-build -W -b html docs/source public

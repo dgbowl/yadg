@@ -33,15 +33,11 @@ setuptools.setup(
         "numpy",
         "scipy",
         "uncertainties",
-        "pytest",
-        "sphinx",
-        "sphinx-autodoc-typehints"
+        "pytest"
     ],
     entry_points = {
         "console_scripts": [
-            'yadg=yadg.core:run',
-            'dg2json=yadg.dg2json:main',
-            'dg2png=yadg.dg2png:run'
+            'yadg=yadg.core:run'
         ]
     }
 )

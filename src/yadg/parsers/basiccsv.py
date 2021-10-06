@@ -1,10 +1,11 @@
 import logging
+import json
 from uncertainties import ufloat
 import dgutils
 
 def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0, 
             sigma: dict = {}, units: dict = None, timestamp: dict = None,
-            convert: dict = None, **kwargs):
+            convert: dict = None, calfile: str = None, **kwargs):
     """
     A basic csv parser.
 
@@ -46,8 +47,18 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
     convert
         Specification for column conversion. Each entry will form a new datapoint,
         must contain a valid ``"header"`` entry and a ``"calib"`` specification.
+    
+    calfile
+        ``convert``-like functionality specified in a json file.
 
     """
+    if calfile is not None:
+        with open(calfile, "r") as infile:
+            calib = json.load(infile)
+    else:
+        calib = {}
+    if convert is not None:
+        calib.update(convert)
     metadata = {
         "fn": str(fn)
     }
@@ -55,7 +66,6 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
         lines = infile.readlines()
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-
     datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp)
     if units is None:
         units = {}
@@ -87,12 +97,17 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
                 _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
                 _unit = units.get(header)
                 element[header] = [_val, _sigma, _unit]
-                if convert is not None:
-                    for nk, spec in convert.items():
-                        if header == spec["header"]:
-                            y = dgutils.calib_handler(ufloat(_val, _sigma), spec["calib"])
-                            element[nk] = [y.n, y.s, spec.get("unit", "-")]
             except ValueError:
                 element[header] = columns[ci]
+        for nk, spec in calib.items():
+            y = ufloat(0, 0)
+            for ck, v in spec.items():
+                if ck not in headers:
+                    if ck != "unit":
+                        logging.warning(f"{ck}")
+                else:
+                    dy = dgutils.calib_handler(ufloat(*element[ck]), v.get("calib", None))
+                    y += dy * v.get("fraction", 1.0)
+            element[nk] = [y.n, y.s, spec.get("unit", "-")]
         data.append(element)
     return data, metadata, None

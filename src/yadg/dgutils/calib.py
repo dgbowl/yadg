@@ -35,6 +35,8 @@ def calib_handler(x: Union[float, UFloat], calib: dict = None,
         x = ufloat(x, 0.0)
     if calib is None:
         calib = _default_calib
+    if x.n == 0.0 and calib.get("forcezero", True):
+        return x
     if "linear" in calib:
         y = _linear(x, calib["linear"])
     elif "inverse" in calib:

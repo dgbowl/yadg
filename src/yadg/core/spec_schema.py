@@ -12,7 +12,7 @@ calib = {
         "poly": {"type": dict, "each": {"type": float}},
         "polynomial": {"type": dict, "each": {"type": float}}
     },
-    "any": {"atol": {"type": float}, "rtol": {"type": float}}
+    "any": {"atol": {"type": float}, "rtol": {"type": float}, "forcezero": {"type": bool}}
 }
 
 peakdetect = {
@@ -49,9 +49,17 @@ species = {
 convert = {
     "type": dict, 
     "each": {
-        "type": dict, 
-        "all": {"header": {"type": str}, "calib": calib},
-        "any": {"unit": {"type": str}}
+        "type": dict,
+        "each": {
+            "type": dict,
+            "any": {
+                "calib": calib,
+                "fraction": {"type": float}
+            }
+        },
+        "any": {
+            "unit": {"type": str}
+        }
     }
 }
 
@@ -76,6 +84,14 @@ schema_step = {
     }
 }
 
+timestamp = {
+    "type": dict,
+    "any": {
+        "index": {"type": int},
+        "format": {"type": str}
+    }
+}
+
 # general parameters
 schema_step["any"]["parameters"]["any"].update({
     "atol": {"type": float},
@@ -86,14 +102,23 @@ schema_step["any"]["parameters"]["any"].update({
             "type": dict, 
             "any": {"atol": {"type": float}, "rtol": {"type": float}}
         }
-    }
+    },
+    "calfile": {"type": str}
 })
 
 # basiccsv parameters
 schema_step["any"]["parameters"]["any"].update({
     "sep": {"type": str},
     "units": {"type": dict, "each": {"type": str}},
-    "timestamp": {"type": dict},
+    "timestamp": {
+        "type": dict, 
+        "any": {
+            "timestamp": timestamp,
+            "uts": timestamp,
+            "date": timestamp,
+            "time": timestamp
+        }
+    },
     "convert": convert
 })
 
@@ -101,8 +126,7 @@ schema_step["any"]["parameters"]["any"].update({
 schema_step["any"]["parameters"]["any"].update({
     "tracetype": {"type": str, "one": ["datasc", "chromtab", "fusion"]},
     "species": species,
-    "detectors": detectors,
-    "calfile": {"type": str}
+    "detectors": detectors
 })
 
 # qftrace parameters

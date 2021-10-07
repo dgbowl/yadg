@@ -54,8 +54,8 @@ def run():
     """
     Main execution function.
 
-    This is the function executed when **yadg** is launched using the executable
-    or via `python yadg.py`. The function: 
+    This is the function executed when **yadg** is launched using the executable. 
+    The function: 
     
       1) processes the command line arguments into ``args``, 
       2) loads or composes the `schema` based on ``args``, 
@@ -82,6 +82,3 @@ def run():
         logging.info(f"run: Saving data to {args.datagramfile}")
         with open(args.datagramfile, "w") as ofile:
             json.dump(datagram, ofile, indent=1)
-
-if __name__ == "__main__":
-    run()    

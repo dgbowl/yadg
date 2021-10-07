@@ -1,0 +1,16 @@
+{
+    "metadata": {
+        "provenance": "manual",
+        "schema_version": "0.1"
+    },
+    "steps": [
+        {
+            "parser": "basiccsv",
+            "import": {"files": ["basiccsv.ssv"]},
+            "parameters": {
+                "sep": ";", 
+                "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}
+            }
+        }
+    ]
+}

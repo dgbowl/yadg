@@ -84,7 +84,9 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
         si = 1
     data = []
     for line in lines[si:]:
-        element = {}
+        element = {
+            "raw": dict()
+        }
         columns = [column.strip() for column in line.split(sep)]
         element["uts"] = datefunc(*[columns[i] for i in datecolumns])
         for header in headers:
@@ -96,9 +98,9 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
                 _tols = sigma.get(header, {})
                 _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
                 _unit = units.get(header)
-                element[header] = [_val, _sigma, _unit]
+                element["raw"][header] = [_val, _sigma, _unit]
             except ValueError:
-                element[header] = columns[ci]
+                element["raw"][header] = columns[ci]
         for nk, spec in calib.items():
             y = ufloat(0, 0)
             for ck, v in spec.items():
@@ -106,8 +108,10 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
                     if ck != "unit":
                         logging.warning(f"{ck}")
                 else:
-                    dy = dgutils.calib_handler(ufloat(*element[ck]), v.get("calib", None))
+                    dy = dgutils.calib_handler(ufloat(*element["raw"][ck]), v.get("calib", None))
                     y += dy * v.get("fraction", 1.0)
-            element[nk] = [y.n, y.s, spec.get("unit", "-")]
+            if "derived" not in element:
+                element["derived"] = dict()
+            element["derived"][nk] = [y.n, y.s, spec.get("unit", "-")]
         data.append(element)
     return data, metadata, None

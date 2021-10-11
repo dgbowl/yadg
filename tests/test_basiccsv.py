@@ -103,7 +103,6 @@ def test_datagram_from_basiccsv(input, ts, datadir):
     tstep = steps[ts["point"]]
     for tk, tv in ts["pars"].items():
         if tk != "uts":
-            print(tv)
             rd = "raw" if tv.get("raw", True) else "derived"
             assert len(tstep[rd][tk]) == 3
             assert tstep[rd][tk][0] == pytest.approx(tv["value"], abs = 0.001)

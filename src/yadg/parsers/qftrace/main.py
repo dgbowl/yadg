@@ -109,7 +109,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
                 common["averaging"] = int(item.split("=")[-1].strip())
     # calculate precision of trace
     _tols = {"atol": atol, "rtol": rtol}
-    data["trace"] = {
+    data["raw"] = {
         "f": [],
         "Re(Γ)": [],
         "Im(Γ)": [],
@@ -123,14 +123,14 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
         f = float(f)
         ftol = max(sigma.get("f", _tols)["atol"], abs(f*sigma.get("f", _tols)["rtol"]))
         freq.append(ufloat(f, ftol))
-        data["trace"]["f"].append([f, ftol, "Hz"])
+        data["raw"]["f"].append([f, ftol, "Hz"])
         c = complex(float(r), float(i))
         gamma.append(c)
         ctol = max(sigma.get("Γ", _tols)["atol"], abs(c*sigma.get("Γ", _tols)["rtol"]))
-        data["trace"]["Re(Γ)"].append([float(r), ctol, "-"])
-        data["trace"]["Im(Γ)"].append([float(i), ctol, "-"])
+        data["raw"]["Re(Γ)"].append([float(r), ctol, "-"])
+        data["raw"]["Im(Γ)"].append([float(i), ctol, "-"])
         absgamma.append(ufloat(abs(c), abs(complex(ctol, ctol))))
-        data["trace"]["abs(Γ)"].append([abs(c), abs(complex(ctol, ctol)), "-"])
+        data["raw"]["abs(Γ)"].append([abs(c), abs(complex(ctol, ctol)), "-"])
     common["height"] = height
     common["distance"] = distance
     common["method"] = method
@@ -140,7 +140,9 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
         common["threshold"] = threshold
     Q, f = _fit(np.asarray(freq), np.asarray(gamma), np.asarray(absgamma), 
                 method, height, distance, cutoff, threshold)
-    data["Q"] = Q
-    data["f"] = f
-    data["npeaks"] = len(Q)
+    data["derived"] = {
+        "Q": Q,
+        "f": f,
+        "npeaks": len(Q)
+    }
     return [data], None, common

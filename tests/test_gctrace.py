@@ -75,7 +75,6 @@ def test_datagram_from_gctrace(input, ts, datadir):
     assert step["metadata"]["gcparams"]["method"].endswith(ts["method"])
     assert len(step["timesteps"]) == ts["ntsteps"]
     tstep = step["timesteps"][ts["tstep"]]
-    print(tstep["xout"])
     for k, v in ts["xout"].items():
-        assert tstep["xout"][k][0] == pytest.approx(v, abs = 0.001)
+        assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs = 0.001)
     json.dumps(ret)

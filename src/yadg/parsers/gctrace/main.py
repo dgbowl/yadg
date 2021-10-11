@@ -223,6 +223,11 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
         _data, _meta, _common = fusion.process(fn, atol, rtol, **kwargs)
     results = []
     for chrom in _data:
+        result = {
+            "uts": chrom.pop("uts"),
+            "fn": chrom.pop("fn"),
+            "raw": chrom
+        }
         peaks = {}
         comp = []
         for detname, spec in gcspec.items():
@@ -268,8 +273,11 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
         for s in xout:
             xnorm = ufloat(*xout[s]) / norm
             xout[s] = [xnorm.n, xnorm.s, "-"]
-        chrom["peaks"] =  peaks
-        chrom["xout"] = xout
-        chrom["fn"] = fn
-        results.append(chrom)
+        result["derived"] = {
+            "peaks": peaks,
+            "xout": xout
+        }
+        assert result["fn"] == fn
+        results.append(result)
+
     return results, _meta, _common

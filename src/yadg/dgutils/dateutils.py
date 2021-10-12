@@ -1,8 +1,10 @@
 import datetime
 import logging
-from typing import Callable
+from typing import Callable, Union
+import os
 
-def now(asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc):
+def now(asstr: bool = False, 
+        tz: datetime.timezone = datetime.timezone.utc) -> Union[float, str]:
     """
     Wrapper around datetime.now()
 
@@ -141,3 +143,15 @@ def infer_timestamp_from(headers: list, spec: dict = None,
     else:
         assert True, \
             logging.error("dateutils: A valid timestamp could not be deduced.")
+
+def date_from_str(datestr: str) -> Union[float, None]:
+    bn = os.path.basename(datestr)
+    for f, l in [["%Y%m%d", 8], ["%Y-%m-%d", 10]]:
+        _, df = infer_timestamp_from([], {"date": {"index": 0, "format": f}})
+        try:
+            day = df(bn[:l])
+            return day
+        except ValueError:
+            pass
+    logging.warning(f"dateutils: was not possible to interpret {datestr} as date")
+    return None

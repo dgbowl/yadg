@@ -2,10 +2,92 @@ import logging
 import json
 from uncertainties import ufloat
 import dgutils
+from typing import Callable
+
+def process_row(headers: list, items: list, units: dict, datefunc: Callable, 
+                datecolumns: list, atol: float = 0.0, rtol: float = 0.0, 
+                sigma: dict = {}, calib: dict = {}) -> dict:
+    """
+    A function that processes a row of a table.
+
+    This is the main worker function of basiccsv, but can be re-used by any 
+    other parser that needs to process tabular data.
+
+    Parameters
+    ----------
+    headers
+        A list of headers of the table.
+    
+    items
+        A list of values corresponding to the headers. Must be the same length
+        as headers.
+    
+    units
+        A dict for looking up the units corresponding to a certain header.
+    
+    datefunc
+        A function that will generate ``uts`` given a list of values.
+    
+    datecolumns
+        Column indices that need to be passed to ``datefunc`` to generate uts.
+    
+    atol
+        Absolute uncertainty for all floating-point values.
+    
+    rtol
+        Relative uncertainty for all floating-point values.
+    
+    sigma
+        Per-header specification of ``atol`` and ``rtol``.
+
+    calib
+        Specification for converting raw data in ``headers`` and ``items`` to 
+        other quantities. Arbitrary linear combinations of ``headers`` are 
+        possible.
+    
+    Returns
+    -------
+    element: dict
+        A result dictionary, containing the keys ``"uts"`` with a timestamp, 
+        ``"raw"`` for all raw data present in the headers, and ``"derived"``
+        for any data processes via ``calib``.
+
+    """
+    assert len(headers) == len(items), \
+        f"process_row: Length mismatch between provided headers: {headers} and" \
+        f" provided items: {items}."
+
+    element = {}
+    columns = [column.strip() for column in items]
+    element["uts"] = datefunc(*[columns[i] for i in datecolumns])
+    for header in headers:
+        ci = headers.index(header)
+        if ci in datecolumns:
+            continue
+        try:
+            _val = float(columns[ci])
+            _tols = sigma.get(header, {})
+            _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
+            _unit = units.get(header)
+            element[header] = [_val, _sigma, _unit]
+        except ValueError:
+            element[header] = columns[ci]
+    for nk, spec in calib.items():
+        y = ufloat(0, 0)
+        for ck, v in spec.items():
+            if ck not in headers:
+                if ck != "unit":
+                    logging.warning(f"{ck}")
+            else:
+                dy = dgutils.calib_handler(ufloat(*element[ck]), v.get("calib", None))
+                y += dy * v.get("fraction", 1.0)
+        element[nk] = [y.n, y.s, spec.get("unit", "-")]
+    return element
 
 def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0, 
             sigma: dict = {}, units: dict = None, timestamp: dict = None,
-            convert: dict = None, calfile: str = None, **kwargs):
+            convert: dict = None, calfile: str = None, 
+            **kwargs) -> tuple[list, dict, None]:
     """
     A basic csv parser.
 
@@ -84,34 +166,8 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
         si = 1
     data = []
     for line in lines[si:]:
-        element = {
-            "raw": dict()
-        }
-        columns = [column.strip() for column in line.split(sep)]
-        element["uts"] = datefunc(*[columns[i] for i in datecolumns])
-        for header in headers:
-            ci = headers.index(header)
-            if ci in datecolumns:
-                continue
-            try:
-                _val = float(columns[ci])
-                _tols = sigma.get(header, {})
-                _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
-                _unit = units.get(header)
-                element["raw"][header] = [_val, _sigma, _unit]
-            except ValueError:
-                element["raw"][header] = columns[ci]
-        for nk, spec in calib.items():
-            y = ufloat(0, 0)
-            for ck, v in spec.items():
-                if ck not in headers:
-                    if ck != "unit":
-                        logging.warning(f"{ck}")
-                else:
-                    dy = dgutils.calib_handler(ufloat(*element["raw"][ck]), v.get("calib", None))
-                    y += dy * v.get("fraction", 1.0)
-            if "derived" not in element:
-                element["derived"] = dict()
-            element["derived"][nk] = [y.n, y.s, spec.get("unit", "-")]
+        element = process_row(headers, line.split(sep), units,
+                              datefunc, datecolumns, atol, rtol,
+                              sigma, calib)
         data.append(element)
     return data, metadata, None

@@ -30,7 +30,7 @@ def datadir(tmpdir, request):
         dir_util.copy_tree(test_dir, str(tmpdir))
     return tmpdir
 
-def datagram_from_basiccsv(input, datadir):
+def datagram_from(input, datadir):
     schema = {
         "metadata": {"provenance": "manual", "schema_version": "0.1"},
         "steps": [{
@@ -52,8 +52,8 @@ def datagram_from_basiccsv(input, datadir):
     ({"case": "2021-10-11_DryCal_out.txt"},
      {"nsteps": 1, "step": 0, "nrows": 29, "point": 28, "pars": {"Pressure": {"sigma": 0.0, "value": 971.0, "unit": "mBar"}}})   
 ])
-def test_datagram_from_basiccsv(input, ts, datadir):
-    ret = datagram_from_basiccsv(input, datadir)
+def test_datagram_from_drycal(input, ts, datadir):
+    ret = datagram_from(input, datadir)
     assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
     steps = ret["data"][ts["step"]]["timesteps"]
@@ -61,10 +61,11 @@ def test_datagram_from_basiccsv(input, ts, datadir):
     tstep = steps[ts["point"]]
     for tk, tv in ts["pars"].items():
         if tk != "uts":
-            assert len(tstep[tk]) == 3
-            assert tstep[tk][0] == pytest.approx(tv["value"], abs = 0.001)
-            assert tstep[tk][1] == pytest.approx(tv["sigma"], rel = 0.1)
-            assert tstep[tk][2] == tv["unit"]
+            rd = "raw" if tv.get("raw", True) else "derived"
+            assert len(tstep[rd][tk]) == 3
+            assert tstep[rd][tk][0] == pytest.approx(tv["value"], abs = 0.001)
+            assert tstep[rd][tk][1] == pytest.approx(tv["sigma"], rel = 0.1)
+            assert tstep[rd][tk][2] == tv["unit"]
         else:
             assert tstep[tk] == tv["value"]
     json.dumps(ret)

@@ -33,6 +33,7 @@ setuptools.setup(
         "numpy",
         "scipy",
         "uncertainties",
+        "striprtf",
         "pytest"
     ],
     entry_points = {

@@ -50,7 +50,11 @@ def datagram_from(input, datadir):
     ({"case": "20211011_DryCal_out.csv"},
      {"nsteps": 1, "step": 0, "nrows": 29, "point": 0, "pars": {"Temp": {"sigma": 0.0, "value": 24.3, "unit": "Deg C"}}}),
     ({"case": "2021-10-11_DryCal_out.txt"},
-     {"nsteps": 1, "step": 0, "nrows": 29, "point": 28, "pars": {"Pressure": {"sigma": 0.0, "value": 971.0, "unit": "mBar"}}})   
+     {"nsteps": 1, "step": 0, "nrows": 29, "point": 28, "pars": {"Pressure": {"sigma": 0.0, "value": 971.0, "unit": "mBar"}}}),
+    ({"case": "2021-10-11_DryCal_out.txt", 
+      "parameters": {"calfile": "drycal.json"}},
+     {"nsteps": 1, "step": 0, "nrows": 29, "point": 28, "pars": {"T": {"sigma": 0.1, "value": 299.25, "unit": "K", "raw": False}, 
+                                                                 "p": {"sigma": 100, "value": 97100.0, "unit": "Pa", "raw": False}}})    
 ])
 def test_datagram_from_drycal(input, ts, datadir):
     ret = datagram_from(input, datadir)

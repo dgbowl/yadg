@@ -89,10 +89,14 @@ def datagram_from_basiccsv(input, datadir):
      {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K", "raw": False}}}),
     ({"case": "measurement.csv",
       "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0, "pars": {"C3H8": {"sigma": 0.0, "value": 0.0, "unit": "ml/min", "raw": False}, "N2": {"sigma": 0.0, "value": 30.361, "unit": "ml/min", "raw": False}, "O2": {"sigma": 0.0, "value": 1.579, "unit": "ml/min", "raw": False}}}),
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0, "pars": {"C3H8": {"sigma": 0.0, "value": 0.0, "unit": "ml/min", "raw": False}, 
+                                                                  "N2": {"sigma": 0.0, "value": 30.361, "unit": "ml/min", "raw": False}, 
+                                                                  "O2": {"sigma": 0.0, "value": 1.579, "unit": "ml/min", "raw": False}}}),
     ({"case": "measurement.csv",
       "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 100, "pars": {"C3H8": {"sigma": 0.0, "value": 1.204, "unit": "ml/min", "raw": False}, "N2": {"sigma": 0.0, "value": 35.146, "unit": "ml/min", "raw": False}, "O2": {"sigma": 0.0, "value": 3.577, "unit": "ml/min", "raw": False}}}),
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 100, "pars": {"C3H8": {"sigma": 0.0, "value": 1.204, "unit": "ml/min", "raw": False}, 
+                                                                    "N2": {"sigma": 0.0, "value": 35.146, "unit": "ml/min", "raw": False}, 
+                                                                    "O2": {"sigma": 0.0, "value": 3.577, "unit": "ml/min", "raw": False}}}),
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)

@@ -80,19 +80,19 @@ def datagram_from_basiccsv(input, datadir):
     ({"case": "case_timestamp.ssv", 
       "parameters": {"sep": ";", "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
       "convert": {"flow": {"flow": {"calib": {"linear": {"slope": 1e-6/60}, "atol": 1e-8}}, "unit": "m3/s"}}}}, 
-     {"nsteps": 1, "step": 0, "nrows": 7, "point": 0, "pars": {"flow": {"sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s"}}}),
+     {"nsteps": 1, "step": 0, "nrows": 7, "point": 0, "pars": {"flow": {"sigma": 1e-8, "value": 2.5e-7, "unit": "m3/s", "raw": False}}}),
     ({"case": "case_uts_units.csv",
       "parameters": {"atol": 0.1, "convert": {"T": {"T": {"calib": {"linear": {"intercept": 273.15}}}, "unit": "K"}}}},
-     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K"}}}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K", "raw": False}}}),
     ({"case": "case_uts_units.csv",
       "parameters": {"atol": 0.1, "calfile": "calib.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K"}}}),
+     {"nsteps": 1, "step": 0, "nrows": 6, "point": 0, "pars": {"T": {"sigma": 0.1, "value": 296.25, "unit": "K", "raw": False}}}),
     ({"case": "measurement.csv",
       "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0, "pars": {"C3H8": {"sigma": 0.0, "value": 0.0, "unit": "ml/min"}, "N2": {"sigma": 0.0, "value": 30.361, "unit": "ml/min"}, "O2": {"sigma": 0.0, "value": 1.579, "unit": "ml/min"}}}),
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0, "pars": {"C3H8": {"sigma": 0.0, "value": 0.0, "unit": "ml/min", "raw": False}, "N2": {"sigma": 0.0, "value": 30.361, "unit": "ml/min", "raw": False}, "O2": {"sigma": 0.0, "value": 1.579, "unit": "ml/min", "raw": False}}}),
     ({"case": "measurement.csv",
       "parameters": {"sep": ";", "timestamp": {"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}}, "calfile": "tfcal.json"}},
-     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 100, "pars": {"C3H8": {"sigma": 0.0, "value": 1.204, "unit": "ml/min"}, "N2": {"sigma": 0.0, "value": 35.146, "unit": "ml/min"}, "O2": {"sigma": 0.0, "value": 3.577, "unit": "ml/min"}}}),
+     {"nsteps": 1, "step": 0, "nrows": 1662, "point": 100, "pars": {"C3H8": {"sigma": 0.0, "value": 1.204, "unit": "ml/min", "raw": False}, "N2": {"sigma": 0.0, "value": 35.146, "unit": "ml/min", "raw": False}, "O2": {"sigma": 0.0, "value": 3.577, "unit": "ml/min", "raw": False}}}),
 ])
 def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_basiccsv(input, datadir)
@@ -103,10 +103,11 @@ def test_datagram_from_basiccsv(input, ts, datadir):
     tstep = steps[ts["point"]]
     for tk, tv in ts["pars"].items():
         if tk != "uts":
-            assert len(tstep[tk]) == 3
-            assert tstep[tk][0] == pytest.approx(tv["value"], abs = 0.001)
-            assert tstep[tk][1] == pytest.approx(tv["sigma"], rel = 0.1)
-            assert tstep[tk][2] == tv["unit"]
+            rd = "raw" if tv.get("raw", True) else "derived"
+            assert len(tstep[rd][tk]) == 3
+            assert tstep[rd][tk][0] == pytest.approx(tv["value"], abs = 0.001)
+            assert tstep[rd][tk][1] == pytest.approx(tv["sigma"], rel = 0.1)
+            assert tstep[rd][tk][2] == tv["unit"]
         else:
             assert tstep[tk] == tv["value"]
     json.dumps(ret)

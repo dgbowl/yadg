@@ -69,7 +69,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     ret = datagram_from_schema_file(inp_fn, datadir)
     assert core.validators.validate_datagram(ret)
     assert len(ret["data"]) == ts["nsteps"]
-    assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["kwargs"] == ts["kwargs"]
+    assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["raw"] == ts["kwargs"]
     json.dumps(ret)
 
 @pytest.mark.parametrize("inp_dict, expr", [

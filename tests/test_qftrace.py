@@ -61,14 +61,14 @@ def test_datagram_from_qftrace(input, ts, datadir):
     step = ret["data"][ts["step"]]
     assert len(step["timesteps"]) == ts["ntimesteps"]
     tstep = step["timesteps"][ts["timestep"]]
-    assert len(tstep["trace"]["f"]) == ts["tracelen"] and \
-           len(tstep["trace"]["Re(Γ)"]) == ts["tracelen"] and \
-           len(tstep["trace"]["Im(Γ)"]) == ts["tracelen"] and \
-           len(tstep["trace"]["abs(Γ)"]) == ts["tracelen"]
-    assert tstep["npeaks"] == ts["npeaks"]
-    assert len(tstep["Q"]) == ts["npeaks"]
-    assert len(tstep["f"]) == ts["npeaks"]
-    assert tstep["Q"][ts["peak"]][0] == pytest.approx(ts["Q"], abs = 1)
-    assert tstep["f"][ts["peak"]][0] == pytest.approx(ts["f"], abs = 10)
-    assert 1/tstep["Q"][1][0] - 1/tstep["Q"][0][0] == pytest.approx(0.00035, abs = 0.00005)
+    assert len(tstep["raw"]["f"]) == ts["tracelen"] and \
+           len(tstep["raw"]["Re(Γ)"]) == ts["tracelen"] and \
+           len(tstep["raw"]["Im(Γ)"]) == ts["tracelen"] and \
+           len(tstep["raw"]["abs(Γ)"]) == ts["tracelen"]
+    assert tstep["derived"]["npeaks"] == ts["npeaks"]
+    assert len(tstep["derived"]["Q"]) == ts["npeaks"]
+    assert len(tstep["derived"]["f"]) == ts["npeaks"]
+    assert tstep["derived"]["Q"][ts["peak"]][0] == pytest.approx(ts["Q"], abs = 1)
+    assert tstep["derived"]["f"][ts["peak"]][0] == pytest.approx(ts["f"], abs = 10)
+    assert 1/tstep["derived"]["Q"][1][0] - 1/tstep["derived"]["Q"][0][0] == pytest.approx(0.00035, abs = 0.00005)
     json.dumps(ret)

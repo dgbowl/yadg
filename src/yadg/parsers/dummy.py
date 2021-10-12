@@ -17,7 +17,7 @@ def process(fn: str, **kwargs: dict) -> tuple[list, None, None]:
     result = {
             "uts": dgutils.now(),
             "fn": str(fn),
-            "kwargs": kwargs
+            "raw": kwargs
     }
     
     return [result], None, None

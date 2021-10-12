@@ -13,7 +13,11 @@ datagram_step = {
             "each": {
                 "type": dict,
                 "all": {"uts": {"type": float}},
-                "allow": True
+                "any": {
+                    "fn": {"type": str},
+                    "raw": {"type": dict},
+                    "derived": {"type": dict}
+                }
             }
         }
     },

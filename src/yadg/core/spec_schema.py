@@ -72,7 +72,12 @@ schema_step = {
         "import": {
             "type": dict,
             "one": {"files": {"type": list}, "folders": {"type": list}},
-            "any": {"prefix": {"type": str}, "suffix": {"type": str}, "contains": {"type": str}}
+            "any": {
+                "prefix": {"type": str}, 
+                "suffix": {"type": str}, 
+                "contains": {"type": str}, 
+                "encoding": {"type": str}
+            }
         }
     },
     "any": {

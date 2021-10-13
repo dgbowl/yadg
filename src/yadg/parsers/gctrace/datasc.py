@@ -1,7 +1,7 @@
 import logging
 import dgutils
 
-def process(fn: str, atol: float = 0.0, rtol: float = 0.0, 
+def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0, 
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.
@@ -12,7 +12,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     is available, but detector names are not - they are assigned their numerical
     index in the file.
     """
-    with open(fn, "r", encoding="utf8",  errors='ignore') as infile:
+    with open(fn, "r", encoding = encoding,  errors='ignore') as infile:
         lines = infile.readlines()
     metadata = {
         "type": "gctrace.datasc",

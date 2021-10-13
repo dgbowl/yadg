@@ -5,8 +5,9 @@ from striprtf.striprtf import rtf_to_text
 from yadg.parsers.basiccsv import process_row
 from yadg.dgutils.dateutils import infer_timestamp_from, date_from_str
 
-def drycal_rtf(fn: str, date: float, calib: dict) -> tuple[list, dict, None]:
-    with open(fn, "r") as infile:
+def drycal_rtf(fn: str, encoding: str, date: float, 
+               calib: dict) -> tuple[list, dict, None]:
+    with open(fn, "r", encoding = encoding) as infile:
         rtf = infile.read()
     lines = rtf_to_text(rtf).split("\n")
     for li in range(len(lines)):
@@ -49,7 +50,8 @@ def drycal_rtf(fn: str, date: float, calib: dict) -> tuple[list, dict, None]:
     
     return timesteps, metadata, None
 
-def drycal_sep(fn: str, date: float, calib: dict, sep: str) -> tuple[list, dict, None]:
+def drycal_sep(fn: str, encoding: str, date: float, 
+               calib: dict, sep: str) -> tuple[list, dict, None]:
     with open(fn, "r") as infile:
         lines = infile.readlines()
     for li in range(len(lines)):
@@ -115,8 +117,9 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
             data.append(cols)
     return headers, units, data
 
-def process(fn: str, filetype: str = None, atol: float = 0.0, rtol: float = 0.0,
-            sigma: dict = {}, convert: dict = None, calfile: str = None, 
+def process(fn: str, encoding: str = "utf-8", filetype: str = None, 
+            atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
+            convert: dict = None, calfile: str = None, 
             date: str = None, **kwargs) -> tuple[list, dict, dict]:
     """
     DryCal log file processor.
@@ -138,10 +141,12 @@ def process(fn: str, filetype: str = None, atol: float = 0.0, rtol: float = 0.0,
     metadata = {"fn": str(fn)}
 
     if filetype == "rtf" or (filetype is None and fn.endswith("rtf")):
-        ts, meta, comm = drycal_rtf(fn, date, calib)
+        ts, meta, comm = drycal_rtf(fn, encoding, date, calib)
     elif filetype == "csv" or (filetype is None and fn.endswith("csv")):
-        ts, meta, comm = drycal_sep(fn, date, calib, ",")
+        ts, meta, comm = drycal_sep(fn, encoding, date, calib, ",")
     elif filetype == "txt" or (filetype is None and fn.endswith("txt")):
-        ts, meta, comm = drycal_sep(fn, date, calib, "\t")
+        ts, meta, comm = drycal_sep(fn, encoding, date, calib, "\t")
     
-    return ts, meta, comm
+    metadata.update(meta)
+
+    return ts, metadata, comm

@@ -66,7 +66,9 @@ convert = {
 schema_step = {
     "type": dict,
     "all": {
-        "parser": {"type": str, "one": ["dummy", "basiccsv", "qftrace", "gctrace"] },
+        "parser": {
+            "type": str, 
+            "one": ["dummy", "basiccsv", "qftrace", "gctrace", "drycal"]},
         "import": {
             "type": dict,
             "one": {"files": {"type": list}, "folders": {"type": list}},

@@ -4,7 +4,7 @@ import os
 import logging
 from typing import Union, Callable
 
-from parsers import dummy, basiccsv, qftrace, gctrace
+from parsers import dummy, basiccsv, qftrace, gctrace, drycal
 import dgutils
 
 def _infer_datagram_handler(parser: str) -> Callable:
@@ -23,6 +23,8 @@ def _infer_datagram_handler(parser: str) -> Callable:
         return dummy.process
     if parser == "basiccsv":
         return basiccsv.process
+    if parser == "drycal":
+        return drycal.process
 
 def _infer_todo_files(importdict: dict) -> list:
     """

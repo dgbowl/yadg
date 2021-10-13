@@ -55,9 +55,11 @@ def infer_timestamp_from(headers: list, spec: dict = None,
             if "format" in spec["timestamp"]:
                 def retfunc(value):
                     dtn = datetime.datetime.strptime(value, spec["timestamp"]["format"])
+                    print(dtn)
                     dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                            day = dtn.day, hour = dtn.hour,
                                            minute = dtn.minute, second = dtn.second,
+                                           microsecond = dtn.microsecond,
                                            tzinfo = tz)
                     return dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc

@@ -109,7 +109,7 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
         Encoding of ``fn``, by default "utf-8".
     
     timezone
-        Name of the timezone.
+        A string description of the timezone. Default is "localtime".
 
     sep
         Separator to use. Default is "," for csv.
@@ -141,6 +141,11 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
     
     calfile
         ``convert``-like functionality specified in a json file.
+
+    Returns
+    -------
+    (data, metadata, common) : tuple[list, dict, None]
+        Tuple containing the timesteps, metadata, and common data.
 
     """
     if calfile is not None:

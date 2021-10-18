@@ -60,6 +60,9 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
     encoding
         Encoding of ``fn``, by default "utf-8".
 
+    timezone
+        A string description of the timezone. Default is "localtime".
+
     atol
         Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.
 
@@ -87,7 +90,11 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
 
     distance
         Parameter for the peak-picker.
-
+    
+    Returns
+    -------
+    (data, metadata, common) : tuple[list, dict, None]
+        Tuple containing the timesteps, metadata, and common data.
     """
     # create timestamp
     _, datefunc = dgutils.infer_timestamp_from([], 

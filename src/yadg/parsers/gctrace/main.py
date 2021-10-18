@@ -166,7 +166,7 @@ def _parse_detector_spec(calfile: str = None, detectors: dict = None,
 
 def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", tracetype: str = "datasc", 
             detectors: dict = None, species: dict = None, calfile: str = None, 
-            atol: float = 0, rtol: float = 0, **kwargs: dict) -> tuple[list, dict, dict]:
+            atol: float = 0.0, rtol: float = 0.0, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
 
@@ -181,6 +181,9 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", trace
     
     encoding
         Encoding of ``fn``, by default "utf-8".
+
+    timezone
+        A string description of the timezone. Default is "localtime".
     
     tracetype
         Determines the output file format. Currently supported formats are 
@@ -211,8 +214,8 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", trace
     
     Returns
     -------
-    tuple[list, dict, dict]
-        A tuple containing the results list and the metadata and common dicts.
+    (data, metadata, common) : tuple[list, dict, None]
+        Tuple containing the timesteps, metadata, and common data.
     """
     assert calfile is not None or (species is not None and detectors is not None), \
         logging.error("gctrace: Neither 'calfile' nor 'species' and 'detectors' "

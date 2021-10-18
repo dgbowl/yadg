@@ -18,7 +18,7 @@ def drycal_rtf(fn: str, encoding: str, date: float,
             break
     # Metadata processing for rtf files is in columns, not rows.
     ml = []
-    metadata = {"fn": str(fn)}
+    metadata = dict()
     for line in lines[:si]:
         if line.strip() != "":
             items = [i.strip() for i in line.split("|")]
@@ -46,6 +46,7 @@ def drycal_rtf(fn: str, encoding: str, date: float,
         ts = process_row(headers[1:], row[1:], units, datefunc, 
                          datecolumns, calib = calib)
         ts["uts"] += date
+        ts["fn"] = fn
         timesteps.append(ts)
     
     return timesteps, metadata, None
@@ -62,7 +63,7 @@ def drycal_sep(fn: str, encoding: str, date: float,
             break
     # Metadata processing for csv files is standard.
     ml = []
-    metadata = {"fn": str(fn)}
+    metadata = dict()
     for line in lines[:si]:
         if line.strip() != "":
             items = [i.strip() for i in line.split(sep)]
@@ -86,6 +87,7 @@ def drycal_sep(fn: str, encoding: str, date: float,
         ts = process_row(headers[1:], row[1:], units, datefunc, 
                          datecolumns, calib = calib)
         ts["uts"] += date
+        ts["fn"] = str(fn)
         timesteps.append(ts)
     
     return timesteps, metadata, None

@@ -147,9 +147,7 @@ def process(fn: str, encoding: str = "utf-8", sep: str = ",",
         calib = {}
     if convert is not None:
         calib.update(convert)
-    metadata = {
-        "fn": str(fn)
-    }
+    metadata = {}
     with open(fn, "r", encoding = encoding) as infile:
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
@@ -175,5 +173,6 @@ def process(fn: str, encoding: str = "utf-8", sep: str = ",",
         element = process_row(headers, line.split(sep), units,
                               datefunc, datecolumns, atol, rtol,
                               sigma, calib)
+        element["fn"] = str(fn)
         data.append(element)
     return data, metadata, None

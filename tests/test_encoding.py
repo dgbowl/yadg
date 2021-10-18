@@ -21,7 +21,7 @@ def datadir(tmpdir, request):
 
 def datagram_from(input, datadir):
     schema = {
-        "metadata": {"provenance": "manual", "schema_version": "0.1"},
+        "metadata": {"provenance": "manual", "schema_version": "0.1", "timezone": "UTC"},
         "steps": [{
           "parser": input["parser"],
           "import": {"files": input["files"], "encoding": input["encoding"]},

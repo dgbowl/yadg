@@ -1,6 +1,6 @@
 import dgutils
 
-def process(fn: str, encoding: str = "utf-8", 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
             **kwargs: dict) -> tuple[list, None, None]:
     """
     A dummy parser.

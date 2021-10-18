@@ -119,8 +119,8 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
             data.append(cols)
     return headers, units, data
 
-def process(fn: str, encoding: str = "utf-8", filetype: str = None, 
-            atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
+            filetype: str = None, atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
             convert: dict = None, calfile: str = None, 
             date: str = None, **kwargs) -> tuple[list, dict, dict]:
     """

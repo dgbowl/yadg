@@ -1,7 +1,7 @@
 import logging
 import dgutils
 
-def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0, 
+def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0, 
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.
@@ -21,7 +21,8 @@ def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0,
     common = {}
     chrom = {"fn": str(fn), "traces": [], "detectors": {}}
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}})
+                            spec = {"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}},
+                            timezone = timezone)
     
     for line in lines:
         for key in ["Version", "Maxchannels", "Method", "User Name"]:

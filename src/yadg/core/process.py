@@ -107,7 +107,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             logging.warning(f"process_schema: No files processed by step {step['tag']}")
         for tf in todofiles:
             logging.debug(f'process_schema: processing item {tf}')
-            _ts, _meta, _common = handler(tf, encoding, **step.get("parameters", {}))
+            _ts, _meta, _common = handler(tf, encoding, schema["metadata"]["timezone"], **step.get("parameters", {}))
             assert isinstance(_ts, list), \
                 logging.critical(f"process_schema: Handler for {step['datagram']} yields"
                                  " timesteps that are not a list.")

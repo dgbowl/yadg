@@ -1,4 +1,7 @@
 import datetime
+import dateutil.parser
+import tzlocal
+import zoneinfo
 import logging
 from typing import Callable, Union
 import os
@@ -18,7 +21,7 @@ def now(asstr: bool = False,
         return dt.timestamp()
 
 def infer_timestamp_from(headers: list, spec: dict = None,
-                         tz: datetime.timezone = datetime.timezone.utc) -> tuple[list, Callable]:
+                         timezone: str = "localtime") -> tuple[list, Callable]:
     """
     Convenience function for timestamping
 
@@ -48,29 +51,31 @@ def infer_timestamp_from(headers: list, spec: dict = None,
         the columns have to be passed to obtain a uts timestamp.
     
     """
+    if timezone == "localtime":
+        tz = tzlocal.get_localzone()
+    else:
+        tz = zoneinfo.ZoneInfo(timezone)
     if spec is not None:
         if "uts" in spec:
             return [spec["uts"].get("index", None)], float
         if "timestamp" in spec:
             if "format" in spec["timestamp"]:
                 def retfunc(value):
-                    dtn = datetime.datetime.strptime(value, spec["timestamp"]["format"])
-                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                    return dt.timestamp()
+                    dt = datetime.datetime.strptime(value, spec["timestamp"]["format"])
+                    local_tz = tz if dt.tzinfo is None else dt.tzinfo
+                    local_dt = dt.replace(tzinfo = local_tz)
+                    utc_dt = local_dt.astimezone(datetime.timezone.utc)
+                    return utc_dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc
             else:
                 logging.debug("dateutils: Assuming specified column containing "
                               "the timestamp is in ISO 8601 format")
                 def retfunc(value):
-                    dtn = datetime.datetime.fromisoformat(value)
-                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                    return dt.timestamp()
+                    dt = dateutil.parser.parse(value)
+                    local_tz = tz if dt.tzinfo is None else dt.tzinfo
+                    local_dt = dt.replace(tzinfo = local_tz)
+                    utc_dt = local_dt.astimezone(datetime.timezone.utc)
+                    return utc_dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc
         if "date" in spec or "time" in spec:
             specdict = {
@@ -81,23 +86,21 @@ def infer_timestamp_from(headers: list, spec: dict = None,
             if "date" in spec:
                 if "format" in spec["date"]:
                     def datefn(value):
-                        dtn = datetime.datetime.strptime(value, spec["date"]["format"])
-                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                        return dt.timestamp()
+                        dt = datetime.datetime.strptime(value, spec["date"]["format"])
+                        local_tz = tz if dt.tzinfo is None else dt.tzinfo
+                        local_dt = dt.replace(tzinfo = local_tz)
+                        utc_dt = local_dt.astimezone(datetime.timezone.utc)
+                        return utc_dt.timestamp()
                     cols[0] = spec["date"].get("index", None)
                 else:
                     logging.debug("dateutils: Assuming specified column containing "
                                 "the date is in ISO 8601 format")
                     def datefn(value):
-                        dtn = datetime.datetime.fromisoformat(value)
-                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                        return dt.timestamp()
+                        dt = dateutil.parser.parse(value)
+                        local_tz = tz if dt.tzinfo is None else dt.tzinfo
+                        local_dt = dt.replace(tzinfo = local_tz)
+                        utc_dt = local_dt.astimezone(datetime.timezone.utc)
+                        return utc_dt.timestamp()
                     cols[0] = spec["date"].get("index", None)
                 specdict["date"] = datefn
             if "time" in spec:
@@ -134,12 +137,11 @@ def infer_timestamp_from(headers: list, spec: dict = None,
         logging.info("dateutils: No timestamp spec provided, assuming column 'timestamp' "
                      "is a valid ISO 8601 timestamp")
         def retfunc(value):
-            dtn = datetime.datetime.fromisoformat(value)
-            dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                   day = dtn.day, hour = dtn.hour,
-                                   minute = dtn.minute, second = dtn.second,
-                                   microsecond = dtn.microsecond, tzinfo = tz)
-            return dt.timestamp()
+            dt = dateutil.parser.parse(value)
+            local_tz = tz if dt.tzinfo is None else dt.tzinfo
+            local_dt = dt.replace(tzinfo = local_tz)
+            utc_dt = local_dt.astimezone(datetime.timezone.utc)
+            return utc_dt.timestamp()
         return [headers.index("timestamp")], retfunc
     else:
         assert False, \

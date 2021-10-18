@@ -1,10 +1,11 @@
 import logging
 import dgutils
 
-def _process_headers(headers: list, columns: list) -> dict:
+def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%d %b %Y %H:%M"}})
+                            spec = {"timestamp": {"format": "%d %b %Y %H:%M"}},
+                            timezone = timezone)
     assert len(headers) == len(columns), \
         logging.error(f"chromtab: The number of headers and columns "
                       f"do not match on line {lines.index(line)} of file {fn}.")
@@ -21,7 +22,7 @@ def _process_headers(headers: list, columns: list) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0, 
+def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0, 
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
@@ -56,7 +57,7 @@ def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0,
                 headers = [p.replace('"', "") for p in parts]
             else:
                 columns = [p.replace('"', "") for p in parts]
-                ret = _process_headers(headers, columns)
+                ret = _process_headers(headers, columns, timezone)
                 chrom["uts"] = ret.pop("uts")
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:

@@ -86,8 +86,8 @@ def process_row(headers: list, items: list, units: dict, datefunc: Callable,
         element["derived"][nk] = [y.n, y.s, spec.get("unit", "-")]
     return element
 
-def process(fn: str, encoding: str = "utf-8", sep: str = ",", 
-            atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
+            sep: str = ",", atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
             units: dict = None, timestamp: dict = None,
             convert: dict = None, calfile: str = None, 
             **kwargs) -> tuple[list, dict, None]:
@@ -107,6 +107,9 @@ def process(fn: str, encoding: str = "utf-8", sep: str = ",",
     
     encoding
         Encoding of ``fn``, by default "utf-8".
+    
+    timezone
+        Name of the timezone.
 
     sep
         Separator to use. Default is "," for csv.
@@ -152,7 +155,7 @@ def process(fn: str, encoding: str = "utf-8", sep: str = ",",
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp)
+    datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp, timezone = timezone)
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(sep)]

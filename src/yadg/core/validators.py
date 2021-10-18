@@ -180,6 +180,9 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
     """
     # schema has to meet the spec
     assert validator(schema, yadg.core.schema)
+    # if timezone is not in metadata, assume localtime
+    if "timezone" not in schema["metadata"]:
+        schema["metadata"]["timezone"] = "localtime"
     for step in schema["steps"]:
         si = schema["steps"].index(step)
         # import files or folders must exist

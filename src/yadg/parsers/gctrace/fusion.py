@@ -3,7 +3,7 @@ import json
 import numpy as np
 import dgutils
 
-def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0,
+def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0,
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     Fusion json format.
@@ -28,8 +28,8 @@ def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0,
         }
     }
     common = {}
-    _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%Y-%m-%dT%H:%M:%S.%fZ"}})
+    _, datefunc = dgutils.infer_timestamp_from([], spec = {"timestamp": {}}, 
+                                               timezone = timezone)
     chrom = {
         "fn": str(fn), 
         "traces": [],

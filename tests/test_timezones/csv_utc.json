@@ -1,0 +1,14 @@
+{
+    "metadata": {
+        "provenance": "manual", 
+        "schema_version": "0.1", 
+        "timezone": "UTC"
+    },
+    "steps": [{
+        "parser": "basiccsv",
+        "import": {"files": ["case_date_time.csv"]},
+        "parameters": {
+            "sep": ","
+        }
+    }]
+}

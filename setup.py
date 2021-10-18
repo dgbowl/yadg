@@ -34,6 +34,7 @@ setuptools.setup(
         "scipy",
         "uncertainties",
         "striprtf",
+        "dateutil",
         "pytest"
     ],
     entry_points = {

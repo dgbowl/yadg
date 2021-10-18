@@ -68,7 +68,7 @@ def process_row(headers: list, items: list, units: dict, datefunc: Callable,
             _val = float(columns[ci])
             _tols = sigma.get(header, {})
             _sigma = max(abs(_val * _tols.get("rtol", rtol)), _tols.get("atol", atol))
-            _unit = units.get(header)
+            _unit = units[header]
             element["raw"][header] = [_val, _sigma, _unit]
         except ValueError:
             element["raw"][header] = columns[ci]
@@ -86,8 +86,9 @@ def process_row(headers: list, items: list, units: dict, datefunc: Callable,
         element["derived"][nk] = [y.n, y.s, spec.get("unit", "-")]
     return element
 
-def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0, 
-            sigma: dict = {}, units: dict = None, timestamp: dict = None,
+def process(fn: str, encoding: str = "utf-8", sep: str = ",", 
+            atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, 
+            units: dict = None, timestamp: dict = None,
             convert: dict = None, calfile: str = None, 
             **kwargs) -> tuple[list, dict, None]:
     """
@@ -104,6 +105,9 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
     fn
         File to process
     
+    encoding
+        Encoding of ``fn``, by default "utf-8".
+
     sep
         Separator to use. Default is "," for csv.
 
@@ -146,8 +150,8 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
     metadata = {
         "fn": str(fn)
     }
-    with open(fn, "r") as infile:
-        lines = infile.readlines()
+    with open(fn, "r", encoding = encoding) as infile:
+        lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
     datecolumns, datefunc = dgutils.infer_timestamp_from(headers, spec = timestamp)
@@ -161,10 +165,10 @@ def process(fn: str, sep: str = ",", atol: float = 0.0, rtol: float = 0.0,
         for header in headers:
             if header not in units:
                 logging.warning(f"Using implicit unit '-' for {header}.")
-                units["header"] = "-"
-            elif units["header"] == "":
+                units[header] = "-"
+            elif units[header] == "":
                 logging.info(f"Converting unit ' ' to '-' for {header}.")
-                units["header"] = "-"
+                units[header] = "-"
         si = 1
     data = []
     for line in lines[si:]:

@@ -3,7 +3,7 @@ import json
 import numpy as np
 import dgutils
 
-def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
+def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0,
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     Fusion json format.
@@ -12,7 +12,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     Only a subset of the metadata is retained, including the method name,
     detector names, and information about assigned peaks.
     """
-    with open(fn, "r", encoding="utf8", errors="ignore") as infile:
+    with open(fn, "r", encoding = encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
 
     metadata = {
@@ -29,11 +29,11 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     }
     common = {}
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%Y-%m-%dT%H:%M:%S"}})
+                            spec = {"timestamp": {"format": "%Y-%m-%dT%H:%M:%S.%fZ"}})
     chrom = {
         "fn": str(fn), 
         "traces": [],
-        "uts": datefunc(jsdata["runTimeStamp"].split(".")[0]),
+        "uts": datefunc(jsdata["runTimeStamp"]),
         "detectors": {}
     }
     detid = 0

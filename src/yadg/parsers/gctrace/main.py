@@ -164,8 +164,8 @@ def _parse_detector_spec(calfile: str = None, detectors: dict = None,
                 calib[name]["species"] = sp
     return calib
 
-def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
-            species: dict = None, calfile: str = None, 
+def process(fn: str, encoding = "utf-8", tracetype: str = "datasc", 
+            detectors: dict = None, species: dict = None, calfile: str = None, 
             atol: float = 0, rtol: float = 0, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
@@ -178,6 +178,9 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
     ----------
     fn
         The file containing the trace(s) to parse.
+    
+    encoding
+        Encoding of ``fn``, by default "utf-8".
     
     tracetype
         Determines the output file format. Currently supported formats are 
@@ -216,11 +219,11 @@ def process(fn: str, tracetype: str = "datasc", detectors: dict = None,
                       "were provided. Fit cannot proceed.")
     gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, atol, rtol, **kwargs)
+        _data, _meta, _common = datasc.process(fn, encoding, atol, rtol, **kwargs)
     elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, atol, rtol, **kwargs)
+        _data, _meta, _common = chromtab.process(fn, encoding, atol, rtol, **kwargs)
     elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, atol, rtol, **kwargs)
+        _data, _meta, _common = fusion.process(fn, encoding, atol, rtol, **kwargs)
     results = []
     for chrom in _data:
         result = {

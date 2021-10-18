@@ -40,7 +40,8 @@ def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray,
     assert len(Qs) == npeaks and len(fs) == npeaks
     return Qs, fs
 
-def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
+def process(fn: str, encoding: str = "utf-8", 
+            atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
             method: str = "kajfez", height: float = 1.0, distance: float = 5000.0,
             cutoff: float = 0.4, threshold: float = 1e-6, **kwargs) -> tuple[list, dict, dict]:
     """
@@ -55,6 +56,9 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
     ----------
     fn
         File to process
+    
+    encoding
+        Encoding of ``fn``, by default "utf-8".
 
     atol
         Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.
@@ -94,7 +98,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},
             "fn": fn
     }
     common = {}
-    with open(fn, "r") as infile:
+    with open(fn, "r", encoding = encoding) as infile:
         lines = infile.readlines()
     assert len(lines) > 2, \
         logging.error(f"qftrace: Only {len(lines)-1} points supplied in "

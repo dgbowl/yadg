@@ -1,6 +1,7 @@
 import dgutils
 
-def process(fn: str, **kwargs: dict) -> tuple[list, None, None]:
+def process(fn: str, encoding: str = "utf-8", 
+            **kwargs: dict) -> tuple[list, None, None]:
     """
     A dummy parser.
 
@@ -9,8 +10,10 @@ def process(fn: str, **kwargs: dict) -> tuple[list, None, None]:
 
     Parameters
     ----------
-    fn : string
-        Filename to check
+    fn
+        Filename to process
+    encoding
+        Encoding of ``fn``, by default "utf-8".
     
     """
     

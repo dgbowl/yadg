@@ -58,7 +58,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                     dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                            day = dtn.day, hour = dtn.hour,
                                            minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
+                                           microsecond = dtn.microsecond, tzinfo = tz)
                     return dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc
             else:
@@ -69,7 +69,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                     dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                            day = dtn.day, hour = dtn.hour,
                                            minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
+                                           microsecond = dtn.microsecond, tzinfo = tz)
                     return dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc
         if "date" in spec or "time" in spec:
@@ -85,7 +85,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                         dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                            day = dtn.day, hour = dtn.hour,
                                            minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
+                                           microsecond = dtn.microsecond, tzinfo = tz)
                         return dt.timestamp()
                     cols[0] = spec["date"].get("index", None)
                 else:
@@ -96,7 +96,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                         dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                            day = dtn.day, hour = dtn.hour,
                                            minute = dtn.minute, second = dtn.second,
-                                           tzinfo = tz)
+                                           microsecond = dtn.microsecond, tzinfo = tz)
                         return dt.timestamp()
                     cols[0] = spec["date"].get("index", None)
                 specdict["date"] = datefn
@@ -104,7 +104,8 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                 if "format" in spec["time"]:
                     def timefn(value):
                         t = datetime.datetime.strptime(value, spec["time"]["format"])
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, seconds = t.second)
+                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, 
+                                                seconds = t.second, microseconds = t.microsecond)
                         return td.total_seconds()
                     cols[1] = spec["time"].get("index", None)
                 else:
@@ -113,7 +114,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                     def timefn(value):
                         t = datetime.time.fromisoformat(value)
                         td = datetime.timedelta(hours = t.hour, minutes = t.minute,
-                                                seconds = t.second)
+                                                seconds = t.second, microseconds = t.microsecond)
                         return td.total_seconds()
                     cols[1] = spec["time"].get("index", None)   
                 specdict["time"] = timefn
@@ -137,12 +138,12 @@ def infer_timestamp_from(headers: list, spec: dict = None,
             dt = datetime.datetime(year = dtn.year, month= dtn.month,
                                    day = dtn.day, hour = dtn.hour,
                                    minute = dtn.minute, second = dtn.second,
-                                   tzinfo = tz)
+                                   microsecond = dtn.microsecond, tzinfo = tz)
             return dt.timestamp()
         return [headers.index("timestamp")], retfunc
     else:
-        assert True, \
-            logging.error("dateutils: A valid timestamp could not be deduced.")
+        assert False, \
+            "dateutils: A valid timestamp could not be deduced."
 
 def date_from_str(datestr: str) -> Union[float, None]:
     bn = os.path.basename(datestr)

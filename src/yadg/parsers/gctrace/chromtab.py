@@ -21,7 +21,7 @@ def _process_headers(headers: list, columns: list) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, atol: float = 0.0, rtol: float = 0.0, 
+def process(fn: str, encoding: str, atol: float = 0.0, rtol: float = 0.0, 
             **kwargs: dict) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
@@ -31,7 +31,7 @@ def process(fn: str, atol: float = 0.0, rtol: float = 0.0,
     includes a header line and x,y-data. Method is not available, but sampleid
     and detector names are included.
     """
-    with open(fn, "r", encoding="utf8", errors="ignore") as infile:
+    with open(fn, "r", encoding = encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
     metadata = {

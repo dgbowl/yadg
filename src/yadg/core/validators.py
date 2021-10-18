@@ -180,9 +180,9 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
     """
     # schema has to meet the spec
     assert validator(schema, yadg.core.schema)
-    # if timezone is not in metadata, assume localtime
+    # log default timezone
     if "timezone" not in schema["metadata"]:
-        schema["metadata"]["timezone"] = "localtime"
+        logging.info(f"schema_validator: Timezone not specified. Using 'localtime'.")
     for step in schema["steps"]:
         si = schema["steps"].index(step)
         # import files or folders must exist
@@ -196,10 +196,12 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
                 assert os.path.exists(fn) and os.path.isdir(fn), \
                         f"schema_validator: Folder path {fn} provided in " \
                         f"step {si} is not a valid folder."
-        # supply a default tag
+        # log default tag
         if "tag" not in step:
-            logging.info(f"schema_validator: Tag not present in step {si}.")
-            step["tag"] = f"{si:2d}"
+            logging.info(f"schema_validator: Tag not present in step {si}. Using '{si:02d}'")
+        # log default encoding
+        if "encoding" not in step["import"]:
+            logging.info(f"schema_validator: Encoding not present in step {si}. Using 'utf-8'")
     return True
 
 def validate_datagram(datagram: dict) -> True:

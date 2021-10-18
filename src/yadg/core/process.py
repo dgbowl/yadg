@@ -95,20 +95,19 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     }
     for step in schema["steps"]:
         metadata = {
-            "tag": step["tag"]
+            "tag": step.get("tag", f"{schema['steps'].index(step):02d}")
         }
         common = {}
         timesteps = []
         logging.info(f'process_schema: processing step {schema["steps"].index(step)}:')
         handler = _infer_datagram_handler(step["parser"])
         todofiles = _infer_todo_files(step["import"])
-        encoding = step["import"].get("encoding", "utf-8")
         if len(todofiles) == 0:
-            logging.warning(f"process_schema: No files processed by step {step['tag']}")
+            logging.warning(f"process_schema: No files processed by step {metadata['tag']}")
         for tf in todofiles:
             logging.debug(f'process_schema: processing item {tf}')
-            _ts, _meta, _common = handler(tf, encoding = encoding, 
-                                          timezone = schema["metadata"]["timezone"], 
+            _ts, _meta, _common = handler(tf, encoding = step["import"].get("encoding", "utf-8"), 
+                                          timezone = schema["metadata"].get("timezone", "localtime"), 
                                           **step.get("parameters", {}))
             assert isinstance(_ts, list), \
                 logging.critical(f"process_schema: Handler for {step['datagram']} yields"

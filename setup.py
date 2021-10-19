@@ -34,7 +34,8 @@ setuptools.setup(
         "scipy",
         "uncertainties",
         "striprtf",
-        "pytest"
+        "pytest",
+        "pandas",
     ],
     entry_points = {
         "console_scripts": [

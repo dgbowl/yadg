@@ -64,23 +64,17 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     """
     Main worker function of **yadg**. 
     
-    Takes in a validated `schema` as an argument and returns a single annotated 
-    `datagram` created from the `schema`. It is the job of the user to supply
-    a validated `schema`.
+    Takes in a validated `schema` as an argument and returns a single annotated `datagram` created from the `schema`. It is the job of the user to supply a validated `schema`.
 
     Parameters
     ----------
     schema
-        A fully validated `schema`. Use the function
-        :meth:`yadg.core.validators.validate_schema` to validate your `schema`.
+        A fully validated `schema`. Use the function :meth:`yadg.core.validators.validate_schema` to validate your `schema`.
 
     Returns
     -------
     datagram: dict
-        An unvalidated `datagram`. The `parser`\ s included in **yadg** should
-        return a valid `datagram`; any custom `parser`\ s might not do so. 
-        Use the function :meth:`yadg.core.validators.validate_datagram` to 
-        validate the resulting `datagram`.
+        An unvalidated `datagram`. The `parser`\ s included in **yadg** should return a valid `datagram`; any custom `parser`\ s might not do so. Use the function :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
     """
     datagram = {
         "metadata": {
@@ -106,9 +100,8 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             logging.warning(f"process_schema: No files processed by step {metadata['tag']}")
         for tf in todofiles:
             logging.debug(f'process_schema: processing item {tf}')
-            _ts, _meta, _common = handler(tf, encoding = step["import"].get("encoding", "utf-8"), 
-                                          timezone = schema["metadata"].get("timezone", "localtime"), 
-                                          **step.get("parameters", {}))
+            _ts, _meta, _common = handler(tf, encoding = step["import"].get("encoding", "utf-8"),
+                                          timezone = schema["metadata"].get("timezone", "localtime"), **step.get("parameters", {}))
             assert isinstance(_ts, list), \
                 logging.critical(f"process_schema: Handler for {step['datagram']} yields"
                                  " timesteps that are not a list.")

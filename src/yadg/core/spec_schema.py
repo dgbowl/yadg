@@ -1,3 +1,5 @@
+schema_version = "1.0.dev1"
+
 calib = {
     "type": dict,
     "one": {

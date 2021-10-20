@@ -4,12 +4,12 @@ from scipy.signal import find_peaks
 from uncertainties import ufloat, unumpy
 import numpy as np
 
-import dgutils
-from parsers.qftrace import kajfez, lorentz, naive, prune
+import yadg.dgutils
+from yadg.parsers.qftrace import kajfez, lorentz, naive, prune
 
-def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray, 
-         method: str, height: float, distance: float, cutoff: float, 
-         threshold: float) -> tuple[int, list, list]:
+version = "1.0.dev1"
+
+def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray, method: str, height: float, distance: float, cutoff: float, threshold: float) -> tuple[int, list, list]:
     """
     Function that fits Q and f from Γ(f).
     """
@@ -40,17 +40,11 @@ def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray,
     assert len(Qs) == npeaks and len(fs) == npeaks
     return Qs, fs
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
-            atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
-            method: str = "kajfez", height: float = 1.0, distance: float = 5000.0,
-            cutoff: float = 0.4, threshold: float = 1e-6, **kwargs) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone", atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {},  method: str = "kajfez", height: float = 1.0, distance: float = 5000.0, cutoff: float = 0.4, threshold: float = 1e-6, **kwargs) -> tuple[list, dict, dict]:
     """
     VNA reflection trace parser.
 
-    This parser processes a VNA log file, containing the reflection data as a
-    function of frequency. This data is automatically worked up to produce the
-    quality factor Q and the central frequency f of all peaks found in the trace;
-    hence the name qftrace. 
+    This parser processes a VNA log file, containing the reflection data as a function of frequency. This data is automatically worked up to produce the quality factor Q and the central frequency f of all peaks found in the trace; hence the name qftrace. 
 
     Parameters
     ----------
@@ -64,26 +58,22 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
         A string description of the timezone. Default is "localtime".
 
     atol
-        Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.
+        Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.0
 
     rtol
-        Default relative uncertainty in f and Re(Γ) / Im(Γ). By default set to 
-        5e-7, as significant digits are printed in the standard output.
+        Default relative uncertainty in f and Re(Γ) / Im(Γ). By default set to 5e-7, as significant digits are printed in the standard output.
     
     sigma
         Property-specific `atol` and `rtol` can be supplied here.
     
     method
-        Method for fitting Q and f to Γ(f) data. One of ``"naive"``, ``"lorentz"``,
-        or ``"kajfez"``. Default is ``"kajfez"``.
+        Method for fitting Q and f to Γ(f) data. One of ``"naive"``, ``"lorentz"``, or ``"kajfez"``. Default is ``"kajfez"``.
     
     cutoff
-        Parameter passed to the cutoff-based pruning routine, defining the 
-        cutoff threshold for the normalisation. Default is 0.4.
+        Parameter passed to the cutoff-based pruning routine, defining the cutoff threshold for the normalisation. Default is 0.4.
     
     threshold
-        Parameter passed to the gradient-based pruning routine, defining the
-        minimum gradient below which the trace gets pruned. Default is 1e-6.
+        Parameter passed to the gradient-based pruning routine, defining the minimum gradient below which the trace gets pruned. Default is 1e-6.
 
     height
         Parameter for the peak-picker.
@@ -97,20 +87,17 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
         Tuple containing the timesteps, metadata, and common data.
     """
     # create timestamp
-    _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}},
-                            timezone = timezone)
+    _, datefunc = yadg.dgutils.infer_timestamp_from(timezone = timezone, spec = {"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}})
     dirname, basename = os.path.split(fn)
     data = {
-            "uts": datefunc(os.path.splitext(basename)[0]),
-            "fn": fn
+        "uts": datefunc(os.path.splitext(basename)[0]),
+        "fn": str(fn)
     }
-    common = {}
+    common = dict()
     with open(fn, "r", encoding = encoding) as infile:
         lines = infile.readlines()
     assert len(lines) > 2, \
-        logging.error(f"qftrace: Only {len(lines)-1} points supplied in "
-                      f"{fn}; fitting impossible." )
+        f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
     # process header
     if ";" in lines[0]:
         items = lines.pop(0).split(";")
@@ -150,8 +137,7 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
         common["cutoff"] = cutoff
     else:
         common["threshold"] = threshold
-    Q, f = _fit(np.asarray(freq), np.asarray(gamma), np.asarray(absgamma), 
-                method, height, distance, cutoff, threshold)
+    Q, f = _fit(np.asarray(freq), np.asarray(gamma), np.asarray(absgamma), method, height, distance, cutoff, threshold)
     data["derived"] = {
         "Q": Q,
         "f": f,

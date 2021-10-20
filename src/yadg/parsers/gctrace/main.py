@@ -4,15 +4,14 @@ import numpy as np
 import logging
 from uncertainties import ufloat, UFloat
 
-from parsers.gctrace import datasc, chromtab, fusion
-from dgutils import calib_handler
+from yadg.parsers.gctrace import datasc, chromtab, fusion
+import yadg.dgutils
 
+version = "1.0.dev1"
 
 def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
     """
-    Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter.
-    Returns the peak maxima, minima, and zero-points of the smoothened
-    gradient and Hessian.
+    Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter. Returns the peak maxima, minima, and zero-points of the smoothened gradient and Hessian.
     """
     # find positive and negative peak indices
     peaks = {}
@@ -21,9 +20,7 @@ def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
     res, _ = find_peaks(yseries, prominence=peakdetect.get("prominence", 1e-4*max(yseries)))
     peaks["-"] = res
     # smoothen the chromatogram based on supplied parameters
-    smooth = savgol_filter(yseries,
-                           window_length = peakdetect.get("window", 7),
-                           polyorder = peakdetect.get("polyorder", 3))
+    smooth = savgol_filter(yseries, window_length = peakdetect.get("window", 7), polyorder = peakdetect.get("polyorder", 3))
     # gradient: find peaks and inflection points
     grad = np.gradient(smooth)
     res = np.where(np.diff(np.sign(grad)) != 0)[0] + 1
@@ -36,9 +33,7 @@ def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
 
 def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
     """
-    A function that, given the y-values of a trace in `ys` and the maxima,
-    inflection points etc. in `peakdata`, and the peak integration `"threshold"`
-    in `detector`, finds the edges `"llim"` and `"rlim"` of each peak.
+    A function that, given the y-values of a trace in `ys` and the maxima, inflection points etc. in `peakdata`, and the peak integration `"threshold"` in `detector`, finds the edges `"llim"` and `"rlim"` of each peak.
     """
     threshold = detector.get("threshold", 1.0)
     allpeaks = []
@@ -93,9 +88,7 @@ def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
 
 def _baseline_correct(yfloat: list[float], yufloat: list[UFloat], peakdata: dict) -> list[UFloat]:
     """
-    Function that corrects the trace defined by [`xs`, `ys`], using a baseline
-    created from the linear interpolation between the `"llim"` and `"rlim"` of
-    each `peak` in `peakdata`. Returns the corrected baseline.
+    Function that corrects the trace defined by [`xs`, `ys`], using a baseline created from the linear interpolation between the `"llim"` and `"rlim"` of each `peak` in `peakdata`. Returns the corrected baseline.
     """
     interpolants = []
     for p in peakdata:
@@ -114,14 +107,9 @@ def _baseline_correct(yfloat: list[float], yufloat: list[UFloat], peakdata: dict
     corrected = [yufloat[i] - baseline[i] for i in range(len(yufloat))]
     return corrected
 
-def _integrate_peaks(xs: list[UFloat], yfloat: list[float], yufloat: list[UFloat], 
-                     peakdata: dict, specdata: dict) -> dict:
+def _integrate_peaks(xs: list[UFloat], yfloat: list[float], yufloat: list[UFloat], peakdata: dict, specdata: dict) -> dict:
     """
-    A function which, given a trace in [`xs`, `ys`], `peakdata` containing the
-    boundaries `"llim"` and `"rlim"` for each `peak`, and `specdata` containing
-    the peak-maximum matching limits `"l"` and `"r"`, first assigns peaks into
-    `truepeaks`, then baseline-corrects [`xs`, `ys`], and finally integrates
-    the peaks using numpy.trapz().
+    A function which, given a trace in [`xs`, `ys`], `peakdata` containing the boundaries `"llim"` and `"rlim"` for each `peak`, and `specdata` containing the peak-maximum matching limits `"l"` and `"r"`, first assigns peaks into `truepeaks`, then baseline-corrects [`xs`, `ys`], and finally integrates the peaks using numpy.trapz().
     """
     truepeaks = {}
     for name, species in specdata.items():
@@ -136,11 +124,9 @@ def _integrate_peaks(xs: list[UFloat], yfloat: list[float], yufloat: list[UFloat
         truepeaks[k]["h"] = yufloat[v["max"]]
     return truepeaks
    
-def _parse_detector_spec(calfile: str = None, detectors: dict = None, 
-                         species: dict = None) -> dict:
+def _parse_detector_spec(calfile: str = None, detectors: dict = None, species: dict = None) -> dict:
     """
-    Combines the GC spec from the json file specified in `calfile` with the dict
-    definitions provided in `detectors` and `species`.
+    Combines the GC spec from the json file specified in `calfile` with the dict definitions provided in `detectors` and `species`.
     """
     if calfile is not None:
         with open(calfile, "r") as infile:
@@ -156,23 +142,18 @@ def _parse_detector_spec(calfile: str = None, detectors: dict = None,
     if isinstance(species, dict):
         for name, sp in species.items():
             assert name in calib, \
-                logging.error(f"gctrace: Detector with name {name} specified in "
-                              "supplied 'species' but previously undefined.")
+                f"gctrace: Detector with name {name} specified in supplied 'species' but previously undefined."
             try:
                 calib[name]["species"].update(sp)
             except KeyError:
                 calib[name]["species"] = sp
     return calib
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", tracetype: str = "datasc", 
-            detectors: dict = None, species: dict = None, calfile: str = None, 
-            atol: float = 0.0, rtol: float = 0.0, **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", tracetype: str = "datasc", detectors: dict = None, species: dict = None, calfile: str = None, atol: float = 0.0, rtol: float = 0.0) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
 
-    This parser processes GC chromatograms in signal(time) format. When provided
-    with a calibration file, this tool will integrate the trace, and provide the
-    peak areas, retention times, and concentrations of the detected species.
+    This parser processes GC chromatograms in signal(time) format. When provided with a calibration file, this tool will integrate the trace, and provide the peak areas, retention times, and concentrations of the detected species.
 
     Parameters
     ----------
@@ -186,31 +167,22 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", trace
         A string description of the timezone. Default is "localtime".
     
     tracetype
-        Determines the output file format. Currently supported formats are 
-        `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion 
-        json file). The default is `"datasc"`.
+        Determines the output file format. Currently supported formats are `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion json file). The default is `"datasc"`.
 
     detectors
-        Detector specification. Matches and identifies a trace in the `fn` file.
-        If provided, overrides data provided in `calfile`, below.
+        Detector specification. Matches and identifies a trace in the `fn` file. If provided, overrides data provided in `calfile`, below.
     
     species
-        Species specification. Per-detector species can be listed here, providing
-        an expected retention time range for the peak maximum. Additionally,
-        calibration data can be supplied here. Overrides data provided in
-        `calfile`, below.
+        Species specification. Per-detector species can be listed here, providing an expected retention time range for the peak maximum. Additionally, calibration data can be supplied here. Overrides data provided in `calfile`, below.
 
     calfile
-        Path to a json file containing the `detectors` and `species` spec. Either
-        `calfile` and/or `species` and `detectors` have to be provided.
+        Path to a json file containing the `detectors` and `species` spec. Either `calfile` and/or `species` and `detectors` have to be provided.
     
     atol
-        The default absolute uncertainty used for the [x, y] values in the trace.
-        By default set to 0.
+        The default absolute uncertainty used for the [x, y] values in the trace. By default set to 0.0.
 
     rtol
-        The default relative uncertainty used for the [x, y] values in the trace.
-        By default set to 0.
+        The default relative uncertainty used for the [x, y] values in the trace. By default set to 0.0.
     
     Returns
     -------
@@ -218,15 +190,14 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", trace
         Tuple containing the timesteps, metadata, and common data.
     """
     assert calfile is not None or (species is not None and detectors is not None), \
-        logging.error("gctrace: Neither 'calfile' nor 'species' and 'detectors' "
-                      "were provided. Fit cannot proceed.")
+        "gctrace: Neither 'calfile' nor 'species' and 'detectors' were provided. Fit cannot proceed."
     gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, encoding, timezone, atol, rtol, **kwargs)
+        _data, _meta, _common = datasc.process(fn, encoding, timezone, atol, rtol)
     elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, encoding, timezone, atol, rtol, **kwargs)
+        _data, _meta, _common = chromtab.process(fn, encoding, timezone, atol, rtol)
     elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, encoding, timezone, atol, rtol, **kwargs)
+        _data, _meta, _common = fusion.process(fn, encoding, timezone, atol, rtol)
     results = []
     for chrom in _data:
         result = {
@@ -263,7 +234,7 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", trace
                     "h": [v["h"].n, v["h"].s, units["y"]]
                 }
                 if spec["species"][k].get("calib", None) is not None:
-                    x = calib_handler(v["A"], spec["species"][k]["calib"])
+                    x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
                     peaks[detname][k]["c"] = [
                         max(0.0, x.n), x.s,
                         spec["species"][k]["calib"].get("unit", "vol%")

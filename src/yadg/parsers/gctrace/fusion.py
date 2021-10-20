@@ -1,16 +1,13 @@
 import logging
 import json
 import numpy as np
-import dgutils
+import yadg.dgutils
 
-def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0,
-            **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0) -> tuple[list, dict, dict]:
     """
     Fusion json format.
 
-    One chromatogram per file with multiple traces, and pre-analysed results.
-    Only a subset of the metadata is retained, including the method name,
-    detector names, and information about assigned peaks.
+    One chromatogram per file with multiple traces, and pre-analysed results. Only a subset of the metadata is retained, including the method name, detector names, and information about assigned peaks.
     """
     with open(fn, "r", encoding = encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
@@ -27,9 +24,9 @@ def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: floa
             "version": jsdata.get("softwareVersion", {}).get("version", "")
         }
     }
+
     common = {}
-    _, datefunc = dgutils.infer_timestamp_from([], spec = {"timestamp": {}}, 
-                                               timezone = timezone)
+    _, datefunc = yadg.dgutils.infer_timestamp_from(spec = {"timestamp": {}}, timezone = timezone)
     chrom = {
         "fn": str(fn), 
         "traces": [],
@@ -45,7 +42,7 @@ def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: floa
         xmul = detdict["nValuesPerSecond"]
         npoints = detdict["nValuesExpected"]
         assert len(detdict["values"]) == npoints, \
-            logging.error(f"fusion: Inconsistent trace length in file {fn}.")
+            f"fusion: Inconsistent trace length in file {fn}."
         xs = np.linspace(0, npoints/xmul, num=npoints)
         xtol = max(0.5 * 1/xmul, atol, rtol * max(xs))
         ytol = max(1.0, atol, rtol * max(detdict["values"]))

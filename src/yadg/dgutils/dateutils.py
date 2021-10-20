@@ -6,8 +6,7 @@ import logging
 from typing import Callable, Union
 import os
 
-def now(asstr: bool = False, 
-        tz: datetime.timezone = datetime.timezone.utc) -> Union[float, str]:
+def now(asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc) -> Union[float, str]:
     """
     Wrapper around datetime.now()
 
@@ -20,26 +19,19 @@ def now(asstr: bool = False,
     else:
         return dt.timestamp()
 
-def infer_timestamp_from(headers: list, spec: dict = None,
-                         timezone: str = "localtime") -> tuple[list, Callable]:
+def infer_timestamp_from(headers: list = None, spec: dict = None, timezone: str = "localtime") -> tuple[list, Callable]:
     """
     Convenience function for timestamping
 
-    Given a set of headers, and an optional specification, return an array
-    containing column indices from which a timestamp in a given row can be
-    computed, as well as the function which will compute the timestamp given
-    the returned array.
+    Given a set of headers, and an optional specification, return an array containing column indices from which a timestamp in a given row can be computed, as well as the function which will compute the timestamp given the returned array.
 
     Parameters
     ----------
     headers
-        An array of strings. If `spec` is not supplied, must contain either "uts"
-        (float) or "timestep" (ISO 8601).
+        An array of strings. If `spec` is not supplied, must contain either "uts" (float) or "timestep" (ISO 8601).
 
     spec
-        A specification of timestamp elements with associated column indices and
-        optional formats. Currently accepted combinations of keys are: "uts";
-        "timestamp"; "date" and / or "time".
+        A specification of timestamp elements with associated column indices and optional formats. Currently accepted combinations of keys are: "uts"; "timestamp"; "date" and / or "time".
     
     tz
         Timezone to use for conversion. By default, UTC is used.
@@ -47,8 +39,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
     Returns
     -------
     tuple[list, Callable]
-        A tuple containing a list of indices of columns, and a Callable to which
-        the columns have to be passed to obtain a uts timestamp.
+        A tuple containing a list of indices of columns, and a Callable to which the columns have to be passed to obtain a uts timestamp.
     
     """
     if timezone == "localtime":
@@ -68,8 +59,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                     return utc_dt.timestamp()
                 return [spec["timestamp"].get("index", None)], retfunc
             else:
-                logging.debug("dateutils: Assuming specified column containing "
-                              "the timestamp is in ISO 8601 format")
+                logging.debug("dateutils: Assuming specified column containing the timestamp is in ISO 8601 format")
                 def retfunc(value):
                     dt = dateutil.parser.parse(value)
                     local_tz = tz if dt.tzinfo is None else dt.tzinfo
@@ -93,8 +83,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                         return utc_dt.timestamp()
                     cols[0] = spec["date"].get("index", None)
                 else:
-                    logging.debug("dateutils: Assuming specified column containing "
-                                "the date is in ISO 8601 format")
+                    logging.debug("dateutils: Assuming specified column containing the date is in ISO 8601 format")
                     def datefn(value):
                         dt = dateutil.parser.parse(value)
                         local_tz = tz if dt.tzinfo is None else dt.tzinfo
@@ -107,17 +96,14 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                 if "format" in spec["time"]:
                     def timefn(value):
                         t = datetime.datetime.strptime(value, spec["time"]["format"])
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, 
-                                                seconds = t.second, microseconds = t.microsecond)
+                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, seconds = t.second, microseconds = t.microsecond)
                         return td.total_seconds()
                     cols[1] = spec["time"].get("index", None)
                 else:
-                    logging.debug("dateutils: Assuming specified column containing "
-                                  "the time is in ISO 8601 format")
+                    logging.debug("dateutils: Assuming specified column containing the time is in ISO 8601 format")
                     def timefn(value):
                         t = datetime.time.fromisoformat(value)
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute,
-                                                seconds = t.second, microseconds = t.microsecond)
+                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, seconds = t.second, microseconds = t.microsecond)
                         return td.total_seconds()
                     cols[1] = spec["time"].get("index", None)   
                 specdict["time"] = timefn
@@ -130,12 +116,10 @@ def infer_timestamp_from(headers: list, spec: dict = None,
                     return specdict["date"](date) + specdict["time"](time)
                 return cols, retfn
     elif "uts" in headers:
-        logging.info("dateutils: No timestamp spec provided, assuming column 'uts' "
-                     "is a valid unix timestamp")
+        logging.info("dateutils: No timestamp spec provided, assuming column 'uts' is a valid unix timestamp")
         return [headers.index("uts")], float
     elif "timestamp" in headers:
-        logging.info("dateutils: No timestamp spec provided, assuming column 'timestamp' "
-                     "is a valid ISO 8601 timestamp")
+        logging.info("dateutils: No timestamp spec provided, assuming column 'timestamp' is a valid ISO 8601 timestamp")
         def retfunc(value):
             dt = dateutil.parser.parse(value)
             local_tz = tz if dt.tzinfo is None else dt.tzinfo

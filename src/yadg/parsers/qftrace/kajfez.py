@@ -5,13 +5,9 @@ def fit(freq, gamma, absgamma, **kwargs):
     """
     Kajfez's circle-fitting program.
 
-    Adapted from Q0REFL.m, which is a part of Kajfez, D.: "Linear fractional curve 
-    fitting for measurement of high Q factors", IEEE Trans. Microwave Theory Techn. 
-    42 (1994) 1149-1153.
+    Adapted from Q0REFL.m, which is a part of Kajfez, D.: "Linear fractional curve fitting for measurement of high Q factors", IEEE Trans. Microwave Theory Techn. 42 (1994) 1149-1153.
 
-    This fitting process attempts to fit a circle to a near-circular section of 
-    points on a Smith's chart. It's robust, quick, and reliable, and produces
-    reasonable error estimates.
+    This fitting process attempts to fit a circle to a near-circular section of points on a Smith's chart. It's robust, quick, and reliable, and produces reasonable error estimates.
     """
     niter = kwargs.get("iterations", 5)
     fre = unumpy.nominal_values(freq)

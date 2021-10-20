@@ -1,16 +1,13 @@
 import logging
-import dgutils
+import yadg.dgutils 
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
-    _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%d %b %Y %H:%M"}},
-                            timezone = timezone)
+    _, datefunc = yadg.dgutils.infer_timestamp_from(spec = {"timestamp": {"format": "%d %b %Y %H:%M"}}, timezone = timezone)
     assert len(headers) == len(columns), \
-        logging.error(f"chromtab: The number of headers and columns "
-                      f"do not match on line {lines.index(line)} of file {fn}.")
+        f"chromtab: The number of headers and columns do not match."
     assert "Date Acquired" in headers, \
-        logging.error("chromtab: Cannot infer date.")
+        "chromtab: Cannot infer date."
     res["uts"] = datefunc(columns[headers.index("Date Acquired")].strip())
     fn = ""
     if "Path" in headers:
@@ -22,15 +19,11 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0, 
-            **kwargs: dict) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 
-    Multiple chromatograms per file with multiple traces. Each chromatogram
-    starts with a header section, and is followed by each trace, which 
-    includes a header line and x,y-data. Method is not available, but sampleid
-    and detector names are included.
+    Multiple chromatograms per file with multiple traces. Each chromatogram starts with a header section, and is followed by each trace, which includes a header line and x,y-data. Method is not available, but sampleid and detector names are included.
     """
     with open(fn, "r", encoding = encoding, errors="ignore") as infile:
         lines = infile.readlines()

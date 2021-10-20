@@ -1,10 +1,19 @@
+datagram_version = "1.0.dev1"
+
 datagram_step = {
     "type": dict,
     "all": {
         "metadata": {
             "type": dict,
             "all": {
-                "tag": {"type": str}
+                "tag": {"type": str},
+                "parser": {
+                    "type": dict,
+                    "each": {
+                        "type": dict,
+                        "all": {"version": {"type": str}}
+                    }
+                }
             },
             "allow": True
         },

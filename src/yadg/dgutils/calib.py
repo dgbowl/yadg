@@ -28,9 +28,10 @@ def _poly(x: UFloat, calspec: dict) -> UFloat:
             y += v * (x**o)
     return y
 
-
-def calib_handler(x: Union[float, UFloat], calib: dict = None, 
-                  atol: float = 0.0, rtol: float = 0.0) -> UFloat:
+def calib_handler(x: Union[float, UFloat], calib: dict = None, atol: float = 0.0, rtol: float = 0.0) -> UFloat:
+    """
+    Calibration handling function
+    """
     if not isinstance(x, UFloat):
         x = ufloat(x, 0.0)
     if calib is None:

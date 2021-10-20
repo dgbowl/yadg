@@ -1,2 +1,2 @@
-from .main import process
+from .main import process, version
 

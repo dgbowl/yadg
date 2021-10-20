@@ -4,8 +4,24 @@ from uncertainties import ufloat
 import yadg.dgutils
 from typing import Callable
 
-def process_row(headers: list, items: list, units: dict, sigma: dict, 
-                datefunc: Callable, datecolumns: list, calib: dict = {}) -> dict:
+version = "1.0.dev1"
+
+def tols_from(headers: list, sigma: dict = {}, atol: float = 0.0, rtol: float = 0.0) -> dict:
+    """
+    Uncertainty helper function.
+
+    Given a list of ``headers``, creates a dictionary where each key is an element of ``headers``, and the values are atol and rtol from the corresponding key in ``sigma``, or the default values provided as parameters
+    """
+    # Populate tols from sigma, atol, rtol
+    tols = dict()
+    for header in headers:
+        tols[header] = {
+            "atol": sigma.get(header, {}).get("atol", atol), 
+            "rtol": sigma.get(header, {}).get("rtol", rtol)
+        }
+    return tols
+
+def process_row(headers: list, items: list, units: dict, sigma: dict, datefunc: Callable, datecolumns: list, calib: dict = {}) -> dict:
     """
     A function that processes a row of a table.
 
@@ -77,12 +93,10 @@ def process_row(headers: list, items: list, units: dict, sigma: dict,
         y = ufloat(0, 0)
         for oldk, v in spec.items():
             if oldk in element.get("derived", {}):
-                dy = yadg.dgutils.calib_handler(ufloat(*element["derived"][oldk]), 
-                                                v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(ufloat(*element["derived"][oldk]), v.get("calib", None))
                 y += dy * v.get("fraction", 1.0)
             elif oldk in headers:
-                dy = yadg.dgutils.calib_handler(ufloat(*element["raw"][oldk]), 
-                                                v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(ufloat(*element["raw"][oldk]), v.get("calib", None))
                 y += dy * v.get("fraction", 1.0)
             elif oldk == "unit":
                 pass
@@ -93,8 +107,7 @@ def process_row(headers: list, items: list, units: dict, sigma: dict,
         element["derived"][newk] = [y.n, y.s, spec.get("unit", "-")]
     return element
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: str = ",", 
-            atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, units: dict = None, timestamp: dict = None, convert: dict = None, calfile: str = None) -> tuple[list, dict, None]:
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: str = ",", atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, units: dict = None, timestamp: dict = None, convert: dict = None, calfile: str = None) -> tuple[list, dict, None]:
     """
     A basic csv parser.
 
@@ -156,8 +169,7 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(headers, spec = timestamp, 
-                                                              timezone = timezone)
+    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(headers = headers, spec = timestamp, timezone = timezone)
     
     # Populate units 
     if units is None:
@@ -177,18 +189,12 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
         si = 1
     
     # Populate tols from sigma, atol, rtol
-    tols = dict()
-    for header in headers:
-        tols[header] = {
-            "atol": sigma.get(header, {}).get("atol", atol), 
-            "rtol": sigma.get(header, {}).get("rtol", rtol)
-        }
+    tols = tols_from(headers, sigma, atol, rtol)
         
     # Process rows
     data = []
     for line in lines[si:]:
-        element = process_row(headers, line.split(sep), units, tols,
-                              datefunc, datecolumns, calib = calib)
+        element = process_row(headers, line.split(sep), units, tols, datefunc, datecolumns, calib = calib)
         element["fn"] = str(fn)
         data.append(element)
     return data, None, None

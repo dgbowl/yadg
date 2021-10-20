@@ -5,8 +5,7 @@ def fit(freq, gamma, absgamma, **kwargs):
     """
     Naive fit.
 
-    This fit finds the central frequency f0, finds the half-maximum (HM) by linear
-    interpolation, and returns Q ~ f0 / FWHM.
+    This fit finds the central frequency f0, finds the half-maximum (HM) by linear interpolation, and returns Q ~ f0 / FWHM.
     """
     maxg = max(absgamma)
     absgamma = [maxg - a for a in absgamma]

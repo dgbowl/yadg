@@ -1,7 +1,8 @@
 import dgutils
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
-            **kwargs: dict) -> tuple[list, None, None]:
+version = "1.0.dev1"
+
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwargs: dict) -> tuple[list, None, None]:
     """
     A dummy parser.
 
@@ -26,10 +27,6 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
 
     """
     
-    result = {
-            "uts": dgutils.now(),
-            "fn": str(fn),
-            "raw": kwargs
-    }
+    result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
     
     return [result], None, None

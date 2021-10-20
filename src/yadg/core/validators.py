@@ -180,6 +180,9 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
     """
     # schema has to meet the spec
     assert validator(schema, yadg.core.schema)
+    # log default timezone
+    if "timezone" not in schema["metadata"]:
+        logging.info(f"schema_validator: Timezone not specified. Using 'localtime'.")
     for step in schema["steps"]:
         si = schema["steps"].index(step)
         # import files or folders must exist
@@ -193,10 +196,12 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
                 assert os.path.exists(fn) and os.path.isdir(fn), \
                         f"schema_validator: Folder path {fn} provided in " \
                         f"step {si} is not a valid folder."
-        # supply a default tag
+        # log default tag
         if "tag" not in step:
-            logging.info(f"schema_validator: Tag not present in step {si}.")
-            step["tag"] = f"{si:2d}"
+            logging.info(f"schema_validator: Tag not present in step {si}. Using '{si:02d}'")
+        # log default encoding
+        if "encoding" not in step["import"]:
+            logging.info(f"schema_validator: Encoding not present in step {si}. Using 'utf-8'")
     return True
 
 def validate_datagram(datagram: dict) -> True:
@@ -247,9 +252,8 @@ def validate_datagram(datagram: dict) -> True:
     assert validator(datagram, yadg.core.datagram)
     # validate each step in the datagram
     for step in datagram["data"]:
-        assert ("fn" in step["metadata"]) ^ all(["fn" in ts for ts in step["timesteps"]]), \
-            "The 'fn':str entry has to be provided either in the 'metadata' entry " \
-            "of each step, or in each element of 'timesteps."
+        assert all(["fn" in ts for ts in step["timesteps"]]), \
+            "The 'fn':str entry has to be provided either in each element of 'timesteps."
         for ts in step["timesteps"]:
             assert _dict_validator(ts)
     return True

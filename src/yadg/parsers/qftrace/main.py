@@ -40,7 +40,7 @@ def _fit(freq: np.ndarray, gamma: np.ndarray, absgamma: np.ndarray,
     assert len(Qs) == npeaks and len(fs) == npeaks
     return Qs, fs
 
-def process(fn: str, encoding: str = "utf-8", 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "timezone",
             atol: float = 0.0, rtol: float = 5e-7, sigma: dict = {}, 
             method: str = "kajfez", height: float = 1.0, distance: float = 5000.0,
             cutoff: float = 0.4, threshold: float = 1e-6, **kwargs) -> tuple[list, dict, dict]:
@@ -59,6 +59,9 @@ def process(fn: str, encoding: str = "utf-8",
     
     encoding
         Encoding of ``fn``, by default "utf-8".
+
+    timezone
+        A string description of the timezone. Default is "localtime".
 
     atol
         Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.
@@ -87,11 +90,16 @@ def process(fn: str, encoding: str = "utf-8",
 
     distance
         Parameter for the peak-picker.
-
+    
+    Returns
+    -------
+    (data, metadata, common) : tuple[list, dict, None]
+        Tuple containing the timesteps, metadata, and common data.
     """
     # create timestamp
     _, datefunc = dgutils.infer_timestamp_from([], 
-                            spec = {"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}})
+                            spec = {"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}},
+                            timezone = timezone)
     dirname, basename = os.path.split(fn)
     data = {
             "uts": datefunc(os.path.splitext(basename)[0]),

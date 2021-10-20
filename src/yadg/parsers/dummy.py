@@ -1,6 +1,6 @@
 import dgutils
 
-def process(fn: str, encoding: str = "utf-8", 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime",
             **kwargs: dict) -> tuple[list, None, None]:
     """
     A dummy parser.
@@ -12,9 +12,18 @@ def process(fn: str, encoding: str = "utf-8",
     ----------
     fn
         Filename to process
+
     encoding
-        Encoding of ``fn``, by default "utf-8".
-    
+        Not used.
+
+    timezone
+        Not used
+
+    Returns
+    -------
+    (data, metadata, common) : tuple[list, None, None]
+        Tuple containing the timesteps, metadata, and common data.
+
     """
     
     result = {

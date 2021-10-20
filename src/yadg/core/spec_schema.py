@@ -150,10 +150,12 @@ schema = {
     "all": {
         "metadata": {
             "type": dict,
-            "allow": True,
             "all": {
                 "provenance": {"type": (dict, str)}, 
                 "schema_version": {"type": str}
+            },
+            "any": {
+                "timezone": {"type": str}
             }
         },
         "steps": {

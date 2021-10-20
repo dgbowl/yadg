@@ -164,9 +164,9 @@ def _parse_detector_spec(calfile: str = None, detectors: dict = None,
                 calib[name]["species"] = sp
     return calib
 
-def process(fn: str, encoding = "utf-8", tracetype: str = "datasc", 
+def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", tracetype: str = "datasc", 
             detectors: dict = None, species: dict = None, calfile: str = None, 
-            atol: float = 0, rtol: float = 0, **kwargs: dict) -> tuple[list, dict, dict]:
+            atol: float = 0.0, rtol: float = 0.0, **kwargs: dict) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
 
@@ -181,6 +181,9 @@ def process(fn: str, encoding = "utf-8", tracetype: str = "datasc",
     
     encoding
         Encoding of ``fn``, by default "utf-8".
+
+    timezone
+        A string description of the timezone. Default is "localtime".
     
     tracetype
         Determines the output file format. Currently supported formats are 
@@ -211,19 +214,19 @@ def process(fn: str, encoding = "utf-8", tracetype: str = "datasc",
     
     Returns
     -------
-    tuple[list, dict, dict]
-        A tuple containing the results list and the metadata and common dicts.
+    (data, metadata, common) : tuple[list, dict, None]
+        Tuple containing the timesteps, metadata, and common data.
     """
     assert calfile is not None or (species is not None and detectors is not None), \
         logging.error("gctrace: Neither 'calfile' nor 'species' and 'detectors' "
                       "were provided. Fit cannot proceed.")
     gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, encoding, atol, rtol, **kwargs)
+        _data, _meta, _common = datasc.process(fn, encoding, timezone, atol, rtol, **kwargs)
     elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, encoding, atol, rtol, **kwargs)
+        _data, _meta, _common = chromtab.process(fn, encoding, timezone, atol, rtol, **kwargs)
     elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, encoding, atol, rtol, **kwargs)
+        _data, _meta, _common = fusion.process(fn, encoding, timezone, atol, rtol, **kwargs)
     results = []
     for chrom in _data:
         result = {

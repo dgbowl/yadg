@@ -1,0 +1,16 @@
+{
+    "metadata": {
+        "provenance": "manual", 
+        "schema_version": "0.1", 
+        "timezone": "UTC"
+    },
+    "steps": [{
+        "parser": "basiccsv",
+        "import": {"files": ["case_timestamp.ssv"]},
+        "parameters": {
+            "sep": ";", 
+            "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
+            "sigma": {"flow": {"rtol": 0.1}}
+        }
+    }]
+}

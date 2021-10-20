@@ -33,7 +33,7 @@ def datadir(tmpdir, request):
 
 def datagram_from_basiccsv(input, datadir):
     schema = {
-        "metadata": {"provenance": "manual", "schema_version": "0.1"},
+        "metadata": {"provenance": "manual", "schema_version": "0.1", "timezone": "UTC"},
         "steps": [{
           "parser": "basiccsv",
           "import": {"files": [input["case"]]},

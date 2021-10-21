@@ -1,74 +1,69 @@
 import pytest
 import os
-import json
-from distutils import dir_util
+from utils import datagram_from_input, standard_datagram_test, datadir
 
-from yadg import core
-
-# tests for the basiccsv module:
-#  - test_datagram_from_qftrace:
-#    - tests processing using the "naive", "lorentz", and "kajfez" fitters
-#    - tests passing "cutoff" parameter to the "kajfez" fitter
-#    - tests passing "threshold" parameter to "naive" fitter
-
-@pytest.fixture
-def datadir(tmpdir, request):
-    """
-    from: https://stackoverflow.com/a/29631801
-    Fixture responsible for searching a folder with the same name of test
-    module and, if available, moving all contents to a temporary directory so
-    tests can use them freely.
-    """
-    filename = request.module.__file__
-    test_dir, _ = os.path.splitext(filename)
-    if os.path.isdir(test_dir):
-        dir_util.copy_tree(test_dir, str(tmpdir))
-    return tmpdir
-
-def datagram_from_qftrace(input, datadir):
-    schema = {
-        "metadata": {"provenance": "manual", "schema_version": "0.1"},
-        "steps": [{
-            "parser": "qftrace",
-            "import": {"folders": [str(datadir)]},
-            "parameters": input.get("parameters", {})
-        }]
-    }
-    assert core.validators.validate_schema(schema)
-    return core.process_schema(schema)
+def special_datagram_test(datagram, testspec):
+    step = datagram["data"][testspec["step"]]
+    tstep = step["timesteps"][testspec["point"]]
+    assert len(tstep["raw"]["f"]) == testspec["tracelen"] and len(tstep["raw"]["Re(Γ)"]) == testspec["tracelen"] and len(tstep["raw"]["Im(Γ)"]) == testspec["tracelen"] and len(tstep["raw"]["abs(Γ)"]) == testspec["tracelen"], \
+        "length of 'f', 'Re(Γ)', 'Im(Γ)', and 'abs(Γ)' not as prescribed."
+    assert tstep["derived"]["npeaks"] == testspec["npeaks"], "incorrect number of peaks"
+    assert len(tstep["derived"]["Q"]) == testspec["npeaks"], "incorrect number of Qs"
+    assert len(tstep["derived"]["f"]) == testspec["npeaks"], "incorrect number of fs"
+    assert tstep["derived"]["Q"][testspec["peak"]][0] == pytest.approx(testspec["Q"], abs = 1), "wrong Q"
+    assert tstep["derived"]["f"][testspec["peak"]][0] == pytest.approx(testspec["f"], abs = 10), "wrong f"
+    assert 1/tstep["derived"]["Q"][1][0] - 1/tstep["derived"]["Q"][0][0] == pytest.approx(0.00035, abs = 0.00005)
 
 @pytest.mark.parametrize("input, ts", [
-    ({"parameters": {"method": "naive"}},
-     {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
-      "npeaks": 2, "peak": 0, "Q": 2626.506, "f": 7173245000.0}),  
-    ({"parameters": {"method": "naive", "threshold": 1e-7}},
-     {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
-      "npeaks": 2, "peak": 0, "Q": 2567.343, "f": 7173245000.0}),  
-    ({"parameters": {"method": "lorentz"}},
-     {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
-      "npeaks": 2, "peak": 0, "Q": 3093.853, "f": 7173256009.5}),
-    ({"parameters": {"method": "kajfez"}},
-     {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
-      "npeaks": 2, "peak": 0, "Q": 3061.156, "f": 7173122656.1}),
-    ({"parameters": {"method": "kajfez", "cutoff": 0.5}},
-     {"nsteps": 1, "step": 0, "ntimesteps": 1, "timestep": 0, "tracelen": 20001, 
-      "npeaks": 2, "peak": 0, "Q": 3054.886, "f": 7173125153.7}),
+    (
+        { #ts1 - naive with defaults
+            "folders": ["."],
+            "parameters": {"method": "naive"}
+        },{
+            "nsteps": 1, "step": 0, "nrows": 1, "point": 0, 
+            "tracelen": 20001, "npeaks": 2, "peak": 0, 
+            "Q": 2626.506, "f": 7173245000.0
+        }
+    ),(
+        { #ts2 - naive with a tighter threshold
+            "folders": ["."],
+            "parameters": {"method": "naive", "threshold": 1e-7}
+        },{
+            "nsteps": 1, "step": 0, "nrows": 1, "point": 0, 
+            "tracelen": 20001, "npeaks": 2, "peak": 0, 
+            "Q": 2567.343, "f": 7173245000.0
+        }
+    ),(
+        { #ts3 - lorentz with defaults
+            "folders": ["."],
+            "parameters": {"method": "lorentz"}
+        },{
+            "nsteps": 1, "step": 0, "nrows": 1, "point": 0, 
+            "tracelen": 20001, "npeaks": 2, "peak": 0, 
+            "Q": 3093.853, "f": 7173256009.5
+        }
+    ),(
+        { #ts4 - kajfez with defaults
+            "folders": ["."],
+            "parameters": {"method": "kajfez"}
+        },{
+            "nsteps": 1, "step": 0, "nrows": 1, "point": 0, 
+            "tracelen": 20001, "npeaks": 2, "peak": 0, 
+            "Q": 3061.156, "f": 7173122656.1
+        }
+    ),(
+        { #ts5 - kajfez with a higher threshold
+            "folders": ["."],
+            "parameters": {"method": "kajfez", "cutoff": 0.5}
+        },{
+            "nsteps": 1, "step": 0, "nrows": 1, "point": 0, 
+            "tracelen": 20001, "npeaks": 2, "peak": 0, 
+            "Q": 3054.886, "f": 7173125153.7
+        }
+    ),
 ])
 def test_datagram_from_qftrace(input, ts, datadir):
-    ret = datagram_from_qftrace(input, datadir)
-    assert core.validators.validate_datagram(ret)
-    assert len(ret["data"]) == ts["nsteps"]
-    step = ret["data"][ts["step"]]
-    assert len(step["timesteps"]) == ts["ntimesteps"]
-    tstep = step["timesteps"][ts["timestep"]]
-    assert len(tstep["raw"]["f"]) == ts["tracelen"] and \
-           len(tstep["raw"]["Re(Γ)"]) == ts["tracelen"] and \
-           len(tstep["raw"]["Im(Γ)"]) == ts["tracelen"] and \
-           len(tstep["raw"]["abs(Γ)"]) == ts["tracelen"]
-    assert tstep["derived"]["npeaks"] == ts["npeaks"]
-    assert len(tstep["derived"]["Q"]) == ts["npeaks"]
-    assert len(tstep["derived"]["f"]) == ts["npeaks"]
-    assert tstep["derived"]["Q"][ts["peak"]][0] == pytest.approx(ts["Q"], abs = 1)
-    assert tstep["derived"]["f"][ts["peak"]][0] == pytest.approx(ts["f"], abs = 10)
-    assert 1/tstep["derived"]["Q"][1][0] - 1/tstep["derived"]["Q"][0][0] == pytest.approx(0.00035, abs = 0.00005)
-    json.dumps(ret)
+    os.chdir(datadir)
+    ret = datagram_from_input(input, "qftrace", datadir)
+    standard_datagram_test(ret, ts)
+    special_datagram_test(ret, ts)    

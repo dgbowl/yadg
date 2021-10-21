@@ -1,48 +1,12 @@
 import pytest
 import os
 import json
-from distutils import dir_util
+import pytest
+import yadg.core
 
-from yadg import core
+from utils import datadir
 from schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
 from schemas import fail_1, fail_2, fail_3, fail_4, fail_5
-
-# tests for the dummy module:
-#  - test_datagram_from_schema_dict:
-#    - tests creating datagrams from a dictionary
-#    - tests path parsing for folders, files
-#    - tests path parsing for prefix, suffix, contains
-#  - test_datagram_from_schema_path:
-#    - tests creating datagrams from a json file
-#    - tests path parsing for folders, files and paths
-#    - tests passing parameters as kwargs
-#  - test_schema_validator:
-#    - makes sure schema_validator throws correct exceptions
-
-@pytest.fixture
-def datadir(tmpdir, request):
-    """
-    from: https://stackoverflow.com/a/29631801
-    Fixture responsible for searching a folder with the same name of test
-    module and, if available, moving all contents to a temporary directory so
-    tests can use them freely.
-    """
-    filename = request.module.__file__
-    test_dir, _ = os.path.splitext(filename)
-    if os.path.isdir(test_dir):
-        dir_util.copy_tree(test_dir, str(tmpdir))
-    return tmpdir
-
-def datagram_from_schema_file(inp_fn, datadir):
-    jsonpath = datadir.join(inp_fn)
-    with open(jsonpath, "r") as infile:
-        schema = json.load(infile)
-    assert core.validators.validate_schema(schema)
-    return core.process_schema(schema)
-
-def datagram_from_schema_dict(schema):
-    assert core.validators.validate_schema(schema)
-    return core.process_schema(schema)
 
 @pytest.mark.parametrize("inp_dict, l_dg, l_res", [
     (dummy_1, 1, 0),
@@ -53,11 +17,12 @@ def datagram_from_schema_dict(schema):
 ])
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
-    ret = datagram_from_schema_dict(inp_dict)
-    assert core.validators.validate_datagram(ret)
-    assert len(ret["data"]) == l_dg
+    assert yadg.core.validators.validate_schema(inp_dict), "invalid schema format"
+    ret = yadg.core.process_schema(inp_dict)
+    assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
+    assert len(ret["data"]) == l_dg, "wrong number of steps"
     if l_dg > 0:
-        assert len(ret["data"][0]["timesteps"]) == l_res
+        assert len(ret["data"][0]["timesteps"]) == l_res, "wrong number of timesteps"
     json.dumps(ret)
 
 @pytest.mark.parametrize("inp_fn, ts", [
@@ -66,10 +31,14 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
 ])
 def test_datagram_from_schema_file(inp_fn, ts, datadir):
     os.chdir(datadir)
-    ret = datagram_from_schema_file(inp_fn, datadir)
-    assert core.validators.validate_datagram(ret)
-    assert len(ret["data"]) == ts["nsteps"]
-    assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["raw"] == ts["kwargs"]
+    jsonpath = datadir.join(inp_fn)
+    with open(jsonpath, "r") as infile:
+        schema = json.load(infile)
+    assert yadg.core.validators.validate_schema(schema), "invalid schema format"
+    ret = yadg.core.process_schema(schema)
+    assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
+    assert len(ret["data"]) == ts["nsteps"], "wrong number of steps"
+    assert ret["data"][ts["step"]]["timesteps"][ts["item"]]["raw"] == ts["kwargs"], "kwargs not passed correctly"
     json.dumps(ret)
 
 @pytest.mark.parametrize("inp_dict, expr", [
@@ -82,5 +51,5 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 def test_schema_validator(inp_dict, expr, datadir):
     os.chdir(datadir)
     with pytest.raises(AssertionError, match = expr):
-        assert core.validators.validate_schema(inp_dict)
+        assert yadg.core.validators.validate_schema(inp_dict)
     

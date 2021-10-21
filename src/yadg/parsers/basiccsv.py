@@ -6,7 +6,10 @@ from typing import Callable
 
 version = "1.0.dev1"
 
-def tols_from(headers: list, sigma: dict = {}, atol: float = 0.0, rtol: float = 0.0) -> dict:
+
+def tols_from(
+    headers: list, sigma: dict = {}, atol: float = 0.0, rtol: float = 0.0
+) -> dict:
     """
     Uncertainty helper function.
 
@@ -16,12 +19,21 @@ def tols_from(headers: list, sigma: dict = {}, atol: float = 0.0, rtol: float = 
     tols = dict()
     for header in headers:
         tols[header] = {
-            "atol": sigma.get(header, {}).get("atol", atol), 
-            "rtol": sigma.get(header, {}).get("rtol", rtol)
+            "atol": sigma.get(header, {}).get("atol", atol),
+            "rtol": sigma.get(header, {}).get("rtol", rtol),
         }
     return tols
 
-def process_row(headers: list, items: list, units: dict, sigma: dict, datefunc: Callable, datecolumns: list, calib: dict = {}) -> dict:
+
+def process_row(
+    headers: list,
+    items: list,
+    units: dict,
+    sigma: dict,
+    datefunc: Callable,
+    datecolumns: list,
+    calib: dict = {},
+) -> dict:
     """
     A function that processes a row of a table.
 
@@ -31,49 +43,52 @@ def process_row(headers: list, items: list, units: dict, sigma: dict, datefunc: 
     ----------
     headers
         A list of headers of the table.
-    
+
     items
         A list of values corresponding to the headers. Must be the same length as headers.
-    
+
     units
         A dict for looking up the units corresponding to a certain header.
-    
+
     datefunc
         A function that will generate ``uts`` given a list of values.
-    
+
     datecolumns
         Column indices that need to be passed to ``datefunc`` to generate uts.
-    
+
     atol
         Absolute uncertainty for all floating-point values.
-    
+
     rtol
         Relative uncertainty for all floating-point values.
-    
+
     sigma
         Per-header specification of ``atol`` and ``rtol``.
 
     calib
         Specification for converting raw data in ``headers`` and ``items`` to other quantities Arbitrary linear combinations of ``headers`` are possible.
-    
+
     Returns
     -------
     element: dict
         A result dictionary, containing the keys ``"uts"`` with a timestamp, ``"raw"`` for all raw data present in the headers, and ``"derived"`` for any data processes via ``calib``.
 
     """
-    assert len(headers) == len(items), \
-        f"process_row: Length mismatch between provided headers: {headers} and  provided items: {items}."
-    
-    assert all([key in sigma for key in headers]), \
-        f"process_row: Not all entries in provided 'headers' are present in provided 'sigma': {headers} vs {sigma.keys()}"
+    assert len(headers) == len(
+        items
+    ), f"process_row: Length mismatch between provided headers: {headers} and  provided items: {items}."
 
-    assert all([key in units for key in headers]), \
-        f"process_row: Not all entries in provided 'headers' are present in provided 'units': {headers} vs {units.keys()}"
-    
+    assert all(
+        [key in sigma for key in headers]
+    ), f"process_row: Not all entries in provided 'headers' are present in provided 'sigma': {headers} vs {sigma.keys()}"
+
+    assert all(
+        [key in units for key in headers]
+    ), f"process_row: Not all entries in provided 'headers' are present in provided 'units': {headers} vs {units.keys()}"
+
     element = {"raw": dict()}
     columns = [column.strip() for column in items]
-    
+
     # Process raw data, assign sigma and units
     element["uts"] = datefunc(*[columns[i] for i in datecolumns])
     for header in headers:
@@ -87,27 +102,46 @@ def process_row(headers: list, items: list, units: dict, sigma: dict, datefunc: 
             element["raw"][header] = [val, sig, unit]
         except ValueError:
             element["raw"][header] = columns[ci]
-    
+
     # Process calib
     for newk, spec in calib.items():
         y = ufloat(0, 0)
         for oldk, v in spec.items():
             if oldk in element.get("derived", {}):
-                dy = yadg.dgutils.calib_handler(ufloat(*element["derived"][oldk]), v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(
+                    ufloat(*element["derived"][oldk]), v.get("calib", None)
+                )
                 y += dy * v.get("fraction", 1.0)
             elif oldk in headers:
-                dy = yadg.dgutils.calib_handler(ufloat(*element["raw"][oldk]), v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(
+                    ufloat(*element["raw"][oldk]), v.get("calib", None)
+                )
                 y += dy * v.get("fraction", 1.0)
             elif oldk == "unit":
                 pass
             else:
-                logging.warning(f"process_row: Supplied key '{oldk}' is neither a 'raw' nor a 'derived' key.")
+                logging.warning(
+                    f"process_row: Supplied key '{oldk}' is neither a 'raw' nor a 'derived' key."
+                )
         if "derived" not in element:
             element["derived"] = dict()
         element["derived"][newk] = [y.n, y.s, spec.get("unit", "-")]
     return element
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: str = ",", atol: float = 0.0, rtol: float = 0.0, sigma: dict = {}, units: dict = None, timestamp: dict = None, convert: dict = None, calfile: str = None) -> tuple[list, dict, None]:
+
+def process(
+    fn: str,
+    encoding: str = "utf-8",
+    timezone: str = "localtime",
+    sep: str = ",",
+    atol: float = 0.0,
+    rtol: float = 0.0,
+    sigma: dict = {},
+    units: dict = None,
+    timestamp: dict = None,
+    convert: dict = None,
+    calfile: str = None,
+) -> tuple[list, dict, None]:
     """
     A basic csv parser.
 
@@ -117,10 +151,10 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
     ----------
     fn
         File to process
-    
+
     encoding
         Encoding of ``fn``, by default "utf-8".
-    
+
     timezone
         A string description of the timezone. Default is "localtime".
 
@@ -135,16 +169,16 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
 
     sigma
         Column-specific ``atol`` and ``rtol`` values can be supplied here.
-    
+
     units
         Column-specific unit specification. If present, even if empty, 2nd line is treated as data. If omitted, 2nd line is treated as units.
 
     timestamp
         Specification for timestamping. Allowed keys are ``"date"``, ``"time"``, ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`, containing the column indices, and ``"format"`` :class:`(str)` with the format string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from` for more info.
-    
+
     convert
         Specification for column conversion. The `key` of each entry will form a new datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)` specification. See :func:`yadg.parsers.basiccsv.process_row` for more info.
-    
+
     calfile
         ``convert``-like functionality specified in a json file.
 
@@ -162,16 +196,18 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
         calib = {}
     if convert is not None:
         calib.update(convert)
-    
+
     # Load file, extract headers and get timestamping function
-    with open(fn, "r", encoding = encoding) as infile:
+    with open(fn, "r", encoding=encoding) as infile:
         # This decode/encode is done to account for some csv files that have a BOM at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(headers = headers, spec = timestamp, timezone = timezone)
-    
-    # Populate units 
+    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+        headers=headers, spec=timestamp, timezone=timezone
+    )
+
+    # Populate units
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(sep)]
@@ -187,14 +223,16 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", sep: 
                 logging.info(f"Converting unit ' ' to '-' for {header}.")
                 units[header] = "-"
         si = 1
-    
+
     # Populate tols from sigma, atol, rtol
     tols = tols_from(headers, sigma, atol, rtol)
-        
+
     # Process rows
     data = []
     for line in lines[si:]:
-        element = process_row(headers, line.split(sep), units, tols, datefunc, datecolumns, calib = calib)
+        element = process_row(
+            headers, line.split(sep), units, tols, datefunc, datecolumns, calib=calib
+        )
         element["fn"] = str(fn)
         data.append(element)
     return data, None, None

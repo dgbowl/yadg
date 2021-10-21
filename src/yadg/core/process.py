@@ -1,4 +1,3 @@
-
 import json
 import os
 import logging
@@ -7,6 +6,7 @@ from typing import Union, Callable
 from yadg.parsers import dummy, basiccsv, qftrace, gctrace, drycal
 import yadg.dgutils
 import yadg.core
+
 
 def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     """
@@ -18,7 +18,7 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     ----------
     parser
         Name of the parser from schema.
-    
+
     Returns
     -------
     (process, version): tuple[Callable, str]
@@ -34,6 +34,7 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return basiccsv.process, basiccsv.version
     if parser == "drycal":
         return drycal.process, drycal.version
+
 
 def _infer_todo_files(importdict: dict) -> list:
     """
@@ -55,17 +56,22 @@ def _infer_todo_files(importdict: dict) -> list:
     if "folders" in importdict:
         for folder in importdict["folders"]:
             for fn in os.listdir(folder):
-                if fn.startswith(importdict.get("prefix", "")) and fn.endswith(importdict.get("suffix", "")) and importdict.get("contains", "") in fn: 
+                if (
+                    fn.startswith(importdict.get("prefix", ""))
+                    and fn.endswith(importdict.get("suffix", ""))
+                    and importdict.get("contains", "") in fn
+                ):
                     todofiles.append(os.path.join(folder, fn))
     if "files" in importdict:
         for path in importdict["files"]:
             todofiles.append(path)
     return sorted(todofiles)
-                    
+
+
 def process_schema(schema: Union[list, tuple]) -> dict:
     """
-    Main worker function of **yadg**. 
-    
+    Main worker function of **yadg**.
+
     Takes in a validated `schema` as an argument and returns a single annotated `datagram` created from the `schema`. It is the job of the user to supply a validated `schema`.
 
     Parameters
@@ -85,9 +91,9 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             },
             "date": yadg.dgutils.now(asstr=True),
             "input_schema": schema.copy(),
-            "datagram_version": yadg.core.spec_datagram.datagram_version
+            "datagram_version": yadg.core.spec_datagram.datagram_version,
         },
-        "data": []
+        "data": [],
     }
     for step in schema["steps"]:
         metadata = dict()
@@ -99,29 +105,38 @@ def process_schema(schema: Union[list, tuple]) -> dict:
         metadata["parser"] = {step["parser"]: {"version": parserversion}}
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:
-            logging.warning(f"process_schema: No files processed by step {metadata['tag']}")
+            logging.warning(
+                f"process_schema: No files processed by step {metadata['tag']}"
+            )
         for tf in todofiles:
-            logging.debug(f'process_schema: processing item {tf}')
-            ts, meta, comm = handler(tf, encoding = step["import"].get("encoding", "utf-8"),  timezone = schema["metadata"].get("timezone", "localtime"), **step.get("parameters", {}))
-            assert isinstance(ts, list), \
-                f"process_schema: Handler for {step['parser']} yields timesteps that are not a enclosed in a `list`."
+            logging.debug(f"process_schema: processing item {tf}")
+            ts, meta, comm = handler(
+                tf,
+                encoding=step["import"].get("encoding", "utf-8"),
+                timezone=schema["metadata"].get("timezone", "localtime"),
+                **step.get("parameters", {}),
+            )
+            assert isinstance(
+                ts, list
+            ), f"process_schema: Handler for {step['parser']} yields timesteps that are not a enclosed in a `list`."
             timesteps += ts
-            assert isinstance(meta, dict) or meta is None, \
-                f"process_schema: Handler for {step['parser']} yields metadata that are not a enclosed in a `dict`."
+            assert (
+                isinstance(meta, dict) or meta is None
+            ), f"process_schema: Handler for {step['parser']} yields metadata that are not a enclosed in a `dict`."
             if meta is not None:
                 metadata.update(meta)
-            assert isinstance(comm, dict) or comm is None, \
-                f"process_schema: Handler for {step['parser']} yields common data that are not enclosed in a `dict`."
+            assert (
+                isinstance(comm, dict) or comm is None
+            ), f"process_schema: Handler for {step['parser']} yields common data that are not enclosed in a `dict`."
             if comm is not None:
                 common.update(comm)
         if common == dict():
             datagram["data"].append({"metadata": metadata, "timesteps": timesteps})
         else:
-            datagram["data"].append({"metadata": metadata, "common": common, "timesteps": timesteps})
+            datagram["data"].append(
+                {"metadata": metadata, "common": common, "timesteps": timesteps}
+            )
         if step.get("export", None) is not None:
             with open(step["export"], "w") as ofile:
                 json.dump(datagram, ofile, indent=1)
     return datagram
-
-
-

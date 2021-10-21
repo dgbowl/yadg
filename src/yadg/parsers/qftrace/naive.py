@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import curve_fit
 
+
 def fit(freq, gamma, absgamma, **kwargs):
     """
     Naive fit.
@@ -10,9 +11,11 @@ def fit(freq, gamma, absgamma, **kwargs):
     maxg = max(absgamma)
     absgamma = [maxg - a for a in absgamma]
     maxg = max(absgamma)
-    absgamma = [a/maxg for a in absgamma]
+    absgamma = [a / maxg for a in absgamma]
     ai = np.argmax(absgamma)
     lf = np.interp(0.5, [i.n for i in absgamma[:ai]], [i.n for i in freq[:ai]])
-    rf = np.interp(0.5, [i.n for i in absgamma[ai:][::-1]], [i.n for i in freq[ai:][::-1]])
+    rf = np.interp(
+        0.5, [i.n for i in absgamma[ai:][::-1]], [i.n for i in freq[ai:][::-1]]
+    )
     f0 = freq[ai]
-    return f0/(rf - lf), f0
+    return f0 / (rf - lf), f0

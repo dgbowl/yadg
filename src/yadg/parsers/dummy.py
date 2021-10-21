@@ -2,7 +2,10 @@ import dgutils
 
 version = "1.0.dev1"
 
-def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwargs: dict) -> tuple[list, None, None]:
+
+def process(
+    fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwargs: dict
+) -> tuple[list, None, None]:
     """
     A dummy parser.
 
@@ -26,7 +29,7 @@ def process(fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwa
         Tuple containing the timesteps, metadata, and common data.
 
     """
-    
+
     result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
-    
+
     return [result], None, None

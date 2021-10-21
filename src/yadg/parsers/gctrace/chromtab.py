@@ -1,13 +1,16 @@
 import logging
-import yadg.dgutils 
+import yadg.dgutils
+
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
-    _, datefunc = yadg.dgutils.infer_timestamp_from(spec = {"timestamp": {"format": "%d %b %Y %H:%M"}}, timezone = timezone)
-    assert len(headers) == len(columns), \
-        f"chromtab: The number of headers and columns do not match."
-    assert "Date Acquired" in headers, \
-        "chromtab: Cannot infer date."
+    _, datefunc = yadg.dgutils.infer_timestamp_from(
+        spec={"timestamp": {"format": "%d %b %Y %H:%M"}}, timezone=timezone
+    )
+    assert len(headers) == len(
+        columns
+    ), f"chromtab: The number of headers and columns do not match."
+    assert "Date Acquired" in headers, "chromtab: Cannot infer date."
     res["uts"] = datefunc(columns[headers.index("Date Acquired")].strip())
     fn = ""
     if "Path" in headers:
@@ -19,19 +22,19 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
         res["sampleid"] = columns[headers.index("Sample")]
     return res
 
-def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0) -> tuple[list, dict, dict]:
+
+def process(
+    fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0
+) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 
     Multiple chromatograms per file with multiple traces. Each chromatogram starts with a header section, and is followed by each trace, which includes a header line and x,y-data. Method is not available, but sampleid and detector names are included.
     """
-    with open(fn, "r", encoding = encoding, errors="ignore") as infile:
+    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
-    metadata = {
-        "type": "gctrace.chromtab",
-        "gcparams": {"method": "n/a"}
-    }
+    metadata = {"type": "gctrace.chromtab", "gcparams": {"method": "n/a"}}
     common = {}
     chroms = []
     chrom = {"fn": str(fn), "traces": [], "detectors": {}}
@@ -60,12 +63,12 @@ def process(fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: floa
             chrom["detectors"][parts[0].replace('"', "")] = {"id": len(chrom["traces"])}
         elif len(parts) == 2:
             x, y = [float(i) for i in parts]
-            tolx = max(0.5 * 10**(-len(parts[0].split(".")[1].strip())), atol, rtol * x)
+            tolx = max(
+                0.5 * 10 ** (-len(parts[0].split(".")[1].strip())), atol, rtol * x
+            )
             toly = max(atol, rtol * abs(y))
             trace["x"].append([x * 60, tolx * 60, "s"])
             trace["y"].append([y, toly, "-"])
     chrom["traces"].append(trace)
     chroms.append(chrom)
     return chroms, metadata, common
-    
-

@@ -21,7 +21,8 @@ def drycal_rtf(
     """
     RTF version of the drycal parser.
 
-    This is intended to parse legacy drycal DOC files, which have been converted to RTF using other means.
+    This is intended to parse legacy drycal DOC files, which have been converted to RTF
+    using other means.
 
     Parameters
     ----------
@@ -29,7 +30,8 @@ def drycal_rtf(
         Filename to parse.
 
     date
-        A unix timestamp float corresponding to the day (or other offset) to be added to each line in the measurement table.
+        A unix timestamp float corresponding to the day (or other offset) to be added to
+        each line in the measurement table.
 
     encoding
         Encoding to use for parsing ``fn``.
@@ -121,7 +123,8 @@ def drycal_sep(
         Filename to parse.
 
     date
-        A unix timestamp float corresponding to the day (or other offset) to be added to each line in the measurement table.
+        A unix timestamp float corresponding to the day (or other offset) to be added to
+        each line in the measurement table.
 
     sep
         The separator character used to split lines in ``fn``.
@@ -193,7 +196,10 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
     """
     DryCal table-processing function.
 
-    Given a table with headers and units in the first line, and data in the following lines, this function returns the headers, units, and data extracted from the table. The returned values are always of :class:`(str)` type, any post-processing is done in the calling routine.
+    Given a table with headers and units in the first line, and data in the following
+    lines, this function returns the headers, units, and data extracted from the table.
+    The returned values are always of :class:`(str)` type, any post-processing is done
+    in the calling routine.
 
     Parameters
     ----------
@@ -206,7 +212,8 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
     Returns
     -------
     (headers, units, data): tuple[list, dict, list]
-        A tuple of a list of the stripped headers, dictionary of header-unit key-value pairs, and a list of lists containing the rows of the table.
+        A tuple of a list of the stripped headers, dictionary of header-unit key-value
+        pairs, and a list of lists containing the rows of the table.
     """
     items = [i.strip() for i in lines[0].split(sep)]
     headers = []
@@ -251,7 +258,8 @@ def process(
     """
     DryCal log file processor.
 
-    This parser is currently able to process DryCal formatted rtf, txt, and csv files. It reuses a lot of its functionality from the :mod:`yadg.parsers.basiccsv` module.
+    This parser is currently able to process DryCal formatted rtf, txt, and csv files.
+    It reuses a lot of its functionality from the :mod:`yadg.parsers.basiccsv` module.
 
     Parameters
     ----------
@@ -265,28 +273,39 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     filetype
-        Whether a rtf, csv, or txt file is to be expected. When `None`, the suffix of the file is used to determine the file type.
+        Whether a rtf, csv, or txt file is to be expected. When `None`, the suffix of
+        the file is used to determine the file type.
 
     sep
         Separator to use. Default is "," for csv.
 
     atol
-        The default absolute uncertainty accross all float values in csv columns. By default set to 0.0.
+        The default absolute uncertainty accross all float values in csv columns.
+        By default set to 0.0.
 
     rtol
-        The default relative uncertainty accross all float values in csv columns. By default set to 0.0.
+        The default relative uncertainty accross all float values in csv columns.
+        By default set to 0.0.
 
     sigma
         Column-specific ``atol`` and ``rtol`` values can be supplied here.
 
     units
-        Column-specific unit specification. If present, even if empty, 2nd line is treated as data. If omitted, 2nd line is treated as units.
+        Column-specific unit specification. If present, even if empty, 2nd line is
+        treated as data. If omitted, 2nd line is treated as units.
 
     timestamp
-        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``, ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`, containing the column indices, and ``"format"`` :class:`(str)` with the format string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from` for more info.
+        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
+        ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`,
+        containing the column indices, and ``"format"`` :class:`(str)` with the format
+        string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from`
+        for more info.
 
     convert
-        Specification for column conversion. The `key` of each entry will form a new datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)` specification. See :func:`yadg.parsers.basiccsv.process_row` for more info.
+        Specification for column conversion. The `key` of each entry will form a new
+        datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
+        each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)`
+        specification. See :func:`yadg.parsers.basiccsv.process_row` for more info.
 
     calfile
         ``convert``-like functionality specified in a json file.

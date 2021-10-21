@@ -10,7 +10,7 @@ def process(
     A dummy parser.
 
     This parser simply returns the current time, the filename provided, and any
-    `kwargs` passed.
+    ``kwargs`` passed.
 
     Parameters
     ----------

@@ -13,7 +13,9 @@ def tols_from(
     """
     Uncertainty helper function.
 
-    Given a list of ``headers``, creates a dictionary where each key is an element of ``headers``, and the values are atol and rtol from the corresponding key in ``sigma``, or the default values provided as parameters
+    Given a list of ``headers``, creates a dictionary where each key is an element of
+    ``headers``, and the values are atol and rtol from the corresponding key in ``sigma``,
+    or the default values provided as parameters
     """
     # Populate tols from sigma, atol, rtol
     tols = dict()
@@ -37,7 +39,8 @@ def process_row(
     """
     A function that processes a row of a table.
 
-    This is the main worker function of basiccsv, but can be re-used by any other parser that needs to process tabular data.
+    This is the main worker function of basiccsv, but can be re-used by any other parser
+    that needs to process tabular data.
 
     Parameters
     ----------
@@ -66,12 +69,14 @@ def process_row(
         Per-header specification of ``atol`` and ``rtol``.
 
     calib
-        Specification for converting raw data in ``headers`` and ``items`` to other quantities Arbitrary linear combinations of ``headers`` are possible.
+        Specification for converting raw data in ``headers`` and ``items`` to other
+        quantities Arbitrary linear combinations of ``headers`` are possible.
 
     Returns
     -------
     element: dict
-        A result dictionary, containing the keys ``"uts"`` with a timestamp, ``"raw"`` for all raw data present in the headers, and ``"derived"`` for any data processes via ``calib``.
+        A result dictionary, containing the keys ``"uts"`` with a timestamp, ``"raw"`` for
+        all raw data present in the headers, and ``"derived"`` for any data processes via ``calib``.
 
     """
     assert len(headers) == len(
@@ -145,7 +150,10 @@ def process(
     """
     A basic csv parser.
 
-    This parser processes a csv file. The header of the csv file consists of one or two lines, with the column headers in the first line and the units in the second. The parser also attempts to parse column names to produce a timestamp, and save all other columns as floats or strings. The default uncertainty is 0.0.
+    This parser processes a csv file. The header of the csv file consists of one or two
+    lines, with the column headers in the first line and the units in the second. The
+    parser also attempts to parse column names to produce a timestamp, and save all other
+    columns as floats or strings. The default uncertainty is 0.0.
 
     Parameters
     ----------
@@ -162,22 +170,33 @@ def process(
         Separator to use. Default is "," for csv.
 
     atol
-        The default absolute uncertainty accross all float values in csv columns. By default set to 0.0.
+        The default absolute uncertainty accross all float values in csv columns.
+        By default set to 0.0.
 
     rtol
-        The default relative uncertainty accross all float values in csv columns. By default set to 0.0.
+        The default relative uncertainty accross all float values in csv columns.
+        By default set to 0.0.
 
     sigma
         Column-specific ``atol`` and ``rtol`` values can be supplied here.
 
     units
-        Column-specific unit specification. If present, even if empty, 2nd line is treated as data. If omitted, 2nd line is treated as units.
+        Column-specific unit specification. If present, even if empty, 2nd line is
+        treated as data. If omitted, 2nd line is treated as units.
 
     timestamp
-        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``, ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`, containing the column indices, and ``"format"`` :class:`(str)` with the format string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from` for more info.
+        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
+        ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`,
+        containing the column indices, and ``"format"`` :class:`(str)` with the format
+        string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from`
+        for more info.
 
     convert
-        Specification for column conversion. The `key` of each entry will form a new datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)` specification. See :func:`yadg.parsers.basiccsv.process_row` for more info.
+        Specification for column conversion. The `key` of each entry will form a new
+        datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
+        each entry must either be one of the ``"header"`` fields, or ``"unit"``
+        :class:`(str)` specification. See :func:`yadg.parsers.basiccsv.process_row`
+        for more info.
 
     calfile
         ``convert``-like functionality specified in a json file.

@@ -22,7 +22,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     Returns
     -------
     (process, version): tuple[Callable, str]
-        A tuple containing the handler function as :class:`(Callable)` and the handler version as :class:`(str)`.
+        A tuple containing the handler function as :class:`(Callable)` and the handler
+        version as :class:`(str)`.
     """
     if parser == "gctrace":
         return gctrace.process, gctrace.version
@@ -40,12 +41,15 @@ def _infer_todo_files(importdict: dict) -> list:
     """
     File enumerator function.
 
-    This function enumerates all paths to be processed by yadg using the "import" key within a schema step. Currently, the specification allows for folders, files or paths.
+    This function enumerates all paths to be processed by yadg using the "import" key
+    within a schema step. Currently, the specification allows for folders, files or paths.
 
     Parameters
     ----------
     importdict
-        A (dict) describing the paths to process. A valid schema has to contain one, and only one, of the following keys: ``"folders"``, ``"files"``. Additional keys that are processed here are ``"prefix"``, ``"suffix"``, and ``"contains"``.
+        A (dict) describing the paths to process. A valid schema has to contain one, and
+        only one, of the following keys: ``"folders"``, ``"files"``. Additional keys
+        that are processed here are ``"prefix"``, ``"suffix"``, and ``"contains"``.
 
     Returns
     -------
@@ -72,17 +76,22 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     """
     Main worker function of **yadg**.
 
-    Takes in a validated `schema` as an argument and returns a single annotated `datagram` created from the `schema`. It is the job of the user to supply a validated `schema`.
+    Takes in a validated `schema` as an argument and returns a single annotated
+    `datagram` created from the `schema`. It is the job of the user to supply a
+    validated `schema`.
 
     Parameters
     ----------
     schema
-        A fully validated `schema`. Use the function :meth:`yadg.core.validators.validate_schema` to validate your `schema`.
+        A fully validated `schema`. Use the function :meth:`yadg.core.validators.validate_schema`
+        to validate your `schema`.
 
     Returns
     -------
     datagram: dict
-        An unvalidated `datagram`. The `parser`\ s included in **yadg** should return a valid `datagram`; any custom `parser`\ s might not do so. Use the function :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
+        An unvalidated `datagram`. The `parser`\ s included in **yadg** should return
+        a valid `datagram`; any custom `parser`\ s might not do so. Use the function
+        :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
     """
     datagram = {
         "metadata": {

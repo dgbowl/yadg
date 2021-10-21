@@ -13,8 +13,7 @@ def now(
     """
     Wrapper around datetime.now()
 
-    A convenience function for returning the current time as a ISO 8601 or as a
-    unix timestamp.
+    A convenience function for returning the current time as a ISO 8601 or as a unix timestamp.
     """
     dt = datetime.datetime.now(tz=tz)
     if asstr:
@@ -29,15 +28,20 @@ def infer_timestamp_from(
     """
     Convenience function for timestamping
 
-    Given a set of headers, and an optional specification, return an array containing column indices from which a timestamp in a given row can be computed, as well as the function which will compute the timestamp given the returned array.
+    Given a set of headers, and an optional specification, return an array containing
+    column indices from which a timestamp in a given row can be computed, as well as the
+    function which will compute the timestamp given the returned array.
 
     Parameters
     ----------
     headers
-        An array of strings. If `spec` is not supplied, must contain either "uts" (float) or "timestep" (ISO 8601).
+        An array of strings. If `spec` is not supplied, must contain either "uts"
+        :class:`(float)` or "timestep" :class:`(str)` (conforming to ISO 8601).
 
     spec
-        A specification of timestamp elements with associated column indices and optional formats. Currently accepted combinations of keys are: "uts"; "timestamp"; "date" and / or "time".
+        A specification of timestamp elements with associated column indices and
+        optional formats. Currently accepted combinations of keys are: "uts"; "timestamp";
+        "date" and / or "time".
 
     tz
         Timezone to use for conversion. By default, UTC is used.
@@ -45,7 +49,8 @@ def infer_timestamp_from(
     Returns
     -------
     tuple[list, Callable]
-        A tuple containing a list of indices of columns, and a Callable to which the columns have to be passed to obtain a uts timestamp.
+        A tuple containing a list of indices of columns, and a Callable to which the
+        columns have to be passed to obtain a uts timestamp.
 
     """
     if timezone == "localtime":

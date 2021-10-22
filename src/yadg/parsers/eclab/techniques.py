@@ -304,11 +304,8 @@ mb_params = {
         'ctrl3_val_vs',
         'N',
         'charge/discharge',
-        'charge/discharge_1',
-        'apply_I/C_1',
-        'N1',
-        'ctrl4_val_unit',
-        'ctrl4_val_vs',
+    ],
+    'mid': [
         'ctrl_seq',
         'ctrl_repeat',
         'ctrl_trigger',
@@ -352,6 +349,17 @@ def construct_mb_params(settings: list[str]) -> list[str]:
     ns_match = re.search(r'Ns.+', '\n'.join(settings))
     if ns_match:
         params = ['Ns'] + mb_params['head']
+    n1_match = re.search(r'N1\s+', '\n'.join(settings))
+    if n1_match:
+        n1 = [
+            'charge/discharge_1',
+            'apply_I/C_1',
+            'N1',
+            'ctrl4_val_unit',
+            'ctrl4_val_vs',
+        ]
+        params += n1
+    params += mb_params['mid']
     lim_nb_match = re.search(r'lim_nb\s+(?P<val>.+)', '\n'.join(settings))
     if lim_nb_match:
         lim_nb = int(max(lim_nb_match['val'].split()))

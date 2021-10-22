@@ -16,7 +16,7 @@ from io import StringIO
 import pandas as pd
 
 from .techniques import (construct_geis_params, construct_mb_params,
-                               construct_peis_params, technique_params)
+                         construct_peis_params, technique_params)
 
 
 def _parse_technique_params(technique: str, settings: list[str]) -> dict:
@@ -57,7 +57,8 @@ def _parse_technique_params(technique: str, settings: list[str]) -> dict:
     n_sequences = int(len(params[0])/20)
     params_values = []
     for seq in range(1, n_sequences):
-        params_values.append([param[seq*20:(seq+1)*20].strip() for param in params])
+        params_values.append([param[seq*20:(seq+1)*20].strip()
+                             for param in params])
     # TODO: Translate the parameters from str to the appropriate type.
     params = [dict(zip(params_keys, values)) for values in params_values]
     return params, len(params_keys)
@@ -131,7 +132,7 @@ def _parse_header(lines: list[str], n_header_lines: int) -> dict:
     return header
 
 
-def _parse_data(lines: list[str], n_header_lines: int) -> list[dict]:
+def _parse_datapoints(lines: list[str], n_header_lines: int) -> list[dict]:
     """Parses the data part of an MPT file.
 
     Parameters
@@ -182,5 +183,5 @@ def parse_mpt(path: str) -> dict:
         logging.info("Parsing `.mpt` header...")
         header = _parse_header(lines, n_header_lines)
         logging.info("Parsing `.mpt` data...")
-        data = _parse_data(lines, n_header_lines)
-    return {'header': header, 'data': data}
+        datapoints = _parse_datapoints(lines, n_header_lines)
+    return {'header': header, 'data': datapoints}

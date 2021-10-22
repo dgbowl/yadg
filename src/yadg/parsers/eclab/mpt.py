@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Reads BioLogic's EC-Lab ASCII data files into dicts.
+"""Read BioLogic's EC-Lab ASCII data files into dicts.
+
+TODO Adjust all docstrings
 
 Author:         Nicolas Vetsch (veni@empa.ch / nicolas.vetsch@gmx.ch)
 Organisation:   EMPA Dübendorf, Materials for Energy Conversion (501)
@@ -13,8 +15,8 @@ from io import StringIO
 
 import pandas as pd
 
-from .techniques import (construct_geis_params, construct_mb_params,
-                         construct_peis_params, technique_params)
+from .technique_params import (construct_geis_params, construct_mb_params,
+                               construct_peis_params, technique_params)
 
 
 def _parse_technique_params(technique: str, settings: list[str]) -> dict:
@@ -55,8 +57,7 @@ def _parse_technique_params(technique: str, settings: list[str]) -> dict:
     n_sequences = int(len(params[0])/20)
     params_values = []
     for seq in range(1, n_sequences):
-        params_values.append([param[seq*20:(seq+1)*20].strip()
-                             for param in params])
+        params_values.append([param[seq*20:(seq+1)*20].strip() for param in params])
     # TODO: Translate the parameters from str to the appropriate type.
     params = [dict(zip(params_keys, values)) for values in params_values]
     return params, len(params_keys)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Reads BioLogic's EC-Lab binary modular files into dicts.
+"""Read BioLogic's EC-Lab binary modular files into dicts.
 
 This code is an adaptation of the `galvani` module by Chris Kerr
 (https://github.com/echemdata/galvani) and builds on the work done by
@@ -17,7 +17,6 @@ Date:           2021-09-29
 
 """
 import logging
-from datetime import datetime, timedelta
 from io import TextIOWrapper
 from typing import Any
 
@@ -52,8 +51,9 @@ settings_dtypes = {
     0x024c: ('characteristic_mass', '<f4'),
     0x025c: ('battery_capacity', '<f4'),
     0x0260: ('battery_capacity_unit', '|u1'),
-    0x19d2: ('compliance_min', '<f4'),
-    0x19d6: ('compliance_max', '<f4'),
+    # The compliance limits are not always at this offset.
+    # 0x19d2: ('compliance_min', '<f4'),1
+    # 0x19d6: ('compliance_max', '<f4'),
 }
 
 # Maps the flag column ID bytes to the corresponding dtype and bitmask.
@@ -195,32 +195,6 @@ log_dtypes = {
 }
 
 
-def _ole_to_datetime(ole_timestamp: float) -> datetime:
-    """Converts a Microsoft OLE timestamp into a datetime object.
-
-    The OLE automation date format is a floating point value, counting
-    days since midnight 30 December 1899. Hours and minutes are
-    represented as fractional days.
-
-    https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653
-
-    Parameters
-    ----------
-    ole_timestamp
-        A timestamp in Microsoft OLE format.
-
-    Returns
-    -------
-    datetime
-        The corresponding datetime.
-
-    """
-    ole_zero = datetime(year=1899, month=12, day=30)
-    ole_delta = timedelta(days=ole_timestamp)
-    timestamp = ole_zero + ole_delta
-    return timestamp
-
-
 def _read_pascal_string(bytes: bytes) -> bytes:
     """Parses a variable-length length-prefixed string.
 
@@ -235,14 +209,15 @@ def _read_pascal_string(bytes: bytes) -> bytes:
         The bytes that contain the string.
 
     """
-    assert len(bytes) >= bytes[0] + 1, "Insufficient number of bytes."
+    if len(bytes) < bytes[0] + 1:
+        raise ValueError("Insufficient number of bytes.")
     return bytes[1:bytes[0]+1]
 
 
 def _read_value(data: bytes, offset: int, dtype) -> Any:
     """Reads a single value from a buffer at a certain offset.
 
-    Pretty much just a handy wrapper for np.frombuffer().
+    Just a handy wrapper for np.frombuffer().
 
     Parameters
     ----------
@@ -313,6 +288,7 @@ def _parse_settings(data: bytes) -> dict:
         A dict with the contents parsed and structured.
 
     """
+    logging.debug("Parsing `.mpr` settings module...")
     settings = {}
     # First parse the settings right at the top of the data block.
     technique, params_dtype = technique_params_dtypes[data[0x0000]]
@@ -322,11 +298,23 @@ def _parse_settings(data: bytes) -> dict:
         settings[name] = _read_value(data, offset, dtype)
     # Then determine the technique parameters. The parameters' offset
     # changes depending on the technique present.
-    for params_offset in {0x0572, 0x1846, 0x1845}:
-        ns = _read_value(data, params_offset, '<u2')
-        n_params = _read_value(data, params_offset+0x0002, '<u2')
-        if len(params_dtype) == n_params:
-            break
+    params_offset = None
+    for offset in {0x0572, 0x1846, 0x1845}:
+        n_params = _read_value(data, offset+0x0002, '<u2')
+        if isinstance(params_dtype, dict):
+            for dtype in params_dtype.values():
+                if len(dtype) == n_params:
+                    params_dtype = dtype
+                    params_offset = offset
+        elif len(params_dtype) == n_params:
+            params_offset = offset
+    if params_offset is None:
+        raise NotImplementedError(
+            "Unknown parameter offset or unrecognized technique dtype.")
+    ns = _read_value(data, params_offset, '<u2')
+    logging.debug(
+        f"Reading {ns} parameter sequences starting at an offset of "
+        f"{params_offset} bytes from settings data block...")
     params_array = _read_values(data, params_offset+0x0004, params_dtype, ns)
     params = []
     for n in range(ns):
@@ -393,12 +381,15 @@ def _parse_data(data: bytes, version: int) -> dict:
         A modified dict with the parsed contents.
 
     """
+    logging.debug("Parsing `.mpr` data module...")
     n_data_points = _read_value(data, 0x0000, '<u4')
     n_columns = _read_value(data, 0x0004, '|u1')
     column_ids = _read_values(data, 0x0005, '<u2', n_columns)
+    logging.debug("Constructing column dtype from column IDs...")
     data_dtype, flags = _construct_data_dtype(column_ids)
     # Depending on the version in the header, the data points start at a
     # different point in the data part.
+    logging.debug(f"Reading {n_data_points} data points...")
     if version == 2:
         data_points = _read_values(data, 0x0195, data_dtype, n_data_points)
     elif version == 3:
@@ -448,6 +439,7 @@ def _parse_log(data: bytes) -> dict:
         A modified dict with the parsed contents.
 
     """
+    logging.debug("Parsing `.mpr` log module...")
     log = {}
     for item in log_dtypes.items():
         offset, (name, dtype) = item
@@ -469,6 +461,7 @@ def _parse_loop(data: bytes) -> dict:
         A modified dict with the parsed contents.
 
     """
+    logging.debug("Parsing `.mpr` loop module...")
     n_indexes = _read_value(data, 0x0000, '<u4')
     indexes = list(_read_values(data, 0x0004, '<u4', n_indexes))
     loop = {

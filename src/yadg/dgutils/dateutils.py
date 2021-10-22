@@ -21,7 +21,7 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_uts(ole_timestamp: float, asstr: bool = False) -> Union[float, str]:
+def ole_to_datetime(ole_timestamp: float) -> Union[float, str]:
     """Converts a Microsoft OLE timestamp into a datetime object.
 
     The OLE automation date format is a floating point value, counting
@@ -43,10 +43,7 @@ def ole_to_uts(ole_timestamp: float, asstr: bool = False) -> Union[float, str]:
     """
     ole_base = datetime.datetime(year=1899, month=12, day=30)
     ole_delta = datetime.timedelta(days=ole_timestamp)
-    dt = ole_base + ole_delta
-    if asstr:
-        return dt.strftime("%Y-%m-%d %H:%M:%S")
-    return dt.timestamp()
+    return ole_base + ole_delta
 
 
 def infer_timestamp_from(

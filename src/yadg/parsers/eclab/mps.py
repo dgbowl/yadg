@@ -11,10 +11,10 @@ import glob
 import logging
 import os
 
-from .mpr_parser import parse_mpr
-from .mpt_parser import parse_mpt
-from .technique_params import (construct_geis_params, construct_mb_params,
-                               construct_peis_params, technique_params)
+from .mpr import parse_mpr
+from .mpt import parse_mpt
+from .techniques import (construct_geis_params, construct_mb_params,
+                         construct_peis_params, technique_params)
 
 
 def _parse_header(headers: list[str]) -> dict:
@@ -53,7 +53,8 @@ def _parse_techniques(technique_sections: list[str]) -> list:
         n_sequences = int(len(params[0])/20)
         params_values = []
         for seq in range(1, n_sequences):
-            params_values.append([param[seq*20:(seq+1)*20].strip() for param in params])
+            params_values.append(
+                [param[seq*20:(seq+1)*20].strip() for param in params])
         # TODO: Translate the parameters from str to the appropriate type.
         params = [dict(zip(params_keys, values)) for values in params_values]
         technique['params'] = params

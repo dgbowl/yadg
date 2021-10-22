@@ -15,7 +15,7 @@ from io import StringIO
 
 import pandas as pd
 
-from .technique_params import (construct_geis_params, construct_mb_params,
+from .techniques import (construct_geis_params, construct_mb_params,
                                construct_peis_params, technique_params)
 
 

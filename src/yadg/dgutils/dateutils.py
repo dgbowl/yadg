@@ -3,22 +3,56 @@ import logging
 from typing import Callable, Union
 import os
 
-def now(asstr: bool = False, 
-        tz: datetime.timezone = datetime.timezone.utc) -> Union[float, str]:
+
+def now(
+    asstr: bool = False,
+    tz: datetime.timezone = datetime.timezone.utc
+) -> Union[float, str]:
     """
     Wrapper around datetime.now()
 
     A convenience function for returning the current time as a ISO 8601 or as a
     unix timestamp.
     """
-    dt = datetime.datetime.now(tz = tz)
+    dt = datetime.datetime.now(tz=tz)
     if asstr:
         return dt.strftime("%Y-%m-%d %H:%M:%S")
     else:
         return dt.timestamp()
 
-def infer_timestamp_from(headers: list, spec: dict = None,
-                         tz: datetime.timezone = datetime.timezone.utc) -> tuple[list, Callable]:
+
+def ole_to_uts(ole_timestamp: float, asstr: bool = False) -> Union[float, str]:
+    """Converts a Microsoft OLE timestamp into a datetime object.
+
+    The OLE automation date format is a floating point value, counting
+    days since midnight 30 December 1899. Hours and minutes are
+    represented as fractional days.
+
+    https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653
+
+    Parameters
+    ----------
+    ole_timestamp
+        A timestamp in Microsoft OLE format.
+
+    Returns
+    -------
+    datetime
+        The corresponding datetime.
+
+    """
+    ole_base = datetime.datetime(year=1899, month=12, day=30)
+    ole_delta = datetime.timedelta(days=ole_timestamp)
+    dt = ole_base + ole_delta
+    if asstr:
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+    return dt.timestamp()
+
+
+def infer_timestamp_from(
+    headers: list, spec: dict = None,
+    tz: datetime.timezone = datetime.timezone.utc
+) -> tuple[list, Callable]:
     """
     Convenience function for timestamping
 
@@ -37,7 +71,7 @@ def infer_timestamp_from(headers: list, spec: dict = None,
         A specification of timestamp elements with associated column indices and
         optional formats. Currently accepted combinations of keys are: "uts";
         "timestamp"; "date" and / or "time".
-    
+
     tz
         Timezone to use for conversion. By default, UTC is used.
 
@@ -46,104 +80,113 @@ def infer_timestamp_from(headers: list, spec: dict = None,
     tuple[list, Callable]
         A tuple containing a list of indices of columns, and a Callable to which
         the columns have to be passed to obtain a uts timestamp.
-    
+
     """
-    if spec is not None:
-        if "uts" in spec:
-            return [spec["uts"].get("index", None)], float
-        if "timestamp" in spec:
-            if "format" in spec["timestamp"]:
-                def retfunc(value):
-                    dtn = datetime.datetime.strptime(value, spec["timestamp"]["format"])
-                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
+    if spec is None:
+        if "uts" in headers:
+            logging.info("dateutils: No timestamp spec provided, assuming "
+                         "column 'uts' is a valid unix timestamp")
+            return [headers.index("uts")], float
+        elif "timestamp" in headers:
+            logging.info("dateutils: No timestamp spec provided, assuming "
+                         "column 'timestamp' is a valid ISO 8601 timestamp")
+
+            def retfunc(value):
+                dtn = datetime.datetime.fromisoformat(value)
+                dt = datetime.datetime(year=dtn.year, month=dtn.month,
+                                       day=dtn.day, hour=dtn.hour,
+                                       minute=dtn.minute, second=dtn.second,
+                                       microsecond=dtn.microsecond, tzinfo=tz)
+                return dt.timestamp()
+            return [headers.index("timestamp")], retfunc
+        else:
+            logging.error("dateutils: A valid timestamp could not be deduced.")
+
+    if "uts" in spec:
+        return [spec["uts"].get("index", None)], float
+    if "timestamp" in spec:
+        if "format" not in spec["timestamp"]:
+            logging.debug("dateutils: Assuming specified column containing "
+                          "the timestamp is in ISO 8601 format")
+
+            def retfunc(value):
+                dtn = datetime.datetime.fromisoformat(value)
+                dt = datetime.datetime(year=dtn.year, month=dtn.month,
+                                       day=dtn.day, hour=dtn.hour,
+                                       minute=dtn.minute, second=dtn.second,
+                                       microsecond=dtn.microsecond, tzinfo=tz)
+                return dt.timestamp()
+            return [spec["timestamp"].get("index", None)], retfunc
+
+        def retfunc(value):
+            dtn = datetime.datetime.strptime(
+                value, spec["timestamp"]["format"])
+            dt = datetime.datetime(year=dtn.year, month=dtn.month,
+                                   day=dtn.day, hour=dtn.hour,
+                                   minute=dtn.minute, second=dtn.second,
+                                   microsecond=dtn.microsecond, tzinfo=tz)
+            return dt.timestamp()
+        return [spec["timestamp"].get("index", None)], retfunc
+
+    if "date" in spec or "time" in spec:
+        specdict = {
+            "date": datetime.datetime.fromtimestamp(0, tz=tz).timestamp,
+            "time": datetime.datetime.fromtimestamp(0, tz=tz).timestamp,
+        }
+        cols = [None, None]
+        if "date" in spec:
+            if "format" not in spec["date"]:
+                logging.debug("dateutils: Assuming specified column containing "
+                              "the date is in ISO 8601 format")
+
+                def datefn(value):
+                    dtn = datetime.datetime.fromisoformat(value)
+                    dt = datetime.datetime(year=dtn.year, month=dtn.month,
+                                           day=dtn.day, hour=dtn.hour,
+                                           minute=dtn.minute, second=dtn.second,
+                                           microsecond=dtn.microsecond, tzinfo=tz)
                     return dt.timestamp()
-                return [spec["timestamp"].get("index", None)], retfunc
+                cols[0] = spec["date"].get("index", None)
+
+            def datefn(value):
+                dtn = datetime.datetime.strptime(
+                    value, spec["date"]["format"])
+                dt = datetime.datetime(year=dtn.year, month=dtn.month,
+                                       day=dtn.day, hour=dtn.hour,
+                                       minute=dtn.minute, second=dtn.second,
+                                       microsecond=dtn.microsecond, tzinfo=tz)
+                return dt.timestamp()
+            cols[0] = spec["date"].get("index", None)
+            specdict["date"] = datefn
+        if "time" in spec:
+            if "format" in spec["time"]:
+                def timefn(value):
+                    t = datetime.datetime.strptime(
+                        value, spec["time"]["format"])
+                    td = datetime.timedelta(hours=t.hour, minutes=t.minute,
+                                            seconds=t.second, microseconds=t.microsecond)
+                    return td.total_seconds()
+                cols[1] = spec["time"].get("index", None)
             else:
                 logging.debug("dateutils: Assuming specified column containing "
-                              "the timestamp is in ISO 8601 format")
-                def retfunc(value):
-                    dtn = datetime.datetime.fromisoformat(value)
-                    dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                    return dt.timestamp()
-                return [spec["timestamp"].get("index", None)], retfunc
-        if "date" in spec or "time" in spec:
-            specdict = {
-                "date": datetime.datetime.fromtimestamp(0, tz = tz).timestamp,
-                "time": datetime.datetime.fromtimestamp(0, tz = tz).timestamp
-            }
-            cols = [None, None]
-            if "date" in spec:
-                if "format" in spec["date"]:
-                    def datefn(value):
-                        dtn = datetime.datetime.strptime(value, spec["date"]["format"])
-                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                        return dt.timestamp()
-                    cols[0] = spec["date"].get("index", None)
-                else:
-                    logging.debug("dateutils: Assuming specified column containing "
-                                "the date is in ISO 8601 format")
-                    def datefn(value):
-                        dtn = datetime.datetime.fromisoformat(value)
-                        dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                           day = dtn.day, hour = dtn.hour,
-                                           minute = dtn.minute, second = dtn.second,
-                                           microsecond = dtn.microsecond, tzinfo = tz)
-                        return dt.timestamp()
-                    cols[0] = spec["date"].get("index", None)
-                specdict["date"] = datefn
-            if "time" in spec:
-                if "format" in spec["time"]:
-                    def timefn(value):
-                        t = datetime.datetime.strptime(value, spec["time"]["format"])
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute, 
-                                                seconds = t.second, microseconds = t.microsecond)
-                        return td.total_seconds()
-                    cols[1] = spec["time"].get("index", None)
-                else:
-                    logging.debug("dateutils: Assuming specified column containing "
-                                  "the time is in ISO 8601 format")
-                    def timefn(value):
-                        t = datetime.time.fromisoformat(value)
-                        td = datetime.timedelta(hours = t.hour, minutes = t.minute,
-                                                seconds = t.second, microseconds = t.microsecond)
-                        return td.total_seconds()
-                    cols[1] = spec["time"].get("index", None)   
-                specdict["time"] = timefn
-            if cols[0] is None:
-                return [cols[1]], specdict["time"]
-            elif cols[1] is None:
-                return [cols[0]], specdict["date"]
-            else:
-                def retfn(date, time):
-                    return specdict["date"](date) + specdict["time"](time)
-                return cols, retfn
-    elif "uts" in headers:
-        logging.info("dateutils: No timestamp spec provided, assuming column 'uts' "
-                     "is a valid unix timestamp")
-        return [headers.index("uts")], float
-    elif "timestamp" in headers:
-        logging.info("dateutils: No timestamp spec provided, assuming column 'timestamp' "
-                     "is a valid ISO 8601 timestamp")
-        def retfunc(value):
-            dtn = datetime.datetime.fromisoformat(value)
-            dt = datetime.datetime(year = dtn.year, month= dtn.month,
-                                   day = dtn.day, hour = dtn.hour,
-                                   minute = dtn.minute, second = dtn.second,
-                                   microsecond = dtn.microsecond, tzinfo = tz)
-            return dt.timestamp()
-        return [headers.index("timestamp")], retfunc
-    else:
-        assert False, \
-            "dateutils: A valid timestamp could not be deduced."
+                              "the time is in ISO 8601 format")
+
+                def timefn(value):
+                    t = datetime.time.fromisoformat(value)
+                    td = datetime.timedelta(hours=t.hour, minutes=t.minute,
+                                            seconds=t.second, microseconds=t.microsecond)
+                    return td.total_seconds()
+                cols[1] = spec["time"].get("index", None)
+            specdict["time"] = timefn
+        if cols[0] is None:
+            return [cols[1]], specdict["time"]
+        elif cols[1] is None:
+            return [cols[0]], specdict["date"]
+        else:
+            def retfn(date, time):
+                return specdict["date"](date) + specdict["time"](time)
+            return cols, retfn
+
 
 def date_from_str(datestr: str) -> Union[float, None]:
     bn = os.path.basename(datestr)
@@ -154,5 +197,6 @@ def date_from_str(datestr: str) -> Union[float, None]:
             return day
         except ValueError:
             pass
-    logging.warning(f"dateutils: was not possible to interpret {datestr} as date")
+    logging.warning(
+        f"dateutils: was not possible to interpret {datestr} as date")
     return None

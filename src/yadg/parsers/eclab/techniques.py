@@ -97,6 +97,7 @@ cv_params = [
 ocv_params = [
     'tR',
     'dER/dt',
+    'record',
     'dER',
     'dtR',
     'E_range_min',
@@ -498,6 +499,7 @@ cv_params_dtype = np.dtype([
 ocv_params_dtype = np.dtype([
     ('tR', '<f4'),
     ('dER/dt', '<f4'),
+    ('record', '|u1'),
     ('dER', '<f4'),
     ('dtR', '<f4'),
     ('E_range_min', '<f4'),

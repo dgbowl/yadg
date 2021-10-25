@@ -8,8 +8,7 @@ the previous civilian service member working on the project, Jonas
 Krieger.
 
 While there where mostly only `modules` and the `module header` before,
-now pretty much the entire file structure is there for a few relevant
-techniques.
+now there is some more info.
 
 Author:         Nicolas Vetsch (veni@empa.ch / nicolas.vetsch@gmx.ch)
 Organisation:   EMPA Dübendorf, Materials for Energy Conversion (501)

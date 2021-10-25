@@ -381,45 +381,45 @@ def _parse_data(data: bytes, version: int) -> dict:
 
     """
     logging.debug("Parsing `.mpr` data module...")
-    n_data_points = _read_value(data, 0x0000, '<u4')
+    n_datapoints = _read_value(data, 0x0000, '<u4')
     n_columns = _read_value(data, 0x0004, '|u1')
     column_ids = _read_values(data, 0x0005, '<u2', n_columns)
     logging.debug("Constructing column dtype from column IDs...")
     data_dtype, flags = _construct_data_dtype(column_ids)
     # Depending on the version in the header, the data points start at a
     # different point in the data part.
-    logging.debug(f"Reading {n_data_points} data points...")
+    logging.debug(f"Reading {n_datapoints} data points...")
     if version == 2:
-        data_points = _read_values(data, 0x0195, data_dtype, n_data_points)
+        datapoints = _read_values(data, 0x0195, data_dtype, n_datapoints)
     elif version == 3:
-        data_points = _read_values(data, 0x0196, data_dtype, n_data_points)
+        datapoints = _read_values(data, 0x0196, data_dtype, n_datapoints)
     else:
-        data_points = _read_values(data, 0x0196, data_dtype, n_data_points)
+        datapoints = _read_values(data, 0x0196, data_dtype, n_datapoints)
     if flags:
         # Extract flag values via bitmask (if flags are present).
         flag_values = np.array(
-            data_points['flags'],
+            datapoints['flags'],
             dtype=[('flags', '|u1')])
         for item in flags.items():
             name, (bitmask, flag_dtype) = item
             values = np.array(
-                data_points['flags'] & bitmask,
+                datapoints['flags'] & bitmask,
                 dtype=[(name, flag_dtype)])
             flag_values = rfn.merge_arrays(
                 seqarrays=[flag_values, values],
                 flatten=True)
         # The flags column has to be removed from the original record to
         # get everything in the order I prefer (if flags column exists).
-        data_points = rfn.rec_drop_fields(data_points, 'flags')
+        data_points = rfn.rec_drop_fields(datapoints, 'flags')
         data_points = rfn.merge_arrays(
-            [flag_values, data_points],
+            [flag_values, datapoints],
             flatten=True)
-    data_points = pd.DataFrame.from_records(data_points)
-    data_points = data_points.to_dict(orient='records')
+    datapoints = pd.DataFrame.from_records(datapoints)
+    datapoints = datapoints.to_dict(orient='list')
     data = {
-        'n_data_points': n_data_points,
+        'n_data_points': n_datapoints,
         'n_columns': n_columns,
-        'data_points': data_points,
+        'datapoints': datapoints,
     }
     return data
 

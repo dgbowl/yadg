@@ -1,4 +1,4 @@
-import dgutils
+import yadg.dgutils
 
 version = "1.0.dev1"
 
@@ -30,6 +30,6 @@ def process(
 
     """
 
-    result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
+    result = {"uts": yadg.dgutils.now(), "fn": str(fn), "raw": kwargs}
 
     return [result], None, None

@@ -1,12 +1,18 @@
+datagram_version = "1.0.dev1"
+
 datagram_step = {
     "type": dict,
     "all": {
         "metadata": {
             "type": dict,
             "all": {
-                "tag": {"type": str}
+                "tag": {"type": str},
+                "parser": {
+                    "type": dict,
+                    "each": {"type": dict, "all": {"version": {"type": str}}},
+                },
             },
-            "allow": True
+            "allow": True,
         },
         "timesteps": {
             "type": list,
@@ -16,14 +22,12 @@ datagram_step = {
                 "any": {
                     "fn": {"type": str},
                     "raw": {"type": dict},
-                    "derived": {"type": dict}
-                }
-            }
-        }
+                    "derived": {"type": dict},
+                },
+            },
+        },
     },
-    "any": {
-        "common": {"type": dict}
-    }
+    "any": {"common": {"type": dict}},
 }
 
 datagram = {
@@ -35,12 +39,9 @@ datagram = {
                 "provenance": {"type": dict},
                 "date": {"type": str},
                 "input_schema": {"type": dict},
-                "datagram_version": {"type": str}
-            }
+                "datagram_version": {"type": str},
+            },
         },
-        "data": {
-            "type": list,
-            "each": datagram_step
-        }
-    }
+        "data": {"type": list, "each": datagram_step},
+    },
 }

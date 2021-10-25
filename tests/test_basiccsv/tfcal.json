@@ -28,6 +28,12 @@
         },
         "unit": "ml/min"
     },
+    "total": {
+        "N2": {},
+        "O2": {},
+        "C3H8": {},
+        "unit": "ml/min"
+    },
     "flow": {
         "flow high": {
             "calib": {"linear": {"slope": 1.095152673, "intercept": 0.483599139}}

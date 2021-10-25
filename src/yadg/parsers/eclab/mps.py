@@ -10,6 +10,7 @@ Date:           2021-10-13
 import glob
 import logging
 import os
+from typing import Union
 
 from .mpr import parse_mpr
 from .mpt import parse_mpt
@@ -118,7 +119,11 @@ def _load_technique_data(
     return techniques
 
 
-def parse_mps(path: str, load_data: bool = True) -> dict:
+def parse_mps(
+    path: str,
+    encoding: str = 'windows-1252',
+    load_data: bool = False
+) -> dict:
     """Parses an EC-Lab MPS file.
 
     If there are MPR or MPT files present in the same folder, those
@@ -140,7 +145,7 @@ def parse_mps(path: str, load_data: bool = True) -> dict:
 
     """
     file_magic = 'EC-LAB SETTING FILE\n'
-    with open(path, 'r', encoding='windows-1252') as mps:
+    with open(path, 'r', encoding=encoding) as mps:
         if mps.readline() != file_magic:
             raise ValueError("Invalid file magic for given MPS file.")
         logging.info("Reading `.mps` file...")

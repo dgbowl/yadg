@@ -155,10 +155,10 @@ def _parse_datapoints(lines: list[str], n_header_lines: int) -> list[dict]:
         encoding='windows-1252')
     # Remove the extra column due to an extra tab in MPT files.
     data = data.iloc[:, :-1]
-    return data.to_dict(orient='records')
+    return data.to_dict(orient='list')
 
 
-def parse_mpt(path: str) -> dict:
+def parse_mpt(path: str, encoding: str = 'windows-1252') -> dict:
     """Parses an EC-Lab MPT file.
 
     Parameters
@@ -173,7 +173,7 @@ def parse_mpt(path: str) -> dict:
 
     """
     file_magic = 'EC-Lab ASCII FILE\n'
-    with open(path, 'r', encoding='windows-1252') as mpt:
+    with open(path, 'r', encoding=encoding) as mpt:
         if mpt.readline() != file_magic:
             raise ValueError("Invalid file magic for given MPT file.")
         logging.info("Reading `.mpt` file...")

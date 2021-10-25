@@ -21,7 +21,7 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_datetime(ole_timestamp: float) -> Union[float, str]:
+def ole_to_datetime(ole_timestamp: float) -> datetime.datetime:
     """Converts a Microsoft OLE timestamp into a datetime object.
 
     The OLE automation date format is a floating point value, counting

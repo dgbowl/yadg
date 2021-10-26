@@ -7,9 +7,9 @@ from typing import Union
 from dgutils.dateutils import ole_to_datetime
 from uncertainties import UFloat, ufloat
 
-from .mpr import parse_mpr
-from .mps import parse_mps
-from .mpt import parse_mpt
+from eclabfiles.mpr import parse_mpr
+from eclabfiles.mps import parse_mps
+from eclabfiles.mpt import parse_mpt
 
 
 def _process_datapoints(
@@ -26,14 +26,13 @@ def _process_datapoints(
     ----------
     datapoints
         The datapoints as parsed from an EC-Lab file. The `.mpr` parser
-        writes them at parsed_mpr[1]['data']['datapoints'] while they
-        are at parsed_mpr[1]['data']['datapoints'] from the `.mpt`
-        parser.
+        writes them at parsed_mpr[i]['data']['datapoints'] while they
+        are at parsed_mpt['data'] from the `.mpt` parser.
 
     acquisition_start
         Timestamp of when the data acquisition started. This is found in
         the log module data of `.mpr` files in OLE format (float) and in
-        the settings header of `.mp`
+        the settings header of `.mpt` as a string.
 
     Returns
     -------
@@ -51,18 +50,18 @@ def _process_datapoints(
         start = ole_to_datetime(acquisition_start)
     else:
         raise TypeError(f"Unknown start time type: {type(acquisition_start)}")
-
     # Calculate and add UTS timestamp for every datapoint
-    seconds = datapoints['time/s']
-    offsets = [datetime.timedelta(seconds=second) for second in seconds]
-    times = [start+offset for offset in offsets]
-    # Every value has to be in the format [value, uncertainty, unit]
-    # for key, value in datapoint.items():
-    #     split = key.split('/')
-    #     del split[0]
-    #     unit = split[-1] if len(split) > 0 else ''
-    #     datapoint[key] = [value, 0.0, unit]
-    datapoints['uts'] = [time.timestamp() for time in times]
+    # TODO: Units and uncertainties
+    # Every value has to be in the format
+    for datapoint in datapoints:
+        offset = datetime.timedelta(seconds=datapoint['time/s'])
+        time = start + offset
+        for key, value in datapoint.items():
+            split = key.split('/')
+            del split[0]
+            unit = split[-1] if len(split) > 0 else ''
+            datapoint[key] = [value, 0.0, unit]
+        datapoint['uts'] = time.timestamp()
     return datapoints
 
 
@@ -128,26 +127,30 @@ def _process_mpt(
     meta = {}
     common = {}
     if isinstance(fn, str):
-        mpt = parse_mpt(fn)
+        mpt = parse_mpt(fn, encoding)
     elif isinstance(fn, list[dict]):
         mpt = fn
     else:
         raise TypeError(f"Unrecognized type: {type(fn)}")
-    mpt = parse_mpt(fn, encoding)
-    if 'settings' in mpt['header'].keys():
-        meta['settings'] = mpt['header']
+    acquisition_start = datetime.datetime.strftime(
+        datetime.datetime.now(), '%m/%d/%Y %H:%M:%S')
+    if 'settings' in mpt['header']:
+        meta['settings'] = mpt['header'].copy()
         del meta['settings']['params']
-        common['params'] = mpt['header']['params']
+        common['params'] = mpt['header']['params'].copy()
+        logging.debug(f"{mpt['header']['settings']}")
+        # logging.debug(f"{mpt['header']}") TODO??
         acquisition_start_match = re.search(
             r'Acquisition started on : (?P<val>.+)',
             '\n'.join(mpt['header']['settings']))
         acquisition_start = acquisition_start_match['val']
-    if 'loops' in mpt['header'].keys():
+        logging.debug(f"Start of acquisition: {acquisition_start}")
+    if 'loops' in mpt['header']:
         meta['loops'] = mpt['header']['loops']
-    datapoints = _process_datapoints(mpt['data'], acquisition_start)
     # TODO: The right params common should be associated with the data
     # points. This can be done through the length of params and the Ns
     # column.
+    datapoints = _process_datapoints(mpt['datapoints'], acquisition_start)
     return datapoints, meta, common
 
 
@@ -156,7 +159,7 @@ def _process_mps(
     encoding: str = 'windows-1252',
     **kwargs: dict
 ) -> tuple[list, dict, dict]:
-    """Processes an `.mps` file.
+    """Processes an `.mps` file. TODO
 
     Parameters
     ----------
@@ -173,16 +176,16 @@ def _process_mps(
     # of datapoints but multiple datapoints sets with different metadata
     # and different common?
     for technique in mps['techniques']:
-        if 'data' not in technique.keys():
+        if 'data' not in technique:
             continue
-        if 'mpt' in technique['data'].keys():
-            mpt_datapoints, mpt_meta, mpt_common = _process_mpt(
-                technique['data']['mpt'])
-            datapoints += mpt_datapoints
-        elif 'mpr' in technique['data'].keys():
+        if 'mpr' in technique['data']:
             mpr_datapoints, mpr_meta, mpr_common = _process_mpr(
                 technique['data']['mpr'])
             datapoints += mpr_datapoints
+        elif 'mpt' in technique['data']:
+            mpt_datapoints, mpt_meta, mpt_common = _process_mpt(
+                technique['data']['mpt'])
+            datapoints += mpt_datapoints
 
 
 def process(
@@ -209,6 +212,7 @@ def process(
     elif ext == '.mpt':
         timesteps, meta, common = _process_mpt(fn, encoding, **kwargs)
     elif ext == '.mps':
-        timesteps, meta, common = _process_mps(fn, encoding, **kwargs)
+        # timesteps, meta, common = _process_mps(fn, encoding, **kwargs)
+        raise NotImplemented("Processing of .mps files is not yet implemented")
 
     return timesteps, meta, common

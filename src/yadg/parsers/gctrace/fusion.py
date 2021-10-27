@@ -34,16 +34,14 @@ def process(
     )
     chrom = {
         "fn": str(fn),
-        "traces": [],
-        "uts": datefunc(jsdata["runTimeStamp"]),
-        "detectors": {},
+        "traces": {},
+        "uts": datefunc(jsdata["runTimeStamp"])
     }
     detid = 0
     for detname in sorted(jsdata["detectors"].keys()):
-        chrom["detectors"][detname] = {"id": detid}
-        detid += 1
         detdict = jsdata["detectors"][detname]
-        trace = {"x": [], "y": []}
+        trace = {"x": [], "y": [], "id": detid}
+        detid += 1
         xmul = detdict["nValuesPerSecond"]
         npoints = detdict["nValuesExpected"]
         assert (
@@ -69,6 +67,6 @@ def process(
                 A = [float(peak.get("area", 0.0)), 0.5 * nbp, "-"]
                 c = [float(peak.get("concentration", 0.0)), 0.0, "vol%"]
                 trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
-        chrom["traces"].append(trace)
+        chrom["traces"][detname] = trace
 
     return [chrom], metadata, common

@@ -247,17 +247,18 @@ def process(
         peaks = {}
         comp = []
         for detname, spec in gcspec.items():
-            for det in chrom["detectors"].keys():
-                if chrom["detectors"][det]["id"] == spec["id"]:
-                    chrom["detectors"][det]["calname"] = detname
+            for det in chrom["traces"].keys():
+                if chrom["traces"][det]["id"] == spec["id"]:
+                    chrom["traces"][det]["calname"] = detname
+                    break
             units = {
-                "x": chrom["traces"][spec["id"]]["x"][0][2],
-                "y": chrom["traces"][spec["id"]]["y"][0][2],
+                "x": chrom["traces"][det]["x"][0][2],
+                "y": chrom["traces"][det]["y"][0][2],
             }
             units["A"] = f'{units["y"]} ' if units["y"] != "-" else "" + units["x"]
-            yfloat = [i[0] for i in chrom["traces"][spec["id"]]["y"]]
-            xufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["x"]]
-            yufloat = [ufloat(*i) for i in chrom["traces"][spec["id"]]["y"]]
+            yfloat = [i[0] for i in chrom["traces"][det]["y"]]
+            xufloat = [ufloat(*i) for i in chrom["traces"][det]["x"]]
+            yufloat = [ufloat(*i) for i in chrom["traces"][det]["y"]]
             smooth, peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
             peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
             integrated = _integrate_peaks(

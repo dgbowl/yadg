@@ -5,16 +5,14 @@ import re
 from typing import Union
 
 from dgutils.dateutils import ole_to_datetime
-from uncertainties import UFloat, ufloat
-
 from eclabfiles.mpr import parse_mpr
-from eclabfiles.mps import parse_mps
 from eclabfiles.mpt import parse_mpt
 
 
 def _process_datapoints(
     datapoints: list[dict],
-    acquisition_start: Union[float, str]
+    acquisition_start: Union[float, str],
+    **kwargs
 ) -> list[dict]:
     """Processes the datapoints from parsed `.mpr` or `.mpt` files.
 
@@ -41,21 +39,35 @@ def _process_datapoints(
 
     """
     if isinstance(acquisition_start, str):
-        # Parse timestamp with regex
-        start = datetime.datetime.strptime(
-            acquisition_start, '%m/%d/%Y %H:%M:%S')
-        pass
+        # Parse timestamp with re. Time format annoyingly changes.
+        start = None
+        time_formats = [
+            '%m/%d/%Y %H:%M:%S',
+            '%m.%d.%Y %H:%M:%S',
+            '%m/%d/%Y %H:%M:%S.%f',
+        ]
+        for time_format in time_formats:
+            try:
+                start = datetime.datetime.strptime(
+                    acquisition_start, time_format)
+                break
+            except ValueError:
+                logging.debug(
+                    "Time format %s does not apply. Trying next option...",
+                    time_format)
+        if start is None:
+            raise NotImplementedError(
+                f"Time format for {acquisition_start} not implemented")
     elif isinstance(acquisition_start, float):
         # OLE timestamp from `.mpr` files.
         start = ole_to_datetime(acquisition_start)
     else:
         raise TypeError(f"Unknown start time type: {type(acquisition_start)}")
-    # Calculate and add UTS timestamp for every datapoint
-    # TODO: Units and uncertainties
-    # Every value has to be in the format
     for datapoint in datapoints:
+        # Calculate UTS for the datapoint.
         offset = datetime.timedelta(seconds=datapoint['time/s'])
         time = start + offset
+        # Separate the unit from every column type.
         for key, value in datapoint.items():
             split = key.split('/')
             del split[0]
@@ -65,35 +77,17 @@ def _process_datapoints(
     return datapoints
 
 
-def _process_mpr(
-    fn: Union[str, list[dict]],
-    encoding: str = 'windows-1252',
-    **kwargs: dict
-) -> tuple[list, dict, dict]:
-    """Processes an `.mpr` file.
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-
-    """
+def _process_mpr(fn: str, **kwargs) -> tuple[list, dict, dict]:
+    """Processes an EC-Lab `.mpr` file."""
     datapoints = []
     meta = {}
     common = {}
-    if isinstance(fn, str):
-        mpr = parse_mpr(fn)
-    elif isinstance(fn, list[dict]):
-        mpr = fn
-    else:
-        raise TypeError(f"Unrecognized type: {type(fn)}")
+    mpr = parse_mpr(fn)
     for module in mpr:
         name = module['header']['short_name']
         if name == b'VMP Set   ':
             meta['settings'] = module['data'].copy()
             del meta['settings']['params']
-            print
             common['params'] = module['data']['params']
         elif name == b'VMP data  ':
             datapoints = module['data']['datapoints']
@@ -109,42 +103,23 @@ def _process_mpr(
     return datapoints, meta, common
 
 
-def _process_mpt(
-    fn: Union[str, dict],
-    encoding: str = 'windows-1252',
-    **kwargs: dict
-) -> tuple[list, dict, dict]:
-    """Processes an `.mpt` file.
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-
-    """
+def _process_mpt(fn: str, **kwargs) -> tuple[list, dict, dict]:
+    """Processes an EC-Lab `.mpt` file."""
     datapoints = []
     meta = {}
     common = {}
-    if isinstance(fn, str):
-        mpt = parse_mpt(fn, encoding)
-    elif isinstance(fn, list[dict]):
-        mpt = fn
-    else:
-        raise TypeError(f"Unrecognized type: {type(fn)}")
+    mpt = parse_mpt(fn)
     acquisition_start = datetime.datetime.strftime(
-        datetime.datetime.now(), '%m/%d/%Y %H:%M:%S')
+        datetime.datetime.now(), r'%m/%d/%Y %H:%M:%S')
     if 'settings' in mpt['header']:
         meta['settings'] = mpt['header'].copy()
         del meta['settings']['params']
         common['params'] = mpt['header']['params'].copy()
-        logging.debug(f"{mpt['header']['settings']}")
-        # logging.debug(f"{mpt['header']}") TODO??
         acquisition_start_match = re.search(
             r'Acquisition started on : (?P<val>.+)',
             '\n'.join(mpt['header']['settings']))
         acquisition_start = acquisition_start_match['val']
-        logging.debug(f"Start of acquisition: {acquisition_start}")
+        logging.debug("Start of acquisition: %s", acquisition_start)
     if 'loops' in mpt['header']:
         meta['loops'] = mpt['header']['loops']
     # TODO: The right params common should be associated with the data
@@ -154,65 +129,11 @@ def _process_mpt(
     return datapoints, meta, common
 
 
-def _process_mps(
-    fn: str,
-    encoding: str = 'windows-1252',
-    **kwargs: dict
-) -> tuple[list, dict, dict]:
-    """Processes an `.mps` file. TODO
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-
-    """
-    datapoints = []
-    meta = {}
-    common = {}
-    mps = parse_mps(fn, encoding, load_data=True)
-    # TODO: How to handle data from mps files? They are not single lists
-    # of datapoints but multiple datapoints sets with different metadata
-    # and different common?
-    for technique in mps['techniques']:
-        if 'data' not in technique:
-            continue
-        if 'mpr' in technique['data']:
-            mpr_datapoints, mpr_meta, mpr_common = _process_mpr(
-                technique['data']['mpr'])
-            datapoints += mpr_datapoints
-        elif 'mpt' in technique['data']:
-            mpt_datapoints, mpt_meta, mpt_common = _process_mpt(
-                technique['data']['mpt'])
-            datapoints += mpt_datapoints
-
-
-def process(
-    fn: str,
-    encoding: str = 'windows-1252',
-    **kwargs: dict
-) -> tuple[list, None, None]:
-    """A dummy parser.
-
-    This parser simply returns the current time, the filename provided, and any
-    `kwargs` passed.
-
-    Parameters
-    ----------
-    fn
-        Filename to process
-    encoding
-        Encoding of ``fn``, by default 'windows-1252'.
-
-    """
+def process(fn: str, **kwargs) -> tuple[list, dict, dict]:
+    """Processes an EC-Lab electrochemistry data file."""
     __, ext = os.path.splitext(fn)
     if ext == '.mpr':
-        timesteps, meta, common = _process_mpr(fn, encoding, **kwargs)
+        timesteps, meta, common = _process_mpr(fn, **kwargs)
     elif ext == '.mpt':
-        timesteps, meta, common = _process_mpt(fn, encoding, **kwargs)
-    elif ext == '.mps':
-        # timesteps, meta, common = _process_mps(fn, encoding, **kwargs)
-        raise NotImplemented("Processing of .mps files is not yet implemented")
-
+        timesteps, meta, common = _process_mpt(fn, **kwargs)
     return timesteps, meta, common

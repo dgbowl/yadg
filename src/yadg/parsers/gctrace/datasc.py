@@ -14,7 +14,7 @@ def process(
         lines = infile.readlines()
     metadata = {"type": "gctrace.datasc", "gcparams": {}}
     common = {}
-    chrom = {"fn": str(fn), "traces": [], "detectors": {}}
+    chrom = {"fn": str(fn), "traces": {}}
     _, datefunc = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}}, timezone=timezone
     )
@@ -69,17 +69,15 @@ def process(
         assert (
             xunits[ti] == "Minutes"
         ), f"datasc: X units label of trace {ti} in {fn} was not understood."
-        chrom["detectors"][f"{ti}"] = {"id": ti}
         dt = 60
         xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
         xtol = max(atol, 0.5 * xmuls[ti] * dt / samplerates[ti], rtol * max(xs))
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si : si + npoints[ti]]]
         ytol = max(atol, rtol * max(ys), ymuls[ti])
-        chrom["traces"].append(
-            {
+        chrom["traces"][f"{ti}"] = {
                 "x": [[x, xtol, "s"] for x in xs],
                 "y": [[y, ytol, yunits[ti]] for y in ys],
-            }
-        )
+                "id": ti
+        }
         si += npoints[ti]
     return [chrom], metadata, common

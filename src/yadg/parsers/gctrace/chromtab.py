@@ -37,7 +37,7 @@ def process(
     metadata = {"type": "gctrace.chromtab", "gcparams": {"method": "n/a"}}
     common = {}
     chroms = []
-    chrom = {"fn": str(fn), "traces": [], "detectors": {}}
+    chrom = {"fn": str(fn), "traces": {}}
     trace = {"x": [], "y": []}
     for li in range(len(lines)):
         line = lines[li].strip()
@@ -45,11 +45,11 @@ def process(
         if len(parts) > 2:
             if '"Date Acquired"' in parts:
                 if trace != {"x": [], "y": []}:
-                    chrom["traces"].append(trace)
+                    chrom["traces"][detname] = trace
                     trace = {"x": [], "y": []}
-                if chrom != {"fn": fn, "traces": [], "detectors": {}}:
+                if chrom != {"fn": fn, "traces": {}}:
                     chroms.append(chrom)
-                    chrom = {"fn": fn, "traces": [], "detectors": {}}
+                    chrom = {"fn": fn, "traces": {}}
                 headers = [p.replace('"', "") for p in parts]
             else:
                 columns = [p.replace('"', "") for p in parts]
@@ -58,9 +58,10 @@ def process(
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:
             if trace != {"x": [], "y": []}:
-                chrom["traces"].append(trace)
+                chrom["traces"][detname] = trace
                 trace = {"x": [], "y": []}
-            chrom["detectors"][parts[0].replace('"', "")] = {"id": len(chrom["traces"])}
+            detname = parts[0].replace('"', "").split("\\")[-1]
+            trace["id"] = len(chrom["traces"])
         elif len(parts) == 2:
             x, y = [float(i) for i in parts]
             tolx = max(
@@ -69,6 +70,6 @@ def process(
             toly = max(atol, rtol * abs(y))
             trace["x"].append([x * 60, tolx * 60, "s"])
             trace["y"].append([y, toly, "-"])
-    chrom["traces"].append(trace)
+    chrom["traces"][detname] = trace
     chroms.append(chrom)
     return chroms, metadata, common

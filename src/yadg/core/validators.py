@@ -222,24 +222,34 @@ def validate_datagram(datagram: dict) -> True:
     -  The `datagram` must be a :class:`(dict)` with two entries:
 
        - ``"metadata"`` :class:`(dict)`: A top-level entry containing metadata.
-       - ``"data"`` :class:`(list[dict])`: List corresponding to a sequence of `steps`.
+       - ``"steps"`` :class:`(list[dict])`: List corresponding to a sequence of `steps`.
 
     - The ``"metadata"`` entry has to contain information about the ``"provenance"`` of
       the `datagram`, the creation date using ISO8601 format in ``"date"`` :class:`(str)`
       entry, a full copy of the input `schema` in the ``"input_schema"`` entry, and
       version information in ``"datagram_version"`` :class:`(str)`.
 
-    - Each element in the ``"data"`` corresponds to a single `step` from the `schema`.
-    - Each `step` in ``"data"`` has to contain a ``"metadata"`` :class:`(dict)` entry,
-      and a ``"timesteps"`` :class:`(list)`; an optional ``"common"`` :class:`(dict)` data
+    - Each element in the ``"steps"`` corresponds to a single `step` from the `schema`.
+    - Each `step` in ``"steps"`` has to contain a ``"metadata"`` :class:`(dict)` entry,
+      and a ``"data"`` :class:`(list)`; an optional ``"common"`` :class:`(dict)` data
       block can be provided.
-    - Each timestep in the ``"timesteps"`` list has to specify a timestamp using the
-      Unix Timestamp format in ``"uts"`` :class:`(float)` entry. Any other entries are
-      allowed, including :class:`(str)`, :class:`(int)`, :class:`(list)`, or :class:`(dict)`.
+    - Each timestep in the ``"data"`` list has to specify a timestamp using the
+      Unix Timestamp format in ``"uts"`` :class:`(float)` entry; the original filename
+      in ``"fn"`` :class:`(str)` entry. The raw data present in this original filename
+      is stored as sub-entries within the ``"raw"`` :class:`(dict)` entry. Any derived
+      data, such as that obtained via calibration, integration, or fitting, has to be 
+      stored in the ``"derived"`` :class:`(dict)`.
 
     .. note::
-        A floating-point entry has to be specified using a :class:`list(`\ ``value``
-        \ :class:`(float)`\ ``, error``\ :class:`(float)`\ ``, unit``\ :class:`(str))` format.
+        A floating-point entry should always have its standard deviation specified.
+        Internal processing of this data is always carried out using the :class:`(ufloat)`
+        type, which ought to be exported as a ``{"n": value, "s": std_dev}`` keypair.
+    
+    .. note::
+        Most numerical data should have associated units. The validator expects all
+        floating-point entries to be in a ``{"n": value, "s": std_dev}`` format for
+        properties with an arbitrary unit, and ``{"n": value, "s": std_dev, "u": unit}``
+        for properties with a defined unit.
 
     Parameters
     ----------
@@ -254,10 +264,8 @@ def validate_datagram(datagram: dict) -> True:
     # datagram has to meet the spec
     assert validator(datagram, yadg.core.spec_datagram.datagram)
     # validate each step in the datagram
-    for step in datagram["data"]:
-        assert all(
-            ["fn" in ts for ts in step["timesteps"]]
-        ), "The 'fn':str entry has to be provided either in each element of 'timesteps."
-        for ts in step["timesteps"]:
+    for step in datagram["steps"]:
+        assert all(["fn" in ts for ts in step["data"]]), "The 'fn' entry has to be provided in each timestep."
+        for ts in step["data"]:
             assert _dict_validator(ts)
     return True

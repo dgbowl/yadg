@@ -4,8 +4,8 @@ from utils import datagram_from_input, standard_datagram_test, datadir
 
 
 def special_datagram_test(datagram, testspec):
-    step = datagram["data"][testspec["step"]]
-    tstep = step["timesteps"][testspec["point"]]
+    step = datagram["steps"][testspec["step"]]
+    tstep = step["data"][testspec["point"]]
     assert (
         len(tstep["raw"]["f"]) == testspec["tracelen"]
         and len(tstep["raw"]["Re(Γ)"]) == testspec["tracelen"]

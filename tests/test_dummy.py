@@ -24,9 +24,9 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     assert yadg.core.validators.validate_schema(inp_dict), "invalid schema format"
     ret = yadg.core.process_schema(inp_dict)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
-    assert len(ret["data"]) == l_dg, "wrong number of steps"
+    assert len(ret["steps"]) == l_dg, "wrong number of steps"
     if l_dg > 0:
-        assert len(ret["data"][0]["timesteps"]) == l_res, "wrong number of timesteps"
+        assert len(ret["steps"][0]["data"]) == l_res, "wrong number of timesteps"
     json.dumps(ret)
 
 
@@ -48,9 +48,9 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     assert yadg.core.validators.validate_schema(schema), "invalid schema format"
     ret = yadg.core.process_schema(schema)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
-    assert len(ret["data"]) == ts["nsteps"], "wrong number of steps"
+    assert len(ret["steps"]) == ts["nsteps"], "wrong number of steps"
     assert (
-        ret["data"][ts["step"]]["timesteps"][ts["item"]]["raw"] == ts["kwargs"]
+        ret["steps"][ts["step"]]["data"][ts["item"]]["raw"] == ts["kwargs"]
     ), "kwargs not passed correctly"
     json.dumps(ret)
 

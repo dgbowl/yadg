@@ -14,7 +14,7 @@ datagram_step = {
             },
             "allow": True,
         },
-        "timesteps": {
+        "data": {
             "type": list,
             "each": {
                 "type": dict,
@@ -42,6 +42,6 @@ datagram = {
                 "datagram_version": {"type": str},
             },
         },
-        "data": {"type": list, "each": datagram_step},
+        "steps": {"type": list, "each": datagram_step},
     },
 }

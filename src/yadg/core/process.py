@@ -102,7 +102,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             "input_schema": schema.copy(),
             "datagram_version": yadg.core.spec_datagram.datagram_version,
         },
-        "data": [],
+        "steps": [],
     }
     for step in schema["steps"]:
         metadata = dict()
@@ -140,10 +140,10 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             if comm is not None:
                 common.update(comm)
         if common == dict():
-            datagram["data"].append({"metadata": metadata, "timesteps": timesteps})
+            datagram["steps"].append({"metadata": metadata, "data": timesteps})
         else:
-            datagram["data"].append(
-                {"metadata": metadata, "common": common, "timesteps": timesteps}
+            datagram["steps"].append(
+                {"metadata": metadata, "common": common, "data": timesteps}
             )
         if step.get("export", None) is not None:
             with open(step["export"], "w") as ofile:

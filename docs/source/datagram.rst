@@ -23,7 +23,7 @@ The basic structure of a `datagram` is as follows:
             "yadg": {"version": "4.0.0", "command": "pytest"},
             "date": "2021-09-29 09:20:00"
         },
-        "data": [
+        "steps": [
             {
                 "metadata": {
                     "fn": "foo.csv",
@@ -35,7 +35,7 @@ The basic structure of a `datagram` is as follows:
                         "parameters": {}
                     }
                 },
-                "timesteps": [
+                "data": [
                     {
                         "uts": 1632900000.0, 
                         "flow": [15.0, 0.1, "ml/min"],
@@ -63,18 +63,18 @@ The `datagram` is a :class:`dict` which always contains two top-level entries:
 - The ``"metadata"`` :class:`(dict)` with information about the version of 
   **yadg** as well as the execution command used to generate the `datagram`; and
   the ``"date"`` :class:`(str)` entry, formatted according to ISO8601.
-- The ``"data"`` :class:`(list[dict])`, the length of which matches the length 
+- The ``"steps"`` :class:`(list[dict])`, the length of which matches the length 
   of the `schema` used to generate the `datagram`, i.e. the number of `steps`.
 
-Each element within the ``"data"`` :class:`(list[dict])` has further mandatory
+Each element within the ``"steps"`` :class:`(list[dict])` has further mandatory
 entries: 
 
 - The `step`\ -specific ``"metadata"`` :class:`(dict)` contains the ``"tag"`` 
   :class:`(str)` entry from the `schema`, as well as a copy of the 
   `step`\ -specific portion of the `schema` itself in the ``"input"`` 
   :class:`(dict)` entry. 
-- The ``"timesteps"`` :class:`(list[dict])` entry contains the actual data, 
-  organised as a time series. Each entry in ``"timesteps"`` has to have a Unix 
+- The ``"data"`` :class:`(list[dict])` entry contains the actual data, 
+  organised as a time series. Each entry in ``"data"`` has to have a Unix 
   timestamp in its ``"uts"`` :class:`(float)` entry. All other data has to be
   provided using the ``"property": [value, error, unit]`` syntax, where both 
   ``value`` and ``error`` are :class:`(float)` and ``unit`` is :class:`(str)`.
@@ -82,10 +82,8 @@ entries:
   validated.
 
 The original "raw data" file has to be specified using a ``"fn"`` :class:`(str)`
-entry either once for each `step` in its ``"metadata"`` entry (useful for ``csv`` 
-files with multiple timesteps in a single file), or for each individual timestep 
-in the ``"timesteps"`` :class:`(list[dict])` (useful for chromatograms or similar
-formats with one timestep per file).
+entry either once for each `step` in its ``"metadata"`` and for each individual 
+timestep in the ``"data"`` :class:`(list[dict])`.
 
 .. note::
 

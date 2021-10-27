@@ -5,9 +5,9 @@ from utils import datagram_from_input, standard_datagram_test, datadir
 
 
 def special_datagram_test(datagram, testspec):
-    step = datagram["data"][testspec["step"]]
+    step = datagram["steps"][testspec["step"]]
     assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
-    tstep = step["timesteps"][testspec["point"]]
+    tstep = step["data"][testspec["point"]]
     for k, v in testspec["xout"].items():
         assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)
 

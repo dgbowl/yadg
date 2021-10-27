@@ -254,10 +254,8 @@ def validate_datagram(datagram: dict) -> True:
     # datagram has to meet the spec
     assert validator(datagram, yadg.core.spec_datagram.datagram)
     # validate each step in the datagram
-    for step in datagram["data"]:
-        assert all(
-            ["fn" in ts for ts in step["timesteps"]]
-        ), "The 'fn':str entry has to be provided either in each element of 'timesteps."
-        for ts in step["timesteps"]:
+    for step in datagram["steps"]:
+        assert all(["fn" in ts for ts in step["data"]]), "The 'fn' entry has to be provided in each timestep."
+        for ts in step["data"]:
             assert _dict_validator(ts)
     return True

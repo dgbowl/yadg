@@ -53,14 +53,14 @@ def datagram_from_input(input, parser, datadir):
 
 def standard_datagram_test(datagram, testspec):
     assert yadg.core.validators.validate_datagram(datagram), "datagram is invalid"
-    assert len(datagram["data"]) == testspec["nsteps"], "wrong number of steps"
-    steps = datagram["data"][testspec["step"]]["timesteps"]
+    assert len(datagram["steps"]) == testspec["nsteps"], "wrong number of steps"
+    steps = datagram["steps"][testspec["step"]]["data"]
     assert len(steps) == testspec["nrows"], "wrong number of timesteps in a step"
     json.dumps(datagram)
 
 
 def pars_datagram_test(datagram, testspec):
-    steps = datagram["data"][testspec["step"]]["timesteps"]
+    steps = datagram["steps"][testspec["step"]]["data"]
     tstep = steps[testspec["point"]]
     for tk, tv in testspec["pars"].items():
         if tk != "uts":
@@ -76,8 +76,8 @@ def pars_datagram_test(datagram, testspec):
 
 
 def xout_datagram_test(datagram, testspec):
-    step = datagram["data"][testspec["step"]]
+    step = datagram["steps"][testspec["step"]]
     assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
-    tstep = step["timesteps"][testspec["point"]]
+    tstep = step["data"][testspec["point"]]
     for k, v in testspec["xout"].items():
         assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)

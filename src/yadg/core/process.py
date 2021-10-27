@@ -4,7 +4,7 @@ import os
 import logging
 from typing import Union, Callable
 
-from parsers import dummy, basiccsv, qftrace, gctrace, drycal
+from parsers import dummy, basiccsv, qftrace, gctrace, drycal, eclab
 import dgutils
 
 def _infer_datagram_handler(parser: str) -> Callable:
@@ -15,16 +15,18 @@ def _infer_datagram_handler(parser: str) -> Callable:
     """
     if parser == "gctrace":
         return gctrace.process
-    if parser == "qftrace":
+    elif parser == "qftrace":
         return qftrace.process
     #if datagramtype == "meascsv":
     #    return meascsv.process
-    if parser == "dummy":
+    elif parser == "dummy":
         return dummy.process
-    if parser == "basiccsv":
+    elif parser == "basiccsv":
         return basiccsv.process
-    if parser == "drycal":
+    elif parser == "drycal":
         return drycal.process
+    elif parser == "eclab":
+        return eclab.process
 
 def _infer_todo_files(importdict: dict) -> list:
     """

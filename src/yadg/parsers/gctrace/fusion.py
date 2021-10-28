@@ -50,8 +50,8 @@ def process(
         xs = np.linspace(0, npoints / xmul, num=npoints)
         xtol = max(0.5 * 1 / xmul, atol, rtol * max(xs))
         ytol = max(1.0, atol, rtol * max(detdict["values"]))
-        trace["x"] = [[x, xtol, "s"] for x in xs]
-        trace["y"] = [[float(y), ytol, "-"] for y in detdict["values"]]
+        trace["x"] = [{"n": x, "s": xtol, "u": "s"} for x in xs]
+        trace["y"] = [{"n": float(y), "s": ytol, "u": "-"} for y in detdict["values"]]
         if "analysis" in detdict:
             trace["peaks"] = {}
             for peak in detdict["analysis"]["peaks"]:
@@ -63,9 +63,9 @@ def process(
                     )
                 else:
                     nbp = 0
-                h = [float(peak.get("height", 0.0)), 0.5, "-"]
-                A = [float(peak.get("area", 0.0)), 0.5 * nbp, "-"]
-                c = [float(peak.get("concentration", 0.0)), 0.0, "vol%"]
+                h = {"n": float(peak.get("height", 0.0)), "s": 0.5, "u": "-"}
+                A = {"n": float(peak.get("area", 0.0)), "s": 0.5 * nbp, "u": "-"}
+                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "vol%"}
                 trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
         chrom["traces"][detname] = trace
 

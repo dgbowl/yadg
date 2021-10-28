@@ -15,6 +15,7 @@ def _list_validator(l: list) -> bool:
 
 def _float_list(l: list) -> bool:
     if isinstance(l[0], float) and isinstance(l[1], float) and isinstance(l[2], str):
+        logging.warning("Old [float, float, str] syntax detected.")
         return True
     else:
         return _general_list(l)
@@ -27,9 +28,10 @@ def _general_list(l: list) -> bool:
         elif isinstance(v, dict):
             return _dict_validator(v)
         else:
-            assert isinstance(v, str) or isinstance(
-                v, int
-            ), f"List elements have to be one of [str, int, dict, list], but entry id:{l.index(v)}:{type(v)} is neither: {l}"
+            assert isinstance(v, str) or isinstance(v, int), (
+                f"List elements have to be one of [str, int, dict, list], "
+                f"but entry id:{l.index(v)}:{type(v)} is neither: {l}"
+            )
     return True
 
 
@@ -38,15 +40,16 @@ def _dict_validator(d: dict) -> bool:
         if k in ["n", "s"] and len({"n", "s", "u"}.intersection(d.keys())) == 3 and isinstance(v, float):
             continue
         elif isinstance(v, float):
-            assert k == "uts", f"Only 'uts':float can be a float entry, not '{k}'."
+            assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."
         elif isinstance(v, list):
             return _list_validator(v)
         elif isinstance(v, dict):
             return _dict_validator(v)
         else:
-            assert isinstance(v, str) or isinstance(
-                v, int
-            ), f"Dict elements have to be one of [str, int, dict, list], but '{k}':{type(v)} is neither: {v}"
+            assert isinstance(v, str) or isinstance(v, int), (
+                f"Dict elements have to be one of [str, int, dict, list], "
+                f"but '{k}':{type(v)} is neither: {v}"
+            )
     return True
 
 
@@ -57,7 +60,7 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     This function checks that ``item`` matches the specification supplied in ``spec``.
     The ``spec`` :class:`(dict)` can have the following entries:
 
-    - ``"type"`` :class:`(type)`\ , a required entry, defining the type of ``item``,
+    - ``"type"`` :class:`(type)`, a required entry, defining the type of ``item``,
     - ``"all"`` :class:`(dict)` defining a set of required keywords and their respective ``spec``,
     - ``"any"`` :class:`(dict)` defining a set of optional keywords and their respective ``spec``,
     - ``"one"`` :class:`(dict)` defining a set of mutually exclusive keywords and their respective ``spec``,
@@ -245,7 +248,7 @@ def validate_datagram(datagram: dict) -> True:
     .. note::
         A floating-point entry should always have its standard deviation specified.
         Internal processing of this data is always carried out using the :class:`(ufloat)`
-        type, which ought to be exported as a ``{"n": value, "s": std_dev}`` keypair.
+        type, which ought to be exported as a ``{"n": value, "s": std_dev, "u": "-"}`` keypair.
     
     .. note::
         Most numerical data should have associated units. The validator expects all

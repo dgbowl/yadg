@@ -75,8 +75,8 @@ def process(
         ys = [float(i.strip()) * ymuls[ti] for i in lines[si : si + npoints[ti]]]
         ytol = max(atol, rtol * max(ys), ymuls[ti])
         chrom["traces"][f"{ti}"] = {
-                "x": [[x, xtol, "s"] for x in xs],
-                "y": [[y, ytol, yunits[ti]] for y in ys],
+                "x": [{"n": x, "s": xtol, "u": "s"} for x in xs],
+                "y": [{"n": y, "s": ytol, "u": yunits[ti]} for y in ys],
                 "id": ti
         }
         si += npoints[ti]

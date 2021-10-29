@@ -217,7 +217,9 @@ def process(
     # Process rows
     data = []
     for line in lines[si:]:
-        element = process_row(headers, line.split(sep), units, datefunc, datecolumns, calib=calib)
+        element = process_row(
+            headers, line.split(sep), units, datefunc, datecolumns, calib=calib
+        )
         element["fn"] = str(fn)
         data.append(element)
     return data, None, None

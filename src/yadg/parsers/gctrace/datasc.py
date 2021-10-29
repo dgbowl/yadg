@@ -74,20 +74,23 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         xmul = xmuls[ti] * dt / samplerates[ti]
         ymul = ymuls[ti]
         xs = unumpy.uarray(np.arange(npoints[ti]), np.ones(npoints[ti]) * 0.5) * xmul
-        ys = np.array([ufloat_fromstr(i.strip()) for i in lines[si : si + npoints[ti]]]) * ymul
+        ys = (
+            np.array([ufloat_fromstr(i.strip()) for i in lines[si : si + npoints[ti]]])
+            * ymul
+        )
         chrom["traces"][f"{ti}"] = {
             "x": {
-                "n": list(unumpy.nominal_values(xs)), 
-                "s": list(unumpy.std_devs(xs)), 
-                "u": "s"
+                "n": list(unumpy.nominal_values(xs)),
+                "s": list(unumpy.std_devs(xs)),
+                "u": "s",
             },
             "y": {
                 "n": list(unumpy.nominal_values(ys)),
                 "s": list(unumpy.std_devs(ys)),
-                "u": yunits[ti]
+                "u": yunits[ti],
             },
             "id": ti,
-            "data": [xs, ys]
+            "data": [xs, ys],
         }
         si += npoints[ti]
     return [chrom], metadata, common

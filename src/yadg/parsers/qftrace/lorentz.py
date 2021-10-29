@@ -22,7 +22,7 @@ def fit(freq, gamma, absgamma, **kwargs):
         p0=[-0.5, freq[np.argmin(absgamma)].n, 1e5, 1],
     )
     perr = np.sqrt(np.diag(pcov))
-    x0 = ufloat(popt[1], perr[1]*popt[1])
-    gam = ufloat(popt[2], perr[2]*popt[2])
+    x0 = ufloat(popt[1], perr[1] * popt[1])
+    gam = ufloat(popt[2], perr[2] * popt[2])
 
     return x0 / (2 * gam), x0

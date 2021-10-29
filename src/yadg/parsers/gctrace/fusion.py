@@ -32,11 +32,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     _, datefunc = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {}}, timezone=timezone
     )
-    chrom = {
-        "fn": str(fn),
-        "traces": {},
-        "uts": datefunc(jsdata["runTimeStamp"])
-    }
+    chrom = {"fn": str(fn), "traces": {}, "uts": datefunc(jsdata["runTimeStamp"])}
     detid = 0
     for detname in sorted(jsdata["detectors"].keys()):
         detdict = jsdata["detectors"][detname]
@@ -47,10 +43,18 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         assert (
             len(detdict["values"]) == npoints
         ), f"fusion: Inconsistent trace length in file {fn}."
-        xs = unumpy.uarray(np.arange(npoints), np.ones(npoints)*0.5) / xmul
+        xs = unumpy.uarray(np.arange(npoints), np.ones(npoints) * 0.5) / xmul
         ys = unumpy.uarray(detdict["values"], np.ones(npoints))
-        trace["x"] = {"n": list(unumpy.nominal_values(xs)), "s": list(unumpy.std_devs(xs)), "u": "s"}
-        trace["y"] = {"n": list(unumpy.nominal_values(ys)), "s": list(unumpy.std_devs(ys)), "u": "s"}
+        trace["x"] = {
+            "n": list(unumpy.nominal_values(xs)),
+            "s": list(unumpy.std_devs(xs)),
+            "u": "s",
+        }
+        trace["y"] = {
+            "n": list(unumpy.nominal_values(ys)),
+            "s": list(unumpy.std_devs(ys)),
+            "u": "s",
+        }
         trace["data"] = [xs, ys]
         if "analysis" in detdict:
             trace["peaks"] = {}

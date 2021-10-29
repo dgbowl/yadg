@@ -60,7 +60,7 @@ def process(
     height: float = 1.0,
     distance: float = 5000.0,
     cutoff: float = 0.4,
-    threshold: float = 1e-6
+    threshold: float = 1e-6,
 ) -> tuple[list, dict, dict]:
     """
     VNA reflection trace parser.
@@ -111,7 +111,7 @@ def process(
         len(lines) > 2
     ), f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
     # process header
-    bw = ufloat(10000,1)
+    bw = ufloat(10000, 1)
     avg = 15
     if ";" in lines[0]:
         items = lines.pop(0).split(";")
@@ -124,10 +124,10 @@ def process(
                 common["averaging"] = avg
     # calculate precision of trace
     data["raw"] = {
-        "f": {"n": [], "s": [], "u": "Hz"}, 
+        "f": {"n": [], "s": [], "u": "Hz"},
         "Re(Γ)": {"n": [], "s": [], "u": "-"},
-        "Im(Γ)": {"n": [], "s": [], "u": "-"}, 
-        "abs(Γ)": {"n": [], "s": [], "u": "-"}
+        "Im(Γ)": {"n": [], "s": [], "u": "-"},
+        "abs(Γ)": {"n": [], "s": [], "u": "-"},
     }
     freq = []
     gamma = []
@@ -137,14 +137,14 @@ def process(
     for line in lines:
         f, re, im = line.strip().split()
         f = ufloat_fromstr(f)
-        f.std_dev = max(f.s, bw/avg)
+        f.std_dev = max(f.s, bw / avg)
         re = ufloat_fromstr(re)
         im = ufloat_fromstr(im)
         freq.append(f)
         real.append(re)
         imag.append(im)
         gamma.append(complex(re.n, im.n))
-        absgamma.append(umath.sqrt(re*re + im*im))
+        absgamma.append(umath.sqrt(re * re + im * im))
     freq = np.asarray(freq)
     gamma = np.asarray(gamma)
     real = np.asarray(real)

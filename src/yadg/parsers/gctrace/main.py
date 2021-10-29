@@ -115,8 +115,10 @@ def _baseline_correct(
     baseline = yfloat
     for pair in interpolants:
         npoints = pair[1] - pair[0]
-        interp = np.interp(range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]])
-        baseline[pair[0]:pair[1]] = interp
+        interp = np.interp(
+            range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]]
+        )
+        baseline[pair[0] : pair[1]] = interp
     corrected = yufloat - baseline
     return corrected
 
@@ -238,7 +240,7 @@ def process(
             units = {
                 "x": chrom["traces"][det]["x"]["u"],
                 "y": chrom["traces"][det]["y"]["u"],
-                "A": "-"
+                "A": "-",
             }
             xufloat, yufloat = chrom["traces"][det].pop("data")
             yfloat = unumpy.nominal_values(yufloat)

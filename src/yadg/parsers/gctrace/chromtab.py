@@ -46,14 +46,22 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         parts = line.strip().split(",")
         if len(parts) > 2:
             if '"Date Acquired"' in parts:
-                if tx  != [] and ty != []:
+                if tx != [] and ty != []:
                     tx = np.array(tx)
                     ty = np.array(ty)
                     trace = {
-                        "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
-                        "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+                        "x": {
+                            "n": list(unumpy.nominal_values(tx)),
+                            "s": list(unumpy.std_devs(tx)),
+                            "u": "s",
+                        },
+                        "y": {
+                            "n": list(unumpy.nominal_values(ty)),
+                            "s": list(unumpy.std_devs(ty)),
+                            "u": "-",
+                        },
                         "id": len(chrom["traces"]),
-                        "data": [tx, ty]
+                        "data": [tx, ty],
                     }
                     chrom["traces"][detname] = trace
                     tx = []
@@ -68,14 +76,22 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                 chrom["uts"] = ret.pop("uts")
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:
-            if tx  != [] and ty != []:
+            if tx != [] and ty != []:
                 tx = np.array(tx)
                 ty = np.array(ty)
                 trace = {
-                    "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
-                    "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+                    "x": {
+                        "n": list(unumpy.nominal_values(tx)),
+                        "s": list(unumpy.std_devs(tx)),
+                        "u": "s",
+                    },
+                    "y": {
+                        "n": list(unumpy.nominal_values(ty)),
+                        "s": list(unumpy.std_devs(ty)),
+                        "u": "-",
+                    },
                     "id": len(chrom["traces"]),
-                    "data": [tx, ty]
+                    "data": [tx, ty],
                 }
                 chrom["traces"][detname] = trace
                 tx = []
@@ -83,15 +99,23 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
             detname = parts[0].replace('"', "").split("\\")[-1]
         elif len(parts) == 2:
             x, y = [ufloat_fromstr(i) for i in parts]
-            tx.append(x*60)
+            tx.append(x * 60)
             ty.append(y)
     tx = np.array(tx)
     ty = np.array(ty)
     trace = {
-        "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
-        "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+        "x": {
+            "n": list(unumpy.nominal_values(tx)),
+            "s": list(unumpy.std_devs(tx)),
+            "u": "s",
+        },
+        "y": {
+            "n": list(unumpy.nominal_values(ty)),
+            "s": list(unumpy.std_devs(ty)),
+            "u": "-",
+        },
         "id": len(chrom["traces"]),
-        "data": [tx, ty]
+        "data": [tx, ty],
     }
     chrom["traces"][detname] = trace
     chroms.append(chrom)

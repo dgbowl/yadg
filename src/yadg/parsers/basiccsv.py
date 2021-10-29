@@ -1,6 +1,6 @@
 import logging
 import json
-from uncertainties import ufloat
+from uncertainties import ufloat_fromstr, ufloat
 import yadg.dgutils
 from typing import Callable
 
@@ -31,7 +31,6 @@ def process_row(
     headers: list,
     items: list,
     units: dict,
-    sigma: dict,
     datefunc: Callable,
     datecolumns: list,
     calib: dict = {},
@@ -59,15 +58,6 @@ def process_row(
     datecolumns
         Column indices that need to be passed to ``datefunc`` to generate uts.
 
-    atol
-        Absolute uncertainty for all floating-point values.
-
-    rtol
-        Relative uncertainty for all floating-point values.
-
-    sigma
-        Per-header specification of ``atol`` and ``rtol``.
-
     calib
         Specification for converting raw data in ``headers`` and ``items`` to other
         quantities Arbitrary linear combinations of ``headers`` are possible.
@@ -84,13 +74,11 @@ def process_row(
     ), f"process_row: Length mismatch between provided headers: {headers} and  provided items: {items}."
 
     assert all(
-        [key in sigma for key in headers]
-    ), f"process_row: Not all entries in provided 'headers' are present in provided 'sigma': {headers} vs {sigma.keys()}"
-
-    assert all(
         [key in units for key in headers]
     ), f"process_row: Not all entries in provided 'headers' are present in provided 'units': {headers} vs {units.keys()}"
 
+    raw = dict()
+    der = dict()
     element = {"raw": dict()}
     columns = [column.strip() for column in items]
 
@@ -101,10 +89,10 @@ def process_row(
         if ci in datecolumns:
             continue
         try:
-            val = float(columns[ci])
-            sig = max(abs(val * sigma[header]["rtol"]), sigma[header]["atol"])
+            val = ufloat_fromstr(columns[ci])
             unit = units[header]
-            element["raw"][header] = {"n": val, "s": sig, "u": unit}
+            element["raw"][header] = {"n": val.n, "s": val.s, "u": unit}
+            raw[header] = val
         except ValueError:
             element["raw"][header] = columns[ci]
 
@@ -112,19 +100,11 @@ def process_row(
     for newk, spec in calib.items():
         y = ufloat(0, 0)
         for oldk, v in spec.items():
-            if oldk in element.get("derived", {}):
-                val = element["derived"][oldk]["n"]
-                std = element["derived"][oldk]["s"]
-                dy = yadg.dgutils.calib_handler(
-                    ufloat(val, std), v.get("calib", None)
-                )
+            if oldk in der:
+                dy = yadg.dgutils.calib_handler(der[oldk], v.get("calib", None))
                 y += dy * v.get("fraction", 1.0)
-            elif oldk in headers:
-                val = element["raw"][oldk]["n"]
-                std = element["raw"][oldk]["s"]
-                dy = yadg.dgutils.calib_handler(
-                    ufloat(val, std), v.get("calib", None)
-                )
+            elif oldk in raw:
+                dy = yadg.dgutils.calib_handler(raw[oldk], v.get("calib", None))
                 y += dy * v.get("fraction", 1.0)
             elif oldk == "unit":
                 pass
@@ -135,6 +115,7 @@ def process_row(
         if "derived" not in element:
             element["derived"] = dict()
         element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", "-")}
+        der[newk] = y
     return element
 
 
@@ -143,9 +124,6 @@ def process(
     encoding: str = "utf-8",
     timezone: str = "localtime",
     sep: str = ",",
-    atol: float = 0.0,
-    rtol: float = 0.0,
-    sigma: dict = {},
     units: dict = None,
     timestamp: dict = None,
     convert: dict = None,
@@ -172,17 +150,6 @@ def process(
 
     sep
         Separator to use. Default is "," for csv.
-
-    atol
-        The default absolute uncertainty accross all float values in csv columns.
-        By default set to 0.0.
-
-    rtol
-        The default relative uncertainty accross all float values in csv columns.
-        By default set to 0.0.
-
-    sigma
-        Column-specific ``atol`` and ``rtol`` values can be supplied here.
 
     units
         Column-specific unit specification. If present, even if empty, 2nd line is
@@ -247,15 +214,10 @@ def process(
                 units[header] = "-"
         si = 1
 
-    # Populate tols from sigma, atol, rtol
-    tols = tols_from(headers, sigma, atol, rtol)
-
     # Process rows
     data = []
     for line in lines[si:]:
-        element = process_row(
-            headers, line.split(sep), units, tols, datefunc, datecolumns, calib=calib
-        )
+        element = process_row(headers, line.split(sep), units, datefunc, datecolumns, calib=calib)
         element["fn"] = str(fn)
         data.append(element)
     return data, None, None

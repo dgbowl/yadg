@@ -290,7 +290,7 @@ from utils import (
                         "raw": False,
                     },
                     "N2": {
-                        "sigma":  0.01351715237,
+                        "sigma": 0.01351715237,
                         "value": 30.36065211976,
                         "unit": "ml/min",
                         "raw": False,
@@ -302,7 +302,7 @@ from utils import (
                         "raw": False,
                     },
                     "total": {
-                        "sigma":  0.0323269088,
+                        "sigma": 0.0323269088,
                         "value": 31.9392595515,
                         "unit": "ml/min",
                         "raw": False,

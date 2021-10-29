@@ -7,20 +7,31 @@ def special_datagram_test(datagram, testspec):
     step = datagram["steps"][testspec["step"]]
     tstep = step["data"][testspec["point"]]
     assert (
-        len(tstep["raw"]["f"]) == testspec["tracelen"]
-        and len(tstep["raw"]["Re(Γ)"]) == testspec["tracelen"]
-        and len(tstep["raw"]["Im(Γ)"]) == testspec["tracelen"]
-        and len(tstep["raw"]["abs(Γ)"]) == testspec["tracelen"]
+        len(tstep["raw"]["f"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["Re(Γ)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["Im(Γ)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["abs(Γ)"]["n"]) == testspec["tracelen"]
     ), "length of 'f', 'Re(Γ)', 'Im(Γ)', and 'abs(Γ)' not as prescribed."
-    assert tstep["derived"]["npeaks"] == testspec["npeaks"], "incorrect number of peaks"
-    assert len(tstep["derived"]["Q"]) == testspec["npeaks"], "incorrect number of Qs"
-    assert len(tstep["derived"]["f"]) == testspec["npeaks"], "incorrect number of fs"
-    Q = tstep["derived"]["Q"][testspec["peak"]]["n"]
-    assert Q == pytest.approx(testspec["Q"], abs=1), "wrong Q"
-    f = tstep["derived"]["f"][testspec["peak"]]["n"]
-    assert f == pytest.approx(testspec["f"], abs=10), "wrong f"
-    Q1 = tstep["derived"]["Q"][1]["n"]
-    Q0 = tstep["derived"]["Q"][0]["n"]
+
+    assert (
+        len(tstep["derived"]["Q"]["n"]) == testspec["npeaks"]
+    ), "incorrect number of Qs"
+    assert (
+        len(tstep["derived"]["f"]["n"]) == testspec["npeaks"]
+    ), "incorrect number of fs"
+
+    Qn = tstep["derived"]["Q"]["n"][testspec["peak"]]
+    Qs = tstep["derived"]["Q"]["s"][testspec["peak"]]
+    assert Qn == pytest.approx(testspec["Qn"], abs=1), "wrong Q.n"
+    assert Qs == pytest.approx(testspec["Qs"], abs=1), "wrong Q.s"
+
+    fn = tstep["derived"]["f"]["n"][testspec["peak"]]
+    fs = tstep["derived"]["f"]["s"][testspec["peak"]]
+    assert fn == pytest.approx(testspec["fn"], abs=10), "wrong f.n"
+    assert fs == pytest.approx(testspec["fs"], abs=10), "wrong f.s"
+
+    Q1 = tstep["derived"]["Q"]["n"][1]
+    Q0 = tstep["derived"]["Q"]["n"][0]
     assert 1 / Q1 - 1 / Q0 == pytest.approx(0.00035, abs=0.00005)
 
 
@@ -28,7 +39,7 @@ def special_datagram_test(datagram, testspec):
     "input, ts",
     [
         (
-            {  # ts1 - naive with defaults
+            {  # ts0 - naive with defaults
                 "folders": ["."],
                 "parameters": {"method": "naive"},
             },
@@ -40,12 +51,14 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Q": 2626.506,
-                "f": 7173245000.0,
+                "Qn": 2626.506,
+                "fn": 7173245000.0,
+                "Qs": 1.360,
+                "fs": 1000.0,
             },
         ),
         (
-            {  # ts2 - naive with a tighter threshold
+            {  # ts1 - naive with a tighter threshold
                 "folders": ["."],
                 "parameters": {"method": "naive", "threshold": 1e-7},
             },
@@ -57,12 +70,14 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Q": 2567.343,
-                "f": 7173245000.0,
+                "Qn": 2567.343,
+                "Qs": 1.299,
+                "fn": 7173245000.0,
+                "fs": 1000.0,
             },
         ),
         (
-            {  # ts3 - lorentz with defaults
+            {  # ts2 - lorentz with defaults
                 "folders": ["."],
                 "parameters": {"method": "lorentz"},
             },
@@ -74,12 +89,14 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Q": 3093.853,
-                "f": 7173256009.5,
+                "Qn": 2611.599,
+                "Qs": 67.399,
+                "fn": 7173243292.3,
+                "fs": 68479751.0,
             },
         ),
         (
-            {  # ts4 - kajfez with defaults
+            {  # ts3 - kajfez with defaults
                 "folders": ["."],
                 "parameters": {"method": "kajfez"},
             },
@@ -91,12 +108,14 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Q": 3061.156,
-                "f": 7173122656.1,
+                "Qn": 3061.156,
+                "Qs": 18.477,
+                "fn": 7173122656.1,
+                "fs": 1000.0,
             },
         ),
         (
-            {  # ts5 - kajfez with a higher threshold
+            {  # ts4 - kajfez with a higher cutoff
                 "folders": ["."],
                 "parameters": {"method": "kajfez", "cutoff": 0.5},
             },
@@ -108,8 +127,10 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Q": 3054.886,
-                "f": 7173125153.7,
+                "Qn": 3054.886,
+                "fn": 7173125153.7,
+                "Qs": 19.137,
+                "fs": 1000.0,
             },
         ),
     ],

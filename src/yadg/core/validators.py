@@ -37,7 +37,7 @@ def _general_list(l: list) -> bool:
 
 def _dict_validator(d: dict) -> bool:
     for k, v in d.items():
-        if k in ["n", "s"] and len({"n", "s", "u"}.intersection(d.keys())) == 3 and isinstance(v, float):
+        if k in ["n", "s"] and len({"n", "s", "u"}.intersection(d.keys())) == 3 and isinstance(v, (float, list)):
             continue
         elif isinstance(v, float):
             assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."

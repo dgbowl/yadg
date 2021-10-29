@@ -9,8 +9,7 @@
         "import": {"files": ["case_timestamp.ssv"]},
         "parameters": {
             "sep": ";", 
-            "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
-            "sigma": {"flow": {"rtol": 0.1}}
+            "units": {"flow": "ml/min", "T": "K", "p": "atm"}
         }
     }]
 }

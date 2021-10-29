@@ -11,7 +11,7 @@ from utils import (
     "input, ts",
     [
         (
-            {  # ts1 - units on 2nd line, correct number of rows, correct value
+            {  # ts0 - units on 2nd line, correct number of rows, correct value, sigma from d.p.
                 "case": "case_uts_units.csv"
             },
             {
@@ -19,11 +19,11 @@ from utils import (
                 "step": 0,
                 "nrows": 6,
                 "point": 0,
-                "pars": {"flow": {"sigma": 0.0, "value": 15.0, "unit": "ml/min"}},
+                "pars": {"flow": {"sigma": 0.1, "value": 15.0, "unit": "ml/min"}},
             },
         ),
         (
-            {  # ts2 - timestamp from uts and index
+            {  # ts1 - timestamp from uts and index
                 "case": "case_uts_units.csv",
                 "parameters": {"timestamp": {"uts": {"index": 0}}},
             },
@@ -36,12 +36,11 @@ from utils import (
             },
         ),
         (
-            {  # ts3 - semicolon separator, rtol for flow, but not for T
+            {  # ts2 - semicolon separator, sigmas from decimal places
                 "case": "case_timestamp.ssv",
                 "parameters": {
                     "sep": ";",
                     "units": {"flow": "ml/min", "T": "K", "p": "atm"},
-                    "sigma": {"flow": {"rtol": 0.1}},
                 },
             },
             {
@@ -50,13 +49,14 @@ from utils import (
                 "nrows": 7,
                 "point": 0,
                 "pars": {
-                    "flow": {"sigma": 1.5, "value": 15.0, "unit": "ml/min"},
-                    "T": {"sigma": 0.0, "value": 23.1, "unit": "K"},
+                    "flow": {"sigma": 0.1, "value": 15.0, "unit": "ml/min"},
+                    "T": {"sigma": 0.1, "value": 23.1, "unit": "K"},
+                    "p": {"sigma": 0.0001, "value": 1.0001, "unit": "atm"},
                 },
             },
         ),
         (
-            {  # ts4 - semicolon separator, timestamp from timestamp and index
+            {  # ts3 - semicolon separator, timestamp from timestamp and index
                 "case": "case_timestamp.ssv",
                 "parameters": {
                     "sep": ";",
@@ -73,14 +73,13 @@ from utils import (
             },
         ),
         (
-            {  # ts5 - tab separator, sigma for T from atol
+            {  # ts4 - tab separator
                 "case": "case_custom_ts.tsv",
                 "parameters": {
                     "sep": "\t",
                     "timestamp": {
                         "timestamp": {"index": 1, "format": "%d.%m.%Y %I:%M:%S%p"}
                     },
-                    "sigma": {"T": {"atol": 0.05}},
                 },
             },
             {
@@ -88,11 +87,11 @@ from utils import (
                 "step": 0,
                 "nrows": 5,
                 "point": 3,
-                "pars": {"T": {"value": 351.2, "sigma": 0.05, "unit": "K"}},
+                "pars": {"T": {"value": 351.2, "sigma": 0.1, "unit": "K"}},
             },
         ),
         (
-            {  # ts6 - tab separator, timestamp from timestamp, format, index
+            {  # ts5 - tab separator, timestamp from timestamp, format, index
                 "case": "case_custom_ts.tsv",
                 "parameters": {
                     "sep": "\t",
@@ -110,7 +109,7 @@ from utils import (
             },
         ),
         (
-            {  # ts7 - tab separator, timestamp from timestamp, format, index
+            {  # ts6 - tab separator, timestamp from timestamp, format, index
                 "case": "case_custom_ts.tsv",
                 "parameters": {
                     "sep": "\t",
@@ -128,7 +127,7 @@ from utils import (
             },
         ),
         (
-            {  # ts8 - tab separator, timestamp from timestamp, format, index
+            {  # ts7 - tab separator, timestamp from timestamp, format, index
                 "case": "case_custom_ts.tsv",
                 "parameters": {
                     "sep": "\t",
@@ -146,7 +145,7 @@ from utils import (
             },
         ),
         (
-            {  # ts9 - tab separator, timestamp from iso date and iso time
+            {  # ts8 - tab separator, timestamp from iso date and iso time
                 "case": "case_date_time_iso.csv",
                 "parameters": {
                     "timestamp": {"date": {"index": 0}, "time": {"index": 1}}
@@ -161,7 +160,7 @@ from utils import (
             },
         ),
         (
-            {  # ts10 - timestamp from time with custom format only
+            {  # ts9 - timestamp from time with custom format only
                 "case": "case_time_custom.csv",
                 "parameters": {
                     "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
@@ -176,7 +175,7 @@ from utils import (
             },
         ),
         (
-            {  # ts11 - timestamp from time with custom format only
+            {  # ts10 - timestamp from time with custom format only
                 "case": "case_time_custom.csv",
                 "parameters": {
                     "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
@@ -191,7 +190,7 @@ from utils import (
             },
         ),
         (
-            {  # ts12 - convert functionality test
+            {  # ts11 - convert functionality test
                 "case": "case_timestamp.ssv",
                 "parameters": {
                     "sep": ";",
@@ -213,7 +212,7 @@ from utils import (
                 "point": 0,
                 "pars": {
                     "flow": {
-                        "sigma": 0.0,
+                        "sigma": 1.0,
                         "value": 15.0,
                         "unit": "ml/min",
                         "raw": True,
@@ -228,10 +227,9 @@ from utils import (
             },
         ),
         (
-            {  # ts13 - convert functionality with intercept only and both global and calib sigma
+            {  # ts12 - convert functionality with intercept only and both global and calib sigma
                 "case": "case_uts_units.csv",
                 "parameters": {
-                    "atol": 0.1,
                     "convert": {
                         "T": {
                             "T": {
@@ -254,9 +252,9 @@ from utils import (
             },
         ),
         (
-            {  # ts14 - calfile functionality
+            {  # ts13 - calfile functionality
                 "case": "case_uts_units.csv",
-                "parameters": {"atol": 0.1, "calfile": "calib.json"},
+                "parameters": {"calfile": "calib.json"},
             },
             {
                 "nsteps": 1,
@@ -265,6 +263,50 @@ from utils import (
                 "point": 0,
                 "pars": {
                     "T": {"sigma": 0.1, "value": 296.25, "unit": "K", "raw": False}
+                },
+            },
+        ),
+        (
+            {  # ts14 - calfile functionality with fractions and total
+                "case": "measurement.csv",
+                "parameters": {
+                    "sep": ";",
+                    "timestamp": {
+                        "timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}
+                    },
+                    "calfile": "tfcal.json",
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1662,
+                "point": 0,
+                "pars": {
+                    "C3H8": {
+                        "sigma": 0.002,
+                        "value": 0.000,
+                        "unit": "ml/min",
+                        "raw": False,
+                    },
+                    "N2": {
+                        "sigma": 0.01351715237,
+                        "value": 30.36065211976,
+                        "unit": "ml/min",
+                        "raw": False,
+                    },
+                    "O2": {
+                        "sigma": 0.01092061507,
+                        "value": 1.57860743175,
+                        "unit": "ml/min",
+                        "raw": False,
+                    },
+                    "total": {
+                        "sigma": 0.0323269088,
+                        "value": 31.9392595515,
+                        "unit": "ml/min",
+                        "raw": False,
+                    },
                 },
             },
         ),
@@ -283,73 +325,29 @@ from utils import (
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 1662,
-                "point": 0,
-                "pars": {
-                    "C3H8": {
-                        "sigma": 0.0,
-                        "value": 0.0,
-                        "unit": "ml/min",
-                        "raw": False,
-                    },
-                    "N2": {
-                        "sigma": 0.0,
-                        "value": 30.361,
-                        "unit": "ml/min",
-                        "raw": False,
-                    },
-                    "O2": {
-                        "sigma": 0.0,
-                        "value": 1.579,
-                        "unit": "ml/min",
-                        "raw": False,
-                    },
-                    "total": {
-                        "sigma": 0.030,
-                        "value": 31.940,
-                        "unit": "ml/min",
-                        "raw": False,
-                    },
-                },
-            },
-        ),
-        (
-            {  # ts16 - calfile functionality with fractions and total
-                "case": "measurement.csv",
-                "parameters": {
-                    "sep": ";",
-                    "timestamp": {
-                        "timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}
-                    },
-                    "calfile": "tfcal.json",
-                },
-            },
-            {
-                "nsteps": 1,
-                "step": 0,
-                "nrows": 1662,
                 "point": 100,
                 "pars": {
                     "C3H8": {
-                        "sigma": 0.0,
-                        "value": 1.204,
+                        "sigma": 0.00157299296,
+                        "value": 1.20450873872,
                         "unit": "ml/min",
                         "raw": False,
                     },
                     "N2": {
-                        "sigma": 0.0,
-                        "value": 35.146,
+                        "sigma": 0.01258182490,
+                        "value": 35.1460003698,
                         "unit": "ml/min",
                         "raw": False,
                     },
                     "O2": {
-                        "sigma": 0.0,
-                        "value": 3.577,
+                        "sigma": 0.01092061507,
+                        "value": 3.57707998956,
                         "unit": "ml/min",
                         "raw": False,
                     },
                     "total": {
-                        "sigma": 0.035,
-                        "value": 39.927,
+                        "sigma": 0.03683714813,
+                        "value": 39.9275890981,
                         "unit": "ml/min",
                         "raw": False,
                     },

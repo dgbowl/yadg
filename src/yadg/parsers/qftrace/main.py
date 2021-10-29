@@ -1,7 +1,7 @@
 import os
 import logging
 from scipy.signal import find_peaks
-from uncertainties import ufloat, unumpy
+from uncertainties import ufloat, ufloat_fromstr, unumpy, umath
 import numpy as np
 
 import yadg.dgutils
@@ -19,12 +19,12 @@ def _fit(
     distance: float,
     cutoff: float,
     threshold: float,
-) -> tuple[int, list, list]:
+) -> tuple[dict]:
     """
     Function that fits Q and f from Γ(f).
     """
-    Qs = []
-    fs = []
+    Qs = {"n": [], "s": [], "u": "-"}
+    fs = {"n": [], "s": [], "u": "Hz"}
     mag = -10 * unumpy.log10(absgamma)
     peaks, _ = find_peaks([i.n for i in mag], height=height, distance=distance)
     assert len(peaks) > 0, logging.error("qftrace: No peaks were found.")
@@ -44,9 +44,11 @@ def _fit(
     for p in peaks:
         pf, pg, pag = _prune(p, freq, gamma, absgamma, _ppar)
         Q, f = _fitq(pf, pg, pag)
-        Qs.append({"n": Q.n, "s": Q.s, "u": "-"})
-        fs.append({"n": f.n, "s": f.s, "u": "Hz"})
-    assert len(Qs) == npeaks and len(fs) == npeaks
+        Qs["n"].append(Q.n)
+        Qs["s"].append(Q.s)
+        fs["n"].append(f.n)
+        fs["s"].append(f.s)
+    assert len(Qs["n"]) == npeaks and len(fs["n"]) == npeaks
     return Qs, fs
 
 
@@ -54,15 +56,11 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "timezone",
-    atol: float = 0.0,
-    rtol: float = 5e-7,
-    sigma: dict = {},
     method: str = "kajfez",
     height: float = 1.0,
     distance: float = 5000.0,
     cutoff: float = 0.4,
     threshold: float = 1e-6,
-    **kwargs,
 ) -> tuple[list, dict, dict]:
     """
     VNA reflection trace parser.
@@ -79,15 +77,6 @@ def process(
 
     timezone
         A string description of the timezone. Default is "localtime".
-
-    atol
-        Default absolute uncertainty in f and Re(Γ) / Im(Γ). By default set to 0.0
-
-    rtol
-        Default relative uncertainty in f and Re(Γ) / Im(Γ). By default set to 5e-7, as significant digits are printed in the standard output.
-
-    sigma
-        Property-specific `atol` and `rtol` can be supplied here.
 
     method
         Method for fitting Q and f to Γ(f) data. One of ``"naive"``, ``"lorentz"``, or ``"kajfez"``. Default is ``"kajfez"``.
@@ -122,37 +111,54 @@ def process(
         len(lines) > 2
     ), f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
     # process header
+    bw = ufloat(10000, 1)
+    avg = 15
     if ";" in lines[0]:
         items = lines.pop(0).split(";")
         for item in items:
             if item.startswith("BW"):
-                common["bandwith"] = [float(item.split("=")[-1].strip()), 0.5, "Hz"]
+                bw = ufloat_fromstr(item.split("=")[-1].strip())
+                common["bandwith"] = {"n": bw.n, "s": bw.s, "u": "Hz"}
             if item.startswith("AVG"):
-                common["averaging"] = int(item.split("=")[-1].strip())
+                avg = int(item.split("=")[-1].strip())
+                common["averaging"] = avg
     # calculate precision of trace
-    _tols = {"atol": atol, "rtol": rtol}
-    data["raw"] = {"f": [], "Re(Γ)": [], "Im(Γ)": [], "abs(Γ)": []}
+    data["raw"] = {
+        "f": {"n": [], "s": [], "u": "Hz"},
+        "Re(Γ)": {"n": [], "s": [], "u": "-"},
+        "Im(Γ)": {"n": [], "s": [], "u": "-"},
+        "abs(Γ)": {"n": [], "s": [], "u": "-"},
+    }
     freq = []
     gamma = []
+    real = []
+    imag = []
     absgamma = []
     for line in lines:
-        f, r, i = line.strip().split()
-        f = float(f)
-        ftol = max(
-            sigma.get("f", _tols)["atol"], abs(f * sigma.get("f", _tols)["rtol"])
-        )
-        freq.append(ufloat(f, ftol))
-        c = complex(float(r), float(i))
-        gamma.append(c)
-        ctol = max(
-            sigma.get("Γ", _tols)["atol"], abs(c * sigma.get("Γ", _tols)["rtol"])
-        )
-        absgamma.append(ufloat(abs(c), abs(complex(ctol, ctol))))
+        f, re, im = line.strip().split()
+        f = ufloat_fromstr(f)
+        f.std_dev = max(f.s, bw / avg)
+        re = ufloat_fromstr(re)
+        im = ufloat_fromstr(im)
+        freq.append(f)
+        real.append(re)
+        imag.append(im)
+        gamma.append(complex(re.n, im.n))
+        absgamma.append(umath.sqrt(re * re + im * im))
+    freq = np.asarray(freq)
+    gamma = np.asarray(gamma)
+    real = np.asarray(real)
+    imag = np.asarray(imag)
+    absgamma = np.asarray(absgamma)
 
-        data["raw"]["f"].append({"n": f, "s": ftol, "u": "Hz"})
-        data["raw"]["Re(Γ)"].append({"n": float(r), "s": ctol, "u": "-"})
-        data["raw"]["Im(Γ)"].append({"n": float(i), "s": ctol, "u": "-"})
-        data["raw"]["abs(Γ)"].append({"n": abs(c), "s": ctol, "u": "-"})
+    data["raw"]["f"]["n"] = unumpy.nominal_values(freq).tolist()
+    data["raw"]["f"]["s"] = unumpy.std_devs(freq).tolist()
+    data["raw"]["Re(Γ)"]["n"] = unumpy.nominal_values(real).tolist()
+    data["raw"]["Re(Γ)"]["s"] = unumpy.std_devs(real).tolist()
+    data["raw"]["Im(Γ)"]["n"] = unumpy.nominal_values(imag).tolist()
+    data["raw"]["Im(Γ)"]["s"] = unumpy.std_devs(imag).tolist()
+    data["raw"]["abs(Γ)"]["n"] = unumpy.nominal_values(absgamma).tolist()
+    data["raw"]["abs(Γ)"]["s"] = unumpy.std_devs(absgamma).tolist()
     common["height"] = height
     common["distance"] = distance
     common["method"] = method
@@ -161,14 +167,14 @@ def process(
     else:
         common["threshold"] = threshold
     Q, f = _fit(
-        np.asarray(freq),
-        np.asarray(gamma),
-        np.asarray(absgamma),
+        freq,
+        gamma,
+        absgamma,
         method,
         height,
         distance,
         cutoff,
         threshold,
     )
-    data["derived"] = {"Q": Q, "f": f, "npeaks": len(Q)}
+    data["derived"] = {"Q": Q, "f": f}
     return [data], None, common

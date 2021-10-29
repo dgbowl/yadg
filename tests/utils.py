@@ -68,11 +68,12 @@ def pars_datagram_test(datagram, testspec):
             assert (
                 len(tstep[rd][tk].keys()) == 3
             ), "value not in [val, dev, unit] format"
+            print(tstep[rd][tk], tv["value"], tv["sigma"])
             assert tstep[rd][tk]["n"] == pytest.approx(
-                tv["value"], abs=0.001
+                tv["value"], abs=1e-6
             ), "wrong val"
             assert tstep[rd][tk]["s"] == pytest.approx(
-                tv["sigma"], rel=0.1
+                tv["sigma"], abs=1e-6
             ), "wrong dev"
             assert tstep[rd][tk]["u"] == tv["unit"], "wrong unit"
         else:

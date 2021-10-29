@@ -11,7 +11,7 @@ from utils import (
     "input, ts",
     [
         (
-            {  # ts1 - rtf parser, supplied date
+            {  # ts0 - rtf parser, supplied date
                 "case": "Cp_100mA_1mindelay.rtf",
                 "parameters": {"date": "2021-09-17"},
             },
@@ -20,11 +20,11 @@ from utils import (
                 "step": 0,
                 "nrows": 110,
                 "point": 0,
-                "pars": {"Temp": {"sigma": 0.0, "value": 27.4, "unit": "Deg C"}},
+                "pars": {"Temp": {"sigma": 0.1, "value": 27.4, "unit": "Deg C"}},
             },
         ),
         (
-            {  # ts2 - default sep parser, date from fn
+            {  # ts1 - default sep parser, date from fn
                 "case": "20211011_DryCal_out.csv"
             },
             {
@@ -32,24 +32,24 @@ from utils import (
                 "step": 0,
                 "nrows": 29,
                 "point": 0,
-                "pars": {"Temp": {"sigma": 0.0, "value": 24.3, "unit": "Deg C"}},
+                "pars": {"Temp": {"sigma": 0.1, "value": 24.3, "unit": "Deg C"}},
             },
         ),
         (
-            {  # ts3 - default sep parser, date from fn, atol
+            {  # ts2 - default sep parser, date from fn, sigma from length
                 "case": "2021-10-11_DryCal_out.txt",
-                "parameters": {"atol": 0.5},
+                "parameters": {},
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 29,
                 "point": 28,
-                "pars": {"Pressure": {"sigma": 0.5, "value": 971.0, "unit": "mBar"}},
+                "pars": {"Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mBar"}},
             },
         ),
         (
-            {  # ts4 - default sep parser, date from fn, calfile parser
+            {  # ts3 - default sep parser, date from fn, calfile parser
                 "case": "2021-10-11_DryCal_out.txt",
                 "parameters": {"calfile": "drycal.json"},
             },

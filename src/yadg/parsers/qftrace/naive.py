@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
+from uncertainties import ufloat
 
 
 def fit(freq, gamma, absgamma, **kwargs):
@@ -18,4 +19,4 @@ def fit(freq, gamma, absgamma, **kwargs):
         0.5, [i.n for i in absgamma[ai:][::-1]], [i.n for i in freq[ai:][::-1]]
     )
     f0 = freq[ai]
-    return f0 / (rf - lf), f0
+    return f0 / (ufloat(rf, f0.s) - ufloat(lf, f0.s)), f0

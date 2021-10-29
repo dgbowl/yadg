@@ -37,7 +37,11 @@ def _general_list(l: list) -> bool:
 
 def _dict_validator(d: dict) -> bool:
     for k, v in d.items():
-        if k in ["n", "s"] and len({"n", "s", "u"}.intersection(d.keys())) == 3 and isinstance(v, float):
+        if (
+            k in ["n", "s"]
+            and len({"n", "s", "u"}.intersection(d.keys())) == 3
+            and isinstance(v, (float, list))
+        ):
             continue
         elif isinstance(v, float):
             assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."
@@ -242,14 +246,14 @@ def validate_datagram(datagram: dict) -> True:
       Unix Timestamp format in ``"uts"`` :class:`(float)` entry; the original filename
       in ``"fn"`` :class:`(str)` entry. The raw data present in this original filename
       is stored as sub-entries within the ``"raw"`` :class:`(dict)` entry. Any derived
-      data, such as that obtained via calibration, integration, or fitting, has to be 
+      data, such as that obtained via calibration, integration, or fitting, has to be
       stored in the ``"derived"`` :class:`(dict)`.
 
     .. note::
         A floating-point entry should always have its standard deviation specified.
         Internal processing of this data is always carried out using the :class:`(ufloat)`
         type, which ought to be exported as a ``{"n": value, "s": std_dev, "u": "-"}`` keypair.
-    
+
     .. note::
         Most numerical data should have associated units. The validator expects all
         floating-point entries to be in a ``{"n": value, "s": std_dev}`` format for
@@ -270,7 +274,9 @@ def validate_datagram(datagram: dict) -> True:
     assert validator(datagram, yadg.core.spec_datagram.datagram)
     # validate each step in the datagram
     for step in datagram["steps"]:
-        assert all(["fn" in ts for ts in step["data"]]), "The 'fn' entry has to be provided in each timestep."
+        assert all(
+            ["fn" in ts for ts in step["data"]]
+        ), "The 'fn' entry has to be provided in each timestep."
         for ts in step["data"]:
             assert _dict_validator(ts)
     return True

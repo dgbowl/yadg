@@ -2,7 +2,7 @@ import json
 from scipy.signal import find_peaks, savgol_filter
 import numpy as np
 import logging
-from uncertainties import ufloat, UFloat
+from uncertainties import ufloat, UFloat, unumpy
 
 from yadg.parsers.gctrace import datasc, chromtab, fusion
 import yadg.dgutils
@@ -10,7 +10,7 @@ import yadg.dgutils
 version = "1.0.dev1"
 
 
-def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
+def _find_peak_maxima(yseries: np.ndarray, peakdetect: dict) -> dict:
     """
     Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter. Returns the peak maxima, minima, and zero-points of the smoothened gradient and Hessian.
     """
@@ -41,7 +41,7 @@ def _find_peak_maxima(yseries: list[float], peakdetect: dict) -> dict:
     return smooth, peaks
 
 
-def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
+def _find_peak_edges(ys: np.ndarray, peakdata: dict, detector: dict) -> dict:
     """
     A function that, given the y-values of a trace in `ys` and the maxima, inflection points etc. in `peakdata`, and the peak integration `"threshold"` in `detector`, finds the edges `"llim"` and `"rlim"` of each peak.
     """
@@ -98,8 +98,8 @@ def _find_peak_edges(ys: list[float], peakdata: dict, detector: dict) -> dict:
 
 
 def _baseline_correct(
-    yfloat: list[float], yufloat: list[UFloat], peakdata: dict
-) -> list[UFloat]:
+    yfloat: np.ndarray, yufloat: np.ndarray, peakdata: dict
+) -> np.ndarray:
     """
     Function that corrects the trace defined by [`xs`, `ys`], using a baseline created from the linear interpolation between the `"llim"` and `"rlim"` of each `peak` in `peakdata`. Returns the corrected baseline.
     """
@@ -115,20 +115,18 @@ def _baseline_correct(
     baseline = yfloat
     for pair in interpolants:
         npoints = pair[1] - pair[0]
-        interp = list(
-            np.interp(
-                range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]]
-            )
+        interp = np.interp(
+            range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]]
         )
-        baseline = baseline[: pair[0]] + interp + baseline[pair[1] :]
-    corrected = [yufloat[i] - baseline[i] for i in range(len(yufloat))]
+        baseline[pair[0] : pair[1]] = interp
+    corrected = yufloat - baseline
     return corrected
 
 
 def _integrate_peaks(
-    xs: list[UFloat],
-    yfloat: list[float],
-    yufloat: list[UFloat],
+    xs: np.ndarray,
+    yfloat: np.ndarray,
+    yufloat: np.ndarray,
     peakdata: dict,
     specdata: dict,
 ) -> dict:
@@ -143,10 +141,7 @@ def _integrate_peaks(
                 break
     ys = _baseline_correct(yfloat, yufloat, peakdata)
     for k, v in truepeaks.items():
-        A = np.trapz(
-            [i for i in ys[v["llim"] : v["rlim"] + 1]],
-            [i for i in xs[v["llim"] : v["rlim"] + 1]],
-        )
+        A = np.trapz(ys[v["llim"] : v["rlim"] + 1], xs[v["llim"] : v["rlim"] + 1])
         truepeaks[k]["A"] = A
         truepeaks[k]["h"] = yufloat[v["max"]]
     return truepeaks
@@ -189,8 +184,6 @@ def process(
     detectors: dict = None,
     species: dict = None,
     calfile: str = None,
-    atol: float = 0.0,
-    rtol: float = 0.0,
 ) -> tuple[list, dict, dict]:
     """
     GC chromatogram parser.
@@ -220,12 +213,6 @@ def process(
     calfile
         Path to a json file containing the `detectors` and `species` spec. Either `calfile` and/or `species` and `detectors` have to be provided.
 
-    atol
-        The default absolute uncertainty used for the [x, y] values in the trace. By default set to 0.0.
-
-    rtol
-        The default relative uncertainty used for the [x, y] values in the trace. By default set to 0.0.
-
     Returns
     -------
     (data, metadata, common) : tuple[list, dict, None]
@@ -236,14 +223,13 @@ def process(
     ), "gctrace: Neither 'calfile' nor 'species' and 'detectors' were provided. Fit cannot proceed."
     gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, encoding, timezone, atol, rtol)
+        _data, _meta, _common = datasc.process(fn, encoding, timezone)
     elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, encoding, timezone, atol, rtol)
+        _data, _meta, _common = chromtab.process(fn, encoding, timezone)
     elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, encoding, timezone, atol, rtol)
+        _data, _meta, _common = fusion.process(fn, encoding, timezone)
     results = []
     for chrom in _data:
-        result = {"uts": chrom.pop("uts"), "fn": chrom.pop("fn"), "raw": chrom}
         peaks = {}
         comp = []
         for detname, spec in gcspec.items():
@@ -252,13 +238,12 @@ def process(
                     chrom["traces"][det]["calname"] = detname
                     break
             units = {
-                "x": chrom["traces"][det]["x"][0]["u"],
-                "y": chrom["traces"][det]["y"][0]["u"],
-                "A": "-"
+                "x": chrom["traces"][det]["x"]["u"],
+                "y": chrom["traces"][det]["y"]["u"],
+                "A": "-",
             }
-            yfloat = [i["n"] for i in chrom["traces"][det]["y"]]
-            xufloat = [ufloat(i["n"], i["s"]) for i in chrom["traces"][det]["x"]]
-            yufloat = [ufloat(i["n"], i["s"]) for i in chrom["traces"][det]["y"]]
+            xufloat, yufloat = chrom["traces"][det].pop("data")
+            yfloat = unumpy.nominal_values(yufloat)
             smooth, peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
             peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
             integrated = _integrate_peaks(
@@ -297,6 +282,8 @@ def process(
         for s in xout:
             xnorm = ufloat(*xout[s]) / norm
             xout[s] = [xnorm.n, xnorm.s, "-"]
+        result = {"uts": chrom.pop("uts"), "fn": chrom.pop("fn")}
+        result["raw"] = chrom
         result["derived"] = {"peaks": peaks, "xout": xout}
         assert result["fn"] == fn
         results.append(result)

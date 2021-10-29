@@ -1,4 +1,4 @@
-from uncertainties import ufloat
+from uncertainties import ufloat, unumpy
 import numpy as np
 from scipy.optimize import curve_fit
 
@@ -15,9 +15,9 @@ def fit(freq, gamma, absgamma, **kwargs):
     """
     popt, pcov = curve_fit(
         _lorentz,
-        [i.n for i in freq],
-        [i.n for i in absgamma],
-        sigma=[i.s for i in absgamma],
+        unumpy.nominal_values(freq),
+        unumpy.nominal_values(absgamma),
+        sigma=unumpy.std_devs(absgamma),
         absolute_sigma=True,
         p0=[-0.5, freq[np.argmin(absgamma)].n, 1e5, 1],
     )

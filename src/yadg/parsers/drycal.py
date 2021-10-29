@@ -12,9 +12,6 @@ def drycal_rtf(
     fn: str,
     date: float,
     encoding: str = "utf-8",
-    atol: float = 0.0,
-    rtol: float = 0.0,
-    sigma: dict = {},
     timezone: str = "localtime",
     calib: dict = {},
 ) -> tuple[list, dict, None]:
@@ -35,15 +32,6 @@ def drycal_rtf(
 
     encoding
         Encoding to use for parsing ``fn``.
-
-    atol
-        Absolute error accross all fields in the data. By default 0.0.
-
-    rtol
-        Relative error accross all fields in the data. By default 0.0.
-
-    sigma
-        A dictionary specifying per-column ``atol`` and ``rtol``.
 
     calib
         A calibration spec.
@@ -86,14 +74,10 @@ def drycal_rtf(
         spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
     )
 
-    tols = tols_from(headers[1:], sigma, atol, rtol)
-
     # Correct each ts by provided date
     timesteps = []
-    for row in data:
-        ts = process_row(
-            headers[1:], row[1:], units, tols, datefunc, datecolumns, calib=calib
-        )
+    for r in data:
+        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
         ts["uts"] += date
         ts["fn"] = fn
         timesteps.append(ts)
@@ -106,9 +90,6 @@ def drycal_sep(
     date: float,
     sep: str,
     encoding: str = "utf-8",
-    atol: float = 0.0,
-    rtol: float = 0.0,
-    sigma: dict = {},
     timezone: str = "localtime",
     calib: dict = {},
 ) -> tuple[list, dict, None]:
@@ -176,15 +157,10 @@ def drycal_sep(
         spec={"time": {"index": 4, "format": "%H:%M:%S"}}, timezone=timezone
     )
 
-    # fill in
-    tols = tols_from(headers[1:], sigma, atol, rtol)
-
     # Correct each ts by provided date
     timesteps = list()
-    for row in data:
-        ts = process_row(
-            headers[1:], row[1:], units, tols, datefunc, datecolumns, calib=calib
-        )
+    for r in data:
+        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
         ts["uts"] += date
         ts["fn"] = str(fn)
         timesteps.append(ts)
@@ -247,9 +223,6 @@ def process(
     encoding: str = "utf-8",
     timezone: str = "localtime",
     filetype: str = None,
-    atol: float = 0.0,
-    rtol: float = 0.0,
-    sigma: dict = {},
     convert: dict = None,
     calfile: str = None,
     date: str = None,
@@ -278,14 +251,6 @@ def process(
 
     sep
         Separator to use. Default is "," for csv.
-
-    atol
-        The default absolute uncertainty accross all float values in csv columns.
-        By default set to 0.0.
-
-    rtol
-        The default relative uncertainty accross all float values in csv columns.
-        By default set to 0.0.
 
     sigma
         Column-specific ``atol`` and ``rtol`` values can be supplied here.
@@ -331,9 +296,6 @@ def process(
 
     metadata = {}
     kwargs = {
-        "atol": atol,
-        "rtol": rtol,
-        "sigma": sigma,
         "calib": calib,
         "encoding": encoding,
         "timezone": timezone,

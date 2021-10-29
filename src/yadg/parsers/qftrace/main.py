@@ -131,27 +131,34 @@ def process(
     }
     freq = []
     gamma = []
+    real = []
+    imag = []
     absgamma = []
     for line in lines:
         f, re, im = line.strip().split()
         f = ufloat_fromstr(f)
-        f.set_std_dev(max(f.s, bw/avg))
+        f.std_dev = max(f.s, bw/avg)
         re = ufloat_fromstr(re)
         im = ufloat_fromstr(im)
-        c = complex(re.n, im.n)
-        absc = umath.sqrt(re*re + im*im)
         freq.append(f)
-        gamma.append(c)
-        absgamma.append(absc)
+        real.append(re)
+        imag.append(im)
+        gamma.append(complex(re.n, im.n))
+        absgamma.append(umath.sqrt(re*re + im*im))
+    freq = np.asarray(freq)
+    gamma = np.asarray(gamma)
+    real = np.asarray(real)
+    imag = np.asarray(imag)
+    absgamma = np.asarray(absgamma)
 
-        data["raw"]["f"]["n"].append(f.n)
-        data["raw"]["f"]["s"].append(f.s)
-        data["raw"]["Re(Γ)"]["n"].append(re.n)
-        data["raw"]["Re(Γ)"]["s"].append(re.s)
-        data["raw"]["Im(Γ)"]["n"].append(im.n)
-        data["raw"]["Im(Γ)"]["s"].append(im.s)
-        data["raw"]["abs(Γ)"]["n"].append(absc.n)
-        data["raw"]["abs(Γ)"]["s"].append(absc.s)
+    data["raw"]["f"]["n"] = unumpy.nominal_values(freq).tolist()
+    data["raw"]["f"]["s"] = unumpy.std_devs(freq).tolist()
+    data["raw"]["Re(Γ)"]["n"] = unumpy.nominal_values(real).tolist()
+    data["raw"]["Re(Γ)"]["s"] = unumpy.std_devs(real).tolist()
+    data["raw"]["Im(Γ)"]["n"] = unumpy.nominal_values(imag).tolist()
+    data["raw"]["Im(Γ)"]["s"] = unumpy.std_devs(imag).tolist()
+    data["raw"]["abs(Γ)"]["n"] = unumpy.nominal_values(absgamma).tolist()
+    data["raw"]["abs(Γ)"]["s"] = unumpy.std_devs(absgamma).tolist()
     common["height"] = height
     common["distance"] = distance
     common["method"] = method
@@ -160,9 +167,9 @@ def process(
     else:
         common["threshold"] = threshold
     Q, f = _fit(
-        np.asarray(freq),
-        np.asarray(gamma),
-        np.asarray(absgamma),
+        freq,
+        gamma,
+        absgamma,
         method,
         height,
         distance,

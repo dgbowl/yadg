@@ -10,7 +10,6 @@
         "parameters": {
             "sep": ";", 
             "units": {"flow": "ml/min", "T": "K", "p": "atm"}, 
-            "sigma": {"flow": {"rtol": 0.1}},
             "timestamp": {"timestamp": {"index": 0}}
         }
     }]

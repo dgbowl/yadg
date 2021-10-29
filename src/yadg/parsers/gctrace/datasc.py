@@ -1,10 +1,11 @@
 import logging
+import numpy as np
+from uncertainties import ufloat_fromstr, ufloat, unumpy
+
 import yadg.dgutils
 
 
-def process(
-    fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0
-) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
     EZ-Chrome export parser.
 
@@ -70,14 +71,23 @@ def process(
             xunits[ti] == "Minutes"
         ), f"datasc: X units label of trace {ti} in {fn} was not understood."
         dt = 60
-        xs = [i * xmuls[ti] * dt / samplerates[ti] for i in range(npoints[ti])]
-        xtol = max(atol, 0.5 * xmuls[ti] * dt / samplerates[ti], rtol * max(xs))
-        ys = [float(i.strip()) * ymuls[ti] for i in lines[si : si + npoints[ti]]]
-        ytol = max(atol, rtol * max(ys), ymuls[ti])
+        xmul = xmuls[ti] * dt / samplerates[ti]
+        ymul = ymuls[ti]
+        xs = unumpy.uarray(np.arange(npoints[ti]), np.ones(npoints[ti]) * 0.5) * xmul
+        ys = np.array([ufloat_fromstr(i.strip()) for i in lines[si : si + npoints[ti]]]) * ymul
         chrom["traces"][f"{ti}"] = {
-                "x": [{"n": x, "s": xtol, "u": "s"} for x in xs],
-                "y": [{"n": y, "s": ytol, "u": yunits[ti]} for y in ys],
-                "id": ti
+            "x": {
+                "n": list(unumpy.nominal_values(xs)), 
+                "s": list(unumpy.std_devs(xs)), 
+                "u": "s"
+            },
+            "y": {
+                "n": list(unumpy.nominal_values(ys)),
+                "s": list(unumpy.std_devs(ys)),
+                "u": yunits[ti]
+            },
+            "id": ti,
+            "data": [xs, ys]
         }
         si += npoints[ti]
     return [chrom], metadata, common

@@ -1,4 +1,7 @@
 import logging
+from uncertainties import ufloat_fromstr, unumpy
+import numpy as np
+
 import yadg.dgutils
 
 
@@ -23,9 +26,7 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     return res
 
 
-def process(
-    fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0
-) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
     MassHunter Chromtab format.
 
@@ -38,15 +39,25 @@ def process(
     common = {}
     chroms = []
     chrom = {"fn": str(fn), "traces": {}}
-    trace = {"x": [], "y": []}
+    tx = []
+    ty = []
     for li in range(len(lines)):
         line = lines[li].strip()
         parts = line.strip().split(",")
         if len(parts) > 2:
             if '"Date Acquired"' in parts:
-                if trace != {"x": [], "y": []}:
+                if tx  != [] and ty != []:
+                    tx = np.array(tx)
+                    ty = np.array(ty)
+                    trace = {
+                        "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
+                        "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+                        "id": len(chrom["traces"]),
+                        "data": [tx, ty]
+                    }
                     chrom["traces"][detname] = trace
-                    trace = {"x": [], "y": []}
+                    tx = []
+                    ty = []
                 if chrom != {"fn": fn, "traces": {}}:
                     chroms.append(chrom)
                     chrom = {"fn": fn, "traces": {}}
@@ -57,19 +68,31 @@ def process(
                 chrom["uts"] = ret.pop("uts")
                 metadata["gcparams"].update(ret)
         elif len(parts) == 1:
-            if trace != {"x": [], "y": []}:
+            if tx  != [] and ty != []:
+                tx = np.array(tx)
+                ty = np.array(ty)
+                trace = {
+                    "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
+                    "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+                    "id": len(chrom["traces"]),
+                    "data": [tx, ty]
+                }
                 chrom["traces"][detname] = trace
-                trace = {"x": [], "y": []}
+                tx = []
+                ty = []
             detname = parts[0].replace('"', "").split("\\")[-1]
-            trace["id"] = len(chrom["traces"])
         elif len(parts) == 2:
-            x, y = [float(i) for i in parts]
-            tolx = max(
-                0.5 * 10 ** (-len(parts[0].split(".")[1].strip())), atol, rtol * x
-            )
-            toly = max(atol, rtol * abs(y))
-            trace["x"].append({"n": x * 60, "s": tolx * 60, "u": "s"})
-            trace["y"].append({"n": y, "s": toly, "u": "-"})
+            x, y = [ufloat_fromstr(i) for i in parts]
+            tx.append(x*60)
+            ty.append(y)
+    tx = np.array(tx)
+    ty = np.array(ty)
+    trace = {
+        "x": {"n": list(unumpy.nominal_values(tx)), "s": list(unumpy.std_devs(tx)), "u": "s"},
+        "y": {"n": list(unumpy.nominal_values(ty)), "s": list(unumpy.std_devs(ty)), "u": "-"},
+        "id": len(chrom["traces"]),
+        "data": [tx, ty]
+    }
     chrom["traces"][detname] = trace
     chroms.append(chrom)
     return chroms, metadata, common

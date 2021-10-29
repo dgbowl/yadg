@@ -1,12 +1,12 @@
 import logging
 import json
 import numpy as np
+from uncertainties import unumpy
+
 import yadg.dgutils
 
 
-def process(
-    fn: str, encoding: str, timezone: str, atol: float = 0.0, rtol: float = 0.0
-) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
     Fusion json format.
 
@@ -47,11 +47,11 @@ def process(
         assert (
             len(detdict["values"]) == npoints
         ), f"fusion: Inconsistent trace length in file {fn}."
-        xs = np.linspace(0, npoints / xmul, num=npoints)
-        xtol = max(0.5 * 1 / xmul, atol, rtol * max(xs))
-        ytol = max(1.0, atol, rtol * max(detdict["values"]))
-        trace["x"] = [{"n": x, "s": xtol, "u": "s"} for x in xs]
-        trace["y"] = [{"n": float(y), "s": ytol, "u": "-"} for y in detdict["values"]]
+        xs = unumpy.uarray(np.arange(npoints), np.ones(npoints)*0.5) / xmul
+        ys = unumpy.uarray(detdict["values"], np.ones(npoints))
+        trace["x"] = {"n": list(unumpy.nominal_values(xs)), "s": list(unumpy.std_devs(xs)), "u": "s"}
+        trace["y"] = {"n": list(unumpy.nominal_values(ys)), "s": list(unumpy.std_devs(ys)), "u": "s"}
+        trace["data"] = [xs, ys]
         if "analysis" in detdict:
             trace["peaks"] = {}
             for peak in detdict["analysis"]["peaks"]:

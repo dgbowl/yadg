@@ -68,8 +68,8 @@ def process(
                 0.5 * 10 ** (-len(parts[0].split(".")[1].strip())), atol, rtol * x
             )
             toly = max(atol, rtol * abs(y))
-            trace["x"].append([x * 60, tolx * 60, "s"])
-            trace["y"].append([y, toly, "-"])
+            trace["x"].append({"n": x * 60, "s": tolx * 60, "u": "s"})
+            trace["y"].append({"n": y, "s": toly, "u": "-"})
     chrom["traces"][detname] = trace
     chroms.append(chrom)
     return chroms, metadata, common

@@ -252,13 +252,13 @@ def process(
                     chrom["traces"][det]["calname"] = detname
                     break
             units = {
-                "x": chrom["traces"][det]["x"][0][2],
-                "y": chrom["traces"][det]["y"][0][2],
+                "x": chrom["traces"][det]["x"][0]["u"],
+                "y": chrom["traces"][det]["y"][0]["u"],
+                "A": "-"
             }
-            units["A"] = f'{units["y"]} ' if units["y"] != "-" else "" + units["x"]
-            yfloat = [i[0] for i in chrom["traces"][det]["y"]]
-            xufloat = [ufloat(*i) for i in chrom["traces"][det]["x"]]
-            yufloat = [ufloat(*i) for i in chrom["traces"][det]["y"]]
+            yfloat = [i["n"] for i in chrom["traces"][det]["y"]]
+            xufloat = [ufloat(i["n"], i["s"]) for i in chrom["traces"][det]["x"]]
+            yufloat = [ufloat(i["n"], i["s"]) for i in chrom["traces"][det]["y"]]
             smooth, peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
             peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
             integrated = _integrate_peaks(
@@ -272,8 +272,8 @@ def process(
                         "llim": int(v["llim"]),
                         "rlim": int(v["rlim"]),
                     },
-                    "A": [v["A"].n, v["A"].s, units["A"]],
-                    "h": [v["h"].n, v["h"].s, units["y"]],
+                    "A": {"n": v["A"].n, "s": v["A"].s, "u": units["A"]},
+                    "h": {"n": v["h"].n, "s": v["h"].s, "u": units["y"]},
                 }
                 if spec["species"][k].get("calib", None) is not None:
                     x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])

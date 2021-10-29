@@ -15,15 +15,13 @@ def special_datagram_test(datagram, testspec):
     assert tstep["derived"]["npeaks"] == testspec["npeaks"], "incorrect number of peaks"
     assert len(tstep["derived"]["Q"]) == testspec["npeaks"], "incorrect number of Qs"
     assert len(tstep["derived"]["f"]) == testspec["npeaks"], "incorrect number of fs"
-    assert tstep["derived"]["Q"][testspec["peak"]][0] == pytest.approx(
-        testspec["Q"], abs=1
-    ), "wrong Q"
-    assert tstep["derived"]["f"][testspec["peak"]][0] == pytest.approx(
-        testspec["f"], abs=10
-    ), "wrong f"
-    assert 1 / tstep["derived"]["Q"][1][0] - 1 / tstep["derived"]["Q"][0][
-        0
-    ] == pytest.approx(0.00035, abs=0.00005)
+    Q = tstep["derived"]["Q"][testspec["peak"]]["n"]
+    assert Q == pytest.approx(testspec["Q"], abs=1), "wrong Q"
+    f = tstep["derived"]["f"][testspec["peak"]]["n"]
+    assert f == pytest.approx(testspec["f"], abs=10), "wrong f"
+    Q1 = tstep["derived"]["Q"][1]["n"]
+    Q0 = tstep["derived"]["Q"][0]["n"]
+    assert 1 / Q1 - 1 / Q0 == pytest.approx(0.00035, abs=0.00005)
 
 
 @pytest.mark.parametrize(

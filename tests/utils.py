@@ -65,12 +65,16 @@ def pars_datagram_test(datagram, testspec):
     for tk, tv in testspec["pars"].items():
         if tk != "uts":
             rd = "raw" if tv.get("raw", True) else "derived"
-            assert len(tstep[rd][tk]) == 3, "value not in [val, dev, unit] format"
-            assert tstep[rd][tk][0] == pytest.approx(
+            assert (
+                len(tstep[rd][tk].keys()) == 3
+            ), "value not in [val, dev, unit] format"
+            assert tstep[rd][tk]["n"] == pytest.approx(
                 tv["value"], abs=0.001
             ), "wrong val"
-            assert tstep[rd][tk][1] == pytest.approx(tv["sigma"], rel=0.1), "wrong dev"
-            assert tstep[rd][tk][2] == tv["unit"], "wrong unit"
+            assert tstep[rd][tk]["s"] == pytest.approx(
+                tv["sigma"], rel=0.1
+            ), "wrong dev"
+            assert tstep[rd][tk]["u"] == tv["unit"], "wrong unit"
         else:
             assert tstep[tk] == tv["value"], "wrong uts"
 

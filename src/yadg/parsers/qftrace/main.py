@@ -44,8 +44,8 @@ def _fit(
     for p in peaks:
         pf, pg, pag = _prune(p, freq, gamma, absgamma, _ppar)
         Q, f = _fitq(pf, pg, pag)
-        Qs.append([Q.n, Q.s, "-"])
-        fs.append([f.n, f.s, "Hz"])
+        Qs.append({"n": Q.n, "s": Q.s, "u": "-"})
+        fs.append({"n": f.n, "s": f.s, "u": "Hz"})
     assert len(Qs) == npeaks and len(fs) == npeaks
     return Qs, fs
 
@@ -142,16 +142,17 @@ def process(
             sigma.get("f", _tols)["atol"], abs(f * sigma.get("f", _tols)["rtol"])
         )
         freq.append(ufloat(f, ftol))
-        data["raw"]["f"].append([f, ftol, "Hz"])
         c = complex(float(r), float(i))
         gamma.append(c)
         ctol = max(
             sigma.get("Γ", _tols)["atol"], abs(c * sigma.get("Γ", _tols)["rtol"])
         )
-        data["raw"]["Re(Γ)"].append([float(r), ctol, "-"])
-        data["raw"]["Im(Γ)"].append([float(i), ctol, "-"])
         absgamma.append(ufloat(abs(c), abs(complex(ctol, ctol))))
-        data["raw"]["abs(Γ)"].append([abs(c), abs(complex(ctol, ctol)), "-"])
+
+        data["raw"]["f"].append({"n": f, "s": ftol, "u": "Hz"})
+        data["raw"]["Re(Γ)"].append({"n": float(r), "s": ctol, "u": "-"})
+        data["raw"]["Im(Γ)"].append({"n": float(i), "s": ctol, "u": "-"})
+        data["raw"]["abs(Γ)"].append({"n": abs(c), "s": ctol, "u": "-"})
     common["height"] = height
     common["distance"] = distance
     common["method"] = method

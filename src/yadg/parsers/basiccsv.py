@@ -104,7 +104,7 @@ def process_row(
             val = float(columns[ci])
             sig = max(abs(val * sigma[header]["rtol"]), sigma[header]["atol"])
             unit = units[header]
-            element["raw"][header] = [val, sig, unit]
+            element["raw"][header] = {"n": val, "s": sig, "u": unit}
         except ValueError:
             element["raw"][header] = columns[ci]
 
@@ -113,13 +113,17 @@ def process_row(
         y = ufloat(0, 0)
         for oldk, v in spec.items():
             if oldk in element.get("derived", {}):
+                val = element["derived"][oldk]["n"]
+                std = element["derived"][oldk]["s"]
                 dy = yadg.dgutils.calib_handler(
-                    ufloat(*element["derived"][oldk]), v.get("calib", None)
+                    ufloat(val, std), v.get("calib", None)
                 )
                 y += dy * v.get("fraction", 1.0)
             elif oldk in headers:
+                val = element["raw"][oldk]["n"]
+                std = element["raw"][oldk]["s"]
                 dy = yadg.dgutils.calib_handler(
-                    ufloat(*element["raw"][oldk]), v.get("calib", None)
+                    ufloat(val, std), v.get("calib", None)
                 )
                 y += dy * v.get("fraction", 1.0)
             elif oldk == "unit":
@@ -130,7 +134,7 @@ def process_row(
                 )
         if "derived" not in element:
             element["derived"] = dict()
-        element["derived"][newk] = [y.n, y.s, spec.get("unit", "-")]
+        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", "-")}
     return element
 
 

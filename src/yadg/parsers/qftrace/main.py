@@ -26,7 +26,7 @@ def _fit(
     Qs = {"n": [], "s": [], "u": "-"}
     fs = {"n": [], "s": [], "u": "Hz"}
     mag = -10 * unumpy.log10(absgamma)
-    peaks, _ = find_peaks([i.n for i in mag], height=height, distance=distance)
+    peaks, _ = find_peaks(unumpy.nominal_values(mag), height=height, distance=distance)
     assert len(peaks) > 0, logging.error("qftrace: No peaks were found.")
     npeaks = len(peaks)
     if method == "lorentz":
@@ -137,7 +137,7 @@ def process(
     for line in lines:
         f, re, im = line.strip().split()
         f = ufloat_fromstr(f)
-        f.std_dev = max(f.s, bw / avg)
+        #f.std_dev = max(f.s, bw / avg)
         re = ufloat_fromstr(re)
         im = ufloat_fromstr(im)
         freq.append(f)

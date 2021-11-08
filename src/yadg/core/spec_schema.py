@@ -2,11 +2,11 @@ calib = {
     "type": dict,
     "one": {
         "linear": {
-            "type": dict, 
+            "type": dict,
             "any": {"slope": {"type": float}, "intercept": {"type": float}}
         },
         "inverse": {
-            "type": dict, 
+            "type": dict,
             "any": {"slope": {"type": float}, "intercept": {"type": float}}
         },
         "poly": {"type": dict, "each": {"type": float}},
@@ -18,7 +18,7 @@ calib = {
 peakdetect = {
     "type": dict,
     "any": {
-        "window": {"type": int}, 
+        "window": {"type": int},
         "polyorder": {"type": int},
         "prominence": {"type": float},
         "threshold": {"type": float}
@@ -47,7 +47,7 @@ species = {
 }
 
 convert = {
-    "type": dict, 
+    "type": dict,
     "each": {
         "type": dict,
         "each": {
@@ -67,15 +67,22 @@ schema_step = {
     "type": dict,
     "all": {
         "parser": {
-            "type": str, 
-            "one": ["dummy", "basiccsv", "qftrace", "gctrace", "drycal"]},
+            "type": str,
+            "one": [
+                "dummy",
+                "basiccsv",
+                "qftrace",
+                "gctrace",
+                "drycal",
+                "eclab"
+            ]},
         "import": {
             "type": dict,
             "one": {"files": {"type": list}, "folders": {"type": list}},
             "any": {
-                "prefix": {"type": str}, 
-                "suffix": {"type": str}, 
-                "contains": {"type": str}, 
+                "prefix": {"type": str},
+                "suffix": {"type": str},
+                "contains": {"type": str},
                 "encoding": {"type": str}
             }
         }
@@ -104,9 +111,9 @@ schema_step["any"]["parameters"]["any"].update({
     "atol": {"type": float},
     "rtol": {"type": float},
     "sigma": {
-        "type": dict, 
+        "type": dict,
         "each": {
-            "type": dict, 
+            "type": dict,
             "any": {"atol": {"type": float}, "rtol": {"type": float}}
         }
     },
@@ -118,7 +125,7 @@ schema_step["any"]["parameters"]["any"].update({
     "sep": {"type": str},
     "units": {"type": dict, "each": {"type": str}},
     "timestamp": {
-        "type": dict, 
+        "type": dict,
         "any": {
             "timestamp": timestamp,
             "uts": timestamp,
@@ -152,7 +159,7 @@ schema = {
             "type": dict,
             "allow": True,
             "all": {
-                "provenance": {"type": (dict, str)}, 
+                "provenance": {"type": (dict, str)},
                 "schema_version": {"type": str}
             }
         },

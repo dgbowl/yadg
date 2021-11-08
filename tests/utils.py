@@ -86,3 +86,9 @@ def xout_datagram_test(datagram, testspec):
     tstep = step["data"][testspec["point"]]
     for k, v in testspec["xout"].items():
         assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)
+
+
+def compare_result_dicts(result, reference, atol=1e-6):
+    assert result["n"] == pytest.approx(reference["n"], abs=atol)
+    assert result["s"] == pytest.approx(reference["s"], abs=atol)
+    assert result["u"] == pytest.approx(reference["u"])

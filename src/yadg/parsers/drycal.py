@@ -113,15 +113,6 @@ def drycal_sep(
     encoding
         Encoding to use for parsing ``fn``.
 
-    atol
-        Absolute error accross all fields in the data. By default 0.0.
-
-    rtol
-        Relative error accross all fields in the data. By default 0.0.
-
-    sigma
-        A dictionary specifying per-column ``atol`` and ``rtol``.
-
     calib
         A calibration spec.
 
@@ -248,23 +239,6 @@ def process(
     filetype
         Whether a rtf, csv, or txt file is to be expected. When `None`, the suffix of
         the file is used to determine the file type.
-
-    sep
-        Separator to use. Default is "," for csv.
-
-    sigma
-        Column-specific ``atol`` and ``rtol`` values can be supplied here.
-
-    units
-        Column-specific unit specification. If present, even if empty, 2nd line is
-        treated as data. If omitted, 2nd line is treated as units.
-
-    timestamp
-        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
-        ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`,
-        containing the column indices, and ``"format"`` :class:`(str)` with the format
-        string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from`
-        for more info.
 
     convert
         Specification for column conversion. The `key` of each entry will form a new

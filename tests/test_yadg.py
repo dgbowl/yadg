@@ -2,7 +2,7 @@ import pytest
 import subprocess
 import os
 
-from utils import datadir
+from tests.utils import datadir
 
 
 def test_yadg_version():

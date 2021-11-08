@@ -21,8 +21,8 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_datetime(ole_timestamp: float) -> datetime.datetime:
-    """Converts a Microsoft OLE timestamp into a datetime object.
+def ole_to_uts(ole_timestamp: float) -> float:
+    """Converts a Microsoft OLE timestamp into a POSIX timestamp.
 
     The OLE automation date format is a floating point value, counting
     days since midnight 30 December 1899. Hours and minutes are
@@ -37,13 +37,14 @@ def ole_to_datetime(ole_timestamp: float) -> datetime.datetime:
 
     Returns
     -------
-    datetime
-        The corresponding datetime.
+    float
+        The corresponding POSIX timestamp.
 
     """
     ole_base = datetime.datetime(year=1899, month=12, day=30)
     ole_delta = datetime.timedelta(days=ole_timestamp)
-    return ole_base + ole_delta
+    uts = ole_base + ole_delta
+    return uts.timestamp()
 
 
 def infer_timestamp_from(

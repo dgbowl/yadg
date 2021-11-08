@@ -281,7 +281,7 @@ def process(
         norm = sum([ufloat(*v) for k, v in xout.items()])
         for s in xout:
             xnorm = ufloat(*xout[s]) / norm
-            xout[s] = [xnorm.n, xnorm.s, "-"]
+            xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": "-"}
         result = {"uts": chrom.pop("uts"), "fn": chrom.pop("fn")}
         result["raw"] = chrom
         result["derived"] = {"peaks": peaks, "xout": xout}

@@ -1,7 +1,7 @@
 import pytest
 import os
 from tests.schemas import gctrace_chromtab
-from tests.utils import datagram_from_input, standard_datagram_test, datadir
+from tests.utils import datagram_from_input, standard_datagram_test, datadir, compare_result_dicts
 
 
 def special_datagram_test(datagram, testspec):
@@ -9,7 +9,7 @@ def special_datagram_test(datagram, testspec):
     assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
     tstep = step["data"][testspec["point"]]
     for k, v in testspec["xout"].items():
-        assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)
+        compare_result_dicts(tstep["derived"]["xout"][k], v)
 
 
 @pytest.mark.parametrize(
@@ -28,7 +28,11 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 5,
                 "method": "polyarc+TCD_PK_09b.met",
                 "point": 1,
-                "xout": {"O2": 0.046, "propane": 0.023, "N2": 0.918},
+                "xout": {
+                    "O2":      {"n": 0.0460576, "s": 0.0004851, "u": "-"}, 
+                    "propane": {"n": 0.0232967, "s": 0.0001892, "u": "-"}, 
+                    "N2":      {"n": 0.9177570, "s": 0.0016567, "u": "-"}, 
+                },
             },
         ),
         (
@@ -44,7 +48,11 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 5,
                 "method": "polyarc+TCD_PK_09b.met",
                 "point": 4,
-                "xout": {"O2": 0.036, "propane": 0.022, "N2": 0.915},
+                "xout": {
+                    "O2":      {"n": 0.0362046, "s": 0.0003844, "u": "-"}, 
+                    "propane": {"n": 0.0219253, "s": 0.0001778, "u": "-"}, 
+                    "N2":      {"n": 0.9157070, "s": 0.0016158, "u": "-"}, 
+                },
             },
         ),
         (
@@ -60,7 +68,10 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 3,
                 "method": "n/a",
                 "point": 2,
-                "xout": {"N2": 0.674, "CH3OH": 0.320},
+                "xout": {
+                    "N2":    {"n": 0.6746582, "s": 0.0037270, "u": "-"}, 
+                    "CH3OH": {"n": 0.3205363, "s": 0.0024568, "u": "-"},
+                },
             },
         ),
         (
@@ -80,7 +91,10 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 3,
                 "method": "n/a",
                 "point": 0,
-                "xout": {"N2": 0.647, "CH3OH": 0.343},
+                "xout": {
+                    "N2":    {"n": 0.6474110, "s": 0.0039715, "u": "-"}, 
+                    "CH3OH": {"n": 0.3429352, "s": 0.0026323, "u": "-"},
+                },
             },
         ),
         (
@@ -96,7 +110,10 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 5,
                 "method": "AS_Cal_20210702",
                 "point": 0,
-                "xout": {"H2": 0.994, "CO": 0.006},
+                "xout": {
+                    "H2": {"n": 0.9942256, "s": 0.0026729, "u": "-"}, 
+                    "CO": {"n": 0.0057744, "s": 0.0000150, "u": "-"},
+                },
             },
         ),
         (
@@ -112,7 +129,10 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 5,
                 "method": "AS_Cal_20210702",
                 "point": 4,
-                "xout": {"H2": 0.029, "CO2": 0.971},
+                "xout": {
+                    "H2":  {"n": 0.0289302, "s": 0.0000655, "u": "-"}, 
+                    "CO2": {"n": 0.9710112, "s": 0.0016898, "u": "-"},
+                },
             },
         ),
     ],

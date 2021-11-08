@@ -22,8 +22,35 @@ def now(
         return dt.timestamp()
 
 
+def ole_to_uts(ole_timestamp: float) -> float:
+    """Converts a Microsoft OLE timestamp into a POSIX timestamp.
+
+    The OLE automation date format is a floating point value, counting
+    days since midnight 30 December 1899. Hours and minutes are
+    represented as fractional days.
+
+    https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653
+
+    Parameters
+    ----------
+    ole_timestamp
+        A timestamp in Microsoft OLE format.
+
+    Returns
+    -------
+    float
+        The corresponding Unix timestamp.
+
+    """
+    ole_base = datetime.datetime(year=1899, month=12, day=30)
+    ole_delta = datetime.timedelta(days=ole_timestamp)
+    time = ole_base + ole_delta
+    return time.timestamp()
+
+
 def infer_timestamp_from(
-    headers: list = None, spec: dict = None, timezone: str = "localtime"
+    headers: list, spec: dict = None,
+    timezone: datetime.timezone = datetime.timezone.utc
 ) -> tuple[list, Callable]:
     """
     Convenience function for timestamping

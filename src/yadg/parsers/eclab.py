@@ -39,7 +39,7 @@ def _process_datapoints(
 
     """
     if isinstance(acquisition_start, str):
-        # Parse timestamp with re. Time format annoyingly changes.
+        # Parse timestamp. Time format annoyingly changes.
         start = None
         time_formats = [
             '%m/%d/%Y %H:%M:%S',
@@ -57,7 +57,7 @@ def _process_datapoints(
                     time_format)
         if start is None:
             raise NotImplementedError(
-                f"Time format for {acquisition_start} not implemented")
+                f"Time format for {acquisition_start} not implemented.")
     elif isinstance(acquisition_start, float):
         # OLE timestamp from `.mpr` files.
         start = ole_to_datetime(acquisition_start)

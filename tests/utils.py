@@ -76,14 +76,6 @@ def pars_datagram_test(datagram, testspec):
             assert tstep[tk] == tv["value"], "wrong uts"
 
 
-def xout_datagram_test(datagram, testspec):
-    step = datagram["steps"][testspec["step"]]
-    assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
-    tstep = step["data"][testspec["point"]]
-    for k, v in testspec["xout"].items():
-        assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)
-
-
 def compare_result_dicts(result, reference, atol=1e-6):
     assert result["n"] == pytest.approx(reference["n"], abs=atol)
     assert result["s"] == pytest.approx(reference["s"], abs=atol)

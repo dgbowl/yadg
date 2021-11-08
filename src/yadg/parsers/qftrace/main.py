@@ -137,7 +137,7 @@ def process(
     for line in lines:
         f, re, im = line.strip().split()
         f = ufloat_fromstr(f)
-        #f.std_dev = max(f.s, bw / avg)
+        f.std_dev = max(f.s, bw / avg)
         re = ufloat_fromstr(re)
         im = ufloat_fromstr(im)
         freq.append(f)

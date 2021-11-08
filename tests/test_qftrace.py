@@ -1,6 +1,6 @@
 import pytest
 import os
-from utils import datagram_from_input, standard_datagram_test, datadir
+from tests.utils import datagram_from_input, standard_datagram_test, datadir
 
 
 def special_datagram_test(datagram, testspec):

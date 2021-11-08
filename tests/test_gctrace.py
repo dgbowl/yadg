@@ -1,7 +1,7 @@
 import pytest
 import os
-from schemas import gctrace_chromtab
-from utils import datagram_from_input, standard_datagram_test, datadir
+from tests.schemas import gctrace_chromtab
+from tests.utils import datagram_from_input, standard_datagram_test, datadir
 
 
 def special_datagram_test(datagram, testspec):

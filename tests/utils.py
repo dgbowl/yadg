@@ -68,21 +68,15 @@ def pars_datagram_test(datagram, testspec):
             assert (
                 len(tstep[rd][tk].keys()) == 3
             ), "value not in [val, dev, unit] format"
-            print(tstep[rd][tk], tv["value"], tv["sigma"])
-            assert tstep[rd][tk]["n"] == pytest.approx(
-                tv["value"], abs=1e-6
-            ), "wrong val"
-            assert tstep[rd][tk]["s"] == pytest.approx(
-                tv["sigma"], abs=1e-6
-            ), "wrong dev"
-            assert tstep[rd][tk]["u"] == tv["unit"], "wrong unit"
+            compare_result_dicts(
+                tstep[rd][tk], 
+                {"n": tv["value"], "s": tv["sigma"], "u": tv["unit"]},
+            )
         else:
             assert tstep[tk] == tv["value"], "wrong uts"
 
 
-def xout_datagram_test(datagram, testspec):
-    step = datagram["steps"][testspec["step"]]
-    assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
-    tstep = step["data"][testspec["point"]]
-    for k, v in testspec["xout"].items():
-        assert tstep["derived"]["xout"][k][0] == pytest.approx(v, abs=0.001)
+def compare_result_dicts(result, reference, atol=1e-6):
+    assert result["n"] == pytest.approx(reference["n"], abs=atol)
+    assert result["s"] == pytest.approx(reference["s"], abs=atol)
+    assert result["u"] == reference["u"]

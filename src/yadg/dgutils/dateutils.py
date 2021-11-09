@@ -69,10 +69,6 @@ def infer_timestamp_from(
         A specification of timestamp elements with associated column indices and
         optional formats. Currently accepted combinations of keys are: "uts"; "timestamp";
         "date" and / or "time".
-
-    tz
-        Timezone to use for conversion. By default, UTC is used.
-
     Returns
     -------
     tuple[list, Callable]

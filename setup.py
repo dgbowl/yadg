@@ -36,7 +36,7 @@ setuptools.setup(
         "striprtf",
         "pytest",
         "pandas",
-        "eclabfiles>=0.3.6"
+        "eclabfiles>=0.3.8"
     ],
     entry_points = {
         "console_scripts": [

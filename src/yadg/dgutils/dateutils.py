@@ -38,13 +38,13 @@ def ole_to_uts(ole_timestamp: float) -> float:
     Returns
     -------
     float
-        The corresponding POSIX timestamp.
+        The corresponding Unix timestamp.
 
     """
     ole_base = datetime.datetime(year=1899, month=12, day=30)
     ole_delta = datetime.timedelta(days=ole_timestamp)
-    uts = ole_base + ole_delta
-    return uts.timestamp()
+    time = ole_base + ole_delta
+    return time.timestamp()
 
 
 def infer_timestamp_from(

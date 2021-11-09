@@ -1,20 +1,19 @@
 import datetime
 import logging
-import os
 import re
 import math
 from typing import Union
 
-from dgutils.dateutils import ole_to_uts
+from yadg.dgutils.dateutils import ole_to_uts
 from eclabfiles.mpr import parse_mpr
 from eclabfiles.mpt import parse_mpt
 
 
 def _process_datapoints(
-    datapoints: list[dict[dict]],
+    datapoints: list[dict],
     acquisition_start: Union[float, str],
     **kwargs
-) -> list[dict[dict]]:
+) -> list[dict]:
     """Processes the datapoints from parsed `.mpr` or `.mpt` files.
 
     The data from EC-Lab does not yet contain uncertainties, the units
@@ -54,8 +53,8 @@ def _process_datapoints(
                 break
             except ValueError:
                 logging.debug(
-                    "_process_datapoints: Time format %s does not "
-                    "apply. Trying next option...", time_format)
+                    f"_process_datapoints: Time format {time_format} "
+                    f"does not apply. Trying next option...")
         if start is None:
             raise NotImplementedError(
                 f"Time format for {acquisition_start} not implemented.")
@@ -67,7 +66,7 @@ def _process_datapoints(
     for datapoint in datapoints:
         # Calculate UTS for the datapoint.
         offset = datapoint['raw']['time/s']
-        uts = start + offset
+        time = start + offset
         # Separate the unit from every column type.
         for key, value in datapoint['raw'].items():
             unit = '-'
@@ -78,9 +77,12 @@ def _process_datapoints(
             # Using the unit of least precision as a measure of
             # uncertainty for now, i.e the spacing between two
             # consecutive floats.
-            uncertainty = math.ulp(value)
-            datapoint['raw'][key] = {'n': value, 's': uncertainty, 'u': unit}
-        datapoint['raw']['uts'] = uts
+            datapoint['raw'][key] = {
+                'n': value,
+                's': math.ulp(value),
+                'u': unit
+            }
+        datapoint['raw']['uts'] = time
     return datapoints
 
 
@@ -126,7 +128,7 @@ def _process_mpt(fn: str, **kwargs) -> tuple[list, dict, dict]:
             '\n'.join(mpt['header']['settings']))
         acquisition_start = acquisition_start_match['val']
         logging.debug(
-            "_process_mpt: Start of acquisition: %s", acquisition_start)
+            f"_process_mpt: Start of acquisition: {acquisition_start}")
     if 'loops' in mpt['header']:
         meta['loops'] = mpt['header']['loops']
     # TODO: The right params common should be associated with the data
@@ -143,9 +145,9 @@ def process(
 ) -> tuple[list, dict, dict]:
     """Processes an EC-Lab electrochemistry data file."""
     if filetype is None:
-        __, filetype = os.path.splitext(fn)
-    if filetype == '.mpr':
+        filetype = fn.split('.')[-1]
+    if filetype == 'mpr':
         timesteps, meta, common = _process_mpr(fn, **kwargs)
-    elif filetype == '.mpt':
+    elif filetype == 'mpt':
         timesteps, meta, common = _process_mpt(fn, **kwargs)
     return timesteps, meta, common

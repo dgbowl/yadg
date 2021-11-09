@@ -134,7 +134,8 @@ def _process_mpt(fn: str, **kwargs) -> tuple[list, dict, dict]:
     # TODO: The right params common should be associated with the data
     # points. This can be done through the length of params and the Ns
     # column.
-    datapoints = _process_datapoints(mpt['datapoints'], acquisition_start)
+    datapoints = [{'raw': point} for point in mpt['datapoints']]
+    datapoints = _process_datapoints(datapoints, acquisition_start)
     return datapoints, meta, common
 
 

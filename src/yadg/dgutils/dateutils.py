@@ -49,8 +49,7 @@ def ole_to_uts(ole_timestamp: float) -> float:
 
 
 def infer_timestamp_from(
-    headers: list, spec: dict = None,
-    timezone: datetime.timezone = datetime.timezone.utc
+    headers: list = None, spec: dict = None, timezone: str = "localtime"
 ) -> tuple[list, Callable]:
     """
     Convenience function for timestamping
@@ -69,6 +68,10 @@ def infer_timestamp_from(
         A specification of timestamp elements with associated column indices and
         optional formats. Currently accepted combinations of keys are: "uts"; "timestamp";
         "date" and / or "time".
+
+    tz
+        Timezone to use for conversion. By default, UTC is used.
+
     Returns
     -------
     tuple[list, Callable]

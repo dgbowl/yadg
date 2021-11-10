@@ -9,10 +9,13 @@ from eclabfiles.mpr import parse_mpr
 from eclabfiles.mpt import parse_mpt
 
 
+version = "1.0.dev1"
+
+
 def _process_datapoints(
     datapoints: list[dict],
     acquisition_start: Union[float, str],
-    **kwargs
+    fn: str,
 ) -> list[dict]:
     """Processes the datapoints from parsed `.mpr` or `.mpt` files.
 
@@ -77,16 +80,19 @@ def _process_datapoints(
             # Using the unit of least precision as a measure of
             # uncertainty for now, i.e the spacing between two
             # consecutive floats.
+            # TODO: Conversion from numpy datatypes should probably be
+            # done in eclabfiles.
             datapoint['raw'][key] = {
-                'n': value,
+                'n': float(value),
                 's': math.ulp(value),
                 'u': unit
             }
-        datapoint['raw']['uts'] = time
+        datapoint['uts'] = time
+        datapoint['fn'] = fn
     return datapoints
 
 
-def _process_mpr(fn: str, **kwargs) -> tuple[list, dict, dict]:
+def _process_mpr(fn: str) -> tuple[list, dict, dict]:
     """Processes an EC-Lab `.mpr` file."""
     datapoints = []
     meta = {}
@@ -103,7 +109,7 @@ def _process_mpr(fn: str, **kwargs) -> tuple[list, dict, dict]:
         elif name == b'VMP LOG   ':
             meta['log'] = module['data']
             acquisition_start = module['data']['ole_timestamp']
-            datapoints = _process_datapoints(datapoints, acquisition_start)
+            datapoints = _process_datapoints(datapoints, acquisition_start, fn)
         elif name == b'VMP loop  ':
             meta['loops'] = module['data']
     # TODO: The right params common should be associated with the data
@@ -112,7 +118,7 @@ def _process_mpr(fn: str, **kwargs) -> tuple[list, dict, dict]:
     return datapoints, meta, common
 
 
-def _process_mpt(fn: str, **kwargs) -> tuple[list, dict, dict]:
+def _process_mpt(fn: str) -> tuple[list, dict, dict]:
     """Processes an EC-Lab `.mpt` file."""
     datapoints = []
     meta = {}
@@ -135,20 +141,25 @@ def _process_mpt(fn: str, **kwargs) -> tuple[list, dict, dict]:
     # points. This can be done through the length of params and the Ns
     # column.
     datapoints = [{'raw': point} for point in mpt['datapoints']]
-    datapoints = _process_datapoints(datapoints, acquisition_start)
+    datapoints = _process_datapoints(datapoints, acquisition_start, fn)
     return datapoints, meta, common
 
 
 def process(
     fn: str,
-    filetype: str = None,
-    **kwargs
+    encoding: str = 'windows-1252',
+    timezone: str = 'localtime',
+    filetype: str = None
 ) -> tuple[list, dict, dict]:
-    """Processes an EC-Lab electrochemistry data file."""
+    """Processes an EC-Lab electrochemistry data file.
+
+    # TODO: Implement encoding and timezone support.
+
+    """
     if filetype is None:
         filetype = fn.split('.')[-1]
     if filetype == 'mpr':
-        timesteps, meta, common = _process_mpr(fn, **kwargs)
+        timesteps, meta, common = _process_mpr(fn)
     elif filetype == 'mpt':
-        timesteps, meta, common = _process_mpt(fn, **kwargs)
+        timesteps, meta, common = _process_mpt(fn)
     return timesteps, meta, common

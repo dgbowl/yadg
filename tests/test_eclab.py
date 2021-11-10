@@ -15,9 +15,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'ca.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 721,
                 'point': 0,
                 'pars': {}
             },
@@ -27,9 +27,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'ca.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 721,
                 'point': 0,
                 'pars': {}
             },
@@ -39,9 +39,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'cp.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 121,
                 'point': 0,
                 'pars': {}
             },
@@ -51,9 +51,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'cp.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 121,
                 'point': 0,
                 'pars': {}
             },
@@ -63,9 +63,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'cv.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 3692,
                 'point': 0,
                 'pars': {}
             },
@@ -75,9 +75,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'cv.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 3692,
                 'point': 0,
                 'pars': {}
             },
@@ -87,9 +87,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'gcpl.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 12057,
                 'point': 0,
                 'pars': {}
             },
@@ -99,9 +99,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'gcpl.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 12057,
                 'point': 0,
                 'pars': {}
             },
@@ -111,9 +111,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'geis.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 2528,
                 'point': 0,
                 'pars': {}
             },
@@ -123,9 +123,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'geis.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 2528,
                 'point': 0,
                 'pars': {}
             },
@@ -135,9 +135,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'lsv.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 201,
                 'point': 0,
                 'pars': {}
             },
@@ -147,9 +147,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'lsv.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 201,
                 'point': 0,
                 'pars': {}
             },
@@ -159,9 +159,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'mb.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 152,
                 'point': 0,
                 'pars': {}
             },
@@ -171,9 +171,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'mb.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 152,
                 'point': 0,
                 'pars': {}
             },
@@ -183,9 +183,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'ocv.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 61,
                 'point': 0,
                 'pars': {}
             },
@@ -195,9 +195,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'ocv.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 61,
                 'point': 0,
                 'pars': {}
             },
@@ -207,9 +207,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'peis.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 31,
                 'point': 0,
                 'pars': {}
             },
@@ -219,9 +219,9 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'peis.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
-                'nrows': 0,
+                'nsteps': 1,
+                'step': 0,
+                'nrows': 31,
                 'point': 0,
                 'pars': {}
             },
@@ -231,8 +231,8 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'wait.mpr'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
+                'nsteps': 1,
+                'step': 0,
                 'nrows': 0,
                 'point': 0,
                 'pars': {}
@@ -243,8 +243,8 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'case': 'wait.mpt'
             },
             {
-                'nsteps': 0,
-                'steps': 0,
+                'nsteps': 1,
+                'step': 0,
                 'nrows': 0,
                 'point': 0,
                 'pars': {}

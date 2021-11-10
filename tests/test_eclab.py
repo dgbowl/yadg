@@ -24,7 +24,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'ca.mpt'
             },
             {
                 'nsteps': 0,
@@ -36,7 +36,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'cp.mpr'
             },
             {
                 'nsteps': 0,
@@ -48,7 +48,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'cp.mpt'
             },
             {
                 'nsteps': 0,
@@ -60,7 +60,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'cv.mpr'
             },
             {
                 'nsteps': 0,
@@ -72,7 +72,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'cv.mpt'
             },
             {
                 'nsteps': 0,
@@ -84,7 +84,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'gcpl.mpr'
             },
             {
                 'nsteps': 0,
@@ -96,7 +96,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'gcpl.mpt'
             },
             {
                 'nsteps': 0,
@@ -108,7 +108,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'geis.mpr'
             },
             {
                 'nsteps': 0,
@@ -120,7 +120,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'geis.mpt'
             },
             {
                 'nsteps': 0,
@@ -132,7 +132,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'lsv.mpr'
             },
             {
                 'nsteps': 0,
@@ -144,7 +144,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'lsv.mpt'
             },
             {
                 'nsteps': 0,
@@ -156,7 +156,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'mb.mpr'
             },
             {
                 'nsteps': 0,
@@ -168,7 +168,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'mb.mpt'
             },
             {
                 'nsteps': 0,
@@ -180,7 +180,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'ocv.mpr'
             },
             {
                 'nsteps': 0,
@@ -192,7 +192,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'ocv.mpt'
             },
             {
                 'nsteps': 0,
@@ -204,7 +204,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'peis.mpr'
             },
             {
                 'nsteps': 0,
@@ -216,7 +216,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'peis.mpt'
             },
             {
                 'nsteps': 0,
@@ -228,7 +228,19 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
         ),
         (
             {
-                'case': 'ca.mpr'
+                'case': 'wait.mpr'
+            },
+            {
+                'nsteps': 0,
+                'steps': 0,
+                'nrows': 0,
+                'point': 0,
+                'pars': {}
+            },
+        ),
+        (
+            {
+                'case': 'wait.mpt'
             },
             {
                 'nsteps': 0,

@@ -61,7 +61,7 @@ def standard_datagram_test(datagram, testspec):
 
 def pars_datagram_test(datagram, testspec):
     steps = datagram["steps"][testspec["step"]]["data"]
-    tstep = steps[testspec["point"]] if len(steps) > 0 else None
+    tstep = steps[testspec["point"]]
     for tk, tv in testspec["pars"].items():
         if tk != "uts":
             rd = "raw" if tv.get("raw", True) else "derived"

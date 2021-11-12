@@ -1,3 +1,7 @@
+:orphan:
+
+.. _object_datagram:
+
 What is a `datagram`
 ````````````````````
 The `datagram` is a structured and annotated representation of both raw and 

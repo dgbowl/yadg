@@ -1,5 +1,10 @@
+:orphan:
+
+.. _object_schema:
+
 What is a `schema`
 ``````````````````
+
 A `schema` is an object defining the files and folders to be processed by 
 **yadg**, as well as the types of parsers and the parser options to be applied.
 One can think of a `schema` as a representation of a single experiment, 

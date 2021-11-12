@@ -10,10 +10,18 @@ given experiment. Standardised data processing of this raw data is also included
 with features such as peak integration in chromatograms, quality factor determination
 from reflection coefficient traces, or simple numerical processing of tabular data.
 
-.. include:: usage.rst
+.. include::
+   usage.rst
 
-.. include:: functionality.rst
+.. include::
+   functionality.rst
 
-.. include:: objects.rst
+.. include::
+   objects.rst
 
-.. include:: modules.rst
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Yadg autodocs
+
+   modules

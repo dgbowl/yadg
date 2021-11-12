@@ -5,6 +5,12 @@
 modules, called parsers. The currently implemented parsers are documented in the 
 following links:
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Yadg parsers
+
+   parsers.dummy
+
 Units and uncertainties
 ```````````````````````
 One of the key features of **yadg** is the enforced association of units and 

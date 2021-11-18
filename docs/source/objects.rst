@@ -1,3 +1,4 @@
+
 **yadg** objects
 ----------------
 
@@ -6,7 +7,6 @@ available in at the following links:
 
 .. toctree::
    :maxdepth: 1
-   :caption: Yadg objects
-
+   
    object.schema
    object.datagram

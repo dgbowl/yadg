@@ -1,5 +1,5 @@
-**yadg** modules
-----------------
+**yadg** autodocs
+-----------------
 
 .. toctree::
    :maxdepth: 4

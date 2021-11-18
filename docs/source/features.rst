@@ -1,15 +1,5 @@
-**yadg** functionality
+**yadg** features
 ----------------------
-
-**yadg** offloads the responsibility of processing the raw data files to its 
-modules, called parsers. The currently implemented parsers are documented in the 
-following links:
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Yadg parsers
-
-   parsers.dummy
 
 Units and uncertainties
 ```````````````````````

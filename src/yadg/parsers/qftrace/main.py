@@ -1,8 +1,11 @@
 import os
 import logging
 from scipy.signal import find_peaks
-from uncertainties import ufloat, ufloat_fromstr, unumpy, umath
 import numpy as np
+
+import uncertainties as uc
+from uncertainties import unumpy as unp
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
 from yadg.parsers.qftrace import kajfez, lorentz, naive, prune
@@ -11,9 +14,9 @@ version = "1.0.dev1"
 
 
 def _fit(
-    freq: np.ndarray,
-    gamma: np.ndarray,
-    absgamma: np.ndarray,
+    freq: list[np.ndarray],
+    gvals: np.ndarray,
+    absgvals: np.ndarray,
     method: str,
     height: float,
     distance: float,
@@ -23,10 +26,11 @@ def _fit(
     """
     Function that fits Q and f from Γ(f).
     """
+    fvals, fsigs = freq
     Qs = {"n": [], "s": [], "u": "-"}
     fs = {"n": [], "s": [], "u": "Hz"}
-    mag = -10 * unumpy.log10(absgamma)
-    peaks, _ = find_peaks(unumpy.nominal_values(mag), height=height, distance=distance)
+    mag = -10 * np.log10(absgvals)
+    peaks, _ = find_peaks(mag, height=height, distance=distance)
     assert len(peaks) > 0, logging.error("qftrace: No peaks were found.")
     npeaks = len(peaks)
     if method == "lorentz":
@@ -42,8 +46,14 @@ def _fit(
         _fitq = naive.fit
         _ppar = threshold
     for p in peaks:
-        pf, pg, pag = _prune(p, freq, gamma, absgamma, _ppar)
-        Q, f = _fitq(pf, pg, pag)
+        # prune using a smaller number of points
+        n = gvals.size
+        os = max(0, p - max(1000, n // 5))
+        oe = min(n, p + max(1000, n // 5))
+        s, e = _prune(p - os, fvals[os:oe], gvals[os:oe], absgvals[os:oe], _ppar)
+        s = os + s
+        e = os + e
+        Q, f = _fitq(fvals[s:e], fsigs[s:e], gvals[s:e], absgvals[s:e])
         Qs["n"].append(Q.n)
         Qs["s"].append(Q.s)
         fs["n"].append(f.n)
@@ -111,23 +121,23 @@ def process(
         len(lines) > 2
     ), f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
     # process header
-    bw = ufloat(10000, 1)
+    bw = [10000.0, 1.0]
     avg = 15
     if ";" in lines[0]:
         items = lines.pop(0).split(";")
         for item in items:
             if item.startswith("BW"):
-                bw = ufloat_fromstr(item.split("=")[-1].strip())
-                common["bandwith"] = {"n": bw.n, "s": bw.s, "u": "Hz"}
+                bw = tuple_fromstr(item.split("=")[-1].strip())
+                common["bandwith"] = {"n": bw[0], "s": bw[1], "u": "Hz"}
             if item.startswith("AVG"):
                 avg = int(item.split("=")[-1].strip())
                 common["averaging"] = avg
+    fsbw = bw[0] / avg
     # calculate precision of trace
     data["raw"] = {
         "f": {"n": [], "s": [], "u": "Hz"},
         "Re(Γ)": {"n": [], "s": [], "u": "-"},
         "Im(Γ)": {"n": [], "s": [], "u": "-"},
-        "abs(Γ)": {"n": [], "s": [], "u": "-"},
     }
     freq = []
     gamma = []
@@ -136,29 +146,22 @@ def process(
     absgamma = []
     for line in lines:
         f, re, im = line.strip().split()
-        f = ufloat_fromstr(f)
-        f.std_dev = max(f.s, bw / avg)
-        re = ufloat_fromstr(re)
-        im = ufloat_fromstr(im)
-        freq.append(f)
-        real.append(re)
-        imag.append(im)
-        gamma.append(complex(re.n, im.n))
-        absgamma.append(umath.sqrt(re * re + im * im))
-    freq = np.asarray(freq)
-    gamma = np.asarray(gamma)
-    real = np.asarray(real)
-    imag = np.asarray(imag)
-    absgamma = np.asarray(absgamma)
-
-    data["raw"]["f"]["n"] = unumpy.nominal_values(freq).tolist()
-    data["raw"]["f"]["s"] = unumpy.std_devs(freq).tolist()
-    data["raw"]["Re(Γ)"]["n"] = unumpy.nominal_values(real).tolist()
-    data["raw"]["Re(Γ)"]["s"] = unumpy.std_devs(real).tolist()
-    data["raw"]["Im(Γ)"]["n"] = unumpy.nominal_values(imag).tolist()
-    data["raw"]["Im(Γ)"]["s"] = unumpy.std_devs(imag).tolist()
-    data["raw"]["abs(Γ)"]["n"] = unumpy.nominal_values(absgamma).tolist()
-    data["raw"]["abs(Γ)"]["s"] = unumpy.std_devs(absgamma).tolist()
+        fn, fs = tuple_fromstr(f)
+        fs = max(fs, fsbw)
+        ren, res = tuple_fromstr(re)
+        imn, ims = tuple_fromstr(im)
+        freq.append([fn, fs])
+        real.append([ren, res])
+        imag.append([imn, ims])
+        c = complex(ren, imn)
+        gamma.append(c)
+        absgamma.append(abs(c))
+    freq = [np.array(i) for i in zip(*freq)]
+    data["raw"]["f"]["n"], data["raw"]["f"]["s"] = [i.tolist() for i in freq]
+    real = [np.array(i) for i in zip(*real)]
+    data["raw"]["Re(Γ)"]["n"], data["raw"]["Re(Γ)"]["s"] = [i.tolist() for i in real]
+    imag = [np.array(i) for i in zip(*imag)]
+    data["raw"]["Im(Γ)"]["n"], data["raw"]["Im(Γ)"]["s"] = [i.tolist() for i in imag]
     common["height"] = height
     common["distance"] = distance
     common["method"] = method
@@ -168,8 +171,8 @@ def process(
         common["threshold"] = threshold
     Q, f = _fit(
         freq,
-        gamma,
-        absgamma,
+        np.array(gamma),
+        np.array(absgamma),
         method,
         height,
         distance,

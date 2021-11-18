@@ -21,14 +21,14 @@ def cutoff(p0, freq, gamma, absgamma, cutoff):
             pass
         else:
             break
-    return freq[li + 1 : ri - 1], gamma[li + 1 : ri - 1], absgamma[li + 1 : ri - 1]
+    return li + 1, ri - 1
 
 
 def gradient(p0, freq, gamma, absgamma, threshold):
     """
     Gradient-based prune.
     """
-    grad = np.gradient(unumpy.nominal_values(absgamma))
+    grad = np.gradient(absgamma)
     for l in range(p0 - 1):
         li = p0 - l
         if abs(grad[li]) > threshold or l < 100:
@@ -41,4 +41,4 @@ def gradient(p0, freq, gamma, absgamma, threshold):
             pass
         else:
             break
-    return freq[li + 1 : ri - 1], gamma[li + 1 : ri - 1], absgamma[li + 1 : ri - 1]
+    return li + 1, ri - 1

@@ -1,8 +1,9 @@
-from uncertainties import ufloat, unumpy
+import uncertainties as uc
+import uncertainties.unumpy as unp
 import numpy as np
 
 
-def fit(freq, gamma, absgamma, **kwargs):
+def fit(fvals, fsigs, gvals, absgvals, **kwargs):
     """
     Kajfez's circle-fitting program.
 
@@ -11,11 +12,11 @@ def fit(freq, gamma, absgamma, **kwargs):
     This fitting process attempts to fit a circle to a near-circular section of points on a Smith's chart. It's robust, quick, and reliable, and produces reasonable error estimates.
     """
     niter = kwargs.get("iterations", 5)
-    fre = unumpy.nominal_values(freq)
-    n = len(fre)
-    gam1 = gamma
-    agam1 = unumpy.nominal_values(absgamma)
-    dia = np.min(agam1)
+    fre = fvals
+    n = fvals.size
+    gam1 = gvals
+    agam1 = absgvals
+    dia = agam1.min()
     idia = np.argmax(agam1)
     f0 = fre[idia]
     ena = np.ones(n)
@@ -91,4 +92,4 @@ def fit(freq, gamma, absgamma, **kwargs):
     sdkapa1 = sddia1 / (2 - dia1) ** 2
     sdQ01 = np.sqrt((1 + kapa1) ** 2 * sdQL1 ** 2 + QL1 ** 2 * sdkapa1 ** 2)
 
-    return ufloat(Q01, sdQ01), ufloat(f011, freq[idia].s)
+    return uc.ufloat(Q01, sdQ01), uc.ufloat(f011, fsigs[idia])

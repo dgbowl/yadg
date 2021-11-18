@@ -37,7 +37,7 @@ setuptools.setup(
         "pytest",
         "pandas",
         "tzlocal",
-        "eclabfiles>=0.3.8",
+        "eclabfiles>=0.3.9",
     ],
     entry_points = {
         "console_scripts": [

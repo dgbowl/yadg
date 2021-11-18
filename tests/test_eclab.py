@@ -10,7 +10,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
 @pytest.mark.parametrize(
     'input, ts',
     [
-        (
+        ( # ts0 - ca.mpr, no loops, single sequence
             {
                 'case': 'ca.mpr'
             },
@@ -22,7 +22,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts1 - ca.mpt, no loops, single sequence
             {
                 'case': 'ca.mpt'
             },
@@ -34,7 +34,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts2 - cp.mpr, no loops, single sequence
             {
                 'case': 'cp.mpr'
             },
@@ -46,7 +46,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts3 - cp.mpt, no header, INF in datapoints
             {
                 'case': 'cp.mpt'
             },
@@ -58,7 +58,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts4 - cv.mpr, no loops, single sequence
             {
                 'case': 'cv.mpr'
             },
@@ -70,7 +70,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts5 - cv.mpt, no header
             {
                 'case': 'cv.mpt'
             },
@@ -82,7 +82,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts6 - gcpl.mpr, one loop, three sequences
             {
                 'case': 'gcpl.mpr'
             },
@@ -94,7 +94,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts7 - gcpl.mpt, one loop, three sequences
             {
                 'case': 'gcpl.mpt'
             },
@@ -106,7 +106,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts8 - geis.mpr, no loops, single sequence
             {
                 'case': 'geis.mpr'
             },
@@ -118,7 +118,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts9 - geis.mpt, no loops, single sequence
             {
                 'case': 'geis.mpt'
             },
@@ -130,7 +130,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts10 - lsv.mpr, no loops, single sequence
             {
                 'case': 'lsv.mpr'
             },
@@ -142,7 +142,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts11 - lsv.mpt, no header
             {
                 'case': 'lsv.mpt'
             },
@@ -154,7 +154,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts12 - mb.mpr, no loops, six sequences
             {
                 'case': 'mb.mpr'
             },
@@ -166,7 +166,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts13 - mb.mpt, no header
             {
                 'case': 'mb.mpt'
             },
@@ -178,7 +178,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts14 - ocv.mpr, no loops, single sequence
             {
                 'case': 'ocv.mpr'
             },
@@ -190,7 +190,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts15 - ocv.mpt, no header
             {
                 'case': 'ocv.mpt'
             },
@@ -202,7 +202,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts16 - peis.mpr, no loops, single sequence
             {
                 'case': 'peis.mpr'
             },
@@ -214,7 +214,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts17 - peis.mpt, no header
             {
                 'case': 'peis.mpt'
             },
@@ -226,7 +226,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts18 - wait.mpr, no loops, single sequence, no datapoints
             {
                 'case': 'wait.mpr'
             },
@@ -238,7 +238,7 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
                 'pars': {}
             },
         ),
-        (
+        ( # ts19 - wait.mpt, no header, no datapoints
             {
                 'case': 'wait.mpt'
             },
@@ -255,4 +255,4 @@ from tests.utils import (compare_result_dicts, datadir, datagram_from_input,
 def test_datagram_from_eclab(input, ts, datadir):
     ret = datagram_from_input(input, "eclab", datadir)
     standard_datagram_test(ret, ts)
-    pars_datagram_test(ret, ts)
+    # pars_datagram_test(ret, ts)

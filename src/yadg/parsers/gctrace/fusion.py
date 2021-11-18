@@ -1,7 +1,8 @@
 import logging
 import json
 import numpy as np
-from uncertainties import unumpy
+import uncertainties.unumpy as unp
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
 
@@ -43,16 +44,20 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         assert (
             len(detdict["values"]) == npoints
         ), f"fusion: Inconsistent trace length in file {fn}."
-        xs = unumpy.uarray(np.arange(npoints), np.ones(npoints) * 0.5) / xmul
-        ys = unumpy.uarray(detdict["values"], np.ones(npoints))
+        xsn = np.arange(npoints) / xmul
+        xss = np.ones(npoints) / xmul
+        xs = [xsn, xss]
+        ysn = np.array(detdict["values"])
+        yss = np.ones(npoints)
+        ys = [ysn, yss]
         trace["x"] = {
-            "n": list(unumpy.nominal_values(xs)),
-            "s": list(unumpy.std_devs(xs)),
+            "n": xsn.tolist(),
+            "s": xss.tolist(),
             "u": "s",
         }
         trace["y"] = {
-            "n": list(unumpy.nominal_values(ys)),
-            "s": list(unumpy.std_devs(ys)),
+            "n": ysn.tolist(),
+            "s": yss.tolist(),
             "u": "s",
         }
         trace["data"] = [xs, ys]

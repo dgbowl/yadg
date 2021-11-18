@@ -1,0 +1,24 @@
+{
+    "metadata": {
+        "provenance": "manual",
+        "schema_version": "1.0"
+    },
+    "steps": [
+        {
+            "parser": "qftrace",
+            "import": {"folders": ["f1", "f2"], "suffix": "csv"},
+            "parameters": {
+                "method": "kajfez",
+                "cutoff": 0.4
+            }
+        },
+        {
+            "parser": "gctrace",
+            "import": {"folders": [""], "suffix": "dat.asc"},
+            "parameters": {
+                "tracetype": "datasc",
+                "calfile": "calib/fhi_gccal.json"
+            }
+        }
+    ]
+}

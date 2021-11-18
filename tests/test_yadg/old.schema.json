@@ -1,0 +1,28 @@
+[
+    {
+        "datagram": "meascsv",
+        "import": {"files": ["./2019-11-05-31804-ex-31012-propane-01/00-experiment/measurement.csv"]},
+        "export": "00-measurement.json",
+        "parameters": {
+            "Tcalfile": "./Calibrations/2019-10-29-100_500C.json",
+            "MFCcalfile": "./Calibrations/2019-09-25-MFCcal.json"
+        }
+    },
+    {
+        "datagram": "qftrace",
+        "import": {"folders": ["./2019-11-05-31804-ex-31012-propane-01/01-inert"]},
+        "export": "01-inert.json",
+        "parameters": {
+            "method": "q0refl",
+            "cutoff": 0.40
+        }
+    },
+    {
+        "datagram": "gctrace",
+        "import": {"folders": ["./GC/"], "prefix": "2019-11-05-31804-ex-31012-propane-01"},
+        "export": "13-gc.json",
+        "parameters": {
+            "calfile": "./Calibrations/2019-11-15-GCcal.json"
+        }
+    }
+]

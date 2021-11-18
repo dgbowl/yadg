@@ -1,57 +1,42 @@
 #!/usr/bin/env python
 import argparse
-import sys
 import os
 import logging
 from importlib import metadata
-import json
 
-import yadg.core
+import yadg.subcommands
 
 
-def _parse_arguments() -> argparse.Namespace:
+def set_loglevel(level: str):
+    level = level.upper()
+    assert level in [
+        "CRITICAL",
+        "ERROR",
+        "WARNING",
+        "INFO",
+        "DEBUG",
+    ], f"{level} is not a valid loglevel."
+    logging.basicConfig(level=getattr(logging, level))
+
+
+def run_with_arguments():
+    """
+    Main execution function.
+
+    This is the function executed when **yadg** is launched using the executable.
+    The function has three subcommands:
+
+    - ``process``: processes a given schema into a datagram.
+    - ``update``: updates a given schema or datagram to the current version.
+    - ``preset``: creates a schema from a preset file and a target folder.
+
+    """
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "schemafile",
-        nargs="?",
-        help="File containing the schema to be processed by yadg.",
-        default=None,
-    )
-    parser.add_argument(
-        "--schemafile",
-        "--schema",
-        dest="infile",
-        help="File containing the schema to be processed by yadg.",
-        default=False,
-    )
-    parser.add_argument(
-        "datagramfile",
-        nargs="?",
-        help="Output file to save the created datagram to.",
-        default=None,
-    )
-    parser.add_argument(
-        "--dump",
-        "--saveas",
-        dest="outfile",
-        help="Output file to save the created datagram to.",
-        default=False,
-    )
-    parser.add_argument("--preset", help="Specify a schema template from a [preset].")
-    parser.add_argument(
-        "--folder", help="Specify the folder on which to apply the [preset]."
-    )
+
     parser.add_argument(
         "--version",
         action="version",
         version=f'%(prog)s version {metadata.version("yadg")}',
-    )
-    parser.add_argument(
-        "--ignore-file-errors",
-        dest="permissive",
-        action="store_true",
-        help="Ignore file opening errors while processing schemafile",
-        default=False,
     )
     parser.add_argument(
         "--log",
@@ -61,54 +46,78 @@ def _parse_arguments() -> argparse.Namespace:
         help="Switch loglevel from WARNING to that provided.",
         default="warning",
     )
+
+    subparsers = parser.add_subparsers(required=False)
+
+    process = subparsers.add_parser("process")
+    process.add_argument(
+        "infile",
+        help="File containing the schema to be processed by yadg.",
+        default=None,
+    )
+    process.add_argument(
+        "outfile",
+        nargs="?",
+        help="Output file to save the created datagram to.",
+        default="datagram.json",
+    )
+    process.add_argument(
+        "--ignore-file-errors",
+        dest="permissive",
+        action="store_true",
+        help="Ignore file opening errors while processing schemafile",
+        default=False,
+    )
+    process.set_defaults(func=yadg.subcommands.process)
+
+    update = subparsers.add_parser("update")
+    update.add_argument(
+        "type",
+        choices=["schema", "datagram"],
+        help="Specify whether a schema or a datagram is to be expected.",
+    )
+    update.add_argument(
+        "infile",
+        help="The file containing the schema/datagram in the old format.",
+    )
+    update.add_argument(
+        "outfile",
+        nargs="?",
+        help="Output file to save the updated object to.",
+        default=None,
+    )
+    update.set_defaults(func=yadg.subcommands.update)
+
+    preset = subparsers.add_parser("preset")
+    preset.add_argument(
+        "preset",
+        help="Specify a schema template from a 'preset'.",
+    )
+    preset.add_argument(
+        "folder",
+        help="Specify the 'folder' on which to apply the 'preset'.",
+    )
+    preset.add_argument(
+        "outfile",
+        nargs="?",
+        help=(
+            "Output file to save the created schema file. Default is 'schema.json'. "
+            "If '--process' is specified, the created datagram file will be saved "
+            "instead. Default in that case is 'datagram.json'."
+        ),
+        default=None,
+    )
+    preset.add_argument(
+        "--process",
+        "-p",
+        action="store_true",
+        help="Immediately process the schema created from the preset.",
+        default=False,
+    )
+
+    preset.set_defaults(func=yadg.subcommands.preset)
+
     args = parser.parse_args()
-    if args.schemafile is None:
-        args.schemafile = args.infile
-    if args.datagramfile is None:
-        args.datagramfile = args.outfile if args.outfile else "datagram.json"
-    if not args.schemafile and not (args.preset and args.folder):
-        parser.error(
-            "Either [schemafile] or [preset] and [folder] have to be supplied."
-        )
-    if not (os.path.exists(args.schemafile) and os.path.isfile(args.schemafile)):
-        parser.error("Supplied [schemafile] does not exist.")
-    if args.debug.upper() not in ["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"]:
-        parser.error(f"{args.debug.upper()} is not a valid loglevel.")
-    else:
-        logging.basicConfig(level=getattr(logging, args.debug.upper()))
-    return args
-
-
-def run():
-    """
-    Main execution function.
-
-    This is the function executed when **yadg** is launched using the executable.
-    The function:
-
-      1) processes the command line arguments into ``args``,
-      2) loads or composes the `schema` based on ``args``,
-      3) validates the `schema`,
-      4) processes the `schema` into a `datagram`, and
-      5) saves the `datagram` into a ``json`` file according to the ``args``.
-
-    """
-    args = _parse_arguments()
-    if args.schemafile:
-        logging.info(f"run: Processing input json: {args.schemafile}")
-        with open(args.schemafile, "r") as infile:
-            schema = json.load(infile)
-    elif args.folder and args.preset:
-        logging.critical(
-            "run: Specifying schema from folder and preset" "is not yet implemented."
-        )
-        sys.exit(1)
-
-    logging.debug("run: Validating schema.")
-    assert yadg.core.validate_schema(schema, args.permissive)
-    logging.debug("run: Processing schema")
-    datagram = yadg.core.process_schema(schema)
-    if args.datagramfile:
-        logging.info(f"run: Saving data to {args.datagramfile}")
-        with open(args.datagramfile, "w") as ofile:
-            json.dump(datagram, ofile, indent=1)
+    set_loglevel(args.debug)
+    if "func" in args:
+        args.func(args)

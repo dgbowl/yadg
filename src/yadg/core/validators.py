@@ -134,7 +134,9 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     return True
 
 
-def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> True:
+def validate_schema(
+    schema: Union[list, tuple], strictfiles: bool = True, strictfolders: bool = True
+) -> True:
     """
     Schema validator.
 
@@ -201,7 +203,7 @@ def validate_schema(schema: Union[list, tuple], strictfiles: bool = True) -> Tru
                 assert os.path.exists(fn) and os.path.isfile(
                     fn
                 ), f"schema_validator: File path {fn} provided in step {si} is not a valid file."
-        if "folders" in step["import"]:
+        if "folders" in step["import"] and strictfolders:
             for fn in step["import"]["folders"]:
                 assert os.path.exists(fn) and os.path.isdir(
                     fn

@@ -9,7 +9,11 @@ datagram_step = {
                 "tag": {"type": str},
                 "parser": {
                     "type": dict,
-                    "each": {"type": dict, "all": {"version": {"type": str}}},
+                    "each": {
+                        "type": dict,
+                        "all": {"version": {"type": str}},
+                        "allow": True,
+                    },
                 },
             },
             "allow": True,

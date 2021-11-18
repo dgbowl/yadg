@@ -41,7 +41,7 @@ setuptools.setup(
     ],
     entry_points = {
         "console_scripts": [
-            'yadg=yadg:run'
+            'yadg=yadg:run_with_arguments'
         ]
     }
 )

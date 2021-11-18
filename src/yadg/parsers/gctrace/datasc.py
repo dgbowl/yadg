@@ -1,6 +1,8 @@
 import logging
 import numpy as np
-from uncertainties import ufloat_fromstr, ufloat, unumpy
+import uncertainties as uc
+import uncertainties.unumpy as unp
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
 
@@ -73,24 +75,23 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         dt = 60
         xmul = xmuls[ti] * dt / samplerates[ti]
         ymul = ymuls[ti]
-        xs = unumpy.uarray(np.arange(npoints[ti]), np.ones(npoints[ti]) * 0.5) * xmul
-        ys = (
-            np.array([ufloat_fromstr(i.strip()) for i in lines[si : si + npoints[ti]]])
-            * ymul
-        )
-        chrom["traces"][f"{ti}"] = {
-            "x": {
-                "n": list(unumpy.nominal_values(xs)),
-                "s": list(unumpy.std_devs(xs)),
-                "u": "s",
-            },
-            "y": {
-                "n": list(unumpy.nominal_values(ys)),
-                "s": list(unumpy.std_devs(ys)),
-                "u": yunits[ti],
-            },
-            "id": ti,
-            "data": [xs, ys],
+        xsn = np.arange(npoints[ti]) * xmul
+        xss = np.ones(npoints[ti]) * xmul
+        xs = [xsn, xss]
+        ytup = [tuple_fromstr(l) for l in lines[si : si + npoints[ti]]]
+        ysn, yss = [np.array(p) * ymul for p in zip(*ytup)]
+        ys = [ysn, yss]
+        chrom["traces"][f"{ti}"] = {"id": ti, "data": [xs, ys]}
+        chrom["traces"][f"{ti}"]["x"] = {
+            "n": xsn.tolist(),
+            "s": xss.tolist(),
+            "u": "s",
         }
+        chrom["traces"][f"{ti}"]["y"] = {
+            "n": ysn.tolist(),
+            "s": yss.tolist(),
+            "u": yunits[ti],
+        }
+
         si += npoints[ti]
     return [chrom], metadata, common

@@ -2,7 +2,8 @@ import json
 from scipy.signal import find_peaks, savgol_filter
 import numpy as np
 import logging
-from uncertainties import ufloat, UFloat, unumpy
+import uncertainties as uc
+import uncertainties.unumpy as unp
 
 from yadg.parsers.gctrace import datasc, chromtab, fusion
 import yadg.dgutils
@@ -10,23 +11,23 @@ import yadg.dgutils
 version = "1.0.dev1"
 
 
-def _find_peak_maxima(yseries: np.ndarray, peakdetect: dict) -> dict:
+def _find_peak_maxima(yvals: np.ndarray, peakdetect: dict) -> dict:
     """
     Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter. Returns the peak maxima, minima, and zero-points of the smoothened gradient and Hessian.
     """
     # find positive and negative peak indices
     peaks = {}
     res, _ = find_peaks(
-        yseries, prominence=peakdetect.get("prominence", 1e-4 * max(yseries))
+        yvals, prominence=peakdetect.get("prominence", 1e-4 * yvals.max())
     )
     peaks["+"] = res
     res, _ = find_peaks(
-        yseries, prominence=peakdetect.get("prominence", 1e-4 * max(yseries))
+        yvals * -1, prominence=peakdetect.get("prominence", 1e-4 * yvals.max())
     )
     peaks["-"] = res
     # smoothen the chromatogram based on supplied parameters
     smooth = savgol_filter(
-        yseries,
+        yvals,
         window_length=peakdetect.get("window", 7),
         polyorder=peakdetect.get("polyorder", 3),
     )
@@ -41,9 +42,11 @@ def _find_peak_maxima(yseries: np.ndarray, peakdetect: dict) -> dict:
     return smooth, peaks
 
 
-def _find_peak_edges(ys: np.ndarray, peakdata: dict, detector: dict) -> dict:
+def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
     """
-    A function that, given the y-values of a trace in `ys` and the maxima, inflection points etc. in `peakdata`, and the peak integration `"threshold"` in `detector`, finds the edges `"llim"` and `"rlim"` of each peak.
+    A function that, given the y-values of a trace in ``yvals`` and the maxima, 
+    inflection points etc. in ``peakdata``, and the peak integration `"threshold"` 
+    in ``detector``, finds the edges ``"llim"`` and ``"rlim"`` of each peak.
     """
     threshold = detector.get("threshold", 1.0)
     allpeaks = []
@@ -61,19 +64,19 @@ def _find_peak_edges(ys: np.ndarray, peakdata: dict, detector: dict) -> dict:
         rlim = False
         rmin = False
         rthr = False
-        for xi in range(peakdata["hesszero"][hi], len(ys)):
+        for xi in range(peakdata["hesszero"][hi], yvals.size):
             if xi in peakdata["gradzero"] and not rmin:
                 rmin = xi
             if xi in peakdata["hesszero"][hi:]:
                 rhi = xi
             elif xi > peakdata["hesszero"][hi + 1]:
                 dx = xi - rhi
-                dy = ys[xi] - ys[rhi]
+                dy = yvals[xi] - yvals[rhi]
                 if abs(dy / dx) < threshold and not rthr:
                     rthr = xi
             if rthr and rmin:
                 break
-        rlim = min(rthr if rthr else len(ys), rmin if rmin else len(ys))
+        rlim = min(rthr if rthr else yvals.size, rmin if rmin else yvals.size)
         # left of peak
         lmin = False
         lthr = False
@@ -85,7 +88,7 @@ def _find_peak_edges(ys: np.ndarray, peakdata: dict, detector: dict) -> dict:
                 lhi = xi
             elif xi < peakdata["hesszero"][hi - 2]:
                 dx = xi - lhi
-                dy = ys[xi] - ys[lhi]
+                dy = yvals[xi] - yvals[lhi]
                 if abs(dy / dx) < threshold and not lthr:
                     lthr = xi
             if lthr and lmin:
@@ -97,11 +100,11 @@ def _find_peak_edges(ys: np.ndarray, peakdata: dict, detector: dict) -> dict:
     return allpeaks
 
 
-def _baseline_correct(
-    yfloat: np.ndarray, yufloat: np.ndarray, peakdata: dict
-) -> np.ndarray:
+def _get_baseline(ys: list[np.ndarray], peakdata: dict) -> list[np.ndarray]:
     """
-    Function that corrects the trace defined by [`xs`, `ys`], using a baseline created from the linear interpolation between the `"llim"` and `"rlim"` of each `peak` in `peakdata`. Returns the corrected baseline.
+    Function that returns a baseline based on the trace defined by ``ys``. The 
+    baseline is created by a linear interpolation between the ``"llim"`` and 
+    ``"rlim"`` of each `peak` in ``peakdata``. Returns the corrected baseline.
     """
     interpolants = []
     for p in peakdata:
@@ -112,38 +115,44 @@ def _baseline_correct(
                 interpolants[-1][1] = p["rlim"]
             else:
                 interpolants.append([p["llim"], p["rlim"]])
-    baseline = yfloat
+    bn = ys[0].copy()
+    bs = ys[1].copy()
     for pair in interpolants:
-        npoints = pair[1] - pair[0]
-        interp = np.interp(
-            range(npoints), [0, npoints], [baseline[pair[0]], baseline[pair[1]]]
-        )
-        baseline[pair[0] : pair[1]] = interp
-    corrected = yufloat - baseline
-    return corrected
+        n = pair[1] - pair[0]
+        interp = np.interp(range(n), [0, n], [bn[pair[0]], bn[pair[1]]])
+        bn[pair[0] : pair[1]] = interp
+        bs[pair[0] : pair[1]] = np.zeros(n)
+    return bn, bs
 
 
 def _integrate_peaks(
-    xs: np.ndarray,
-    yfloat: np.ndarray,
-    yufloat: np.ndarray,
+    xs: list[np.ndarray],
+    ys: list[np.ndarray],
     peakdata: dict,
     specdata: dict,
 ) -> dict:
     """
-    A function which, given a trace in [`xs`, `ys`], `peakdata` containing the boundaries `"llim"` and `"rlim"` for each `peak`, and `specdata` containing the peak-maximum matching limits `"l"` and `"r"`, first assigns peaks into `truepeaks`, then baseline-corrects [`xs`, `ys`], and finally integrates the peaks using numpy.trapz().
+    A function which, given a trace in [`xs`, `ys`], `peakdata` containing the boundaries
+    `"llim"` and `"rlim"` for each `peak`, and `specdata` containing the peak-maximum
+    matching limits `"l"` and `"r"`, first assigns peaks into `truepeaks`, then
+    baseline-corrects [`xs`, `ys`], and finally integrates the peaks using numpy.trapz().
     """
+    xsn = xs[0]
     truepeaks = {}
     for name, species in specdata.items():
         for p in peakdata:
-            if xs[p["max"]] > species["l"] and xs[p["max"]] < species["r"]:
+            if xsn[p["max"]] > species["l"] and xsn[p["max"]] < species["r"]:
                 truepeaks[name] = p
                 break
-    ys = _baseline_correct(yfloat, yufloat, peakdata)
+    bln = _get_baseline(ys, peakdata)
     for k, v in truepeaks.items():
-        A = np.trapz(ys[v["llim"] : v["rlim"] + 1], xs[v["llim"] : v["rlim"] + 1])
+        s = v["llim"]
+        e = v["rlim"] + 1
+        py = unp.uarray(ys[0][s:e] - bln[0][s:e], ys[1][s:e] - bln[1][s:e])
+        px = unp.uarray(xs[0][s:e], xs[1][s:e])
+        A = np.trapz(py, px)
         truepeaks[k]["A"] = A
-        truepeaks[k]["h"] = yufloat[v["max"]]
+        truepeaks[k]["h"] = py[v["max"] - s]
     return truepeaks
 
 
@@ -151,7 +160,8 @@ def _parse_detector_spec(
     calfile: str = None, detectors: dict = None, species: dict = None
 ) -> dict:
     """
-    Combines the GC spec from the json file specified in `calfile` with the dict definitions provided in `detectors` and `species`.
+    Combines the GC spec from the json file specified in `calfile` with the dict 
+    definitions provided in `detectors` and `species`.
     """
     if calfile is not None:
         with open(calfile, "r") as infile:
@@ -166,9 +176,10 @@ def _parse_detector_spec(
                 calib[name] = det
     if isinstance(species, dict):
         for name, sp in species.items():
-            assert (
-                name in calib
-            ), f"gctrace: Detector with name {name} specified in supplied 'species' but previously undefined."
+            assert name in calib, (
+                f"gctrace: Detector with name {name} specified in supplied "
+                f"'species' but previously undefined."
+            )
             try:
                 calib[name]["species"].update(sp)
             except KeyError:
@@ -242,13 +253,10 @@ def process(
                 "y": chrom["traces"][det]["y"]["u"],
                 "A": "-",
             }
-            xufloat, yufloat = chrom["traces"][det].pop("data")
-            yfloat = unumpy.nominal_values(yufloat)
-            smooth, peakmax = _find_peak_maxima(yfloat, spec.get("peakdetect", {}))
+            xs, ys = chrom["traces"][det].pop("data")
+            smooth, peakmax = _find_peak_maxima(ys[0], spec.get("peakdetect", {}))
             peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
-            integrated = _integrate_peaks(
-                xufloat, yfloat, yufloat, peakspec, spec["species"]
-            )
+            integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
             peaks[detname] = {}
             for k, v in integrated.items():
                 peaks[detname][k] = {
@@ -262,25 +270,25 @@ def process(
                 }
                 if spec["species"][k].get("calib", None) is not None:
                     x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
-                    peaks[detname][k]["c"] = [
-                        max(0.0, x.n),
-                        x.s,
-                        spec["species"][k]["calib"].get("unit", "vol%"),
-                    ]
+                    x = max(uc.ufloat(0.0, x.s), x)
+                    peaks[detname][k]["c"] = {
+                        "n": x.n,
+                        "s": x.s,
+                        "u": spec["species"][k]["calib"].get("unit", "vol%"),
+                        "uf": x,
+                    }
                 if k not in comp:
                     comp.append(k)
         xout = {}
         for s in comp:
             for d, ds in gcspec.items():
-                if (
-                    s in peaks[d]
-                    and "c" in peaks[d][s]
-                    and (ds.get("prefer", False) or s not in xout)
-                ):
-                    xout[s] = peaks[d][s]["c"]
-        norm = sum([ufloat(*v) for k, v in xout.items()])
+                if s in peaks[d] and "c" in peaks[d][s]:
+                    v = peaks[d][s]["c"].pop("uf")
+                    if ds.get("prefer", False) or s not in xout:
+                        xout[s] = v
+        norm = sum([xout[k] for k in xout.keys()])
         for s in xout:
-            xnorm = ufloat(*xout[s]) / norm
+            xnorm = xout[s] / norm
             xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": "-"}
         result = {"uts": chrom.pop("uts"), "fn": chrom.pop("fn")}
         result["raw"] = chrom

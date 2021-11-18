@@ -58,23 +58,23 @@ def test_update_schema_310(datadir):
     # gctrace test
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["O2"],
-        {"n": 0.0298649, "s": 0.0003118, "u": "-"},
+        {"n": 0.0298649, "s": 0.0006050, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["N2"],
-        {"n": 0.9171958, "s": 0.0016113, "u": "-"},
+        {"n": 0.9171958, "s": 0.0007279, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["propane"],
-        {"n": 0.0160627, "s": 0.0000222, "u": "-"},
+        {"n": 0.0160627, "s": 0.0000442, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["CO2"],
-        {"n": 0.0080332, "s": 0.0000262, "u": "-"},
+        {"n": 0.0080332, "s": 0.0000520, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["CO"],
-        {"n": 0.0288261, "s": 0.0002262, "u": "-"},
+        {"n": 0.0288261, "s": 0.0004395, "u": "-"},
     )
 
 

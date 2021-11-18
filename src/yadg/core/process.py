@@ -3,7 +3,7 @@ import os
 import logging
 from typing import Union, Callable
 
-from yadg.parsers import dummy, basiccsv, qftrace, gctrace, drycal, meascsv
+from yadg.parsers import dummy, basiccsv, qftrace, gctrace, drycal, meascsv, eclab
 import yadg.dgutils
 import yadg.core
 
@@ -37,6 +37,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return drycal.process, drycal.version
     if parser == "meascsv":
         return meascsv.process, meascsv.version
+    if parser == "eclab":
+        return eclab.process, eclab.version
 
 
 def _infer_todo_files(importdict: dict) -> list:

@@ -66,7 +66,7 @@ schema_step = {
     "all": {
         "parser": {
             "type": str,
-            "one": ["dummy", "basiccsv", "qftrace", "gctrace", "drycal", "meascsv"],
+            "one": ["dummy", "basiccsv", "qftrace", "gctrace", "drycal", "meascsv", "eclab"],
         },
         "import": {
             "type": dict,

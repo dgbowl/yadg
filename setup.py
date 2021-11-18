@@ -34,9 +34,10 @@ setuptools.setup(
         "scipy",
         "uncertainties",
         "striprtf",
-        "python-dateutil",
+        "pytest",
+        "pandas",
         "tzlocal",
-        "pytest"
+        "eclabfiles>=0.3.9",
     ],
     entry_points = {
         "console_scripts": [

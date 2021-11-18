@@ -80,10 +80,8 @@ def _process_datapoints(
             # Using the unit of least precision as a measure of
             # uncertainty for now, i.e the spacing between two
             # consecutive floats.
-            # TODO: Conversion from numpy datatypes should probably be
-            # done in eclabfiles.
             datapoint['raw'][key] = {
-                'n': float(value),
+                'n': value,
                 's': math.ulp(value),
                 'u': unit
             }
@@ -100,17 +98,17 @@ def _process_mpr(fn: str) -> tuple[list, dict, dict]:
     mpr = parse_mpr(fn)
     for module in mpr:
         name = module['header']['short_name']
-        if name == b'VMP Set   ':
+        if name == 'VMP Set   ':
             meta['settings'] = module['data'].copy()
             common['params'] = meta['settings'].pop('params')
-        elif name == b'VMP data  ':
+        elif name == 'VMP data  ':
             datapoints = [
                 {'raw': point} for point in module['data']['datapoints']]
-        elif name == b'VMP LOG   ':
+        elif name == 'VMP LOG   ':
             meta['log'] = module['data']
             acquisition_start = module['data']['ole_timestamp']
             datapoints = _process_datapoints(datapoints, acquisition_start, fn)
-        elif name == b'VMP loop  ':
+        elif name == 'VMP loop  ':
             meta['loops'] = module['data']
     # TODO: The right params common should be associated with the data
     # points. This can be done through the length of params and the Ns

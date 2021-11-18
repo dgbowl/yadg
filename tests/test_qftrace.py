@@ -10,8 +10,7 @@ def special_datagram_test(datagram, testspec):
         len(tstep["raw"]["f"]["n"]) == testspec["tracelen"]
         and len(tstep["raw"]["Re(Γ)"]["n"]) == testspec["tracelen"]
         and len(tstep["raw"]["Im(Γ)"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["abs(Γ)"]["n"]) == testspec["tracelen"]
-    ), "length of 'f', 'Re(Γ)', 'Im(Γ)', and 'abs(Γ)' not as prescribed."
+    ), "length of 'f', 'Re(Γ)', 'Im(Γ)' not as prescribed."
 
     assert (
         len(tstep["derived"]["Q"]["n"]) == testspec["npeaks"]
@@ -89,14 +88,33 @@ def special_datagram_test(datagram, testspec):
                 "tracelen": 20001,
                 "npeaks": 2,
                 "peak": 0,
-                "Qn": 2611.599,
-                "Qs": 67.399,
-                "fn": 7173243292.3,
-                "fs": 68479751.0,
+                "Qn": 3093.85372,
+                "Qs": 243.395,
+                "fn": 7173256009.5,
+                "fs": 36639.9,
             },
         ),
         (
-            {  # ts3 - kajfez with defaults
+            {  # ts3 - lorentz with looser threshold
+                "folders": ["."],
+                "parameters": {"method": "lorentz", "threshold": 1e-5},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "tracelen": 20001,
+                "npeaks": 2,
+                "peak": 0,
+                "Qn": 3258.95353,
+                "Qs": 284.608,
+                "fn": 7173255571.3,
+                "fs": 35331.2,
+            },
+        ),
+        (
+            {  # ts4 - kajfez with defaults
                 "folders": ["."],
                 "parameters": {"method": "kajfez"},
             },
@@ -115,7 +133,7 @@ def special_datagram_test(datagram, testspec):
             },
         ),
         (
-            {  # ts4 - kajfez with a higher cutoff
+            {  # ts5 - kajfez with a higher cutoff
                 "folders": ["."],
                 "parameters": {"method": "kajfez", "cutoff": 0.5},
             },

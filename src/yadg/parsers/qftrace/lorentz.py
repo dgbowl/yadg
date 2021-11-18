@@ -7,7 +7,7 @@ def _lorentz(x, a, x0, gam, c):
     return a * (gam ** 2 / ((x - x0) ** 2 + gam ** 2)) + c
 
 
-def fit(freq, gamma, absgamma, **kwargs):
+def fit(fvals, fsigs, gvals, absgvals, **kwargs):
     """
     Lorentz fit.
 
@@ -15,14 +15,14 @@ def fit(freq, gamma, absgamma, **kwargs):
     """
     popt, pcov = curve_fit(
         _lorentz,
-        unumpy.nominal_values(freq),
-        unumpy.nominal_values(absgamma),
-        sigma=unumpy.std_devs(absgamma),
+        fvals,
+        absgvals,
+        sigma=absgvals,
         absolute_sigma=True,
-        p0=[-0.5, freq[np.argmin(absgamma)].n, 1e5, 1],
+        p0=[-0.5, fvals[np.argmin(absgvals)], 1e5, 1],
     )
     perr = np.sqrt(np.diag(pcov))
-    x0 = ufloat(popt[1], perr[1] * popt[1])
-    gam = ufloat(popt[2], perr[2] * popt[2])
+    x0 = ufloat(popt[1], perr[1])
+    gam = ufloat(popt[2], perr[2])
 
     return x0 / (2 * gam), x0

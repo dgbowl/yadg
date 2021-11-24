@@ -78,7 +78,7 @@ gctrace_chromtab = {
         "MS": {
             "id": 0,
             "peakdetect": {
-                "window": 3,
+                "window": 1,
                 "polyorder": 2,
                 "prominence": 1e5,
                 "threshold": 1.0,
@@ -88,7 +88,7 @@ gctrace_chromtab = {
         "TCD": {
             "id": 1,
             "peakdetect": {
-                "window": 3,
+                "window": 1,
                 "polyorder": 2,
                 "prominence": 1e5,
                 "threshold": 1.0,
@@ -97,7 +97,7 @@ gctrace_chromtab = {
         "FID": {
             "id": 2,
             "peakdetect": {
-                "window": 3,
+                "window": 1,
                 "polyorder": 2,
                 "prominence": 1e5,
                 "threshold": 1.0,

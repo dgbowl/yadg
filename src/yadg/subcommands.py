@@ -85,7 +85,7 @@ def preset(args: argparse.Namespace) -> None:
     this function will prepend the specified ``args.folder`` to all paths in the
     ``args.preset``, convert them to absolute paths, and save the resulting `schema`
     in the supplied ``args.outfile``.
-    
+
     Alternatively, if ``args.process`` is specified, the created `schema` will be
     directly processed into a `datagram`, which is then saved in ``args.outfile``.
     """

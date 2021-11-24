@@ -66,7 +66,16 @@ schema_step = {
     "all": {
         "parser": {
             "type": str,
-            "one": ["dummy", "basiccsv", "qftrace", "gctrace", "drycal", "meascsv", "eclab"],
+            "one": [
+                "dummy",
+                "basiccsv",
+                "qftrace",
+                "gctrace",
+                "drycal",
+                "meascsv",
+                "eclab",
+                "lctrace",
+            ],
         },
         "import": {
             "type": dict,
@@ -122,10 +131,10 @@ schema_step["any"]["parameters"]["any"].update(
     }
 )
 
-# gctrace parameters
+# gctrace/lctrace parameters
 schema_step["any"]["parameters"]["any"].update(
     {
-        "tracetype": {"type": str, "one": ["datasc", "chromtab", "fusion"]},
+        "tracetype": {"type": str, "one": ["datasc", "chromtab", "fusion", "ch", "dx"]},
         "species": species,
         "detectors": detectors,
     }

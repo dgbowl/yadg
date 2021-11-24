@@ -44,7 +44,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     MassHunter Chromtab format.
 
     Multiple chromatograms per file with multiple traces. Each chromatogram starts with
-    a header section, and is followed by each trace, which includes a header line and 
+    a header section, and is followed by each trace, which includes a header line and
     x,y-data. Method is not available, but sampleid and detector names are included.
     """
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

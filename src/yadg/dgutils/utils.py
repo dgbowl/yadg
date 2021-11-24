@@ -14,7 +14,7 @@ def calib_3to4(oldcal: dict, caltype: str) -> dict:
     if caltype == "calfile":
         for k, v in oldcal["detectors"].items():
             pd = {
-                "window": v.get("window", 3),
+                "window": (v.get("window", 3) - 1) // 2,
                 "polyorder": v.get("poly", 2),
                 "prominence": v.get("prominence", 1.0),
                 "threshold": v.get("threshold", 1.0),

@@ -2,7 +2,7 @@
     "MS": {
         "id": 0,
         "peakdetect": {
-            "window": 3,
+            "window": 1,
             "polyorder": 2,
             "prominence": 1e5,
             "threshold": 1
@@ -18,7 +18,7 @@
     "TCD": {
         "id": 1,
         "peakdetect": {
-            "window": 3,
+            "window": 1,
             "polyorder": 2,
             "prominence": 1e5,
             "threshold": 1

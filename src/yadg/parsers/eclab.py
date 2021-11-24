@@ -13,7 +13,9 @@ version = "1.0.dev1"
 
 
 def _process_datapoints(
-    datapoints: list[dict], acquisition_start: Union[float, str], fn: str,
+    datapoints: list[dict],
+    acquisition_start: Union[float, str],
+    fn: str,
 ) -> list[dict]:
     """Processes the datapoints from parsed `.mpr` or `.mpt` files.
 

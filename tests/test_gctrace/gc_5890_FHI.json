@@ -2,7 +2,7 @@
     "TCD": {
         "id": 1,
         "peakdetect": {
-            "window": 3,
+            "window": 1,
             "polyorder": 2,
             "prominence": 5e-1,
             "threshold": 1
@@ -23,7 +23,7 @@
     "FID": {
         "id": 0,
         "peakdetect": {
-            "window": 3,
+            "window": 1,
             "polyorder": 2,
             "prominence": 5e-1,
             "threshold": 1

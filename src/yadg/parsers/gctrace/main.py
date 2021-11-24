@@ -11,41 +11,58 @@ import yadg.dgutils
 version = "1.0.dev1"
 
 
-def _find_peak_maxima(yvals: np.ndarray, peakdetect: dict) -> dict:
+def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
     """
-    Wrapper around scipy.signal.find_peaks and scipy.signal.savgol_filter. Returns the peak maxima, minima, and zero-points of the smoothened gradient and Hessian.
+    Wrapper around :func:`scipy.signal.savgol_filter`. If the window length and the
+    polynomial order are specified in ``pd``, the smoothened ``yvals`` are returned.
+    Otherwise, the original ``yvals`` are returned.
+
+    The function also validates that the specified window length derived from the
+    ``"window"`` is larger than the ``"polyorder"``.
+    """
+    if pd.get("polyorder", None) is None or pd.get("window", None) is None:
+        logging.info("gctrace: no smoothing.")
+        return yvals
+    else:
+        window = pd.get("window", 3) * 2 + 1
+        polyorder = pd.get("polyorder", 3)
+        assert polyorder < window, f"gctrace: specified window <= polyorder."
+        if polyorder == 2:
+            logging.warning(
+                "gctrace: smoothing with a polyorder == 2 can be unreliable. "
+                "Consider switching to a higher polyorder or disabling smoothing "
+                "completely."
+            )
+        return savgol_filter(yvals, window_length=window, polyorder=polyorder)
+
+
+def _find_peak_maxima(yvals: np.ndarray, pd: dict) -> dict:
+    """
+    This function is a wrapper around :func:`scipy.signal.find_peaks` as well as
+    a helper finding the points at which the gradient and Hessian of ``yvals``
+    is zero (maxima, minima, inflection points).
     """
     # find positive and negative peak indices
     peaks = {}
-    res, _ = find_peaks(
-        yvals, prominence=peakdetect.get("prominence", 1e-4 * yvals.max())
-    )
+    res, _ = find_peaks(yvals, prominence=pd.get("prominence", 1e-4 * yvals.max()))
     peaks["+"] = res
-    res, _ = find_peaks(
-        yvals * -1, prominence=peakdetect.get("prominence", 1e-4 * yvals.max())
-    )
+    res, _ = find_peaks(yvals * -1, prominence=pd.get("prominence", 1e-4 * yvals.max()))
     peaks["-"] = res
-    # smoothen the chromatogram based on supplied parameters
-    smooth = savgol_filter(
-        yvals,
-        window_length=peakdetect.get("window", 7),
-        polyorder=peakdetect.get("polyorder", 3),
-    )
     # gradient: find peaks and inflection points
-    grad = np.gradient(smooth)
-    res = np.where(np.diff(np.sign(grad)) != 0)[0] + 1
+    grad = np.gradient(yvals)
+    res = np.nonzero(np.diff(np.sign(grad)))[0] + 1
     peaks["gradzero"] = res
     # hessian: find peaks
     hess = np.gradient(grad)
-    res = np.where(np.diff(np.sign(hess)) != 0)[0] + 1
+    res = np.nonzero(np.diff(np.sign(hess)))[0] + 1
     peaks["hesszero"] = res
-    return smooth, peaks
+    return peaks
 
 
 def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
     """
-    A function that, given the y-values of a trace in ``yvals`` and the maxima, 
-    inflection points etc. in ``peakdata``, and the peak integration `"threshold"` 
+    A function that, given the y-values of a trace in ``yvals`` and the maxima,
+    inflection points etc. in ``peakdata``, and the peak integration `"threshold"`
     in ``detector``, finds the edges ``"llim"`` and ``"rlim"`` of each peak.
     """
     threshold = detector.get("threshold", 1.0)
@@ -64,46 +81,50 @@ def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
         rlim = False
         rmin = False
         rthr = False
+        rhi = False
         for xi in range(peakdata["hesszero"][hi], yvals.size):
             if xi in peakdata["gradzero"] and not rmin:
                 rmin = xi
-            if xi in peakdata["hesszero"][hi:]:
+            elif xi in peakdata["hesszero"][hi:]:
+                if rhi:
+                    dx = xi - rhi
+                    dy = yvals[xi] - yvals[rhi]
+                    if abs(dy / dx) < threshold and not rthr:
+                        rthr = xi
                 rhi = xi
-            elif xi > peakdata["hesszero"][hi + 1]:
-                dx = xi - rhi
-                dy = yvals[xi] - yvals[rhi]
-                if abs(dy / dx) < threshold and not rthr:
-                    rthr = xi
             if rthr and rmin:
                 break
         rlim = min(rthr if rthr else yvals.size, rmin if rmin else yvals.size)
+        if rlim == yvals.size:
+            logging.warning("gctrace: possible mismatch of peak end.")
+            rlim -= 1
         # left of peak
         lmin = False
         lthr = False
-        lhi = pmax
+        lhi = False
         for xi in range(0, peakdata["hesszero"][hi - 1])[::-1]:
             if xi in peakdata["gradzero"] and not lmin:
                 lmin = xi
             if xi in peakdata["hesszero"][: hi - 1]:
+                if lhi:
+                    dx = xi - lhi
+                    dy = yvals[xi] - yvals[lhi]
+                    if abs(dy / dx) < threshold and not lthr:
+                        lthr = xi
                 lhi = xi
-            elif xi < peakdata["hesszero"][hi - 2]:
-                dx = xi - lhi
-                dy = yvals[xi] - yvals[lhi]
-                if abs(dy / dx) < threshold and not lthr:
-                    lthr = xi
             if lthr and lmin:
                 break
         llim = max(lthr if lthr else 0, lmin if lmin else 0)
         if llim == 0:
-            logging.warning("gctrace: possible mismatch of peak start")
+            logging.warning("gctrace: possible mismatch of peak start.")
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 
 
 def _get_baseline(ys: list[np.ndarray], peakdata: dict) -> list[np.ndarray]:
     """
-    Function that returns a baseline based on the trace defined by ``ys``. The 
-    baseline is created by a linear interpolation between the ``"llim"`` and 
+    Function that returns a baseline based on the trace defined by ``ys``. The
+    baseline is created by a linear interpolation between the ``"llim"`` and
     ``"rlim"`` of each `peak` in ``peakdata``. Returns the corrected baseline.
     """
     interpolants = []
@@ -160,7 +181,7 @@ def _parse_detector_spec(
     calfile: str = None, detectors: dict = None, species: dict = None
 ) -> dict:
     """
-    Combines the GC spec from the json file specified in `calfile` with the dict 
+    Combines the GC spec from the json file specified in `calfile` with the dict
     definitions provided in `detectors` and `species`.
     """
     if calfile is not None:
@@ -199,7 +220,9 @@ def process(
     """
     GC chromatogram parser.
 
-    This parser processes GC chromatograms in signal(time) format. When provided with a calibration file, this tool will integrate the trace, and provide the peak areas, retention times, and concentrations of the detected species.
+    This parser processes GC chromatograms in signal(time) format. When provided
+    with a calibration file, this tool will integrate the trace, and provide the
+    peak areas, retention times, and concentrations of the detected species.
 
     Parameters
     ----------
@@ -213,25 +236,32 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     tracetype
-        Determines the output file format. Currently supported formats are `"chromtab"` (), `"datasc"` (EZ-Chrom ASCII export), `"fusion"` (Fusion json file). The default is `"datasc"`.
+        Determines the output file format. Currently supported formats are
+        ``"chromtab"`` (), ``"datasc"`` (EZ-Chrom ASCII export), ``"fusion"`` (Fusion
+        json file). The default is ``"datasc"``.
 
     detectors
-        Detector specification. Matches and identifies a trace in the `fn` file. If provided, overrides data provided in `calfile`, below.
+        Detector specification. Matches and identifies a trace in the `fn` file.
+        If provided, overrides data provided in ``calfile``, below.
 
     species
-        Species specification. Per-detector species can be listed here, providing an expected retention time range for the peak maximum. Additionally, calibration data can be supplied here. Overrides data provided in `calfile`, below.
+        Species specification. Per-detector species can be listed here, providing an
+        expected retention time range for the peak maximum. Additionally, calibration
+        data can be supplied here. Overrides data provided in ``calfile``, below.
 
     calfile
-        Path to a json file containing the `detectors` and `species` spec. Either `calfile` and/or `species` and `detectors` have to be provided.
+        Path to a json file containing the ``detectors`` and ``species`` spec. Either
+        ``calfile`` and/or ``species`` and ``detectors`` have to be provided.
 
     Returns
     -------
     (data, metadata, common) : tuple[list, dict, None]
         Tuple containing the timesteps, metadata, and common data.
     """
-    assert calfile is not None or (
-        species is not None and detectors is not None
-    ), "gctrace: Neither 'calfile' nor 'species' and 'detectors' were provided. Fit cannot proceed."
+    assert calfile is not None or (species is not None and detectors is not None), (
+        "gctrace: Neither 'calfile' nor both 'species' and 'detectors' were provided. "
+        "Fit cannot proceed."
+    )
     gcspec = _parse_detector_spec(calfile, detectors, species)
     if tracetype == "datasc" or tracetype == "gctrace":
         _data, _meta, _common = datasc.process(fn, encoding, timezone)
@@ -254,8 +284,10 @@ def process(
                 "A": "-",
             }
             xs, ys = chrom["traces"][det].pop("data")
-            smooth, peakmax = _find_peak_maxima(ys[0], spec.get("peakdetect", {}))
-            peakspec = _find_peak_edges(smooth, peakmax, spec.get("peakdetect", {}))
+            pd = spec.get("peakdetect", {})
+            smooth = _get_smooth_yvals(ys[0], pd)
+            peakmax = _find_peak_maxima(smooth, pd)
+            peakspec = _find_peak_edges(smooth, peakmax, pd)
             integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
             peaks[detname] = {}
             for k, v in integrated.items():

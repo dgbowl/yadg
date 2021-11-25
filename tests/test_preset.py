@@ -4,7 +4,6 @@ import json
 from tests.utils import (
     standard_datagram_test,
     datadir,
-    compare_result_dicts,
 )
 
 import yadg.dgutils, yadg.core

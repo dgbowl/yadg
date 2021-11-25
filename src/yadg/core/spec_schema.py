@@ -69,12 +69,11 @@ schema_step = {
             "one": [
                 "dummy",
                 "basiccsv",
+                "chromtrace",
                 "qftrace",
-                "gctrace",
                 "drycal",
                 "meascsv",
                 "eclab",
-                "lctrace",
             ],
         },
         "import": {
@@ -131,10 +130,19 @@ schema_step["any"]["parameters"]["any"].update(
     }
 )
 
-# gctrace/lctrace parameters
+# chromtrace parameters
 schema_step["any"]["parameters"]["any"].update(
     {
-        "tracetype": {"type": str, "one": ["datasc", "chromtab", "fusion", "ch", "dx"]},
+        "tracetype": {
+            "type": str,
+            "one": [
+                "ezchrom.asc",
+                "fusion.json",
+                "agilent.ch",
+                "agilent.dx",
+                "agilent.csv",
+            ],
+        },
         "species": species,
         "detectors": detectors,
     }

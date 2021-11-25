@@ -9,3 +9,4 @@ following links:
    :maxdepth: 1
 
    parsers.dummy
+   parsers.chromtrace

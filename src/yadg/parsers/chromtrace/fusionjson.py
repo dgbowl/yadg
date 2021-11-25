@@ -1,8 +1,31 @@
-import logging
+"""
+File parser for Fusion json data format (json).
+
+This is a fairly detailed data format, including the traces, the calibration applied,
+and also the integrated peak areas. If the peak areas are present, this is returned
+in the list of timesteps as a ``"peaks"`` entry.
+
+.. note ::
+    The detectors in the trace data are not necessarily in a consistent order, which
+    may change between different files. Hence, the keys are sorted.
+
+Exposed metadata:
+`````````````````
+
+.. code-block:: yaml
+
+  - params:
+      method:   !!str
+      sampleid: !!str
+      username: None
+      version:  !!str
+      valve:    !!int
+      datafile: !!str
+
+.. codeauthor:: Peter Kraus
+"""
 import json
 import numpy as np
-import uncertainties.unumpy as unp
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
 
@@ -11,30 +34,48 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
     Fusion json format.
 
-    One chromatogram per file with multiple traces, and pre-analysed results. Only a subset of the metadata is retained, including the method name, detector names, and information about assigned peaks.
+    One chromatogram per file with multiple traces, and pre-analysed results.
+    Only a subset of the metadata is retained, including the method name,
+    detector names, and information about assigned peaks.
+
+    Parameters
+    ----------
+    fn
+        Filename to process.
+
+    encoding
+        Encoding used to open the file.
+
+    timezone
+        Timezone information. This should be ``"localtime"``.
+
+    Returns
+    -------
+    ([chrom], metadata): tuple[list, dict]
+        Standard timesteps & metadata tuple.
     """
+
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
-
     metadata = {
-        "type": "gctrace.fusion",
-        "gcparams": {
-            "method": jsdata.get("methodName", ""),
-            "sampleid": jsdata.get("annotations", {}).get("name", ""),
-            "valve": {
-                "valvename": jsdata.get("annotations", {}).get("valcoPositionName", ""),
-                "valveid": jsdata.get("annotations", {}).get("valcoPosition", None),
-            },
-            "version": jsdata.get("softwareVersion", {}).get("version", ""),
+        "filetype": "fusion.json",
+        "params": {
+            "method": jsdata.get("methodName", "n/a"),
+            "sampleid": jsdata.get("annotations", {}).get("name", None),
+            "valve": jsdata.get("annotations", {}).get("valcoPosition", None),
+            "version": jsdata.get("softwareVersion", {}).get("version", None),
+            "datafile": jsdata.get("sequence", {}).get("location", None),
+            "username": None,
         },
     }
-
-    common = {}
+    chrom = {"fn": str(fn), "traces": {}}
     _, datefunc = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {}}, timezone=timezone
     )
-    chrom = {"fn": str(fn), "traces": {}, "uts": datefunc(jsdata["runTimeStamp"])}
+    chrom["uts"] = datefunc(jsdata["runTimeStamp"])
     detid = 0
+
+    # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
         detdict = jsdata["detectors"][detname]
         trace = {"x": [], "y": [], "id": detid}
@@ -78,4 +119,4 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                 trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
         chrom["traces"][detname] = trace
 
-    return [chrom], metadata, common
+    return [chrom], metadata

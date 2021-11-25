@@ -7,11 +7,10 @@ from yadg.parsers import (
     dummy,
     basiccsv,
     qftrace,
-    gctrace,
+    chromtrace,
     drycal,
     meascsv,
     eclab,
-    lctrace,
 )
 import yadg.dgutils
 import yadg.core
@@ -34,8 +33,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         A tuple containing the handler function as :class:`(Callable)` and the handler
         version as :class:`(str)`.
     """
-    if parser == "gctrace":
-        return gctrace.process, gctrace.version
+    if parser == "chromtrace":
+        return chromtrace.process, chromtrace.version
     if parser == "qftrace":
         return qftrace.process, qftrace.version
     if parser == "dummy":
@@ -48,8 +47,6 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return meascsv.process, meascsv.version
     if parser == "eclab":
         return eclab.process, eclab.version
-    if parser == "lctrace":
-        return lctrace.process, lctrace.version
 
 
 def _infer_todo_files(importdict: dict) -> list:

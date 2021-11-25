@@ -13,10 +13,10 @@
             }
         },
         {
-            "parser": "gctrace",
+            "parser": "chromtrace",
             "import": {"folders": [""], "suffix": "dat.asc"},
             "parameters": {
-                "tracetype": "datasc",
+                "tracetype": "ezchrom.asc",
                 "calfile": "calib/fhi_gccal.json"
             }
         }

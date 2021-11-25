@@ -1,14 +1,56 @@
-import json
-from scipy.signal import find_peaks, savgol_filter
+"""
+.. _parsers_chromtrace_integration:
+
+This module contains the :func:`yadg.parsers.chromtrace.integration.integrate_trace`
+function, as well as several helper functions to smoothen, peak-pick, determine edges,
+and integrate the supplied traces.
+
+Smoothing
+`````````
+Smoothing can be optionally performed on the Y-values of each trace, using a 
+Savigny-Golay filter. The default smoothing is performed using a cubic fit to a window 
+length of 7; if the polyorder or the window length are not specified, smoothing is 
+not used.
+
+Peak-picking and edge-finding
+`````````````````````````````
+Peak-picking is performed on the smoothed Y-data to find peaks, as well as on the mirror
+image of the data to find bands. Only peaks are further processed. Additionally, the
+1st and 2nd derivatives of the Y-data are evaluated, and the zero-points are found using
+numpy routines.
+
+The peak edges are taken as either the nearest minima adjacent to the peak maximum,
+or as the inflection points at which the gradient falls below a prescribed threshold,
+whichever is closest to the peak maximum.
+
+Baseline correction
+```````````````````
+Using the determined peak-edges, the baseline is linearly interpolated in sections of
+Y-data which belong to a peak. The interpolation is performed using the raw (not 
+smoothened) Y-data. 
+
+If multiple peaks are adjacent to each other without a gap, the interpolation begins
+at the left limit of the leftmost peak and continues uninterrupted to the right limit
+of the rightmost peak. The points which belong to the interpolated areas are assumed 
+to have an uncertainty of zero.
+
+The corrected baseline is then obtained by subtracting the interpolated baseline from
+the original raw (not smoothened) data.
+
+Peak integration
+````````````````
+Peak integration is performed on the corrected baseline and the matching X-data using
+the trapezoidal method as implemented in ``np.trapz``.
+
+.. codeauthor:: Peter Kraus
+"""
 import numpy as np
+from scipy.signal import savgol_filter, find_peaks
 import logging
 import uncertainties as uc
-import uncertainties.unumpy as unp
+from uncertainties import unumpy as unp
 
-from yadg.parsers.gctrace import datasc, chromtab, fusion
 import yadg.dgutils
-
-version = "1.0.dev1"
 
 
 def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
@@ -177,155 +219,83 @@ def _integrate_peaks(
     return truepeaks
 
 
-def _parse_detector_spec(
-    calfile: str = None, detectors: dict = None, species: dict = None
-) -> dict:
+def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
     """
-    Combines the GC spec from the json file specified in `calfile` with the dict
-    definitions provided in `detectors` and `species`.
-    """
-    if calfile is not None:
-        with open(calfile, "r") as infile:
-            calib = json.load(infile)
-    else:
-        calib = {}
-    if isinstance(detectors, dict):
-        for name, det in detectors.items():
-            try:
-                calib[name].update(det)
-            except KeyError:
-                calib[name] = det
-    if isinstance(species, dict):
-        for name, sp in species.items():
-            assert name in calib, (
-                f"gctrace: Detector with name {name} specified in supplied "
-                f"'species' but previously undefined."
-            )
-            try:
-                calib[name]["species"].update(sp)
-            except KeyError:
-                calib[name]["species"] = sp
-    return calib
-
-
-def process(
-    fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    tracetype: str = "datasc",
-    detectors: dict = None,
-    species: dict = None,
-    calfile: str = None,
-) -> tuple[list, dict, dict]:
-    """
-    GC chromatogram parser.
-
-    This parser processes GC chromatograms in signal(time) format. When provided
-    with a calibration file, this tool will integrate the trace, and provide the
-    peak areas, retention times, and concentrations of the detected species.
+    Integration, calibration, and normalisation handling function. Used to process
+    all chromatographic data for which a calibration has been provided
 
     Parameters
     ----------
-    fn
-        The file containing the trace(s) to parse.
+    traces
+        A dictionary of trace data, with keys being the "raw" name of the detector,
+        and the values containing the ``"id"`` for specification matching, and a
+        ``"data"`` tuple containing the ``(xs, ys)`` where each element is a pair of
+        :class:`(np.ndarray)` with the nominal values and standard deviations.
 
-    encoding
-        Encoding of ``fn``, by default "utf-8".
-
-    timezone
-        A string description of the timezone. Default is "localtime".
-
-    tracetype
-        Determines the output file format. Currently supported formats are
-        ``"chromtab"`` (), ``"datasc"`` (EZ-Chrom ASCII export), ``"fusion"`` (Fusion
-        json file). The default is ``"datasc"``.
-
-    detectors
-        Detector specification. Matches and identifies a trace in the `fn` file.
-        If provided, overrides data provided in ``calfile``, below.
-
-    species
-        Species specification. Per-detector species can be listed here, providing an
-        expected retention time range for the peak maximum. Additionally, calibration
-        data can be supplied here. Overrides data provided in ``calfile``, below.
-
-    calfile
-        Path to a json file containing the ``detectors`` and ``species`` spec. Either
-        ``calfile`` and/or ``species`` and ``detectors`` have to be provided.
+    chromspec
+        Parsed calibration information, with keys being the detector names in the
+        calibration file, and values containing the ``"id"`` for detector matching,
+        ``"peakdetect"`` dictionary with peak-picking and edge-finding settings,
+        and ``"species"`` dictionary with names of species as keys and the left,
+        right limits and calibration information as values.
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (peaks, xout): tuple[dict, dict]
+        A tuple containing a dictionary with the peak picking information (name,
+        maximum, limits, height, area) as well as a dictionary containing the
+        normalised molar fractions of the assigned and detected species.
     """
-    assert calfile is not None or (species is not None and detectors is not None), (
-        "gctrace: Neither 'calfile' nor both 'species' and 'detectors' were provided. "
-        "Fit cannot proceed."
-    )
-    gcspec = _parse_detector_spec(calfile, detectors, species)
-    if tracetype == "datasc" or tracetype == "gctrace":
-        _data, _meta, _common = datasc.process(fn, encoding, timezone)
-    elif tracetype == "chromtab":
-        _data, _meta, _common = chromtab.process(fn, encoding, timezone)
-    elif tracetype == "fusion":
-        _data, _meta, _common = fusion.process(fn, encoding, timezone)
-    results = []
-    for chrom in _data:
-        peaks = {}
-        comp = []
-        for detname, spec in gcspec.items():
-            for det in chrom["traces"].keys():
-                if chrom["traces"][det]["id"] == spec["id"]:
-                    chrom["traces"][det]["calname"] = detname
-                    break
-            units = {
-                "x": chrom["traces"][det]["x"]["u"],
-                "y": chrom["traces"][det]["y"]["u"],
-                "A": "-",
-            }
-            xs, ys = chrom["traces"][det].pop("data")
-            pd = spec.get("peakdetect", {})
-            smooth = _get_smooth_yvals(ys[0], pd)
-            peakmax = _find_peak_maxima(smooth, pd)
-            peakspec = _find_peak_edges(smooth, peakmax, pd)
-            integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
-            peaks[detname] = {}
-            for k, v in integrated.items():
-                peaks[detname][k] = {
-                    "peak": {
-                        "max": int(v["max"]),
-                        "llim": int(v["llim"]),
-                        "rlim": int(v["rlim"]),
-                    },
-                    "A": {"n": v["A"].n, "s": v["A"].s, "u": units["A"]},
-                    "h": {"n": v["h"].n, "s": v["h"].s, "u": units["y"]},
-                }
-                if spec["species"][k].get("calib", None) is not None:
-                    x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
-                    x = max(uc.ufloat(0.0, x.s), x)
-                    peaks[detname][k]["c"] = {
-                        "n": x.n,
-                        "s": x.s,
-                        "u": spec["species"][k]["calib"].get("unit", "vol%"),
-                        "uf": x,
-                    }
-                if k not in comp:
-                    comp.append(k)
-        xout = {}
-        for s in comp:
-            for d, ds in gcspec.items():
-                if s in peaks[d] and "c" in peaks[d][s]:
-                    v = peaks[d][s]["c"].pop("uf")
-                    if ds.get("prefer", False) or s not in xout:
-                        xout[s] = v
-        norm = sum([xout[k] for k in xout.keys()])
-        for s in xout:
-            xnorm = xout[s] / norm
-            xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": "-"}
-        result = {"uts": chrom.pop("uts"), "fn": chrom.pop("fn")}
-        result["raw"] = chrom
-        result["derived"] = {"peaks": peaks, "xout": xout}
-        assert result["fn"] == fn
-        results.append(result)
 
-    return results, _meta, _common
+    peaks = {}
+    comp = []
+    for detname, spec in chromspec.items():
+        for det in traces.keys():
+            if traces[det]["id"] == spec["id"]:
+                traces[det]["calname"] = detname
+                break
+        units = {
+            "x": traces[det]["x"]["u"],
+            "y": traces[det]["y"]["u"],
+            "A": "-",
+        }
+        xs, ys = traces[det].pop("data")
+        pd = spec.get("peakdetect", {})
+        smooth = _get_smooth_yvals(ys[0], pd)
+        peakmax = _find_peak_maxima(smooth, pd)
+        peakspec = _find_peak_edges(smooth, peakmax, pd)
+        integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
+        peaks[detname] = {}
+        for k, v in integrated.items():
+            peaks[detname][k] = {
+                "peak": {
+                    "max": int(v["max"]),
+                    "llim": int(v["llim"]),
+                    "rlim": int(v["rlim"]),
+                },
+                "A": {"n": v["A"].n, "s": v["A"].s, "u": units["A"]},
+                "h": {"n": v["h"].n, "s": v["h"].s, "u": units["y"]},
+            }
+            if spec["species"][k].get("calib", None) is not None:
+                x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
+                x = max(uc.ufloat(0.0, x.s), x)
+                peaks[detname][k]["c"] = {
+                    "n": x.n,
+                    "s": x.s,
+                    "u": spec["species"][k]["calib"].get("unit", "vol%"),
+                    "uf": x,
+                }
+            if k not in comp:
+                comp.append(k)
+    xout = {}
+    for s in comp:
+        for d, ds in chromspec.items():
+            if s in peaks[d] and "c" in peaks[d][s]:
+                v = peaks[d][s]["c"].pop("uf")
+                if ds.get("prefer", False) or s not in xout:
+                    xout[s] = v
+    norm = sum([xout[k] for k in xout.keys()])
+    for s in xout:
+        xnorm = xout[s] / norm
+        xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": "-"}
+    return peaks, xout

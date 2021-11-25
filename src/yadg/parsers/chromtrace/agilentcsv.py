@@ -1,5 +1,29 @@
+"""
+File parser for Agilent Chemstation Chromtab tabulated data files (csv).
+
+This file format may include more than one timestep in each CSV file. It contains
+a header section for each timestep, followed by a detector name, and a sequence of
+[X, Y] datapoints.
+
+Exposed metadata:
+`````````````````
+
+.. code-block:: yaml
+
+  - params:
+      method:   None
+      sampleid: !!str
+      username: None
+      version:  None
+      valve:    None
+      datafile: !!str
+
+Unfortunately, neither ``method`` nor ``version`` are exposed, which is a big weakness
+of this file format.
+
+.. codeauthor:: Peter Kraus
+"""
 import numpy as np
-import uncertainties.unumpy as unp
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
@@ -41,17 +65,40 @@ def _to_trace(tx, ty):
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
-    MassHunter Chromtab format.
+    Agilent Chemstation CSV (Chromtab) file parser
 
-    Multiple chromatograms per file with multiple traces. Each chromatogram starts with
-    a header section, and is followed by each trace, which includes a header line and
-    x,y-data. Method is not available, but sampleid and detector names are included.
+    Each file may contain multiple chromatograms per file with multiple traces. Each
+    chromatogram starts with a header section, and is followed by each trace, which
+    includes a header line and x,y-data.
+
+    Parameters
+    ----------
+    fn
+        Filename to process.
+
+    encoding
+        Encoding used to open the file.
+
+    timezone
+        Timezone information. This should be ``"localtime"``.
+
+    Returns
+    -------
+    (chroms, metadata): tuple[list, dict]
+        Standard timesteps & metadata tuple.
     """
+
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-
-    metadata = {"type": "gctrace.chromtab", "gcparams": {"method": "n/a"}}
-    common = {}
+    metadata = {
+        "filetype": "chromtab",
+        "params": {
+            "method": None,
+            "valve": None,
+            "username": None,
+            "version": None,
+        },
+    }
     chroms = []
     chrom = {"fn": str(fn), "traces": {}}
     tx = []
@@ -75,7 +122,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                 columns = [p.replace('"', "") for p in parts]
                 ret = _process_headers(headers, columns, timezone)
                 chrom["uts"] = ret.pop("uts")
-                metadata["gcparams"].update(ret)
+                metadata["params"].update(ret)
         elif len(parts) == 1:
             if tx != [] and ty != []:
                 trace = _to_trace(tx, ty)
@@ -92,4 +139,4 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     trace["id"] = len(chrom["traces"])
     chrom["traces"][detname] = trace
     chroms.append(chrom)
-    return chroms, metadata, common
+    return chroms, metadata

@@ -1,4 +1,25 @@
-import logging
+"""
+File parser for EZ-Chrom ASCII export files (dat.asc).
+
+This file format includes one timestep with multiple traces in each ASCII file. It 
+contains a header section, and a sequence of Y datapoints for each detector. The X
+axis is uniform between traces, and its units have to be deduced from the header.
+
+Exposed metadata:
+`````````````````
+
+.. code-block:: yaml
+
+  - params:
+      method:   !!str
+      sampleid: !!str
+      username: !!str
+      version:  !!str
+      valve:    None
+      datafile: !!str
+
+.. codeauthor:: Peter Kraus
+"""
 import numpy as np
 import uncertainties as uc
 import uncertainties.unumpy as unp
@@ -9,24 +30,43 @@ import yadg.dgutils
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     """
-    EZ-Chrome export parser.
+    EZ-Chrome ASCII export file parser.
 
-    One chromatogram per file with multiple traces. A header section is followed by y-values for each trace. x-values have to be deduced using number of points, frequency, and x-multiplier. Method name is available, but detector names are not - they are assigned their numerical index in the file.
+    One chromatogram per file with multiple traces. A header section is followed by
+    y-values for each trace. x-values have to be deduced using number of points,
+    frequency, and x-multiplier. Method name is available, but detector names are not.
+    They are assigned their numerical index in the file.
+
+    Parameters
+    ----------
+    fn
+        Filename to process.
+
+    encoding
+        Encoding used to open the file.
+
+    timezone
+        Timezone information. This should be ``"localtime"``.
+
+    Returns
+    -------
+    ([chrom], metadata): tuple[list, dict]
+        Standard timesteps & metadata tuple.
     """
+
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-    metadata = {"type": "gctrace.datasc", "gcparams": {}}
-    common = {}
+    metadata = {"filetype": "ezchrom.datasc", "params": {"valve": None}}
     chrom = {"fn": str(fn), "traces": {}}
+
     _, datefunc = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}}, timezone=timezone
     )
-
     for line in lines:
-        for key in ["Version", "Maxchannels", "Method", "User Name"]:
+        for key in ["Version", "Method", "User Name"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata["gcparams"][k] = line.split(f"{key}:")[1].strip()
+                metadata["params"][k] = line.split(f"{key}:")[1].strip()
         for key in ["Sample ID", "Data File"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
@@ -94,4 +134,4 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         }
 
         si += npoints[ti]
-    return [chrom], metadata, common
+    return [chrom], metadata

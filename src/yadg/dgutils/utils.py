@@ -68,6 +68,8 @@ def schema_3to4(oldschema: list) -> dict:
         newstep = {}
 
         newstep["parser"] = oldstep["datagram"]
+        if newstep["parser"] == "gctrace":
+            newstep["parser"] = "chromtrace"
 
         if "paths" in oldstep["import"]:
             oldstep["import"]["files"] = oldstep["import"].pop("paths")

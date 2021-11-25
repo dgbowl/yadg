@@ -10,26 +10,26 @@ with open("README.md", "r", encoding="utf-8") as infile:
 packagedir = "src"
 
 setuptools.setup(
-    name = "yadg",
-    version = version,
-    author = "Peter Kraus",
-    author_email = "peter@tondon.de",
-    description = "Yet Another DataGram",
-    long_description = readme,
-    long_description_content_type = "text/markdown",
-    url = "https://github.com/PeterKraus/yadg",
-    project_urls = {
+    name="yadg",
+    version=version,
+    author="Peter Kraus",
+    author_email="peter@tondon.de",
+    description="Yet Another DataGram",
+    long_description=readme,
+    long_description_content_type="text/markdown",
+    url="https://github.com/PeterKraus/yadg",
+    project_urls={
         "Bug Tracker": "https://github.com/PeterKraus/yadg/issues",
     },
-    classifiers = [
+    classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
-    package_dir = {"": packagedir},
-    packages = setuptools.find_packages(where = packagedir),
-    python_requires = ">=3.8",
-    install_requires = [
+    package_dir={"": packagedir},
+    packages=setuptools.find_packages(where=packagedir),
+    python_requires=">=3.8",
+    install_requires=[
         "numpy",
         "scipy",
         "uncertainties",
@@ -39,9 +39,5 @@ setuptools.setup(
         "tzlocal",
         "eclabfiles>=0.3.9",
     ],
-    entry_points = {
-        "console_scripts": [
-            'yadg=yadg:run_with_arguments'
-        ]
-    }
+    entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},
 )

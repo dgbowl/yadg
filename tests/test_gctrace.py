@@ -11,7 +11,8 @@ from tests.utils import (
 
 def special_datagram_test(datagram, testspec):
     step = datagram["steps"][testspec["step"]]
-    assert step["metadata"]["gcparams"]["method"].endswith(testspec["method"])
+    if testspec["method"] is not None:
+        assert step["metadata"]["params"]["method"].endswith(testspec["method"])
     tstep = step["data"][testspec["point"]]
     for k, v in testspec["xout"].items():
         compare_result_dicts(tstep["derived"]["xout"][k], v)
@@ -25,7 +26,10 @@ def special_datagram_test(datagram, testspec):
                 "folders": ["."],
                 "prefix": "2019-12-03",
                 "suffix": "dat.asc",
-                "parameters": {"tracetype": "datasc", "calfile": "gc_5890_FHI.json"},
+                "parameters": {
+                    "tracetype": "ezchrom.asc",
+                    "calfile": "gc_5890_FHI.json",
+                },
             },
             {
                 "nsteps": 1,
@@ -45,7 +49,10 @@ def special_datagram_test(datagram, testspec):
                 "folders": ["."],
                 "prefix": "2019-12-03",
                 "suffix": "dat.asc",
-                "parameters": {"tracetype": "datasc", "calfile": "gc_5890_FHI.json"},
+                "parameters": {
+                    "tracetype": "ezchrom.asc",
+                    "calfile": "gc_5890_FHI.json",
+                },
             },
             {
                 "nsteps": 1,
@@ -65,13 +72,16 @@ def special_datagram_test(datagram, testspec):
                 "folders": ["."],
                 "prefix": "CHROMTAB",
                 "suffix": "CSV",
-                "parameters": {"tracetype": "chromtab", "calfile": "gc_chromtab.json"},
+                "parameters": {
+                    "tracetype": "agilent.csv",
+                    "calfile": "gc_chromtab.json",
+                },
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 3,
-                "method": "n/a",
+                "method": None,
                 "point": 2,
                 "xout": {
                     "N2": {"n": 0.6746582, "s": 0.0017331, "u": "-"},
@@ -85,7 +95,7 @@ def special_datagram_test(datagram, testspec):
                 "prefix": "CHROMTAB",
                 "suffix": "CSV",
                 "parameters": {
-                    "tracetype": "chromtab",
+                    "tracetype": "agilent.csv",
                     "species": gctrace_chromtab["sp"],
                     "detectors": gctrace_chromtab["det"],
                 },
@@ -94,7 +104,7 @@ def special_datagram_test(datagram, testspec):
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 3,
-                "method": "n/a",
+                "method": None,
                 "point": 0,
                 "xout": {
                     "N2": {"n": 0.6474110, "s": 0.0018352, "u": "-"},
@@ -107,7 +117,10 @@ def special_datagram_test(datagram, testspec):
                 "folders": ["."],
                 "prefix": "",
                 "suffix": "fusion-data",
-                "parameters": {"tracetype": "fusion", "calfile": "gc_fusion.json"},
+                "parameters": {
+                    "tracetype": "fusion.json",
+                    "calfile": "gc_fusion.json",
+                },
             },
             {
                 "nsteps": 1,
@@ -126,7 +139,10 @@ def special_datagram_test(datagram, testspec):
                 "folders": ["."],
                 "prefix": "",
                 "suffix": "fusion-data",
-                "parameters": {"tracetype": "fusion", "calfile": "gc_fusion.json"},
+                "parameters": {
+                    "tracetype": "fusion.json",
+                    "calfile": "gc_fusion.json",
+                },
             },
             {
                 "nsteps": 1,
@@ -144,6 +160,6 @@ def special_datagram_test(datagram, testspec):
 )
 def test_datagram_from_gctrace(input, ts, datadir):
     os.chdir(datadir)
-    ret = datagram_from_input(input, "gctrace", datadir)
+    ret = datagram_from_input(input, "chromtrace", datadir)
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)

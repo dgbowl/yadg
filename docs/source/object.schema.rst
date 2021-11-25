@@ -1,3 +1,7 @@
+:orphan:
+
+.. _object_schema:
+
 What is a `schema`
 ``````````````````
 A `schema` is an object defining the files and folders to be processed by 

@@ -63,7 +63,7 @@ pages-master:
   script:
     - pip install dist/*
     - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
-    - sphinx-apidoc -o docs/source src/yadg
+    - sphinx-apidoc -o docs/source src/yadg -T
     - sphinx-build -W -b html docs/source public
   artifacts:
     paths:
@@ -77,5 +77,5 @@ pages-mr:
   script:
     - pip install dist/*
     - pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
-    - sphinx-apidoc -o docs/source src/yadg
+    - sphinx-apidoc -o docs/source src/yadg -T
     - sphinx-build -W -b html docs/source public

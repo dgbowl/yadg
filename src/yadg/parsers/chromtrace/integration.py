@@ -63,15 +63,15 @@ def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
     ``"window"`` is larger than the ``"polyorder"``.
     """
     if pd.get("polyorder", None) is None or pd.get("window", None) is None:
-        logging.info("gctrace: no smoothing.")
+        logging.info("chromtrace: no smoothing.")
         return yvals
     else:
         window = pd.get("window", 3) * 2 + 1
         polyorder = pd.get("polyorder", 3)
-        assert polyorder < window, f"gctrace: specified window <= polyorder."
+        assert polyorder < window, f"chromtrace: specified window <= polyorder."
         if polyorder == 2:
             logging.warning(
-                "gctrace: smoothing with a polyorder == 2 can be unreliable. "
+                "chromtrace: smoothing with a polyorder == 2 can be unreliable. "
                 "Consider switching to a higher polyorder or disabling smoothing "
                 "completely."
             )
@@ -94,14 +94,19 @@ def _find_peak_maxima(yvals: np.ndarray, pd: dict) -> dict:
     grad = np.gradient(yvals)
     res = np.nonzero(np.diff(np.sign(grad)))[0] + 1
     peaks["gradzero"] = res
-    # hessian: find peaks
+    # second derivative: find peaks
     hess = np.gradient(grad)
     res = np.nonzero(np.diff(np.sign(hess)))[0] + 1
     peaks["hesszero"] = res
-    return peaks
+    return peaks, grad, hess
 
 
-def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
+def _find_peak_edges(
+    yvals: np.ndarray, 
+    ygrad: np.ndarray,
+    peakdata: dict, 
+    detector: dict
+) -> dict:
     """
     A function that, given the y-values of a trace in ``yvals`` and the maxima,
     inflection points etc. in ``peakdata``, and the peak integration `"threshold"`
@@ -120,20 +125,14 @@ def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
                 gi = i
                 break
         # right of peak:
-        rlim = False
         rmin = False
         rthr = False
-        rhi = False
         for xi in range(peakdata["hesszero"][hi], yvals.size):
             if xi in peakdata["gradzero"] and not rmin:
                 rmin = xi
-            elif xi in peakdata["hesszero"][hi:]:
-                if rhi:
-                    dx = xi - rhi
-                    dy = yvals[xi] - yvals[rhi]
-                    if abs(dy / dx) < threshold and not rthr:
-                        rthr = xi
-                rhi = xi
+            if xi in peakdata["hesszero"][hi:] and not rthr:
+                if abs(ygrad[xi]) < threshold:
+                    rthr = xi
             if rthr and rmin:
                 break
         rlim = min(rthr if rthr else yvals.size, rmin if rmin else yvals.size)
@@ -143,17 +142,12 @@ def _find_peak_edges(yvals: np.ndarray, peakdata: dict, detector: dict) -> dict:
         # left of peak
         lmin = False
         lthr = False
-        lhi = False
         for xi in range(0, peakdata["hesszero"][hi - 1])[::-1]:
             if xi in peakdata["gradzero"] and not lmin:
                 lmin = xi
-            if xi in peakdata["hesszero"][: hi - 1]:
-                if lhi:
-                    dx = xi - lhi
-                    dy = yvals[xi] - yvals[lhi]
-                    if abs(dy / dx) < threshold and not lthr:
-                        lthr = xi
-                lhi = xi
+            if xi in peakdata["hesszero"][: hi - 1] and not lthr:
+                if abs(ygrad[xi]) < threshold:
+                    lthr = xi
             if lthr and lmin:
                 break
         llim = max(lthr if lthr else 0, lmin if lmin else 0)
@@ -262,8 +256,8 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         xs, ys = traces[det].pop("data")
         pd = spec.get("peakdetect", {})
         smooth = _get_smooth_yvals(ys[0], pd)
-        peakmax = _find_peak_maxima(smooth, pd)
-        peakspec = _find_peak_edges(smooth, peakmax, pd)
+        peakmax, ygrad, _ = _find_peak_maxima(smooth, pd)
+        peakspec = _find_peak_edges(smooth, ygrad, peakmax, pd)
         integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
         peaks[detname] = {}
         for k, v in integrated.items():

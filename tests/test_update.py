@@ -62,19 +62,19 @@ def test_update_schema_310(datadir):
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["N2"],
-        {"n": 0.9172337, "s": 0.0007279, "u": "-"},
+        {"n": 0.9172920, "s": 0.0007279, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["propane"],
-        {"n": 0.0160153, "s": 0.0000442, "u": "-"},
+        {"n": 0.0159712, "s": 0.0000442, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["CO2"],
-        {"n": 0.0080412, "s": 0.0000520, "u": "-"},
+        {"n": 0.0080323, "s": 0.0000520, "u": "-"},
     )
     compare_result_dicts(
         ret["steps"][2]["data"][0]["derived"]["xout"]["CO"],
-        {"n": 0.0288261, "s": 0.0004395, "u": "-"},
+        {"n": 0.0288312, "s": 0.0004395, "u": "-"},
     )
 
 

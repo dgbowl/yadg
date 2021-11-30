@@ -39,7 +39,7 @@ def special_datagram_test(datagram, testspec):
     [
         (
             {  # ts0 - naive with defaults
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "naive"},
             },
             {
@@ -58,7 +58,7 @@ def special_datagram_test(datagram, testspec):
         ),
         (
             {  # ts1 - naive with a tighter threshold
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "naive", "threshold": 1e-7},
             },
             {
@@ -77,7 +77,7 @@ def special_datagram_test(datagram, testspec):
         ),
         (
             {  # ts2 - lorentz with defaults
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "lorentz"},
             },
             {
@@ -96,7 +96,7 @@ def special_datagram_test(datagram, testspec):
         ),
         (
             {  # ts3 - lorentz with looser threshold
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "lorentz", "threshold": 1e-5},
             },
             {
@@ -115,7 +115,7 @@ def special_datagram_test(datagram, testspec):
         ),
         (
             {  # ts4 - kajfez with defaults
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "kajfez"},
             },
             {
@@ -134,7 +134,7 @@ def special_datagram_test(datagram, testspec):
         ),
         (
             {  # ts5 - kajfez with a higher cutoff
-                "folders": ["."],
+                "folders": ["data_3.1.0/01-inert"],
                 "parameters": {"method": "kajfez", "cutoff": 0.5},
             },
             {

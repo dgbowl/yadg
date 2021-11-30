@@ -17,7 +17,12 @@ def datadir(tmpdir, request):
     test_dir, _ = os.path.splitext(filename)
     if os.path.isdir(test_dir):
         dir_util.copy_tree(test_dir, str(tmpdir))
+    base_dir, _ = os.path.split(test_dir)
+    common_dir = os.path.join(base_dir, "common")
+    if os.path.isdir(common_dir):
+        dir_util.copy_tree(common_dir, str(tmpdir))
     return tmpdir
+
 
 
 def datagram_from_input(input, parser, datadir):

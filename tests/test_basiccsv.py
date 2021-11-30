@@ -46,7 +46,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 7,
+                "nrows": 3,
                 "point": 0,
                 "pars": {
                     "flow": {"sigma": 0.1, "value": 15.0, "unit": "ml/min"},
@@ -67,9 +67,9 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 7,
-                "point": 3,
-                "pars": {"uts": {"value": 1631284405.0}},
+                "nrows": 3,
+                "point": 1,
+                "pars": {"uts": {"value": 1631284345.0}},
             },
         ),
         (
@@ -208,7 +208,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 7,
+                "nrows": 3,
                 "point": 0,
                 "pars": {
                     "flow": {
@@ -254,7 +254,7 @@ from tests.utils import (
         (
             {  # ts13 - calfile functionality
                 "case": "case_uts_units.csv",
-                "parameters": {"calfile": "calib.json"},
+                "parameters": {"calfile": "calibrations/test_calib.json"},
             },
             {
                 "nsteps": 1,
@@ -268,13 +268,13 @@ from tests.utils import (
         ),
         (
             {  # ts14 - calfile functionality with fractions and total
-                "case": "measurement.csv",
+                "case": "data_3.1.0/00-experiment/measurement.csv",
                 "parameters": {
                     "sep": ";",
                     "timestamp": {
                         "timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}
                     },
-                    "calfile": "tfcal.json",
+                    "calfile": "calibrations/fhi_tfcal.json",
                 },
             },
             {
@@ -301,7 +301,7 @@ from tests.utils import (
                         "unit": "ml/min",
                         "raw": False,
                     },
-                    "total": {
+                    "Total": {
                         "sigma": 0.0323269088,
                         "value": 31.9392595515,
                         "unit": "ml/min",
@@ -312,13 +312,13 @@ from tests.utils import (
         ),
         (
             {  # ts15 - calfile functionality with fractions and total
-                "case": "measurement.csv",
+                "case": "data_3.1.0/00-experiment/measurement.csv",
                 "parameters": {
                     "sep": ";",
                     "timestamp": {
                         "timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}
                     },
-                    "calfile": "tfcal.json",
+                    "calfile": "calibrations/fhi_tfcal.json",
                 },
             },
             {
@@ -345,7 +345,7 @@ from tests.utils import (
                         "unit": "ml/min",
                         "raw": False,
                     },
-                    "total": {
+                    "Total": {
                         "sigma": 0.03683714813,
                         "value": 39.9275890981,
                         "unit": "ml/min",

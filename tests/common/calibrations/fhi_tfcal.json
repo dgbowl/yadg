@@ -1,7 +1,7 @@
 {
     "T": {
         "T_f": {
-            "calib": {"linear": {"slope": 0.8647636, "intercept":  10.2418182}}
+            "calib": {"linear": {"slope": 0.8647636, "intercept":  10.2418182}, "atol": 1.0, "rtol": 0.02}
         },
         "unit": "C"
     },
@@ -28,7 +28,7 @@
         },
         "unit": "ml/min"
     },
-    "total": {
+    "Total": {
         "N2": {},
         "O2": {},
         "C3H8": {},

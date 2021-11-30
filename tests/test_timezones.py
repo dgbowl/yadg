@@ -22,7 +22,7 @@ def test_timestamp_parsing(datadir):
         utc["steps"][0]["data"][0]["uts"] - cet["steps"][0]["data"][0]["uts"] == 7200
     ), "CEST should be 2 hours ahead of UTC"
     assert (
-        utc["steps"][0]["data"][1]["uts"] - cet["steps"][0]["data"][1]["uts"] == 3600
+        utc["steps"][0]["data"][2]["uts"] - cet["steps"][0]["data"][2]["uts"] == 3600
     ), "CET should be 1 hour ahead of UTC"
 
 
@@ -35,7 +35,7 @@ def test_uts_parsing(datadir):
         utc["steps"][0]["data"][0]["uts"] - cet["steps"][0]["data"][0]["uts"] == 0
     ), "'uts' column parsing should ignore timezones"
     assert (
-        utc["steps"][0]["data"][1]["uts"] - cet["steps"][0]["data"][1]["uts"] == 0
+        utc["steps"][0]["data"][2]["uts"] - cet["steps"][0]["data"][2]["uts"] == 0
     ), "'uts' column parsing should ignore timezones"
 
 

@@ -18,7 +18,7 @@ Exposed metadata:
       valve:    None
       datafile: !!str
 
-.. codeauthor:: Peter Kraus
+.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
 import uncertainties as uc
@@ -122,7 +122,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         ysn, yss = [np.array(p) * ymul for p in zip(*ytup)]
         ys = [ysn, yss]
         chrom["traces"][f"{ti}"] = {"id": ti, "data": [xs, ys]}
-        chrom["traces"][f"{ti}"]["x"] = {
+        chrom["traces"][f"{ti}"]["t"] = {
             "n": xsn.tolist(),
             "s": xss.tolist(),
             "u": "s",

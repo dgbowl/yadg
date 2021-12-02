@@ -45,7 +45,7 @@ timestep, in the ``"raw"`` entry using the following format:
     - traces:
       - detector name: !!str  # detector name from the raw data file
         id:            !!int  # detector id for matching with calibration data
-        x:                    # time-axis units are always seconds
+        t:                    # time-axis units are always seconds
           {n: [!!float, ...], s: [!!float, ...], u: "s"} 
         y:                    # y-axis units are determined from raw file
           {n: [!!float, ...], s: [!!float, ...], u: !!str}  

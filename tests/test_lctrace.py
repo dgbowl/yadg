@@ -106,6 +106,6 @@ def test_compare_raw_values(input, datadir):
     with open("yvals.json", "r") as infile:
         ref = json.load(infile)["traces"]
     for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
-        for kk in ["x", "y"]:
+        for kk in ["t", "y"]:
             for kkk in ["n", "s"]:
                 assert np.allclose(ref[k][kk][kkk], v[kk][kkk])

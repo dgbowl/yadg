@@ -10,3 +10,4 @@ following links:
 
    parsers.dummy
    parsers.chromtrace
+   parsers.qftrace

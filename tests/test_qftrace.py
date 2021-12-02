@@ -1,5 +1,7 @@
 import pytest
 import os
+import json
+import numpy as np
 from tests.utils import datagram_from_input, standard_datagram_test, datadir
 
 
@@ -7,30 +9,30 @@ def special_datagram_test(datagram, testspec):
     step = datagram["steps"][testspec["step"]]
     tstep = step["data"][testspec["point"]]
     assert (
-        len(tstep["raw"]["f"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["Re(Γ)"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["Im(Γ)"]["n"]) == testspec["tracelen"]
+        len(tstep["raw"]["traces"]["S11"]["f"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Re(Γ)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Im(Γ)"]["n"]) == testspec["tracelen"]
     ), "length of 'f', 'Re(Γ)', 'Im(Γ)' not as prescribed."
 
     assert (
-        len(tstep["derived"]["Q"]["n"]) == testspec["npeaks"]
+        len(tstep["derived"]["S11"]["Q"]["n"]) == testspec["npeaks"]
     ), "incorrect number of Qs"
     assert (
-        len(tstep["derived"]["f"]["n"]) == testspec["npeaks"]
+        len(tstep["derived"]["S11"]["f"]["n"]) == testspec["npeaks"]
     ), "incorrect number of fs"
 
-    Qn = tstep["derived"]["Q"]["n"][testspec["peak"]]
-    Qs = tstep["derived"]["Q"]["s"][testspec["peak"]]
+    Qn = tstep["derived"]["S11"]["Q"]["n"][testspec["peak"]]
+    Qs = tstep["derived"]["S11"]["Q"]["s"][testspec["peak"]]
     assert Qn == pytest.approx(testspec["Qn"], abs=1), "wrong Q.n"
     assert Qs == pytest.approx(testspec["Qs"], abs=1), "wrong Q.s"
 
-    fn = tstep["derived"]["f"]["n"][testspec["peak"]]
-    fs = tstep["derived"]["f"]["s"][testspec["peak"]]
+    fn = tstep["derived"]["S11"]["f"]["n"][testspec["peak"]]
+    fs = tstep["derived"]["S11"]["f"]["s"][testspec["peak"]]
     assert fn == pytest.approx(testspec["fn"], abs=10), "wrong f.n"
     assert fs == pytest.approx(testspec["fs"], abs=10), "wrong f.s"
 
-    Q1 = tstep["derived"]["Q"]["n"][1]
-    Q0 = tstep["derived"]["Q"]["n"][0]
+    Q1 = tstep["derived"]["S11"]["Q"]["n"][1]
+    Q0 = tstep["derived"]["S11"]["Q"]["n"][0]
     assert 1 / Q1 - 1 / Q0 == pytest.approx(0.00035, abs=0.00005)
 
 
@@ -158,3 +160,18 @@ def test_datagram_from_qftrace(input, ts, datadir):
     ret = datagram_from_input(input, "qftrace", datadir)
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
+
+
+def test_compare_raw_values(datadir):
+    input = {
+        "folders": ["data_3.1.0/01-inert"],
+        "parameters": {},
+    }
+    os.chdir(datadir)
+    ret = datagram_from_input(input, "qftrace", datadir)
+    with open("yvals.json", "r") as infile:
+        ref = json.load(infile)["traces"]
+    for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
+        for kk in ["f", "Re(Γ)", "Im(Γ)"]:
+            for kkk in ["n", "s"]:
+                assert np.allclose(ref[k][kk][kkk], v[kk][kkk])

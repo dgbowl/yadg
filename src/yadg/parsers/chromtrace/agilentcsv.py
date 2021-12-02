@@ -21,7 +21,7 @@ Exposed metadata:
 Unfortunately, neither ``method`` nor ``version`` are exposed, which is a big weakness
 of this file format.
 
-.. codeauthor:: Peter Kraus
+.. codeauthor:: Peter Kraus <peter.kraus.empa.ch>
 """
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
@@ -56,14 +56,14 @@ def _to_trace(tx, ty):
     ysn, yss = [np.array(y) for y in zip(*ty)]
     ys = [ysn, yss]
     trace = {
-        "x": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
+        "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
         "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": "-"},
         "data": [xs, ys],
     }
     return trace
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     Agilent Chemstation CSV (Chromtab) file parser
 

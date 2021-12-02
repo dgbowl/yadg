@@ -42,7 +42,7 @@ Peak integration
 Peak integration is performed on the corrected baseline and the matching X-data using
 the trapezoidal method as implemented in ``np.trapz``.
 
-.. codeauthor:: Peter Kraus
+.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
 from scipy.signal import savgol_filter, find_peaks
@@ -102,10 +102,7 @@ def _find_peak_maxima(yvals: np.ndarray, pd: dict) -> dict:
 
 
 def _find_peak_edges(
-    yvals: np.ndarray, 
-    ygrad: np.ndarray,
-    peakdata: dict, 
-    detector: dict
+    yvals: np.ndarray, ygrad: np.ndarray, peakdata: dict, detector: dict
 ) -> dict:
     """
     A function that, given the y-values of a trace in ``yvals`` and the maxima,
@@ -249,7 +246,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 traces[det]["calname"] = detname
                 break
         units = {
-            "x": traces[det]["x"]["u"],
+            "t": traces[det]["t"]["u"],
             "y": traces[det]["y"]["u"],
             "A": "-",
         }

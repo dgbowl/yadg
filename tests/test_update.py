@@ -47,11 +47,11 @@ def test_update_schema_310(datadir):
 
     # qftrace test
     compare_result_dicts(
-        ret["steps"][1]["data"][0]["derived"]["Q"],
+        ret["steps"][1]["data"][0]["derived"]["S11"]["Q"],
         {"n": [3060.4456994, 1546.0093196], "s": [18.1552741, 18.3307637], "u": "-"},
     )
     compare_result_dicts(
-        ret["steps"][1]["data"][0]["derived"]["f"],
+        ret["steps"][1]["data"][0]["derived"]["S11"]["f"],
         {"n": [7173122961.931216, 7348299014.344608], "s": [1000.0, 1000.0], "u": "Hz"},
     )
 

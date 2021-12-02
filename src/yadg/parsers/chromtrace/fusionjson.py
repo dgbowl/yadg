@@ -78,7 +78,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
         detdict = jsdata["detectors"][detname]
-        trace = {"x": [], "y": [], "id": detid}
+        trace = {"id": detid}
         detid += 1
         xmul = detdict["nValuesPerSecond"]
         npoints = detdict["nValuesExpected"]
@@ -91,7 +91,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         ysn = np.array(detdict["values"])
         yss = np.ones(npoints)
         ys = [ysn, yss]
-        trace["x"] = {
+        trace["t"] = {
             "n": xsn.tolist(),
             "s": xss.tolist(),
             "u": "s",
@@ -99,7 +99,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         trace["y"] = {
             "n": ysn.tolist(),
             "s": yss.tolist(),
-            "u": "s",
+            "u": "-",
         }
         trace["data"] = [xs, ys]
         if "analysis" in detdict:

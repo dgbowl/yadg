@@ -43,7 +43,7 @@ File Structure of ``.ch`` files
 Data is stored in a consecutive set of ``<f8``, starting at the offset (calculated
 as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 
-.. codeauthor:: Peter Kraus
+.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
 
@@ -127,7 +127,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         "uts": datefunc(pars["timestamp"]),
         "traces": {
             detector: {
-                "x": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
+                "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
                 "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": pars["yunit"]},
                 "id": 0,
                 "data": [(xsn, xss), (ysn, yss)],

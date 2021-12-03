@@ -8,7 +8,9 @@ dummy_2 = {
 }
 dummy_3 = {
     "metadata": {"provenance": "manual", "schema_version": "0.1"},
-    "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": "dummy_schema"}}],
+    "steps": [
+        {"parser": "dummy", "import": {"folders": ["."], "contains": "dummy_schema"}}
+    ],
 }
 dummy_4 = {
     "metadata": {"provenance": "manual", "schema_version": "0.1"},

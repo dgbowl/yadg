@@ -9,8 +9,8 @@ from tests.utils import (
 
 def test_datagram_from_meascsv(datadir):
     input = {
-        "case": "data_3.1.0/00-experiment/measurement.csv", 
-        "parameters": {"calfile": "calibrations/fhi_tfcal.json"}
+        "case": "data_3.1.0/00-experiment/measurement.csv",
+        "parameters": {"calfile": "calibrations/fhi_tfcal.json"},
     }
     ret = datagram_from_input(input, "meascsv", datadir)
     standard_datagram_test(ret, {"nsteps": 1, "step": 0, "nrows": 1662, "point": 0})

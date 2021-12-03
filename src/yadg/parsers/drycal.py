@@ -2,7 +2,7 @@ import logging
 import json
 from striprtf.striprtf import rtf_to_text
 
-from yadg.parsers.basiccsv import process_row, tols_from
+from yadg.parsers.basiccsv import process_row
 import yadg.dgutils
 
 version = "1.0.dev1"

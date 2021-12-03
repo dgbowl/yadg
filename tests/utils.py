@@ -24,7 +24,6 @@ def datadir(tmpdir, request):
     return tmpdir
 
 
-
 def datagram_from_input(input, parser, datadir):
     schema = {
         "metadata": {

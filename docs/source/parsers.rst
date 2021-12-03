@@ -9,5 +9,7 @@ following links:
    :maxdepth: 1
 
    parsers.dummy
+   parsers.basiccsv
    parsers.chromtrace
    parsers.qftrace
+   parsers.meascsv

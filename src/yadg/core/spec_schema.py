@@ -136,12 +136,12 @@ schema_step["any"]["parameters"]["any"].update(
         "tracetype": {
             "type": str,
             "one": [
-                "ezchrom.asc",   # gctrace
-                "fusion.json",   # gctrace
-                "agilent.ch",    # lctrace
-                "agilent.dx",    # lctrace
-                "agilent.csv",   # gctrace
-                "labview.csv",   # qftrace
+                "ezchrom.asc",  # gctrace
+                "fusion.json",  # gctrace
+                "agilent.ch",  # lctrace
+                "agilent.dx",  # lctrace
+                "agilent.csv",  # gctrace
+                "labview.csv",  # qftrace
             ],
         },
         "species": species,

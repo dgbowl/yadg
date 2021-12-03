@@ -2,7 +2,7 @@
 Trace-pruning routines.
 
 To reduce the impact of baseline noise and  speed up the fitting of :math:`Q_0` to
-the :math:`\Gamma(f)` trace, only smaller sections of the trace are retained around
+the :math:`\\Gamma(f)` trace, only smaller sections of the trace are retained around
 each minimum. Two routines for trace-pruning are provided:
 
 - a height cutoff-based prune in :func:`yadg.parsers.qftrace.prune.cutoff`
@@ -24,7 +24,7 @@ def cutoff(p0: int, absgamma: np.ndarray, cutoff: float) -> tuple[int, int]:
     p0
         Index of the minimum of ``absgamma``.
     absgamma
-        The :math:`|\Gamma(f)|` data.
+        The :math:`|\\Gamma(f)|` data.
     cutoff
         Normalised height above which the trace is cut off.
 
@@ -61,7 +61,7 @@ def gradient(p0: int, absgamma: np.ndarray, threshold: float) -> tuple[int, int]
     p0
         Index of the minimum of ``absgamma``.
     absgamma
-        The :math:`|\Gamma(f)|` data.
+        The :math:`|\\Gamma(f)|` data.
     threshold
         Threshold of the gradient below which the trace is cut off.
 

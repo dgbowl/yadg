@@ -26,9 +26,10 @@ The use of ``chromtrace`` can be specified using the ``"parser"`` keyword in the
 - ``"species"`` :class:`(dict)`: The species data specification, overriding that
   provided in ``"calfile"``. 
 
-The ``"calfile"``, ``"detectors"`` and ``"species"`` parameters are processed with
-:func:`yadg.parsers.chromtrace.main.parse_detector_spec` - see there for detailed
-format description.
+.. note::
+    The ``"calfile"``, ``"detectors"`` and ``"species"`` parameters are processed with
+    :func:`yadg.parsers.chromtrace.main.parse_detector_spec` - see there for detailed
+    format description.
 
 .. _parsers_chromtrace_provides:
 
@@ -90,14 +91,17 @@ calibration information are provided. The resulting data is stored in the
             {n: !!float, s: !!float, u: !!str}
 
 .. note::
+    The specification of dictionaries that ought to be passed to ``"species"`` and 
+    ``"detectors"`` (or stored as json in ``"calfile"``) is described in 
+    :func:`yadg.parsers.chromtrace.main.parse_detector_spec`. 
 
+.. note::
     The quantity in ``"c"`` may not necessarily be concentration, it can also be 
     mole fraction, as it is determined from the peak area in ``"A"`` and any 
     provided calibration specification. The calibration interface allows for units
     to be supplied.
 
 .. note::
-
     The mol fractions in ``"xout"`` always sum up to unity. If there is more than
     one outlet stream, these mol fractions have to be weighted by the flow rate 
     in a post-processing routine.

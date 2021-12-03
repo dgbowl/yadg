@@ -1,30 +1,11 @@
 import logging
 import json
-from uncertainties import ufloat_fromstr, ufloat
+import uncertainties as uc
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import yadg.dgutils
 from typing import Callable
 
-version = "1.0.dev1"
-
-
-def tols_from(
-    headers: list, sigma: dict = {}, atol: float = 0.0, rtol: float = 0.0
-) -> dict:
-    """
-    Uncertainty helper function.
-
-    Given a list of ``headers``, creates a dictionary where each key is an element of
-    ``headers``, and the values are atol and rtol from the corresponding key in ``sigma``,
-    or the default values provided as parameters
-    """
-    # Populate tols from sigma, atol, rtol
-    tols = dict()
-    for header in headers:
-        tols[header] = {
-            "atol": sigma.get(header, {}).get("atol", atol),
-            "rtol": sigma.get(header, {}).get("rtol", rtol),
-        }
-    return tols
+version = "4.0.0"
 
 
 def process_row(
@@ -38,8 +19,24 @@ def process_row(
     """
     A function that processes a row of a table.
 
-    This is the main worker function of basiccsv, but can be re-used by any other parser
-    that needs to process tabular data.
+    This is the main worker function of ``basiccsv``, but can be re-used by any other
+    parser that needs to process tabular data.
+
+    .. _processing_convert:
+
+    This function processes the ``"calib"`` parameter, which should be a :class:`(dict)`
+    in the following format:
+
+    .. code-block:: yaml
+
+      - new_name:     !!str    # derived entry name
+        - old_name:   !!str    # raw header name
+          - calib: {}          # calibration specification
+          fraction:   !!float  # coefficient for linear combinations of old_name
+        unit:         !!str    # unit of new_name
+
+    The syntax of the calibration specification is detailed in
+    :func:`yadg.dgutils.calib.calib_handler`.
 
     Parameters
     ----------
@@ -60,22 +57,26 @@ def process_row(
 
     calib
         Specification for converting raw data in ``headers`` and ``items`` to other
-        quantities Arbitrary linear combinations of ``headers`` are possible.
+        quantities. Arbitrary linear combinations of ``headers`` are possible. See
+        :ref:`the above section<processing_convert>` for the specification.
 
     Returns
     -------
     element: dict
-        A result dictionary, containing the keys ``"uts"`` with a timestamp, ``"raw"`` for
-        all raw data present in the headers, and ``"derived"`` for any data processes via ``calib``.
+        A result dictionary, containing the keys ``"uts"`` with a timestamp,
+        ``"raw"`` for all raw data present in the headers, and ``"derived"``
+        for any data processes via ``calib``.
 
     """
-    assert len(headers) == len(
-        items
-    ), f"process_row: Length mismatch between provided headers: {headers} and  provided items: {items}."
+    assert len(headers) == len(items), (
+        f"process_row: Length mismatch between provided headers: "
+        f"{headers} and  provided items: {items}."
+    )
 
-    assert all(
-        [key in units for key in headers]
-    ), f"process_row: Not all entries in provided 'headers' are present in provided 'units': {headers} vs {units.keys()}"
+    assert all([key in units for key in headers]), (
+        f"process_row: Not all entries in provided 'headers' are present "
+        f"in provided 'units': {headers} vs {units.keys()}"
+    )
 
     raw = dict()
     der = dict()
@@ -89,22 +90,28 @@ def process_row(
         if ci in datecolumns:
             continue
         try:
-            val = ufloat_fromstr(columns[ci])
+            val, sig = tuple_fromstr(columns[ci])
             unit = units[header]
-            element["raw"][header] = {"n": val.n, "s": val.s, "u": unit}
-            raw[header] = val
+            element["raw"][header] = {"n": val, "s": sig, "u": unit}
+            raw[header] = (val, sig)
         except ValueError:
             element["raw"][header] = columns[ci]
 
     # Process calib
     for newk, spec in calib.items():
-        y = ufloat(0, 0)
+        y = uc.ufloat(0, 0)
         for oldk, v in spec.items():
             if oldk in der:
-                dy = yadg.dgutils.calib_handler(der[oldk], v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(
+                    der[oldk],
+                    v.get("calib", None),
+                )
                 y += dy * v.get("fraction", 1.0)
             elif oldk in raw:
-                dy = yadg.dgutils.calib_handler(raw[oldk], v.get("calib", None))
+                dy = yadg.dgutils.calib_handler(
+                    uc.ufloat(*raw[oldk]),
+                    v.get("calib", None),
+                )
                 y += dy * v.get("fraction", 1.0)
             elif oldk == "unit":
                 pass
@@ -128,14 +135,14 @@ def process(
     timestamp: dict = None,
     convert: dict = None,
     calfile: str = None,
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict, dict]:
     """
     A basic csv parser.
 
     This parser processes a csv file. The header of the csv file consists of one or two
     lines, with the column headers in the first line and the units in the second. The
     parser also attempts to parse column names to produce a timestamp, and save all other
-    columns as floats or strings. The default uncertainty is 0.0.
+    columns as floats or strings.
 
     Parameters
     ----------
@@ -163,18 +170,17 @@ def process(
         for more info.
 
     convert
-        Specification for column conversion. The `key` of each entry will form a new
-        datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
-        each entry must either be one of the ``"header"`` fields, or ``"unit"``
-        :class:`(str)` specification. See :func:`yadg.parsers.basiccsv.process_row`
-        for more info.
+        Specification for column conversion. The key of each entry will form a new
+        datapoint in the ``"derived"`` :class:`(dict)` of a timestep, including the
+        option to specify linear combinations. See :ref:`here<processing_convert>` for
+        more info.
 
     calfile
         ``convert``-like functionality specified in a json file.
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, None, None]
+    (data, metadata, common)
         Tuple containing the timesteps, metadata, and common data.
 
     """
@@ -189,7 +195,8 @@ def process(
 
     # Load file, extract headers and get timestamping function
     with open(fn, "r", encoding=encoding) as infile:
-        # This decode/encode is done to account for some csv files that have a BOM at the beginning of each line.
+        # This decode/encode is done to account for some csv files that have a BOM
+        # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]

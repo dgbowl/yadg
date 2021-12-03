@@ -33,8 +33,52 @@ def calib_handler(
     x: Union[float, UFloat], calib: dict = None, atol: float = 0.0, rtol: float = 0.0
 ) -> UFloat:
     """
-    Calibration handling function
+    Calibration handling function.
+
+    Returns ``y`` calculated from ``x`` and the other supplied arguments.
+
+    .. _processing_calib:
+
+    The ``"calib"`` parameter is a :class:`(dict)` in the following format:
+
+    .. code-block:: yaml
+
+       - calib:
+         - linear:                # y = slope * x + intercept
+           intercept:  !!float
+           slope:      !!float
+         - inverse:               # y = (x - intercept) / slope
+           intercept:  !!float
+           slope:      !!float
+         - polynomial:            # y = sum(cN * x**N)
+           c0:         !!float
+           ...
+           cN:         !!float
+         atol:         !!float    # absolute uncertainty of y
+         rtol:         !!float    # relative uncertainty of y
+
+    Parameters
+    ----------
+    x
+        The raw value
+
+    calib
+        Calibration dictionary, specified using the format
+        :ref:`described above<processing_calib>`. If empty, corresponds to
+        no transformation (i.e. ``linear`` with ``"slope" = 1``) and a ``rtol = 1e-3``.
+
+    atol
+        Optional absolute uncertainty of y, overrides that provided in ``calib``.
+
+    rtol
+        Optional relative uncertainty of y, overrides that provided in ``calib``.
+
+    Returns
+    -------
+    y : UFloat
+        The derived value.
     """
+
     if not isinstance(x, UFloat):
         x = ufloat(x, 0.0)
     if calib is None:

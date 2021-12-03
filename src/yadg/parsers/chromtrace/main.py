@@ -43,7 +43,11 @@ def parse_detector_spec(
            - molecule:   !!str   # name of the analyte
                l:        !!float # peak picking left limit [s]
                r:        !!float # peak picking right limit [s]
-             - calib:    !!calib # calibration format
+             - calib:    {}      # calibration specification
+
+    .. note::
+        The syntax of the calibration specification is detailed in
+        :func:`yadg.dgutils.calib.calib_handler`.
 
     .. _parsers_chromtrace_detectors:
 
@@ -71,7 +75,11 @@ def parse_detector_spec(
            - molecule:   !!str   # name of the analyte
                l:        !!float # peak picking left limit [s]
                r:        !!float # peak picking right limit [s]
-             - calib:    !!calib # calibration format
+             - calib:    !!calib # calibration specification
+
+    .. note::
+        The syntax of the calibration specification is detailed in
+        :func:`yadg.dgutils.calib.calib_handler`.
 
     Parameters
     ----------

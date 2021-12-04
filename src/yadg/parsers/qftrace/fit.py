@@ -6,10 +6,10 @@ Quality factor fitting routines.
 List of supported quality factor fitting methods:
 
  - Naive fitting using half-width-half-maximum around the minimum of 
-   :math:`|\Gamma(f)|` in :func:`yadg.parsers.qftrace.fit.naive`
- - Lorentzian fit to the trace of :math:`|\Gamma(f)|` trimmed using a 
+   :math:`|\\Gamma(f)|` in :func:`yadg.parsers.qftrace.fit.naive`
+ - Lorentzian fit to the trace of :math:`|\\Gamma(f)|` trimmed using a 
    gradient threshold criterium in :func:`yadg.parsers.qftrace.fit.lorentz`
- - Kajfez's circle fitting routine to :math:`\Gamma(f)`, using a peak-height 
+ - Kajfez's circle fitting routine to :math:`\\Gamma(f)`, using a peak-height 
    cutoff pruning method in :func:`yadg.parsers.qftrace.fit.kajfez`
 
 Kajfez's method is the preferred one and hence set as default, with a ``cutoff``
@@ -33,17 +33,17 @@ def naive(
     Naive fitting routine.
 
     This fit finds the central frequency :math:`f_0`, determines the full-width at
-    the half-maximum :math:`\Delta f_{HM}` by linear interpolation, and calculates
-    the quality factor using :math:`Q_0 = f_0 / \Delta f_{HM}`.
+    the half-maximum :math:`\\Delta f_{HM}` by linear interpolation, and calculates
+    the quality factor using :math:`Q_0 = f_0 / \\Delta f_{HM}`.
 
-    - This fit first normalises the :math:`|\Gamma(f)|` trace to values between 0 and 1.
-    - The trace is flipped in this process, obtaining :math:`||\Gamma(f)||`.
+    - This fit first normalises the :math:`|\\Gamma(f)|` trace to values between 0 and 1.
+    - The trace is flipped in this process, obtaining :math:`||\\Gamma(f)||`.
     - The :math:`f_0` is determined by finding the frequency corresponding to the
-      minimum in :math:`|\Gamma(f)|` (that is, the maximum of :math:`||\Gamma(f)||`).
-    - The full-width-half-maximum (:math:`\Delta f_{HM}`) value of the peak is then
+      minimum in :math:`|\\Gamma(f)|` (that is, the maximum of :math:`||\\Gamma(f)||`).
+    - The full-width-half-maximum (:math:`\\Delta f_{HM}`) value of the peak is then
       determined using linear interpolation of the trace, by difference of the :math:`f`
-      at the two points where :math:`||\Gamma(f)|| = 0.5`.
-    - Finally, the quality factor is calculated from :math:`Q_0 = f_0 / \Delta f_{HM}`.
+      at the two points where :math:`||\\Gamma(f)|| = 0.5`.
+    - Finally, the quality factor is calculated from :math:`Q_0 = f_0 / \\Delta f_{HM}`.
 
     Parameters
     ----------
@@ -54,7 +54,7 @@ def naive(
     gvals
         Not used
     absgvals
-        Absolute values of the reflection coefficient, :math:`|\Gamma(f)|`
+        Absolute values of the reflection coefficient, :math:`|\\Gamma(f)|`
 
     Returns
     -------
@@ -88,16 +88,16 @@ def lorentz(
     Lorentz fit.
 
     Fits a Lorentz function to the pruned data. The :math:`f_0 = x_0`, and the
-    :math:`Q_0` is calculated from :math:`x_0 / \Delta x = x_0 / (2\gamma)`.
+    :math:`Q_0` is calculated from :math:`x_0 / \\Delta x = x_0 / (2\\gamma)`.
 
     - This fit starts by fitting a Lorentzian curve in the form
-      :math:`L(x) = a \\frac{\gamma^2}{(x - x_0)^2 + \gamma^2} + c` to the
-      :math:`|\Gamma(f)|` trace, obtaining four parameters (:math:`a, x_0, \gamma, c`).
+      :math:`L(x) = a \\frac{\\gamma^2}{(x - x_0)^2 + \\gamma^2} + c` to the
+      :math:`|\\Gamma(f)|` trace, obtaining four parameters (:math:`a, x_0, \\gamma, c`).
     - The central frequency :math:`f_0` is simply :math:`x_0`.
-    - The width of the Lorentzian is given by :math:`\Delta x = 2\gamma`.
-    - The quality factor is determined using :math:`Q_0 = x_0 / \Delta x`
+    - The width of the Lorentzian is given by :math:`\\Delta x = 2\\gamma`.
+    - The quality factor is determined using :math:`Q_0 = x_0 / \\Delta x`
     - Uncertainties of :math:`f_0` and :math:`Q_0` are calculated using the
-      covariance matrix of the fit of :math:`L(x)` to :math:`|\Gamma(f)|`.
+      covariance matrix of the fit of :math:`L(x)` to :math:`|\\Gamma(f)|`.
 
 
     Parameters
@@ -109,7 +109,7 @@ def lorentz(
     gvals
         Not used
     absgvals
-        Absolute values of the reflection coefficient, :math:`|\Gamma(f)|`
+        Absolute values of the reflection coefficient, :math:`|\\Gamma(f)|`
 
     Returns
     -------
@@ -156,9 +156,9 @@ def kajfez(
     fsigs
         Error values of the frequencies
     gvals
-        Complex reflection coefficient values, :math:`\Gamma(f)`.
+        Complex reflection coefficient values, :math:`\\Gamma(f)`.
     absgvals
-        Absolute values of the reflection coefficient, :math:`|\Gamma(f)|`
+        Absolute values of the reflection coefficient, :math:`|\\Gamma(f)|`
 
     Returns
     -------

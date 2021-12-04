@@ -3,7 +3,7 @@ File parser for the LabView CSV files generated using Agilent PNA-L N5320C.
 
 This file format includes a header, with the values of bandwith and averaging,
 and three tab-separated columns containing the frequency :math:`f`, and the real
-and imaginary parts of the complex reflection coefficient :math:`\Gamma(f)`.
+and imaginary parts of the complex reflection coefficient :math:`\\Gamma(f)`.
 
 Timestamps are determined from file name. One trace per file. As the set-up for
 which this format was designed always uses the ``S11`` port, the name of the trace

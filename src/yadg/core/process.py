@@ -101,8 +101,8 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     Returns
     -------
     datagram: dict
-        An unvalidated `datagram`. The `parser`\ s included in **yadg** should return
-        a valid `datagram`; any custom `parser`\ s might not do so. Use the function
+        An unvalidated `datagram`. The `parser`\\ s included in **yadg** should return
+        a valid `datagram`; any custom `parser`\\ s might not do so. Use the function
         :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
     """
     datagram = {

@@ -77,7 +77,7 @@ def process(
     VNA reflection trace parser.
 
     This parser processes a VNA log file, containing the complex reflection coefficient
-    data as a function of frequency (:math:`\Gamma(f)`). This data is automatically
+    data as a function of frequency (:math:`\\Gamma(f)`). This data is automatically
     worked up to produce the quality factor :math:`Q_0` and the central frequency
     :math:`f_0` of all peaks found in each trace; hence the name ``qftrace``.
 
@@ -93,7 +93,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     method
-        Method used for fitting :math:`Q_0` and :math:`f_0` to :math:`\Gamma(f)` data.
+        Method used for fitting :math:`Q_0` and :math:`f_0` to :math:`\\Gamma(f)` data.
         One of ``"naive"``, ``"lorentz"``, or ``"kajfez"``. Default is ``"kajfez"``.
 
     cutoff

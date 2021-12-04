@@ -1,4 +1,4 @@
-datagram_version = "1.0.dev1"
+datagram_version = "4.0.rc1"
 
 datagram_step = {
     "type": dict,

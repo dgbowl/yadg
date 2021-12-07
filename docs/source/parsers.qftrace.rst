@@ -41,14 +41,14 @@ timestep, in the ``"raw"`` entry using the following format:
       avg:             !!int  # number of scans that are averaged for each trace
       bw:                     # filter bandwith used to measure the trace
         {n: !!float, s: !!float, u: "Hz"}
-    - traces:
-      - trace name: !!str     # detector name, currently hard-coded to S11
-        f:                    # frequency-axis units are always Hz
-          {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
-        Re(Γ):                # real part of the reflection coefficient
-          {n: [!!float, ...], s: [!!float, ...], u: !!str}  
-        Im(Γ):                # imaginary part of the reflection coefficient
-          {n: [!!float, ...], s: [!!float, ...], u: !!str}  
+      traces:
+        "{{ trace_name }}":   # detector name, currently hard-coded to S11
+          f:                  # frequency-axis units are always Hz
+            {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
+          Re(Γ):              # real part of the reflection coefficient
+            {n: [!!float, ...], s: [!!float, ...], u: !!str}  
+          Im(Γ):              # imaginary part of the reflection coefficient
+            {n: [!!float, ...], s: [!!float, ...], u: !!str}  
       
         
 The ``"metadata"`` section is currently empty.
@@ -61,10 +61,10 @@ performed by ``qftrace`` automatically, and can be adjusted by specifying the
 .. code-block:: yaml
 
   - derived:
-      - detector name:  !!str   # see above, currently set to S11
-        f:                      # the frequencies of each peak
+      "{{ trace_name }}":   # see above, currently set to S11
+        f:                  # the frequencies of each peak
           {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
-        Q:                      # the cavity quality factors for each peak
+        Q:                  # the cavity quality factors for each peak
           {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
           
 

@@ -31,19 +31,19 @@ def parse_detector_spec(
 
     .. code-block:: yaml
 
-       - detector name:  !!str   # name of the detector
-           id:           !!int   # ID of the detector used for matching
-           prefer:       !!bool  # whether to prefer this detector for xout calc
-         - peakdetect:
-             window:     !!int   # Savigny-Golay window_length = 2*window + 1
-             polyorder:  !!int   # Savigny-Golay polyorder
-             prominence: !!float # peak picking prominence parameter
-             threshold:  !!float # peak edge detection threshold
-         - species:
-           - molecule:   !!str   # name of the analyte
-               l:        !!float # peak picking left limit [s]
-               r:        !!float # peak picking right limit [s]
-             - calib:    {}      # calibration specification
+        "{{ detector_name }}":    # name of the detector
+          id:           !!int     # ID of the detector used for matching
+          prefer:       !!bool    # whether to prefer this detector for xout calc
+          peakdetect:
+            window:     !!int     # Savigny-Golay window_length = 2*window + 1
+            polyorder:  !!int     # Savigny-Golay polyorder
+            prominence: !!float   # peak picking prominence parameter
+            threshold:  !!float   # peak edge detection threshold
+          species:
+            "{{ species_name }}": # name of the analyte
+              l:        !!float   # peak picking left limit [s]
+              r:        !!float   # peak picking right limit [s]
+              calib:    {}        # calibration specification
 
     .. note::
         The syntax of the calibration specification is detailed in
@@ -55,14 +55,14 @@ def parse_detector_spec(
 
     .. code-block:: yaml
 
-       - detector name:  !!str   # name of the detector
-           id:           !!int   # ID of the detector used for matching
-           prefer:       !!bool  # whether to prefer this detector for xout calc
-         - peakdetect:
-             window:     !!int   # Savigny-Golay window_length = 2*window + 1
-             polyorder:  !!int   # Savigny-Golay polyorder
-             prominence: !!float # peak picking prominence parameter
-             threshold:  !!float # peak edge detection threshold
+        "{{ detector_name }}":  # name of the detector
+          id:           !!int   # ID of the detector used for matching
+          prefer:       !!bool  # whether to prefer this detector for xout calc
+          peakdetect:
+            window:     !!int   # Savigny-Golay window_length = 2*window + 1
+            polyorder:  !!int   # Savigny-Golay polyorder
+            prominence: !!float # peak picking prominence parameter
+            threshold:  !!float # peak edge detection threshold
 
     .. _parsers_chromtrace_species:
 
@@ -70,12 +70,12 @@ def parse_detector_spec(
 
     .. code-block:: yaml
 
-        - detector name: !!str   # name of the detector
-         - species:
-           - molecule:   !!str   # name of the analyte
-               l:        !!float # peak picking left limit [s]
-               r:        !!float # peak picking right limit [s]
-             - calib:    !!calib # calibration specification
+        "{{ detector_name }}":    # name of the detector
+          species:
+            "{{ species_name }}": # name of the analyte
+              l:        !!float   # peak picking left limit [s]
+              r:        !!float   # peak picking right limit [s]
+              calib:    !!calib   # calibration specification
 
     .. note::
         The syntax of the calibration specification is detailed in

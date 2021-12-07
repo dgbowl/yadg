@@ -74,6 +74,7 @@ schema_step = {
                 "drycal",
                 "meascsv",
                 "eclab",
+                "masstrace",
             ],
         },
         "import": {
@@ -159,6 +160,10 @@ schema_step["any"]["parameters"]["any"].update(
         "threshold": {"type": float},
     }
 )
+
+# masstrace parameters
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("quadstar.sac")
+
 
 schema = {
     "type": dict,

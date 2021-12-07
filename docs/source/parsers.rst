@@ -13,3 +13,4 @@ following links:
    parsers.chromtrace
    parsers.qftrace
    parsers.meascsv
+   parsers.masstrace

@@ -11,6 +11,7 @@ from yadg.parsers import (
     drycal,
     meascsv,
     eclab,
+    masstrace,
 )
 import yadg.dgutils
 import yadg.core
@@ -47,6 +48,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return meascsv.process, meascsv.version
     if parser == "eclab":
         return eclab.process, eclab.version
+    if parser == "masstrace":
+        return masstrace.process, masstrace.version
 
 
 def _infer_todo_files(importdict: dict) -> list:
@@ -107,9 +110,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     """
     datagram = {
         "metadata": {
-            "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
-            },
+            "provenance": {"yadg": yadg.dgutils.get_yadg_metadata(),},
             "date": yadg.dgutils.now(asstr=True),
             "input_schema": schema.copy(),
             "datagram_version": yadg.core.spec_datagram.datagram_version,

@@ -43,13 +43,13 @@ timestep, in the ``"raw"`` entry using the following format:
 .. code-block:: yaml
 
   - raw:
-    - traces:
-      - detector name: !!str  # detector name from the raw data file
-        id:            !!int  # detector id for matching with calibration data
-        t:                    # time-axis units are always seconds
-          {n: [!!float, ...], s: [!!float, ...], u: "s"} 
-        y:                    # y-axis units are determined from raw file
-          {n: [!!float, ...], s: [!!float, ...], u: !!str}  
+      traces:
+        "{{ trace_name }}":        # detector name from the raw data file
+          id:               !!int  # detector id for matching with calibration data
+          t:                       # time-axis units are always seconds
+            {n: [!!float, ...], s: [!!float, ...], u: "s"} 
+          y:                       # y-axis units are determined from raw file
+            {n: [!!float, ...], s: [!!float, ...], u: !!str}  
             
         
 The ``"metadata"`` collected from the raw file varies greatly by the raw file format. 
@@ -57,14 +57,14 @@ See :ref:`here<parsers_chromtrace_formats>` for details. In general, the followi
 metadata entries are stored in the ``"params"`` element of each `step`:
 
 .. code-block:: yaml
-
-  - params:
-      method:   !!str # path or other specifier of the chromatographic method
-      sampleid: !!str # sample ID
-      username: !!str # username of raw file creator
-      version:  !!str # raw file version or program version
-      valve:    !!int # multiplexer valve number
-      datafile: !!str # original data file location
+  
+  params:
+    method:   !!str # path or other specifier of the chromatographic method
+    sampleid: !!str # sample ID
+    username: !!str # username of raw file creator
+    version:  !!str # raw file version or program version
+    valve:    !!int # multiplexer valve number
+    datafile: !!str # original data file location
 
 The data processing performed in ``chromtrace`` is enabled automatically when
 calibration information are provided. The resulting data is stored in the 
@@ -73,21 +73,21 @@ calibration information are provided. The resulting data is stored in the
 .. code-block:: yaml
 
   - derived:
-      - peaks:
-        - detector name:  !!str # detector name from raw data file
-          - species name: !!str # species name matched from calibration
-            - peak:
-                max:  !!int     # index of peak maximum
-                llim: !!int     # index of peak left limit
-                rlim: !!int     # index of peak right limit
-            - A:                # integrated peak area 
-                {n: !!float, s: !!float, u: !!str} 
-            - h:                # height of peak maximum
-                {n: !!float, s: !!float, u: !!str} 
-            - c:                # calibrated "concentration" or other quantity
-                {n: !!float, s: !!float, u: !!str} 
-      - xout:                   # normalised mol fractions of species
-        - species name: !!str
+      peaks:
+        "{{ trace_name }}":     # detector name from raw data file
+          "{{ species_name }}": # species name matched from calibration
+            peak:
+              max:      !!int   # index of peak maximum
+              llim:     !!int   # index of peak left limit
+              rlim:     !!int   # index of peak right limit
+            A:                  # integrated peak area 
+              {n: !!float, s: !!float, u: !!str} 
+            h:                  # height of peak maximum
+              {n: !!float, s: !!float, u: !!str} 
+            c:                  # calibrated "concentration" or other quantity
+              {n: !!float, s: !!float, u: !!str} 
+      xout:                     # normalised mol fractions of species
+        "{{ species_name }}":
             {n: !!float, s: !!float, u: !!str}
 
 .. note::

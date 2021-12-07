@@ -10,7 +10,7 @@ Exposed metadata:
 
 .. code-block:: yaml
 
-  - params:
+    params:
       method:   None
       sampleid: !!str
       username: None

@@ -67,6 +67,6 @@ from tests.utils import (
     ],
 )
 def test_datagram_from_drycal(input, ts, datadir):
-    ret = datagram_from_input(input, "drycal", datadir)
+    ret = datagram_from_input(input, "flowdata", datadir)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)

@@ -1,20 +1,26 @@
-import logging
-import json
-from striprtf.striprtf import rtf_to_text
+"""
+File parser for DryCal log files, including converted documents (rtf) and tabulated
+exports (txt, csv).
+
+The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
+the date has to be supplied either using the ``date`` argument in parameters, or is 
+parsed from the prefix of the filename.
+
+.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+"""
 
 from yadg.parsers.basiccsv import process_row
+from striprtf.striprtf import rtf_to_text
 import yadg.dgutils
 
-version = "1.0.dev1"
 
-
-def drycal_rtf(
+def rtf(
     fn: str,
     date: float,
     encoding: str = "utf-8",
     timezone: str = "localtime",
     calib: dict = {},
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict]:
     """
     RTF version of the drycal parser.
 
@@ -82,17 +88,17 @@ def drycal_rtf(
         ts["fn"] = fn
         timesteps.append(ts)
 
-    return timesteps, metadata, None
+    return timesteps, metadata
 
 
-def drycal_sep(
+def sep(
     fn: str,
     date: float,
     sep: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
     calib: dict = {},
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict]:
     """
     Generic drycal parser, using ``sep`` as separator string.
 
@@ -156,7 +162,7 @@ def drycal_sep(
         ts["fn"] = str(fn)
         timesteps.append(ts)
 
-    return timesteps, metadata, None
+    return timesteps, metadata
 
 
 def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
@@ -207,81 +213,3 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
         else:
             data.append(cols)
     return headers, units, data
-
-
-def process(
-    fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    filetype: str = None,
-    convert: dict = None,
-    calfile: str = None,
-    date: str = None,
-    **kwargs,
-) -> tuple[list, dict, dict]:
-    """
-    DryCal log file processor.
-
-    This parser is currently able to process DryCal formatted rtf, txt, and csv files.
-    It reuses a lot of its functionality from the :mod:`yadg.parsers.basiccsv` module.
-
-    Parameters
-    ----------
-    fn
-        File to process
-
-    encoding
-        Encoding of ``fn``, by default "utf-8".
-
-    timezone
-        A string description of the timezone. Default is "localtime".
-
-    filetype
-        Whether a rtf, csv, or txt file is to be expected. When `None`, the suffix of
-        the file is used to determine the file type.
-
-    convert
-        Specification for column conversion. The `key` of each entry will form a new
-        datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
-        each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)`
-        specification. See :func:`yadg.parsers.basiccsv.process_row` for more info.
-
-    calfile
-        ``convert``-like functionality specified in a json file.
-
-    Returns
-    -------
-    (data, metadata, common) : tuple[list, None, None]
-        Tuple containing the timesteps, metadata, and common data.
-
-    """
-    if calfile is not None:
-        with open(calfile, "r") as infile:
-            calib = json.load(infile)
-    else:
-        calib = {}
-    if convert is not None:
-        calib.update(convert)
-
-    if date is None:
-        date = fn
-    date = yadg.dgutils.date_from_str(date)
-    assert date is not None, "Log starting date must be specified."
-
-    metadata = {}
-    kwargs = {
-        "calib": calib,
-        "encoding": encoding,
-        "timezone": timezone,
-    }
-
-    if filetype == "rtf" or (filetype is None and fn.endswith("rtf")):
-        ts, meta, comm = drycal_rtf(fn, date, **kwargs)
-    elif filetype == "csv" or (filetype is None and fn.endswith("csv")):
-        ts, meta, comm = drycal_sep(fn, date, ",", **kwargs)
-    elif filetype == "txt" or (filetype is None and fn.endswith("txt")):
-        ts, meta, comm = drycal_sep(fn, date, "\t", **kwargs)
-
-    metadata.update(meta)
-
-    return ts, metadata, comm

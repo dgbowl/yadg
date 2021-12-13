@@ -71,7 +71,7 @@ schema_step = {
                 "basiccsv",
                 "chromtrace",
                 "qftrace",
-                "drycal",
+                "flowdata",
                 "meascsv",
                 "eclab",
                 "masstrace",
@@ -136,19 +136,17 @@ schema_step["any"]["parameters"]["any"].update(
     {
         "tracetype": {
             "type": str,
-            "one": [
-                "ezchrom.asc",  # gctrace
-                "fusion.json",  # gctrace
-                "agilent.ch",  # lctrace
-                "agilent.dx",  # lctrace
-                "agilent.csv",  # gctrace
-                "labview.csv",  # qftrace
-            ],
+            "one": [],
         },
         "species": species,
         "detectors": detectors,
     }
 )
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("ezchrom.asc")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("fusion.json")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("agilent.ch")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("agilent.dx")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("agilent.csv")
 
 # qftrace parameters
 schema_step["any"]["parameters"]["any"].update(
@@ -160,10 +158,22 @@ schema_step["any"]["parameters"]["any"].update(
         "threshold": {"type": float},
     }
 )
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("labview.csv")
 
 # masstrace parameters
 schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("quadstar.sac")
 
+# flowdata parameters
+schema_step["any"]["parameters"]["any"].update(
+    {
+        "date": {"type": str},
+        "filetype": {
+            "type": str,
+            "one": [],
+        },
+    }
+)
+schema_step["any"]["parameters"]["any"]["filetype"]["one"].append("drycal")
 
 schema = {
     "type": dict,

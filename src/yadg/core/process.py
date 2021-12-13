@@ -8,7 +8,7 @@ from yadg.parsers import (
     basiccsv,
     qftrace,
     chromtrace,
-    drycal,
+    flowdata,
     meascsv,
     eclab,
     masstrace,
@@ -42,8 +42,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return dummy.process, dummy.version
     if parser == "basiccsv":
         return basiccsv.process, basiccsv.version
-    if parser == "drycal":
-        return drycal.process, drycal.version
+    if parser == "flowdata":
+        return flowdata.process, flowdata.version
     if parser == "meascsv":
         return meascsv.process, meascsv.version
     if parser == "eclab":

@@ -31,5 +31,6 @@ coefficient traces, or simple numerical processing of tabular data.
    :caption: Yadg components
    :hidden:
 
+   devdocs
    objects
    modules

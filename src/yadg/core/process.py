@@ -12,6 +12,7 @@ from yadg.parsers import (
     meascsv,
     eclab,
     masstrace,
+    xpstrace,
 )
 import yadg.dgutils
 import yadg.core
@@ -50,6 +51,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return eclab.process, eclab.version
     if parser == "masstrace":
         return masstrace.process, masstrace.version
+    if parser == "xpstrace":
+        return xpstrace.process, xpstrace.version
 
 
 def _infer_todo_files(importdict: dict) -> list:

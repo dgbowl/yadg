@@ -95,6 +95,7 @@ Structure of Parsed Data
 
 import math
 import os
+import re
 from typing import Any
 
 import numpy as np
@@ -136,6 +137,26 @@ trace_header_dtype = np.dtype(
         ("end_of_data", "<u4"),
     ]
 )
+
+
+def camel_to_snake(s: str) -> str:
+    """Converts CamelCase strings to snake_case.
+    
+    # From https://stackoverflow.com/a/1176023
+    
+    Parameters
+    ----------
+    s
+        The CamelCase input string.
+    
+    Returns
+    -------
+    str
+        The snake_case equivalent of s.
+    
+    """
+    s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", s)
+    return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s).lower()
 
 
 def _read_pascal_string(pascal_bytes: bytes, encoding: str = "utf-8") -> str:
@@ -260,7 +281,7 @@ def _process_header(spe: list[bytes]) -> dict:
     header = {}
     for line in header_lines:
         key, value = line.split(b":")
-        key, value = key.decode().strip(), value.decode().strip()
+        key, value = camel_to_snake(key.decode().strip()), value.decode().strip()
         if key in header:
             header[key] = [header[key]] + [value]
         else:
@@ -288,7 +309,7 @@ def _process_trace_defs(header: dict) -> list[dict]:
 
     """
     trace_defs = []
-    for trace_def in header.get("SpectralRegDef"):
+    for trace_def in header.get("spectral_reg_def"):
         trace_def = trace_def.split()
         trace_defs.append(
             {
@@ -346,7 +367,7 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
             endpoint=True,
             retstep=True,
         )
-        E = {"n": energies.tolist(), "s": dE, "u": "eV"}
+        E = {"n": energies.tolist(), "s": [abs(dE)] * len(energies), "u": "eV"}
         # Construct data from trace_header
         data_dtype = np.dtype(f'{trace_header["data_dtype"].decode()}')
         data_offset = trace_header["end_of_data"] - trace_header["num_data_bytes"]
@@ -355,10 +376,13 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
         )
         dwell_time = _read_value(data, trace_header["end_of_data"], "<f4")
         np.testing.assert_almost_equal(dwell_time, float(trace_def["dwell_time"]))
-        # TODO: Figure out error from name of device in header.
+        # TODO: Figure out the correct error. This signal count should
+        # somehow be a Poisson distribution, i.e. the error should be
+        # something like s ~ sqrt(n). The counts per second only seem to
+        # be taking values in steps of 12.5cps, so taking this as error.
         y = {
             "n": datapoints,
-            "s": [math.ulp(d) for d in datapoints],
+            "s": [12.5] * len(datapoints),
             "u": trace_header["y_unit"].decode().strip(),
         }
         traces[str(trace_def["trace_number"])] = {
@@ -398,12 +422,12 @@ def process(
     with open(fn, "rb") as spe_file:
         spe = spe_file.readlines()
     header = _process_header(spe)
-    software_id, version = header.get("SoftwareVersion").split()
+    software_id, version = header.get("software_version").split()
     meta = {
         "params": {
             "software_id": software_id,
             "version": version,
-            "username": header.get("Operator"),
+            "username": header.get("operator"),
         },
         "file_header": header,
     }
@@ -411,6 +435,7 @@ def process(
     traces = _process_traces(spe, trace_defs)
     # TODO: There is apparently no proper timestamp in these files. Only
     # the acquisition date can be found in the header. I guess the
-    # file's ctime should be more accurate in most cases.
+    # file's ctime should be more accurate in most cases. No one would
+    # go about editing binary files, right? Or maybe?
     timesteps = [{"fn": fn, "uts": os.path.getctime(fn), "raw": {"traces": traces}}]
     return timesteps, meta

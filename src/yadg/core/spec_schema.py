@@ -73,7 +73,7 @@ schema_step = {
                 "qftrace",
                 "flowdata",
                 "meascsv",
-                "eclab",
+                "electrochem",
                 "masstrace",
             ],
         },
@@ -189,3 +189,7 @@ schema = {
         "steps": {"type": list, "each": schema_step},
     },
 }
+
+# electrochem parameters
+schema_step["any"]["parameters"]["any"]["filetype"]["one"].append("eclab.mpt")
+schema_step["any"]["parameters"]["any"]["filetype"]["one"].append("eclab.mpr")

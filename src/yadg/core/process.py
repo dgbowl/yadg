@@ -10,7 +10,7 @@ from yadg.parsers import (
     chromtrace,
     flowdata,
     meascsv,
-    eclab,
+    electrochem,
     masstrace,
 )
 import yadg.dgutils
@@ -46,8 +46,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return flowdata.process, flowdata.version
     if parser == "meascsv":
         return meascsv.process, meascsv.version
-    if parser == "eclab":
-        return eclab.process, eclab.version
+    if parser == "electrochem":
+        return electrochem.process, electrochem.version
     if parser == "masstrace":
         return masstrace.process, masstrace.version
 

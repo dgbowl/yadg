@@ -1,5 +1,3 @@
-:orphan:
-
 .. _object_schema:
 
 What is a `schema`
@@ -9,6 +7,13 @@ A `schema` is an object defining the files and folders to be processed by
 One can think of a `schema` as a representation of a single experiment, 
 containing measurements from multiple sources (or devices) and following a 
 succession of experimental `steps`.
+
+.. admonition:: TODO
+
+    https://gitlab.empa.ch/krpe/yadg/-/issues/8
+
+    The syntax of `schema` will change from a json dictionary to a YAML file 
+    in version 5.0.
 
 An example is a simple catalytic test with a temperature ramp. The goal of such 
 an experiment may be to measure the catalytic conversion as a function of 
@@ -20,31 +25,31 @@ The monitored devices and their filetypes are:
 - the gas chromatograph -> Fusion ``json`` data in ``./GC/`` folder
 
 Despite these three devices measuring concurrently, we would have to specify 
-three separate `step`\ s in the schema to process all relevant output files:
+three separate `steps` in the schema to process all relevant output files:
 
 .. code-block:: json
 
     {
         "metadata": {"provenance": "manual", "schema_version": "1.0"},
         "steps": [{
-            "datagram": "basiccsv",
+            "parser": "basiccsv",
             "import": {"files": ["foo.csv"]},
-            "tag": "flowdata",
+            "tag": "flow",
             "parameters": {}
         },{
-            "datagram": "basiccsv",
+            "parser": "basiccsv",
             "import": {"files": ["bar.csv"]}
         },{
-            "datagram": "gctrace",
+            "parser": "chromtrace",
             "import": {"folders": ["./GC/"]},
             "parameters": {"tracetype": "fusion"}
         }]
     }
 
-A valid `schema` is therefore a :class:`dict`, with a top-level ``"metadata"``
+A valid `schema` is therefore a :class:`(dict)`, with a top-level ``"metadata"``
 entry describing the schema provenance and version; and a top-level ``"steps"``
-entry, which is a :class:`list` containing the definitions for the experimental
-`step`\ s. Each `step` within the `schema` is a :class:`dict`. In each `step`, 
+entry, which is a :class:`(list)` containing the definitions for the experimental
+`steps`. Each `step` within the `schema` is a :class:`(dict)`. In each `step`, 
 the entries ``"parser"`` and ``"import"`` have to be specified, telling **yadg** 
 which `parser` to use and which files or folders to process, respectively.
 
@@ -52,7 +57,7 @@ Other allowed entries are:
 
 - ``"tag"`` :class:`(str)`, a tag describing a certain `step`; 
 - ``"export"`` :class:`(str)`, a path defining the location for individual 
-  export of `step`\ s; and 
+  export of `steps`; and 
 - ``"parameters"`` :class:`(dict)`, an object for specifying additional 
   parameters for the `parser`.
 
@@ -72,7 +77,7 @@ follows:
         "steps": [{
             "datagram": "basiccsv",
             "import": {"files": ["foo.csv"]},
-            "tag": "flowdata",
+            "tag": "flow",
             "parameters": {}
         },{
             "datagram": "basiccsv",

@@ -14,7 +14,8 @@ given experiment.
 
 **yadg** also implements standardised processing of raw data, with features such as 
 peak integration in chromatograms, quality factor determination from reflection 
-coefficient traces, or simple numerical processing of tabular data.
+coefficient traces, applying calibration curves to data, or simple numerical processing 
+of tabular data. This "derived" data is systematically separated from the "raw" data.
 
 .. toctree::
    :maxdepth: 3
@@ -24,6 +25,7 @@ coefficient traces, or simple numerical processing of tabular data.
    usage
    features
    parsers
+   version
 
 
 .. toctree::

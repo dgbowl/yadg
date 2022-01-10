@@ -10,7 +10,7 @@ the nominal value, ``"s"`` is the uncertainty, and ``"u"`` is the unit. An
 arbitrary unit is denoted as ``"-"``.
 
 In many cases it is possible to define more than one uncertainty: for example,
-accuracy, precision, resolution etc. may be available The convention in **yadg** 
+accuracy, precision, resolution etc. may be available. The convention in **yadg** 
 is that if both a measure of within-measurement uncertainty (resolution) and a 
 cross-measurement error (accuracy) are available, ``"s"`` corresponds to resolution 
 associated with each datapoint, and the accuracy of the measurement (which is 

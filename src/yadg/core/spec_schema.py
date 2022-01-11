@@ -76,6 +76,7 @@ schema_step = {
                 "electrochem",
                 "masstrace",
                 "xpstrace",
+                "xrdtrace"
             ],
         },
         "import": {
@@ -224,3 +225,8 @@ schema = {
 # electrochem parameters
 schema_step["any"]["parameters"]["any"]["filetype"]["one"].append("eclab.mpt")
 schema_step["any"]["parameters"]["any"]["filetype"]["one"].append("eclab.mpr")
+
+# xrdtrace parameters
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("panalytical.xy")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("panalytical.csv")
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("panalytical.xrdml")

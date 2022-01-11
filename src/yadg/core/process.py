@@ -1,18 +1,20 @@
 import json
-import os
 import logging
-from typing import Union, Callable
+import os
+from typing import Callable, Union
 
 from ..parsers import (
     dummy,
     basiccsv,
-    qftrace,
     chromtrace,
-    flowdata,
-    meascsv,
+    dummy,
     electrochem,
+    flowdata,
     masstrace,
     xpstrace,
+    meascsv,
+    qftrace,
+    xrdtrace,
 )
 from .. import dgutils, core
 
@@ -54,6 +56,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return masstrace.process, masstrace.version
     if parser == "xpstrace":
         return xpstrace.process, xpstrace.version
+    if parser == "xrdtrace":
+        return xrdtrace.process, xrdtrace.version
 
 
 def _infer_todo_files(importdict: dict) -> list:

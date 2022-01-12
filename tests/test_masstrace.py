@@ -15,11 +15,21 @@ from tests.utils import datadir, datagram_from_input, standard_datagram_test
     [
         (  # ts0 - airdemo.sac
             {"case": "airdemo.sac", "parameters": {"tracetype": "quadstar.sac"}},
-            {"nsteps": 1, "step": 0, "nrows": 21, "point": 0,},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 21,
+                "point": 0,
+            },
         ),
         (  # ts1 - test.sac
             {"case": "test.sac", "parameters": {"tracetype": "quadstar.sac"}},
-            {"nsteps": 1, "step": 0, "nrows": 188, "point": 0,},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 188,
+                "point": 0,
+            },
         ),
     ],
 )

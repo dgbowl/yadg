@@ -26,6 +26,7 @@ import uncertainties.unumpy as unp
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
+from yadg.dgutils.dateutils import str_to_uts
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
@@ -59,9 +60,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     metadata = {"filetype": "ezchrom.datasc", "params": {"valve": None}}
     chrom = {"fn": str(fn), "traces": {}}
 
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        spec={"timestamp": {"format": "%m/%d/%Y %I:%M:%S %p"}}, timezone=timezone
-    )
     for line in lines:
         for key in ["Version", "Method", "User Name"]:
             if line.startswith(key):
@@ -72,7 +70,11 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                 k = key.lower().replace(" ", "")
                 chrom[k] = line.split(f"{key}:")[1].strip()
         if line.startswith("Acquisition Date and Time:"):
-            chrom["uts"] = datefunc(line.split("Time:")[1].strip())
+            chrom["uts"] = str_to_uts(
+                line.split("Time:")[1].strip(),
+                format="%m/%d/%Y %I:%M:%S %p",
+                timezone=timezone,
+            )
         if line.startswith("Sampling Rate:"):
             assert (
                 "Hz" in line

@@ -42,12 +42,7 @@ def process(
         Tuple containing the timesteps, metadata, and common data.
     """
 
-    # create timestamp
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        timezone=timezone, spec={"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}}
-    )
-    dirname, basename = os.path.split(fn)
-    data = {"uts": datefunc(os.path.splitext(basename)[0]), "fn": str(fn)}
+    data = {"fn": str(fn)}
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     assert (

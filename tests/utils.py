@@ -44,6 +44,8 @@ def datagram_from_input(input, parser, datadir):
             }
         ],
     }
+    if "externaldate" in input:
+        schema["steps"][0]["externaldate"] = input["externaldate"]
     if "case" in input:
         schema["steps"][0]["import"]["files"] = [input["case"]]
     elif "files" in input:

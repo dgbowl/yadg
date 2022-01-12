@@ -656,7 +656,7 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 def process(
     fn: str, encoding: str = "windows-1252", timezone: str = "localtime"
-) -> tuple[list, dict]:
+) -> tuple[list, dict, bool]:
     """Processes EC-Lab raw data binary files.
 
     Parameters
@@ -672,8 +672,9 @@ def process(
 
     Returns
     -------
-    (data, metadata) : tuple[list, dict]
-        Tuple containing the timesteps and metadata.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag. For mpr files,
+        the full date is always specified.
 
     """
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
@@ -712,9 +713,9 @@ def process(
                 trace[key]["u"] = set(trace[key]["u"]).pop()
         uts = start_time + data[0]["time"]["n"]
         timesteps = [{"uts": uts, "fn": fn, "raw": {"traces": traces}}]
-        return timesteps, metadata
+        return timesteps, metadata, True
     # All other techniques have multiple timesteps.
     for d in data:
         uts = start_time + d["time"]["n"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
-    return timesteps, metadata
+    return timesteps, metadata, True

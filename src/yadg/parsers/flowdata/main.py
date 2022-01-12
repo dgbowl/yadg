@@ -6,6 +6,7 @@ import yadg.dgutils
 
 version = "4.0.0"
 
+
 def process(
     fn: str,
     encoding: str = "utf-8",
@@ -14,7 +15,7 @@ def process(
     convert: dict = None,
     calfile: str = None,
     date: str = None,
-) -> tuple[list, dict, dict]:
+) -> tuple[list, dict, bool]:
     """
     Flow meter data processor
 
@@ -43,15 +44,16 @@ def process(
 
     calfile
         ``convert``-like functionality specified in a json file.
-    
+
     date
         An optional date argument, required for parsing DryCal files. Otherwise the date
         is parsed from ``fn``.
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, None, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. Whether full date
+        is returned depends on the file parser.
 
     """
     if calfile is not None:
@@ -61,26 +63,23 @@ def process(
         calib = {}
     if convert is not None:
         calib.update(convert)
-    
+
     metadata = {}
 
     if filetype == "drycal":
-        if date is None:
-            date = fn
-        date = yadg.dgutils.date_from_str(date)
-        assert date is not None, "Log starting date must be specified."
-        
+        fulldate = False
+
         if "flow" not in calib:
             logging.info("flowdata: adding default 'DryCal' -> 'flow' conversion")
             calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
         if fn.endswith("rtf"):
-            ts, meta = drycal.rtf(fn, date, encoding, timezone, calib)
+            ts, meta = drycal.rtf(fn, encoding, timezone, calib)
         elif fn.endswith("csv"):
-            ts, meta = drycal.sep(fn, date, ",", encoding, timezone, calib)
+            ts, meta = drycal.sep(fn, ",", encoding, timezone, calib)
         elif fn.endswith("txt"):
-            ts, meta = drycal.sep(fn, date, "\t", encoding, timezone, calib)
+            ts, meta = drycal.sep(fn, "\t", encoding, timezone, calib)
 
     metadata.update(meta)
 
-    return ts, metadata, None
+    return ts, metadata, fulldate

@@ -35,3 +35,5 @@ Major features are:
   - versioning of `datagrams` as well as update pathways from older `schema` files
   - `schema` preset functionality, for routine applications of **yadg** to structured
     raw data archives
+  - `externaldate` functionality for completing and/or replacing deduced timestamps
+    using external sources in a unified fashion

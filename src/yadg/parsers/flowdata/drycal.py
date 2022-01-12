@@ -16,7 +16,6 @@ import yadg.dgutils
 
 def rtf(
     fn: str,
-    date: float,
     encoding: str = "utf-8",
     timezone: str = "localtime",
     calib: dict = {},
@@ -31,10 +30,6 @@ def rtf(
     ----------
     fn
         Filename to parse.
-
-    date
-        A unix timestamp float corresponding to the day (or other offset) to be added to
-        each line in the measurement table.
 
     encoding
         Encoding to use for parsing ``fn``.
@@ -76,7 +71,7 @@ def rtf(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep="|")
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
     )
 
@@ -84,7 +79,6 @@ def rtf(
     timesteps = []
     for r in data:
         ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
-        ts["uts"] += date
         ts["fn"] = fn
         timesteps.append(ts)
 
@@ -93,7 +87,6 @@ def rtf(
 
 def sep(
     fn: str,
-    date: float,
     sep: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
@@ -150,7 +143,7 @@ def sep(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep=sep)
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": "%H:%M:%S"}}, timezone=timezone
     )
 
@@ -158,7 +151,6 @@ def sep(
     timesteps = list()
     for r in data:
         ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
-        ts["uts"] += date
         ts["fn"] = str(fn)
         timesteps.append(ts)
 

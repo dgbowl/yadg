@@ -33,7 +33,8 @@ from tests.utils import (
                         "value": 3.0000624e-001,
                         "sigma": math.ulp(3.0000624e-001),
                         "unit": "V",
-                    }
+                    },
+                    "uts": {"value": 1556661461.2284908},
                 },
             },
         ),
@@ -53,7 +54,8 @@ from tests.utils import (
                         "value": 3.0000624e-001,
                         "sigma": math.ulp(3.0000624e-001),
                         "unit": "V",
-                    }
+                    },
+                    "uts": {"value": 1556661461.2284908},
                 },
             },
         ),
@@ -183,7 +185,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1614849363.9204996}},
+            },
         ),
         (  # ts9 - geis.mpt
             {
@@ -191,7 +199,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1614849363.9204996}},
+            },
         ),
         (  # ts10 - lsv.mpr
             {
@@ -279,7 +293,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 602, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 602,
+                "point": 0,
+                "pars": {"uts": {"value": 1579184014.0}},
+            },
         ),
         (  # ts15 - ocv.mpt
             {
@@ -287,7 +307,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 602, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 602,
+                "point": 0,
+                "pars": {"uts": {"value": 1579184014.0}},
+            },
         ),
         (  # ts16 - peis.mpr
             {
@@ -295,7 +321,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1614702327.1567264}},
+            },
         ),
         (  # ts17 - peis.mpt
             {
@@ -303,7 +335,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1614702327.1567264}},
+            },
         ),
         (  # ts18 - zir.mpr
             {
@@ -311,7 +349,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1522109455.9886506}},
+            },
         ),
         (  # ts19 - zir.mpt
             {
@@ -319,7 +363,13 @@ from tests.utils import (
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            {"nsteps": 1, "step": 0, "nrows": 1, "point": 0, "pars": {}},
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 1,
+                "point": 0,
+                "pars": {"uts": {"value": 1522109455.9886506}},
+            },
         ),
     ],
 )

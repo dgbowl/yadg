@@ -7,17 +7,10 @@ from importlib import metadata
 import yadg.subcommands
 
 
-def set_loglevel(level: str):
-    level = level.upper()
-    assert level in [
-        "CRITICAL",
-        "ERROR",
-        "WARNING",
-        "INFO",
-        "DEBUG",
-    ], f"{level} is not a valid loglevel."
-    logging.basicConfig(level=getattr(logging, level))
-
+def set_loglevel(delta: int):
+    loglevel = min(max(30 - (10 * delta), 10), 50)
+    logging.basicConfig(level=loglevel)
+    logging.debug(f"loglevel set to '{logging._levelToName[loglevel]}'")
 
 def run_with_arguments():
     """
@@ -31,23 +24,32 @@ def run_with_arguments():
     - ``preset``: creates a schema from a preset file and a target folder.
 
     """
-    parser = argparse.ArgumentParser()
-
+    parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(
         "--version",
         action="version",
         version=f'%(prog)s version {metadata.version("yadg")}',
     )
-    parser.add_argument(
-        "--log",
-        "--debug",
-        "--loglevel",
-        dest="debug",
-        help="Switch loglevel from WARNING to that provided.",
-        default="warning",
-    )
 
-    subparsers = parser.add_subparsers(required=False)
+    verbose = argparse.ArgumentParser(add_help=False)
+
+    for p in [parser, verbose]:
+        p.add_argument(
+            "-v",
+            "--verbose",
+            action="count",
+            default=0,
+            help="Increase verbosity by one level.",
+        )
+        p.add_argument(
+            "-q",
+            "--quiet",
+            action="count",
+            default=0,
+            help="Decrease verbosity by one level.",
+        )
+
+    subparsers = parser.add_subparsers(dest="subcommand", required = True)
 
     process = subparsers.add_parser("process")
     process.add_argument(
@@ -114,10 +116,13 @@ def run_with_arguments():
         help="Immediately process the schema created from the preset.",
         default=False,
     )
-
     preset.set_defaults(func=yadg.subcommands.preset)
-
-    args = parser.parse_args()
-    set_loglevel(args.debug)
+        
+    # parse subparser args
+    args, extras = parser.parse_known_args()
+    # parse extras for verbose tags
+    args, extras = verbose.parse_known_args(extras, args)
+    
+    set_loglevel(args.verbose - args.quiet)
     if "func" in args:
         args.func(args)

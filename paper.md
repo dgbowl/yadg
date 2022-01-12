@@ -5,6 +5,7 @@ tags:
   - chemistry
   - catalysis
   - electrochemistry
+  - FAIR data
 authors:
   - name: Peter Kraus^[corresponding author] 
     orcid: 0000-0002-4359-5003
@@ -18,22 +19,17 @@ affiliations:
    index: 1
 date: 11 January 2022
 bibliography: paper.bib
-
 ---
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+The management of scientific data is a key aspect of modern data science. Four simple guiding principles describe the so-called FAIR data standard: the data has to be **F**indable by anyone, **A**ccessible without barriers,  **I**nteroperable with other programs, and **R**eusable after analysis.[@Wilkinson2016] Yet, many scientific data formats do not conform to these principles. The `yadg` suite of tools resolves this issue by parsing raw data files into a standardised, annotated, timestamped, user-readable format, including information about provenance, units, and measurement uncertainties by default. Various raw data formats are supported, including chromatograms, electrochemical cycling protocols, reflection coefficient traces, spectroscopic traces, and tabulated data. Several standard data processing steps, such as applying calibration functions, integration of chromatographic traces, or fitting of reflection coefficients, are available in `yadg`. 
 
 # Statement of need
+
+From the point of view of catalytic chemistry, digitalisation is currently a "hot topic". Both the German Catalysis Society (GeCatS) and the Swiss National Centre for Competence in Research in Catalysis (NCCR Catalysis) consider digitalisation of catalysis a key task for the current decade.[@Demtroder2019;@NCCRcat] However, this change will not happen overnight. One approach for tackling this transition is to make "small data" available according to the FAIR principles.[@Mendes2021] Another approach it that of standardisation of testing and characterisation protocols, which will necessarily lead to standardised data content.[@Trunschke2020] The `yadg` package has originally been conceived to combine both of those approaches, and along with a lab automation software and data post-processing tools, forms a robust data scientific pipeline.[@Kraus2021x]
+
+
 
 `Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
 enables wrapping low-level languages (e.g., C) for speed without losing
@@ -55,49 +51,8 @@ design, and support for Astropy functionality in `Gala` will enable exciting
 scientific explorations of forthcoming data releases from the *Gaia* mission
 [@gaia] by students and experts alike.
 
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
-
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+The authors would like to thank A. Senocrate and F. Bernasconi for discussions and raw data. P.K. would like to thank E. H. Wolf for helpful discussions during previous iterations of this project.
 
 # References

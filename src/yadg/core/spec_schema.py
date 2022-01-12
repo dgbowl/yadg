@@ -92,6 +92,29 @@ schema_step = {
         "tag": {"type": str},
         "export": {"type": str},
         "parameters": {"type": dict, "any": {}, "allow": True},
+        "externaldate": {
+            "type": dict,
+            "any": {
+                "from": {
+                    "type": dict,
+                    "one": {
+                        "file": {
+                            "type": dict,
+                            "all": {"path": {"type": str}, "type": {"type": str}},
+                            "any": {"match": {"type": str}},
+                        },
+                        "isostring": {"type": str},
+                        "utsoffset": {"type": float},
+                        "filename": {
+                            "type": dict,
+                            "all": {"format": {"type": str}},
+                            "any": {"len": {"type": int}},
+                        },
+                    },
+                },
+                "mode": {"type": str, "one": ["replace", "add"]},
+            },
+        },
     },
 }
 
@@ -166,7 +189,6 @@ schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("quadstar.sac
 # flowdata parameters
 schema_step["any"]["parameters"]["any"].update(
     {
-        "date": {"type": str},
         "filetype": {
             "type": str,
             "one": [],

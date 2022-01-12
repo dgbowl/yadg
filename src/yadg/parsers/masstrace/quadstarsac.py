@@ -108,7 +108,11 @@ general_header_dtype = np.dtype(
 
 
 trace_header_dtype = np.dtype(
-    [("type", "|u1"), ("info_position", "<i4"), ("data_position", "<i4"),]
+    [
+        ("type", "|u1"),
+        ("info_position", "<i4"),
+        ("data_position", "<i4"),
+    ]
 )
 
 

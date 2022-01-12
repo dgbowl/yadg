@@ -27,18 +27,20 @@ import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 import yadg.dgutils
+from yadg.dgutils.dateutils import str_to_uts
 
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        spec={"timestamp": {"format": "%d %b %Y %H:%M"}}, timezone=timezone
-    )
     assert len(headers) == len(
         columns
     ), f"chromtab: The number of headers and columns do not match."
     assert "Date Acquired" in headers, "chromtab: Cannot infer date."
-    res["uts"] = datefunc(columns[headers.index("Date Acquired")].strip())
+    res["uts"] = str_to_uts(
+        columns[headers.index("Date Acquired")].strip(),
+        format="%d %b %Y %H:%M",
+        timezone=timezone,
+    )
     fn = ""
     if "Path" in headers:
         fn += columns[headers.index("Path")]

@@ -160,18 +160,19 @@ from tests.utils import (
             },
         ),
         (
-            {  # ts9 - timestamp from time with custom format only
+            {  # ts9 - timestamp from time with external date only
                 "case": "case_time_custom.csv",
                 "parameters": {
                     "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
                 },
+                "externaldate": {"from": {"isostring": "2021-01-01"}},
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 3,
                 "point": 0,
-                "pars": {"uts": {"value": 43140}},
+                "pars": {"uts": {"value": 1609502340.0}},
             },
         ),
         (
@@ -180,6 +181,7 @@ from tests.utils import (
                 "parameters": {
                     "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
                 },
+                "externaldate": {"from": {"utsoffset": 0.0}},
             },
             {
                 "nsteps": 1,

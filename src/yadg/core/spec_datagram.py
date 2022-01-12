@@ -31,7 +31,6 @@ datagram_step = {
             },
         },
     },
-    "any": {"common": {"type": dict}},
 }
 
 datagram = {

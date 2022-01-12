@@ -8,7 +8,7 @@ def process(
     encoding: str = "windows-1252",
     timezone: str = "localtime",
     filetype: str = "eclab.mpr",
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.
 
     Parameters
@@ -30,12 +30,13 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. The currently
+        implemented parsers all return full date.
 
     """
     if filetype == "eclab.mpr":
-        data, meta = eclabmpr.process(fn, encoding, timezone)
+        data, meta, fulldate = eclabmpr.process(fn, encoding, timezone)
     elif filetype == "eclab.mpt":
-        data, meta = eclabmpt.process(fn, encoding, timezone)
-    return data, meta, None
+        data, meta, fulldate = eclabmpt.process(fn, encoding, timezone)
+    return data, meta, fulldate

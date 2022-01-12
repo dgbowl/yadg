@@ -28,6 +28,7 @@ import json
 import numpy as np
 
 import yadg.dgutils
+from yadg.dgutils.dateutils import str_to_uts
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
@@ -69,10 +70,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         },
     }
     chrom = {"fn": str(fn), "traces": {}}
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        spec={"timestamp": {}}, timezone=timezone
-    )
-    chrom["uts"] = datefunc(jsdata["runTimeStamp"])
+    chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
     detid = 0
 
     # sort detector keys to ensure alphabetic order for ID matching

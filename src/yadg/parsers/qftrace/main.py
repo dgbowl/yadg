@@ -72,7 +72,7 @@ def process(
     distance: float = 5000.0,
     cutoff: float = 0.4,
     threshold: float = 1e-6,
-) -> tuple[list, dict, dict]:
+) -> tuple[list, dict, bool]:
     """
     VNA reflection trace parser.
 
@@ -112,11 +112,13 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. The currently only
+        supported tracetype ("labview.csv") does not return full date.
     """
     if tracetype == "labview.csv":
         data, meta = labviewcsv.process(fn, encoding, timezone)
+        fulldate = False
     for ts in data:
         for det, trace in ts["raw"]["traces"].items():
             Q, f = _fit(
@@ -133,4 +135,4 @@ def process(
             if "derived" not in ts:
                 ts["derived"] = {}
             ts["derived"][det] = {"Q": Q, "f": f}
-    return data, meta, None
+    return data, meta, fulldate

@@ -13,45 +13,62 @@ from tests.utils import (
         (
             {  # ts0 - rtf parser, supplied date
                 "case": "Cp_100mA_1mindelay.rtf",
-                "parameters": {"date": "2021-09-17"},
+                "parameters": {},
+                "externaldate": {"from": {"isostring": "2021-09-17"}},
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 110,
                 "point": 0,
-                "pars": {"Temp": {"sigma": 0.1, "value": 27.4, "unit": "Deg C"}},
+                "pars": {
+                    "Temp": {"sigma": 0.1, "value": 27.4, "unit": "Deg C"},
+                    "uts": {"value": 1631880613.0},
+                },
             },
         ),
         (
             {  # ts1 - default sep parser, date from fn
-                "case": "20211011_DryCal_out.csv"
+                "case": "20211011_DryCal_out.csv",
+                "externaldate": {"from": {"filename": {"format": "%Y%m%d", "len": 8}}},
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 29,
                 "point": 0,
-                "pars": {"Temp": {"sigma": 0.1, "value": 24.3, "unit": "Deg C"}},
+                "pars": {
+                    "Temp": {"sigma": 0.1, "value": 24.3, "unit": "Deg C"},
+                    "uts": {"value": 1633956333.0},
+                },
             },
         ),
         (
             {  # ts2 - default sep parser, date from fn, sigma from length
                 "case": "2021-10-11_DryCal_out.txt",
                 "parameters": {},
+                "externaldate": {
+                    "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
+                },
             },
             {
                 "nsteps": 1,
                 "step": 0,
                 "nrows": 29,
                 "point": 28,
-                "pars": {"Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mBar"}},
+                "pars": {
+                    "Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mBar"},
+                    "uts": {"value": 1633958360.0},
+                },
             },
         ),
         (
             {  # ts3 - default sep parser, date from fn, calfile parser
                 "case": "2021-10-11_DryCal_out.txt",
                 "parameters": {"calfile": "drycal.json"},
+                "externaldate": {
+                    "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
+                },
             },
             {
                 "nsteps": 1,

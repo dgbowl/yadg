@@ -15,7 +15,10 @@ authors:
   - name: Corsin Battaglia
     affiliation: 1
 affiliations:
- - name: Empa - Swiss Federal Laboratories for Materials Science and Technology
+ - name: |
+      Empa - Swiss Federal Laboratories for Materials Science and Technology,
+      Überlandstrasse 129, 8600 Dübendorf
+      Switzerland
    index: 1
 date: 11 January 2022
 bibliography: paper.bib
@@ -23,33 +26,24 @@ bibliography: paper.bib
 
 # Summary
 
-The management of scientific data is a key aspect of modern data science. Four simple guiding principles describe the so-called FAIR data standard: the data has to be **F**indable by anyone, **A**ccessible without barriers,  **I**nteroperable with other programs, and **R**eusable after analysis.[@Wilkinson2016] Yet, many scientific data formats do not conform to these principles. The `yadg` suite of tools resolves this issue by parsing raw data files into a standardised, annotated, timestamped, user-readable format, including information about provenance, units, and measurement uncertainties by default. Various raw data formats are supported, including chromatograms, electrochemical cycling protocols, reflection coefficient traces, spectroscopic traces, and tabulated data. Several standard data processing steps, such as applying calibration functions, integration of chromatographic traces, or fitting of reflection coefficients, are available in `yadg`. 
+The management of scientific data is a key aspect of modern data science. Four simple guiding principles that are combined under the FAIR data moniker define the current "gold standard" in data quality: the data has to be **F**indable by anyone, **A**ccessible without barriers,  **I**nteroperable with other programs, and **R**eusable after analysis.~[@Wilkinson2016] Yet, many scientific data formats do not conform to these principles - especially the proprietary formats associated with expensive lab instrumentation. The `yadg` suite of tools helps to resolve this issue by parsing raw data files into a standardised, annotated, timestamped, user-readable format, including information about provenance, units, and measurement uncertainties by default. Various raw data formats are supported, including chromatograms, electrochemical cycling protocols, reflection coefficient traces, spectroscopic traces, and tabulated data. Several standard data processing steps, such as applying calibration functions, integration of chromatographic traces, or fitting of reflection coefficients, are available in `yadg`. 
 
 # Statement of need
 
-From the point of view of catalytic chemistry, digitalisation is currently a "hot topic". Both the German Catalysis Society (GeCatS) and the Swiss National Centre for Competence in Research in Catalysis (NCCR Catalysis) consider digitalisation of catalysis a key task for the current decade.[@Demtroder2019;@NCCRcat] However, this change will not happen overnight. One approach for tackling this transition is to make "small data" available according to the FAIR principles.[@Mendes2021] Another approach it that of standardisation of testing and characterisation protocols, which will necessarily lead to standardised data content.[@Trunschke2020] The `yadg` package has originally been conceived to combine both of those approaches, and along with a lab automation software and data post-processing tools, forms a robust data scientific pipeline.[@Kraus2021x]
+From the point of view of catalytic chemistry, digitalisation is currently a "hot topic". For example, the leading German and Swiss academic bodies in the field of catalysis consider digitalisation a key task for the current decade. The German Catalysis Society has published a detailed roadmap,~[@Demtroder2019] and large consorcia have been formed (eg. FAIRmat~[@FAIRmat] in Germany or NCCR Catalysis in Switzerland~[@NCCRcat]) to advance this issue. 
+
+However, this change will not happen overnight. One approach for kick-starting this transition is to make currently existing "small data" available according to the FAIR principles,~[@Mendes2021] effectively defining a "big data" standard by superposition of current best practice. Another approach, more specific to catalysis, is that of standardisation of testing and characterisation protocols,~[@Trunschke2020] which will necessarily lead to standardised data content. The `yadg` package has originally been conceived to combine both of those approaches, and along with a lab automation software and data post-processing tools, forms a robust data scientific pipeline.~[@Kraus2021x]
+
+![Example workflow for `yadg`.\label{fig:workflow}](fig_1.png)
+
+An example workflow for `yadg` is shown in \autoref{fig:workflow}. The devices in the laboratory create raw data files that are different in shape, size, and number. If one wishes to upload this raw data into an electronic lab notebook software (ELN), or use it in postprocessing, the intermediate parsing step is often custom, specific to the particular data files as opposed to file types, and usually manual and hence prone to human error. However, generally it is possible to semantically define a set of raw data related to an experiment, for example by placing them in a folder. Then, a hierarchical description (`schema`) of the data in that folder can be created, containing information about the file types, quantities, their locations, etc. Such a `schema` file can then be reproducibly processed by `yadg` to create a standardised, timestamped, and annotated `datagram` (a machine readable `JSON` file) that can be directly uploaded to the ELN or used in postprocessing. Additionally, the same `schema` can be used to process different experimental folders using the `preset` functionality of `yadg`.
+
+Here, we present the revised `yadg-4.0`. In contrast with the previous version of the tool, raw data is now retained in the `datagram` and is annotated by units and measurement uncertainties. While units are often present in the raw data files, the uncertainties often have to be determined from instrument specification. This is a particularly important feature, as most data scientific packages in the Python ecosystem either support annotating array or tabular data by units (`astropy`~[@astropy] or `pint`~[@pint]), or uncertainties (`unumpy` from the `uncertainties`~[@uncertainties] package); the combination of units and uncertainties is quite rare, especially with non-tabular data.
+
+On the feature front, `yadg-4.0` adds support for several new chromatographic data formats as well as electrochemistry data, among many other formats. For chromatography, several open-source packages for parsing and processing chromatographic data exist, but they are often unmaintained (eg. `PyMS` with last release in 2017,~[@pyms] or `Aston` in 2020~[@aston]) or method specific (`PyMassSpec`~[@pymassspec]). In `yadg`, the main goal is to extract the trace data. Peak integration is optional, using a simple but well defined peak integrator, and a drop-in calibration file functionality, regardless of the type of chromatography or analyte detection used. For electrochemistry, the proprietary file formats supported in `yadg-4.0` have been reverse-engineered: to our knowledge, `yadg` is the only software with a comprehensive parser of such file types.
 
 
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
-
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
 
 # Acknowledgements
 

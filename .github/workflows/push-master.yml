@@ -42,6 +42,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-master
+      - run: pip install yadg*whl
+        shell: bash
       - uses: ./.github/workflows/docs-job
       - uses: actions/upload-artifact@v2
         with: 

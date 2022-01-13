@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>chromtrace: Chromatogram parser &mdash; yadg  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qftrace: VNA trace parser" href="parsers.qftrace.html" />
+    <link rel="prev" title="basiccsv: Common tabular file parser" href="parsers.basiccsv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="parsers.html"><strong>yadg</strong> parsers</a> &raquo;</li>
+      <li><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/parsers.chromtrace.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chromtrace-chromatogram-parser">
+<h1><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser<a class="headerlink" href="#chromtrace-chromatogram-parser" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> parser handles the reading and processing of all chromatography
+files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
+The basic function of the parser is to:</p>
+<ol class="arabic simple">
+<li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
+<li><p>collect <cite>metadata</cite> such as the method information, sample ID, etc.</p></li>
+<li><p>match and integrate peaks in each <cite>trace</cite> using built-in routines</p></li>
+<li><p>calculate the outlet composition <code class="docutils literal notranslate"><span class="pre">xout</span></code> if calibration information is provided</p></li>
+</ol>
+<p>Points 1), 2) and 4) are discussed in the <a class="reference internal" href="#parsers-chromtrace-provides"><span class="std std-ref">Provides</span></a>
+section below. Point 3) is described in the documentation of the
+<a class="reference internal" href="yadg.parsers.chromtrace.html#parsers-chromtrace-integration"><span class="std std-ref">integration module</span></a>.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The use of <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword in the
+<cite>schema</cite>. Further information can be specified in the <code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The file type of the raw data file.
+See <a class="reference internal" href="yadg.parsers.chromtrace.html#parsers-chromtrace-formats"><span class="std std-ref">here</span></a> for details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The calibration file in a json format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;detectors&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: The detector specification, overriding that
+provided in <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;species&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: The species data specification, overriding that
+provided in <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;detectors&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;species&quot;</span></code> parameters are processed with
+<a class="reference internal" href="yadg.parsers.chromtrace.html#yadg.parsers.chromtrace.main.parse_detector_spec" title="yadg.parsers.chromtrace.main.parse_detector_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.main.parse_detector_spec()</span></code></a> - see there for detailed
+format description.</p>
+</div>
+</section>
+<section id="provides">
+<span id="parsers-chromtrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The primary functionality of <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> is to load the chromatographic data,
+including determining uncertainties of the signal (y-axis), as well as explicitly
+populating the points in the time axis (x-axis). This raw data is stored, for each
+timestep, in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> entry using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">        </span><span class="c1"># detector name from the raw data file</span><span class="w"></span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w">               </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># detector id for matching with calibration data</span><span class="w"></span>
+<span class="w">        </span><span class="nt">t</span><span class="p">:</span><span class="w">                       </span><span class="c1"># time-axis units are always seconds</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                       </span><span class="c1"># y-axis units are determined from raw file</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file varies greatly by the raw file format.
+See <a class="reference internal" href="yadg.parsers.chromtrace.html#parsers-chromtrace-formats"><span class="std std-ref">here</span></a> for details. In general, the following
+metadata entries are stored in the <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> element of each <cite>step</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># path or other specifier of the chromatographic method</span><span class="w"></span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># sample ID</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># username of raw file creator</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># raw file version or program version</span><span class="w"></span>
+<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="kt">!!int</span><span class="w"> </span><span class="c1"># multiplexer valve number</span><span class="w"></span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># original data file location</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The data processing performed in <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> is enabled automatically when
+calibration information are provided. The resulting data is stored in the
+<code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entry in each <cite>timestep</cite>, and contains the following information:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">derived</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">peaks</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="c1"># detector name from raw data file</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># species name matched from calibration</span><span class="w"></span>
+<span class="w">          </span><span class="nt">peak</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="nt">max</span><span class="p">:</span><span class="w">      </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak maximum</span><span class="w"></span>
+<span class="w">            </span><span class="nt">llim</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak left limit</span><span class="w"></span>
+<span class="w">            </span><span class="nt">rlim</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak right limit</span><span class="w"></span>
+<span class="w">          </span><span class="nt">A</span><span class="p">:</span><span class="w">                  </span><span class="c1"># integrated peak area</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">          </span><span class="nt">h</span><span class="p">:</span><span class="w">                  </span><span class="c1"># height of peak maximum</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">          </span><span class="nt">c</span><span class="p">:</span><span class="w">                  </span><span class="c1"># calibrated &quot;concentration&quot; or other quantity</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">xout</span><span class="p">:</span><span class="w">                     </span><span class="c1"># normalised mol fractions of species</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The specification of dictionaries that ought to be passed to <code class="docutils literal notranslate"><span class="pre">&quot;species&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&quot;detectors&quot;</span></code> (or stored as json in <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>) is described in
+<a class="reference internal" href="yadg.parsers.chromtrace.html#yadg.parsers.chromtrace.main.parse_detector_spec" title="yadg.parsers.chromtrace.main.parse_detector_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.main.parse_detector_spec()</span></code></a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The quantity in <code class="docutils literal notranslate"><span class="pre">&quot;c&quot;</span></code> may not necessarily be concentration, it can also be
+mole fraction, as it is determined from the peak area in <code class="docutils literal notranslate"><span class="pre">&quot;A&quot;</span></code> and any
+provided calibration specification. The calibration interface allows for units
+to be supplied.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The mol fractions in <code class="docutils literal notranslate"><span class="pre">&quot;xout&quot;</span></code> always sum up to unity. If there is more than
+one outlet stream, these mol fractions have to be weighted by the flow rate
+in a post-processing routine.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parsers.basiccsv.html" class="btn btn-neutral float-left" title="basiccsv: Common tabular file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers.qftrace.html" class="btn btn-neutral float-right" title="qftrace: VNA trace parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

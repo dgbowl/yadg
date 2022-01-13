@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>electrochem: Electrochemistry data parser &mdash; yadg  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg version history" href="version.html" />
+    <link rel="prev" title="masstrace: Mass spectrometry parser" href="parsers.masstrace.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.chromtrace.html"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="parsers.html"><strong>yadg</strong> parsers</a> &raquo;</li>
+      <li><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/parsers.electrochem.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="electrochem-electrochemistry-data-parser">
+<h1><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser<a class="headerlink" href="#electrochem-electrochemistry-data-parser" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">electrochem</span></code> parser handles the reading and processing of files from
+BioLogic’s EC-Lab, namely the binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files and the <code class="docutils literal notranslate"><span class="pre">.mpt</span></code>
+ASCII data files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This interface is not yet final and will change with version 5.0.0</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files are made up of a header portion (with the technique
+parameter sequences and an optional loops section) and a tab-separated
+data table.</p>
+<p><code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files are structured in a set of “modules”, one concerning
+settings, one for actual data, one for logs, and an optional loops
+module. The parameter sequences can be found in the settings module.</p>
+<p>The basic function of the parser is to:</p>
+<ol class="arabic simple">
+<li><p>Read in the technique data and create timesteps.</p></li>
+<li><p>Collect <code class="docutils literal notranslate"><span class="pre">metadata</span></code> such as the measurement settings and the loops
+contained in a given file.</p></li>
+<li><p>Collect <code class="docutils literal notranslate"><span class="pre">common</span></code> data describing the technique parameter sequences.</p></li>
+</ol>
+<p>These are the implemented techniques for which the technique parameter
+sequences can be parsed:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>CA</p></td>
+<td><p>Chronoamperometry / Chronocoulometry</p></td>
+</tr>
+<tr class="row-even"><td><p>CP</p></td>
+<td><p>Chronopotentiometry</p></td>
+</tr>
+<tr class="row-odd"><td><p>CV</p></td>
+<td><p>Cyclic Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>GCPL</p></td>
+<td><p>Galvanostatic Cycling with Potential Limitation</p></td>
+</tr>
+<tr class="row-odd"><td><p>GEIS</p></td>
+<td><p>Galvano Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-even"><td><p>LOOP</p></td>
+<td><p>Loop</p></td>
+</tr>
+<tr class="row-odd"><td><p>LSV</p></td>
+<td><p>Linear Sweep Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>MB</p></td>
+<td><p>Modulo Bat</p></td>
+</tr>
+<tr class="row-odd"><td><p>OCV</p></td>
+<td><p>Open Circuit Voltage</p></td>
+</tr>
+<tr class="row-even"><td><p>PEIS</p></td>
+<td><p>Potentio Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-odd"><td><p>WAIT</p></td>
+<td><p>Wait</p></td>
+</tr>
+<tr class="row-even"><td><p>ZIR</p></td>
+<td><p>IR compensation (PEIS)</p></td>
+</tr>
+</tbody>
+</table>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The use of <code class="docutils literal notranslate"><span class="pre">electrochem</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword in
+the <cite>schema</cite>. Further information can be specified in the
+<code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;filetype&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The file type of the raw data file.
+See <a class="reference internal" href="yadg.parsers.electrochem.html#parsers-electrochem-formats"><span class="std std-ref">here</span></a> for details.</p></li>
+</ul>
+</section>
+<section id="provides">
+<span id="parsers-electrochem-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">electrochem</span></code> parser loads all the columns present in an <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> or
+<code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files can contain more data than the corresponding binary
+<code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file.</p>
+</div>
+<p>Most techniques write data that can be understood as a series of
+timesteps. Each timestep provided by the parser has the following
+format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
+of spectroscopy traces. The data is thus split into traces by the column
+<code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> and cast into a single timestep. Each trace now
+corresponds to a spectroscopy scan, indexed by <code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> /
+<code class="docutils literal notranslate"><span class="pre">&quot;trace_number&quot;</span></code>. The timestep takes the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">[</span><span class="kt">!!int,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parsed data can contain infinities (i. e. <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> /
+<code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>). While datagrams containing NaN and Inf can be
+exported and read back using python’s json module, they are not
+strictly valid jsons.</p>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/15">https://gitlab.empa.ch/krpe/yadg/-/issues/15</a></p>
+<p>The uncertainties are currently taken to just be the ULP of the data
+value <code class="docutils literal notranslate"><span class="pre">n</span></code>. They should instead be calculated with the values given
+in the operating manual.</p>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/18">https://gitlab.empa.ch/krpe/yadg/-/issues/18</a></p>
+<p>Splitting impedance spectroscopy data into traces on loops and on
+sequence number changes.</p>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/19">https://gitlab.empa.ch/krpe/yadg/-/issues/19</a></p>
+<p>For <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> without headers a warning is raised and the <code class="docutils literal notranslate"><span class="pre">uts</span></code>
+field is calculated from the file’s <cite>ctime</cite>. In the future it should
+be possible to provide an external starting time.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file will depend on the
+<code class="docutils literal notranslate"><span class="pre">&quot;filetype&quot;</span></code>. For both <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> the <code class="docutils literal notranslate"><span class="pre">`&quot;metadata&quot;</span></code> will
+contain a <code class="docutils literal notranslate"><span class="pre">&quot;settings&quot;</span></code> and a <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> field:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;settings&quot;</span></code> field for parsed <code class="docutils literal notranslate"><span class="pre">&quot;.mpt&quot;</span></code> files contains the
+technique name, a posix timestamp and the raw header lines as found in
+the file. The <code class="docutils literal notranslate"><span class="pre">&quot;settings&quot;</span></code> from parsed <code class="docutils literal notranslate"><span class="pre">&quot;.mpr&quot;</span></code> files contain the
+technique and more explicitly parsed information than from <code class="docutils literal notranslate"><span class="pre">&quot;.mpt&quot;</span></code>
+files, like the “cell characteristics” specified in EC-Lab.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> will contain the technique parameter sequences and the
+keys in each sequence will be the same independent of <code class="docutils literal notranslate"><span class="pre">&quot;filetype&quot;</span></code> but
+an <code class="xref py py-class docutils literal notranslate"><span class="pre">(int)</span></code>: value in the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> may be a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: when parsed from the corresponding <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> since the
+mapping has not yet been reverse engineered.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/13">https://gitlab.empa.ch/krpe/yadg/-/issues/13</a></p>
+<p>In <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files, some technique parameters in the settings module
+correspond to entries in drop-down lists in EC-Lab. These values are
+stored as single-byte values in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files.</p>
+</div>
+<p>The metadata from parsed <code class="docutils literal notranslate"><span class="pre">&quot;.mpr&quot;</span></code> files also provides the <code class="docutils literal notranslate"><span class="pre">&quot;log&quot;</span></code>
+which contains more general parameters, like software, firmware and
+server versions, channel number, host address and an acquisition start
+timestamp in Microsoft OLE format.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parsers.masstrace.html" class="btn btn-neutral float-left" title="masstrace: Mass spectrometry parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="version.html" class="btn btn-neutral float-right" title="yadg version history" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

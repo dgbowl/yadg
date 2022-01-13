@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg.core package &mdash; yadg  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg.dgutils package" href="yadg.dgutils.html" />
+    <link rel="prev" title="yadg package" href="yadg.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">yadg.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
+          <li><a href="yadg.html">yadg package</a> &raquo;</li>
+      <li>yadg.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/yadg.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.core">
+<span id="yadg-core-package"></span><h1>yadg.core package<a class="headerlink" href="#module-yadg.core" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-yadg.core.process">
+<span id="yadg-core-process-module"></span><h2>yadg.core.process module<a class="headerlink" href="#module-yadg.core.process" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.process.process_schema">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.process.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process.process_schema" title="Permalink to this definition"></a></dt>
+<dd><p>Main worker function of <strong>yadg</strong>.</p>
+<p>Takes in a validated <cite>schema</cite> as an argument and returns a single annotated
+<cite>datagram</cite> created from the <cite>schema</cite>. It is the job of the user to supply a
+validated <cite>schema</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>schema</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>]) – A fully validated <cite>schema</cite>. Use the function <a class="reference internal" href="#yadg.core.validators.validate_schema" title="yadg.core.validators.validate_schema"><code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_schema()</span></code></a>
+to validate your <cite>schema</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>datagram</strong> – An unvalidated <cite>datagram</cite>. The <cite>parser</cite>s included in <strong>yadg</strong> should return
+a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. Use the function
+<a class="reference internal" href="#yadg.core.validators.validate_datagram" title="yadg.core.validators.validate_datagram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code></a> to validate the resulting <cite>datagram</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-yadg.core.spec_datagram">
+<span id="yadg-core-spec-datagram-module"></span><h2>yadg.core.spec_datagram module<a class="headerlink" href="#module-yadg.core.spec_datagram" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-yadg.core.spec_schema">
+<span id="yadg-core-spec-schema-module"></span><h2>yadg.core.spec_schema module<a class="headerlink" href="#module-yadg.core.spec_schema" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-yadg.core.validators">
+<span id="yadg-core-validators-module"></span><h2>yadg.core.validators module<a class="headerlink" href="#module-yadg.core.validators" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.validators.validate_datagram">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validate_datagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datagram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validate_datagram" title="Permalink to this definition"></a></dt>
+<dd><p>Datagram validator.</p>
+<p>Checks the overall <cite>datagram</cite> format against the <cite>datagram</cite> spec, and ensures that
+each floating-point value is accompanied by standard deviation and unit.</p>
+<p>The current <cite>datagram</cite> specification is:</p>
+<ul class="simple">
+<li><p>The <cite>datagram</cite> must be a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> with two entries:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: A top-level entry containing metadata.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list[dict])</span></code>: List corresponding to a sequence of <cite>steps</cite>.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> entry has to contain information about the <code class="docutils literal notranslate"><span class="pre">&quot;provenance&quot;</span></code> of
+the <cite>datagram</cite>, the creation date using ISO8601 format in <code class="docutils literal notranslate"><span class="pre">&quot;date&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>
+entry, a full copy of the input <cite>schema</cite> in the <code class="docutils literal notranslate"><span class="pre">&quot;input_schema&quot;</span></code> entry, and
+version information in <code class="docutils literal notranslate"><span class="pre">&quot;datagram_version&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>.</p></li>
+<li><p>Each element in the <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> corresponds to a single <cite>step</cite> from the <cite>schema</cite>.</p></li>
+<li><p>Each <cite>step</cite> in <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> has to contain a <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry,
+and a <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list)</span></code>; an optional <code class="docutils literal notranslate"><span class="pre">&quot;common&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> data
+block can be provided.</p></li>
+<li><p>Each timestep in the <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> list has to specify a timestamp using the
+Unix Timestamp format in <code class="docutils literal notranslate"><span class="pre">&quot;uts&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> entry; the original filename
+in <code class="docutils literal notranslate"><span class="pre">&quot;fn&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> entry. The raw data present in this original filename
+is stored as sub-entries within the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry. Any derived
+data, such as that obtained via calibration, integration, or fitting, has to be
+stored in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A floating-point entry should always have its standard deviation specified.
+Internal processing of this data is always carried out using the <code class="xref py py-class docutils literal notranslate"><span class="pre">(ufloat)</span></code>
+type, which ought to be exported as a <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;-&quot;}</span></code> keypair.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most numerical data should have associated units. The validator expects all
+floating-point entries to be in a <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev}</span></code> format for
+properties with an arbitrary unit, and <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">unit}</span></code>
+for properties with a defined unit.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datagram</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – The <cite>datagram</cite> to be validated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> – If the <cite>datagram</cite> passes all assertions, returns <cite>True</cite>. Else, an <cite>AssertionError</cite> is raised.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.validators.validate_schema">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validate_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strictfiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strictfolders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validate_schema" title="Permalink to this definition"></a></dt>
+<dd><p>Schema validator.</p>
+<p>Checks the overall <cite>schema</cite> format, checks every <cite>step</cite> of the <cite>schema</cite> for required
+entries, and checks whether required parameters for each <cite>parser</cite> are provided. The
+validator additionally fills in optional parameters, where necessary for a valid <cite>schema</cite>.</p>
+<p>The specification is:</p>
+<ul class="simple">
+<li><p>The <cite>schema</cite> has to be a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> with a top-level <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list)</span></code> entries</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> entry has to specify the <code class="docutils literal notranslate"><span class="pre">&quot;provenance&quot;</span></code> of the <cite>schema</cite>, as
+well as the <code class="docutils literal notranslate"><span class="pre">&quot;schema_version&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>. Other entries may be specified.</p></li>
+<li><p>Each element within the <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> list is a <cite>step</cite>, of type <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code></p></li>
+<li><p>Each <cite>step</cite> has to have the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;import&quot;</span></code> entries:</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> entry that has to contain the name of the requested
+parser module. This entry is processed in the <code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.core.main._infer_datagram_handler()</span></code>
+function in the core module.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;import&quot;</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry has to contain:</p>
+<ul>
+<li><p>Exactly <strong>one</strong> entry out of <code class="docutils literal notranslate"><span class="pre">&quot;files&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;folders&quot;</span></code>. This entry must be a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">(list)</span></code> even if only one element is provided.</p></li>
+<li><p>Any combination of <code class="docutils literal notranslate"><span class="pre">&quot;prefix&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;suffix&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;contains&quot;</span></code> entries. They must
+be of type <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>. These entries specify the matching of files within
+folders accordingly.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The only other allowed entries are:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;tag&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: for defining a tag for each <cite>step</cite>; by default
+assigned the numerical index of the <cite>step</cite> within the <cite>schema</cite>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;export&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: for exporting a single <cite>step</cite>; whether the processed
+<cite>step</cite> should be exported as a <code class="docutils literal notranslate"><span class="pre">json</span></code> file. This file is kept available for other
+<cite>steps</cite>, but will be removed at the end of <cite>schema</cite> processing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: for specifying other parameters for each of the parsers.</p></li>
+</ul>
+</li>
+<li><p>no other entries are permitted</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>]) – The schema to be validated.</p></li>
+<li><p><strong>strictfiles</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <cite>False</cite>, any files specified using the <code class="docutils literal notranslate"><span class="pre">&quot;files&quot;</span></code> option will not be
+checked for existence. Note that folders (specified via <code class="docutils literal notranslate"><span class="pre">&quot;folders&quot;</span></code>) are always checked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> – When the <cite>schema</cite> is valid and passes all assertions, <cite>True</cite> is returned. Otherwise,
+an <cite>AssertionError</cite> is raised.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.validators.validator">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validator" title="Permalink to this definition"></a></dt>
+<dd><p>Worker validator function.</p>
+<p>This function checks that <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the specification supplied in <code class="docutils literal notranslate"><span class="pre">spec</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">spec</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> can have the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(type)</span></code>, a required entry, defining the type of <code class="docutils literal notranslate"><span class="pre">item</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of required keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of optional keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of mutually exclusive keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;each&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> providing the <code class="docutils literal notranslate"><span class="pre">spec</span></code> for any keywords not listed in <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;allow&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(bool)</span></code> a switch whether to allow unspecified keys.</p></li>
+</ul>
+<p>To extend the existing <cite>datagram</cite> and <cite>schema</cite> specs, look into <a class="reference internal" href="#module-yadg.core.spec_datagram" title="yadg.core.spec_datagram"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_datagram</span></code></a>
+and <a class="reference internal" href="#module-yadg.core.spec_schema" title="yadg.core.spec_schema"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_schema</span></code></a>, respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The <code class="docutils literal notranslate"><span class="pre">item</span></code> to be validated.</p></li>
+<li><p><strong>spec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – The <code class="docutils literal notranslate"><span class="pre">spec</span></code> with which to validate the <code class="docutils literal notranslate"><span class="pre">item</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> – If the <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the <code class="docutils literal notranslate"><span class="pre">spec</span></code>, returns <cite>True</cite>. Otherwise, an <cite>AssertionError</cite> is raised.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.html" class="btn btn-neutral float-left" title="yadg package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.dgutils.html" class="btn btn-neutral float-right" title="yadg.dgutils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

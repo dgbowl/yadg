@@ -1,0 +1,65 @@
+name: push-master
+on:
+  push:
+    branches: ['master']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - uses: ./.github/workflows/before-job
+      - uses: ./.github/workflows/build-job
+      - uses: actions/upload-artifact@v2
+        with: 
+          name: dist-master
+          path: dist
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - uses: ./.github/workflows/before-job
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist-master
+      - run: pip install yadg*whl
+      - uses: ./.github/workflows/test-job
+  pages:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - uses: ./.github/workflows/before-job
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist-master
+      - uses: ./.github/workflows/docs-job
+      - uses: actions/upload-artifact@v2
+        with: 
+          name: public-master
+          path: public
+  deploy:
+    needs: [pages]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - uses: actions/download-artifact@v2
+        with:
+          name: public-master
+          path: public
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

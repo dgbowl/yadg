@@ -1,0 +1,9 @@
+name: "Build job"
+description: "Build the package."
+runs:
+  using: "composite"
+  steps:
+    - run: pip install wheel
+      shell: bash
+    - run: python setup.py bdist_wheel
+      shell: bash

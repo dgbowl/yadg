@@ -1,0 +1,13 @@
+name: "Before job script"
+description: "Set up a python dev environment."
+runs:
+  using: "composite"
+  steps:
+    - run: python -V
+      shell: bash
+    - run: pip install virtualenv
+      shell: bash
+    - run: virtualenv venv
+      shell: bash
+    - run: source venv/bin/activate || source venv/Scripts/activate
+      shell: bash

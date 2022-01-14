@@ -1,3 +1,12 @@
+"""
+``pint`` compatibility functions in **yadg**.
+
+This package defines ``ureg``, a :class:`pint.UnitRegistry` used for validation of
+`datagrams` in **yadg**. The default SI :class:`pint.UnitRegistry` is extended
+by definitions of fractional quantities (%, ppm, etc.), standard volumetric
+quantities (smL/min, sccm), and other dimensionless "units" present in several
+file types.
+"""
 import logging
 from typing import Union
 import pint
@@ -37,6 +46,24 @@ def _sanitize_helper(unit: str) -> str:
 
 
 def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
+    """
+    Unit sanitizer.
+
+    This sanitizer should be used where user-supplied units are likely to occur,
+    such as in the parsers :mod:`yadg.parsers.basiccsv`. Currently, only two 
+    replacements are done:
+
+      - "Bar" is replaced with "bar" 
+      - "Deg C" is replace with "degC
+    
+    Use with caution.
+
+    Parameters
+    ----------
+    units
+        Object containing string units.
+
+    """
     if isinstance(units, list):
         for i in range(len(units)):
             units[i] = _sanitize_helper(units[i])

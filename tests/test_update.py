@@ -22,11 +22,11 @@ def test_update_schema_310(datadir):
 
     # meascsv test
     compare_result_dicts(
-        ret["steps"][0]["data"][0]["raw"]["T_f"], {"n": 20.9, "s": 0.1, "u": "C"}
+        ret["steps"][0]["data"][0]["raw"]["T_f"], {"n": 20.9, "s": 0.1, "u": "degC"}
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["T"],
-        {"n": 27.1976616, "s": 0.0914933, "u": "C"},
+        {"n": 27.1976616, "s": 0.0914933, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["flow"],
@@ -89,11 +89,11 @@ def test_update_datagram_310(datadir):
 
     # meascsv test
     compare_result_dicts(
-        ret["steps"][0]["data"][0]["raw"]["T_f"], {"n": 20.9, "s": 0.1, "u": "C"}
+        ret["steps"][0]["data"][0]["raw"]["T_f"], {"n": 20.9, "s": 0.1, "u": "degC"}
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["T"],
-        {"n": 27.1976616, "s": 5.0, "u": "C"},
+        {"n": 27.1976616, "s": 5.0, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["flow"],

@@ -110,6 +110,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         == len(xmuls)
         == len(ymuls)
     ), f"datasc: Inconsistent number of traces in {fn}."
+    
+    yadg.dgutils.sanitize_units(yunits)
+    print(yunits)
+
     for ti in range(len(samplerates)):
         assert (
             xunits[ti] == "Minutes"

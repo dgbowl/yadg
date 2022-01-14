@@ -204,4 +204,6 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
             data.append(cols[:-1])
         else:
             data.append(cols)
+
+    yadg.dgutils.sanitize_units(units)
     return headers, units, data

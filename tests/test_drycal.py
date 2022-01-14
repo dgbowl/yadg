@@ -22,7 +22,7 @@ from tests.utils import (
                 "nrows": 110,
                 "point": 0,
                 "pars": {
-                    "Temp": {"sigma": 0.1, "value": 27.4, "unit": "Deg C"},
+                    "Temp": {"sigma": 0.1, "value": 27.4, "unit": "degC"},
                     "uts": {"value": 1631880613.0},
                 },
             },
@@ -38,7 +38,7 @@ from tests.utils import (
                 "nrows": 29,
                 "point": 0,
                 "pars": {
-                    "Temp": {"sigma": 0.1, "value": 24.3, "unit": "Deg C"},
+                    "Temp": {"sigma": 0.1, "value": 24.3, "unit": "degC"},
                     "uts": {"value": 1633956333.0},
                 },
             },
@@ -57,7 +57,7 @@ from tests.utils import (
                 "nrows": 29,
                 "point": 28,
                 "pars": {
-                    "Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mBar"},
+                    "Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mbar"},
                     "uts": {"value": 1633958360.0},
                 },
             },

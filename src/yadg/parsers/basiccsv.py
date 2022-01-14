@@ -223,6 +223,8 @@ def process(
                 units[header] = "-"
         si = 1
 
+    yadg.dgutils.sanitize_units(units)
+
     # Process rows
     data = []
     for line in lines[si:]:

@@ -66,6 +66,8 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
+    yadg.dgutils.sanitize_units(units)
+
     datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
         timezone=timezone,

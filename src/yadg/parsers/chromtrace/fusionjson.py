@@ -113,7 +113,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                     nbp = 0
                 h = {"n": float(peak.get("height", 0.0)), "s": 0.5, "u": "-"}
                 A = {"n": float(peak.get("area", 0.0)), "s": 0.5 * nbp, "u": "-"}
-                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "vol%"}
+                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "mol/l"}
                 trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
         chrom["traces"][detname] = trace
 

@@ -32,7 +32,7 @@ def calib_3to4(oldcal: dict, caltype: str) -> dict:
             id = {"det_1": 0, "det_2": 1}[v["id"]]
             newcal[k] = {"id": id, "peakdetect": pd, "species": sp}
     elif caltype == "Tcalfile":
-        newcal = {"T": {"T_f": {"calib": {"linear": oldcal}}, "unit": "C"}}
+        newcal = {"T": {"T_f": {"calib": {"linear": oldcal}}, "unit": "degC"}}
     elif caltype == "MFCcalfile":
         newcal = {}
         for k, v in oldcal.items():
@@ -179,10 +179,10 @@ def datagram_3to4(olddg: list) -> dict:
                             else:
                                 if kk.startswith("T"):
                                     s = 0.1
-                                    u = "%" if kk.endswith("o") else "C"
+                                    u = "%" if kk.endswith("o") else "degC"
                                 elif kk == "pressure":
                                     s = 0.1
-                                    u = "mBar"
+                                    u = "mbar"
                                 elif kk == "heater flow":
                                     s = 0.1
                                     u = "l/min"
@@ -191,7 +191,7 @@ def datagram_3to4(olddg: list) -> dict:
                                     u = "ml/min"
                                 ts["raw"][kk] = {"n": vv, "s": s, "u": u}
                     elif k == "T":
-                        ts["derived"]["T"] = {"n": v, "s": 5.0, "u": "C"}
+                        ts["derived"]["T"] = {"n": v, "s": 5.0, "u": "degC"}
                     elif k == "flow":
                         ts["derived"]["flow"] = {"n": v, "s": 0.001, "u": "ml/min"}
                     elif k == "x":

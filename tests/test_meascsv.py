@@ -17,20 +17,20 @@ def test_datagram_from_meascsv(datadir):
 
     compare_result_dicts(
         ret["steps"][0]["data"][0]["raw"]["T_f"],
-        {"n": 20.9, "s": 0.1, "u": "C"},
+        {"n": 20.9, "s": 0.1, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["raw"]["T_f"],
-        {"n": 455.1, "s": 0.1, "u": "C"},
+        {"n": 455.1, "s": 0.1, "u": "degC"},
     )
 
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["T"],
-        {"n": 28.3153774, "s": 1.0, "u": "C"},
+        {"n": 28.3153774, "s": 1.0, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["derived"]["T"],
-        {"n": 403.7957326, "s": 8.0759147, "u": "C"},
+        {"n": 403.7957326, "s": 8.0759147, "u": "degC"},
     )
 
     compare_result_dicts(

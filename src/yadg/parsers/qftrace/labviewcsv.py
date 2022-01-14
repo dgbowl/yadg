@@ -87,7 +87,9 @@ def process(
     temp["f"]["u"] = "Hz"
     real = [np.array(i) for i in zip(*real)]
     temp["Re(Γ)"]["n"], temp["Re(Γ)"]["s"] = [i.tolist() for i in real]
+    temp["Re(Γ)"]["u"] = "-"
     imag = [np.array(i) for i in zip(*imag)]
     temp["Im(Γ)"]["n"], temp["Im(Γ)"]["s"] = [i.tolist() for i in imag]
+    temp["Im(Γ)"]["u"] = "-"
     data["raw"]["traces"]["S11"] = temp
     return [data], None

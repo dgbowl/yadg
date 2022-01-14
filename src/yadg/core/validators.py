@@ -2,10 +2,10 @@ import numpy as np
 import logging
 import os
 from typing import Union
-import pint
-from pint.errors import UndefinedUnitError
 
 import yadg.core
+from yadg.dgutils import ureg
+
 
 
 def _list_validator(l: list) -> bool:
@@ -43,18 +43,16 @@ def _unit_validator(u: str) -> bool:
             "Use '' instead."
         )
         return True
-    try: 
-        pu = pint.Unit(u)
-    except UndefinedUnitError as e:
-        assert False, e
+    assert u in ureg, f"unit {u} is not defined."
     return True
 
 def _dict_validator(d: dict) -> bool:
+    #print(d.keys())
     for k, v in d.items():
         if k in ["n", "s", "u"] and len({"n", "s", "u"}.intersection(d.keys())) == 3:
             if k in ["n", "s"] and isinstance(v, (float, list)):
-                continue
-            elif k in ["u"] and isinstance(v, str):
+                pass
+            elif k == "u" and isinstance(v, str):
                 assert _unit_validator(v)
             else:
                 logging.error(f"validator: we shouldn't be here: {k}, {v}")
@@ -62,9 +60,9 @@ def _dict_validator(d: dict) -> bool:
         elif isinstance(v, float):
             assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."
         elif isinstance(v, list):
-            return _list_validator(v)
+            assert _list_validator(v)
         elif isinstance(v, dict):
-            return _dict_validator(v)
+            assert _dict_validator(v)
         else:
             assert isinstance(v, str) or isinstance(v, int), (
                 f"Dict elements have to be one of [str, int, dict, list], "

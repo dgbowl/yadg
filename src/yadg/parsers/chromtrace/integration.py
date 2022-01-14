@@ -273,7 +273,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 peaks[detname][k]["c"] = {
                     "n": x.n,
                     "s": x.s,
-                    "u": spec["species"][k]["calib"].get("unit", "vol%"),
+                    "u": spec["species"][k]["calib"].get("unit", "%"),
                     "uf": x,
                 }
             if k not in comp:

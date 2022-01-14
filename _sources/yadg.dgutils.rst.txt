@@ -49,6 +49,14 @@ yadg.dgutils.helpers module
    :undoc-members:
    :show-inheritance:
 
+yadg.dgutils.pintutils module
+-----------------------------
+
+.. automodule:: yadg.dgutils.pintutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 yadg.dgutils.utils module
 -------------------------
 

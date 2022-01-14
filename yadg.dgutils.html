@@ -385,6 +385,39 @@ file formats include <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 </section>
+<section id="module-yadg.dgutils.pintutils">
+<span id="yadg-dgutils-pintutils-module"></span><h2>yadg.dgutils.pintutils module<a class="headerlink" href="#module-yadg.dgutils.pintutils" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
+<p>This package defines <code class="docutils literal notranslate"><span class="pre">ureg</span></code>, a <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> used for validation of
+<cite>datagrams</cite> in <strong>yadg</strong>. The default SI <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is extended
+by definitions of fractional quantities (%, ppm, etc.), standard volumetric
+quantities (smL/min, sccm), and other dimensionless “units” present in several
+file types.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.pintutils.sanitize_units">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.pintutils.</span></span><span class="sig-name descname"><span class="pre">sanitize_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.pintutils.sanitize_units" title="Permalink to this definition"></a></dt>
+<dd><p>Unit sanitizer.</p>
+<p>This sanitizer should be used where user-supplied units are likely to occur,
+such as in the parsers <a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv</span></code></a>. Currently, only two
+replacements are done:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“Bar” is replaced with “bar”</p></li>
+<li><p>“Deg C” is replace with “degC</p></li>
+</ul>
+</div></blockquote>
+<p>Use with caution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Object containing string units.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-yadg.dgutils.utils">
 <span id="yadg-dgutils-utils-module"></span><h2>yadg.dgutils.utils module<a class="headerlink" href="#module-yadg.dgutils.utils" title="Permalink to this headline"></a></h2>
 <dl class="py function">

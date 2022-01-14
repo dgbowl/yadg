@@ -62,7 +62,7 @@ def str_to_uts(
     Converts a string to POSIX timestamp.
 
     If the optional ``format`` is specified, the ``timestamp`` string is processed
-    using the :func:`datetime.datetime.strptime` function; if no ``format`` is 
+    using the :func:`datetime.datetime.strptime` function; if no ``format`` is
     supplied, an ISO 8601 format is assumed and an attempt to parse using
     :func:`dateutil.parser.parse` is made.
 
@@ -70,16 +70,16 @@ def str_to_uts(
     ----------
     timestamp
         A string containing the timestamp.
-    
+
     format
         Optional format string for parsing of the ``timestamp``.
-    
+
     timezone
         Optional timezone of the ``timestamp``. By default, "UTC".
-    
+
     strict
         Whether to re-raise any parsing errors.
-    
+
     Returns
     -------
     uts: Union[float, None]
@@ -339,7 +339,7 @@ def complete_timestamps(
 
 
 def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[float]:
-    """ 
+    """
     Load timestamps from file.
 
     This function enables loading timestamps from file. The currently supported
@@ -350,13 +350,13 @@ def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[fl
     ----------
     path
         Location of the external file.
-    
+
     type
         Type of the external file. Currently, ``"json", "pkl"`` are supported.
-    
+
     timezone
         An optional timezone string, defaults to "UTC"
-    
+
     Returns
     -------
     parseddata: list[float]

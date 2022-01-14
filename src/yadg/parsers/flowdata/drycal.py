@@ -17,7 +17,7 @@ import yadg.dgutils
 def rtf(
     fn: str,
     encoding: str = "utf-8",
-    timezone: str = "localtime",
+    timezone: str = "UTC",
     calib: dict = {},
 ) -> tuple[list, dict]:
     """
@@ -89,7 +89,7 @@ def sep(
     fn: str,
     sep: str,
     encoding: str = "utf-8",
-    timezone: str = "localtime",
+    timezone: str = "UTC",
     calib: dict = {},
 ) -> tuple[list, dict]:
     """
@@ -193,7 +193,7 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
         if len(parts) == 2:
             units[parts[0]] = parts[1]
         else:
-            units[parts[0]] = "-"
+            units[parts[0]] = " "
     if items[-1] == "":
         trim = True
         headers = headers[:-1]
@@ -204,4 +204,6 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
             data.append(cols[:-1])
         else:
             data.append(cols)
+
+    yadg.dgutils.sanitize_units(units)
     return headers, units, data

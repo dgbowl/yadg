@@ -9,6 +9,6 @@
         "flow": {
             "calib": {"linear": {"slope": 1.6666e-8}, "atol": 1e-8}
         }, 
-        "unit": "m3/s"
+        "unit": "m^3/s"
     }
 }

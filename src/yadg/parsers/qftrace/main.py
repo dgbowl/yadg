@@ -27,7 +27,7 @@ def _fit(
     """
     Function that fits Q and f from Γ(f).
     """
-    Qs = {"n": [], "s": [], "u": "-"}
+    Qs = {"n": [], "s": [], "u": " "}
     fs = {"n": [], "s": [], "u": "Hz"}
     mag = -10 * np.log10(absgvals)
     peaks, _ = find_peaks(mag, height=height, distance=distance)

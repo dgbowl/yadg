@@ -32,6 +32,7 @@ setuptools.setup(
     install_requires=[
         "numpy",
         "scipy",
+        "pint",
         "uncertainties",
         "striprtf",
         "pytest",

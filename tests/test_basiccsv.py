@@ -202,7 +202,7 @@ from tests.utils import (
                             "flow": {
                                 "calib": {"linear": {"slope": 1e-6 / 60}, "atol": 1e-8}
                             },
-                            "unit": "m3/s",
+                            "unit": "m^3/s",
                         }
                     },
                 },
@@ -222,7 +222,7 @@ from tests.utils import (
                     "flow": {
                         "sigma": 1e-8,
                         "value": 2.5e-7,
-                        "unit": "m3/s",
+                        "unit": "m^3/s",
                         "raw": False,
                     },
                 },

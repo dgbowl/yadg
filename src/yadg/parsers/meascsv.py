@@ -66,6 +66,8 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
+    yadg.dgutils.sanitize_units(units)
+
     datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
         timezone=timezone,
@@ -89,6 +91,6 @@ def process(
                 ts["derived"]["xin"] = {}
                 for species in xin:
                     x = xin[species] / total
-                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": "-"}
+                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": " "}
         timesteps.append(ts)
     return timesteps, None, True

@@ -7,7 +7,6 @@ import yadg.core
 from yadg.dgutils import ureg
 
 
-
 def _list_validator(l: list) -> bool:
     if len(l) == 3:
         return _float_list(l)
@@ -36,14 +35,14 @@ def _general_list(l: list) -> bool:
             )
     return True
 
+
 def _unit_validator(u: str) -> bool:
     assert u in ureg, f"unit {u} is not defined."
     return True
 
+
 def _dict_validator(d: dict) -> bool:
-    #print(d.keys())
     for k, v in d.items():
-        #print(k, v)
         if k in ["n", "s", "u"] and len({"n", "s", "u"}.intersection(d.keys())) == 3:
             if k in ["n", "s"] and isinstance(v, (float, list)):
                 pass
@@ -96,30 +95,33 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     True: bool
         If the ``item`` matches the ``spec``, returns `True`. Otherwise, an `AssertionError` is raised.
     """
-    assert isinstance(
-        item, spec["type"]
-    ), f"validator: item '{item}' does not match prescribed type in spec '{spec['type']}'."
+    assert isinstance(item, spec["type"]), (
+        f"validator: item '{item}' does not match prescribed type "
+        f"in spec '{spec['type']}'."
+    )
     if len({"all", "one", "any", "each"}.intersection(spec)) > 0 and spec["type"] in [
         list,
         dict,
     ]:
         for k, v in spec.get("all", {}).items():
-            assert (
-                k in item
-            ), f"validator: required entry '{k}' was not specified in item '{item}'."
+            assert k in item, (
+                f"validator: required entry '{k}' was not specified "
+                f"in item '{item}'."
+            )
         if "one" in spec:
             initem = set(spec["one"]).intersection(item)
-            assert (
-                len(initem) == 1
-            ), f"validator: Exactly one of entries in {spec['one']} has to be provided in item {item}, but {len(initem)} were provided: {initem}."
+            assert len(initem) == 1, (
+                f"validator: Exactly one of entries in {spec['one']} has to be "
+                f"provided in item {item}, but {len(initem)} were provided: {initem}."
+            )
         for k in item:
             s = False
             for d in ["all", "one", "any"]:
                 if k in spec.get(d, []):
                     s = d
-            assert (
-                s or spec.get("allow", False) or "each" in spec
-            ), f"validator: Key '{k}' in item {item} is not understood."
+            assert s or spec.get("allow", False) or "each" in spec, (
+                f"validator: Key '{k}' in item {item} " f"is not understood."
+            )
             if s:
                 assert validator(item[k], spec[s][k])
             elif "each" in spec:

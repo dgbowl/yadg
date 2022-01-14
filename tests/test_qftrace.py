@@ -161,6 +161,7 @@ def test_datagram_from_qftrace(input, ts, datadir):
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
 
+
 def test_compare_raw_values(datadir):
     input = {
         "folders": ["data_3.1.0/01-inert"],

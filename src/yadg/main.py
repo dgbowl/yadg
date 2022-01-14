@@ -12,6 +12,7 @@ def set_loglevel(delta: int):
     logging.basicConfig(level=loglevel)
     logging.debug(f"loglevel set to '{logging._levelToName[loglevel]}'")
 
+
 def run_with_arguments():
     """
     Main execution function.
@@ -49,7 +50,7 @@ def run_with_arguments():
             help="Decrease verbosity by one level.",
         )
 
-    subparsers = parser.add_subparsers(dest="subcommand", required = True)
+    subparsers = parser.add_subparsers(dest="subcommand", required=True)
 
     process = subparsers.add_parser("process")
     process.add_argument(
@@ -117,12 +118,12 @@ def run_with_arguments():
         default=False,
     )
     preset.set_defaults(func=yadg.subcommands.preset)
-        
+
     # parse subparser args
     args, extras = parser.parse_known_args()
     # parse extras for verbose tags
     args, extras = verbose.parse_known_args(extras, args)
-    
+
     set_loglevel(args.verbose - args.quiet)
     if "func" in args:
         args.func(args)

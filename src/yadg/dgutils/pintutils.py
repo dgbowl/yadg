@@ -2,10 +2,12 @@ import logging
 from typing import Union
 import pint
 
-ureg = pint.UnitRegistry(preprocessors=[
-    lambda s: s.replace('%%', ' permille '),
-    lambda s: s.replace('%', ' percent ')
-])
+ureg = pint.UnitRegistry(
+    preprocessors=[
+        lambda s: s.replace("%%", " permille "),
+        lambda s: s.replace("%", " percent "),
+    ]
+)
 
 definitions = """
 parts_per_hundred = 1e-2 count = percent
@@ -25,12 +27,14 @@ for line in definitions.split("\n"):
     if len(line) > 0 and not line.startswith("#"):
         ureg.define(line)
 
+
 def _sanitize_helper(unit: str) -> str:
     unit = unit.replace("Bar", "bar")
     if unit in ["deg C", "Deg C"]:
         return "degC"
     else:
         return unit
+
 
 def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
     if isinstance(units, list):

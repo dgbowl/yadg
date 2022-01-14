@@ -37,18 +37,13 @@ def _general_list(l: list) -> bool:
     return True
 
 def _unit_validator(u: str) -> bool:
-    if u == "-":
-        logging.warning(
-            "validator: using '-' as a dimensionlessunit is deprecated. "
-            "Use '' instead."
-        )
-        return True
     assert u in ureg, f"unit {u} is not defined."
     return True
 
 def _dict_validator(d: dict) -> bool:
     #print(d.keys())
     for k, v in d.items():
+        #print(k, v)
         if k in ["n", "s", "u"] and len({"n", "s", "u"}.intersection(d.keys())) == 3:
             if k in ["n", "s"] and isinstance(v, (float, list)):
                 pass

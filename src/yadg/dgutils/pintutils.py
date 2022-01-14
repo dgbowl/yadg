@@ -17,8 +17,6 @@ standard_milliliter = milliliter = smL
 standard_liter = liter = sL
 standard_cubic_centimeter_minute = cm^3/min = sccm
 
-twentyfive_volts = 25 V = _25V
-
 refractive_index_units = [] = RIU
 """
 
@@ -29,11 +27,8 @@ for line in definitions.split("\n"):
 
 def _sanitize_helper(unit: str) -> str:
     unit = unit.replace("Bar", "bar")
-    unit = unit.replace("Ohm", "ohm")
     if unit in ["deg C", "Deg C"]:
         return "degC"
-    elif unit in ["25 V"]:
-        return "_25V"
     else:
         return unit
 

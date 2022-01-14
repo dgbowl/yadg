@@ -197,14 +197,14 @@ def datagram_3to4(olddg: list) -> dict:
                     elif k == "x":
                         ts["derived"]["xin"] = {}
                         for kk, vv in v.items():
-                            ts["derived"]["xin"][kk] = {"n": vv, "s": 0.001, "u": "-"}
+                            ts["derived"]["xin"][kk] = {"n": vv, "s": 0.001, "u": " "}
 
                 elif oldstep["input"]["datagram"] == "qftrace":
                     if k in ["Q0", "f0"]:
                         ts["derived"][k[0]] = {
                             "n": v,
                             "s": [20.0 if k == "Q0" else 1000.0] * len(v),
-                            "u": "-" if k == "Q0" else "Hz",
+                            "u": " " if k == "Q0" else "Hz",
                         }
 
                 elif oldstep["input"]["datagram"] == "gctrace":
@@ -216,15 +216,15 @@ def datagram_3to4(olddg: list) -> dict:
                         ts["derived"]["peaks"][k] = {}
                         for kk, vv in v.items():
                             ts["derived"]["peaks"][k][kk] = {
-                                "A": {"n": vv["A"], "s": 0.01 * vv["A"], "u": "-"},
-                                "h": {"n": vv["h"], "s": 1.0, "u": "-"},
-                                "c": {"n": vv["x"], "s": 0.01 * vv["x"], "u": "-"},
+                                "A": {"n": vv["A"], "s": 0.01 * vv["A"], "u": " "},
+                                "h": {"n": vv["h"], "s": 1.0, "u": " "},
+                                "c": {"n": vv["x"], "s": 0.01 * vv["x"], "u": "mol/l"},
                             }
                             if kk not in ts["derived"]["xout"] or k == "FID":
                                 ts["derived"]["xout"][kk] = {
                                     "n": vv["x"] / 100,
                                     "s": 0.01 * vv["x"] / 100,
-                                    "u": "-",
+                                    "u": " ",
                                 }
             if oldstep["input"]["datagram"] == "gctrace":
                 totx = sum([v["n"] for k, v in ts["derived"]["xout"].items()])

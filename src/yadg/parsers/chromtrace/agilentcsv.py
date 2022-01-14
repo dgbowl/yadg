@@ -59,7 +59,7 @@ def _to_trace(tx, ty):
     ys = [ysn, yss]
     trace = {
         "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
-        "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": "-"},
+        "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": " "},
         "data": [xs, ys],
     }
     return trace

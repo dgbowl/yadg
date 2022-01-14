@@ -121,7 +121,7 @@ def process_row(
                 )
         if "derived" not in element:
             element["derived"] = dict()
-        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", "-")}
+        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", " ")}
         der[newk] = y
     return element
 
@@ -216,11 +216,10 @@ def process(
     else:
         for header in headers:
             if header not in units:
-                logging.warning(f"Using implicit unit '-' for {header}.")
-                units[header] = "-"
+                logging.warning(f"Using implicit dimensionless unit '-' for {header}.")
+                units[header] = " "
             elif units[header] == "":
-                logging.info(f"Converting unit ' ' to '-' for {header}.")
-                units[header] = "-"
+                units[header] = " "
         si = 1
 
     yadg.dgutils.sanitize_units(units)

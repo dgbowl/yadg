@@ -91,6 +91,6 @@ def process(
                 ts["derived"]["xin"] = {}
                 for species in xin:
                     x = xin[species] / total
-                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": "-"}
+                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": " "}
         timesteps.append(ts)
     return timesteps, None, True

@@ -21,11 +21,9 @@ Exposed metadata:
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
-import uncertainties as uc
-import uncertainties.unumpy as unp
+import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
-import yadg.dgutils
 from yadg.dgutils.dateutils import str_to_uts
 
 
@@ -93,6 +91,11 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         if line.startswith("Y Axis Title:"):
             parts = line.split("\t")
             yunits = [each.strip() for each in parts[1:]]
+            if "25 V" in yunits:
+                yunits = [i.replace("25 V", "V") for i in yunits]
+                logging.warning(
+                    "ezchromasc: Implicit conversion of y-axis unit from '25 V' to 'V'."
+                )
         if line.startswith("X Axis Multiplier:"):
             parts = line.split("\t")
             xmuls = [float(each.strip()) for each in parts[1:]]
@@ -110,9 +113,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         == len(xmuls)
         == len(ymuls)
     ), f"datasc: Inconsistent number of traces in {fn}."
-    
-    yadg.dgutils.sanitize_units(yunits)
-    print(yunits)
 
     for ti in range(len(samplerates)):
         assert (

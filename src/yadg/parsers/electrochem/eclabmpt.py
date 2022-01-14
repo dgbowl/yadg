@@ -139,7 +139,7 @@ column_units = {
     "THD Ewe/%": ("THD Ewe", "%"),
     "THD I/%": ("THD I", "%"),
     "time/s": ("time", "s"),
-    "x": ("x", "-"),
+    "x": ("x", " "),
     "z cycle": ("z cycle", None),
 }
 

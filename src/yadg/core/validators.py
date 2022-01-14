@@ -2,6 +2,8 @@ import numpy as np
 import logging
 import os
 from typing import Union
+import pint
+from pint.errors import UndefinedUnitError
 
 import yadg.core
 
@@ -34,15 +36,29 @@ def _general_list(l: list) -> bool:
             )
     return True
 
+def _unit_validator(u: str) -> bool:
+    if u == "-":
+        logging.warning(
+            "validator: using '-' as a dimensionlessunit is deprecated. "
+            "Use '' instead."
+        )
+        return True
+    try: 
+        pu = pint.Unit(u)
+    except UndefinedUnitError as e:
+        assert False, e
+    return True
 
 def _dict_validator(d: dict) -> bool:
     for k, v in d.items():
-        if (
-            k in ["n", "s"]
-            and len({"n", "s", "u"}.intersection(d.keys())) == 3
-            and isinstance(v, (float, list))
-        ):
-            continue
+        if k in ["n", "s", "u"] and len({"n", "s", "u"}.intersection(d.keys())) == 3:
+            if k in ["n", "s"] and isinstance(v, (float, list)):
+                continue
+            elif k in ["u"] and isinstance(v, str):
+                assert _unit_validator(v)
+            else:
+                logging.error(f"validator: we shouldn't be here: {k}, {v}")
+                return False
         elif isinstance(v, float):
             assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."
         elif isinstance(v, list):

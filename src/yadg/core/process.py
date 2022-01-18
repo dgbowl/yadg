@@ -1,20 +1,20 @@
 import json
-import logging
 import os
-from typing import Callable, Union
+import logging
+from typing import Union, Callable
 
 from ..parsers import (
     dummy,
     basiccsv,
+    qftrace,
     chromtrace,
-    dummy,
-    electrochem,
     flowdata,
     masstrace,
     xpstrace,
     meascsv,
-    qftrace,
-    xrdtrace,
+    electrochem,
+    masstrace,
+    xrdtrace
 )
 from .. import dgutils, core
 

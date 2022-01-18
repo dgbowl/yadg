@@ -26,7 +26,7 @@ from tests.utils import datadir, datagram_from_input, standard_datagram_test
         ),
     ],
 )
-def test_datagram_from_quadstar(input, ts, datadir):
+def test_datagram_from_xrdtrace(input, ts, datadir):
     ret = datagram_from_input(input, "xrdtrace", datadir)
     standard_datagram_test(ret, ts)
     # pars_datagram_test(ret, ts)

@@ -1,5 +1,31 @@
-"""
+"""Processing of PANalytical XRD csv files.
 
+TODO
+
+File Structure
+``````````````
+
+These files are split into a ``[Measurement conditions]`` and a
+``[Scan points]`` section. The former stores the metadata and the latter
+all the datapoints.
+
+
+Structure of Parsed Timesteps
+`````````````````````````````
+
+.. code-block:: yaml
+
+    - fn:  !!str
+    - uts: !!float
+    - raw:
+        traces:
+          "{{ trace_number }}":  # Number of the trace.
+            angle:               # Diffraction angle.
+              {n: [!!float, ...], s: [!!float, ...], u: "deg"}
+            intensity:           # Detector counts.
+              {n: [!!float, ...], s: [!!float, ...], u: "counts"}
+
+.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
 
 import re
@@ -10,9 +36,25 @@ from xml.etree import ElementTree
 
 
 # Recursively parsing etree into a python dictionary.
-# From https://stackoverflow.com/a/10076823.
 def etree_to_dict(e: ElementTree.Element) -> dict:
-    """"""
+    """Recursively converts an ElementTree.Element into a dictionary.
+    
+    Element attributes are stored into `"@"`-prefixed attribute keys.
+    Element text is stored into `"#text"` for all nodes.
+    
+    From https://stackoverflow.com/a/10076823.
+    
+    Parameters
+    ----------
+    e
+        The ElementTree root Element.
+        
+    Returns
+    -------
+    dict
+        ElementTree parsed into a dictionary.
+    
+    """
     d = {e.tag: {} if e.attrib else None}
     children = list(e)
     if children:
@@ -33,28 +75,46 @@ def etree_to_dict(e: ElementTree.Element) -> dict:
     return d
 
 
-# Converting camelCase xrdml keys to snake_case.
-# From https://stackoverflow.com/a/1176023
-def snake_case(camelCase: str) -> str:
+def snake_case(s: str) -> str:
+    """Converts camelCase xrdml keys to snake_case.
+    
+    From https://stackoverflow.com/a/1176023
+    
+    Parameters
+    ----------
+    s
+        The input string to be converted.
+        
+    Returns
+    -------
+    str
+        The corresponding snake_case string.
+    
     """
-    """
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", camelCase).lower()
+    s = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", s)
+    return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s).lower()
 
 
-def _parse_values(d: Union[dict, list]) -> dict:
+def _process_values(d: Union[dict, str]) -> dict:
     """Recursively parses values from subdicts.
     
-    Values in
+    Parameters
+    ----------
+    d
+
     
     """
     # TODO
-    # If key does not start with @ or is not #text just snake_case val
-    # If key is #text then combine it with the keys starting with @
-    # If key starts with @ then combine and is no @unit or @version,
-    # then just strip @
-    if d.keys() == ["@unit", "#text"]:
-        # TODO
-        pass
+    # If not "#text" or @tribute just snake_case and recurse.
+    # If "@unit", append unit to all non-attribute vals.
+    # If "#text" and ("@unit" or "@version") conbine the two.
+    if isinstance(d, str):
+        return d
+    
+    if "@unit" in d:
+        if "#text" in d:
+            return " ".join(d["#text"], d["@unit"])
+        for key in [k]
     else:
         for key, value in d:
             # TODO
@@ -62,16 +122,25 @@ def _parse_values(d: Union[dict, list]) -> dict:
     return {}
 
 
-def _parse_scan(scan: dict) -> dict:
-    """
+def _process_scan(scan: dict) -> dict:
+    """Parses the scan section of the file.
+    
+    Parameters
+    ----------
+    scan
+        The scan dictionary.
+        
+    Returns
+    -------
+    dict
+        The processed
     
     """
     header = scan.pop("header")
     uts = datetime.fromisoformat(header.pop("startTimeStamp"))
-
     datapoints = scan.pop("dataPoints")
-    datapoints["positions"] = _parse_values(datapoints["positions"])
-    datapoints["counting_time"] = _parse_values(datapoints.pop("commonCountingTime"))
+    datapoints["positions"] = _process_values(datapoints["positions"])
+    datapoints["counting_time"] = _process_values(datapoints.pop("commonCountingTime"))
     datapoints["counts"] = {
         "n": [float(c) for c in datapoints["counts"].split()],
         "s": [],
@@ -120,22 +189,42 @@ def _process_measurement(measurement: dict):
     keys = ["phd_lower_level", "phd_upper_level"]
     measurement["comment"] = dict(zip(keys, values))
     # Wavelength.
-    wavelength = _parse_values(measurement.pop("usedWavelength"))
+    wavelength = _process_values(measurement.pop("usedWavelength"))
     measurement["wavelength"] = wavelength
     # Incident beam path.
-    incident_beam_path = _parse_values(measurement.pop("incidentBeamPath"))
+    incident_beam_path = _process_values(measurement.pop("incidentBeamPath"))
     measurement["incident_beam_path"] = incident_beam_path
     # Diffracted beam path.
-    diffracted_beam_path = _parse_values(measurement.pop("diffractedBeamPath"))
+    diffracted_beam_path = _process_values(measurement.pop("diffractedBeamPath"))
     measurement["diffracted_beam_path"] = diffracted_beam_path
 
-    scan = _parse_scan(measurement.pop("scan"))
+    scan = _process_scan(measurement.pop("scan"))
 
     return measurement
 
 
-def process(fn: str):
-    """
+def process(
+    fn: str, encoding: str = "utf-8", timezone: str = "localtime"
+) -> tuple[list, dict, bool]:
+    """Processes a PANalytical XRD csv file.
+
+    Parameters
+    ----------
+    fn
+        The file containing the trace(s) to parse.
+
+    encoding
+        Encoding of ``fn``, by default "utf-8".
+
+    timezone
+        A string description of the timezone. Default is "localtime".
+
+    Returns
+    -------
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag.
+        For .xrdml tag is always specified
+
     """
     # TODO: Maybe validate the xrdml file against the specified xml
     # schema. This would however require `lxml` and add another
@@ -151,23 +240,16 @@ def process(fn: str):
     xrd = etree_to_dict(root)
     # Start processing the xml contents.
     measurements = xrd["xrdMeasurements"]
-    assert measurements["@status"] == "Completed"
+    assert measurements["@status"] == "Completed", "Incomplete measurement."
     comment = _process_comment(measurements["comment"])
-    # Renaming some entries.
+    # Renaming some entries because I want to.
     sample = measurements["sample"]
     sample["prepared_by"] = sample.pop("preparedBy")
     sample["type"] = sample.pop("@type")
     # Process measurement data.
     measurement = _process_measurement(measurements["xrdMeasurement"])
 
+    # TODO Process timestamps.
     timesteps = [{"uts": None, "fn": fn, "raw": None}]
 
-    return timesteps
-
-
-if __name__ == "__main__":
-    path = (
-        r"G:\Collaborators\Vetsch Nicolas\parsers\xrd\testing\210520step1_30min.xrdml"
-    )
-    process(path)
-    print("")
+    return data, meta, True

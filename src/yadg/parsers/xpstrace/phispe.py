@@ -420,7 +420,7 @@ def process(
         Multipak .spe files seemingly have no timestamp.
 
     """
-    with open(fn, "rb", encoding=encoding) as spe_file:
+    with open(fn, "rb") as spe_file:
         spe = spe_file.readlines()
     header = _process_header(spe)
     software_id, version = header.get("software_version").split()

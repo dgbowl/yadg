@@ -6,8 +6,6 @@ import pytest
 
 from tests.utils import datadir, datagram_from_input, standard_datagram_test
 
-# TODO: Implement more thorough tests.
-
 
 @pytest.mark.parametrize(
     "input, ts",
@@ -22,7 +20,7 @@ from tests.utils import datadir, datagram_from_input, standard_datagram_test
         ),
     ],
 )
-def test_datagram_from_quadstar(input, ts, datadir):
+def test_datagram_from_xpstrace(input, ts, datadir):
     ret = datagram_from_input(input, "xpstrace", datadir)
     standard_datagram_test(ret, ts)
     # pars_datagram_test(ret, ts)

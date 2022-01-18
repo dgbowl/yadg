@@ -133,7 +133,7 @@ def process(
     detectors: dict = None,
     species: dict = None,
     calfile: str = None,
-) -> tuple[list, dict, dict]:
+) -> tuple[list, dict, bool]:
     """
     Unified chromatogram parser.
 
@@ -178,8 +178,9 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. All currently
+        supported file formats return full date.
     """
     if tracetype == "ezchrom.asc":
         _data, _meta = ezchromasc.process(fn, encoding, timezone)
@@ -218,4 +219,4 @@ def process(
 
         results.append(result)
 
-    return results, _meta, None
+    return results, _meta, True

@@ -1,4 +1,6 @@
-# ![**yadg** logo](./docs/source/images/yadg.svg) yadg: Yet Another DataGram
+# ![**yadg** logo](./docs/source/images/yadg.svg) yet another datagram
+
+[![PyPi version](https://badgen.net/pypi/v/yadg/)](https://pypi.com/project/yadg)
 
 Set of tools to process raw instrument data according to a `schema` into a standardised form called `datagram`, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed at Empa.
 

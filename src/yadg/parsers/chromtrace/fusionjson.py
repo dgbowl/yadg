@@ -28,6 +28,7 @@ import json
 import numpy as np
 
 import yadg.dgutils
+from yadg.dgutils.dateutils import str_to_uts
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
@@ -69,10 +70,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         },
     }
     chrom = {"fn": str(fn), "traces": {}}
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        spec={"timestamp": {}}, timezone=timezone
-    )
-    chrom["uts"] = datefunc(jsdata["runTimeStamp"])
+    chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
     detid = 0
 
     # sort detector keys to ensure alphabetic order for ID matching
@@ -99,7 +97,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         trace["y"] = {
             "n": ysn.tolist(),
             "s": yss.tolist(),
-            "u": "-",
+            "u": " ",
         }
         trace["data"] = [xs, ys]
         if "analysis" in detdict:
@@ -113,9 +111,9 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                     )
                 else:
                     nbp = 0
-                h = {"n": float(peak.get("height", 0.0)), "s": 0.5, "u": "-"}
-                A = {"n": float(peak.get("area", 0.0)), "s": 0.5 * nbp, "u": "-"}
-                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "vol%"}
+                h = {"n": float(peak.get("height", 0.0)), "s": 0.5, "u": " "}
+                A = {"n": float(peak.get("area", 0.0)), "s": 0.5 * nbp, "u": " "}
+                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "mol/l"}
                 trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
         chrom["traces"][detname] = trace
 

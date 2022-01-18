@@ -121,7 +121,7 @@ def process_row(
                 )
         if "derived" not in element:
             element["derived"] = dict()
-        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", "-")}
+        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", " ")}
         der[newk] = y
     return element
 
@@ -135,7 +135,7 @@ def process(
     timestamp: dict = None,
     convert: dict = None,
     calfile: str = None,
-) -> tuple[list, dict, dict]:
+) -> tuple[list, dict, bool]:
     """
     A basic csv parser.
 
@@ -180,8 +180,10 @@ def process(
 
     Returns
     -------
-    (data, metadata, common)
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate): tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. No metadata is
+        returned by the basiccsv parser. The full date might not be returned, eg.
+        when only time is specified in columns.
 
     """
     # Process calfile and convert into calib
@@ -200,7 +202,7 @@ def process(
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
         headers=headers, spec=timestamp, timezone=timezone
     )
 
@@ -214,12 +216,13 @@ def process(
     else:
         for header in headers:
             if header not in units:
-                logging.warning(f"Using implicit unit '-' for {header}.")
-                units[header] = "-"
+                logging.warning(f"Using implicit dimensionless unit '-' for {header}.")
+                units[header] = " "
             elif units[header] == "":
-                logging.info(f"Converting unit ' ' to '-' for {header}.")
-                units[header] = "-"
+                units[header] = " "
         si = 1
+
+    yadg.dgutils.sanitize_units(units)
 
     # Process rows
     data = []
@@ -229,4 +232,4 @@ def process(
         )
         element["fn"] = str(fn)
         data.append(element)
-    return data, None, None
+    return data, None, fulldate

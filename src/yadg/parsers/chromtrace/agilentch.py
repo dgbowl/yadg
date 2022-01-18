@@ -48,6 +48,7 @@ as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 import numpy as np
 
 import yadg.dgutils
+from yadg.dgutils.dateutils import str_to_uts
 
 magic_values = {}
 magic_values["179"] = {
@@ -118,13 +119,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     yss = np.ones(npoints) * pars["slope"]
 
     detector, title = pars["tracetitle"].split(",")
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        spec={"timestamp": {"format": "%d-%b-%y, %H:%M:%S"}}, timezone=timezone
-    )
 
     chrom = {
         "fn": str(fn),
-        "uts": datefunc(pars["timestamp"]),
+        "uts": str_to_uts(pars["timestamp"], "%d-%b-%y, %H:%M:%S", timezone),
         "traces": {
             detector: {
                 "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},

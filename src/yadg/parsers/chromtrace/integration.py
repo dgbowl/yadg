@@ -248,7 +248,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         units = {
             "t": traces[det]["t"]["u"],
             "y": traces[det]["y"]["u"],
-            "A": "-",
+            "A": " ",
         }
         xs, ys = traces[det].pop("data")
         pd = spec.get("peakdetect", {})
@@ -273,7 +273,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 peaks[detname][k]["c"] = {
                     "n": x.n,
                     "s": x.s,
-                    "u": spec["species"][k]["calib"].get("unit", "vol%"),
+                    "u": spec["species"][k]["calib"].get("unit", "%"),
                     "uf": x,
                 }
             if k not in comp:
@@ -288,5 +288,5 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
     norm = sum([xout[k] for k in xout.keys()])
     for s in xout:
         xnorm = xout[s] / norm
-        xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": "-"}
+        xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": " "}
     return peaks, xout

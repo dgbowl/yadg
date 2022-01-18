@@ -9,7 +9,7 @@ def process(
     encoding: str = "utf-8",
     timezone: str = "localtime",
     tracetype: str = "quadstar.sac",
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict, bool]:
     """Unified mass spectrometry data parser.
 
     This parser processes mass spectrometry scans in signal(mass) format.
@@ -33,10 +33,10 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag.
 
     """
     if tracetype == "quadstar.sac":
         _data, _meta = quadstarsac.process(fn, encoding, timezone)
-    return _data, _meta, None
+    return _data, _meta, True

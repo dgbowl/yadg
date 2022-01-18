@@ -44,18 +44,18 @@ Structure of Parsed Data
 import math
 import os
 import re
-import warnings
+import logging
 from collections import defaultdict
-from datetime import datetime
+from yadg.dgutils.dateutils import str_to_uts
 
 from yadg.parsers.electrochem.eclabtechniques import technique_params
 
 # Maps EC-Lab's "canonical" column names to yadg name and unit.
 column_units = {
-    '"Ri"/Ohm': ("'Ri'", "Ohm"),
-    "-Im(Z)/Ohm": ("-Im(Z)", "Ohm"),
-    "-Im(Zce)/Ohm": ("-Im(Zce)", "Ohm"),
-    "-Im(Zwe-ce)/Ohm": ("-Im(Zwe-ce)", "Ohm"),
+    '"Ri"/Ohm': ("'Ri'", "Ω"),
+    "-Im(Z)/Ohm": ("-Im(Z)", "Ω"),
+    "-Im(Zce)/Ohm": ("-Im(Zce)", "Ω"),
+    "-Im(Zwe-ce)/Ohm": ("-Im(Zwe-ce)", "Ω"),
     "(Q-Qo)/C": ("(Q-Qo)", "C"),
     "(Q-Qo)/mA.h": ("(Q-Qo)", "mA·h"),
     "<Ece>/V": ("<Ece>", "V"),
@@ -66,9 +66,9 @@ column_units = {
     "|Ewe|/V": ("|Ewe|", "V"),
     "|I|/A": ("|I|", "A"),
     "|Y|/Ohm-1": ("|Y|", "S"),
-    "|Z|/Ohm": ("|Z|", "Ohm"),
-    "|Zce|/Ohm": ("|Zce|", "Ohm"),
-    "|Zwe-ce|/Ohm": ("|Zwe-ce|", "Ohm"),
+    "|Z|/Ohm": ("|Z|", "Ω"),
+    "|Zce|/Ohm": ("|Zce|", "Ω"),
+    "|Zwe-ce|/Ohm": ("|Zwe-ce|", "Ω"),
     "Analog IN 1/V": ("Analog IN 1", "V"),
     "Analog IN 2/V": ("Analog IN 2", "V"),
     "Capacitance charge/µF": ("Capacitance charge", "µF"),
@@ -125,26 +125,26 @@ column_units = {
     "Q charge/mA.h/g": ("Q charge", "mA·h/g"),
     "Q discharge/mA.h": ("Q discharge", "mA·h"),
     "Q discharge/mA.h/g": ("Q discharge", "mA·h/g"),
-    "R/Ohm": ("R", "Ohm"),
-    "Rcmp/Ohm": ("Rcmp", "Ohm"),
+    "R/Ohm": ("R", "Ω"),
+    "Rcmp/Ohm": ("Rcmp", "Ω"),
     "Re(Y)/Ohm-1": ("Re(Y)", "S"),
     "Re(Y)/Ohm-1": ("Re(Y)", "S"),
-    "Re(Z)/Ohm": ("Re(Z)", "Ohm"),
-    "Re(Z)/Ohm": ("Re(Z)", "Ohm"),
-    "Re(Zce)/Ohm": ("Re(Zce)", "Ohm"),
-    "Re(Zce)/Ohm": ("Re(Zce)", "Ohm"),
-    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ohm"),
-    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ohm"),
+    "Re(Z)/Ohm": ("Re(Z)", "Ω"),
+    "Re(Z)/Ohm": ("Re(Z)", "Ω"),
+    "Re(Zce)/Ohm": ("Re(Zce)", "Ω"),
+    "Re(Zce)/Ohm": ("Re(Zce)", "Ω"),
+    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ω"),
+    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ω"),
     "step time/s": ("step time", "s"),
     "THD Ewe/%": ("THD Ewe", "%"),
     "THD I/%": ("THD I", "%"),
     "time/s": ("time", "s"),
-    "x": ("x", "-"),
+    "x": ("x", " "),
     "z cycle": ("z cycle", None),
 }
 
 
-def _process_header(lines: list[str]) -> tuple[dict, list, dict]:
+def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     """Processes the header lines.
 
     Parameters
@@ -189,13 +189,10 @@ def _process_header(lines: list[str]) -> tuple[dict, list, dict]:
     timestamp_match = timestamp_re.search("\n".join(settings_lines))
     timestamp = timestamp_match["val"]
     for format in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
-        try:
-            timestamp = datetime.strptime(timestamp, format).timestamp()
+        uts = str_to_uts(timestamp, format, timezone, False)
+        if uts is not None:
             break
-        except ValueError:
-            # Timestamp format does not match.
-            continue
-    if isinstance(timestamp, str):
+    if uts is None:
         raise NotImplementedError(f"Time format for {timestamp} not implemented.")
 
     loops = None
@@ -209,7 +206,7 @@ def _process_header(lines: list[str]) -> tuple[dict, list, dict]:
             indexes.append(int(index))
         loops = {"n_loops": n_loops, "indexes": indexes}
     settings = {
-        "posix_timestamp": timestamp,
+        "posix_timestamp": uts,
         "technique": technique,
         "raw": "\n".join(lines),
     }
@@ -265,8 +262,8 @@ def _process_data(lines: list[str]) -> dict:
 
 
 def process(
-    fn: str, encoding: str = "windows-1252", timezone: str = "localtime"
-) -> tuple[list, dict]:
+    fn: str, encoding: str = "windows-1252", timezone: str = "UTC"
+) -> tuple[list, dict, bool]:
     """Processes EC-Lab human-readable text export files.
 
     Parameters
@@ -278,12 +275,13 @@ def process(
         Encoding of ``fn``, by default "windows-1252".
 
     timezone
-        A string description of the timezone. Default is "localtime".
+        A string description of the timezone. Default is "UTC".
 
     Returns
     -------
-    (data, metadata) : tuple[list, dict]
-        Tuple containing the timesteps and metadata
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag. For mpt files,
+        the full date might not be specified if header is not present.
 
     """
     file_magic = "EC-Lab ASCII FILE\n"
@@ -296,13 +294,13 @@ def process(
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
     if nb_header_lines <= 3:
-        warnings.warn(
-            "Header contains no settings and hence no timestamp. Using the file's ctime instead."
-        )
-        start_time = os.path.getctime(fn)
+        logging.warning("eclabmpt: Header contains no settings and hence no timestamp.")
+        start_time = 0.0
+        fulldate = False
     else:
-        settings, params, loops = _process_header(header_lines)
+        settings, params, loops = _process_header(header_lines, timezone)
         start_time = settings.get("posix_timestamp")
+        fulldate = True
     data = _process_data(data_lines)
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
@@ -331,9 +329,9 @@ def process(
                 trace[key]["u"] = set(trace[key]["u"]).pop()
         uts = start_time + data[0]["time"]["n"]
         timesteps = [{"uts": uts, "fn": fn, "raw": {"traces": traces}}]
-        return timesteps, metadata
+        return timesteps, metadata, fulldate
     # All other techniques have multiple timesteps.
     for d in data:
         uts = start_time + d["time"]["n"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
-    return timesteps, metadata
+    return timesteps, metadata, fulldate

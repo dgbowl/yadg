@@ -17,20 +17,20 @@ def test_datagram_from_meascsv(datadir):
 
     compare_result_dicts(
         ret["steps"][0]["data"][0]["raw"]["T_f"],
-        {"n": 20.9, "s": 0.1, "u": "C"},
+        {"n": 20.9, "s": 0.1, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["raw"]["T_f"],
-        {"n": 455.1, "s": 0.1, "u": "C"},
+        {"n": 455.1, "s": 0.1, "u": "degC"},
     )
 
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["T"],
-        {"n": 28.3153774, "s": 1.0, "u": "C"},
+        {"n": 28.3153774, "s": 1.0, "u": "degC"},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["derived"]["T"],
-        {"n": 403.7957326, "s": 8.0759147, "u": "C"},
+        {"n": 403.7957326, "s": 8.0759147, "u": "degC"},
     )
 
     compare_result_dicts(
@@ -44,25 +44,25 @@ def test_datagram_from_meascsv(datadir):
 
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["xin"]["C3H8"],
-        {"n": 0.0, "s": 0.0000626, "u": "-"},
+        {"n": 0.0, "s": 0.0000626, "u": " "},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["xin"]["N2"],
-        {"n": 0.9505747, "s": 0.0003311, "u": "-"},
+        {"n": 0.9505747, "s": 0.0003311, "u": " "},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][0]["derived"]["xin"]["O2"],
-        {"n": 0.0494253, "s": 0.0003257, "u": "-"},
+        {"n": 0.0494253, "s": 0.0003257, "u": " "},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["derived"]["xin"]["C3H8"],
-        {"n": 0.0301673, "s": 0.0000402, "u": "-"},
+        {"n": 0.0301673, "s": 0.0000402, "u": " "},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["derived"]["xin"]["N2"],
-        {"n": 0.8802435, "s": 0.0002461, "u": "-"},
+        {"n": 0.8802435, "s": 0.0002461, "u": " "},
     )
     compare_result_dicts(
         ret["steps"][0]["data"][100]["derived"]["xin"]["O2"],
-        {"n": 0.0895892, "s": 0.0002506, "u": "-"},
+        {"n": 0.0895892, "s": 0.0002506, "u": " "},
     )

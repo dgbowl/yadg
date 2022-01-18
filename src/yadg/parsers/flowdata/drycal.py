@@ -16,9 +16,8 @@ import yadg.dgutils
 
 def rtf(
     fn: str,
-    date: float,
     encoding: str = "utf-8",
-    timezone: str = "localtime",
+    timezone: str = "UTC",
     calib: dict = {},
 ) -> tuple[list, dict]:
     """
@@ -31,10 +30,6 @@ def rtf(
     ----------
     fn
         Filename to parse.
-
-    date
-        A unix timestamp float corresponding to the day (or other offset) to be added to
-        each line in the measurement table.
 
     encoding
         Encoding to use for parsing ``fn``.
@@ -76,7 +71,7 @@ def rtf(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep="|")
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
     )
 
@@ -84,7 +79,6 @@ def rtf(
     timesteps = []
     for r in data:
         ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
-        ts["uts"] += date
         ts["fn"] = fn
         timesteps.append(ts)
 
@@ -93,10 +87,9 @@ def rtf(
 
 def sep(
     fn: str,
-    date: float,
     sep: str,
     encoding: str = "utf-8",
-    timezone: str = "localtime",
+    timezone: str = "UTC",
     calib: dict = {},
 ) -> tuple[list, dict]:
     """
@@ -150,7 +143,7 @@ def sep(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep=sep)
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": "%H:%M:%S"}}, timezone=timezone
     )
 
@@ -158,7 +151,6 @@ def sep(
     timesteps = list()
     for r in data:
         ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
-        ts["uts"] += date
         ts["fn"] = str(fn)
         timesteps.append(ts)
 
@@ -201,7 +193,7 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
         if len(parts) == 2:
             units[parts[0]] = parts[1]
         else:
-            units[parts[0]] = "-"
+            units[parts[0]] = " "
     if items[-1] == "":
         trim = True
         headers = headers[:-1]
@@ -212,4 +204,6 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
             data.append(cols[:-1])
         else:
             data.append(cols)
+
+    yadg.dgutils.sanitize_units(units)
     return headers, units, data

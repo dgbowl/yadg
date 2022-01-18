@@ -42,12 +42,7 @@ def process(
         Tuple containing the timesteps, metadata, and common data.
     """
 
-    # create timestamp
-    _, datefunc = yadg.dgutils.infer_timestamp_from(
-        timezone=timezone, spec={"timestamp": {"format": "%Y-%m-%d-%H-%M-%S"}}
-    )
-    dirname, basename = os.path.split(fn)
-    data = {"uts": datefunc(os.path.splitext(basename)[0]), "fn": str(fn)}
+    data = {"fn": str(fn)}
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     assert (
@@ -92,7 +87,9 @@ def process(
     temp["f"]["u"] = "Hz"
     real = [np.array(i) for i in zip(*real)]
     temp["Re(Γ)"]["n"], temp["Re(Γ)"]["s"] = [i.tolist() for i in real]
+    temp["Re(Γ)"]["u"] = " "
     imag = [np.array(i) for i in zip(*imag)]
     temp["Im(Γ)"]["n"], temp["Im(Γ)"]["s"] = [i.tolist() for i in imag]
+    temp["Im(Γ)"]["u"] = " "
     data["raw"]["traces"]["S11"] = temp
     return [data], None

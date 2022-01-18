@@ -32,7 +32,7 @@ def calib_3to4(oldcal: dict, caltype: str) -> dict:
             id = {"det_1": 0, "det_2": 1}[v["id"]]
             newcal[k] = {"id": id, "peakdetect": pd, "species": sp}
     elif caltype == "Tcalfile":
-        newcal = {"T": {"T_f": {"calib": {"linear": oldcal}}, "unit": "C"}}
+        newcal = {"T": {"T_f": {"calib": {"linear": oldcal}}, "unit": "degC"}}
     elif caltype == "MFCcalfile":
         newcal = {}
         for k, v in oldcal.items():
@@ -179,10 +179,10 @@ def datagram_3to4(olddg: list) -> dict:
                             else:
                                 if kk.startswith("T"):
                                     s = 0.1
-                                    u = "%" if kk.endswith("o") else "C"
+                                    u = "%" if kk.endswith("o") else "degC"
                                 elif kk == "pressure":
                                     s = 0.1
-                                    u = "mBar"
+                                    u = "mbar"
                                 elif kk == "heater flow":
                                     s = 0.1
                                     u = "l/min"
@@ -191,20 +191,20 @@ def datagram_3to4(olddg: list) -> dict:
                                     u = "ml/min"
                                 ts["raw"][kk] = {"n": vv, "s": s, "u": u}
                     elif k == "T":
-                        ts["derived"]["T"] = {"n": v, "s": 5.0, "u": "C"}
+                        ts["derived"]["T"] = {"n": v, "s": 5.0, "u": "degC"}
                     elif k == "flow":
                         ts["derived"]["flow"] = {"n": v, "s": 0.001, "u": "ml/min"}
                     elif k == "x":
                         ts["derived"]["xin"] = {}
                         for kk, vv in v.items():
-                            ts["derived"]["xin"][kk] = {"n": vv, "s": 0.001, "u": "-"}
+                            ts["derived"]["xin"][kk] = {"n": vv, "s": 0.001, "u": " "}
 
                 elif oldstep["input"]["datagram"] == "qftrace":
                     if k in ["Q0", "f0"]:
                         ts["derived"][k[0]] = {
                             "n": v,
                             "s": [20.0 if k == "Q0" else 1000.0] * len(v),
-                            "u": "-" if k == "Q0" else "Hz",
+                            "u": " " if k == "Q0" else "Hz",
                         }
 
                 elif oldstep["input"]["datagram"] == "gctrace":
@@ -216,15 +216,15 @@ def datagram_3to4(olddg: list) -> dict:
                         ts["derived"]["peaks"][k] = {}
                         for kk, vv in v.items():
                             ts["derived"]["peaks"][k][kk] = {
-                                "A": {"n": vv["A"], "s": 0.01 * vv["A"], "u": "-"},
-                                "h": {"n": vv["h"], "s": 1.0, "u": "-"},
-                                "c": {"n": vv["x"], "s": 0.01 * vv["x"], "u": "-"},
+                                "A": {"n": vv["A"], "s": 0.01 * vv["A"], "u": " "},
+                                "h": {"n": vv["h"], "s": 1.0, "u": " "},
+                                "c": {"n": vv["x"], "s": 0.01 * vv["x"], "u": "mol/l"},
                             }
                             if kk not in ts["derived"]["xout"] or k == "FID":
                                 ts["derived"]["xout"][kk] = {
                                     "n": vv["x"] / 100,
                                     "s": 0.01 * vv["x"] / 100,
-                                    "u": "-",
+                                    "u": " ",
                                 }
             if oldstep["input"]["datagram"] == "gctrace":
                 totx = sum([v["n"] for k, v in ts["derived"]["xout"].items()])

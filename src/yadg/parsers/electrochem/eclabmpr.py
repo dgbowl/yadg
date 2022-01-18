@@ -236,9 +236,9 @@ data_columns = {
     0x0021: ("<f4", "|Ewe|", "V"),
     0x0022: ("<f4", "|I|", "A"),
     0x0023: ("<f4", "Phase(Z)", "deg"),
-    0x0024: ("<f4", "|Z|", "Ohm"),
-    0x0025: ("<f4", "Re(Z)", "Ohm"),
-    0x0026: ("<f4", "-Im(Z)", "Ohm"),
+    0x0024: ("<f4", "|Z|", "Ω"),
+    0x0025: ("<f4", "Re(Z)", "Ω"),
+    0x0026: ("<f4", "-Im(Z)", "Ω"),
     0x0027: ("<u2", "I Range", None),
     0x0046: ("<f4", "P", "W"),
     0x004A: ("<f8", "Energy", "W·h"),
@@ -248,16 +248,16 @@ data_columns = {
     0x004E: ("<f4", "Cs⁻²", "µF⁻²"),
     0x0060: ("<f4", "|Ece|", "V"),
     0x0062: ("<f4", "Phase(Zce)", "deg"),
-    0x0063: ("<f4", "|Zce|", "Ohm"),
-    0x0064: ("<f4", "Re(Zce)", "Ohm"),
-    0x0065: ("<f4", "-Im(Zce)", "Ohm"),
+    0x0063: ("<f4", "|Zce|", "Ω"),
+    0x0064: ("<f4", "Re(Zce)", "Ω"),
+    0x0065: ("<f4", "-Im(Zce)", "Ω"),
     0x007B: ("<f8", "Energy charge", "W·h"),
     0x007C: ("<f8", "Energy discharge", "W·h"),
     0x007D: ("<f8", "Capacitance charge", "µF"),
     0x007E: ("<f8", "Capacitance discharge", "µF"),
     0x0083: ("<u2", "Ns", None),
     0x00A3: ("<f4", "|Estack|", "V"),
-    0x00A8: ("<f4", "Rcmp", "Ohm"),
+    0x00A8: ("<f4", "Rcmp", "Ω"),
     0x00A9: ("<f4", "Cs", "µF"),
     0x00AC: ("<f4", "Cp", "µF"),
     0x00AD: ("<f4", "Cp⁻²", "µF⁻²"),
@@ -266,23 +266,23 @@ data_columns = {
     0x00F2: ("<f4", "|E2|", "V"),
     0x010F: ("<f4", "Phase(Z1)", "deg"),
     0x0110: ("<f4", "Phase(Z2)", "deg"),
-    0x012D: ("<f4", "|Z1|", "Ohm"),
-    0x012E: ("<f4", "|Z2|", "Ohm"),
-    0x014B: ("<f4", "Re(Z1)", "Ohm"),
-    0x014C: ("<f4", "Re(Z2)", "Ohm"),
-    0x0169: ("<f4", "-Im(Z1)", "Ohm"),
-    0x016A: ("<f4", "-Im(Z2)", "Ohm"),
+    0x012D: ("<f4", "|Z1|", "Ω"),
+    0x012E: ("<f4", "|Z2|", "Ω"),
+    0x014B: ("<f4", "Re(Z1)", "Ω"),
+    0x014C: ("<f4", "Re(Z2)", "Ω"),
+    0x0169: ("<f4", "-Im(Z1)", "Ω"),
+    0x016A: ("<f4", "-Im(Z2)", "Ω"),
     0x0187: ("<f4", "<E1>", "V"),
     0x0188: ("<f4", "<E2>", "V"),
     0x01A6: ("<f4", "Phase(Zstack)", "deg"),
-    0x01A7: ("<f4", "|Zstack|", "Ohm"),
-    0x01A8: ("<f4", "Re(Zstack)", "Ohm"),
-    0x01A9: ("<f4", "-Im(Zstack)", "Ohm"),
+    0x01A7: ("<f4", "|Zstack|", "Ω"),
+    0x01A8: ("<f4", "Re(Zstack)", "Ω"),
+    0x01A9: ("<f4", "-Im(Zstack)", "Ω"),
     0x01AA: ("<f4", "<Estack>", "V"),
     0x01AE: ("<f4", "Phase(Zwe-ce)", "deg"),
-    0x01AF: ("<f4", "|Zwe-ce|", "Ohm"),
-    0x01B0: ("<f4", "Re(Zwe-ce)", "Ohm"),
-    0x01B1: ("<f4", "-Im(Zwe-ce)", "Ohm"),
+    0x01AF: ("<f4", "|Zwe-ce|", "Ω"),
+    0x01B0: ("<f4", "Re(Zwe-ce)", "Ω"),
+    0x01B1: ("<f4", "-Im(Zwe-ce)", "Ω"),
     0x01B2: ("<f4", "(Q-Qo)", "C"),
     0x01B3: ("<f4", "dQ", "C"),
     0x01B9: ("<f4", "<Ece>", "V"),
@@ -656,7 +656,7 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 def process(
     fn: str, encoding: str = "windows-1252", timezone: str = "localtime"
-) -> tuple[list, dict]:
+) -> tuple[list, dict, bool]:
     """Processes EC-Lab raw data binary files.
 
     Parameters
@@ -672,8 +672,9 @@ def process(
 
     Returns
     -------
-    (data, metadata) : tuple[list, dict]
-        Tuple containing the timesteps and metadata.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag. For mpr files,
+        the full date is always specified.
 
     """
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
@@ -712,9 +713,9 @@ def process(
                 trace[key]["u"] = set(trace[key]["u"]).pop()
         uts = start_time + data[0]["time"]["n"]
         timesteps = [{"uts": uts, "fn": fn, "raw": {"traces": traces}}]
-        return timesteps, metadata
+        return timesteps, metadata, True
     # All other techniques have multiple timesteps.
     for d in data:
         uts = start_time + d["time"]["n"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
-    return timesteps, metadata
+    return timesteps, metadata, True

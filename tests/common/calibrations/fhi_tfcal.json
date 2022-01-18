@@ -3,7 +3,7 @@
         "T_f": {
             "calib": {"linear": {"slope": 0.8647636, "intercept":  10.2418182}, "atol": 1.0, "rtol": 0.02}
         },
-        "unit": "C"
+        "unit": "degC"
     },
     "N2": {
         "N2": {

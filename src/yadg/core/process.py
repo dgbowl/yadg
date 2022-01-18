@@ -113,7 +113,9 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     """
     datagram = {
         "metadata": {
-            "provenance": {"yadg": yadg.dgutils.get_yadg_metadata(),},
+            "provenance": {
+                "yadg": yadg.dgutils.get_yadg_metadata(),
+            },
             "date": yadg.dgutils.now(asstr=True),
             "input_schema": schema.copy(),
             "datagram_version": yadg.core.spec_datagram.datagram_version,
@@ -135,12 +137,17 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             )
         for tf in todofiles:
             logging.debug(f"process_schema: processing item {tf}")
-            ts, meta, comm = handler(
+            ts, meta, fulldate = handler(
                 tf,
                 encoding=step["import"].get("encoding", "utf-8"),
                 timezone=schema["metadata"].get("timezone", "localtime"),
                 **step.get("parameters", {}),
             )
+            ed = step.get("externaldate", {})
+            if not fulldate or ed != {}:
+                yadg.dgutils.complete_timestamps(
+                    ts, tf, ed, schema["metadata"].get("timezone", "localtime")
+                )
             assert isinstance(
                 ts, list
             ), f"process_schema: Handler for {step['parser']} yields timesteps that are not a enclosed in a `list`."
@@ -150,17 +157,8 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             ), f"process_schema: Handler for {step['parser']} yields metadata that are not a enclosed in a `dict`."
             if meta is not None:
                 metadata.update(meta)
-            assert (
-                isinstance(comm, dict) or comm is None
-            ), f"process_schema: Handler for {step['parser']} yields common data that are not enclosed in a `dict`."
-            if comm is not None:
-                common.update(comm)
-        if common == dict():
-            datagram["steps"].append({"metadata": metadata, "data": timesteps})
-        else:
-            datagram["steps"].append(
-                {"metadata": metadata, "common": common, "data": timesteps}
-            )
+
+        datagram["steps"].append({"metadata": metadata, "data": timesteps})
         if step.get("export", None) is not None:
             with open(step["export"], "w") as ofile:
                 json.dump(datagram, ofile, indent=1)

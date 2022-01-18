@@ -14,7 +14,7 @@ def process(
     timezone: str = "localtime",
     convert: dict = None,
     calfile: str = None,
-) -> tuple[list, dict, dict]:
+) -> tuple[list, dict, bool]:
     """
     Legacy MCPT measurement log parser.
 
@@ -42,8 +42,9 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, None, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and full date tag. No metadata is
+        returned. The full date is always provided in meascsv-compatible files.
 
     """
     logging.warning("meascsv: This parser is deprecated. Please switch to 'basiccsv'.")
@@ -65,7 +66,9 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
-    datecolumns, datefunc = yadg.dgutils.infer_timestamp_from(
+    yadg.dgutils.sanitize_units(units)
+
+    datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
         timezone=timezone,
     )
@@ -88,6 +91,6 @@ def process(
                 ts["derived"]["xin"] = {}
                 for species in xin:
                     x = xin[species] / total
-                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": "-"}
+                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": " "}
         timesteps.append(ts)
-    return timesteps, None, None
+    return timesteps, None, True

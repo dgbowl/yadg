@@ -48,7 +48,7 @@ import logging
 from collections import defaultdict
 from yadg.dgutils.dateutils import str_to_uts
 
-from yadg.parsers.electrochem.eclabtechniques import technique_params
+from yadg.parsers.electrochem.eclabtechniques import get_resolution, technique_params, param_from_key
 
 # Maps EC-Lab's "canonical" column names to yadg name and unit.
 column_units = {
@@ -213,7 +213,7 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     return settings, params, loops
 
 
-def _process_data(lines: list[str]) -> dict:
+def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) -> dict:
     """Processes the data lines.
 
     Parameters
@@ -242,21 +242,41 @@ def _process_data(lines: list[str]) -> dict:
         values = line.split("\t")
         datapoint = {}
         for col, val, unit in list(zip(columns, values, units)):
+            if unit is None:
+                ival = int(float(val))
+                if col == "I Range":
+                    datapoint[col] = param_from_key("I_range", ival)
+                    Irange = param_from_key("I_range", ival, to_str=False)
+                else:
+                    datapoint[col] = ival
+        if "Ns" in datapoint:
+            Erange = Eranges[datapoint["Ns"]]
+        else:
+            logging.info(
+                "eclab.mpr: 'Ns' is not in data table, "
+                "using the first E range specified in params."
+            )
+            Erange = Eranges[0]
+        if "I Range" not in datapoint:
+            logging.info(
+                "eclab.mpr: 'I Range' is not in data table, "
+                "using the I range specified in params."
+            )
+            if "Ns" in datapoint:
+                Irstr = Iranges[datapoint["Ns"]]
+            else:
+                Irstr = Iranges[0]
+            Irange = param_from_key("I_range", Irstr, to_str=False)
+        for col, val, unit in list(zip(columns, values, units)):
             try:
                 val = float(val)
             except ValueError:
                 val = val.strip()
             if unit is None:
-                datapoint[col] = int(val)
-            else:
-                assert isinstance(val, float), "`n` should not be string"
-                # TODO: Using the unit of least precision (spacing
-                # between two floats) as measure of uncertainty for now.
-                datapoint[col] = {
-                    "n": val,
-                    "s": math.ulp(val),
-                    "u": unit,
-                }
+                continue
+            assert isinstance(val, float), "`n` should not be string"
+            s = get_resolution(col, val, Erange, Irange)
+            datapoint[col] = {"n": val, "s": s, "u": unit}
         datapoints.append(datapoint)
     return datapoints
 
@@ -293,15 +313,25 @@ def process(
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
+    # For EC-Lab, a sensible assumption is that E_range and I_range
+    # do not change between steps in a sequence. Therefore, let's pull 
+    # them out of the first element of params
     if nb_header_lines <= 3:
         logging.warning("eclabmpt: Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
+        Eranges = [20.0]
+        Iranges = ["Auto"]
     else:
         settings, params, loops = _process_header(header_lines, timezone)
         start_time = settings.get("posix_timestamp")
         fulldate = True
-    data = _process_data(data_lines)
+        Eranges = []
+        Iranges = []
+        for el in params:
+            Eranges.append(el["E_range_max"] - el["E_range_min"])
+            Iranges.append(el.get("I_range", "Auto"))
+    data = _process_data(data_lines, Eranges, Iranges)
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}

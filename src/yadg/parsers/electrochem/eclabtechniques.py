@@ -18,7 +18,10 @@ Implemented techniques:
 import re
 
 import numpy as np
-
+from typing import Union
+import bisect
+import math
+import logging
 
 # Short helper function for constructing params.
 def _prepend_ns(settings: list[str], params: list) -> list[str]:
@@ -959,3 +962,75 @@ technique_params_dtypes = {
     0x6C: ("LSV", _lsv_params_dtype),
     0x7F: ("MB", _mb_params_dtypes),
 }
+
+param_map = {
+    "I_range": (
+        ("1 A", 9, 1),
+        ("100 mA", 10, 1e-1),
+        ("10 mA", 11, 1e-2),
+        ("1 mA", 12, 1e-3),
+        ("100 µA", 13, 1e-4),
+        ("10 µA", 14, 1e-5),
+        ("1 µA", 15, 1e-6),
+        ("Auto", 21, None),
+        ("Auto", 23, None), # guess
+        ("Auto", 24, None), # guess
+        ("1 A", 37, 1),
+    ),
+    "Is_unit": (
+        ("mA", 1),
+        ("µA", 2),
+    ),
+    "Is_vs": (
+        ("<None>", 2),
+    )
+}
+
+
+def param_from_key(param: str, key: int, to_str: bool = True) -> Union[str, int]:
+    ii = 1 if isinstance(key, int) else 0
+    if param in param_map:
+        for i in param_map[param]:
+            if i[ii] == key:
+                if to_str:
+                    return i[0]
+                else:
+                    return i[2]
+        raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
+    return key
+    
+
+def get_resolution(
+    name: str, 
+    value: float, 
+    Erange: float, 
+    Irange: float
+) -> float:
+    if name in ["control_V"]:
+        if Erange >= 20.0:
+            return 305.18e-6
+        else:
+            res = [
+                5e-6, 
+                10e-6, 
+                20e-6, 
+                50e-6, 
+                100e-6, 
+                150e-6, 
+                200e-6, 
+                300e-6, 
+                305.18e-6
+            ]
+            i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
+            return res[i]
+    elif name in ["Ewe", "Ece", "|Ewe|", "|Ece|"]:
+        return max(Erange * 0.0015/100, 75e-6)
+    elif name in ["control_I"]:
+        return max(Irange * 0.004/100, 760e-12)
+    elif name in ["I", "|I|"]:
+        if Irange is None:
+            logging.warning("get_resolution: 'Irange' not specified. Using 'I'.")
+            Irange = 10**math.ceil(math.log10(value))
+        return Irange * 0.004/100
+    else:
+        return math.ulp(value)

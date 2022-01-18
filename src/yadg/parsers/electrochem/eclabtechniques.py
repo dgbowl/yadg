@@ -973,17 +973,15 @@ param_map = {
         ("10 µA", 14, 1e-5),
         ("1 µA", 15, 1e-6),
         ("Auto", 21, None),
-        ("Auto", 23, None), # guess
-        ("Auto", 24, None), # guess
+        ("Auto", 23, None),  # guess
+        ("Auto", 24, None),  # guess
         ("1 A", 37, 1),
     ),
     "Is_unit": (
         ("mA", 1),
         ("µA", 2),
     ),
-    "Is_vs": (
-        ("<None>", 2),
-    )
+    "Is_vs": (("<None>", 2),),
 }
 
 
@@ -998,39 +996,24 @@ def param_from_key(param: str, key: int, to_str: bool = True) -> Union[str, int]
                     return i[2]
         raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
     return key
-    
 
-def get_resolution(
-    name: str, 
-    value: float, 
-    Erange: float, 
-    Irange: float
-) -> float:
+
+def get_resolution(name: str, value: float, Erange: float, Irange: float) -> float:
     if name in ["control_V"]:
         if Erange >= 20.0:
             return 305.18e-6
         else:
-            res = [
-                5e-6, 
-                10e-6, 
-                20e-6, 
-                50e-6, 
-                100e-6, 
-                150e-6, 
-                200e-6, 
-                300e-6, 
-                305.18e-6
-            ]
+            res = [5e-6, 10e-6, 20e-6, 50e-6, 100e-6, 150e-6, 200e-6, 300e-6, 305.18e-6]
             i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
             return res[i]
     elif name in ["Ewe", "Ece", "|Ewe|", "|Ece|"]:
-        return max(Erange * 0.0015/100, 75e-6)
+        return max(Erange * 0.0015 / 100, 75e-6)
     elif name in ["control_I"]:
-        return max(Irange * 0.004/100, 760e-12)
+        return max(Irange * 0.004 / 100, 760e-12)
     elif name in ["I", "|I|"]:
         if Irange is None:
             logging.warning("get_resolution: 'Irange' not specified. Using 'I'.")
-            Irange = 10**math.ceil(math.log10(value))
-        return Irange * 0.004/100
+            Irange = 10 ** math.ceil(math.log10(value))
+        return Irange * 0.004 / 100
     else:
         return math.ulp(value)

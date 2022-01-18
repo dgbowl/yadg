@@ -48,7 +48,11 @@ import logging
 from collections import defaultdict
 from yadg.dgutils.dateutils import str_to_uts
 
-from yadg.parsers.electrochem.eclabtechniques import get_resolution, technique_params, param_from_key
+from yadg.parsers.electrochem.eclabtechniques import (
+    get_resolution,
+    technique_params,
+    param_from_key,
+)
 
 # Maps EC-Lab's "canonical" column names to yadg name and unit.
 column_units = {
@@ -313,9 +317,6 @@ def process(
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
-    # For EC-Lab, a sensible assumption is that E_range and I_range
-    # do not change between steps in a sequence. Therefore, let's pull 
-    # them out of the first element of params
     if nb_header_lines <= 3:
         logging.warning("eclabmpt: Header contains no settings and hence no timestamp.")
         start_time = 0.0

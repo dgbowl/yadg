@@ -483,7 +483,7 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     params = []
     for pardict in rawparams:
         for k, v in pardict.items():
-            #MPR quirk: I_range off by one
+            # MPR quirk: I_range off by one
             if k == "I_range":
                 v += 1
             pardict[k] = param_from_key(k, v, to_str=True)
@@ -536,10 +536,7 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
 
 
 def _process_data(
-    data: bytes, 
-    version: int,  
-    Eranges: list[float],
-    Iranges: list[float] 
+    data: bytes, version: int, Eranges: list[float], Iranges: list[float]
 ) -> list[dict]:
     """Processes the contents of data modules.
 

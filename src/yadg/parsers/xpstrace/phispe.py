@@ -398,8 +398,8 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "localtime"
-) -> tuple[list, dict]:
+    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
+) -> tuple[list, dict, bool]:
     """Processes ULVAC-PHI Multipak XPS data.
 
     Parameters
@@ -411,15 +411,16 @@ def process(
         Encoding of ``fn``, by default "utf-8".
 
     timezone
-        A string description of the timezone. Default is "localtime".
+        A string description of the timezone. Default is "UTC".
 
     Returns
     -------
-    (timesteps, metadata) : tuple[list, dict]
-        Tuple containing the timesteps and metadata.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag.
+        Multipak .spe files seemingly have no timestamp.
 
     """
-    with open(fn, "rb") as spe_file:
+    with open(fn, "rb", encoding=encoding) as spe_file:
         spe = spe_file.readlines()
     header = _process_header(spe)
     software_id, version = header.get("software_version").split()
@@ -433,9 +434,5 @@ def process(
     }
     trace_defs = _process_trace_defs(header)
     traces = _process_traces(spe, trace_defs)
-    # TODO: There is apparently no proper timestamp in these files. Only
-    # the acquisition date can be found in the header. I guess the
-    # file's ctime should be more accurate in most cases. No one would
-    # go about editing binary files, right? Or maybe?
-    timesteps = [{"fn": fn, "uts": os.path.getctime(fn), "raw": {"traces": traces}}]
-    return timesteps, meta
+    timesteps = [{"fn": fn, "raw": {"traces": traces}}]
+    return timesteps, meta, False

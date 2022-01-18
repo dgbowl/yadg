@@ -7,9 +7,9 @@ version = "4.0.0"
 def process(
     fn: str,
     encoding: str = "utf-8",
-    timezone: str = "localtime",
+    timezone: str = "UTC",
     tracetype: str = "phi.spe",
-) -> tuple[list, dict, None]:
+) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 
     This parser processes XPS scans in signal(energy) format.
@@ -23,7 +23,7 @@ def process(
         Encoding of ``fn``, by default "utf-8".
 
     timezone
-        A string description of the timezone. Default is "localtime".
+        A string description of the timezone. Default is "UTC".
 
     tracetype
         Determines the output file format. Currently supported formats
@@ -33,10 +33,10 @@ def process(
 
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    (data, metadata, fulldate) : tuple[list, dict, bool]
+        Tuple containing the timesteps, metadata, and the full date tag.
+        Multipak .spe files seemingly have no timestamp.
 
     """
     if tracetype == "phi.spe":
-        _data, _meta = phispe.process(fn, encoding, timezone)
-    return _data, _meta, None
+        return phispe.process(fn, encoding, timezone)

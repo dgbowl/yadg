@@ -110,11 +110,12 @@ def _process_values(d: Union[dict, str]) -> dict:
     # If "#text" and ("@unit" or "@version") conbine the two.
     if isinstance(d, str):
         return d
-    
+
     if "@unit" in d:
         if "#text" in d:
             return " ".join(d["#text"], d["@unit"])
-        for key in [k]
+        else:
+            pass
     else:
         for key, value in d:
             # TODO
@@ -141,6 +142,7 @@ def _process_scan(scan: dict) -> dict:
     datapoints = scan.pop("dataPoints")
     datapoints["positions"] = _process_values(datapoints["positions"])
     datapoints["counting_time"] = _process_values(datapoints.pop("commonCountingTime"))
+    # TODO: determine uncertainties.
     datapoints["counts"] = {
         "n": [float(c) for c in datapoints["counts"].split()],
         "s": [],
@@ -204,9 +206,9 @@ def _process_measurement(measurement: dict):
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "localtime"
+    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
 ) -> tuple[list, dict, bool]:
-    """Processes a PANalytical XRD csv file.
+    """Processes a PANalytical xrdml file.
 
     Parameters
     ----------
@@ -217,7 +219,7 @@ def process(
         Encoding of ``fn``, by default "utf-8".
 
     timezone
-        A string description of the timezone. Default is "localtime".
+        A string description of the timezone. Default is "UTC".
 
     Returns
     -------

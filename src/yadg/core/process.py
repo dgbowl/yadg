@@ -14,11 +14,12 @@ from ..parsers import (
     meascsv,
     electrochem,
     masstrace,
-    xrdtrace
+    xrdtrace,
 )
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
+
 
 
 def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:

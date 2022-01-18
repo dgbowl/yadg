@@ -16,3 +16,4 @@ following links:
    parsers.flowdata
    parsers.masstrace
    parsers.xpstrace
+   parsers.electrochem

@@ -1,0 +1,48 @@
+EC-Lab ASCII FILE
+Nb header lines : 47                          
+
+IR compensation (PEIS)
+
+Run on channel : 7 (SN 36639)
+User : 
+CE vs. WE compliance from -10 V to 10 V
+Electrode connection : standard
+Ewe ctrl range : min = 0.00 V, max = 5.00 V
+Safety Limits :
+	Do not start on E overload
+Acquisition started on : 03/26/2018 12:10:53
+Saved on :
+	File : 20180326_Li_LiBH4_LiBH4+KS6_50to50_80mg_noref_ZIR_CV_10uVs-1_1,5-4,0V_02_ZIR_C07.mpr
+	Directory : C:\Users\lab131\Desktop\VMP3 Sync\Ryo\ESW\
+	Host : 192.109.209.127
+Device : VMP3 (SN 1083)
+Address : 192.109.209.128
+EC-Lab for windows v11.18 (software)
+Internet server v11.18 (firmware)
+Command interpretor v11.16 (firmware)
+Electrode material : 
+Initial state : 
+Electrolyte : 
+Comments : 
+Electrode surface area : 0.001 cm²
+Characteristic mass : 0.001 g
+Equivalent Weight : 0.000 g/eq.
+Density : 0.000 g/cm3
+Cycle Definition : Charge/Discharge alternance
+E (V)               0.0000              
+vs.                 Eoc                 
+f                   10.000              
+unit f              kHz                 
+Va (mV)             20.0                
+pw                  0.10                
+Na                  10                  
+E range min (V)     0.000               
+E range max (V)     5.000               
+I Range             Auto                
+Bandwidth           5                   
+comp. level (%)     85                  
+use results         1                   
+comp. mode          Software            
+
+freq/Hz	Re(Z)/Ohm	-Im(Z)/Ohm	|Z|/Ohm	Phase(Z)/deg	time/s	<Ewe>/V	<I>/mA	I Range	|Ewe|/V	|I|/A	Re(Y)/Ohm-1	Im(Y)/Ohm-1	|Y|/Ohm-1	Phase(Y)/deg	
+1.0019531E+004	1.0407059E+005	9.3853563E+004	1.4013986E+005	-4.2044960E+001	4.320298865059699E+004	2.2599726E+000	-1.6291319E-008	14	2.0285232E-002	1.4474990E-007	5.2991313E-006	4.7788940E-006	7.1357285E-006	4.2044960E+001

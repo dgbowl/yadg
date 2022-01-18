@@ -1,0 +1,51 @@
+EC-Lab ASCII FILE
+Nb header lines : 51                          
+
+Wait
+
+Run on channel : 1 (SN 5304)
+User : 
+Electrode connection : standard
+Ewe ctrl range : min = -10.00 V, max = 10.00 V
+Ewe,I filtering : 50 kHz
+Safety Limits :
+	Do not start on E overload
+Channel : Grounded
+Acquisition started on : 03/02/2021 16:17:59
+Saved on :
+	File : Batch_1_1_20210210_CP_100mA_-3.33V_07_WAIT_C01.mpr
+	Directory : C:\EmpaDaten\Alessandro\2021_03_02_spAg_Porex_01\
+	Host : 10.1.1.100
+Device : SP-240 (SN 0200)
+Address : USB
+EC-Lab for windows v11.33 (software)
+Internet server v11.32 (firmware)
+Command interpretor v11.33 (firmware)
+Electrode material : 
+Initial state : 
+Electrolyte : 
+Comments : 
+Cable : standard
+Reference electrode : SCE Saturated Calomel Electrode (0.241 V)
+Electrode surface area : 0.001 cm²
+Characteristic mass : 0.001 g
+Equivalent Weight : 0.000 g/eq.
+Density : 0.000 g/cm3
+Record Ece
+Text export
+   Mode : Standard
+   Time format : Elapsed
+Cycle Definition : Charge/Discharge alternance
+select              1                   
+td (h:m:s)          0:30:10.0000        
+from                0                   
+tech. num.          1                   
+date (m/d/y)        07/03/2009          
+date (h:m:s)        11:40:55            
+record              0                   
+dE (mV)             0.00                
+dI                  0.000               
+unit dI             µA                  
+dt (s)              0.0000              
+
+mode	error	time/s	Ewe/V	I/mA	Ece/V	P/W	Ewe-Ece/V	

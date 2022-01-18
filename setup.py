@@ -35,9 +35,8 @@ setuptools.setup(
         "uncertainties",
         "striprtf",
         "pytest",
-        "pandas",
         "tzlocal",
-        "eclabfiles>=0.3.9",
+        "python-dateutil",
     ],
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},
 )

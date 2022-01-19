@@ -23,7 +23,6 @@ from tests.utils import datadir, datagram_from_input, standard_datagram_test
 def test_datagram_from_xpstrace(input, ts, datadir):
     ret = datagram_from_input(input, "xpstrace", datadir)
     standard_datagram_test(ret, ts)
-    # pars_datagram_test(ret, ts)
 
 
 @pytest.mark.parametrize(

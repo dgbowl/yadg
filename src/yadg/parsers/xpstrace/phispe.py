@@ -383,7 +383,7 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
         y = {
             "n": datapoints,
             "s": [12.5] * len(datapoints),
-            "u": trace_header["y_unit"].decode().strip(),
+            "u": "cps",
         }
         traces[str(trace_def["trace_number"])] = {
             "name": trace_def["name"],

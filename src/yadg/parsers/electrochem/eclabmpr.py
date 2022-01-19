@@ -164,6 +164,7 @@ from typing import Any
 import numpy as np
 from yadg.dgutils.dateutils import ole_to_uts
 from yadg.parsers.electrochem.eclabtechniques import technique_params_dtypes
+from yadg.parsers.electrochem.eclabtechniques import param_from_key, get_resolution
 
 # Module header starting after each MODULE keyword.
 module_header_dtype = np.dtype(
@@ -478,7 +479,15 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     logging.debug(f"Reading number of parameter sequences at 0x{params_offset:x}.")
     ns = _read_value(data, params_offset, "<u2")
     logging.debug(f"Reading {ns} parameter sequences of {n_params} parameters.")
-    params = _read_values(data, params_offset + 0x0004, params_dtype, ns)
+    rawparams = _read_values(data, params_offset + 0x0004, params_dtype, ns)
+    params = []
+    for pardict in rawparams:
+        for k, v in pardict.items():
+            # MPR quirk: I_range off by one
+            if k == "I_range":
+                v += 1
+            pardict[k] = param_from_key(k, v, to_str=True)
+        params.append(pardict)
     return settings, params
 
 
@@ -526,7 +535,9 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     return names, dtypes, units, flags
 
 
-def _process_data(data: bytes, version: int) -> list[dict]:
+def _process_data(
+    data: bytes, version: int, Eranges: list[float], Iranges: list[float]
+) -> list[dict]:
     """Processes the contents of data modules.
 
     Parameters
@@ -561,13 +572,38 @@ def _process_data(data: bytes, version: int) -> list[dict]:
         raise NotImplementedError(f"Unknown data module version: {version}")
     datapoints = _read_values(data, offset, data_dtype, n_datapoints)
     for datapoint in datapoints:
+        # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(datapoint.items(), units)):
-            # TODO: Using the unit of least precision (spacing between
-            # two floats) as a measure of uncertainty for now.
             if unit is None:
-                datapoint[name] = int(value)
+                intv = int(value)
+                if name == "I Range":
+                    datapoint[name] = param_from_key("I_range", intv)
+                    Irange = param_from_key("I_range", intv, to_str=False)
+                else:
+                    datapoint[name] = intv
+        if "Ns" in datapoint:
+            Erange = Eranges[datapoint["Ns"]]
+        else:
+            logging.info(
+                "eclab.mpr: 'Ns' is not in data table, "
+                "using the first E range specified in params."
+            )
+            Erange = Eranges[0]
+        if "I Range" not in datapoint:
+            logging.info(
+                "eclab.mpr: 'I Range' is not in data table, "
+                "using the I range specified in params."
+            )
+            if "Ns" in datapoint:
+                Irstr = Iranges[datapoint["Ns"]]
+            else:
+                Irstr = Iranges[0]
+            Irange = param_from_key("I_range", Irstr, to_str=False)
+        for (name, value), unit in list(zip(datapoint.items(), units)):
+            if unit is None:
                 continue
-            datapoint[name] = {"n": value, "s": math.ulp(value), "u": unit}
+            s = get_resolution(name, value, Erange, Irange)
+            datapoint[name] = {"n": value, "s": s, "u": unit}
         if flags:
             logging.debug("Extracting flag values.")
             flag_bits = datapoint.pop("flags")
@@ -643,8 +679,13 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         module_data = module[module_header_dtype.itemsize :]
         if name == "VMP Set":
             settings, params = _process_settings(module_data)
+            Eranges = []
+            Iranges = []
+            for el in params:
+                Eranges.append(el["E_range_max"] - el["E_range_min"])
+                Iranges.append(el.get("I_range", "Auto"))
         elif name == "VMP data":
-            data = _process_data(module_data, header["version"])
+            data = _process_data(module_data, header["version"], Eranges, Iranges)
         elif name == "VMP LOG":
             log = _process_log(module_data)
         elif name == "VMP loop":

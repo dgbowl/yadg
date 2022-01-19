@@ -31,7 +31,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": 3.0000624e-001,
-                        "sigma": math.ulp(3.0000624e-001),
+                        "sigma": 2e-5,
                         "unit": "V",
                     },
                     "uts": {"value": 1556661461.2284908},
@@ -52,7 +52,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": 3.0000624e-001,
-                        "sigma": math.ulp(3.0000624e-001),
+                        "sigma": 2e-5,
                         "unit": "V",
                     },
                     "uts": {"value": 1556661461.2284908},
@@ -73,7 +73,7 @@ from tests.utils import (
                 "pars": {
                     "control_I": {
                         "value": -1.0000000e002,
-                        "sigma": math.ulp(-1.0000000e002),
+                        "sigma": 4e-5,
                         "unit": "mA",
                     }
                 },
@@ -93,7 +93,7 @@ from tests.utils import (
                 "pars": {
                     "control_I": {
                         "value": -1.0000000e002,
-                        "sigma": math.ulp(-1.0000000e002),
+                        "sigma": 4e-5,
                         "unit": "mA",
                     }
                 },
@@ -113,7 +113,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": 2.4814086e000,
-                        "sigma": math.ulp(2.4814086e000),
+                        "sigma": 2e-4,
                         "unit": "V",
                     }
                 },
@@ -133,7 +133,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": 2.4814086e000,
-                        "sigma": math.ulp(2.4814086e000),
+                        "sigma": 2e-4,
                         "unit": "V",
                     }
                 },
@@ -221,7 +221,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": -5.6856550e-002,
-                        "sigma": math.ulp(-5.6856550e-002),
+                        "sigma": 3.0518e-4,
                         "unit": "V",
                     }
                 },
@@ -241,7 +241,7 @@ from tests.utils import (
                 "pars": {
                     "control_V": {
                         "value": -5.6856550e-002,
-                        "sigma": math.ulp(-5.6856550e-002),
+                        "sigma": 3.0518e-4,
                         "unit": "V",
                     }
                 },
@@ -403,7 +403,7 @@ def test_datagram_from_eclab(input, ts, datadir):
 def test_compare_raw_values_time_series(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)
+        ref = json.load(infile)["steps"][0]["data"]
     ret = datagram_from_input(input, "electrochem", datadir)
     ret = ret["steps"][0]["data"]
     for ts_ret, ts_ref in zip(ret, ref):
@@ -414,9 +414,7 @@ def test_compare_raw_values_time_series(input, refpath, datadir):
                         ts_ref["raw"][key][i], ts_ret["raw"][key][i], equal_nan=True
                     )
             else:
-                assert np.allclose(
-                    ts_ref["raw"][key], ts_ret["raw"][key], equal_nan=True
-                )
+                assert ts_ref["raw"][key] == ts_ret["raw"][key]
 
 
 @pytest.mark.parametrize(
@@ -443,7 +441,7 @@ def test_compare_raw_values_time_series(input, refpath, datadir):
 def test_compare_raw_values_eis_traces(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)["traces"]
+        ref = json.load(infile)["steps"][0]["data"][0]["raw"]["traces"]
     ret = datagram_from_input(input, "electrochem", datadir)
     ret = ret["steps"][0]["data"][0]["raw"]["traces"]
     for n, trace in ret.items():
@@ -452,4 +450,4 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
                 for i in ["n", "s"]:
                     assert np.allclose(ref[n][ax][i], ret[n][ax][i], equal_nan=True)
             else:
-                assert np.allclose(ref[n][ax], ret[n][ax], equal_nan=True)
+                assert ref[n][ax] == ret[n][ax]

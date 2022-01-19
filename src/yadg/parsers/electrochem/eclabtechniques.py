@@ -14,11 +14,25 @@ Implemented techniques:
     WAIT - Wait
     ZIR - IR compensation (PEIS)
 
+The module also implements resolution determination for parameters of techniques, 
+in :func:`get_resolution`.
+
+.. admonition:: TODO
+
+    https://github.com/dgbowl/yadg/issues/10
+
+    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
+    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
+    should be device-specific, and the fallback should be eliminated.
+
 """
 import re
 
 import numpy as np
-
+from typing import Union
+import bisect
+import math
+import logging
 
 # Short helper function for constructing params.
 def _prepend_ns(settings: list[str], params: list) -> list[str]:
@@ -959,3 +973,113 @@ technique_params_dtypes = {
     0x6C: ("LSV", _lsv_params_dtype),
     0x7F: ("MB", _mb_params_dtypes),
 }
+
+param_map = {
+    "I_range": (
+        ("1 A", 9, 1),
+        ("100 mA", 10, 1e-1),
+        ("10 mA", 11, 1e-2),
+        ("1 mA", 12, 1e-3),
+        ("100 µA", 13, 1e-4),
+        ("10 µA", 14, 1e-5),
+        ("1 µA", 15, 1e-6),
+        ("Auto", 21, None),
+        ("Auto", 23, None),  # guess
+        ("Auto", 24, None),  # guess
+        ("1 A", 37, 1),
+    ),
+    "Is_unit": (
+        ("A", 0), # guess
+        ("mA", 1),
+        ("µA", 2),
+        ("nA", 3), # guess
+        ("pA", 4), # guess
+    ),
+}
+
+
+def param_from_key(
+    param: str, 
+    key: Union[int, str], 
+    to_str: bool = True
+) -> Union[str, float]:
+    """
+    Convert a supplied key of a certain parameter to its string or float value.
+    
+    The function uses the map defined in ``param_map`` to convert between the 
+    entries in the tuples, which contain the :class:`str` value of the parameter
+    (present in ``.mpt`` files), the :class:`int` value of the parameter (present
+    in ``.mpr`` files), and the corresponding :class:`float` value in SI units.
+
+    Parameters
+    ----------
+    param
+        The name of the parameter, a key within the ``param_map``. If ``param``
+        is not present in ``param_map``, the supplied key is returned back.
+    
+    key
+        The key of the parameter that is to be converted to a different representation.
+    
+    to_str
+        A switch between :class:`str` and :class:`float` output.
+    
+    Returns
+    -------
+    key: Union[str, float, int]
+        The key converted to the requested format.
+
+    """
+    ii = 1 if isinstance(key, int) else 0
+    if param in param_map:
+        for i in param_map[param]:
+            if i[ii] == key:
+                if to_str:
+                    return i[0]
+                else:
+                    return i[2]
+        raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
+    return key
+
+
+def get_resolution(name: str, value: float, Erange: float, Irange: float) -> float:
+    """
+    Function that returns the resolution of a property based on its name, value,
+    E-range and I-range.
+
+    The values used here are hard-coded from VMP-3 potentiostats. Generally, the
+    resolution is returned, however in some cases only the accuracy is specified
+    (currently ``freq`` and ``Phase``).
+
+    """
+    if name in ["control_V"]:
+        # VMP-3: bisect function between 5 µV and 300 µV, as the
+        # voltage is stored in a 16-bit int.
+        if Erange >= 20.0:
+            return 305.18e-6
+        else:
+            res = [5e-6, 10e-6, 20e-6, 50e-6, 100e-6, 150e-6, 200e-6, 300e-6, 305.18e-6]
+            i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
+            return res[i]
+    elif name in ["Ewe", "Ece", "|Ewe|", "|Ece|"]:
+        # VMP-3: 0.0015% of FSR, 75 µV minimum
+        return max(Erange * 0.0015 / 100, 75e-6)
+    elif name in ["control_I"]:
+        # VMP-3: 0.004% of FSR, 760 µV at 10 µA I-range
+        return max(Irange * 0.004 / 100, 760e-12)
+    elif name in ["I", "|I|"]:
+        # VMP-3: 0.004% of FSR
+        if Irange is None:
+            logging.warning("get_resolution: 'Irange' not specified. Using 'I'.")
+            Irange = 10 ** math.ceil(math.log10(value))
+        return Irange * 0.004 / 100
+    elif name in ["freq"]:
+        # VMP-3: using accuracy: 1% of value
+        return value * 0.01
+    elif name in ["Phase(Z)", "Phase(Y)"]:
+        # VMP-3: using accuracy: 1% of value or 1 degree
+        return min(value * 0.01, 1)
+    elif name in ["|Z|", "Re(Z)", "-Im(Z)"]:
+        # |Z| = |Ewe|/|I|; assuming GEIS
+        return get_resolution("I", value, Erange, Irange)
+    else:
+        return math.ulp(value)

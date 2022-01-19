@@ -989,10 +989,12 @@ param_map = {
         ("1 A", 37, 1),
     ),
     "Is_unit": (
+        ("A", 0), # guess
         ("mA", 1),
         ("µA", 2),
+        ("nA", 3), # guess
+        ("pA", 4), # guess
     ),
-    "Is_vs": (("<None>", 2),),
 }
 
 

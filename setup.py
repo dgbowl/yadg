@@ -14,12 +14,12 @@ setuptools.setup(
     version=version,
     author="Peter Kraus",
     author_email="peter@tondon.de",
-    description="Yet Another DataGram",
+    description="yet another datagram",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="https://github.com/PeterKraus/yadg",
+    url="https://github.com/dgbowl/yadg",
     project_urls={
-        "Bug Tracker": "https://github.com/PeterKraus/yadg/issues",
+        "Bug Tracker": "https://github.com/dgbowl/yadg/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",

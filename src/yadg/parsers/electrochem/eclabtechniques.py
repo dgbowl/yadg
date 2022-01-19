@@ -989,24 +989,22 @@ param_map = {
         ("1 A", 37, 1),
     ),
     "Is_unit": (
-        ("A", 0), # guess
+        ("A", 0),  # guess
         ("mA", 1),
         ("µA", 2),
-        ("nA", 3), # guess
-        ("pA", 4), # guess
+        ("nA", 3),  # guess
+        ("pA", 4),  # guess
     ),
 }
 
 
 def param_from_key(
-    param: str, 
-    key: Union[int, str], 
-    to_str: bool = True
+    param: str, key: Union[int, str], to_str: bool = True
 ) -> Union[str, float]:
     """
     Convert a supplied key of a certain parameter to its string or float value.
-    
-    The function uses the map defined in ``param_map`` to convert between the 
+
+    The function uses the map defined in ``param_map`` to convert between the
     entries in the tuples, which contain the :class:`str` value of the parameter
     (present in ``.mpt`` files), the :class:`int` value of the parameter (present
     in ``.mpr`` files), and the corresponding :class:`float` value in SI units.
@@ -1016,13 +1014,13 @@ def param_from_key(
     param
         The name of the parameter, a key within the ``param_map``. If ``param``
         is not present in ``param_map``, the supplied key is returned back.
-    
+
     key
         The key of the parameter that is to be converted to a different representation.
-    
+
     to_str
         A switch between :class:`str` and :class:`float` output.
-    
+
     Returns
     -------
     key: Union[str, float, int]

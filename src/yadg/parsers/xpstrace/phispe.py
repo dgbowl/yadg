@@ -141,19 +141,19 @@ trace_header_dtype = np.dtype(
 
 def camel_to_snake(s: str) -> str:
     """Converts CamelCase strings to snake_case.
-    
+
     # From https://stackoverflow.com/a/1176023
-    
+
     Parameters
     ----------
     s
         The CamelCase input string.
-    
+
     Returns
     -------
     str
         The snake_case equivalent of s.
-    
+
     """
     s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", s)
     return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s).lower()

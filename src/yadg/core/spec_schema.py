@@ -75,6 +75,7 @@ schema_step = {
                 "meascsv",
                 "electrochem",
                 "masstrace",
+                "xpstrace",
             ],
         },
         "import": {
@@ -185,6 +186,9 @@ schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("labview.csv"
 
 # masstrace parameters
 schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("quadstar.sac")
+
+# xpstrace parameters
+schema_step["any"]["parameters"]["any"]["tracetype"]["one"].append("phi.spe")
 
 # flowdata parameters
 schema_step["any"]["parameters"]["any"].update(

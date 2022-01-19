@@ -15,4 +15,5 @@ following links:
    parsers.meascsv
    parsers.flowdata
    parsers.masstrace
+   parsers.xpstrace
    parsers.electrochem

@@ -113,26 +113,21 @@ corresponds to a spectroscopy scan, indexed by ``"cycle number"`` /
 
 .. admonition:: TODO
 
-    https://gitlab.empa.ch/krpe/yadg/-/issues/15
+    https://github.com/dgbowl/yadg/issues/10
 
-    The uncertainties are currently taken to just be the ULP of the data
-    value ``n``. They should instead be calculated with the values given
-    in the operating manual.
-
-.. admonition:: TODO
-
-    https://gitlab.empa.ch/krpe/yadg/-/issues/18
-
-    Splitting impedance spectroscopy data into traces on loops and on
-    sequence number changes.
+    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
+    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
+    should be device-specific, and the fallback should be eliminated.
 
 .. admonition:: TODO
 
-    https://gitlab.empa.ch/krpe/yadg/-/issues/19
+    https://github.com/dgbowl/yadg/issues/11
 
-    For ``.mpt`` without headers a warning is raised and the ``uts``
-    field is calculated from the file's `ctime`. In the future it should
-    be possible to provide an external starting time.
+    The "raw" data in electrochemistry files should only contain the raw quantities,
+    that is the ``control_I`` or ``control_V`` and the measured potentials ``Ewe``,
+    ``Ece`` or the measured current ``I``. Analogous quantities should be recorded
+    for PEIS/GEIS. All other columns should be computed by **yadg**.
+
 
 The ``"metadata"`` collected from the raw file will depend on the
 ``"filetype"``. For both ``.mpt`` and ``.mpr`` the ```"metadata"`` will

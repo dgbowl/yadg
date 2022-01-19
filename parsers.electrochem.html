@@ -215,23 +215,18 @@ strictly valid jsons.</p>
 </div>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/15">https://gitlab.empa.ch/krpe/yadg/-/issues/15</a></p>
-<p>The uncertainties are currently taken to just be the ULP of the data
-value <code class="docutils literal notranslate"><span class="pre">n</span></code>. They should instead be calculated with the values given
-in the operating manual.</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/10">https://github.com/dgbowl/yadg/issues/10</a></p>
+<p>Current values of the uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are hard-coded from VMP-3 values
+of resolutions and accuracies, with <code class="docutils literal notranslate"><span class="pre">math.ulp(n)</span></code> as fallback. The values
+should be device-specific, and the fallback should be eliminated.</p>
 </div>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/18">https://gitlab.empa.ch/krpe/yadg/-/issues/18</a></p>
-<p>Splitting impedance spectroscopy data into traces on loops and on
-sequence number changes.</p>
-</div>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/19">https://gitlab.empa.ch/krpe/yadg/-/issues/19</a></p>
-<p>For <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> without headers a warning is raised and the <code class="docutils literal notranslate"><span class="pre">uts</span></code>
-field is calculated from the file’s <cite>ctime</cite>. In the future it should
-be possible to provide an external starting time.</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/11">https://github.com/dgbowl/yadg/issues/11</a></p>
+<p>The “raw” data in electrochemistry files should only contain the raw quantities,
+that is the <code class="docutils literal notranslate"><span class="pre">control_I</span></code> or <code class="docutils literal notranslate"><span class="pre">control_V</span></code> and the measured potentials <code class="docutils literal notranslate"><span class="pre">Ewe</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Ece</span></code> or the measured current <code class="docutils literal notranslate"><span class="pre">I</span></code>. Analogous quantities should be recorded
+for PEIS/GEIS. All other columns should be computed by <strong>yadg</strong>.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file will depend on the
 <code class="docutils literal notranslate"><span class="pre">&quot;filetype&quot;</span></code>. For both <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> the <code class="docutils literal notranslate"><span class="pre">`&quot;metadata&quot;</span></code> will

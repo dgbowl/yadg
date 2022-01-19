@@ -1000,6 +1000,8 @@ def param_from_key(param: str, key: int, to_str: bool = True) -> Union[str, int]
 
 def get_resolution(name: str, value: float, Erange: float, Irange: float) -> float:
     if name in ["control_V"]:
+        # VMP-3: bisect function between 5 µV and 300 µV, as the
+        # voltage is stored in a 16-bit int.
         if Erange >= 20.0:
             return 305.18e-6
         else:
@@ -1007,13 +1009,25 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
             i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
             return res[i]
     elif name in ["Ewe", "Ece", "|Ewe|", "|Ece|"]:
+        # VMP-3: 0.0015% of FSR, 75 µV minimum
         return max(Erange * 0.0015 / 100, 75e-6)
     elif name in ["control_I"]:
+        # VMP-3: 0.004% of FSR, 760 µV at 10 µA I-range
         return max(Irange * 0.004 / 100, 760e-12)
     elif name in ["I", "|I|"]:
+        # VMP-3: 0.004% of FSR
         if Irange is None:
             logging.warning("get_resolution: 'Irange' not specified. Using 'I'.")
             Irange = 10 ** math.ceil(math.log10(value))
         return Irange * 0.004 / 100
+    elif name in ["freq"]:
+        # VMP-3: using accuracy: 1% of value
+        return value * 0.01
+    elif name in ["Phase(Z)", "Phase(Y)"]:
+        # VMP-3: using accuracy: 1 degree
+        return 1.0
+    elif name in ["|Z|", "Re(Z)", "-Im(Z)"]:
+        # |Z| = |Ewe|/|I|; assuming GEIS
+        return get_resolution("I", value, Erange, Irange)
     else:
         return math.ulp(value)

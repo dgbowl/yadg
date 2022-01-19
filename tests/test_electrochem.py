@@ -403,8 +403,10 @@ def test_datagram_from_eclab(input, ts, datadir):
 def test_compare_raw_values_time_series(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)
+        ref = json.load(infile)["steps"][0]["data"]
     ret = datagram_from_input(input, "electrochem", datadir)
+    with open(f"C:\\Users\\krpe\\yadg\\{refpath}", "w") as outfile:
+        json.dump(ret, outfile)
     ret = ret["steps"][0]["data"]
     for ts_ret, ts_ref in zip(ret, ref):
         for key in ts_ret["raw"].keys():
@@ -441,7 +443,7 @@ def test_compare_raw_values_time_series(input, refpath, datadir):
 def test_compare_raw_values_eis_traces(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)["traces"]
+        ref = json.load(infile)["steps"][0]["data"][0]["raw"]["traces"]
     ret = datagram_from_input(input, "electrochem", datadir)
     ret = ret["steps"][0]["data"][0]["raw"]["traces"]
     for n, trace in ret.items():

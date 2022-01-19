@@ -405,8 +405,6 @@ def test_compare_raw_values_time_series(input, refpath, datadir):
     with open(refpath, "r") as infile:
         ref = json.load(infile)["steps"][0]["data"]
     ret = datagram_from_input(input, "electrochem", datadir)
-    with open(f"C:\\Users\\krpe\\yadg\\{refpath}", "w") as outfile:
-        json.dump(ret, outfile)
     ret = ret["steps"][0]["data"]
     for ts_ret, ts_ref in zip(ret, ref):
         for key in ts_ret["raw"].keys():

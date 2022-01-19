@@ -14,6 +14,17 @@ Implemented techniques:
     WAIT - Wait
     ZIR - IR compensation (PEIS)
 
+The module also implements resolution determination for parameters of techniques, 
+in :func:`get_resolution`.
+
+.. admonition:: TODO
+
+    https://github.com/dgbowl/yadg/issues/10
+
+    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
+    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
+    should be device-specific, and the fallback should be eliminated.
+
 """
 import re
 
@@ -985,7 +996,37 @@ param_map = {
 }
 
 
-def param_from_key(param: str, key: int, to_str: bool = True) -> Union[str, int]:
+def param_from_key(
+    param: str, 
+    key: Union[int, str], 
+    to_str: bool = True
+) -> Union[str, float]:
+    """
+    Convert a supplied key of a certain parameter to its string or float value.
+    
+    The function uses the map defined in ``param_map`` to convert between the 
+    entries in the tuples, which contain the :class:`str` value of the parameter
+    (present in ``.mpt`` files), the :class:`int` value of the parameter (present
+    in ``.mpr`` files), and the corresponding :class:`float` value in SI units.
+
+    Parameters
+    ----------
+    param
+        The name of the parameter, a key within the ``param_map``. If ``param``
+        is not present in ``param_map``, the supplied key is returned back.
+    
+    key
+        The key of the parameter that is to be converted to a different representation.
+    
+    to_str
+        A switch between :class:`str` and :class:`float` output.
+    
+    Returns
+    -------
+    key: Union[str, float, int]
+        The key converted to the requested format.
+
+    """
     ii = 1 if isinstance(key, int) else 0
     if param in param_map:
         for i in param_map[param]:
@@ -999,6 +1040,15 @@ def param_from_key(param: str, key: int, to_str: bool = True) -> Union[str, int]
 
 
 def get_resolution(name: str, value: float, Erange: float, Irange: float) -> float:
+    """
+    Function that returns the resolution of a property based on its name, value,
+    E-range and I-range.
+
+    The values used here are hard-coded from VMP-3 potentiostats. Generally, the
+    resolution is returned, however in some cases only the accuracy is specified
+    (currently ``freq`` and ``Phase``).
+
+    """
     if name in ["control_V"]:
         # VMP-3: bisect function between 5 µV and 300 µV, as the
         # voltage is stored in a 16-bit int.

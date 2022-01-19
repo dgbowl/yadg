@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg  documentation</title>
+  <title>yadg version history &mdash; yadg 4.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
@@ -29,8 +29,11 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="index.html" class="icon icon-home"> yadg
-            <img src="_static/yadg.svg" class="logo" alt="Logo"/>
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                4.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -85,6 +88,9 @@
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Permalink to this headline"></a></h1>
 <section id="yadg-version-4-0-0">
 <h2><strong>yadg</strong> version 4.0.0<a class="headerlink" href="#yadg-version-4-0-0" title="Permalink to this headline"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.0.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.0&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.0.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.0&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-01-19&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-01-19&amp;color=red&amp;logo=pypi" />
 <p>A major rewrite of <strong>yadg</strong>. The code includes documentation, test suite, and is tested
 using CI.</p>
 <p>Major features are:</p>
@@ -118,12 +124,18 @@ multiple formats, including binary Agilent <code class="docutils literal notrans
 no longer using <code class="xref py py-class docutils literal notranslate"><span class="pre">(np.matrix)</span></code>.</p></li>
 </ul>
 </li>
+</ul>
+</div></blockquote>
+<p>Other, minor features include:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>a consistent interface for supplying calibration data</p></li>
 <li><p>versioning of <cite>datagrams</cite> as well as update pathways from older <cite>schema</cite> files</p></li>
 <li><p><cite>schema</cite> preset functionality, for routine applications of <strong>yadg</strong> to structured
 raw data archives</p></li>
 <li><p><cite>externaldate</cite> functionality for completing and/or replacing deduced timestamps
 using external sources in a unified fashion</p></li>
+<li><p>validation of units present in the <cite>datagrams</cite></p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -182,7 +194,7 @@ DOI: <a class="reference external" href="https://doi.org/10.1109/22.299749">http
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

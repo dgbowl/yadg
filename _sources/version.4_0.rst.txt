@@ -1,6 +1,10 @@
 **yadg** version 4.0.0
 ``````````````````````
-
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.0&color=blue&logo=github
+    :target: https://github.com/PeterKraus/yadg/tree/4.0.0
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.0&color=blue&logo=pypi
+    :target: https://pypi.org/project/yadg/4.0.0/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-01-19&color=red&logo=pypi
 
 A major rewrite of **yadg**. The code includes documentation, test suite, and is tested
 using CI.
@@ -33,9 +37,12 @@ Major features are:
     - ``qftrace``: updated with several bug fixes and performance improvements, 
       no longer using :class:`(np.matrix)`.
 
+Other, minor features include:
+
   - a consistent interface for supplying calibration data
   - versioning of `datagrams` as well as update pathways from older `schema` files
   - `schema` preset functionality, for routine applications of **yadg** to structured
     raw data archives
   - `externaldate` functionality for completing and/or replacing deduced timestamps
     using external sources in a unified fashion
+  - validation of units present in the `datagrams`

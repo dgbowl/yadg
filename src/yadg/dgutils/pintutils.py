@@ -50,12 +50,12 @@ def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
     Unit sanitizer.
 
     This sanitizer should be used where user-supplied units are likely to occur,
-    such as in the parsers :mod:`yadg.parsers.basiccsv`. Currently, only two 
+    such as in the parsers :mod:`yadg.parsers.basiccsv`. Currently, only two
     replacements are done:
 
-      - "Bar" is replaced with "bar" 
+      - "Bar" is replaced with "bar"
       - "Deg C" is replace with "degC
-    
+
     Use with caution.
 
     Parameters

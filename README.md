@@ -1,10 +1,13 @@
-# ![**yadg** logo](./docs/source/images/yadg.svg) yet another datagram
+# ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-[![PyPi version](https://badgen.net/pypi/v/yadg/)](https://pypi.com/project/yadg)
+[![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.com/project/yadg)
+![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)
+![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)
+[![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
 
 Set of tools to process raw instrument data according to a `schema` into a standardised form called `datagram`, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed at Empa.
 
-![**yadg** task overview](./docs/source/images/schema_yadg_datagram.png)
+![schema to datagram with yadg](./docs/source/images/schema_yadg_datagram.png)
 
 ### Capabilities:
 - Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats. Columns can be post-processed using any linear combinations of raw and processed data using the calibration functionality.
@@ -15,7 +18,7 @@ Set of tools to process raw instrument data according to a `schema` into a stand
 ### Features:
 - timezone-aware timestamping using Unix timestamps
 - automatic uncertainty determination using data contained in the raw files, instrument specification, or last significant digit
-- uncertainty propagation to derived 
+- uncertainty propagation to derived quantities
 - tagging of data with units
 - extensive `schema` and `datagram` validation using provided specifications
 - mandatory metadata (such as provenance) is enforced

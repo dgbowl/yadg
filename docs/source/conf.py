@@ -19,8 +19,10 @@ sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "src")))
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
-copyright = "2021, yadg authors"
+copyright = "2021 - 2022, yadg authors"
 author = "Peter Kraus"
+version = "4.0"
+release = "4.0.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -56,7 +58,7 @@ html_theme_options = {
     "body_max_width": "none",
     "sticky_navigation": True,
 }
-html_logo = "./images/yadg.svg"
+html_logo = "./images/yadg.png"
 html_favicon = "./images/yadg_ico.png"
 
 # Add any paths that contain custom static files (such as style sheets) here,

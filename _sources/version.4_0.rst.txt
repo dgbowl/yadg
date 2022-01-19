@@ -21,6 +21,8 @@ Major features are:
       ``.sac`` files.
     - ``basiccsv``: a tabulated data parser, with row processing written for modular
       use in other parsers
+    - ``xpstrace``: a parser for x-ray photoelectron spectroscopy data, supporting
+      ULVAC PHI Multipak XPS traces (.spe)
 
   - large updates to older parsers:
 

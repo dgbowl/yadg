@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>masstrace: Mass spectrometry parser &mdash; yadg  documentation</title>
+  <title>xpstrace: X-ray photoelectron spectroscopy parser &mdash; yadg  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="xpstrace: X-ray photoelectron spectroscopy parser" href="parsers.xpstrace.html" />
-    <link rel="prev" title="flowdata: Flow data parser" href="parsers.flowdata.html" /> 
+    <link rel="next" title="electrochem: Electrochemistry data parser" href="parsers.electrochem.html" />
+    <link rel="prev" title="masstrace: Mass spectrometry parser" href="parsers.masstrace.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,12 +50,12 @@
 <li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.xpstrace.html"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
 </ul>
 </li>
@@ -83,9 +83,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html"><strong>yadg</strong> parsers</a> &raquo;</li>
-      <li><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</li>
+      <li><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/parsers.masstrace.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/parsers.xpstrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -93,68 +93,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="masstrace-mass-spectrometry-parser">
-<h1><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser<a class="headerlink" href="#masstrace-mass-spectrometry-parser" title="Permalink to this headline"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">masstrace</span></code> parser handles the reading and processing of mass
-spectrometry files. The basic function of the parser is to:</p>
+  <section id="xpstrace-x-ray-photoelectron-spectroscopy-parser">
+<h1><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser<a class="headerlink" href="#xpstrace-x-ray-photoelectron-spectroscopy-parser" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> parser handles the reading and processing of x-ray
+photoelectron spectroscopy files. The basic function of the parser is
+to:</p>
 <ol class="arabic simple">
 <li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
-<li><p>collect <cite>metadata</cite> such as the software version, author, etc.</p></li>
+<li><p>collect <cite>metadata</cite> such as measurement settings, software, operator
+etc.</p></li>
 </ol>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <code class="docutils literal notranslate"><span class="pre">masstrace</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword
+<p>The use of <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword
 in the <cite>schema</cite>. Further information can be specified in the
 <code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The file type of the raw data file.
-See <a class="reference internal" href="yadg.parsers.masstrace.html#parsers-masstrace-formats"><span class="std std-ref">here</span></a> for details.</p></li>
+See <a class="reference internal" href="yadg.parsers.xpstrace.html#parsers-xpstrace-formats"><span class="std std-ref">here</span></a> for details.</p></li>
 </ul>
 </section>
 <section id="provides">
-<span id="parsers-masstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p>The primary functionality of <code class="docutils literal notranslate"><span class="pre">masstrace</span></code> is to load mass spectrometry
-data, including determining uncertainties of the signal (y-axis), as
-well as explicitly populating the points in the mass axis (<code class="docutils literal notranslate"><span class="pre">m/z</span></code>).
-This raw data is stored, for each timestep, in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> entry using
-the following format:</p>
+<span id="parsers-xpstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The primary functionality of <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> is to load x-ray photoelectron
+spectroscopy data, including determining uncertainties of the signal
+(y-axis), as well as explicitly populating the points in the energy axis
+(<code class="docutils literal notranslate"><span class="pre">E</span></code>). This raw data is stored, for each timestep, in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code>
+entry using the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># y-axis label from file</span><span class="w"></span>
-<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># comment</span><span class="w"></span>
-<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># full scale range of the detector</span><span class="w"></span>
-<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="c1"># number of the trace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w">          </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">atomic_number</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">dwell_time</span><span class="p">:</span><span class="w">    </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">e_pass</span><span class="p">:</span><span class="w">        </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">E</span><span class="p">:</span><span class="w">                    </span><span class="c1"># energies are always in eV</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;eV&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
 <span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span><span class="w"></span>
 <span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">&quot;m/z&quot;</span></code> are taken as the step-width of
-the linearly spaced mass values.</p>
-<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are the largest value between:</p>
-<ol class="arabic simple">
-<li><p>The quantization error from the ADC, its resolution assumed to be 32
-bit. Dividing F.S.R. by <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">**</span> <span class="pre">32</span></code> gives an error in the order of
-magnitude of the smallest data value in <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code>.</p></li>
-<li><p>The contribution from neighboring masses. In the operating manual of
-the QMS 200 (see 2.8 QMS 200 F &amp; 2.9 QMS 200 M), a maximum
-contribution from the neighboring mass of 50 ppm is noted.</p></li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The data in <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> may contain <code class="docutils literal notranslate"><span class="pre">NaN</span></code> s. The measured ion
-count/current value will occasionally exceed the specified detector
-F.S.R. (e.g. 1e-9), and will then flip directly to the maximum value
-of a float32. These values are set to <code class="docutils literal notranslate"><span class="pre">float(&quot;NaN&quot;)</span></code>.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">&quot;E&quot;</span></code> are taken as the step-width of
+the linearly spaced energy values.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are currently set to a constant
+value of <code class="docutils literal notranslate"><span class="pre">12.5</span></code> counts per second as all the signals in the files seen so
+far only seem to take on values in those steps.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/13">https://github.com/dgbowl/yadg/issues/13</a></p>
+<p>Determining the uncertainty of the counts per second signal in xps
+traces from the phispe parser should be done in a better way.</p>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file will depend on the
-<code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code>. In general, the following metadata entries are stored
-in the <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> element of each <cite>step</cite>:</p>
+<p>In general, the <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file will depend
+on the <code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code>. The following metadata entries are definitely
+stored in the <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> element of each <cite>step</cite>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">software_id</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># software ID</span><span class="w"></span>
+<span class="w">  </span><span class="nt">software_id</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software name</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software version</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># file author</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># operator</span><span class="w"></span>
 </pre></div>
 </div>
 </section>
@@ -164,8 +161,8 @@ in the <code class="docutils literal notranslate"><span class="pre">&quot;params
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="parsers.flowdata.html" class="btn btn-neutral float-left" title="flowdata: Flow data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="parsers.xpstrace.html" class="btn btn-neutral float-right" title="xpstrace: X-ray photoelectron spectroscopy parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="parsers.masstrace.html" class="btn btn-neutral float-left" title="masstrace: Mass spectrometry parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers.electrochem.html" class="btn btn-neutral float-right" title="electrochem: Electrochemistry data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

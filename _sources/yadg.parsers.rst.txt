@@ -17,6 +17,7 @@ Subpackages
    yadg.parsers.flowdata
    yadg.parsers.masstrace
    yadg.parsers.qftrace
+   yadg.parsers.xpstrace
 
 Submodules
 ----------

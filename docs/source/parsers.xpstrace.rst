@@ -51,7 +51,7 @@ far only seem to take on values in those steps.
 
 .. admonition:: TODO
 
-    https://gitlab.empa.ch/krpe/yadg/-/issues/23
+    https://github.com/dgbowl/yadg/issues/13
 
     Determining the uncertainty of the counts per second signal in xps
     traces from the phispe parser should be done in a better way.

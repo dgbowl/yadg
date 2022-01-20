@@ -30,7 +30,7 @@ The management of scientific data is a key aspect of modern data science. Four s
 
 # Statement of need
 
-From the point of view of catalytic chemistry, digitalisation is currently a "hot topic". For example, the leading German and Swiss academic bodies in the field of catalysis consider digitalisation a key task for the current decade. The German Catalysis Society has published a detailed roadmap [@Demtroder2019], and large consorcia have been formed (eg. FAIRmat [@Draxl2020] in Germany or NCCR Catalysis in Switzerland [@NCCRcat]) to advance this issue. 
+From the point of view of catalytic chemistry, digitalisation is currently a "hot topic". For example, the leading German and Swiss academic bodies in the field of catalysis consider digitalisation a key task for the current decade. The German Catalysis Society has published a detailed roadmap [@Demtroder2019], and large consortia have been formed (eg. FAIRmat [@Draxl2020] in Germany or NCCR Catalysis in Switzerland [@NCCRcat]) to advance this issue. 
 
 However, this change will not happen overnight. One approach for kick-starting this transition is to make the currently existing "small data" available according to the FAIR principles [@Mendes2021], effectively defining a standard for "big data" by superposition of current best practices. Another approach, more specific to catalysis, is that of standardisation of testing and characterisation protocols [@Trunschke2020], which will necessarily lead to standardised data content. The `yadg` package has originally been conceived to combine both of those approaches, and along with a lab automation software and data post-processing tools, forms a robust data scientific pipeline[@Kraus2021x].
 

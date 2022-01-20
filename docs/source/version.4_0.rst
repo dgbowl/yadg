@@ -6,8 +6,8 @@
     :target: https://pypi.org/project/yadg/4.0.0/
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-01-19&color=red&logo=pypi
 
-A major rewrite of **yadg**. The code includes documentation, test suite, and is tested
-using CI.
+A major rewrite of **yadg**. Developed at Empa - Materials Science and Technology, in 
+Dübendorf. The code includes documentation, test suite, and is tested using CI.
 
 Major features are:
 

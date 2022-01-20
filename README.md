@@ -1,11 +1,11 @@
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-[![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.com/project/yadg)
+[![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
 ![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)
 ![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)
 [![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
 
-Set of tools to process raw instrument data according to a `schema` into a standardised form called `datagram`, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed at Empa.
+Set of tools to process raw instrument data according to a `schema` into a standardised form called `datagram`, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) at Empa - Materials Science and Technology.
 
 ![schema to datagram with yadg](./docs/source/images/schema_yadg_datagram.png)
 

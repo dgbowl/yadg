@@ -137,7 +137,7 @@ Structure of Parsed Data
     - uts  !!float
     - raw:
         traces:
-          "{{ trace_number }}":
+          "{{ technique name }}":
             "{{ col1 }}":
               [!!int, ...]
             "{{ col2 }}":
@@ -732,28 +732,30 @@ def process(
     start_time = ole_to_uts(log["ole_timestamp"])
     timesteps = []
     # If the technique is an impedance spectroscopy, split it into
-    # traces at different cycle numbers and put everything into a single
-    # timestep.
+    # traces at different cycle numbers and put each trace into its own timestep
     if settings["technique"] in {"PEIS", "GEIS"}:
         # Grouping by cycle.
         cycles = defaultdict(list)
         for d in data:
             cycles[d["cycle number"]].append(d)
         # Casting cycles into traces.
-        cols = data[0].keys()
-        traces = {}
-        for num, cycle in cycles.items():
-            traces[str(num)] = {col: [d[col] for d in cycle] for col in cols}
-        # Casting nominal values and sigmas into lists.
-        for num, trace in traces.items():
+        for ti, td in cycles.items():
+            trace = {col: [d[col] for d in td] for col in td[0].keys()}
             for key, val in trace.items():
                 if not isinstance(val[0], dict):
                     continue
                 trace[key] = {k: [i[k] for i in val] for k in val[0]}
                 # Reducing unit list to just a string.
                 trace[key]["u"] = set(trace[key]["u"]).pop()
-        uts = start_time + data[0]["time"]["n"]
-        timesteps = [{"uts": uts, "fn": fn, "raw": {"traces": traces}}]
+            uts = start_time + trace["time"]["n"][0]
+            trace["time"]["n"] = [i - trace["time"]["n"][0] for i in trace["time"]["n"]]
+            timesteps.append(
+                {
+                    "uts": uts,
+                    "fn": fn,
+                    "raw": {"traces": {settings["technique"]: trace}},
+                }
+            )
         return timesteps, metadata, True
     # All other techniques have multiple timesteps.
     for d in data:

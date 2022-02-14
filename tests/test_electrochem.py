@@ -188,7 +188,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 61,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },
@@ -202,7 +202,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 61,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },
@@ -443,6 +443,8 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
     with open(refpath, "r") as infile:
         ref = json.load(infile)["steps"][0]["data"][0]["raw"]["traces"]
     ret = datagram_from_input(input, "electrochem", datadir)
+    with open(r"C:\Users\krpe\yadg\tests\geis_data.json", "w") as of:
+        json.dump(ret, of)
     ret = ret["steps"][0]["data"][0]["raw"]["traces"]
     for n, trace in ret.items():
         for ax in trace:

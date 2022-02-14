@@ -196,14 +196,14 @@ format:</p>
 </div>
 <p>For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
 of spectroscopy traces. The data is thus split into traces by the column
-<code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> and cast into a single timestep. Each trace now
-corresponds to a spectroscopy scan, indexed by <code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> /
-<code class="docutils literal notranslate"><span class="pre">&quot;trace_number&quot;</span></code>. The timestep takes the following format:</p>
+<code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> and each trace is cast into a single timestep. Each trace
+now corresponds to a spectroscopy scan, indexed by the technique name (PEIS or
+GEIS). The timestep takes the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">technique</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">            </span><span class="p p-Indicator">[</span><span class="kt">!!int,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w"></span>
 <span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>

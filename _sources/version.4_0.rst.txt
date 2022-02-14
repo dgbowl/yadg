@@ -1,10 +1,10 @@
-**yadg** version 4.0.0
+**yadg** version 4.0.1
 ``````````````````````
-.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.0&color=blue&logo=github
-    :target: https://github.com/PeterKraus/yadg/tree/4.0.0
-.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.0&color=blue&logo=pypi
-    :target: https://pypi.org/project/yadg/4.0.0/
-.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-01-19&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.1&color=blue&logo=github
+    :target: https://github.com/PeterKraus/yadg/tree/4.0.1
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.1&color=blue&logo=pypi
+    :target: https://pypi.org/project/yadg/4.0.1/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-02-14&color=red&logo=pypi
 
 A major rewrite of **yadg**. Developed at Empa - Materials Science and Technology, in 
 Dübendorf. The code includes documentation, test suite, and is tested using CI.
@@ -46,3 +46,8 @@ Other, minor features include:
   - `externaldate` functionality for completing and/or replacing deduced timestamps
     using external sources in a unified fashion
   - validation of units present in the `datagrams`
+
+New in version 4.0.1:
+
+  - fixed accuracy of phase in electrochemistry files to 1°.
+  - fixed splitting of GEIS/PEIS traces in a single file into multiple timesteps

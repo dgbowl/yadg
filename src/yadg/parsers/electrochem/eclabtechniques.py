@@ -1074,8 +1074,8 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
         # VMP-3: using accuracy: 1% of value
         return value * 0.01
     elif name in ["Phase(Z)", "Phase(Y)"]:
-        # VMP-3: using accuracy: 1% of value or 1 degree
-        return min(value * 0.01, 1)
+        # VMP-3: using accuracy: 1 degree
+        return 1.0
     elif name in ["|Z|", "Re(Z)", "-Im(Z)"]:
         # |Z| = |Ewe|/|I|; assuming GEIS
         return get_resolution("I", value, Erange, Irange)

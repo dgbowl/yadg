@@ -88,9 +88,9 @@ format:
 
 For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
 of spectroscopy traces. The data is thus split into traces by the column
-``"cycle number"`` and cast into a single timestep. Each trace now
-corresponds to a spectroscopy scan, indexed by ``"cycle number"`` / 
-``"trace_number"``. The timestep takes the following format:
+``"cycle number"`` and each trace is cast into a single timestep. Each trace 
+now corresponds to a spectroscopy scan, indexed by the technique name (PEIS or
+GEIS). The timestep takes the following format:
 
 .. code-block:: yaml
 
@@ -98,7 +98,7 @@ corresponds to a spectroscopy scan, indexed by ``"cycle number"`` /
     - uts  !!float
     - raw:
         traces:
-          "{{ trace_number }}":
+          "{{ technique }}":
             "{{ col1 }}":
                 [!!int, ...]
             "{{ col2 }}":

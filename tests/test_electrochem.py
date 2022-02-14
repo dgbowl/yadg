@@ -188,7 +188,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 61,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },
@@ -202,7 +202,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 61,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },

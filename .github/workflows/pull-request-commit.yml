@@ -35,9 +35,12 @@ jobs:
           python-version: ${{ matrix.pyver }}
       - uses: ./.github/workflows/before-job
       - uses: actions/download-artifact@v2
+        id:   wheel
         with:
           name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - run: pip install yadg*whl[testing]
+      - run: ls -R
+        shell: bash
+      - run: pip install yadg*whl
         shell: bash
       - uses: ./.github/workflows/test-job
   pages:

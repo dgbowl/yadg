@@ -37,7 +37,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - run: pip install yadg[testing]
+      - run: pip install ./yadg[testing]
         shell: bash
       - uses: ./.github/workflows/test-job
   pages:

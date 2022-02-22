@@ -35,9 +35,13 @@ setuptools.setup(
         "pint",
         "uncertainties",
         "striprtf",
-        "pytest",
         "tzlocal",
         "python-dateutil",
     ],
+    extras_require={
+        "testing": [
+            "pytest"
+        ]
+    },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},
 )

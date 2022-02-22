@@ -2,7 +2,6 @@ import os
 import json
 
 import yadg.core
-from tests.utils import datadir
 
 
 def datagram_from(fn, datadir):

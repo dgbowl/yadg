@@ -1,11 +1,7 @@
 import pytest
 import os
 import json
-from tests.utils import (
-    standard_datagram_test,
-    datadir,
-    compare_result_dicts,
-)
+from tests.utils import standard_datagram_test, compare_result_dicts
 
 import yadg.dgutils
 import yadg.core

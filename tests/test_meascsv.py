@@ -2,7 +2,6 @@ import pytest
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
-    datadir,
     compare_result_dicts,
 )
 

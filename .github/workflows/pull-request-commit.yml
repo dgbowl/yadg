@@ -38,9 +38,9 @@ jobs:
         id:   wheel
         with:
           name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - run: ls -R
+      - run: echo ${{ steps.wheel.outputs.download-path }}
         shell: bash
-      - run: pip install yadg*whl
+      - run: pip install ${{ steps.wheel.outputs.download-path }}[testing]
         shell: bash
       - uses: ./.github/workflows/test-job
   pages:

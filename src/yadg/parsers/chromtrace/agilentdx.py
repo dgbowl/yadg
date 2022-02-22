@@ -1,7 +1,7 @@
 """
 File parser for Agilent OpenLab data archive files (DX).
 
-This is a wrapper parser which unzips the provided DX file, and then uses the 
+This is a wrapper parser which unzips the provided DX file, and then uses the
 :mod:`yadg.parsers.chromtrace.agilentch` parser to parse every CH file present in
 the archive. The IT files in the archive are currently ignored.
 
@@ -67,7 +67,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         zf.extractall(tempdir)
         chroms = []
         meta = {}
-        common = None
         for ffn in os.listdir(tempdir):
             if ffn.endswith("CH"):
                 _chrom, _meta = processch(ffn, encoding, timezone)

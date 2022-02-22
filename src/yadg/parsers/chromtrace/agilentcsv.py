@@ -26,7 +26,6 @@ of this file format.
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
-import yadg.dgutils
 from yadg.dgutils.dateutils import str_to_uts
 
 
@@ -34,7 +33,7 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
     assert len(headers) == len(
         columns
-    ), f"chromtab: The number of headers and columns do not match."
+    ), "chromtab: The number of headers and columns do not match."
     assert "Date Acquired" in headers, "chromtab: Cannot infer date."
     res["uts"] = str_to_uts(
         columns[headers.index("Date Acquired")].strip(),

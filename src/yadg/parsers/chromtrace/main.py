@@ -1,8 +1,5 @@
 import json
-import numpy as np
 import logging
-import uncertainties as uc
-import uncertainties.unumpy as unp
 
 from yadg.parsers.chromtrace import (
     ezchromasc,

@@ -93,8 +93,6 @@ Structure of Parsed Data
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
 
-import math
-import os
 import re
 from typing import Any
 

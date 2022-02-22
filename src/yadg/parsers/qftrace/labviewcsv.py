@@ -12,11 +12,8 @@ is hard-coded to this value.
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 
-import os
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-
-import yadg.dgutils
 
 
 def process(

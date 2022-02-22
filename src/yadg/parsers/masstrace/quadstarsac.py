@@ -81,7 +81,6 @@ Structure of Parsed Timesteps
 
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
-from datetime import datetime
 from typing import Any, Union
 
 import numpy as np

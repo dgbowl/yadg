@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import argparse
-import os
 import logging
 from importlib import metadata
 

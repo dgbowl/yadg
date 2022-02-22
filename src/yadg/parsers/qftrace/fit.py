@@ -5,11 +5,11 @@ Quality factor fitting routines.
 
 List of supported quality factor fitting methods:
 
- - Naive fitting using half-width-half-maximum around the minimum of 
+ - Naive fitting using half-width-half-maximum around the minimum of
    :math:`|\\Gamma(f)|` in :func:`yadg.parsers.qftrace.fit.naive`
- - Lorentzian fit to the trace of :math:`|\\Gamma(f)|` trimmed using a 
+ - Lorentzian fit to the trace of :math:`|\\Gamma(f)|` trimmed using a
    gradient threshold criterium in :func:`yadg.parsers.qftrace.fit.lorentz`
- - Kajfez's circle fitting routine to :math:`\\Gamma(f)`, using a peak-height 
+ - Kajfez's circle fitting routine to :math:`\\Gamma(f)`, using a peak-height
    cutoff pruning method in :func:`yadg.parsers.qftrace.fit.kajfez`
 
 Kajfez's method is the preferred one and hence set as default, with a ``cutoff``
@@ -170,7 +170,7 @@ def kajfez(
     n = fvals.size
     gam1 = gvals
     agam1 = absgvals
-    dia = agam1.min()
+    # dia = agam1.min()
     idia = np.argmax(agam1)
     f0 = fre[idia]
     ena = np.ones(n)
@@ -199,11 +199,11 @@ def kajfez(
         g = D @ q1
         eps = g[0] * e1 + g[1] * e2 + g[2] * e3 - F
         S1sq = eps.conj().T @ (p * eps)
-        Fsq = F.conj().T @ (p * F)
+        # Fsq = F.conj().T @ (p * F)
         sumden = C[0, 0] * D[0, 0] + C[1, 1] * D[1, 1] + C[2, 2] * D[2, 2]
         for m in range(3):
             sig[m] = np.sqrt(abs(D[m, m] * S1sq / sumden))
-        diam1 = 2 * abs(g[1] * g[2] - g[0]) / abs(g[2].conj() - g[2])
+        # diam1 = 2 * abs(g[1] * g[2] - g[0]) / abs(g[2].conj() - g[2])
         gamc1 = (g[2].conj() * g[1] - g[0]) / (g[2].conj() - g[2])
         gamd1 = g[0] / g[2]
         gam1L2 = 2 * gamc1 - gamd1
@@ -211,9 +211,9 @@ def kajfez(
         f0 = f0 * (1 + 0.5 * delt.real)
     f011 = f0
     dia1 = 2 * abs(g[1] * g[2] - g[0]) / abs(g[2].conj() - g[2])
-    flin = np.linspace(fre[0], fre[-1], 201)
-    ft = 2 * (flin / f011 - 1)
-    gam1com = (g[0] * ft.T + g[1]) / (g[2] * ft.T + 1)
+    # flin = np.linspace(fre[0], fre[-1], 201)
+    # ft = 2 * (flin / f011 - 1)
+    # gam1com = (g[0] * ft.T + g[1]) / (g[2] * ft.T + 1)
     gam1d = g[0] / g[2]
     gam1c = (g[2].conj() * g[1] - g[0]) / (g[2].conj() - g[2])
     QL1 = g[2].imag
@@ -224,10 +224,10 @@ def kajfez(
     angtot = ang1 + ang2
     cob = np.cos(angtot)
     rr2 = (1 - abs(gam1d) ** 2) * 0.5 / (1 - abs(gam1d) * cob)
-    dr2 = 2 * rr2
+    # dr2 = 2 * rr2
     rr1 = dia1 * 0.5
-    coupls = (1 / rr2 - 1) / (1 / rr1 - 1 / rr2)
-    rs = 2 / dr2 - 1
+    # coupls = (1 / rr2 - 1) / (1 / rr1 - 1 / rr2)
+    # rs = 2 / dr2 - 1
     kapa1 = rr1 / (rr2 - rr1)
     Q01 = QL1 * (1 + kapa1)
 
@@ -238,10 +238,10 @@ def kajfez(
         + sig[1] ** 2
         + abs(g[0] / (g[2] ** 2)) ** 2 * sig[2] ** 2
     )
-    equi = abs(gam1 - gamc1)
-    avequi = equi.mean()
-    sdequi = equi.std()
-    sddia1st = sdequi * 2
+    # equi = abs(gam1 - gamc1)
+    # avequi = equi.mean()
+    # sdequi = equi.std()
+    # sddia1st = sdequi * 2
     sddia1 = sddia1an
     sdkapa1 = sddia1 / (2 - dia1) ** 2
     sdQ01 = np.sqrt((1 + kapa1) ** 2 * sdQL1 ** 2 + QL1 ** 2 * sdkapa1 ** 2)

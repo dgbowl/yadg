@@ -1,4 +1,3 @@
-import pytest
 import os
 import json
 from tests.utils import standard_datagram_test, compare_result_dicts

@@ -3,6 +3,7 @@ import os
 import json
 import yadg.core
 
+
 def datagram_from_input(input, parser, datadir):
     schema = {
         "metadata": {

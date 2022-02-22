@@ -7,7 +7,8 @@ from tests.utils import (
     compare_result_dicts,
 )
 
-import yadg.dgutils, yadg.core
+import yadg.dgutils
+import yadg.core
 
 
 def test_update_schema_310(datadir):

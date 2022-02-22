@@ -6,7 +6,8 @@ from tests.utils import (
     datadir,
 )
 
-import yadg.dgutils, yadg.core
+import yadg.dgutils
+import yadg.core
 
 
 @pytest.mark.parametrize(

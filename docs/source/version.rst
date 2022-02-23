@@ -1,6 +1,8 @@
 **yadg** version history
 ------------------------
 
+.. include:: version.4_1.rst
+
 .. include:: version.4_0.rst
 
 .. include:: version.3_1.rst

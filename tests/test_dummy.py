@@ -7,6 +7,7 @@ import yadg.core
 from tests.utils import datadir
 from tests.schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
 from tests.schemas import fail_1, fail_2, fail_3, fail_4, fail_5
+from tests.schemas import exclude_1
 
 
 @pytest.mark.parametrize(
@@ -17,6 +18,7 @@ from tests.schemas import fail_1, fail_2, fail_3, fail_4, fail_5
         (dummy_3, 1, 2),
         (dummy_4, 1, 2),
         (dummy_5, 1, 1),
+        (exclude_1, 1, 2)
     ],
 )
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):

@@ -40,6 +40,8 @@ def ole_to_uts(ole_timestamp: float, timezone: str = "UTC") -> float:
     ----------
     ole_timestamp
         A timestamp in Microsoft OLE format.
+    timezone
+        String desribing the timezone.
 
     Returns
     -------

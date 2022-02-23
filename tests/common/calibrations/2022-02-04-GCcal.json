@@ -2,7 +2,7 @@
     "TCD1": {
         "id": 0,
         "peakdetect": {
-            "window": 3,
+            "window": 5,
             "polyorder": 3,
             "prominence": 10,
             "threshold": 10
@@ -18,7 +18,7 @@
     "TCD2": {
         "id": 1,
         "peakdetect": {
-            "window": 3,
+            "window": 5,
             "polyorder": 3,
             "prominence": 10,
             "threshold": 10

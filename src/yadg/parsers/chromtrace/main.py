@@ -212,8 +212,7 @@ def process(
         result = {}
         # process derived data
         if chromspec:
-            peaks, xout = integration.integrate_trace(chrom["traces"], chromspec)
-            result["derived"] = {"peaks": peaks, "xout": xout}
+            result["derived"] = integration.integrate_trace(chrom["traces"], chromspec)
         else:
             for k, v in chrom["traces"].items():
                 v.pop("data")

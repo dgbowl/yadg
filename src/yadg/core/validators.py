@@ -172,7 +172,7 @@ def validate_schema(
         - Exactly **one** entry out of ``"files"`` or ``"folders"``. This entry must be a
           :class:`(list)` even if only one element is provided.
         - Any combination of ``"prefix"``, ``"suffix"``, ``"contains"``, and ``"exclude"``
-          entries. They must be of type :class:`(str)`. These entries specify the matching 
+          entries. They must be of type :class:`(str)`. These entries specify the matching
           of files within folders accordingly.
 
     - The only other allowed entries are:

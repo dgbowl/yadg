@@ -50,8 +50,27 @@ timestep, in the ``"raw"`` entry using the following format:
             {n: [!!float, ...], s: [!!float, ...], u: "s"} 
           y:                       # y-axis units are determined from raw file
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
-            
-        
+
+If the raw data file contains information such as peak areas, concentrations, or mol
+fractions for detected species those are also included in the ``"raw"`` entry:
+
+.. code-block:: yaml
+
+  raw:
+    height:                     # height of the peak maxima
+      "{{ species_name }}": 
+          {n: !!float, s: !!float, u: !!str}
+    area:                       # integrated area of the peak
+      "{{ species_name }}": 
+          {n: !!float, s: !!float, u: !!str}
+    concentration:              # concentration
+      "{{ species_name }}": 
+          {n: !!float, s: !!float, u: !!str}
+    xout:                       # normalised concentration
+      "{{ species_name }}": 
+          {n: !!float, s: !!float, u: " "}
+
+
 The ``"metadata"`` collected from the raw file varies greatly by the raw file format. 
 See :ref:`here<parsers_chromtrace_formats>` for details. In general, the following
 metadata entries are stored in the ``"params"`` element of each `step`:
@@ -86,6 +105,15 @@ calibration information are provided. The resulting data is stored in the
               {n: !!float, s: !!float, u: !!str} 
             c:                  # calibrated "concentration" or other quantity
               {n: !!float, s: !!float, u: !!str} 
+      height:                   # baseline-corrected height of peak maximum
+        "{{ species_name }}":
+            {n: !!float, s: !!float, u: !!str}
+      area:                     # integrated area of the sample peak
+        "{{ species_name }}":
+            {n: !!float, s: !!float, u: !!str}
+      concentration:            # concentration of species derived from area
+        "{{ species_name }}":
+            {n: !!float, s: !!float, u: !!str}
       xout:                     # normalised mol fractions of species
         "{{ species_name }}":
             {n: !!float, s: !!float, u: !!str}
@@ -102,7 +130,8 @@ calibration information are provided. The resulting data is stored in the
     to be supplied.
 
 .. note::
-    The mol fractions in ``"xout"`` always sum up to unity. If there is more than
+    The mol fractions in ``"xout"`` always sum up to unity, whether the value is 
+    in the ``"raw"`` data or in ``"derived"`` data. If there is more than
     one outlet stream, these mol fractions have to be weighted by the flow rate 
     in a post-processing routine.
 

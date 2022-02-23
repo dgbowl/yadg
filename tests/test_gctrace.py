@@ -163,7 +163,7 @@ def special_datagram_test(datagram, testspec):
                 "suffix": "zip",
                 "parameters": {
                     "tracetype": "fusion.zip",
-                    "calfile": "gc_fusion.json",
+                    "calfile": "calibrations/2022-02-04-GCcal.json",
                 },
             },
             {
@@ -172,7 +172,7 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 12,
                 "method": "AS_Cal_20220204",
                 "point": 4,
-                "xout": {"H2": {"n": 0.63176015, "s": 0.0011429, "u": " "}},
+                "xout": {"H2": {"n": 0.6220711, "s": 0.0131071, "u": " "}},
             },
         ),
     ],

@@ -82,6 +82,10 @@ def _infer_todo_files(importdict: dict) -> list:
                     fn.startswith(importdict.get("prefix", ""))
                     and fn.endswith(importdict.get("suffix", ""))
                     and importdict.get("contains", "") in fn
+                    and not (
+                        importdict.get("exclude", False)
+                        and importdict.get("exclude", "") in fn
+                    )
                 ):
                     todofiles.append(os.path.join(folder, fn))
     if "files" in importdict:

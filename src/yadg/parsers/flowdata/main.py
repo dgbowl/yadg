@@ -66,18 +66,18 @@ def process(
 
     metadata = {}
 
-    if filetype == "drycal":
+    if filetype.startswith("drycal"):
         fulldate = False
 
         if "flow" not in calib:
             logging.info("flowdata: adding default 'DryCal' -> 'flow' conversion")
             calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
-        if fn.endswith("rtf"):
+        if filetype.endswith(".rtf") or fn.endswith("rtf"):
             ts, meta = drycal.rtf(fn, encoding, timezone, calib)
-        elif fn.endswith("csv"):
+        elif filetype.endswith(".csv") or fn.endswith("csv"):
             ts, meta = drycal.sep(fn, ",", encoding, timezone, calib)
-        elif fn.endswith("txt"):
+        elif filetype.endswith(".txt") or fn.endswith("txt"):
             ts, meta = drycal.sep(fn, "\t", encoding, timezone, calib)
 
     metadata.update(meta)

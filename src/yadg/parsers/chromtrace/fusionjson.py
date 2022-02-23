@@ -72,6 +72,9 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
     chrom = {"fn": str(fn), "traces": {}}
     chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
     detid = 0
+    # prepare analysis dictionary:
+    an = {"height": {}, "area": {}, "concentration": {}, "xout": {}}
+    has_an = False
 
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
@@ -101,7 +104,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
         }
         trace["data"] = [xs, ys]
         if "analysis" in detdict:
-            trace["peaks"] = {}
+            has_an = True
             for peak in detdict["analysis"]["peaks"]:
                 if "label" not in peak:
                     continue
@@ -111,10 +114,20 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
                     )
                 else:
                     nbp = 0
-                h = {"n": float(peak.get("height", 0.0)), "s": 0.5, "u": " "}
-                A = {"n": float(peak.get("area", 0.0)), "s": 0.5 * nbp, "u": " "}
-                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "mol/l"}
-                trace["peaks"][peak["label"]] = {"h": h, "A": A, "c": c}
+                h = {"n": float(peak.get("height", 0.0)), "s": 0.0, "u": " "}
+                A = {"n": float(peak.get("area", 0.0)), "s": 0.0, "u": " "}
+                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": " "}
+                x = {
+                    "n": float(peak.get("normalizedConcentration", 0.0)) / 100.0,
+                    "s": 0.0,
+                    "u": " ",
+                }
+                an["height"][peak["label"]] = h
+                an["area"][peak["label"]] = A
+                an["concentration"][peak["label"]] = c
+                an["xout"][peak["label"]] = x
         chrom["traces"][detname] = trace
 
+    if has_an:
+        chrom.update(an)
     return [chrom], metadata

@@ -1,6 +1,6 @@
 from yadg.parsers.electrochem import eclabmpr, eclabmpt
 
-version = "4.0.0"
+version = "4.1.0"
 
 
 def process(

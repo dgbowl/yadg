@@ -8,5 +8,6 @@ List of supported file formats:
  - Agilent OpenLab binary signal (ch) :mod:`yadg.parsers.chromtrace.agilentch` 
  - Agilent OpenLab data archive (dx) :mod:`yadg.parsers.chromtrace.agilentdx` 
  - Fusion JSON format (json) :mod:`yadg.parsers.chromtrace.fusionjson` 
+ - Fusion zip archive (zip) :mod:`yadg.parsers.chromtrace.fusionjson`
 """
 from .main import process, version

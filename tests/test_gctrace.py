@@ -156,6 +156,25 @@ def special_datagram_test(datagram, testspec):
                 },
             },
         ),
+        (
+            {  # ts6 - fusion zip parse & integration from file
+                "folders": ["."],
+                "prefix": "",
+                "suffix": "zip",
+                "parameters": {
+                    "tracetype": "fusion.zip",
+                    "calfile": "calibrations/2022-02-04-GCcal.json",
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 12,
+                "method": "AS_Cal_20220204",
+                "point": 4,
+                "xout": {"CH4": {"n": 0.0578874, "s": 0.0015256, "u": " "}},
+            },
+        ),
     ],
 )
 def test_datagram_from_gctrace(input, ts, datadir):

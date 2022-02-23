@@ -487,6 +487,9 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
             if k == "I_range":
                 v += 1
             pardict[k] = param_from_key(k, v, to_str=True)
+            # Handle NaNs and +/-Inf in params here
+            if np.isnan(v) or np.isinf(v):
+                pardict[k] = str(v)
         params.append(pardict)
     return settings, params
 
@@ -729,7 +732,7 @@ def process(
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params, "log": log}
-    start_time = ole_to_uts(log["ole_timestamp"])
+    start_time = ole_to_uts(log["ole_timestamp"], timezone=timezone)
     timesteps = []
     # If the technique is an impedance spectroscopy, split it into
     # traces at different cycle numbers and put each trace into its own timestep

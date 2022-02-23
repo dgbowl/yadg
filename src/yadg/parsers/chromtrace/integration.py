@@ -232,10 +232,10 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
 
     Returns
     -------
-    (peaks, xout): tuple[dict, dict]
-        A tuple containing a dictionary with the peak picking information (name,
-        maximum, limits, height, area) as well as a dictionary containing the
-        normalised molar fractions of the assigned and detected species.
+    derived: dict[dict]
+        A dictionary containing the derived data, including the peak heights,
+        areas, concentrations, mol fractions, and a dictionary with the peak 
+        picking information (name, maximum, limits, height, area).
     """
 
     peaks = {}
@@ -279,14 +279,27 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
             if k not in comp:
                 comp.append(k)
     xout = {}
+    area = {}
+    conc = {}
+    height = {}
     for s in comp:
         for d, ds in chromspec.items():
             if s in peaks[d] and "c" in peaks[d][s]:
                 v = peaks[d][s]["c"].pop("uf")
                 if ds.get("prefer", False) or s not in xout:
                     xout[s] = v
+                    area[s] = peaks[d][s]["A"]
+                    height[s] = peaks[d][s]["h"]
+                    conc[s] = peaks[d][s]["c"]
     norm = sum([xout[k] for k in xout.keys()])
     for s in xout:
         xnorm = xout[s] / norm
         xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": " "}
-    return peaks, xout
+    derived = {
+        "xout": xout,
+        "area": area,
+        "height": height,
+        "concentration": conc,
+        "peaks": peaks,
+    }
+    return derived

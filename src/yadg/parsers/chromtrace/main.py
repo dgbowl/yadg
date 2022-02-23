@@ -10,10 +10,11 @@ from yadg.parsers.chromtrace import (
     agilentch,
     agilentdx,
     fusionjson,
+    fusionzip,
 )
 from yadg.parsers.chromtrace import integration
 
-version = "4.0.0"
+version = "4.1.0"
 
 
 def parse_detector_spec(
@@ -44,6 +45,7 @@ def parse_detector_spec(
               l:        !!float   # peak picking left limit [s]
               r:        !!float   # peak picking right limit [s]
               calib:    {}        # calibration specification
+              unit:     !!str     # optional unit for the concentration, by default %
 
     .. note::
         The syntax of the calibration specification is detailed in
@@ -160,6 +162,7 @@ def process(
         -  ``"agilent.ch"`` (Agilent OpenLab binary signal file),
         -  ``"agilent.dx"`` (Agilent OpenLab binary data archive),
         -  ``"fusion.json"`` (Fusion json file),
+        -  ``"fusion.zip"`` (Fusion zip file),
 
         The default is ``"ezchrom.asc"``.
 
@@ -192,6 +195,8 @@ def process(
         _data, _meta = agilentch.process(fn, encoding, timezone)
     elif tracetype == "fusion.json":
         _data, _meta = fusionjson.process(fn, encoding, timezone)
+    elif tracetype == "fusion.zip":
+        _data, _meta = fusionzip.process(fn, encoding, timezone)
 
     if calfile is None and (species is None or detectors is None):
         logging.warning(
@@ -207,8 +212,7 @@ def process(
         result = {}
         # process derived data
         if chromspec:
-            peaks, xout = integration.integrate_trace(chrom["traces"], chromspec)
-            result["derived"] = {"peaks": peaks, "xout": xout}
+            result["derived"] = integration.integrate_trace(chrom["traces"], chromspec)
         else:
             for k, v in chrom["traces"].items():
                 v.pop("data")

@@ -85,6 +85,7 @@ schema_step = {
                 "prefix": {"type": str},
                 "suffix": {"type": str},
                 "contains": {"type": str},
+                "exclude": {"type": str},
                 "encoding": {"type": str},
             },
         },

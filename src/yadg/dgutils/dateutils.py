@@ -26,7 +26,7 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_uts(ole_timestamp: float) -> float:
+def ole_to_uts(ole_timestamp: float, timezone: str = "UTC") -> float:
     """
     Converts a Microsoft OLE timestamp into a POSIX timestamp.
 
@@ -47,9 +47,12 @@ def ole_to_uts(ole_timestamp: float) -> float:
         The corresponding Unix timestamp.
 
     """
-    ole_base = datetime.datetime(
-        year=1899, month=12, day=30, tzinfo=datetime.timezone.utc
-    )
+    if timezone == "localtime":
+        tz = tzlocal.get_localzone()
+    else:
+        tz = zoneinfo.ZoneInfo(timezone)
+
+    ole_base = datetime.datetime(year=1899, month=12, day=30, tzinfo=tz)
     ole_delta = datetime.timedelta(days=ole_timestamp)
     time = ole_base + ole_delta
     return time.timestamp()

@@ -143,8 +143,13 @@ def sep(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep=sep)
+
+    if "AM" in data[0][-1].upper() or "PM" in data[0][-1].upper():
+        fmt = "%I:%M:%S %p"
+    else:
+        fmt = "%H:%M:%S"
     datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
-        spec={"time": {"index": 4, "format": "%H:%M:%S"}}, timezone=timezone
+        spec={"time": {"index": 4, "format": fmt}}, timezone=timezone
     )
 
     # Correct each ts by provided date

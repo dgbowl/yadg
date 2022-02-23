@@ -106,10 +106,10 @@ GEIS). The timestep takes the following format:
 
 .. note::
 
-    The parsed data can contain infinities (i. e. ``float("inf")`` /
-    ``float("-inf")``). While datagrams containing NaN and Inf can be
-    exported and read back using python's json module, they are not
-    strictly valid jsons.
+    The parsed data may contain infinities (i.e. ``float("inf")`` /
+    ``float("-inf")``) or NaNs (i.e. ``float("nan")``). While datagrams 
+    containing NaN and Inf can be exported and read back using python's json 
+    module, they are not strictly valid jsons.
 
 .. admonition:: TODO
 

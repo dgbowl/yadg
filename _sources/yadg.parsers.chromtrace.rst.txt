@@ -49,6 +49,14 @@ yadg.parsers.chromtrace.fusionjson module
    :undoc-members:
    :show-inheritance:
 
+yadg.parsers.chromtrace.fusionzip module
+----------------------------------------
+
+.. automodule:: yadg.parsers.chromtrace.fusionzip
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 yadg.parsers.chromtrace.integration module
 ------------------------------------------
 

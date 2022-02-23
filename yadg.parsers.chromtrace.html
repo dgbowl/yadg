@@ -107,6 +107,7 @@
 <li><p>Agilent OpenLab binary signal (ch) <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch" title="yadg.parsers.chromtrace.agilentch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.agilentch</span></code></a></p></li>
 <li><p>Agilent OpenLab data archive (dx) <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentdx" title="yadg.parsers.chromtrace.agilentdx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.agilentdx</span></code></a></p></li>
 <li><p>Fusion JSON format (json) <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjson" title="yadg.parsers.chromtrace.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.fusionjson</span></code></a></p></li>
+<li><p>Fusion zip archive (zip) <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjson" title="yadg.parsers.chromtrace.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.fusionjson</span></code></a></p></li>
 </ul>
 </div></blockquote>
 <section id="submodules">
@@ -365,6 +366,49 @@ detector names, and information about assigned peaks.</p>
 
 </section>
 </section>
+<section id="module-yadg.parsers.chromtrace.fusionzip">
+<span id="yadg-parsers-chromtrace-fusionzip-module"></span><h2>yadg.parsers.chromtrace.fusionzip module<a class="headerlink" href="#module-yadg.parsers.chromtrace.fusionzip" title="Permalink to this headline"></a></h2>
+<p>File parser for Fusion zip archive format (zip).</p>
+<p>This is a wrapper parser which unzips the provided zip file, and then uses
+the <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjson" title="yadg.parsers.chromtrace.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.fusionjson</span></code></a> parser to parse every data
+file present in the archive.</p>
+<section id="id5">
+<h3>Exposed metadata:<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="kt">!!int</span><span class="w"></span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.chromtrace.fusionzip.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.fusionzip.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.fusionzip.process" title="Permalink to this definition"></a></dt>
+<dd><p>Fusion zip file format.</p>
+<p>The Fusion GC’s can export their json formats as a zip archive of a folder
+of jsons. This parser allows for parsing of this zip archive directly,
+without the user having to unzip &amp; move the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used as the file is binary.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(chroms, metadata)</strong> – Standard timesteps &amp; metadata tuple.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
 <section id="module-yadg.parsers.chromtrace.integration">
 <span id="yadg-parsers-chromtrace-integration-module"></span><h2>yadg.parsers.chromtrace.integration module<a class="headerlink" href="#module-yadg.parsers.chromtrace.integration" title="Permalink to this headline"></a></h2>
 <p id="parsers-chromtrace-integration">This module contains the <a class="reference internal" href="#yadg.parsers.chromtrace.integration.integrate_trace" title="yadg.parsers.chromtrace.integration.integrate_trace"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.integration.integrate_trace()</span></code></a>
@@ -423,12 +467,12 @@ right limits and calibration information as values.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>(peaks, xout)</strong> – A tuple containing a dictionary with the peak picking information (name,
-maximum, limits, height, area) as well as a dictionary containing the
-normalised molar fractions of the assigned and detected species.</p>
+<dd class="field-even"><p><strong>derived</strong> – A dictionary containing the derived data, including the peak heights,
+areas, concentrations, mol fractions, and a dictionary with the peak
+picking information (name, maximum, limits, height, area).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[dict, dict]</p>
+<dd class="field-odd"><p>dict[dict]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -457,6 +501,7 @@ normalised molar fractions of the assigned and detected species.</p>
 <span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking left limit [s]</span><span class="w"></span>
 <span class="w">      </span><span class="nt">r</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking right limit [s]</span><span class="w"></span>
 <span class="w">      </span><span class="nt">calib</span><span class="p">:</span><span class="w">    </span><span class="p p-Indicator">{}</span><span class="w">        </span><span class="c1"># calibration specification</span><span class="w"></span>
+<span class="w">      </span><span class="nt">unit</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">     </span><span class="c1"># optional unit for the concentration, by default %</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -529,6 +574,7 @@ the peak areas, retention times, and concentrations of the detected species.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;agilent.ch&quot;</span></code> (Agilent OpenLab binary signal file),</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;agilent.dx&quot;</span></code> (Agilent OpenLab binary data archive),</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;fusion.json&quot;</span></code> (Fusion json file),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;fusion.zip&quot;</span></code> (Fusion zip file),</p></li>
 </ul>
 <p>The default is <code class="docutils literal notranslate"><span class="pre">&quot;ezchrom.asc&quot;</span></code>.</p>
 </p></li>

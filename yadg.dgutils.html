@@ -281,7 +281,7 @@ timestamp is full or partial.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.ole_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
 <p>The OLE automation date format is a floating point value, counting
 days since midnight 30 December 1899. Hours and minutes are
@@ -289,7 +289,10 @@ represented as fractional days.</p>
 <p><a class="reference external" href="https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653">https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>time</strong> – The corresponding Unix timestamp.</p>

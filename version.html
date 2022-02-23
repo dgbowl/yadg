@@ -48,6 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-1-0"><strong>yadg</strong> version 4.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-0-1"><strong>yadg</strong> version 4.0.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-3-1-0"><strong>yadg</strong> version 3.1.0</a></li>
 </ul>
@@ -86,6 +87,38 @@
              
   <section id="yadg-version-history">
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Permalink to this headline"></a></h1>
+<section id="yadg-version-4-1-0">
+<h2><strong>yadg</strong> version 4.1.0<a class="headerlink" href="#yadg-version-4-1-0" title="Permalink to this headline"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.0.1"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.0.1/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.0.0 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> format modified:</p>
+<ul>
+<li><p>if peak integration data is present in the raw data file, this is now included
+in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> key directly. The included quantities are <code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>,
+<code class="docutils literal notranslate"><span class="pre">concentration</span></code>, and <code class="docutils literal notranslate"><span class="pre">xout</span></code> for every detected species.</p></li>
+<li><p>if peak integration is to be carried out by <strong>yadg</strong>, the resulting data is now
+available in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> key directly. The included quantities are
+<code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>, <code class="docutils literal notranslate"><span class="pre">concentration</span></code>, in addition to <code class="docutils literal notranslate"><span class="pre">xout</span></code> which was
+already part of the spec in v4.0.0.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">electrochemistry</span></code> format fixes:</p>
+<ul>
+<li><p>the PEIS/GEIS data is split into timesteps, not cycles. This change has been
+introduced in v4.0.1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> in the metadata of some input formats should now be handled
+properly, without producing a non-compliant json file.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> supports <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> format</p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="yadg-version-4-0-1">
 <h2><strong>yadg</strong> version 4.0.1<a class="headerlink" href="#yadg-version-4-0-1" title="Permalink to this headline"></a></h2>
 <a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.0.1"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" /></a>

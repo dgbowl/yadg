@@ -212,10 +212,10 @@ GEIS). The timestep takes the following format:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The parsed data can contain infinities (i. e. <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> /
-<code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>). While datagrams containing NaN and Inf can be
-exported and read back using python’s json module, they are not
-strictly valid jsons.</p>
+<p>The parsed data may contain infinities (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> /
+<code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>) or NaNs (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;nan&quot;)</span></code>). While datagrams
+containing NaN and Inf can be exported and read back using python’s json
+module, they are not strictly valid jsons.</p>
 </div>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>

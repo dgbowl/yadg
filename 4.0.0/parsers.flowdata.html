@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flowdata: Flow data parser &mdash; yadg 4.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="masstrace: Mass spectrometry parser" href="parsers.masstrace.html" />
+    <link rel="prev" title="meascsv: Legacy MCPT log file parser" href="parsers.meascsv.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.chromtrace.html"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.xpstrace.html"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="parsers.html"><strong>yadg</strong> parsers</a> &raquo;</li>
+      <li><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/parsers.flowdata.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flowdata-flow-data-parser">
+<h1><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser<a class="headerlink" href="#flowdata-flow-data-parser" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">flowdata</span></code> parser handles the reading and processing of flow meter data. Files
+parsed through this parser are guaranteed to contain the <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code> entry in the derived
+keys.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The use of <code class="docutils literal notranslate"><span class="pre">flowdata</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword in the
+<cite>schema</cite>. The allowed list of <code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> is a subset of that available for
+<a class="reference internal" href="parsers.basiccsv.html#basiccsv-rst"><span class="std std-ref">basiccsv</span></a>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;filetype&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The file type of the raw data file.
+See <a class="reference internal" href="yadg.parsers.flowdata.html#parsers-flowdata-formats"><span class="std std-ref">here</span></a> for details.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: A calibration file in a json format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;convert&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: Calibration/conversion specification in a dictionary,
+overrides that provided in <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>. The processing of the combined calibration
+is handled in <a class="reference internal" href="yadg.parsers.html#yadg.parsers.basiccsv.process_row" title="yadg.parsers.basiccsv.process_row"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv.process_row()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;date&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: Optional date specification for the <code class="docutils literal notranslate"><span class="pre">DryCal</span></code> parser.</p></li>
+</ul>
+</section>
+<section id="provides">
+<span id="parsers-flowdata-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The parser is used to extract all tabular data in the input file, storing them in the
+<code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> entry, using the column headers as keys.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> section currently stores all metadata available from the flowdata files.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">flowdata</span></code> parser automatically assigns a best-guess value to <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code> in the
+<code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> keys. This behaviour can be modified by supplying either the <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>
+and/or <code class="docutils literal notranslate"><span class="pre">&quot;convert&quot;</span></code>.</p>
+<p>This parser processes calibration information analogously to
+<a class="reference internal" href="parsers.basiccsv.html#basiccsv-rst"><span class="std std-ref">basiccsv</span></a>, storing the results in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entry.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parsers.meascsv.html" class="btn btn-neutral float-left" title="meascsv: Legacy MCPT log file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers.masstrace.html" class="btn btn-neutral float-right" title="masstrace: Mass spectrometry parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg usage &mdash; yadg 4.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg features" href="features.html" />
+    <link rel="prev" title="yadg: yet another datagram" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#schema-processing"><cite>Schema</cite> processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schema-from-presets"><cite>Schema</cite> from presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-updater">Version updater</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><strong>yadg</strong> usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yadg-usage">
+<h1><strong>yadg</strong> usage<a class="headerlink" href="#yadg-usage" title="Permalink to this headline"></a></h1>
+<section id="schema-processing">
+<h2><cite>Schema</cite> processing<a class="headerlink" href="#schema-processing" title="Permalink to this headline"></a></h2>
+<p>The basic usage of <strong>yadg</strong> is to process a <cite>schema</cite> to a <cite>datagram</cite>. For this,
+the program should be invoked as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg process infile <span class="o">[</span>outfile<span class="o">]</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <cite>schema</cite> json file, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code>
+is the filename to which the created <cite>datagram</cite> should be saved (defaults to
+<code class="docutils literal notranslate"><span class="pre">datagram.json</span></code>).</p>
+</section>
+<section id="schema-from-presets">
+<h2><cite>Schema</cite> from presets<a class="headerlink" href="#schema-from-presets" title="Permalink to this headline"></a></h2>
+<p>This alternative usage of <strong>yadg</strong> is especially useful to process data organised in
+consistent folder structures between experimental runs. The user should prepare a
+<cite>preset</cite> file, which then gets patched to a <cite>schema</cite> file using a provided folder path:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset infile folder <span class="o">[</span>outfile<span class="o">]</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> is the <cite>preset</cite>, <code class="docutils literal notranslate"><span class="pre">folder</span></code> is the folder path for which the <cite>preset</cite>
+should be modified, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created
+<cite>schema</cite> should be saved.</p>
+<p>Alternatively, if the <cite>schema</cite> is to be processed immediately, the <code class="docutils literal notranslate"><span class="pre">--process</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">-p</span></code>) switch can be used according to the following usage pattern:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p infile folder <span class="o">[</span>outfile<span class="o">]</span>
+</pre></div>
+</div>
+<p>This syntax will process the created <cite>schema</cite> immediately, and the <cite>datagram</cite> will be
+saved to <code class="docutils literal notranslate"><span class="pre">outfile</span></code> instead.</p>
+</section>
+<section id="version-updater">
+<h2>Version updater<a class="headerlink" href="#version-updater" title="Permalink to this headline"></a></h2>
+<p>If you’d like to update a <cite>schema</cite> (or a <cite>datagram</cite>) from previous versions of yadg to
+the current one, use the following syntax:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg update schema infile <span class="o">[</span>outfile<span class="o">]</span>
+</pre></div>
+</div>
+<p>This will update the <cite>schema</cite> specified in <code class="docutils literal notranslate"><span class="pre">infile</span></code>, also parsing old calibration
+files, if findable. Updating of <cite>datagrams</cite> is possible, but not recommended, unless
+the raw data files are not available. We strongly recommend either updating a <cite>schema</cite>
+and re-processing the raw data, or updating a <cite>datagram</cite> and extracting the new <cite>schema</cite>
+from within.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="yadg: yet another datagram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="features.html" class="btn btn-neutral float-right" title="yadg features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

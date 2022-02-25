@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg.parsers.flowdata package &mdash; yadg 4.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg.parsers.masstrace package" href="yadg.parsers.masstrace.html" />
+    <link rel="prev" title="yadg.parsers.electrochem package" href="yadg.parsers.electrochem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
+          <li><a href="yadg.html">yadg package</a> &raquo;</li>
+          <li><a href="yadg.parsers.html">yadg.parsers package</a> &raquo;</li>
+      <li>yadg.parsers.flowdata package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/yadg.parsers.flowdata.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.parsers.flowdata">
+<span id="yadg-parsers-flowdata-package"></span><h1>yadg.parsers.flowdata package<a class="headerlink" href="#module-yadg.parsers.flowdata" title="Permalink to this headline"></a></h1>
+<p id="parsers-flowdata-formats">List of supported file formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>DryCal log file text output (txt) <a class="reference internal" href="#module-yadg.parsers.flowdata.drycal" title="yadg.parsers.flowdata.drycal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.flowdata.drycal</span></code></a></p></li>
+<li><p>DryCal log file tabulated output (csv) <a class="reference internal" href="#module-yadg.parsers.flowdata.drycal" title="yadg.parsers.flowdata.drycal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.flowdata.drycal</span></code></a></p></li>
+<li><p>DryCal log file document file (rtf) <a class="reference internal" href="#module-yadg.parsers.flowdata.drycal" title="yadg.parsers.flowdata.drycal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.flowdata.drycal</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-yadg.parsers.flowdata.drycal">
+<span id="yadg-parsers-flowdata-drycal-module"></span><h2>yadg.parsers.flowdata.drycal module<a class="headerlink" href="#module-yadg.parsers.flowdata.drycal" title="Permalink to this headline"></a></h2>
+<p>File parser for DryCal log files, including converted documents (rtf) and tabulated
+exports (txt, csv).</p>
+<p>The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
+the date has to be supplied either using the <code class="docutils literal notranslate"><span class="pre">date</span></code> argument in parameters, or is
+parsed from the prefix of the filename.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.drycal_table">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">drycal_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.drycal_table" title="Permalink to this definition"></a></dt>
+<dd><p>DryCal table-processing function.</p>
+<p>Given a table with headers and units in the first line, and data in the following
+lines, this function returns the headers, units, and data extracted from the table.
+The returned values are always of <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> type, any post-processing is done
+in the calling routine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list containing the lines to be parsed</p></li>
+<li><p><strong>sep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The separator string used to split each line into individual items</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(headers, units, data)</strong> – A tuple of a list of the stripped headers, dictionary of header-unit key-value
+pairs, and a list of lists containing the rows of the table.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.rtf">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">rtf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.rtf" title="Permalink to this definition"></a></dt>
+<dd><p>RTF version of the drycal parser.</p>
+<p>This is intended to parse legacy drycal DOC files, which have been converted to RTF
+using other means.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding to use for parsing <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p><strong>calib</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – A calibration spec.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(timesteps, metadata, None)</strong> – A standard data - metadata - common data output tuple.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.sep">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">sep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.sep" title="Permalink to this definition"></a></dt>
+<dd><p>Generic drycal parser, using <code class="docutils literal notranslate"><span class="pre">sep</span></code> as separator string.</p>
+<p>This is intended to parse other export formats from DryCal, such as txt and csv files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to parse.</p></li>
+<li><p><strong>date</strong> – A unix timestamp float corresponding to the day (or other offset) to be added to
+each line in the measurement table.</p></li>
+<li><p><strong>sep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The separator character used to split lines in <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding to use for parsing <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p><strong>calib</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – A calibration spec.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(timesteps, metadata, None)</strong> – A standard data - metadata - common data output tuple.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-yadg.parsers.flowdata.main">
+<span id="yadg-parsers-flowdata-main-module"></span><h2>yadg.parsers.flowdata.main module<a class="headerlink" href="#module-yadg.parsers.flowdata.main" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.flowdata.main.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drycal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.main.process" title="Permalink to this definition"></a></dt>
+<dd><p>Flow meter data processor</p>
+<p>This parser processes flow meter data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – File to process</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>filetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Whether a rtf, csv, or txt file is to be expected. When <cite>None</cite>, the suffix of
+the file is used to determine the file type.</p></li>
+<li><p><strong>convert</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – Specification for column conversion. The <cite>key</cite> of each entry will form a new
+datapoint in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> of a timestep. The elements within
+each entry must either be one of the <code class="docutils literal notranslate"><span class="pre">&quot;header&quot;</span></code> fields, or <code class="docutils literal notranslate"><span class="pre">&quot;unit&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>
+specification. See <a class="reference internal" href="yadg.parsers.html#processing-convert"><span class="std std-ref">processing convert</span></a> for more info.</p></li>
+<li><p><strong>calfile</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – <code class="docutils literal notranslate"><span class="pre">convert</span></code>-like functionality specified in a json file.</p></li>
+<li><p><strong>date</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – An optional date argument, required for parsing DryCal files. Otherwise the date
+is parsed from <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and full date tag. Whether full date
+is returned depends on the file parser.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.parsers.electrochem.html" class="btn btn-neutral float-left" title="yadg.parsers.electrochem package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.masstrace.html" class="btn btn-neutral float-right" title="yadg.parsers.masstrace package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -123,11 +123,9 @@ def run_with_arguments():
     args, extras = parser.parse_known_args()
     # parse extras for verbose tags
     args, extras = verbose.parse_known_args(extras, args)
-
+    # assign last extra to outfile
     if len(extras) == 1:
         args.outfile = extras[0]
-
-    print(args)
 
     set_loglevel(args.verbose - args.quiet)
     if "func" in args:

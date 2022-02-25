@@ -122,6 +122,7 @@ def preset(args: argparse.Namespace) -> None:
     if args.process:
         logging.info(f"yadg preset: Processing created schema.")
         datagram = yadg.core.process_schema(schema)
+        print(args.outfile)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
         logging.info(f"yadg preset: Saving datagram to '{args.outfile}'.")
         with open(args.outfile, "w") as ofile:

@@ -234,7 +234,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
     -------
     derived: dict[dict]
         A dictionary containing the derived data, including the peak heights,
-        areas, concentrations, mol fractions, and a dictionary with the peak 
+        areas, concentrations, mol fractions, and a dictionary with the peak
         picking information (name, maximum, limits, height, area).
     """
 

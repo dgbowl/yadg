@@ -18,7 +18,7 @@ from tests.schemas import exclude_1
         (dummy_3, 1, 2),
         (dummy_4, 1, 2),
         (dummy_5, 1, 1),
-        (exclude_1, 1, 2)
+        (exclude_1, 1, 2),
     ],
 )
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):

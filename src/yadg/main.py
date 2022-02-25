@@ -93,6 +93,13 @@ def run_with_arguments():
 
     preset = subparsers.add_parser("preset")
     preset.add_argument(
+        "--process",
+        "-p",
+        action="store_true",
+        help="Immediately process the schema created from the preset.",
+        default=False,
+    )
+    preset.add_argument(
         "preset",
         help="Specify a schema template from a 'preset'.",
     )
@@ -110,19 +117,17 @@ def run_with_arguments():
         ),
         default=None,
     )
-    preset.add_argument(
-        "--process",
-        "-p",
-        action="store_true",
-        help="Immediately process the schema created from the preset.",
-        default=False,
-    )
     preset.set_defaults(func=yadg.subcommands.preset)
 
     # parse subparser args
     args, extras = parser.parse_known_args()
     # parse extras for verbose tags
     args, extras = verbose.parse_known_args(extras, args)
+
+    if len(extras) == 1:
+        args.outfile = extras[0]
+
+    print(args)
 
     set_loglevel(args.verbose - args.quiet)
     if "func" in args:

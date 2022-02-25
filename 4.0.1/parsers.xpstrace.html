@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xpstrace: X-ray photoelectron spectroscopy parser &mdash; yadg 4.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="electrochem: Electrochemistry data parser" href="parsers.electrochem.html" />
+    <link rel="prev" title="masstrace: Mass spectrometry parser" href="parsers.masstrace.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.chromtrace.html"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="parsers.html"><strong>yadg</strong> parsers</a> &raquo;</li>
+      <li><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/parsers.xpstrace.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="xpstrace-x-ray-photoelectron-spectroscopy-parser">
+<h1><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser<a class="headerlink" href="#xpstrace-x-ray-photoelectron-spectroscopy-parser" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> parser handles the reading and processing of x-ray
+photoelectron spectroscopy files. The basic function of the parser is
+to:</p>
+<ol class="arabic simple">
+<li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
+<li><p>collect <cite>metadata</cite> such as measurement settings, software, operator
+etc.</p></li>
+</ol>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The use of <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> can be specified using the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> keyword
+in the <cite>schema</cite>. Further information can be specified in the
+<code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>: The file type of the raw data file.
+See <a class="reference internal" href="yadg.parsers.xpstrace.html#parsers-xpstrace-formats"><span class="std std-ref">here</span></a> for details.</p></li>
+</ul>
+</section>
+<section id="provides">
+<span id="parsers-xpstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The primary functionality of <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> is to load x-ray photoelectron
+spectroscopy data, including determining uncertainties of the signal
+(y-axis), as well as explicitly populating the points in the energy axis
+(<code class="docutils literal notranslate"><span class="pre">E</span></code>). This raw data is stored, for each timestep, in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code>
+entry using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">raw</span><span class="p">:</span>
+    <span class="nt">traces</span><span class="p">:</span>
+      <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span>   <span class="c1"># number of the trace</span>
+        <span class="nt">name</span><span class="p">:</span>          <span class="kt">!!str</span>  <span class="c1">#</span>
+        <span class="nt">atomic_number</span><span class="p">:</span> <span class="kt">!!str</span>  <span class="c1">#</span>
+        <span class="nt">dwell_time</span><span class="p">:</span>    <span class="kt">!!str</span>  <span class="c1">#</span>
+        <span class="nt">e_pass</span><span class="p">:</span>        <span class="kt">!!str</span>  <span class="c1">#</span>
+        <span class="nt">description</span><span class="p">:</span>   <span class="kt">!!str</span>  <span class="c1">#</span>
+        <span class="nt">E</span><span class="p">:</span>                    <span class="c1"># energies are always in eV</span>
+          <span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="kt">!!float,</span> <span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="kt">!!float,</span> <span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span> <span class="s">&quot;eV&quot;</span><span class="p p-Indicator">}</span>
+        <span class="nt">y</span><span class="p">:</span>                   <span class="c1"># y-axis units from file</span>
+          <span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="kt">!!float,</span> <span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="kt">!!float,</span> <span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span> <span class="kt">!!str</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">&quot;E&quot;</span></code> are taken as the step-width of
+the linearly spaced energy values.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are currently set to a constant
+value of <code class="docutils literal notranslate"><span class="pre">12.5</span></code> counts per second as all the signals in the files seen so
+far only seem to take on values in those steps.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/13">https://github.com/dgbowl/yadg/issues/13</a></p>
+<p>Determining the uncertainty of the counts per second signal in xps
+traces from the phispe parser should be done in a better way.</p>
+</div>
+<p>In general, the <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> collected from the raw file will depend
+on the <code class="docutils literal notranslate"><span class="pre">&quot;tracetype&quot;</span></code>. The following metadata entries are definitely
+stored in the <code class="docutils literal notranslate"><span class="pre">&quot;params&quot;</span></code> element of each <cite>step</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+  <span class="nt">software_id</span><span class="p">:</span>  <span class="kt">!!str</span>  <span class="c1"># software name</span>
+  <span class="nt">version</span><span class="p">:</span>      <span class="kt">!!str</span>  <span class="c1"># software version</span>
+  <span class="nt">username</span><span class="p">:</span>     <span class="kt">!!str</span>  <span class="c1"># operator</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parsers.masstrace.html" class="btn btn-neutral float-left" title="masstrace: Mass spectrometry parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers.electrochem.html" class="btn btn-neutral float-right" title="electrochem: Electrochemistry data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

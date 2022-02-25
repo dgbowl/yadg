@@ -15,14 +15,15 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "src")))
 
+with open(os.path.join("..", "..", "VERSION"), "r") as infile:
+    version = infile.read().strip()
 
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
 copyright = "2021 - 2022, yadg authors"
 author = "Peter Kraus"
-version = "4.0"
-release = "4.0.0"
+release = version
 
 
 # -- General configuration ---------------------------------------------------

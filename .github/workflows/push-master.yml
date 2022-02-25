@@ -28,7 +28,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-master
-      - run: pip install yadg*whl
+      - run: pip install --pre --find-links=. yadg[testing]
+        shell: bash
       - uses: ./.github/workflows/test-job
   pages:
     needs: [build]
@@ -42,7 +43,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-master
-      - run: pip install yadg*whl
+      - run: pip install --pre --find-links=. yadg[docs]
         shell: bash
       - uses: ./.github/workflows/docs-job
       - uses: actions/upload-artifact@v2

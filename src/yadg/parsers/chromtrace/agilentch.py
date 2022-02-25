@@ -4,7 +4,7 @@ File parser for Agilent OpenLab binary signal trace files (CH and IT).
 Currently supports version "179" of the files. Version information is defined in
 the `magic_values` (parameters & metadata) and `data_dtypes` (data) dictionaries.
 
-Adapted from `ImportAgilent.m <https://bit.ly/3HSelIR>`_ and 
+Adapted from `ImportAgilent.m <https://bit.ly/3HSelIR>`_ and
 `aston <https://github.com/bovee/Aston>`_.
 
 Exposed metadata:

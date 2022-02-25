@@ -1,10 +1,8 @@
 import pytest
 import os
 import json
-import pytest
 import yadg.core
 
-from tests.utils import datadir
 from tests.schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
 from tests.schemas import fail_1, fail_2, fail_3, fail_4, fail_5
 from tests.schemas import exclude_1

@@ -12,7 +12,6 @@ each minimum. Two routines for trace-pruning are provided:
 """
 
 import numpy as np
-from uncertainties import unumpy
 
 
 def cutoff(p0: int, absgamma: np.ndarray, cutoff: float) -> tuple[int, int]:

@@ -380,7 +380,7 @@ def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[fl
         with open(path, "r") as infile:
             data = json.load(infile)
     elif type == "agilent.log":
-        logging.critical(f"timestamps_from_file: type 'agilent.log' not yet supported.")
+        logging.critical("timestamps_from_file: type 'agilent.log' not yet supported.")
         data = None
 
     if data is None:

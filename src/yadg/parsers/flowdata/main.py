@@ -2,7 +2,6 @@ import logging
 import json
 
 from yadg.parsers.flowdata import drycal
-import yadg.dgutils
 
 version = "4.0.0"
 

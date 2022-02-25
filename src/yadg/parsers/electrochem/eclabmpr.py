@@ -157,7 +157,6 @@ Structure of Parsed Data
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
 import logging
-import math
 from collections import defaultdict
 from typing import Any
 

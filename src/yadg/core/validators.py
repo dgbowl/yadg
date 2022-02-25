@@ -1,4 +1,3 @@
-import numpy as np
 import logging
 import os
 from typing import Union
@@ -205,7 +204,7 @@ def validate_schema(
     assert validator(schema, yadg.core.spec_schema.schema)
     # log default timezone
     if "timezone" not in schema["metadata"]:
-        logging.warning(f"schema_validator: Timezone not specified. Using 'localtime'.")
+        logging.warning("schema_validator: Timezone not specified. Using 'localtime'.")
     for step in schema["steps"]:
         si = schema["steps"].index(step)
         # import files or folders must exist

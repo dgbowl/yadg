@@ -3,7 +3,7 @@ File parser for DryCal log files, including converted documents (rtf) and tabula
 exports (txt, csv).
 
 The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
-the date has to be supplied either using the ``date`` argument in parameters, or is 
+the date has to be supplied either using the ``date`` argument in parameters, or is
 parsed from the prefix of the filename.
 
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>

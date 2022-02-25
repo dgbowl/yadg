@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pytest
 
-from tests.utils import datadir, datagram_from_input, standard_datagram_test
+from tests.utils import datagram_from_input, standard_datagram_test
 
 # Tests for the quadstar parser:
 # TODO: Implement more thorough tests.

@@ -128,7 +128,6 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     }
     for step in schema["steps"]:
         metadata = dict()
-        common = dict()
         timesteps = list()
         logging.info(f'process_schema: processing step {schema["steps"].index(step)}:')
         handler, parserversion = _infer_datagram_handler(step["parser"])

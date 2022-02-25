@@ -27,7 +27,6 @@ Exposed metadata:
 import json
 import numpy as np
 
-import yadg.dgutils
 from yadg.dgutils.dateutils import str_to_uts
 
 

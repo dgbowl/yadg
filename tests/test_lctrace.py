@@ -1,10 +1,8 @@
 import pytest
 import os
-from tests.schemas import gctrace_chromtab
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
-    datadir,
     compare_result_dicts,
 )
 import numpy as np

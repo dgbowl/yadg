@@ -2,7 +2,7 @@ import pytest
 import os
 import json
 import numpy as np
-from tests.utils import datagram_from_input, standard_datagram_test, datadir
+from tests.utils import datagram_from_input, standard_datagram_test
 
 
 def special_datagram_test(datagram, testspec):

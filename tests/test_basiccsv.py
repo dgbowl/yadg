@@ -3,7 +3,6 @@ from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     pars_datagram_test,
-    datadir,
 )
 
 
@@ -214,12 +213,6 @@ from tests.utils import (
                 "point": 0,
                 "pars": {
                     "flow": {
-                        "sigma": 1.0,
-                        "value": 15.0,
-                        "unit": "ml/min",
-                        "raw": True,
-                    },
-                    "flow": {
                         "sigma": 1e-8,
                         "value": 2.5e-7,
                         "unit": "m^3/s",
@@ -248,7 +241,6 @@ from tests.utils import (
                 "nrows": 6,
                 "point": 0,
                 "pars": {
-                    "T": {"sigma": 0.1, "value": 23.1, "unit": "°C", "raw": True},
                     "T": {"sigma": 0.5, "value": 296.25, "unit": "K", "raw": False},
                 },
             },

@@ -67,7 +67,7 @@ def update(args: argparse.Namespace) -> None:
         name, ext = os.path.splitext(args.infile)
         args.outfile = f"{name}.new.json"
 
-    logging.info(f"yadg update: Updating old object.")
+    logging.info("yadg update: Updating old object.")
     outobj = yadg.dgutils.update_object(args.type, inobj)
 
     logging.info(f"yadg update: Writing new object into '{args.outfile}'.")
@@ -110,17 +110,17 @@ def preset(args: argparse.Namespace) -> None:
     with open(args.preset) as infile:
         preset = json.load(infile)
 
-    logging.info(f"yadg preset: Validating loaded preset.")
+    logging.info("yadg preset: Validating loaded preset.")
     assert yadg.core.validate_schema(preset, strictfiles=False, strictfolders=False)
 
     logging.info(f"yadg preset: Creating a schema from preset for '{args.folder}'.")
     schema = yadg.dgutils.schema_from_preset(preset, args.folder)
 
-    logging.info(f"yadg preset: Validating created schema.")
+    logging.info("yadg preset: Validating created schema.")
     assert yadg.core.validate_schema(schema)
 
     if args.process:
-        logging.info(f"yadg preset: Processing created schema.")
+        logging.info("yadg preset: Processing created schema.")
         datagram = yadg.core.process_schema(schema)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
         logging.info(f"yadg preset: Saving datagram to '{args.outfile}'.")

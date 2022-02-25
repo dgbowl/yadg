@@ -7,9 +7,9 @@ and integrate the supplied traces.
 
 Smoothing
 `````````
-Smoothing can be optionally performed on the Y-values of each trace, using a 
-Savigny-Golay filter. The default smoothing is performed using a cubic fit to a window 
-length of 7; if the polyorder or the window length are not specified, smoothing is 
+Smoothing can be optionally performed on the Y-values of each trace, using a
+Savigny-Golay filter. The default smoothing is performed using a cubic fit to a window
+length of 7; if the polyorder or the window length are not specified, smoothing is
 not used.
 
 Peak-picking and edge-finding
@@ -26,12 +26,12 @@ whichever is closest to the peak maximum.
 Baseline correction
 ```````````````````
 Using the determined peak-edges, the baseline is linearly interpolated in sections of
-Y-data which belong to a peak. The interpolation is performed using the raw (not 
-smoothened) Y-data. 
+Y-data which belong to a peak. The interpolation is performed using the raw (not
+smoothened) Y-data.
 
 If multiple peaks are adjacent to each other without a gap, the interpolation begins
 at the left limit of the leftmost peak and continues uninterrupted to the right limit
-of the rightmost peak. The points which belong to the interpolated areas are assumed 
+of the rightmost peak. The points which belong to the interpolated areas are assumed
 to have an uncertainty of zero.
 
 The corrected baseline is then obtained by subtracting the interpolated baseline from
@@ -68,7 +68,7 @@ def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
     else:
         window = pd.get("window", 3) * 2 + 1
         polyorder = pd.get("polyorder", 3)
-        assert polyorder < window, f"chromtrace: specified window <= polyorder."
+        assert polyorder < window, "chromtrace: specified window <= polyorder."
         if polyorder == 2:
             logging.warning(
                 "chromtrace: smoothing with a polyorder == 2 can be unreliable. "
@@ -116,10 +116,6 @@ def _find_peak_edges(
         for i in range(len(peakdata["hesszero"])):
             if peakdata["hesszero"][i] > pmax:
                 hi = i
-                break
-        for i in range(len(peakdata["gradzero"])):
-            if peakdata["gradzero"][i] > pmax:
-                gi = i
                 break
         # right of peak:
         rmin = False

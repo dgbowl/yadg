@@ -3,7 +3,6 @@ from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     pars_datagram_test,
-    datadir,
 )
 
 

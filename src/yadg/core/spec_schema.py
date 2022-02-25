@@ -1,4 +1,4 @@
-schema_version = "4.0.rc1"
+schema_version = "4.1.0rc2"
 
 calib = {
     "type": dict,

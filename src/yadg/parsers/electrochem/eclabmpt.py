@@ -41,8 +41,6 @@ Structure of Parsed Data
 
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
-import math
-import os
 import re
 import logging
 from collections import defaultdict

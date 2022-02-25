@@ -14,7 +14,7 @@ Implemented techniques:
     WAIT - Wait
     ZIR - IR compensation (PEIS)
 
-The module also implements resolution determination for parameters of techniques, 
+The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
 
 .. admonition:: TODO
@@ -22,7 +22,7 @@ in :func:`get_resolution`.
     https://github.com/dgbowl/yadg/issues/10
 
     Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
-    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
+    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values
     should be device-specific, and the fallback should be eliminated.
 
 """

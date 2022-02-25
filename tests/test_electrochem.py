@@ -6,8 +6,6 @@ import numpy as np
 import pytest
 
 from tests.utils import (
-    compare_result_dicts,
-    datadir,
     datagram_from_input,
     pars_datagram_test,
     standard_datagram_test,

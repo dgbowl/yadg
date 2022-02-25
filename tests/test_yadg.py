@@ -2,15 +2,13 @@ import pytest
 import subprocess
 import os
 
-from tests.utils import datadir
-
 
 def test_yadg_version():
     command = ["yadg", "--version"]
     subprocess.run(command, check=True)
 
 
-def test_yadg_process_without_schema():
+def test_yadg_process_without_schema(datadir):
     command = ["yadg", "process"]
     with pytest.raises(AssertionError, match="error: the following arguments"):
         try:
@@ -19,7 +17,7 @@ def test_yadg_process_without_schema():
             assert False, err.stderr
 
 
-def test_yadg_process_with_bad_schema():
+def test_yadg_process_with_bad_schema(datadir):
     command = ["yadg", "process", "somefile.json"]
     with pytest.raises(AssertionError, match="Supplied schema file"):
         try:

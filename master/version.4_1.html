@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg version 4.1.0 &mdash; yadg 4.1.0rc2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.1.0rc2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><strong>yadg</strong> version 4.1.0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/version.4_1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yadg-version-4-1-0">
+<h1><strong>yadg</strong> version 4.1.0<a class="headerlink" href="#yadg-version-4-1-0" title="Permalink to this headline"></a></h1>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.0.1"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.0.1/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.0.0 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> format modified:</p>
+<ul>
+<li><p>if peak integration data is present in the raw data file, this is now included
+in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> key directly. The included quantities are <code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>,
+<code class="docutils literal notranslate"><span class="pre">concentration</span></code>, and <code class="docutils literal notranslate"><span class="pre">xout</span></code> for every detected species.</p></li>
+<li><p>if peak integration is to be carried out by <strong>yadg</strong>, the resulting data is now
+available in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> key directly. The included quantities are
+<code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>, <code class="docutils literal notranslate"><span class="pre">concentration</span></code>, in addition to <code class="docutils literal notranslate"><span class="pre">xout</span></code> which was
+already part of the spec in v4.0.0.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">electrochemistry</span></code> format fixes:</p>
+<ul>
+<li><p>the PEIS/GEIS data is split into timesteps, not cycles. This change has been
+introduced in v4.0.1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> in the metadata of some input formats should now be handled
+properly, without producing a non-compliant json file.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> supports <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> format</p></li>
+</ul>
+</div></blockquote>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

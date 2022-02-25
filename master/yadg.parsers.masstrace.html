@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg.parsers.masstrace package &mdash; yadg 4.1.0rc2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg.parsers.qftrace package" href="yadg.parsers.qftrace.html" />
+    <link rel="prev" title="yadg.parsers.flowdata package" href="yadg.parsers.flowdata.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.1.0rc2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
+          <li><a href="yadg.html">yadg package</a> &raquo;</li>
+          <li><a href="yadg.parsers.html">yadg.parsers package</a> &raquo;</li>
+      <li>yadg.parsers.masstrace package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/yadg.parsers.masstrace.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.parsers.masstrace">
+<span id="yadg-parsers-masstrace-package"></span><h1>yadg.parsers.masstrace package<a class="headerlink" href="#module-yadg.parsers.masstrace" title="Permalink to this headline"></a></h1>
+<p id="parsers-masstrace-formats">List of supported file formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pfeiffer Quadstar 32-bit scan analog data (sac) <a class="reference internal" href="#module-yadg.parsers.masstrace.quadstarsac" title="yadg.parsers.masstrace.quadstarsac"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.masstrace.quadstarsac</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-yadg.parsers.masstrace.main">
+<span id="yadg-parsers-masstrace-main-module"></span><h2>yadg.parsers.masstrace.main module<a class="headerlink" href="#module-yadg.parsers.masstrace.main" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.masstrace.main.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.masstrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadstar.sac'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.masstrace.main.process" title="Permalink to this definition"></a></dt>
+<dd><p>Unified mass spectrometry data parser.</p>
+<p>This parser processes mass spectrometry scans in signal(mass) format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>tracetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – <p>Determines the output file format. Currently supported formats
+can be found <a class="reference internal" href="#parsers-masstrace-formats"><span class="std std-ref">here</span></a>.</p>
+<p>The default is <code class="docutils literal notranslate"><span class="pre">&quot;quadstar.sac&quot;</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and full date tag.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-yadg.parsers.masstrace.quadstarsac">
+<span id="yadg-parsers-masstrace-quadstarsac-module"></span><h2>yadg.parsers.masstrace.quadstarsac module<a class="headerlink" href="#module-yadg.parsers.masstrace.quadstarsac" title="Permalink to this headline"></a></h2>
+<p>Processing of Quadstar 32-bit scan analog data.</p>
+<p>The [sac2dat.c code from Dr. Moritz Bubek](<a class="reference external" href="https://www.bubek.org/sac2dat.php">https://www.bubek.org/sac2dat.php</a>)
+was a really useful stepping stone for this Python adaptation.</p>
+<p>Pretty much the entire file format has been reverse engineered. There
+are still one or two unknown fields.</p>
+<section id="file-structure-of-sac-files">
+<h3>File Structure of <cite>.sac</cite> Files<a class="headerlink" href="#file-structure-of-sac-files" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mh">0x00</span> <span class="s2">&quot;data_index&quot;</span>
+<span class="mh">0x02</span> <span class="s2">&quot;software_id&quot;</span>
+<span class="mh">0x06</span> <span class="s2">&quot;version_major&quot;</span>
+<span class="mh">0x07</span> <span class="s2">&quot;version_minor&quot;</span>
+<span class="mh">0x08</span> <span class="s2">&quot;second&quot;</span>
+<span class="mh">0x09</span> <span class="s2">&quot;minute&quot;</span>
+<span class="mh">0x0a</span> <span class="s2">&quot;hour&quot;</span>
+<span class="mh">0x0b</span> <span class="s2">&quot;day&quot;</span>
+<span class="mh">0x0c</span> <span class="s2">&quot;month&quot;</span>
+<span class="mh">0x0d</span> <span class="s2">&quot;year&quot;</span>
+<span class="mh">0x0f</span> <span class="s2">&quot;author&quot;</span>
+<span class="mh">0x64</span> <span class="s2">&quot;n_timesteps&quot;</span>
+<span class="mh">0x68</span> <span class="s2">&quot;n_traces&quot;</span>
+<span class="mh">0x6a</span> <span class="s2">&quot;timestep_length&quot;</span>
+<span class="o">...</span>
+<span class="c1"># Not sure what sits from 0x6e to 0xc2.</span>
+<span class="o">...</span>
+<span class="mh">0xc2</span> <span class="s2">&quot;uts_base_s&quot;</span>
+<span class="mh">0xc6</span> <span class="s2">&quot;uts_base_ms&quot;</span>
+<span class="c1"># Trace header. Read these 9 bytes for every trace (n_traces).</span>
+<span class="mh">0xc8</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;type&quot;</span>
+<span class="mh">0xc9</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;info_position&quot;</span>
+<span class="mh">0xcd</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;data_position&quot;</span>
+<span class="o">...</span>
+<span class="c1"># Trace info. Read these 137 bytes for every trace where type != 0x11.</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x00</span> <span class="s2">&quot;data_format&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x02</span> <span class="s2">&quot;y_title&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x0f</span> <span class="s2">&quot;y_unit&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x1d</span> <span class="s2">&quot;x_title&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x2a</span> <span class="s2">&quot;x_unit&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x38</span> <span class="s2">&quot;comment&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x7a</span> <span class="s2">&quot;first_mass&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x7e</span> <span class="s2">&quot;scan_width&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x80</span> <span class="s2">&quot;values_per_mass&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x81</span> <span class="s2">&quot;zoom_start&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x85</span> <span class="s2">&quot;zoom_end&quot;</span>
+<span class="o">...</span>
+<span class="c1"># UTS offset. Read these 6 bytes for every timestep (n_timesteps).</span>
+<span class="mh">0xc2</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="s2">&quot;uts_offset_s&quot;</span>
+<span class="mh">0xc6</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="s2">&quot;uts_offset_ms&quot;</span>
+<span class="c1"># Read everything remaining below for every timestep and every trace</span>
+<span class="c1"># where type != 0x11.</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x00</span> <span class="s2">&quot;n_datapoints&quot;</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x04</span> <span class="s2">&quot;data_range&quot;</span>
+<span class="c1"># Datapoints. Read these 4 bytes (scan_width * values_per_mass)</span>
+<span class="c1"># times.</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x06</span> <span class="s2">&quot;datapoints&quot;</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="structure-of-parsed-timesteps">
+<h3>Structure of Parsed Timesteps<a class="headerlink" href="#structure-of-parsed-timesteps" title="Permalink to this headline"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># y-axis label from file</span><span class="w"></span>
+<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># comment</span><span class="w"></span>
+<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># full scale range of detector</span><span class="w"></span>
+<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.masstrace.quadstarsac.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.masstrace.quadstarsac.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.masstrace.quadstarsac.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a Quadstar 32-bit analog data .sac file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, common)</strong> – Tuple containing the timesteps, metadata, and common data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.parsers.flowdata.html" class="btn btn-neutral float-left" title="yadg.parsers.flowdata package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-right" title="yadg.parsers.qftrace package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

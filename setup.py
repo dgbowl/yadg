@@ -41,6 +41,11 @@ setuptools.setup(
     extras_require={
         "testing": [
             "pytest"
+        ],
+        "docs": [
+            "sphinx",
+            "sphinx-rtd-theme",
+            "sphinx-autodoc-typehints"
         ]
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},

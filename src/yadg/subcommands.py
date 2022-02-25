@@ -22,17 +22,17 @@ def process(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logger.info("yadg process: Reading input json from '%s'.", args.infile)
+    logger.info("Reading input json from '%s'.", args.infile)
     with open(args.infile, "r") as infile:
         schema = json.load(infile)
 
-    logger.debug("yadg process: Validating schema.")
+    logger.debug("Validating schema.")
     assert yadg.core.validate_schema(schema, args.permissive)
 
-    logger.debug("yadg process: Processing schema")
+    logger.debug("Processing schema")
     datagram = yadg.core.process_schema(schema)
 
-    logger.info("yadg process: Saving datagram to '%s'.", args.outfile)
+    logger.info("Saving datagram to '%s'.", args.outfile)
     with open(args.outfile, "w") as ofile:
         json.dump(datagram, ofile, indent=1)
 
@@ -61,7 +61,7 @@ def update(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logger.info("yadg update: Reading input json from '%s'.", args.infile)
+    logger.info("Reading input json from '%s'.", args.infile)
     with open(args.infile) as infile:
         inobj = json.load(infile)
 
@@ -69,10 +69,10 @@ def update(args: argparse.Namespace) -> None:
         name, ext = os.path.splitext(args.infile)
         args.outfile = f"{name}.new.json"
 
-    logger.info("yadg update: Updating old object.")
+    logger.info("Updating old object.")
     outobj = yadg.dgutils.update_object(args.type, inobj)
 
-    logger.info("yadg update: Writing new object into '%s'.", args.outfile)
+    logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
         json.dump(outobj, outfile, indent=1)
 
@@ -98,9 +98,8 @@ def preset(args: argparse.Namespace) -> None:
 
     if not os.path.isabs(args.folder) and not args.process:
         logger.warning(
-            "yadg preset: The provided path '%s' is a relative path. "
-            "The generated schema likely will not work outside current working "
-            "directory.",
+            "The provided path '%s' is a relative path. The generated schema "
+            "likely will not work outside current working directory.",
             args.folder,
         )
 
@@ -109,28 +108,28 @@ def preset(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logging.info(f"yadg preset: Reading input json from '{args.preset}'.")
+    logger.info("Reading input json from '%s'.", args.preset)
     with open(args.preset) as infile:
         preset = json.load(infile)
 
-    logging.info("yadg preset: Validating loaded preset.")
+    logger.info("Validating loaded preset.")
     assert yadg.core.validate_schema(preset, strictfiles=False, strictfolders=False)
 
-    logging.info(f"yadg preset: Creating a schema from preset for '{args.folder}'.")
+    logger.info("Creating a schema from preset for '{args.folder}'.")
     schema = yadg.dgutils.schema_from_preset(preset, args.folder)
 
-    logging.info("yadg preset: Validating created schema.")
+    logger.info("Validating created schema.")
     assert yadg.core.validate_schema(schema)
 
     if args.process:
-        logging.info("yadg preset: Processing created schema.")
+        logger.info("Processing created schema.")
         datagram = yadg.core.process_schema(schema)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
-        logging.info(f"yadg preset: Saving datagram to '{args.outfile}'.")
+        logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(datagram, ofile, indent=1)
     else:
         args.outfile = "schema.json" if args.outfile is None else args.outfile
-        logging.info(f"yadg preset: Saving schema to '{args.outfile}'.")
+        logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(schema, ofile, indent=1)

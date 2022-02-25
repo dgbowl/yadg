@@ -11,6 +11,8 @@ import logging
 from typing import Union
 import pint
 
+logger = logging.getLogger(__name__)
+
 ureg = pint.UnitRegistry(
     preprocessors=[
         lambda s: s.replace("%%", " permille "),
@@ -73,6 +75,4 @@ def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
     elif isinstance(units, str):
         units = _sanitize_helper(units)
     else:
-        logging.error(
-            "sanitize_units: Supplied type of 'units' not understood: '{type(units)}'"
-        )
+        logger.error("Supplied type of 'units' not understood: '%s'", str(type(units)))

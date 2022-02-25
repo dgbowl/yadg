@@ -5,6 +5,8 @@ import json
 import yadg.core
 import yadg.dgutils
 
+logger = logging.getLogger(__name__)
+
 
 def process(args: argparse.Namespace) -> None:
     """
@@ -17,20 +19,20 @@ def process(args: argparse.Namespace) -> None:
     """
     assert os.path.exists(args.infile) and os.path.isfile(args.infile), (
         f"Supplied schema filename '{args.infile}' does not exist "
-        f"or is not a valid file."
+        "or is not a valid file."
     )
 
-    logging.info(f"yadg process: Reading input json from '{args.infile}'.")
+    logger.info("yadg process: Reading input json from '%s'.", args.infile)
     with open(args.infile, "r") as infile:
         schema = json.load(infile)
 
-    logging.debug("yadg process: Validating schema.")
+    logger.debug("yadg process: Validating schema.")
     assert yadg.core.validate_schema(schema, args.permissive)
 
-    logging.debug("yadg process: Processing schema")
+    logger.debug("yadg process: Processing schema")
     datagram = yadg.core.process_schema(schema)
 
-    logging.info(f"yadg process: Saving datagram to '{args.outfile}'.")
+    logger.info("yadg process: Saving datagram to '%s'.", args.outfile)
     with open(args.outfile, "w") as ofile:
         json.dump(datagram, ofile, indent=1)
 
@@ -51,15 +53,15 @@ def update(args: argparse.Namespace) -> None:
     suffix by default).
     """
     assert args.type in ["datagram", "schema"], (
-        f"Specified object type '{args.type}' is not one of " f"['datagram', 'schema']."
+        f"Specified object type '{args.type}' is not one of " "['datagram', 'schema']."
     )
 
     assert os.path.exists(args.infile) and os.path.isfile(args.infile), (
         f"Supplied object filename '{args.infile}' does not exist "
-        f"or is not a valid file."
+        "or is not a valid file."
     )
 
-    logging.info(f"yadg update: Reading input json from '{args.infile}'.")
+    logger.info("yadg update: Reading input json from '%s'.", args.infile)
     with open(args.infile) as infile:
         inobj = json.load(infile)
 
@@ -67,10 +69,10 @@ def update(args: argparse.Namespace) -> None:
         name, ext = os.path.splitext(args.infile)
         args.outfile = f"{name}.new.json"
 
-    logging.info("yadg update: Updating old object.")
+    logger.info("yadg update: Updating old object.")
     outobj = yadg.dgutils.update_object(args.type, inobj)
 
-    logging.info(f"yadg update: Writing new object into '{args.outfile}'.")
+    logger.info("yadg update: Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
         json.dump(outobj, outfile, indent=1)
 
@@ -91,19 +93,20 @@ def preset(args: argparse.Namespace) -> None:
     """
     assert os.path.exists(args.folder) and os.path.isdir(args.folder), (
         f"Supplied folder path '{args.folder}' does not exist "
-        f"or is not a valid folder."
+        "or is not a valid folder."
     )
 
     if not os.path.isabs(args.folder) and not args.process:
-        logging.warning(
-            f"yadg preset: The provided path '{args.folder}' is a relative path. "
+        logger.warning(
+            "yadg preset: The provided path '%s' is a relative path. "
             "The generated schema likely will not work outside current working "
-            "directory. "
+            "directory.",
+            args.folder,
         )
 
     assert os.path.exists(args.preset) and os.path.isfile(args.preset), (
         f"Supplied preset path '{args.preset}' does not exist "
-        f"or is not a valid file."
+        "or is not a valid file."
     )
 
     logging.info(f"yadg preset: Reading input json from '{args.preset}'.")

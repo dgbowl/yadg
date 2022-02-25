@@ -5,11 +5,13 @@ from importlib import metadata
 
 import yadg.subcommands
 
+logger = logging.getLogger(__name__)
+
 
 def set_loglevel(delta: int):
     loglevel = min(max(30 - (10 * delta), 10), 50)
     logging.basicConfig(level=loglevel)
-    logging.debug(f"loglevel set to '{logging._levelToName[loglevel]}'")
+    logger.debug("loglevel set to '%s'", logging._levelToName[loglevel])
 
 
 def run_with_arguments():

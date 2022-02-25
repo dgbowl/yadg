@@ -83,7 +83,7 @@ def test_yadg_update_datagram_310(datadir):
     assert os.path.exists("datagram_3.1.0.new.json")
 
 
-def test_yadg_update_schema_310_with_outfile(datadir):
+def test_yadg_update_datagram_310_with_outfile(datadir):
     os.chdir(datadir)
     command = ["yadg", "update", "datagram", "datagram_3.1.0.json", "output.json"]
     subprocess.run(command, check=True, capture_output=True)
@@ -114,15 +114,22 @@ def test_yadg_preset_with_preset_folder_outfile(datadir):
     assert os.path.exists("data_2.schema.json")
 
 
-def test_yadg_preset_with_preset_folder_p(datadir):
+def test_yadg_preset_with_preset_folder_p1(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "data_2.preset.json", "data_2", "-p"]
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("datagram.json")
 
 
-def test_yadg_preset_with_preset_folder_p(datadir):
+def test_yadg_preset_with_preset_folder_p2(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "data_2.preset.json", "data_2", "data_2.dg.json", "-p"]
+    subprocess.run(command, check=True, capture_output=True)
+    assert os.path.exists("data_2.dg.json")
+
+
+def test_yadg_preset_with_preset_folder_p3(datadir):
+    os.chdir(datadir)
+    command = ["yadg", "preset", "data_2.preset.json", "data_2", "-p", "data_2.dg.json"]
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("data_2.dg.json")

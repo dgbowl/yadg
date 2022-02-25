@@ -172,7 +172,7 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 12,
                 "method": "AS_Cal_20220204",
                 "point": 4,
-                "xout": {"CH4": {"n": 0.0578874, "s": 0.0015256, "u": " "}},
+                "xout": {},
             },
         ),
     ],

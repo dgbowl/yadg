@@ -170,13 +170,13 @@ exclude_1 = {
     "metadata": {"provenance": "manual", "schema_version": "4.1.0"},
     "steps": [
         {
-            "parser": "dummy", 
+            "parser": "dummy",
             "import": {
                 "folders": ["."],
                 "suffix": "json",
                 "contains": "schema",
-                "exclude": "3.1.0"
-            }
+                "exclude": "3.1.0",
+            },
         }
     ],
 }

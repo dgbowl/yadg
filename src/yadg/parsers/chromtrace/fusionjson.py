@@ -26,8 +26,7 @@ Exposed metadata:
 """
 import json
 import numpy as np
-
-from yadg.dgutils.dateutils import str_to_uts
+from ...dgutils.dateutils import str_to_uts
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
@@ -107,12 +106,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             for peak in detdict["analysis"]["peaks"]:
                 if "label" not in peak:
                     continue
-                if "baselinePoints" in peak:
-                    nbp = (
-                        peak["baselinePoints"]["start"] - peak["baselinePoints"]["end"]
-                    )
-                else:
-                    nbp = 0
                 h = {"n": float(peak.get("height", 0.0)), "s": 0.0, "u": " "}
                 A = {"n": float(peak.get("area", 0.0)), "s": 0.0, "u": " "}
                 c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": " "}

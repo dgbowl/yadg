@@ -1,10 +1,10 @@
 import json
 import logging
 from uncertainties import ufloat
+from .basiccsv import process_row
+from .. import dgutils
 
-from yadg.parsers.basiccsv import process_row
-import yadg.dgutils
-
+logger = logging.getLogger(__name__)
 version = "4.0.0"
 
 
@@ -47,7 +47,7 @@ def process(
         returned. The full date is always provided in meascsv-compatible files.
 
     """
-    logging.warning("meascsv: This parser is deprecated. Please switch to 'basiccsv'.")
+    logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
     if calfile is not None:
         with open(calfile, "r") as infile:
@@ -66,9 +66,9 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
-    yadg.dgutils.sanitize_units(units)
+    dgutils.sanitize_units(units)
 
-    datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
         timezone=timezone,
     )

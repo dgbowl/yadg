@@ -2,9 +2,10 @@ import logging
 import json
 import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-import yadg.dgutils
 from typing import Callable
+from .. import dgutils
 
+logger = logging.getLogger(__name__)
 version = "4.0.0"
 
 
@@ -102,13 +103,13 @@ def process_row(
         y = uc.ufloat(0, 0)
         for oldk, v in spec.items():
             if oldk in der:
-                dy = yadg.dgutils.calib_handler(
+                dy = dgutils.calib_handler(
                     der[oldk],
                     v.get("calib", None),
                 )
                 y += dy * v.get("fraction", 1.0)
             elif oldk in raw:
-                dy = yadg.dgutils.calib_handler(
+                dy = dgutils.calib_handler(
                     uc.ufloat(*raw[oldk]),
                     v.get("calib", None),
                 )
@@ -116,8 +117,10 @@ def process_row(
             elif oldk == "unit":
                 pass
             else:
-                logging.warning(
-                    f"process_row: Supplied key '{oldk}' is neither a 'raw' nor a 'derived' key."
+                logger.warning(
+                    "process_row: Supplied key '%s' is neither a 'raw' "
+                    "nor a 'derived' key.",
+                    oldk,
                 )
         if "derived" not in element:
             element["derived"] = dict()
@@ -202,7 +205,7 @@ def process(
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [header.strip() for header in lines[0].split(sep)]
-    datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=timestamp, timezone=timezone
     )
 
@@ -216,13 +219,15 @@ def process(
     else:
         for header in headers:
             if header not in units:
-                logging.warning(f"Using implicit dimensionless unit '-' for {header}.")
+                logger.warning(
+                    "Using implicit dimensionless unit ' ' for '%s'.", header
+                )
                 units[header] = " "
             elif units[header] == "":
                 units[header] = " "
         si = 1
 
-    yadg.dgutils.sanitize_units(units)
+    dgutils.sanitize_units(units)
 
     # Process rows
     data = []

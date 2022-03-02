@@ -23,8 +23,9 @@ Exposed metadata:
 import numpy as np
 import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+from ...dgutils.dateutils import str_to_uts
 
-from yadg.dgutils.dateutils import str_to_uts
+logger = logging.getLogger(__name__)
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
@@ -92,10 +93,8 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             parts = line.split("\t")
             yunits = [each.strip() for each in parts[1:]]
             if "25 V" in yunits:
+                logger.warning("Implicit conversion of y-axis unit from '25 V' to 'V'.")
                 yunits = [i.replace("25 V", "V") for i in yunits]
-                logging.warning(
-                    "ezchromasc: Implicit conversion of y-axis unit from '25 V' to 'V'."
-                )
         if line.startswith("X Axis Multiplier:"):
             parts = line.split("\t")
             xmuls = [float(each.strip()) for each in parts[1:]]

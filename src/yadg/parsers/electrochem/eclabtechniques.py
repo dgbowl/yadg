@@ -27,12 +27,13 @@ in :func:`get_resolution`.
 
 """
 import re
-
 import numpy as np
 from typing import Union
 import bisect
 import math
 import logging
+
+logger = logging.getLogger(__name__)
 
 # Short helper function for constructing params.
 def _prepend_ns(settings: list[str], params: list) -> list[str]:
@@ -1067,7 +1068,7 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
     elif name in ["I", "|I|"]:
         # VMP-3: 0.004% of FSR
         if Irange is None:
-            logging.warning("get_resolution: 'Irange' not specified. Using 'I'.")
+            logger.warning("'I range' not specified. Using 'I'.")
             Irange = 10 ** math.ceil(math.log10(value))
         return Irange * 0.004 / 100
     elif name in ["freq"]:

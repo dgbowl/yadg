@@ -52,6 +52,8 @@ from yadg.parsers.electrochem.eclabtechniques import (
     param_from_key,
 )
 
+logger = logging.getLogger(__name__)
+
 # Maps EC-Lab's "canonical" column names to yadg name and unit.
 column_units = {
     '"Ri"/Ohm': ("'Ri'", "Ω"),
@@ -254,15 +256,13 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
         if "Ns" in datapoint:
             Erange = Eranges[datapoint["Ns"]]
         else:
-            logging.info(
-                "eclab.mpr: 'Ns' is not in data table, "
-                "using the first E range specified in params."
+            logger.info(
+                "'Ns' is not in data table, using the first E range from 'params'."
             )
             Erange = Eranges[0]
         if "I Range" not in datapoint:
-            logging.info(
-                "eclab.mpr: 'I Range' is not in data table, "
-                "using the I range specified in params."
+            logger.info(
+                "'I Range' is not in data table, using the I range from 'params'."
             )
             if "Ns" in datapoint:
                 Irstr = Iranges[datapoint["Ns"]]
@@ -316,7 +316,7 @@ def process(
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
     if nb_header_lines <= 3:
-        logging.warning("eclabmpt: Header contains no settings and hence no timestamp.")
+        logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
         Eranges = [20.0]

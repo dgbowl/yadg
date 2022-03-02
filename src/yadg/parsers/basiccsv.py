@@ -5,6 +5,7 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import yadg.dgutils
 from typing import Callable
 
+logger = logging.getLogger(__name__)
 version = "4.0.0"
 
 
@@ -116,8 +117,10 @@ def process_row(
             elif oldk == "unit":
                 pass
             else:
-                logging.warning(
-                    f"process_row: Supplied key '{oldk}' is neither a 'raw' nor a 'derived' key."
+                logger.warning(
+                    "process_row: Supplied key '%s' is neither a 'raw' "
+                    "nor a 'derived' key.",
+                    oldk,
                 )
         if "derived" not in element:
             element["derived"] = dict()
@@ -216,7 +219,9 @@ def process(
     else:
         for header in headers:
             if header not in units:
-                logging.warning(f"Using implicit dimensionless unit '-' for {header}.")
+                logger.warning(
+                    "Using implicit dimensionless unit ' ' for '%s'.", header
+                )
                 units[header] = " "
             elif units[header] == "":
                 units[header] = " "

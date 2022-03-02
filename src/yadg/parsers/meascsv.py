@@ -5,6 +5,7 @@ from uncertainties import ufloat
 from yadg.parsers.basiccsv import process_row
 import yadg.dgutils
 
+logger = logging.getLogger(__name__)
 version = "4.0.0"
 
 
@@ -47,7 +48,7 @@ def process(
         returned. The full date is always provided in meascsv-compatible files.
 
     """
-    logging.warning("meascsv: This parser is deprecated. Please switch to 'basiccsv'.")
+    logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
     if calfile is not None:
         with open(calfile, "r") as infile:

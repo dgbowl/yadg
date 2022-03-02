@@ -11,6 +11,8 @@ from yadg.parsers.chromtrace import (
 )
 from yadg.parsers.chromtrace import integration
 
+logger = logging.getLogger(__name__)
+
 version = "4.1.0"
 
 
@@ -196,8 +198,8 @@ def process(
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
     if calfile is None and (species is None or detectors is None):
-        logging.warning(
-            "chromtrace: Neither 'calfile' nor both 'species' and 'detectors' were "
+        logger.warning(
+            "Neither 'calfile' nor both of 'species' and 'detectors' were "
             "provided. Will proceed without peak integration."
         )
         chromspec = False

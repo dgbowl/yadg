@@ -48,7 +48,7 @@ import numpy as np
 from scipy.signal import savgol_filter, find_peaks
 import logging
 import uncertainties as uc
-from uncertainties import unumpy as unp
+import uncertainties.unumpy as unp
 from ... import dgutils
 
 logger = logging.getLogger(__name__)

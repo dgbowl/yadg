@@ -33,14 +33,6 @@ yadg.dgutils.dateutils module
    :undoc-members:
    :show-inheritance:
 
-yadg.dgutils.dgutils module
----------------------------
-
-.. automodule:: yadg.dgutils.dgutils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 yadg.dgutils.helpers module
 ---------------------------
 

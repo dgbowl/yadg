@@ -2,6 +2,7 @@
 [![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
 ![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)
 ![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)
+[![LGTM analysis](https://badgen.net/lgtm/grade/g/dgbowl/yadg/python/?logo=lgtm)](https://lgtm.com/projects/g/dgbowl/yadg/context:python)
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 

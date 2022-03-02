@@ -130,7 +130,7 @@ def _find_peak_edges(
                 break
         rlim = min(rthr if rthr else yvals.size, rmin if rmin else yvals.size)
         if rlim == yvals.size:
-            logging.warning("gctrace: possible mismatch of peak end.")
+            logging.warning("chromtrace: possible mismatch of peak end.")
             rlim -= 1
         # left of peak
         lmin = False
@@ -145,7 +145,7 @@ def _find_peak_edges(
                 break
         llim = max(lthr if lthr else 0, lmin if lmin else 0)
         if llim == 0:
-            logging.warning("gctrace: possible mismatch of peak start.")
+            logging.warning("chromtrace: possible mismatch of peak start.")
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 

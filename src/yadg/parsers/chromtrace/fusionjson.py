@@ -30,7 +30,7 @@ import numpy as np
 from yadg.dgutils.dateutils import str_to_uts
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     Fusion json format.
 

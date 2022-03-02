@@ -27,7 +27,7 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from yadg.dgutils.dateutils import str_to_uts
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     EZ-Chrome ASCII export file parser.
 

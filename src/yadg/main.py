@@ -2,14 +2,15 @@
 import argparse
 import logging
 from importlib import metadata
+from . import subcommands
 
-import yadg.subcommands
+logger = logging.getLogger(__name__)
 
 
 def set_loglevel(delta: int):
     loglevel = min(max(30 - (10 * delta), 10), 50)
     logging.basicConfig(level=loglevel)
-    logging.debug(f"loglevel set to '{logging._levelToName[loglevel]}'")
+    logger.debug("loglevel set to '%s'", logging._levelToName[loglevel])
 
 
 def run_with_arguments():
@@ -70,7 +71,7 @@ def run_with_arguments():
         help="Ignore file opening errors while processing schemafile",
         default=False,
     )
-    process.set_defaults(func=yadg.subcommands.process)
+    process.set_defaults(func=subcommands.process)
 
     update = subparsers.add_parser("update")
     update.add_argument(
@@ -88,7 +89,7 @@ def run_with_arguments():
         help="Output file to save the updated object to.",
         default=None,
     )
-    update.set_defaults(func=yadg.subcommands.update)
+    update.set_defaults(func=subcommands.update)
 
     preset = subparsers.add_parser("preset")
     preset.add_argument(
@@ -116,7 +117,7 @@ def run_with_arguments():
         ),
         default=None,
     )
-    preset.set_defaults(func=yadg.subcommands.preset)
+    preset.set_defaults(func=subcommands.preset)
 
     # parse subparser args
     args, extras = parser.parse_known_args()

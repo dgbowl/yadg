@@ -2,8 +2,10 @@ import logging
 import os
 from typing import Union
 
-import yadg.core
-from yadg.dgutils import ureg
+from .. import core
+from ..dgutils import ureg
+
+logger = logging.getLogger(__name__)
 
 
 def _list_validator(l: list) -> bool:
@@ -15,7 +17,7 @@ def _list_validator(l: list) -> bool:
 
 def _float_list(l: list) -> bool:
     if isinstance(l[0], float) and isinstance(l[1], float) and isinstance(l[2], str):
-        logging.warning("Old [float, float, str] syntax detected.")
+        logger.warning("Old [float, float, str] syntax detected.")
         return True
     else:
         return _general_list(l)
@@ -48,7 +50,7 @@ def _dict_validator(d: dict) -> bool:
             elif k == "u" and isinstance(v, str):
                 assert _unit_validator(v)
             else:
-                logging.error(f"validator: we shouldn't be here: {k}, {v}")
+                logger.error("We shouldn't be here: %s", f"{k=}, {v=}")
                 return False
         elif isinstance(v, float):
             assert k == "uts", f"Only 'uts' can be a float entry, not '{k}'."
@@ -95,8 +97,7 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
         If the ``item`` matches the ``spec``, returns `True`. Otherwise, an `AssertionError` is raised.
     """
     assert isinstance(item, spec["type"]), (
-        f"validator: item '{item}' does not match prescribed type "
-        f"in spec '{spec['type']}'."
+        f"Item '{item}' does not match prescribed type " f"in spec '{spec['type']}'."
     )
     if len({"all", "one", "any", "each"}.intersection(spec)) > 0 and spec["type"] in [
         list,
@@ -104,13 +105,12 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     ]:
         for k, v in spec.get("all", {}).items():
             assert k in item, (
-                f"validator: required entry '{k}' was not specified "
-                f"in item '{item}'."
+                f"Required entry '{k}' was not specified " f"in item '{item}'."
             )
         if "one" in spec:
             initem = set(spec["one"]).intersection(item)
             assert len(initem) == 1, (
-                f"validator: Exactly one of entries in {spec['one']} has to be "
+                f"Exactly one of entries in {spec['one']} has to be "
                 f"provided in item {item}, but {len(initem)} were provided: {initem}."
             )
         for k in item:
@@ -119,7 +119,7 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
                 if k in spec.get(d, []):
                     s = d
             assert s or spec.get("allow", False) or "each" in spec, (
-                f"validator: Key '{k}' in item {item} " f"is not understood."
+                f"Key '{k}' in item {item} " f"is not understood."
             )
             if s:
                 assert validator(item[k], spec[s][k])
@@ -132,15 +132,11 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
         if "all" in spec:
             assert (
                 len(spec["all"]) == 1 and item in spec["all"]
-            ), f"validator: Item '{item}' is not in {spec['all']}."
+            ), f"Item '{item}' is not in {spec['all']}."
         if "one" in spec:
-            assert (
-                item in spec["one"]
-            ), f"validator: Item '{item}' is not in {spec['one']}."
+            assert item in spec["one"], f"Item '{item}' is not in {spec['one']}."
         if "any" in spec:
-            assert (
-                item in spec["any"]
-            ), f"validator: Item '{item}' is not in {spec['any']}."
+            assert item in spec["any"], f"Item '{item}' is not in {spec['any']}."
     return True
 
 
@@ -201,33 +197,29 @@ def validate_schema(
         an `AssertionError` is raised.
     """
     # schema has to meet the spec
-    assert validator(schema, yadg.core.spec_schema.schema)
+    assert validator(schema, core.spec_schema.schema)
     # log default timezone
     if "timezone" not in schema["metadata"]:
-        logging.warning("schema_validator: Timezone not specified. Using 'localtime'.")
+        logger.warning("Timezone not specified. Using 'localtime'.")
     for step in schema["steps"]:
         si = schema["steps"].index(step)
         # import files or folders must exist
         if "files" in step["import"] and strictfiles:
             for fn in step["import"]["files"]:
-                assert os.path.exists(fn) and os.path.isfile(
-                    fn
-                ), f"schema_validator: File path {fn} provided in step {si} is not a valid file."
+                assert os.path.exists(fn) and os.path.isfile(fn), (
+                    f"File path {fn} provided in step {si} " "is not a valid file."
+                )
         if "folders" in step["import"] and strictfolders:
             for fn in step["import"]["folders"]:
-                assert os.path.exists(fn) and os.path.isdir(
-                    fn
-                ), f"schema_validator: Folder path {fn} provided in step {si} is not a valid folder."
+                assert os.path.exists(fn) and os.path.isdir(fn), (
+                    f"Folder path {fn} provided in step {si} " "is not a valid folder."
+                )
         # log default tag
         if "tag" not in step:
-            logging.info(
-                f"schema_validator: Tag not present in step {si}. Using '{si:02d}'"
-            )
+            logger.info("Tag not present in step '{%d}'. Using '%s'", si, f"{si:02d}")
         # log default encoding
         if "encoding" not in step["import"]:
-            logging.info(
-                f"schema_validator: Encoding not present in step {si}. Using 'utf-8'"
-            )
+            logger.info("Encoding not present in step %d. Using 'utf-8'", si)
     return True
 
 
@@ -283,7 +275,7 @@ def validate_datagram(datagram: dict) -> True:
         If the `datagram` passes all assertions, returns `True`. Else, an `AssertionError` is raised.
     """
     # datagram has to meet the spec
-    assert validator(datagram, yadg.core.spec_datagram.datagram)
+    assert validator(datagram, core.spec_datagram.datagram)
     # validate each step in the datagram
     for step in datagram["steps"]:
         assert all(

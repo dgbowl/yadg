@@ -1,8 +1,6 @@
-import logging
 from scipy.signal import find_peaks
 import numpy as np
-
-from yadg.parsers.qftrace import fit, prune, labviewcsv
+from . import fit, prune, labviewcsv
 
 version = "4.0.0"
 
@@ -25,7 +23,7 @@ def _fit(
     fs = {"n": [], "s": [], "u": "Hz"}
     mag = -10 * np.log10(absgvals)
     peaks, _ = find_peaks(mag, height=height, distance=distance)
-    assert len(peaks) > 0, logging.error("qftrace: No peaks were found.")
+    assert len(peaks) > 0, "Error, no peaks were found."
     npeaks = len(peaks)
     if method == "lorentz":
         _prune = prune.gradient

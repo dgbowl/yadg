@@ -159,11 +159,11 @@ Structure of Parsed Data
 import logging
 from collections import defaultdict
 from typing import Any
-
 import numpy as np
-from yadg.dgutils.dateutils import ole_to_uts
-from yadg.parsers.electrochem.eclabtechniques import technique_params_dtypes
-from yadg.parsers.electrochem.eclabtechniques import param_from_key, get_resolution
+from ...dgutils.dateutils import ole_to_uts
+from .eclabtechniques import technique_params_dtypes, param_from_key, get_resolution
+
+logger = logging.getLogger(__name__)
 
 # Module header starting after each MODULE keyword.
 module_header_dtype = np.dtype(
@@ -462,7 +462,7 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     # other factor that is unclear to me.
     params_offset = None
     for offset in (0x0572, 0x1845, 0x1846):
-        logging.debug(f"Trying to find the technique parameters at {offset:x}.")
+        logger.debug("Trying to find the technique parameters at 0x%x.", offset)
         n_params = _read_value(data, offset + 0x0002, "<u2")
         if isinstance(params_dtype, list):
             # The params_dtype has multiple possible lengths if a list.
@@ -471,13 +471,13 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
                     params_dtype, params_offset = dtype, offset
         elif len(params_dtype) == n_params:
             params_offset = offset
-            logging.debug(f"Determined {n_params} parameters at 0x{offset:x}.")
+            logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
             break
     if params_offset is None:
         raise NotImplementedError("Unknown parameter offset or technique dtype.")
-    logging.debug(f"Reading number of parameter sequences at 0x{params_offset:x}.")
+    logger.debug("Reading number of parameter sequences at 0x%x.", params_offset)
     ns = _read_value(data, params_offset, "<u2")
-    logging.debug(f"Reading {ns} parameter sequences of {n_params} parameters.")
+    logger.debug("Reading %d parameter sequences of %d parameters.", ns, n_params)
     rawparams = _read_values(data, params_offset + 0x0004, params_dtype, ns)
     params = []
     for pardict in rawparams:
@@ -586,15 +586,13 @@ def _process_data(
         if "Ns" in datapoint:
             Erange = Eranges[datapoint["Ns"]]
         else:
-            logging.info(
-                "eclab.mpr: 'Ns' is not in data table, "
-                "using the first E range specified in params."
+            logger.info(
+                "'Ns' is not in data table, using the first E range from 'params'."
             )
             Erange = Eranges[0]
         if "I Range" not in datapoint:
-            logging.info(
-                "eclab.mpr: 'I Range' is not in data table, "
-                "using the I range specified in params."
+            logger.info(
+                "'I Range' is not in data table, using the I range from 'params'."
             )
             if "Ns" in datapoint:
                 Irstr = Iranges[datapoint["Ns"]]
@@ -607,7 +605,7 @@ def _process_data(
             s = get_resolution(name, value, Erange, Irange)
             datapoint[name] = {"n": value, "s": s, "u": unit}
         if flags:
-            logging.debug("Extracting flag values.")
+            logger.debug("Extracting flag values.")
             flag_bits = datapoint.pop("flags")
             for name, bitmask in flags.items():
                 # Two's complement hack to find the position of the
@@ -677,7 +675,7 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     for module in modules:
         header = _read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()
-        logging.debug(f"Read '{name}' module.")
+        logger.debug("Read '%s' module.", name)
         module_data = module[module_header_dtype.itemsize :]
         if name == "VMP Set":
             settings, params = _process_settings(module_data)

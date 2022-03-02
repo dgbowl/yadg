@@ -3,7 +3,7 @@ import os
 import logging
 from typing import Union, Callable
 
-from yadg.parsers import (
+from ..parsers import (
     dummy,
     basiccsv,
     qftrace,
@@ -14,8 +14,9 @@ from yadg.parsers import (
     masstrace,
     xpstrace,
 )
-import yadg.dgutils
-import yadg.core
+from .. import dgutils, core
+
+logger = logging.getLogger(__name__)
 
 
 def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
@@ -118,28 +119,26 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     datagram = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
             },
-            "date": yadg.dgutils.now(asstr=True),
+            "date": dgutils.now(asstr=True),
             "input_schema": schema.copy(),
-            "datagram_version": yadg.core.spec_datagram.datagram_version,
+            "datagram_version": core.spec_datagram.datagram_version,
         },
         "steps": [],
     }
     for step in schema["steps"]:
         metadata = dict()
         timesteps = list()
-        logging.info(f'process_schema: processing step {schema["steps"].index(step)}:')
+        logger.info("processing step %d:", schema["steps"].index(step))
         handler, parserversion = _infer_datagram_handler(step["parser"])
         metadata["tag"] = step.get("tag", f"{schema['steps'].index(step):02d}")
         metadata["parser"] = {step["parser"]: {"version": parserversion}}
         todofiles = _infer_todo_files(step["import"])
         if len(todofiles) == 0:
-            logging.warning(
-                f"process_schema: No files processed by step {metadata['tag']}"
-            )
+            logger.warning("No files processed by step '%s'.", metadata["tag"])
         for tf in todofiles:
-            logging.debug(f"process_schema: processing item {tf}")
+            logger.debug("Processing item '%s'.", tf)
             ts, meta, fulldate = handler(
                 tf,
                 encoding=step["import"].get("encoding", "utf-8"),
@@ -148,16 +147,16 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             )
             ed = step.get("externaldate", {})
             if not fulldate or ed != {}:
-                yadg.dgutils.complete_timestamps(
+                dgutils.complete_timestamps(
                     ts, tf, ed, schema["metadata"].get("timezone", "localtime")
                 )
             assert isinstance(
                 ts, list
-            ), f"process_schema: Handler for {step['parser']} yields timesteps that are not a enclosed in a `list`."
+            ), f"Handler for {step['parser']} yields timesteps that are not a enclosed in a 'list'."
             timesteps += ts
             assert (
                 isinstance(meta, dict) or meta is None
-            ), f"process_schema: Handler for {step['parser']} yields metadata that are not a enclosed in a `dict`."
+            ), f"Handler for {step['parser']} yields metadata that are not a enclosed in a 'dict'."
             if meta is not None:
                 metadata.update(meta)
 

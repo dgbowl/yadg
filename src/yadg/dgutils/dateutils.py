@@ -10,6 +10,8 @@ import numpy as np
 from typing import Callable, Union
 from collections.abc import Iterable
 
+logger = logging.getLogger(__name__)
+
 
 def now(
     asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc
@@ -110,9 +112,10 @@ def str_to_uts(
         if strict:
             raise e
         else:
-            logging.info(
-                f"str_to_uts: Parsing timestamp '{timestamp}' with "
-                f"format '{format}' was not successful."
+            logger.info(
+                "Parsing timestamp '%s' with format '%s' was not successful.",
+                str(timestamp),
+                format,
             )
             return None
 
@@ -192,8 +195,8 @@ def infer_timestamp_from(
 
                     cols[1] = spec["time"].get("index", None)
                 else:
-                    logging.debug(
-                        "dateutils: Assuming specified column containing the time is in ISO 8601 format"
+                    logger.debug(
+                        "Assuming specified column containing the time is in ISO 8601 format"
                     )
 
                     def timefn(value):
@@ -219,13 +222,13 @@ def infer_timestamp_from(
 
                 return cols, retfn, True
     elif "uts" in headers:
-        logging.info(
-            "dateutils: No timestamp spec provided, assuming column 'uts' is a valid unix timestamp"
+        logger.debug(
+            "No timestamp spec provided, assuming column 'uts' is a valid unix timestamp"
         )
         return [headers.index("uts")], float, True
     elif "timestamp" in headers:
-        logging.info(
-            "dateutils: No timestamp spec provided, assuming column 'timestamp' is a valid ISO 8601 timestamp"
+        logger.debug(
+            "No timestamp spec provided, assuming column 'timestamp' is a valid ISO 8601 timestamp"
         )
 
         def retfunc(value):
@@ -328,7 +331,7 @@ def complete_timestamps(
         delta = str_to_uts(filename[:ls], method["format"], timezone, False)
 
     if delta is None:
-        logging.info("complete_timestamps: Timestamp completion failed. Using mtime.")
+        logger.warning("Timestamp completion failed. Using 'mtime'.")
         delta = os.path.getmtime(fn)
 
     if isinstance(delta, float):
@@ -372,15 +375,15 @@ def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[fl
     assert os.path.isfile(path), f"timestamps_from_file: Path '{path}' is not a file."
 
     if type == "pkl":
-        logging.info(f"timestamps_from_file: loading '{path}' as pickle.")
+        logger.debug("Loading '%s' as pickle.", path)
         with open(path, "rb") as infile:
             data = pickle.load(infile)
     elif type == "json":
-        logging.info(f"timestamps_from_file: loading '{path}' as json.")
+        logger.debug("Loading '%s' as json.", path)
         with open(path, "r") as infile:
             data = json.load(infile)
     elif type == "agilent.log":
-        logging.critical("timestamps_from_file: type 'agilent.log' not yet supported.")
+        logger.critical("Type 'agilent.log' not yet supported.")
         data = None
 
     if data is None:

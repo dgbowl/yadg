@@ -44,13 +44,10 @@ Structure of Parsed Data
 import re
 import logging
 from collections import defaultdict
-from yadg.dgutils.dateutils import str_to_uts
+from ...dgutils.dateutils import str_to_uts
+from .eclabtechniques import get_resolution, technique_params, param_from_key
 
-from yadg.parsers.electrochem.eclabtechniques import (
-    get_resolution,
-    technique_params,
-    param_from_key,
-)
+logger = logging.getLogger(__name__)
 
 # Maps EC-Lab's "canonical" column names to yadg name and unit.
 column_units = {
@@ -130,12 +127,8 @@ column_units = {
     "R/Ohm": ("R", "Ω"),
     "Rcmp/Ohm": ("Rcmp", "Ω"),
     "Re(Y)/Ohm-1": ("Re(Y)", "S"),
-    "Re(Y)/Ohm-1": ("Re(Y)", "S"),
-    "Re(Z)/Ohm": ("Re(Z)", "Ω"),
     "Re(Z)/Ohm": ("Re(Z)", "Ω"),
     "Re(Zce)/Ohm": ("Re(Zce)", "Ω"),
-    "Re(Zce)/Ohm": ("Re(Zce)", "Ω"),
-    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ω"),
     "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ω"),
     "step time/s": ("step time", "s"),
     "THD Ewe/%": ("THD Ewe", "%"),
@@ -254,15 +247,13 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
         if "Ns" in datapoint:
             Erange = Eranges[datapoint["Ns"]]
         else:
-            logging.info(
-                "eclab.mpr: 'Ns' is not in data table, "
-                "using the first E range specified in params."
+            logger.info(
+                "'Ns' is not in data table, using the first E range from 'params'."
             )
             Erange = Eranges[0]
         if "I Range" not in datapoint:
-            logging.info(
-                "eclab.mpr: 'I Range' is not in data table, "
-                "using the I range specified in params."
+            logger.info(
+                "'I Range' is not in data table, using the I range from 'params'."
             )
             if "Ns" in datapoint:
                 Irstr = Iranges[datapoint["Ns"]]
@@ -316,7 +307,7 @@ def process(
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
     if nb_header_lines <= 3:
-        logging.warning("eclabmpt: Header contains no settings and hence no timestamp.")
+        logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
         Eranges = [20.0]

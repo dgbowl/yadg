@@ -175,8 +175,8 @@ def kajfez(
     f0 = fre[idia]
     ena = np.ones(n)
     sig = np.ones(3)
-    eps = np.ones(n)
-    p = np.zeros(n)
+    # eps = np.ones(n)
+    # p = np.zeros(n)
     for ite in range(niter):
         x = 2 * (fre / f0 - ena)
         e3 = gam1 * x

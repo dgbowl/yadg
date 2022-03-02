@@ -32,7 +32,6 @@ timestep contains the parent DX file.
 import zipfile
 import tempfile
 import os
-
 from .agilentch import process as processch
 
 

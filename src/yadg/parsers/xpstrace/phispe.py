@@ -95,7 +95,6 @@ Structure of Parsed Data
 
 import re
 from typing import Any
-
 import numpy as np
 
 data_header_dtype = np.dtype(

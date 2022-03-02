@@ -1,9 +1,10 @@
-# ![yet another datagram](./docs/source/images/yadg_banner.png)
-
+[![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
 [![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
 ![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)
 ![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)
-[![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
+[![LGTM analysis](https://badgen.net/lgtm/grade/g/dgbowl/yadg/python/?logo=lgtm)](https://lgtm.com/projects/g/dgbowl/yadg/context:python)
+
+# ![yet another datagram](./docs/source/images/yadg_banner.png)
 
 Set of tools to process raw instrument data according to a `schema` into a standardised form called `datagram`, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) at Empa - Materials Science and Technology.
 
@@ -22,6 +23,8 @@ Set of tools to process raw instrument data according to a `schema` into a stand
 - tagging of data with units
 - extensive `schema` and `datagram` validation using provided specifications
 - mandatory metadata (such as provenance) is enforced
+
+The full list of capabilities and features is listed in the [project documentation](http://dgbowl.github.io/yadg).
 
 ### Contributors:
 - [Peter Kraus](http://github.com/PeterKraus)

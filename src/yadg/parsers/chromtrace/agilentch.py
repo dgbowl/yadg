@@ -46,9 +46,8 @@ as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
-
-import yadg.dgutils
-from yadg.dgutils.dateutils import str_to_uts
+from ... import dgutils
+from ...dgutils.dateutils import str_to_uts
 
 magic_values = {}
 magic_values["179"] = {
@@ -96,11 +95,11 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
 
     with open(fn, "rb") as infile:
-        magic = yadg.dgutils.read_value(infile, 0, "utf-8", 1)
+        magic = dgutils.read_value(infile, 0, "utf-8", 1)
         pars = {}
         if magic in magic_values.keys():
             for offset, (tag, dtype) in magic_values[magic].items():
-                v = yadg.dgutils.read_value(infile, offset, dtype, 1)
+                v = dgutils.read_value(infile, offset, dtype, 1)
                 pars[tag] = v
         pars["end"] = infile.seek(0, 2)
     dsize, ddtype = data_dtypes[magic]
@@ -112,10 +111,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     xsn = np.linspace(pars["xmin"] / 1000, pars["xmax"] / 1000, num=npoints)
     xss = np.ones(npoints) * xsn[0]
     with open(fn, "rb") as infile:
-        ysn = (
-            yadg.dgutils.read_value(infile, pars["start"], ddtype, npoints)
-            * pars["slope"]
-        )
+        ysn = dgutils.read_value(infile, pars["start"], ddtype, npoints) * pars["slope"]
     yss = np.ones(npoints) * pars["slope"]
 
     detector, title = pars["tracetitle"].split(",")

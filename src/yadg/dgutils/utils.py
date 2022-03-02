@@ -3,8 +3,10 @@ import json
 import os
 from typing import Union
 
-import yadg.dgutils
-import yadg.core
+from .. import dgutils
+from .. import core
+
+logger = logging.getLogger(__name__)
 
 version = "4.0.0"
 
@@ -56,7 +58,7 @@ def schema_3to4(oldschema: list) -> dict:
     newschema = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
                 "update_schema": {"updater": "schema_3to4"},
             },
             "schema_version": version,
@@ -87,9 +89,11 @@ def schema_3to4(oldschema: list) -> dict:
                 try:
                     with open(v, "r") as cf:
                         temp = calib_3to4(json.load(cf), k)
-                    logging.info(
-                        f"schema_3to4: Found calfile '{k}' at '{v}', "
-                        f"will attempt to modernise the calibration."
+                    logger.info(
+                        "Found calfile '%s' at '%s', "
+                        "will attempt to modernise the calibration.",
+                        k,
+                        v,
                     )
                     if k == "calfile":
                         for kk, vv in temp.items():
@@ -98,9 +102,11 @@ def schema_3to4(oldschema: list) -> dict:
                     else:
                         calib.update(temp)
                 except IOError:
-                    logging.warning(
-                        f"schema_3to4: Error reading '{k}' file: '{v}'. "
-                        f"Keeping original key-value pair."
+                    logger.error(
+                        "Error reading '%s' file: '{k}'. "
+                        "Keeping original key-value pair.",
+                        k,
+                        v,
                     )
                     parameters[k] = v
             elif k == "method" and v == "q0refl":
@@ -124,19 +130,19 @@ def schema_3to4(oldschema: list) -> dict:
 
 
 def datagram_3to4(olddg: list) -> dict:
-    logging.warning(
-        "datagram_3to4: updating from datagram version 3.1.0 is lossy. It is "
-        "considerably safer to update schema instead, and re-process the raw data."
+    logger.warning(
+        "Updating from datagram version 3.1.0 is lossy. It is considerably safer "
+        "to update schema instead, and re-process the raw data."
     )
 
     newdg = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
                 "update_object": {"updater": "datagram_3to4", "version": version},
             },
             "datagram_version": version,
-            "date": yadg.dgutils.now(asstr=True),
+            "date": dgutils.now(asstr=True),
             "input_schema": {},
         },
         "steps": [],
@@ -282,26 +288,24 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 
     # distribute to updaters
     if oldver.startswith("3.") and type == "schema":
-        logging.info("update_object: Updating old schema.")
+        logger.info("Updating old schema 3.X -> 4.0.0")
         newobj = schema_3to4(object)
     elif oldver.startswith("3.") and type == "datagram":
-        logging.info("update_object: Updating old datagram.")
+        logger.info("Updating old datagram 3.X -> 4.0.0")
         newobj = datagram_3to4(object)
     elif oldver.startswith("4."):
-        logging.info("update_object: Already at latest version, no update necessary.")
+        logger.info("Already at latest version, no update necessary.")
         newobj = object
 
     with open("temp.json", "w") as outfile:
         json.dump(newobj, outfile, indent=1)
 
     if type == "schema":
-        logging.info("update_object: Validating new schema.")
-        yadg.core.validators.validate_schema(
-            newobj, strictfiles=False, strictfolders=False
-        )
+        logger.info("Validating new schema.")
+        core.validators.validate_schema(newobj, strictfiles=False, strictfolders=False)
     elif type == "datagram":
-        logging.info("update_object: Validating new datagram.")
-        yadg.core.validators.validate_datagram(newobj)
+        logger.info("Validating new datagram.")
+        core.validators.validate_datagram(newobj)
 
     return newobj
 
@@ -309,7 +313,7 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 def schema_from_preset(preset: dict, folder: str) -> dict:
     newmeta = {
         "provenance": {
-            "yadg": yadg.dgutils.get_yadg_metadata(),
+            "yadg": dgutils.get_yadg_metadata(),
         },
         "schema_version": version,
     }
@@ -319,15 +323,15 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
         newf = []
         for oldf in step["import"][k]:
             if os.path.isabs(oldf):
-                logging.warning(
-                    f"schema_from_preset: Item '{oldf}' in '{k}' is an absolute "
-                    "path and will not be patched."
+                logger.warning(
+                    "Item '%s' in '%s' is an absolute path and will not be patched.",
+                    oldf,
+                    k,
                 )
             else:
                 assert not oldf.startswith("." + os.path.sep), (
-                    f"schema_from_preset: Item '{oldf}' in '{k}' does start "
-                    f"with '.{os.path.sep}' and therefore should not be patched "
-                    f"using '{folder}'."
+                    f"Item '{oldf}' in '{k}' does start with '.{os.path.sep}' and "
+                    f"therefore should not be patched using '{folder}'."
                 )
                 newp = os.path.abspath(os.path.join(folder, oldf))
                 newf.append(newp)
@@ -335,9 +339,10 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
         if "calfile" in step["parameters"]:
             oldf = step["parameters"]["calfile"]
             if os.path.isabs(oldf):
-                logging.warning(
-                    f"schema_from_preset: Specified calfile '{oldf}' is an absolute "
-                    "path and will not be patched."
+                logger.warning(
+                    "Specified calfile '%s' is an absolute path "
+                    "and will not be patched.",
+                    oldf,
                 )
             else:
                 newp = os.path.abspath(os.path.join(folder, oldf))

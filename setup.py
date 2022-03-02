@@ -1,5 +1,4 @@
 import setuptools
-import os
 
 with open("VERSION", "r") as infile:
     version = infile.read().strip()

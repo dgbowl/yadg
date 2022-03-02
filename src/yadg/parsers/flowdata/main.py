@@ -1,7 +1,8 @@
 import logging
 import json
+from . import drycal
 
-from yadg.parsers.flowdata import drycal
+logger = logging.getLogger(__name__)
 
 version = "4.0.0"
 
@@ -69,7 +70,7 @@ def process(
         fulldate = False
 
         if "flow" not in calib:
-            logging.info("flowdata: adding default 'DryCal' -> 'flow' conversion")
+            logger.info("Adding a default 'DryCal' -> 'flow' conversion")
             calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
         if filetype.endswith(".rtf") or fn.endswith("rtf"):

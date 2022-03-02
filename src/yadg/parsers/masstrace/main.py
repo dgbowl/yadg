@@ -1,4 +1,4 @@
-from yadg.parsers.masstrace import quadstarsac
+from . import quadstarsac
 
 
 version = "4.0.0"

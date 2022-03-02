@@ -48,9 +48,10 @@ import numpy as np
 from scipy.signal import savgol_filter, find_peaks
 import logging
 import uncertainties as uc
-from uncertainties import unumpy as unp
+import uncertainties.unumpy as unp
+from ... import dgutils
 
-import yadg.dgutils
+logger = logging.getLogger(__name__)
 
 
 def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
@@ -63,17 +64,21 @@ def _get_smooth_yvals(yvals: np.ndarray, pd: dict) -> np.ndarray:
     ``"window"`` is larger than the ``"polyorder"``.
     """
     if pd.get("polyorder", None) is None or pd.get("window", None) is None:
-        logging.info("chromtrace: no smoothing.")
+        logger.debug("No smoothing.")
         return yvals
     else:
         window = pd.get("window", 3) * 2 + 1
         polyorder = pd.get("polyorder", 3)
         assert polyorder < window, "chromtrace: specified window <= polyorder."
-        if polyorder == 2:
-            logging.warning(
-                "chromtrace: smoothing with a polyorder == 2 can be unreliable. "
-                "Consider switching to a higher polyorder or disabling smoothing "
-                "completely."
+        if window < 7:
+            logger.warning(
+                "Smoothing with a window < 3 can be unreliable. Consider using a "
+                "larger smoothing window or disabling smoothing completely."
+            )
+        if polyorder < 3:
+            logger.warning(
+                "Smoothing with a polyorder < 3 can be unreliable. Consider "
+                "using a higher order polynomial or disabling smoothing completely."
             )
         return savgol_filter(yvals, window_length=window, polyorder=polyorder)
 
@@ -130,7 +135,7 @@ def _find_peak_edges(
                 break
         rlim = min(rthr if rthr else yvals.size, rmin if rmin else yvals.size)
         if rlim == yvals.size:
-            logging.warning("gctrace: possible mismatch of peak end.")
+            logger.warning("Possible mismatch of peak end.")
             rlim -= 1
         # left of peak
         lmin = False
@@ -145,7 +150,7 @@ def _find_peak_edges(
                 break
         llim = max(lthr if lthr else 0, lmin if lmin else 0)
         if llim == 0:
-            logging.warning("gctrace: possible mismatch of peak start.")
+            logger.warning("Possible mismatch of peak start.")
         allpeaks.append({"llim": llim, "rlim": rlim, "max": pmax})
     return allpeaks
 
@@ -264,7 +269,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 "h": {"n": v["h"].n, "s": v["h"].s, "u": units["y"]},
             }
             if spec["species"][k].get("calib", None) is not None:
-                x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
+                x = dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
                 x = max(uc.ufloat(0.0, x.s), x)
                 peaks[detname][k]["c"] = {
                     "n": x.n,

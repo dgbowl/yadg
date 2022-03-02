@@ -82,7 +82,6 @@ Structure of Parsed Timesteps
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
 from typing import Any, Union
-
 import numpy as np
 
 # The general header at the top of .sac files.

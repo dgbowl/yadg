@@ -1,4 +1,4 @@
-from yadg.parsers.xpstrace import phispe
+from . import phispe
 
 
 version = "4.0.0"

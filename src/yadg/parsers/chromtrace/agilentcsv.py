@@ -25,8 +25,7 @@ of this file format.
 """
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-
-from yadg.dgutils.dateutils import str_to_uts
+from ...dgutils.dateutils import str_to_uts
 
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:

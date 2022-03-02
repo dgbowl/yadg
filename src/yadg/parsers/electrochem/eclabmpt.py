@@ -44,13 +44,8 @@ Structure of Parsed Data
 import re
 import logging
 from collections import defaultdict
-from yadg.dgutils.dateutils import str_to_uts
-
-from yadg.parsers.electrochem.eclabtechniques import (
-    get_resolution,
-    technique_params,
-    param_from_key,
-)
+from ...dgutils.dateutils import str_to_uts
+from .eclabtechniques import get_resolution, technique_params, param_from_key
 
 logger = logging.getLogger(__name__)
 

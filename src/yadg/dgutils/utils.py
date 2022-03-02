@@ -3,8 +3,8 @@ import json
 import os
 from typing import Union
 
-import yadg.dgutils
-import yadg.core
+from .. import dgutils
+from .. import core
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ def schema_3to4(oldschema: list) -> dict:
     newschema = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
                 "update_schema": {"updater": "schema_3to4"},
             },
             "schema_version": version,
@@ -138,11 +138,11 @@ def datagram_3to4(olddg: list) -> dict:
     newdg = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
                 "update_object": {"updater": "datagram_3to4", "version": version},
             },
             "datagram_version": version,
-            "date": yadg.dgutils.now(asstr=True),
+            "date": dgutils.now(asstr=True),
             "input_schema": {},
         },
         "steps": [],
@@ -302,12 +302,10 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 
     if type == "schema":
         logger.info("Validating new schema.")
-        yadg.core.validators.validate_schema(
-            newobj, strictfiles=False, strictfolders=False
-        )
+        core.validators.validate_schema(newobj, strictfiles=False, strictfolders=False)
     elif type == "datagram":
         logger.info("Validating new datagram.")
-        yadg.core.validators.validate_datagram(newobj)
+        core.validators.validate_datagram(newobj)
 
     return newobj
 
@@ -315,7 +313,7 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 def schema_from_preset(preset: dict, folder: str) -> dict:
     newmeta = {
         "provenance": {
-            "yadg": yadg.dgutils.get_yadg_metadata(),
+            "yadg": dgutils.get_yadg_metadata(),
         },
         "schema_version": version,
     }

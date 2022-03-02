@@ -49,7 +49,7 @@ from scipy.signal import savgol_filter, find_peaks
 import logging
 import uncertainties as uc
 from uncertainties import unumpy as unp
-import yadg.dgutils
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -269,7 +269,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 "h": {"n": v["h"].n, "s": v["h"].s, "u": units["y"]},
             }
             if spec["species"][k].get("calib", None) is not None:
-                x = yadg.dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
+                x = dgutils.calib_handler(v["A"], spec["species"][k]["calib"])
                 x = max(uc.ufloat(0.0, x.s), x)
                 peaks[detname][k]["c"] = {
                     "n": x.n,

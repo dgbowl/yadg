@@ -26,8 +26,7 @@ Exposed metadata:
 """
 import json
 import numpy as np
-
-from yadg.dgutils.dateutils import str_to_uts
+from ...dgutils.dateutils import str_to_uts
 
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:

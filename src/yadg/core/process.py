@@ -3,7 +3,7 @@ import os
 import logging
 from typing import Union, Callable
 
-from yadg.parsers import (
+from ..parsers import (
     dummy,
     basiccsv,
     qftrace,
@@ -14,8 +14,7 @@ from yadg.parsers import (
     masstrace,
     xpstrace,
 )
-import yadg.dgutils
-import yadg.core
+from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
 
@@ -120,11 +119,11 @@ def process_schema(schema: Union[list, tuple]) -> dict:
     datagram = {
         "metadata": {
             "provenance": {
-                "yadg": yadg.dgutils.get_yadg_metadata(),
+                "yadg": dgutils.get_yadg_metadata(),
             },
-            "date": yadg.dgutils.now(asstr=True),
+            "date": dgutils.now(asstr=True),
             "input_schema": schema.copy(),
-            "datagram_version": yadg.core.spec_datagram.datagram_version,
+            "datagram_version": core.spec_datagram.datagram_version,
         },
         "steps": [],
     }
@@ -148,7 +147,7 @@ def process_schema(schema: Union[list, tuple]) -> dict:
             )
             ed = step.get("externaldate", {})
             if not fulldate or ed != {}:
-                yadg.dgutils.complete_timestamps(
+                dgutils.complete_timestamps(
                     ts, tf, ed, schema["metadata"].get("timezone", "localtime")
                 )
             assert isinstance(

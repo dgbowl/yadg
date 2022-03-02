@@ -2,8 +2,8 @@ import os
 import argparse
 import logging
 import json
-import yadg.core
-import yadg.dgutils
+from . import core, dgutils
+
 
 logger = logging.getLogger(__name__)
 
@@ -27,10 +27,10 @@ def process(args: argparse.Namespace) -> None:
         schema = json.load(infile)
 
     logger.debug("Validating schema.")
-    assert yadg.core.validate_schema(schema, args.permissive)
+    assert core.validate_schema(schema, args.permissive)
 
     logger.debug("Processing schema")
-    datagram = yadg.core.process_schema(schema)
+    datagram = core.process_schema(schema)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
     with open(args.outfile, "w") as ofile:
@@ -70,7 +70,7 @@ def update(args: argparse.Namespace) -> None:
         args.outfile = f"{name}.new.json"
 
     logger.info("Updating old object.")
-    outobj = yadg.dgutils.update_object(args.type, inobj)
+    outobj = dgutils.update_object(args.type, inobj)
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
@@ -113,17 +113,17 @@ def preset(args: argparse.Namespace) -> None:
         preset = json.load(infile)
 
     logger.info("Validating loaded preset.")
-    assert yadg.core.validate_schema(preset, strictfiles=False, strictfolders=False)
+    assert core.validate_schema(preset, strictfiles=False, strictfolders=False)
 
     logger.info("Creating a schema from preset for '{args.folder}'.")
-    schema = yadg.dgutils.schema_from_preset(preset, args.folder)
+    schema = dgutils.schema_from_preset(preset, args.folder)
 
     logger.info("Validating created schema.")
-    assert yadg.core.validate_schema(schema)
+    assert core.validate_schema(schema)
 
     if args.process:
         logger.info("Processing created schema.")
-        datagram = yadg.core.process_schema(schema)
+        datagram = core.process_schema(schema)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:

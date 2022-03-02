@@ -1,7 +1,6 @@
 import json
 import logging
-
-from yadg.parsers.chromtrace import (
+from . import (
     ezchromasc,
     agilentcsv,
     agilentch,
@@ -9,7 +8,7 @@ from yadg.parsers.chromtrace import (
     fusionjson,
     fusionzip,
 )
-from yadg.parsers.chromtrace import integration
+from . import integration
 
 logger = logging.getLogger(__name__)
 

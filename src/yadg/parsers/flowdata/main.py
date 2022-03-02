@@ -1,7 +1,6 @@
 import logging
 import json
-
-from yadg.parsers.flowdata import drycal
+from . import drycal
 
 logger = logging.getLogger(__name__)
 

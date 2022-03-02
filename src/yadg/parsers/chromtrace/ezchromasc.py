@@ -23,7 +23,7 @@ Exposed metadata:
 import numpy as np
 import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from yadg.dgutils.dateutils import str_to_uts
+from ...dgutils.dateutils import str_to_uts
 
 logger = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-from yadg.parsers.electrochem import eclabmpr, eclabmpt
+from . import eclabmpr, eclabmpt
 
 version = "4.1.0"
 

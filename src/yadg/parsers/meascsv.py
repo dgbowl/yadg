@@ -1,9 +1,8 @@
 import json
 import logging
 from uncertainties import ufloat
-
-from yadg.parsers.basiccsv import process_row
-import yadg.dgutils
+from .basiccsv import process_row
+from .. import dgutils
 
 logger = logging.getLogger(__name__)
 version = "4.0.0"
@@ -67,9 +66,9 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
-    yadg.dgutils.sanitize_units(units)
+    dgutils.sanitize_units(units)
 
-    datecolumns, datefunc, fulldate = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
         timezone=timezone,
     )

@@ -1,6 +1,6 @@
 from scipy.signal import find_peaks
 import numpy as np
-from yadg.parsers.qftrace import fit, prune, labviewcsv
+from . import fit, prune, labviewcsv
 
 version = "4.0.0"
 

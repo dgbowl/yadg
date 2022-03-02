@@ -2,8 +2,8 @@ import logging
 import os
 from typing import Union
 
-import yadg.core
-from yadg.dgutils import ureg
+from .. import core
+from ..dgutils import ureg
 
 logger = logging.getLogger(__name__)
 
@@ -197,7 +197,7 @@ def validate_schema(
         an `AssertionError` is raised.
     """
     # schema has to meet the spec
-    assert validator(schema, yadg.core.spec_schema.schema)
+    assert validator(schema, core.spec_schema.schema)
     # log default timezone
     if "timezone" not in schema["metadata"]:
         logger.warning("Timezone not specified. Using 'localtime'.")
@@ -275,7 +275,7 @@ def validate_datagram(datagram: dict) -> True:
         If the `datagram` passes all assertions, returns `True`. Else, an `AssertionError` is raised.
     """
     # datagram has to meet the spec
-    assert validator(datagram, yadg.core.spec_datagram.datagram)
+    assert validator(datagram, core.spec_datagram.datagram)
     # validate each step in the datagram
     for step in datagram["steps"]:
         assert all(

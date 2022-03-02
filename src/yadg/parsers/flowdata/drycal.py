@@ -8,10 +8,9 @@ parsed from the prefix of the filename.
 
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
-
-from yadg.parsers.basiccsv import process_row
 from striprtf.striprtf import rtf_to_text
-import yadg.dgutils
+from ..basiccsv import process_row
+from ... import dgutils
 
 
 def rtf(
@@ -71,7 +70,7 @@ def rtf(
         if line.strip() != "":
             dl.append(line)
     headers, units, data = drycal_table(dl, sep="|")
-    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
     )
 
@@ -148,7 +147,7 @@ def sep(
         fmt = "%I:%M:%S %p"
     else:
         fmt = "%H:%M:%S"
-    datecolumns, datefunc, _ = yadg.dgutils.infer_timestamp_from(
+    datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
         spec={"time": {"index": 4, "format": fmt}}, timezone=timezone
     )
 
@@ -210,5 +209,5 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
         else:
             data.append(cols)
 
-    yadg.dgutils.sanitize_units(units)
+    dgutils.sanitize_units(units)
     return headers, units, data

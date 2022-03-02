@@ -159,11 +159,9 @@ Structure of Parsed Data
 import logging
 from collections import defaultdict
 from typing import Any
-
 import numpy as np
-from yadg.dgutils.dateutils import ole_to_uts
-from yadg.parsers.electrochem.eclabtechniques import technique_params_dtypes
-from yadg.parsers.electrochem.eclabtechniques import param_from_key, get_resolution
+from ...dgutils.dateutils import ole_to_uts
+from .eclabtechniques import technique_params_dtypes, param_from_key, get_resolution
 
 logger = logging.getLogger(__name__)
 

@@ -14,11 +14,7 @@ placed in a folder using the name of the test module (that is, ``test_drycal.py`
 its test files in ``test_drycal`` folder), or in the ``common`` folder for files
 that may be reused multiple times.
 
-<<<<<<< HEAD
 Several convenience functions are provided in the ``utils.py`` module:
-=======
-Several convencience functions are provided in the ``utils.py`` module:
->>>>>>> 0bf65e1 (Devdocs v1)
 
   - ``datadir``, implementing the above mentioned external test data functionality,
   - ``datagram_from_input``, wrapping a simple :class:`(dict)`-based input for tests 

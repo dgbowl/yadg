@@ -28,7 +28,7 @@ from ...dgutils.dateutils import str_to_uts
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict, dict]:
+def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     EZ-Chrome ASCII export file parser.
 

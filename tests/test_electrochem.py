@@ -449,3 +449,84 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
                     assert np.allclose(ref[n][ax][i], ret[n][ax][i], equal_nan=True)
             else:
                 assert ref[n][ax] == ret[n][ax]
+
+
+@pytest.mark.parametrize(
+    "input, ts",
+    [
+        (  # ts0 - vsp_ocv without external devices
+            {
+                "case": "vsp_ocv_wo.mpr",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpr"},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 121,
+                "point": 0,
+                "pars": {
+                    "Ewe": {
+                        "value": 0.0329145,
+                        "sigma": 0.00015,
+                        "unit": "V",
+                    },
+                    "uts": {"value": 1641938088.5444725},
+                },
+            },
+        ),
+        (  # ts1 - vsp_ocv with external devices
+            {
+                "case": "vsp_ocv_with.mpr",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpr"},
+                "externaldate": {"from": {"utsoffset": 0.0}},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 13,
+                "point": 12,
+                "pars": {
+                    "Ewe": {
+                        "value": 0.0001060,
+                        "sigma": 0.00015,
+                        "unit": "V",
+                    },
+                    "Force": {
+                        "value": 162.9350891,
+                        "sigma": 0.0165,
+                        "unit": "N",
+                    },
+                    "Temperatur": {
+                        "value": 27.77219582,
+                        "sigma": 0.00225,
+                        "unit": "°C",
+                    },
+                    "uts": {"value": 53996.920794260455},
+                },
+            },
+        ),
+        (  # ts2 - vsp_peis with external devices
+            {
+                "case": "vsp_peis_with.mpr",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpr"},
+                "externaldate": {"from": {"utsoffset": 0.0}},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 32,
+                "point": 12,
+                "pars": {
+                    "uts": {"value": 527655.5950297173},
+                },
+            },
+        ),
+    ],
+)
+def test_vsp_3e(input, ts, datadir):
+    ret = datagram_from_input(input, "electrochem", datadir)
+    standard_datagram_test(ret, ts)
+    pars_datagram_test(ret, ts)

@@ -26,5 +26,6 @@ New features since v4.0.0 are:
       introduced in v4.0.1
     - ``NaN`` and ``Inf`` in the metadata of some input formats should now be handled
       properly, without producing a non-compliant json file.
+    - added partial support for ``mpr`` files including ``ExtDev`` module
       
   - ``chromtrace`` supports ``fusion.zip`` format

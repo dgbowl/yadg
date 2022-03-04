@@ -335,6 +335,20 @@ log_dtypes = {
 }
 
 
+extdev_dtypes = {
+    0x0036: ("pascal", "Analog IN 1"),
+    0x0052: ("<f4", "Analog IN 1 max V"),
+    0x0056: ("<f4", "Analog IN 1 min V"),
+    0x005A: ("<f4", "Analog IN 1 max x"),
+    0x005E: ("<f4", "Analog IN 1 min x"),
+    0x0063: ("pascal", "Analog IN 2"),
+    0x007F: ("<f4", "Analog IN 2 max V"),
+    0x0083: ("<f4", "Analog IN 2 min V"),
+    0x0087: ("<f4", "Analog IN 2 max x"),
+    0x008B: ("<f4", "Analog IN 2 min x"),
+}
+
+
 def _read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> str:
     """Parses a length-prefixed string given some encoding.
 
@@ -655,6 +669,27 @@ def _process_loop(data: bytes) -> dict:
     return {"n_indexes": n_indexes, "indexes": indexes}
 
 
+def _process_ext(data: bytes) -> dict:
+    """Processes the contents of external device modules.
+
+    Parameters
+    ----------
+    data
+        The data to parse through.
+
+    Returns
+    -------
+    dict
+        The parsed log.
+
+    """
+    ext = {}
+    for offset, (dtype, name) in extdev_dtypes.items():
+        ext[name] = _read_value(data, offset, dtype)
+
+    return ext
+
+
 def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     """Handles the processing of all modules.
 
@@ -671,7 +706,7 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
     """
     modules = contents.split(b"MODULE")[1:]
-    settings = data = log = loop = None
+    settings = data = log = loop = ext = None
     for module in modules:
         header = _read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()
@@ -690,8 +725,28 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             log = _process_log(module_data)
         elif name == "VMP loop":
             loop = _process_loop(module_data)
+        elif name == "VMP ExtDev":
+            ext = _process_ext(module_data)
         else:
             raise NotImplementedError(f"Unknown module: {name}.")
+    if ext is not None:
+        # replace names, units, and correct sigmas in data with headers present in ext
+        for k in {"Analog IN 1", "Analog IN 2"}:
+            parts = ext[k].split("/")
+            if len(parts) == 1:
+                n = parts[0]
+                u = " "
+            else:
+                n, u = parts
+            for i in range(len(data)):
+                if k in data[i]:
+                    data[i][n] = data[i].pop(k)
+                    data[i][n]["u"] = u
+                    ds = ext[k + " max x"] - ext[k + " min x"]
+                    ds = ds / (ext[k + " max V"] - ext[k + " min V"])
+                    data[i][n]["s"] = data[i][n]["s"] * ds
+        # shove the whole ext into settings
+        settings.update(ext)
     return settings, params, data, log, loop
 
 
@@ -715,7 +770,7 @@ def process(
     -------
     (data, metadata, fulldate) : tuple[list, dict, bool]
         Tuple containing the timesteps, metadata, and the full date tag. For mpr files,
-        the full date is always specified.
+        the full date is specified if the "LOG" module is present.
 
     """
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
@@ -725,11 +780,17 @@ def process(
     settings, params, data, log, loop = _process_modules(mpr)
     assert settings is not None, "no settings module"
     assert data is not None, "no data module"
-    assert log is not None, "no log module"
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
-    metadata = {"settings": settings, "params": params, "log": log}
-    start_time = ole_to_uts(log["ole_timestamp"], timezone=timezone)
+    metadata = {"settings": settings, "params": params}
+    if log is None:
+        logger.warning("No 'log' module present in mpr file. Timestamps incomplete.")
+        start_time = 0
+        fulldate = False
+    else:
+        metadata["log"] = log
+        start_time = ole_to_uts(log["ole_timestamp"], timezone=timezone)
+        fulldate = True
     timesteps = []
     # If the technique is an impedance spectroscopy, split it into
     # traces at different cycle numbers and put each trace into its own timestep
@@ -761,4 +822,4 @@ def process(
     for d in data:
         uts = start_time + d["time"]["n"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
-    return timesteps, metadata, True
+    return timesteps, metadata, fulldate

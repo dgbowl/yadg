@@ -1080,5 +1080,9 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
     elif name in ["|Z|", "Re(Z)", "-Im(Z)"]:
         # |Z| = |Ewe|/|I|; assuming GEIS
         return get_resolution("I", value, Erange, Irange)
+    elif name in ["Analog IN 1", "Analog IN 2"]:
+        # These are voltages, generally 0 - 10 V
+        # Therefore assuming 0.0015% of 10 V FSR
+        return 10 * 0.0015 / 100
     else:
         return math.ulp(value)

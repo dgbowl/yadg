@@ -308,7 +308,7 @@ def test_integration(input, ts, datadir):
     print(pspec)
     for i in range(len(pspec)):
         for k in {"llim", "rlim", "max"}:
-            print(i, k)
+            print(i, k, rspec[i][k], pspec[i][k])
             assert rspec[i][k] == pspec[i][k]
     
     special_datagram_test(ret, ts)

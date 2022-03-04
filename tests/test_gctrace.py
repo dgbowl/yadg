@@ -298,8 +298,9 @@ def test_integration(input, ts, datadir):
     pspec = ret["steps"][0]["data"][3]["derived"]["pspec"][0]
     pgrad = ret["steps"][0]["data"][3]["derived"]["pgrad"][0]
     pints = ret["steps"][0]["data"][3]["derived"]["pints"][0]
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
-    #    pickle.dump(pints, ouf)
+    pc = ret["steps"][0]["data"][3]["derived"]["concentration"]
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
+    #    pickle.dump(pc, ouf)
     with open(r"pmax.pkl", "rb") as inf:
         rmax = pickle.load(inf)
     for k in pmax.keys():
@@ -328,5 +329,11 @@ def test_integration(input, ts, datadir):
     print(ret["steps"][0]["data"][3]["derived"]["norm"])
     assert ret["steps"][0]["data"][3]["derived"]["norm"].n == pytest.approx(0.97650072, abs=1e-6)
     assert ret["steps"][0]["data"][3]["derived"]["norm"].s == pytest.approx(0.01768264, abs=1e-6)
+    with open(r"pc.pkl", "rb") as inf:
+        rc = pickle.load(inf)
+    for k in pc.keys():
+        print(k, pc[k], rc[k])
+        assert pc[k]["n"] == pytest.approx(rc[k]["n"], abs=1e-6)
+        assert pc[k]["s"] == pytest.approx(rc[k]["s"], abs=1e-6)
     special_datagram_test(ret, ts)
     

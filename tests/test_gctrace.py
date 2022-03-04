@@ -322,7 +322,7 @@ def test_integration(input, ts, datadir):
         rmax = pickle.load(inf)
     for k in pmax.keys():
         print(k)
-        assert np.array_equal(rmax[k], pmax[k])
+        assert np.allclose(rmax[k], pmax[k])
     with open(r"pspec.pkl", "rb") as inf:
         rspec = pickle.load(inf)
     for i in range(len(pspec)):
@@ -332,17 +332,17 @@ def test_integration(input, ts, datadir):
     with open(r"pgrad.pkl", "rb") as inf:
         rgrad = pickle.load(inf)
     for i in range(len(pgrad)):
-        assert np.array_equal(pgrad[i], rgrad[i])
+        assert np.allclose(pgrad[i], rgrad[i])
     with open(r"pints.pkl", "rb") as inf:
         rints = pickle.load(inf)
     for k in pints.keys():
         for kk in {"llim", "rlim", "max"}:
-            print(i, k, kk, pints[k][kk], rints[k][kk])
+            print(k, kk, pints[k][kk], rints[k][kk])
             assert pints[k][kk] == rints[k][kk]
         for kk in {"A", "h"}:
-            print(i, k, kk, pints[k][kk], rints[k][kk])
-            assert pints[k][kk].n == rints[k][kk].n
-            assert pints[k][kk].s == rints[k][kk].s
+            print(k, kk, pints[k][kk], rints[k][kk])
+            assert pints[k][kk].n == pytest.approx(rints[k][kk].n, abs=1e-6)
+            assert pints[k][kk].s == pytest.approx(rints[k][kk].s, abs=1e-6)
     print(ret["steps"][0]["data"][4]["derived"]["norm"])
     with open(r"pnorm.pkl", "rb") as inf:
         rnorm = pickle.load(inf)

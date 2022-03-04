@@ -1,8 +1,5 @@
 import pytest
 import os
-import pickle
-import numpy as np
-import uncertainties as uc
 from tests.schemas import gctrace_chromtab
 from tests.utils import (
     datagram_from_input,
@@ -200,13 +197,13 @@ def test_datagram_from_gctrace(input, ts, datadir):
                     "detectors": {
                         "TCD1": {
                             "id": 0,
-                            "peakdetect": {"prominence": 10.0, "threshold": 10.0}
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
                         },
                         "TCD2": {
                             "id": 1,
-                            "peakdetect": {"prominence": 10.0, "threshold": 10.0}
-                        }
-                    }
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
                 },
             },
             {
@@ -216,9 +213,9 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6333887, "s": 0.0493695, "u": " "},
+                    "H2": {"n": 0.6333887, "s": 0.0493695, "u": " "},
                     "CH4": {"n": 0.0557875, "s": 0.0044479, "u": " "},
-                    "CO":  {"n": 0.0000000, "s": 0.0373813, "u": " "},
+                    "CO": {"n": 0.0000000, "s": 0.0373813, "u": " "},
                 },
             },
         ),
@@ -237,17 +234,14 @@ def test_datagram_from_gctrace(input, ts, datadir):
                                 "window": 3,
                                 "polyorder": 2,
                                 "prominence": 10.0,
-                                "threshold": 10.0
-                            }
+                                "threshold": 10.0,
+                            },
                         },
                         "TCD2": {
                             "id": 1,
-                            "peakdetect": {
-                                "prominence": 10.0, 
-                                "threshold": 10.0
-                            }
-                        }
-                    }
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
                 },
             },
             {
@@ -257,9 +251,9 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6230303, "s": 0.0437848, "u": " "},
+                    "H2": {"n": 0.6230303, "s": 0.0437848, "u": " "},
                     "CH4": {"n": 0.0579773, "s": 0.0041758, "u": " "},
-                    "CO":  {"n": 0.0136871, "s": 0.0203378, "u": " "},
+                    "CO": {"n": 0.0136871, "s": 0.0203378, "u": " "},
                 },
             },
         ),
@@ -278,17 +272,14 @@ def test_datagram_from_gctrace(input, ts, datadir):
                                 "window": 7,
                                 "polyorder": 3,
                                 "prominence": 10.0,
-                                "threshold": 10.0
-                            }
+                                "threshold": 10.0,
+                            },
                         },
                         "TCD2": {
                             "id": 1,
-                            "peakdetect": {
-                                "prominence": 10.0, 
-                                "threshold": 10.0
-                            }
-                        }
-                    }
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
                 },
             },
             {
@@ -298,9 +289,9 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6233586, "s": 0.0437275, "u": " "},
+                    "H2": {"n": 0.6233586, "s": 0.0437275, "u": " "},
                     "CH4": {"n": 0.0582332, "s": 0.0041865, "u": " "},
-                    "CO":  {"n": 0.0136619, "s": 0.0203008, "u": " "},
+                    "CO": {"n": 0.0136619, "s": 0.0203008, "u": " "},
                 },
             },
         ),
@@ -310,74 +301,4 @@ def test_integration(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_input(input, "chromtrace", datadir)
     standard_datagram_test(ret, ts)
-    #pmax = ret["steps"][0]["data"][4]["derived"]["pmax"][0]
-    #pspec = ret["steps"][0]["data"][4]["derived"]["pspec"][0]
-    #pgrad = ret["steps"][0]["data"][4]["derived"]["pgrad"][0]
-    #pints = ret["steps"][0]["data"][4]["derived"]["pints"][0]
-    #pc = ret["steps"][0]["data"][4]["derived"]["concentration"]
-    #pnorm = ret["steps"][0]["data"][4]["derived"]["norm"]
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pnorm.pkl", "wb") as ouf:
-    #     pickle.dump(pnorm, ouf)
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
-    #     pickle.dump(pc, ouf)
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
-    #     pickle.dump(pgrad, ouf)
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
-    #     pickle.dump(pints, ouf)
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pmax.pkl", "wb") as ouf:
-    #     pickle.dump(pmax, ouf)
-    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pspec.pkl", "wb") as ouf:
-    #     pickle.dump(pspec, ouf)
-    #with open(r"pmax.pkl", "rb") as inf:
-    #    rmax = pickle.load(inf)
-    #for k in pmax.keys():
-    #    print(k)
-    #    assert np.allclose(rmax[k], pmax[k])
-    #with open(r"pspec.pkl", "rb") as inf:
-    #    rspec = pickle.load(inf)
-    #for i in range(len(pspec)):
-    #    for k in {"llim", "rlim", "max"}:
-    #        print(i, k, rspec[i][k], pspec[i][k])
-    #        assert rspec[i][k] == pspec[i][k]
-    #with open(r"pgrad.pkl", "rb") as inf:
-    #    rgrad = pickle.load(inf)
-    #for i in range(len(pgrad)):
-    #    assert np.allclose(pgrad[i], rgrad[i])
-    #with open(r"pints.pkl", "rb") as inf:
-    #    rints = pickle.load(inf)
-    #for k in pints.keys():
-    #    for kk in {"llim", "rlim", "max"}:
-    #        print(k, kk, pints[k][kk], rints[k][kk])
-    #        assert pints[k][kk] == rints[k][kk]
-    #    for kk in {"A", "h"}:
-    #        print(k, kk, pints[k][kk], rints[k][kk])
-    #        assert pints[k][kk].n == pytest.approx(rints[k][kk].n, abs=1e-6)
-    #        assert pints[k][kk].s == pytest.approx(rints[k][kk].s, abs=1e-6)
-    #print(ret["steps"][0]["data"][4]["derived"]["norm"])
-    #with open(r"pnorm.pkl", "rb") as inf:
-    #    rnorm = pickle.load(inf)
-    #assert pnorm.n == pytest.approx(rnorm.n, abs=1e-6)
-    #assert pnorm.s == pytest.approx(rnorm.s, abs=1e-6)
-    #with open(r"pc.pkl", "rb") as inf:
-    #    rc = pickle.load(inf)
-    #keys = {"H2", "CH4", "CO"}
-    #for k in keys:
-    #    print(k, pc[k], rc[k])
-    #    assert pc[k]["n"] == pytest.approx(rc[k]["n"], abs=1e-6)
-    #    assert pc[k]["s"] == pytest.approx(rc[k]["s"], abs=1e-6)
-    #for k, v in pc.items():
-    #    ck = uc.ufloat(v["n"], v["s"])
-    #    xref1 = ck / pnorm
-    #    xref2 = ck / rnorm
-    #    cr = uc.ufloat(rc[k]["n"], rc[k]["s"])
-    #    xref3 = cr / pnorm
-    #    xref4 = cr / rnorm
-    #    print(k, xref1, xref2, xref3, xref4)
-    #    assert xref1.n == pytest.approx(xref2.n, abs=1e-6)
-    #    assert xref1.n == pytest.approx(xref3.n, abs=1e-6)
-    #    assert xref1.n == pytest.approx(xref4.n, abs=1e-6)
-    #    assert xref1.s == pytest.approx(xref2.s, abs=1e-6)
-    #    assert xref1.s == pytest.approx(xref3.s, abs=1e-6)
-    #    assert xref1.s == pytest.approx(xref4.s, abs=1e-6)
     special_datagram_test(ret, ts)
-    

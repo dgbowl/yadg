@@ -147,7 +147,7 @@ mapping has not yet been reverse engineered.
 
 .. admonition:: TODO
 
-    https://gitlab.empa.ch/krpe/yadg/-/issues/13
+    https://github.com/dgbowl/yadg/issues/12
 
     In ``.mpr`` files, some technique parameters in the settings module
     correspond to entries in drop-down lists in EC-Lab. These values are
@@ -156,4 +156,10 @@ mapping has not yet been reverse engineered.
 The metadata from parsed ``".mpr"`` files also provides the ``"log"``
 which contains more general parameters, like software, firmware and
 server versions, channel number, host address and an acquisition start
-timestamp in Microsoft OLE format.
+timestamp in Microsoft OLE format. 
+
+.. note::
+
+    If the ``".mpr"`` file contains an ``ExtDev`` module (containing parameters
+    of any external sensors plugged into the device), the ``"log"`` is usually 
+    not present and therefore the full timestamp cannot be calculated.

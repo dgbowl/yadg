@@ -247,7 +247,7 @@ an <code class="xref py py-class docutils literal notranslate"><span class="pre"
 mapping has not yet been reverse engineered.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://gitlab.empa.ch/krpe/yadg/-/issues/13">https://gitlab.empa.ch/krpe/yadg/-/issues/13</a></p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/12">https://github.com/dgbowl/yadg/issues/12</a></p>
 <p>In <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files, some technique parameters in the settings module
 correspond to entries in drop-down lists in EC-Lab. These values are
 stored as single-byte values in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files.</p>
@@ -256,6 +256,12 @@ stored as single-byte values in <code class="docutils literal notranslate"><span
 which contains more general parameters, like software, firmware and
 server versions, channel number, host address and an acquisition start
 timestamp in Microsoft OLE format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">&quot;.mpr&quot;</span></code> file contains an <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module (containing parameters
+of any external sensors plugged into the device), the <code class="docutils literal notranslate"><span class="pre">&quot;log&quot;</span></code> is usually
+not present and therefore the full timestamp cannot be calculated.</p>
+</div>
 </section>
 </section>
 

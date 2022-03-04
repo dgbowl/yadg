@@ -314,5 +314,6 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         "pspec": pspec,
         "pgrad": ygrs,
         "pints": ints,
+        "norm": norm,
     }
     return derived

@@ -314,10 +314,10 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         "height": height,
         "concentration": conc,
         "peaks": peaks,
-        "pmax": pmax,
-        "pspec": pspec,
-        "pgrad": ygrs,
-        "pints": ints,
-        "norm": norm,
+        #"pmax": pmax,
+        #"pspec": pspec,
+        #"pgrad": ygrs,
+        #"pints": ints,
+        #"norm": norm,
     }
     return derived

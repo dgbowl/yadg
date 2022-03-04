@@ -2,6 +2,7 @@ import pytest
 import os
 import pickle
 import numpy as np
+import uncertainties as uc
 from tests.schemas import gctrace_chromtab
 from tests.utils import (
     datagram_from_input,
@@ -335,5 +336,21 @@ def test_integration(input, ts, datadir):
         print(k, pc[k], rc[k])
         assert pc[k]["n"] == pytest.approx(rc[k]["n"], abs=1e-6)
         assert pc[k]["s"] == pytest.approx(rc[k]["s"], abs=1e-6)
+    nref = uc.ufloat(0.97650072, 0.01768264)
+    nret = ret["steps"][0]["data"][3]["derived"]["norm"]
+    for k, v in pc.items():
+        ck = uc.ufloat(v["n"], v["s"])
+        xref1 = ck / nref
+        xref2 = ck / nret
+        cr = uc.ufloat(rc[k]["n"], rc[k]["s"])
+        xref3 = cr / nref
+        xref4 = cr / nret
+        print(k, xref1, xref2, xref3, xref4)
+        assert xref1.n == pytest.approx(xref2.n, abs=1e-6)
+        assert xref1.n == pytest.approx(xref3.n, abs=1e-6)
+        assert xref1.n == pytest.approx(xref4.n, abs=1e-6)
+        assert xref1.s == pytest.approx(xref2.s, abs=1e-6)
+        assert xref1.s == pytest.approx(xref3.s, abs=1e-6)
+        assert xref1.s == pytest.approx(xref4.s, abs=1e-6)
     special_datagram_test(ret, ts)
     

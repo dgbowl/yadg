@@ -294,7 +294,6 @@ def test_integration(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_input(input, "chromtrace", datadir)
     #standard_datagram_test(ret, ts)
-    special_datagram_test(ret, ts)
     pmax = ret["steps"][0]["data"][3]["derived"]["pmax"][0]
 #    with open(r"C:\Users\krpe\yadg\ref.pkl", "wb") as ouf:
 #        pickle.dump(pmax, ouf)
@@ -303,3 +302,4 @@ def test_integration(input, ts, datadir):
     for k in pmax.keys():
         print(k)
         assert np.array_equal(rmax[k], pmax[k])
+    special_datagram_test(ret, ts)

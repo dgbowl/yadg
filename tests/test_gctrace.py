@@ -189,8 +189,41 @@ def test_datagram_from_gctrace(input, ts, datadir):
 @pytest.mark.parametrize(
     "input, ts",
     [
+        #(
+        #    {  # ts0 - fusion zip file, no smoothing
+        #        "folders": ["."],
+        #        "prefix": "",
+        #        "suffix": "zip",
+        #        "parameters": {
+        #            "tracetype": "fusion.zip",
+        #            "calfile": "calibrations/2022-02-04-GCcal.json",
+        #            "detectors": {
+        #                "TCD1": {
+        #                    "id": 0,
+        #                    "peakdetect": {"prominence": 10.0, "threshold": 10.0}
+        #                },
+        #                "TCD2": {
+        #                    "id": 1,
+        #                    "peakdetect": {"prominence": 10.0, "threshold": 10.0}
+        #                }
+        #            }
+        #        },
+        #    },
+        #    {
+        #        "nsteps": 1,
+        #        "step": 0,
+        #        "nrows": 12,
+        #        "method": "AS_Cal_20220204",
+        #        "point": 4,
+        #        "xout": {
+        #            "H2":  {"n": 0.6333887, "s": 0.0493695, "u": " "},
+        #            "CH4": {"n": 0.0557875, "s": 0.0044479, "u": " "},
+        #            "CO":  {"n": 0.0000000, "s": 0.0373813, "u": " "},
+        #        },
+        #    },
+        #),
         (
-            {  # ts0 - fusion zip file, no smoothing
+            {  # ts1 - fusion zip file, minimal smoothing
                 "folders": ["."],
                 "prefix": "",
                 "suffix": "zip",
@@ -200,7 +233,12 @@ def test_datagram_from_gctrace(input, ts, datadir):
                     "detectors": {
                         "TCD1": {
                             "id": 0,
-                            "peakdetect": {"prominence": 10.0, "threshold": 10.0}
+                            "peakdetect": {
+                                "window": 3,
+                                "polyorder": 2,
+                                "prominence": 10.0,
+                                "threshold": 10.0
+                            }
                         },
                         "TCD2": {
                             "id": 1,
@@ -216,46 +254,12 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6333887, "s": 0.0493695, "u": " "},
-                    "CH4": {"n": 0.0557875, "s": 0.0044479, "u": " "},
-                    "CO":  {"n": 0.0000000, "s": 0.0373813, "u": " "},
+                    "H2":  {"n": 0.6230384, "s": 0.0437859, "u": " "},
+                    "CH4": {"n": 0.0579651, "s": 0.0041758, "u": " "},
+                    "CO":  {"n": 0.0136871, "s": 0.0203378, "u": " "},
                 },
             },
         ),
-        #(
-        #    {  # ts1 - fusion zip file, minimal smoothing
-        #        "folders": ["."],
-        #        "prefix": "",
-        #        "suffix": "zip",
-        #        "parameters": {
-        #            "tracetype": "fusion.zip",
-        #            "calfile": "calibrations/2022-02-04-GCcal.json",
-        #            "detectors": {
-        #                "TCD1": {
-        #                    "id": 0,
-        #                    "peakdetect": {
-        #                        "window": 3,
-        #                        "polyorder": 2,
-        #                        "prominence": 10.0,
-        #                        "threshold": 10.0
-        #                    }
-        #                }
-        #            }
-        #        },
-        #    },
-        #    {
-        #        "nsteps": 1,
-        #        "step": 0,
-        #        "nrows": 12,
-        #        "method": "AS_Cal_20220204",
-        #        "point": 4,
-        #        "xout": {
-        #            "H2":  {"n": 0.6220791, "s": 0.0131074, "u": " "},
-        #            "CH4": {"n": 0.0578758, "s": 0.0015254, "u": " "},
-        #            "CO":  {"n": 0.0136661, "s": 0.0202863, "u": " "},
-        #        },
-        #    },
-        #),
         #(
         #    {  # ts2 - fusion zip file, default smoothing
         #        "folders": ["."],
@@ -301,6 +305,9 @@ def test_integration(input, ts, datadir):
     pgrad = ret["steps"][0]["data"][4]["derived"]["pgrad"][0]
     pints = ret["steps"][0]["data"][4]["derived"]["pints"][0]
     pc = ret["steps"][0]["data"][4]["derived"]["concentration"]
+    pnorm = ret["steps"][0]["data"][4]["derived"]["norm"]
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pnorm.pkl", "wb") as ouf:
+    #    pickle.dump(pnorm, ouf)
     #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
     #    pickle.dump(pc, ouf)
     #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
@@ -337,8 +344,10 @@ def test_integration(input, ts, datadir):
             assert pints[k][kk].n == rints[k][kk].n
             assert pints[k][kk].s == rints[k][kk].s
     print(ret["steps"][0]["data"][4]["derived"]["norm"])
-    assert ret["steps"][0]["data"][4]["derived"]["norm"].n == pytest.approx(0.80253966, abs=1e-6)
-    assert ret["steps"][0]["data"][4]["derived"]["norm"].s == pytest.approx(0.06268361, abs=1e-6)
+    with open(r"pnorm.pkl", "rb") as inf:
+        rnorm = pickle.load(inf)
+    assert pnorm.n == pytest.approx(rnorm.n, abs=1e-6)
+    assert pnorm.s == pytest.approx(rnorm.s, abs=1e-6)
     with open(r"pc.pkl", "rb") as inf:
         rc = pickle.load(inf)
     keys = {"H2", "CH4", "CO"}
@@ -346,15 +355,13 @@ def test_integration(input, ts, datadir):
         print(k, pc[k], rc[k])
         assert pc[k]["n"] == pytest.approx(rc[k]["n"], abs=1e-6)
         assert pc[k]["s"] == pytest.approx(rc[k]["s"], abs=1e-6)
-    nref = uc.ufloat(0.80253966, 0.06268361)
-    nret = ret["steps"][0]["data"][4]["derived"]["norm"]
     for k, v in pc.items():
         ck = uc.ufloat(v["n"], v["s"])
-        xref1 = ck / nref
-        xref2 = ck / nret
+        xref1 = ck / pnorm
+        xref2 = ck / rnorm
         cr = uc.ufloat(rc[k]["n"], rc[k]["s"])
-        xref3 = cr / nref
-        xref4 = cr / nret
+        xref3 = cr / pnorm
+        xref4 = cr / rnorm
         print(k, xref1, xref2, xref3, xref4)
         assert xref1.n == pytest.approx(xref2.n, abs=1e-6)
         assert xref1.n == pytest.approx(xref3.n, abs=1e-6)

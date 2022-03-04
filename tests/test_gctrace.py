@@ -200,10 +200,11 @@ def test_datagram_from_gctrace(input, ts, datadir):
                     "detectors": {
                         "TCD1": {
                             "id": 0,
-                            "peakdetect": {
-                                "prominence": 10.0,
-                                "threshold": 10.0
-                            }
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0}
+                        },
+                        "TCD2": {
+                            "id": 1,
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0}
                         }
                     }
                 },
@@ -215,9 +216,9 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6323959, "s": 0.0237761, "u": " "},
-                    "CH4": {"n": 0.0557000, "s": 0.0022929, "u": " "},
-                    "CO":  {"n": 0.0000000, "s": 0.0373227, "u": " "},
+                    "H2":  {"n": 0.6333887, "s": 0.0493695, "u": " "},
+                    "CH4": {"n": 0.0557875, "s": 0.0044479, "u": " "},
+                    "CO":  {"n": 0.0000000, "s": 0.0373813, "u": " "},
                 },
             },
         ),
@@ -335,17 +336,18 @@ def test_integration(input, ts, datadir):
             print(i, k, kk, pints[k][kk], rints[k][kk])
             assert pints[k][kk].n == rints[k][kk].n
             assert pints[k][kk].s == rints[k][kk].s
-    print(ret["steps"][0]["data"][3]["derived"]["norm"])
-    assert ret["steps"][0]["data"][3]["derived"]["norm"].n == pytest.approx(0.97650072, abs=1e-6)
-    assert ret["steps"][0]["data"][3]["derived"]["norm"].s == pytest.approx(0.01768264, abs=1e-6)
+    print(ret["steps"][0]["data"][4]["derived"]["norm"])
+    assert ret["steps"][0]["data"][4]["derived"]["norm"].n == pytest.approx(0.80253966, abs=1e-6)
+    assert ret["steps"][0]["data"][4]["derived"]["norm"].s == pytest.approx(0.06268361, abs=1e-6)
     with open(r"pc.pkl", "rb") as inf:
         rc = pickle.load(inf)
-    for k in pc.keys():
+    keys = {"H2", "CH4", "CO"}
+    for k in keys:
         print(k, pc[k], rc[k])
         assert pc[k]["n"] == pytest.approx(rc[k]["n"], abs=1e-6)
         assert pc[k]["s"] == pytest.approx(rc[k]["s"], abs=1e-6)
-    nref = uc.ufloat(0.97650072, 0.01768264)
-    nret = ret["steps"][0]["data"][3]["derived"]["norm"]
+    nref = uc.ufloat(0.80253966, 0.06268361)
+    nret = ret["steps"][0]["data"][4]["derived"]["norm"]
     for k, v in pc.items():
         ck = uc.ufloat(v["n"], v["s"])
         xref1 = ck / nref

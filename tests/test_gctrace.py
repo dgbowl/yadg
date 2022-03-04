@@ -297,8 +297,9 @@ def test_integration(input, ts, datadir):
     pmax = ret["steps"][0]["data"][3]["derived"]["pmax"][0]
     pspec = ret["steps"][0]["data"][3]["derived"]["pspec"][0]
     pgrad = ret["steps"][0]["data"][3]["derived"]["pgrad"][0]
-    with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
-        pickle.dump(pgrad, ouf)
+    pints = ret["steps"][0]["data"][3]["derived"]["pints"][0]
+    with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
+        pickle.dump(pints, ouf)
     with open(r"pmax.pkl", "rb") as inf:
         rmax = pickle.load(inf)
     for k in pmax.keys():
@@ -314,4 +315,15 @@ def test_integration(input, ts, datadir):
         rgrad = pickle.load(inf)
     for i in range(len(pgrad)):
         assert np.array_equal(pgrad[i], rgrad[i])
+    with open(r"pints.pkl", "rb") as inf:
+        rints = pickle.load(inf)
+    for k in pints.keys():
+        for kk in {"llim", "rlim", "max"}:
+            print(i, k, kk, pints[k][kk], rints[k][kk])
+            assert pints[k][kk] == rints[k][kk]
+        for kk in {"A", "h"}:
+            print(i, k, kk, pints[k][kk], rints[k][kk])
+            assert pints[k][kk].n == rints[k][kk].n
+            assert pints[k][kk].s == rints[k][kk].s
     special_datagram_test(ret, ts)
+    

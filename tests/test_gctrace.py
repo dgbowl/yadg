@@ -296,8 +296,9 @@ def test_integration(input, ts, datadir):
     #standard_datagram_test(ret, ts)
     pmax = ret["steps"][0]["data"][3]["derived"]["pmax"][0]
     pspec = ret["steps"][0]["data"][3]["derived"]["pspec"][0]
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pspec.pkl", "wb") as ouf:
-    #    pickle.dump(pspec, ouf)
+    pgrad = ret["steps"][0]["data"][3]["derived"]["pgrad"][0]
+    with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
+        pickle.dump(pgrad, ouf)
     with open(r"pmax.pkl", "rb") as inf:
         rmax = pickle.load(inf)
     for k in pmax.keys():
@@ -305,10 +306,12 @@ def test_integration(input, ts, datadir):
         assert np.array_equal(rmax[k], pmax[k])
     with open(r"pspec.pkl", "rb") as inf:
         rspec = pickle.load(inf)
-    print(pspec)
     for i in range(len(pspec)):
         for k in {"llim", "rlim", "max"}:
             print(i, k, rspec[i][k], pspec[i][k])
             assert rspec[i][k] == pspec[i][k]
-    
+    with open(r"pgrad.pkl", "rb") as inf:
+        rgrad = pickle.load(inf)
+    for i in range(len(pgrad)):
+        assert np.array_equal(pgrad[i], rgrad[i])
     special_datagram_test(ret, ts)

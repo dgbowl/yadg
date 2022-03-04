@@ -283,7 +283,6 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                     "n": x.n,
                     "s": x.s,
                     "u": spec["species"][k]["calib"].get("unit", "%"),
-                    "uf": x,
                 }
             if k not in comp:
                 comp.append(k)
@@ -294,9 +293,11 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
     for s in comp:
         for d, ds in chromspec.items():
             if s in peaks[d] and "c" in peaks[d][s]:
-                v = peaks[d][s]["c"].pop("uf")
                 if ds.get("prefer", False) or s not in xout:
-                    xout[s] = v
+                    xout[s] = uc.ufloat(
+                        peaks[d][s]["c"]["n"],
+                        peaks[d][s]["c"]["s"],
+                    )
                     area[s] = peaks[d][s]["A"]
                     height[s] = peaks[d][s]["h"]
                     conc[s] = peaks[d][s]["c"]

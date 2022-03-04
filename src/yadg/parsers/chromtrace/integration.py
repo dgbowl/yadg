@@ -242,6 +242,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
     peaks = {}
     comp = []
     pmax = []
+    pspec = []
     for detname, spec in chromspec.items():
         for det in traces.keys():
             if traces[det]["id"] == spec["id"]:
@@ -258,6 +259,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         peakmax, ygrad, _ = _find_peak_maxima(smooth, pd)
         pmax.append(peakmax)
         peakspec = _find_peak_edges(smooth, ygrad, peakmax, pd)
+        pspec.append(peakspec)
         integrated = _integrate_peaks(xs, ys, peakspec, spec["species"])
         peaks[detname] = {}
         for k, v in integrated.items():
@@ -304,6 +306,7 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
         "height": height,
         "concentration": conc,
         "peaks": peaks,
-        "pmax": pmax
+        "pmax": pmax,
+        "pspec": pspec,
     }
     return derived

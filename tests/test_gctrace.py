@@ -254,8 +254,8 @@ def test_datagram_from_gctrace(input, ts, datadir):
                 "method": "AS_Cal_20220204",
                 "point": 4,
                 "xout": {
-                    "H2":  {"n": 0.6230384, "s": 0.0437859, "u": " "},
-                    "CH4": {"n": 0.0579651, "s": 0.0041758, "u": " "},
+                    "H2":  {"n": 0.6230303, "s": 0.0437848, "u": " "},
+                    "CH4": {"n": 0.0579773, "s": 0.0041758, "u": " "},
                     "CO":  {"n": 0.0136871, "s": 0.0203378, "u": " "},
                 },
             },
@@ -306,18 +306,18 @@ def test_integration(input, ts, datadir):
     pints = ret["steps"][0]["data"][4]["derived"]["pints"][0]
     pc = ret["steps"][0]["data"][4]["derived"]["concentration"]
     pnorm = ret["steps"][0]["data"][4]["derived"]["norm"]
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pnorm.pkl", "wb") as ouf:
-    #    pickle.dump(pnorm, ouf)
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
-    #    pickle.dump(pc, ouf)
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
-    #    pickle.dump(pgrad, ouf)
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
-    #    pickle.dump(pints, ouf)
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pmax.pkl", "wb") as ouf:
-    #    pickle.dump(pmax, ouf)
-    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pspec.pkl", "wb") as ouf:
-    #    pickle.dump(pspec, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pnorm.pkl", "wb") as ouf:
+    #     pickle.dump(pnorm, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
+    #     pickle.dump(pc, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
+    #     pickle.dump(pgrad, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
+    #     pickle.dump(pints, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pmax.pkl", "wb") as ouf:
+    #     pickle.dump(pmax, ouf)
+    # with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pspec.pkl", "wb") as ouf:
+    #     pickle.dump(pspec, ouf)
     with open(r"pmax.pkl", "rb") as inf:
         rmax = pickle.load(inf)
     for k in pmax.keys():

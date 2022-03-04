@@ -97,11 +97,13 @@ def _find_peak_maxima(yvals: np.ndarray, pd: dict) -> dict:
     peaks["-"] = res
     # gradient: find peaks and inflection points
     grad = np.gradient(yvals)
-    res = np.nonzero(np.diff(np.sign(grad)))[0] + 1
+    gm = 1 * abs(grad) > 1e-10
+    res = np.nonzero(np.diff(np.sign(grad * gm)))[0] + 1
     peaks["gradzero"] = res
     # second derivative: find peaks
     hess = np.gradient(grad)
-    res = np.nonzero(np.diff(np.sign(hess)))[0] + 1
+    hm = 1 * abs(hess) > 1e-10
+    res = np.nonzero(np.diff(np.sign(hess * hm)))[0] + 1
     peaks["hesszero"] = res
     return peaks, grad, hess
 

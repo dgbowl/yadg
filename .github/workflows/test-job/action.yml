@@ -3,5 +3,5 @@ description: "Test the package with pytest."
 runs:
   using: "composite"
   steps:
-    - run: pytest
+    - run: pytest -v
       shell: bash

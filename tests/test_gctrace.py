@@ -181,3 +181,124 @@ def test_datagram_from_gctrace(input, ts, datadir):
     ret = datagram_from_input(input, "chromtrace", datadir)
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
+
+
+@pytest.mark.parametrize(
+    "input, ts",
+    [
+        (
+            {  # ts0 - fusion zip file, no smoothing
+                "folders": ["."],
+                "prefix": "",
+                "suffix": "zip",
+                "parameters": {
+                    "tracetype": "fusion.zip",
+                    "calfile": "calibrations/2022-02-04-GCcal.json",
+                    "detectors": {
+                        "TCD1": {
+                            "id": 0,
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                        "TCD2": {
+                            "id": 1,
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 12,
+                "method": "AS_Cal_20220204",
+                "point": 4,
+                "xout": {
+                    "H2": {"n": 0.6333887, "s": 0.0493695, "u": " "},
+                    "CH4": {"n": 0.0557875, "s": 0.0044479, "u": " "},
+                    "CO": {"n": 0.0000000, "s": 0.0373813, "u": " "},
+                },
+            },
+        ),
+        (
+            {  # ts1 - fusion zip file, minimal smoothing on TCD 1
+                "folders": ["."],
+                "prefix": "",
+                "suffix": "zip",
+                "parameters": {
+                    "tracetype": "fusion.zip",
+                    "calfile": "calibrations/2022-02-04-GCcal.json",
+                    "detectors": {
+                        "TCD1": {
+                            "id": 0,
+                            "peakdetect": {
+                                "window": 3,
+                                "polyorder": 2,
+                                "prominence": 10.0,
+                                "threshold": 10.0,
+                            },
+                        },
+                        "TCD2": {
+                            "id": 1,
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 12,
+                "method": "AS_Cal_20220204",
+                "point": 4,
+                "xout": {
+                    "H2": {"n": 0.6230303, "s": 0.0437848, "u": " "},
+                    "CH4": {"n": 0.0579773, "s": 0.0041758, "u": " "},
+                    "CO": {"n": 0.0136871, "s": 0.0203378, "u": " "},
+                },
+            },
+        ),
+        (
+            {  # ts2 - fusion zip file, default smoothing on TCD1
+                "folders": ["."],
+                "prefix": "",
+                "suffix": "zip",
+                "parameters": {
+                    "tracetype": "fusion.zip",
+                    "calfile": "calibrations/2022-02-04-GCcal.json",
+                    "detectors": {
+                        "TCD1": {
+                            "id": 0,
+                            "peakdetect": {
+                                "window": 7,
+                                "polyorder": 3,
+                                "prominence": 10.0,
+                                "threshold": 10.0,
+                            },
+                        },
+                        "TCD2": {
+                            "id": 1,
+                            "peakdetect": {"prominence": 10.0, "threshold": 10.0},
+                        },
+                    },
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 12,
+                "method": "AS_Cal_20220204",
+                "point": 4,
+                "xout": {
+                    "H2": {"n": 0.6233586, "s": 0.0437275, "u": " "},
+                    "CH4": {"n": 0.0582332, "s": 0.0041865, "u": " "},
+                    "CO": {"n": 0.0136619, "s": 0.0203008, "u": " "},
+                },
+            },
+        ),
+    ],
+)
+def test_integration(input, ts, datadir):
+    os.chdir(datadir)
+    ret = datagram_from_input(input, "chromtrace", datadir)
+    standard_datagram_test(ret, ts)
+    special_datagram_test(ret, ts)

@@ -295,13 +295,21 @@ def test_integration(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_input(input, "chromtrace", datadir)
     #standard_datagram_test(ret, ts)
-    pmax = ret["steps"][0]["data"][3]["derived"]["pmax"][0]
-    pspec = ret["steps"][0]["data"][3]["derived"]["pspec"][0]
-    pgrad = ret["steps"][0]["data"][3]["derived"]["pgrad"][0]
-    pints = ret["steps"][0]["data"][3]["derived"]["pints"][0]
-    pc = ret["steps"][0]["data"][3]["derived"]["concentration"]
+    pmax = ret["steps"][0]["data"][4]["derived"]["pmax"][0]
+    pspec = ret["steps"][0]["data"][4]["derived"]["pspec"][0]
+    pgrad = ret["steps"][0]["data"][4]["derived"]["pgrad"][0]
+    pints = ret["steps"][0]["data"][4]["derived"]["pints"][0]
+    pc = ret["steps"][0]["data"][4]["derived"]["concentration"]
     #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pc.pkl", "wb") as ouf:
     #    pickle.dump(pc, ouf)
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pgrad.pkl", "wb") as ouf:
+    #    pickle.dump(pgrad, ouf)
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pints.pkl", "wb") as ouf:
+    #    pickle.dump(pints, ouf)
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pmax.pkl", "wb") as ouf:
+    #    pickle.dump(pmax, ouf)
+    #with open(r"C:\Users\krpe\yadg\tests\test_gctrace\pspec.pkl", "wb") as ouf:
+    #    pickle.dump(pspec, ouf)
     with open(r"pmax.pkl", "rb") as inf:
         rmax = pickle.load(inf)
     for k in pmax.keys():

@@ -286,25 +286,26 @@ def integrate_trace(traces: dict, chromspec: dict) -> tuple[dict, dict]:
                 }
             if k not in comp:
                 comp.append(k)
-    xout = {}
+    xtemp = {}
     area = {}
     conc = {}
     height = {}
     for s in comp:
         for d, ds in chromspec.items():
             if s in peaks[d] and "c" in peaks[d][s]:
-                if ds.get("prefer", False) or s not in xout:
-                    xout[s] = uc.ufloat(
+                if ds.get("prefer", False) or s not in xtemp:
+                    xtemp[s] = uc.ufloat(
                         peaks[d][s]["c"]["n"],
                         peaks[d][s]["c"]["s"],
                     )
                     area[s] = peaks[d][s]["A"]
                     height[s] = peaks[d][s]["h"]
                     conc[s] = peaks[d][s]["c"]
-    norm = sum([xout[k] for k in xout.keys()])
-    for s in xout:
-        xnorm = xout[s] / norm
-        xout[s] = {"n": xnorm.n, "s": xnorm.s, "u": " "}
+    norm = sum([v for k, v in xtemp.items()])
+    xout = {}
+    for k, v in xtemp.items():
+        xnorm = v / norm
+        xout[k] = {"n": xnorm.n, "s": xnorm.s, "u": " "}
     derived = {
         "xout": xout,
         "area": area,

@@ -26,6 +26,23 @@ Set of tools to process raw instrument data according to a `schema` into a stand
 
 The full list of capabilities and features is listed in the [project documentation](http://dgbowl.github.io/yadg).
 
+### Installation:
+The released versions of `yadg` are available on the Python Package Index (PyPI) under [yadg](https://pypi.org/project/yadg). Those can be installed using:
+
+```bash
+    pip install yadg
+```
+
+If you wish to install the current development version as an editable installation, check out the `master` branch using git, and install `yadg` as an editable package using pip:
+
+```bash
+   git clone git@github.com:dgbowl/yadg.git
+   cd yadg
+   pip install -e .
+```
+
+Additional targets `yadg[testing]` and `yadg[docs]` are available and can be specified in the above commands, if testing and/or documentation capabilities are required.
+
 ### Contributors:
 - [Peter Kraus](http://github.com/PeterKraus)
 - [Nicolas Vetsch](http://github.com/vetschn)

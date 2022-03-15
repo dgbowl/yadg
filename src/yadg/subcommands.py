@@ -2,6 +2,7 @@ import os
 import argparse
 import logging
 import json
+from dgbowl_schemas import Dataschema
 from . import core, dgutils
 
 
@@ -27,10 +28,10 @@ def process(args: argparse.Namespace) -> None:
         schema = json.load(infile)
 
     logger.debug("Validating schema.")
-    assert core.validate_schema(schema, args.permissive)
+    ds = Dataschema(**schema)
 
     logger.debug("Processing schema")
-    datagram = core.process_schema(schema)
+    datagram = core.process_schema(ds)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
     with open(args.outfile, "w") as ofile:
@@ -74,7 +75,10 @@ def update(args: argparse.Namespace) -> None:
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
-        json.dump(outobj, outfile, indent=1)
+        if isinstance(outobj, Dataschema):
+            json.dump(outobj.dict(), outfile, indent=1)
+        else:
+            json.dump(outobj, outfile, indent=1)
 
 
 def preset(args: argparse.Namespace) -> None:
@@ -112,18 +116,15 @@ def preset(args: argparse.Namespace) -> None:
     with open(args.preset) as infile:
         preset = json.load(infile)
 
-    logger.info("Validating loaded preset.")
-    assert core.validate_schema(preset, strictfiles=False, strictfolders=False)
-
-    logger.info("Creating a schema from preset for '{args.folder}'.")
+    logger.info("Creating a schema from preset for '%s'.", args.folder)
     schema = dgutils.schema_from_preset(preset, args.folder)
 
     logger.info("Validating created schema.")
-    assert core.validate_schema(schema)
+    ds = Dataschema(**schema)
 
     if args.process:
         logger.info("Processing created schema.")
-        datagram = core.process_schema(schema)
+        datagram = core.process_schema(ds)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
@@ -132,4 +133,4 @@ def preset(args: argparse.Namespace) -> None:
         args.outfile = "schema.json" if args.outfile is None else args.outfile
         logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
-            json.dump(schema, ofile, indent=1)
+            json.dump(ds.dict(), ofile, indent=1)

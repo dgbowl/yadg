@@ -9,6 +9,7 @@ import zoneinfo
 import numpy as np
 from typing import Callable, Union
 from collections.abc import Iterable
+from dgbowl_schemas import dataschema
 
 logger = logging.getLogger(__name__)
 
@@ -240,7 +241,7 @@ def infer_timestamp_from(
 
 
 def complete_timestamps(
-    timesteps: list, fn: str, spec: dict = {}, timezone: str = "UTC"
+    timesteps: list, fn: str, spec: dataschema.main.ExternalDate, timezone: str
 ) -> None:
     """
     Timestamp completing function.
@@ -309,26 +310,21 @@ def complete_timestamps(
 
     """
 
-    defaultmethod = {"filename": {"format": "%Y-%m-%d-%H-%M-%S", "len": 19}}
-
-    replace = spec.get("mode", "add") == "replace"
-    methods = spec.get("from", defaultmethod)
-
+    replace = spec.mode == "replace"
+    method = spec.using
     delta = None
 
-    if "file" in methods:
-        method = methods["file"]
-        delta = timestamps_from_file(method["path"], method["type"], timezone)
-    elif "isostring" in methods:
-        delta = str_to_uts(methods["isostring"], None, timezone, True)
-    elif "utsoffset" in methods:
-        delta = float(methods["utsoffset"])
-    elif "filename" in methods:
-        method = methods["filename"]
-        dirname, basename = os.path.split(fn)
+    if method.file is not None:
+        delta = timestamps_from_file(method.file.path, method.file.type, timezone)
+    elif method.isostring is not None:
+        delta = str_to_uts(method.isostring, None, timezone, True)
+    elif method.utsoffset is not None:
+        delta = float(method.utsoffset)
+    elif method.filename:
+        basename = os.path.basename(fn)
         filename, ext = os.path.splitext(basename)
-        ls = method.get("len", len(filename))
-        delta = str_to_uts(filename[:ls], method["format"], timezone, False)
+        string = filename[: method.filename.len]
+        delta = str_to_uts(string, method.filename.format, timezone, False)
 
     if delta is None:
         logger.warning("Timestamp completion failed. Using 'mtime'.")

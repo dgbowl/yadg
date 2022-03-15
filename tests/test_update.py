@@ -12,6 +12,7 @@ def test_update_schema_310(datadir):
         inobj = json.load(infile)
 
     schema = yadg.dgutils.update_object("schema", inobj)
+    print(schema)
 
     ret = yadg.core.process_schema(schema)
     standard_datagram_test(ret, {"nsteps": 3, "step": 0, "nrows": 1662})

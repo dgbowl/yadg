@@ -2,6 +2,7 @@ import logging
 import json
 import os
 from typing import Union
+from dgbowl_schemas import Dataschema
 
 from .. import dgutils
 from .. import core
@@ -57,7 +58,8 @@ def calib_3to4(oldcal: dict, caltype: str) -> dict:
 def schema_3to4(oldschema: list) -> dict:
     newschema = {
         "metadata": {
-            "provenance": {
+            "provenance": "yadg update",
+            "provenance_metadata": {
                 "yadg": dgutils.get_yadg_metadata(),
                 "update_schema": {"updater": "schema_3to4"},
             },
@@ -244,7 +246,7 @@ def datagram_3to4(olddg: list) -> dict:
     return newdg
 
 
-def update_object(type: str, object: Union[list, dict]) -> dict:
+def update_object(type: str, object: Union[list, dict]) -> Union[Dataschema, dict]:
     """
     Yadg's update worker function.
 
@@ -272,10 +274,10 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
         The updated and validated `"datagram"` or `"schema"`.
 
     """
-    assert type in [
-        "datagram",
-        "schema",
-    ], f"update_object: Provided type '{type}' is not one of ['datagram', 'schema']. "
+    assert type in {"datagram", "schema"}, (
+        f"Type '{type}' provided to update_object "
+        "is not one of {'datagram', 'schema'}."
+    )
 
     oldver = None
     if isinstance(object, list):
@@ -302,7 +304,7 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 
     if type == "schema":
         logger.info("Validating new schema.")
-        core.validators.validate_schema(newobj, strictfiles=False, strictfolders=False)
+        newobj = Dataschema(**newobj)
     elif type == "datagram":
         logger.info("Validating new datagram.")
         core.validators.validate_datagram(newobj)
@@ -312,9 +314,8 @@ def update_object(type: str, object: Union[list, dict]) -> dict:
 
 def schema_from_preset(preset: dict, folder: str) -> dict:
     newmeta = {
-        "provenance": {
-            "yadg": dgutils.get_yadg_metadata(),
-        },
+        "provenance": "yadg preset",
+        "provenance_metadata": dgutils.get_yadg_metadata(),
         "schema_version": version,
     }
     preset["metadata"].update(newmeta)

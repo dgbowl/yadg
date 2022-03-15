@@ -1,6 +1,6 @@
 import os
 import json
-
+from dgbowl_schemas import Dataschema
 import yadg.core
 
 
@@ -8,8 +8,8 @@ def datagram_from(fn, datadir):
     os.chdir(datadir)
     with open(fn, "r") as infile:
         schema = json.load(infile)
-    assert yadg.core.validators.validate_schema(schema), "incorrect schema format"
-    return yadg.core.process_schema(schema)
+    ds = Dataschema(**schema)
+    return yadg.core.process_schema(ds)
 
 
 def test_timestamp_parsing(datadir):

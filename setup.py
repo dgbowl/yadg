@@ -38,6 +38,7 @@ setuptools.setup(
         "striprtf",
         "tzlocal",
         "python-dateutil",
+        "dgbowl-schemas>=101",
     ],
     extras_require={
         "testing": [

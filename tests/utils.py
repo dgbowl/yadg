@@ -2,6 +2,7 @@ import pytest
 import os
 import json
 import yadg.core
+from dgbowl_schemas import Dataschema
 
 
 def datagram_from_input(input, parser, datadir):
@@ -33,8 +34,8 @@ def datagram_from_input(input, parser, datadir):
     elif "folders" in input:
         schema["steps"][0]["import"]["folders"] = input["folders"]
     os.chdir(datadir)
-    assert yadg.core.validators.validate_schema(schema)
-    return yadg.core.process_schema(schema)
+    ds = Dataschema(**schema)
+    return yadg.core.process_schema(ds)
 
 
 def standard_datagram_test(datagram, testspec):

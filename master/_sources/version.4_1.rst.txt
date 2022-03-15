@@ -1,10 +1,10 @@
 **yadg** version 4.1.0
 ``````````````````````
-.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.1&color=blue&logo=github
-    :target: https://github.com/PeterKraus/yadg/tree/4.0.1
-.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.0.1&color=blue&logo=pypi
-    :target: https://pypi.org/project/yadg/4.0.1/
-.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-02-14&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.1.0&color=blue&logo=github
+    :target: https://github.com/PeterKraus/yadg/tree/4.1.0
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v4.1.0&color=blue&logo=pypi
+    :target: https://pypi.org/project/yadg/4.1.0/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-03-14&color=red&logo=pypi
 
 Developed at Empa - Materials Science and Technology, in Dübendorf. 
 
@@ -28,4 +28,6 @@ New features since v4.0.0 are:
       properly, without producing a non-compliant json file.
     - added partial support for ``mpr`` files including ``ExtDev`` module
       
-  - ``chromtrace`` supports ``fusion.zip`` format
+  - ``chromtrace`` supports ``fusion.zip`` format, which is a zipped archive containing
+    ``fusion.json`` files. 
+    

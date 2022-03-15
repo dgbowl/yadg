@@ -1,5 +1,10 @@
 **yadg** usage
 --------------
+An interactive, Binder-compatible Jupyter notebook has been created to show example
+usage of **yadg**. The latest version of the notebook and the direct link to Binder are:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg)](https://doi.org/10.5281/zenodo.6351210)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/zenodo/10.5281/zenodo.6351210/?labpath=index.ipynb)
 
 `Schema` processing
 ```````````````````

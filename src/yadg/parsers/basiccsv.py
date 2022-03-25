@@ -101,6 +101,7 @@ def process_row(
     # Process calib
     for newk, spec in calib.items():
         y = uc.ufloat(0, 0)
+        oldu = " "
         for oldk, v in spec.items():
             if oldk in der:
                 dy = dgutils.calib_handler(
@@ -108,12 +109,14 @@ def process_row(
                     v.get("calib", None),
                 )
                 y += dy * v.get("fraction", 1.0)
+                oldu = element["derived"][oldk]["u"]
             elif oldk in raw:
                 dy = dgutils.calib_handler(
                     uc.ufloat(*raw[oldk]),
                     v.get("calib", None),
                 )
                 y += dy * v.get("fraction", 1.0)
+                oldu = element["raw"][oldk]["u"]
             elif oldk == "unit":
                 pass
             else:
@@ -124,7 +127,7 @@ def process_row(
                 )
         if "derived" not in element:
             element["derived"] = dict()
-        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", " ")}
+        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", oldu)}
         der[newk] = y
     return element
 

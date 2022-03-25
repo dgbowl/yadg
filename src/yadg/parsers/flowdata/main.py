@@ -4,7 +4,7 @@ from . import drycal
 
 logger = logging.getLogger(__name__)
 
-version = "4.0.0"
+version = "4.1.0"
 
 
 def process(

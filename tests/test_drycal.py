@@ -80,6 +80,29 @@ from tests.utils import (
                 },
             },
         ),
+        (
+            {  # ts4 - default sep parser, date from fn, passthrough units
+                "case": "2021-10-11_DryCal_out.txt",
+                "parameters": {},
+                "externaldate": {
+                    "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 29,
+                "point": 28,
+                "pars": {
+                    "flow": {
+                        "sigma": 0.0001,
+                        "value": 14.848,
+                        "unit": "smL/min",
+                        "raw": False,
+                    },
+                },
+            },
+        ),
     ],
 )
 def test_datagram_from_drycal(input, ts, datadir):

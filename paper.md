@@ -15,10 +15,7 @@ authors:
   - name: Corsin Battaglia
     affiliation: 1
 affiliations:
- - name: |
-      Empa - Swiss Federal Laboratories for Materials Science and Technology,
-      Überlandstrasse 129, 8600 Dübendorf
-      Switzerland
+ - name: Empa - Swiss Federal Laboratories for Materials Science and Technology, Überlandstrasse 129, 8600 Dübendorf, Switzerland
    index: 1
 date: 20 January 2022
 bibliography: paper.bib

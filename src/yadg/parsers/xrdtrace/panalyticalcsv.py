@@ -1,11 +1,17 @@
-"""Processing of PANalytical XRD csv files.
+"""
+Processing of PANalytical XRD csv files.
 
 File Structure
 ``````````````
 
-These files are split into a ``[Measurement conditions]`` and a
-``[Scan points]`` section. The former stores the metadata and the latter
-all the datapoints.
+These files are split into a ``[Measurement conditions]`` and a ``[Scan points]`` 
+section. The former stores the metadata and the latter all the datapoints. 
+
+.. warning::
+    
+    This parser is fairly new and untested. As a result, the returned metadata 
+    contain all the entries in the ``[Measurement conditions]`` section, without 
+    any additional filtering.
 
 
 Structure of Parsed Timesteps
@@ -23,81 +29,26 @@ Structure of Parsed Timesteps
             intensity:           # Detector counts.
               {n: [!!float, ...], s: [!!float, ...], u: "counts"}
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 
-import re
-from datetime import datetime
-
+from ...dgutils import dateutils
+from .common import panalytical_comment, snake_case
 
 # Converting camelCase xrdml keys to snake_case.
-def snake_case(s: str) -> str:
-    """Converts Sentence case. and camelCase strings to snake_case.
 
-    From https://stackoverflow.com/a/1176023
-
-    Parameters
-    ----------
-    s
-        The input string to be converted.
-
-    Returns
-    -------
-    str
-        The corresponding snake_case string.
-
-    """
-    s = "".join([s.capitalize() for s in s.replace(".", "").split()])
-    s = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", s)
-    return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s).lower()
 
 
 def _process_comments(comments: list[str]) -> dict:
-    """Processes the list of comments from the file header.
-
-    Parameters
-    ----------
-    comments
-        A list containing all the present comment lines.
-
-    Returns
-    -------
-    dict
-        A dictionary containing the processed comments.
-
-    """
-    processed_comments = {}
+    ret = {}
     for line in comments:
-        if line.startswith("Configuration="):
-            split = [s.split("=") for s in line.split(", ")]
-            __, values = list(zip(*split))
-            keys = ["configuration", "owner", "creation_date"]
-        elif line.startswith("Goniometer="):
-            split = [s.replace("=", ":").split(":") for s in line.split(";")]
-            __, values = list(zip(*split))
-            keys = ["goniometer", "min_step_size_2theta", "min_step_size_omega"]
-        elif line.startswith("Sample stage="):
-            __, values = line.split("=")
-            keys = ["sample_stage"]
-        elif line.startswith("Diffractometer system="):
-            __, values = line.split("=")
-            keys = ["diffractometer_system"]
-        elif line.startswith("Measurement program="):
-            split = [s.split("=") for s in line.split(", ")]
-            __, values = list(zip(*split))
-            keys = ["measurement_program", "identifier"]
-        elif line.startswith("Fine Calibration Offset for 2Theta"):
-            __, values = line.split(" = ")
-            keys = ["calib_offset_2theta"]
-        else:
-            raise NotImplementedError(f"Unrecognized comment line: {line}")
-        values = [values] if isinstance(values, str) else values
-        processed_comments.update(dict(zip(keys, values)))
-    return processed_comments
+       ret.update(panalytical_comment(line))
+    return ret
 
 
 def _process_header(header: str) -> dict:
-    """Processes the header (``[Measurement conditions]``) section.
+    """
+    Processes the header section, staring with the ``[Measurement conditions]`` line.
 
     Parameters
     ----------
@@ -106,7 +57,7 @@ def _process_header(header: str) -> dict:
 
     Returns
     -------
-    header : dict
+    header: dict
         A dictionary containing the processed metadata.
 
     """
@@ -126,7 +77,8 @@ def _process_header(header: str) -> dict:
 
 
 def _process_data(data: str) -> tuple[list, list]:
-    """Processes the data (``[Scan points]``) section.
+    """
+    Processes the data section, starting with the ``[Scan points]`` line.
 
     Parameters
     ----------
@@ -153,7 +105,9 @@ def _process_data(data: str) -> tuple[list, list]:
 def process(
     fn: str, encoding: str = "utf-8", timezone: str = "UTC"
 ) -> tuple[list, dict, bool]:
-    """Processes a PANalytical XRD csv file.
+    """
+    Processes a PANalytical XRD csv file. All information contained in the header
+    of the csv file is stored in the metadata.
 
     Parameters
     ----------
@@ -194,13 +148,11 @@ def process(
         "u": "counts",
     }
     # Process the metadata.
-    uts = datetime.strptime(header["file_date_and_time"], "%d/%B/%Y %H:%M").timestamp()
+    uts = dateutils.str_to_uts(
+        header["file_date_and_time"], 
+        format = "%d/%B/%Y %H:%M",
+        timezone = timezone
+    )
     traces = {"0": {"angle": angle, "intensity": intensity}}
-    data = [
-        {
-            "fn": fn, 
-            "uts": uts, 
-            "raw": {"traces": traces}
-        }
-    ]
+    data = [{"fn": fn, "uts": uts, "raw": {"traces": traces}}]
     return data, header, True

@@ -1,14 +1,23 @@
-"""Processing of PANalytical XRD csv files.
-
-TODO
+"""
+Processing of PANalytical XRD XML files.
 
 File Structure
 ``````````````
 
-These files are split into a ``[Measurement conditions]`` and a
-``[Scan points]`` section. The former stores the metadata and the latter
-all the datapoints.
+These are xml-formatted files, which we here parse using the :mod:`xml.etree`
+library into a Python :class:`dict`.
 
+.. note::
+    
+    The ``angle`` returned from this parser is based on a linear interpolation of
+    the start and end point of the scan, and is the :math:`2\\theta`. The values
+    of :math:`\\omega` are discarded.
+
+.. warning::
+    
+    This parser is fairly new and untested. As a result, the returned metadata 
+    contain only a subset of the available metadata in the XML file. If something
+    important is missing, please contact us!
 
 Structure of Parsed Timesteps
 `````````````````````````````
@@ -25,36 +34,37 @@ Structure of Parsed Timesteps
             intensity:           # Detector counts.
               {n: [!!float, ...], s: [!!float, ...], u: "counts"}
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: 
+    Nicolas Vetsch,
+    Peter Kraus
 """
 
-import re
 from collections import defaultdict
-from datetime import datetime
 from typing import Union
 from xml.etree import ElementTree
 import numpy as np
 
+from .common import panalytical_comment
+from ...dgutils import dateutils
 
-# Recursively parsing etree into a python dictionary.
 def etree_to_dict(e: ElementTree.Element) -> dict:
     """Recursively converts an ElementTree.Element into a dictionary.
-    
+
     Element attributes are stored into `"@"`-prefixed attribute keys.
     Element text is stored into `"#text"` for all nodes.
-    
+
     From https://stackoverflow.com/a/10076823.
-    
+
     Parameters
     ----------
     e
         The ElementTree root Element.
-        
+
     Returns
     -------
     dict
         ElementTree parsed into a dictionary.
-    
+
     """
     d = {e.tag: {} if e.attrib else None}
     children = list(e)
@@ -76,40 +86,20 @@ def etree_to_dict(e: ElementTree.Element) -> dict:
     return d
 
 
-def snake_case(s: str) -> str:
-    """Converts camelCase xrdml keys to snake_case.
-    
-    From https://stackoverflow.com/a/1176023
-    
-    Parameters
-    ----------
-    s
-        The input string to be converted.
-        
-    Returns
-    -------
-    str
-        The corresponding snake_case string.
-    
-    """
-    s = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", s)
-    return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s).lower()
-
-
 def _process_values(d: Union[dict, str]) -> Union[dict, str]:
     """
     Recursively parses dicts in the following format:
-    
-    .. code:: 
+
+    .. code::
 
         {"key": {"#text": ..., "@unit": ...}, ...}
-    
+
     into a single string:
 
-    .. code:: 
+    .. code::
 
         {"key": f"{#text} {@unit}", ...}
-    
+
     """
     # TODO
     # If not "#text" or @tribute just snake_case and recurse.
@@ -126,9 +116,9 @@ def _process_values(d: Union[dict, str]) -> Union[dict, str]:
 
 def _process_scan(scan: dict) -> dict:
     """
-    Parses the scan section of the file. Creates the explicit positions based 
+    Parses the scan section of the file. Creates the explicit positions based
     on the number of measured intensities and the start & end position.
-    
+
     """
     header = scan.pop("header")
     datapoints = scan.pop("dataPoints")
@@ -140,59 +130,36 @@ def _process_scan(scan: dict) -> dict:
         "u": datapoints["intensities"].pop("@unit"),
     }
     dp = {
-        "uts": datetime.fromisoformat(header.pop("startTimeStamp")).timestamp(),
+        "timestamp": header.pop("startTimeStamp"),
         "intensities": intensities,
-        "counting_time": counting_time
+        "counting_time": counting_time,
     }
-    
+
     positions = _process_values(datapoints.pop("positions"))
     for v in positions:
         pos = np.linspace(
-            float(v["startPosition"]), 
-            float(v["endPosition"]),
-            num = len(raw_intensities)
+            float(v["startPosition"]), float(v["endPosition"]), num=len(raw_intensities)
         )
         dp[v["@axis"]] = {
             "n": list(pos),
-            "s": [pos[1]-pos[0]] * len(pos),
-            "u": v["@unit"]
+            "s": [pos[1] - pos[0]] * len(pos),
+            "u": v["@unit"],
         }
     return dp
 
 
 def _process_comment(comment: dict) -> dict:
-    """
-    """
+    """ """
     entry = comment.pop("entry")
+    ret = {}
     for line in entry:
-        if line.startswith("Configuration="):
-            split = [s.split("=") for s in line.split(", ")]
-            __, values = list(zip(*split))
-            keys = ["configuration", "owner", "creation_date"]
-        elif line.startswith("Goniometer="):
-            split = [s.replace("=", ":").split(":") for s in line.split(";")]
-            __, values = list(zip(*split))
-            keys = ["goniometer", "min_step_size_2theta", "min_step_size_omega"]
-        elif line.startswith("Sample stage="):
-            __, values = line.split("=")
-            keys = ["sample_stage"]
-        elif line.startswith("Diffractometer system="):
-            __, values = line.split("=")
-            keys = ["diffractometer_system"]
-        elif line.startswith("Measurement program="):
-            split = [s.split("=") for s in line.split(", ")]
-            __, values = list(zip(*split))
-            keys = ["measurement_program", "identifier"]
-        elif line.startswith("Fine Calibration Offset for 2Theta"):
-            __, values = line.split(" = ")
-            keys = ["calib_offset_2theta"]
-        values = [values] if isinstance(values, str) else values
-        comment.update(dict(zip(keys, values)))
-    return comment
+        ret.update(panalytical_comment(line))
+    return ret
 
 
-def _process_measurement(measurement: dict):
-    """
+def _process_measurement(measurement: dict, timezone: str):
+    """ 
+    A function that processes each section of the XRD XML file.
     """
     # Comment.
     comment = measurement["comment"].pop("entry")
@@ -215,7 +182,7 @@ def _process_measurement(measurement: dict):
     meta = measurement
     meta["counting_time"] = scan.pop("counting_time")
     data = {
-        "uts": scan.pop("uts"),
+        "uts": dateutils.str_to_uts(scan.pop("timestamp"), timezone=timezone),
         "raw": {"traces": {"0": trace}}
     }
     return data, meta
@@ -244,9 +211,6 @@ def process(
         For .xrdml tag is always specified
 
     """
-    # TODO: Maybe validate the xrdml file against the specified xml
-    # schema. This would however require `lxml` and add another
-    # dependency to yadg.
     it = ElementTree.iterparse(fn)
     # Removing xmlns prefixes from all tags.
     # From https://stackoverflow.com/a/25920989.
@@ -265,6 +229,9 @@ def process(
     sample["prepared_by"] = sample.pop("preparedBy")
     sample["type"] = sample.pop("@type")
     # Process measurement data.
-    data, meta = _process_measurement(measurements["xrdMeasurement"])
+    data, meta = _process_measurement(measurements["xrdMeasurement"], timezone)
     data["fn"] = fn
+    # Shove unused data into meta
+    meta["sample"] = sample
+    meta["comment"] = comment
     return [data], meta, True

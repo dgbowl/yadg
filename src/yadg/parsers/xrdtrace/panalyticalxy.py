@@ -1,10 +1,12 @@
-"""Processing of PANalytical XRD xy files.
+"""
+Processing of PANalytical XRD xy files.
 
 File Structure
 ``````````````
 
-These files basically just contain the ``[Scan points]`` part of
-PANalytical csv files :mod:`yadg.parsers.xrdtrace.panalyticalcsv`
+These files basically just contain the ``[Scan points]`` part of PANalytical csv 
+files :mod:`yadg.parsers.xrdtrace.panalyticalcsv`. As a consequence, no metadata
+is recorded, and the format does not have an associated timestamp.
 
 
 Structure of Parsed Timesteps
@@ -22,7 +24,7 @@ Structure of Parsed Timesteps
             intensity:           # Detector counts.
               {n: [!!float, ...], s: [!!float, ...], u: "counts"}
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 
 
@@ -67,10 +69,6 @@ def process(
         "u": "counts",
     }
     traces = {"0": {"angle": angle, "intensity": intensity}}
-    data = [
-        {
-            "fn": fn, 
-            "raw": {"traces": traces}
-        }
-    ]
-    return data, {}, False
+    data = [{"fn": fn, "raw": {"traces": traces}}]
+    meta = {}
+    return data, meta, False

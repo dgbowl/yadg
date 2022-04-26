@@ -21,7 +21,6 @@ from .. import dgutils, core
 logger = logging.getLogger(__name__)
 
 
-
 def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     """
     Helper function to distribute work to `parser`s.

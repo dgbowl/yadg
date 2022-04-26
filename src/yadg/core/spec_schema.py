@@ -76,7 +76,7 @@ schema_step = {
                 "electrochem",
                 "masstrace",
                 "xpstrace",
-                "xrdtrace"
+                "xrdtrace",
             ],
         },
         "import": {

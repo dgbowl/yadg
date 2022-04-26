@@ -10,10 +10,10 @@ def process(
     timezone: str = "UTC",
     tracetype: str = "panalytical.xrdml",
 ) -> tuple[list, dict, bool]:
-    """Unified X-ray diffractogram data parser..
+    """
+    Unified X-ray diffractogram data parser.
 
-    This parser processes X-ray diffractogram scans in intensity(angle).
-    format.
+    This parser processes X-ray diffractogram scans in intensity(angle) format.
 
     Parameters
     ----------

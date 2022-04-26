@@ -33,6 +33,7 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Union
 from xml.etree import ElementTree
+import numpy as np
 
 
 # Recursively parsing etree into a python dictionary.
@@ -95,60 +96,68 @@ def snake_case(s: str) -> str:
     return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s).lower()
 
 
-def _process_values(d: Union[dict, str]) -> dict:
-    """Recursively parses values from subdicts.
+def _process_values(d: Union[dict, str]) -> Union[dict, str]:
+    """
+    Recursively parses dicts in the following format:
     
-    Parameters
-    ----------
-    d
+    .. code:: 
 
+        {"key": {"#text": ..., "@unit": ...}, ...}
+    
+    into a single string:
+
+    .. code:: 
+
+        {"key": f"{#text} {@unit}", ...}
     
     """
     # TODO
     # If not "#text" or @tribute just snake_case and recurse.
-    # If "@unit", append unit to all non-attribute vals.
-    # If "#text" and ("@unit" or "@version") conbine the two.
-    if isinstance(d, str):
-        return d
-
-    if "@unit" in d:
-        if "#text" in d:
-            return " ".join(d["#text"], d["@unit"])
+    if isinstance(d, dict):
+        if "@unit" in d and "#text" in d:
+            return f"{d['#text']} {d['@unit']}"
+        elif "@version" in d and "#text" in d:
+            return f"{d['#text']} {d['@version']}"
         else:
-            pass
-    else:
-        for key, value in d:
-            # TODO
-            pass
-    return {}
+            for k, v in d.items():
+                d[k] = _process_values(v)
+    return d
 
 
 def _process_scan(scan: dict) -> dict:
-    """Parses the scan section of the file.
-    
-    Parameters
-    ----------
-    scan
-        The scan dictionary.
-        
-    Returns
-    -------
-    dict
-        The processed
+    """
+    Parses the scan section of the file. Creates the explicit positions based 
+    on the number of measured intensities and the start & end position.
     
     """
     header = scan.pop("header")
-    uts = datetime.fromisoformat(header.pop("startTimeStamp"))
     datapoints = scan.pop("dataPoints")
-    datapoints["positions"] = _process_values(datapoints["positions"])
-    datapoints["counting_time"] = _process_values(datapoints.pop("commonCountingTime"))
-    # TODO: determine uncertainties.
-    datapoints["counts"] = {
-        "n": [float(c) for c in datapoints["counts"].split()],
-        "s": [],
-        "u": datapoints["counts"]["@unit"],
+    counting_time = _process_values(datapoints.pop("commonCountingTime"))
+    raw_intensities = [float(c) for c in datapoints["intensities"].pop("#text").split()]
+    intensities = {
+        "n": raw_intensities,
+        "s": [1.0] * len(raw_intensities),
+        "u": datapoints["intensities"].pop("@unit"),
     }
-    return datapoints
+    dp = {
+        "uts": datetime.fromisoformat(header.pop("startTimeStamp")).timestamp(),
+        "intensities": intensities,
+        "counting_time": counting_time
+    }
+    
+    positions = _process_values(datapoints.pop("positions"))
+    for v in positions:
+        pos = np.linspace(
+            float(v["startPosition"]), 
+            float(v["endPosition"]),
+            num = len(raw_intensities)
+        )
+        dp[v["@axis"]] = {
+            "n": list(pos),
+            "s": [pos[1]-pos[0]] * len(pos),
+            "u": v["@unit"]
+        }
+    return dp
 
 
 def _process_comment(comment: dict) -> dict:
@@ -187,7 +196,9 @@ def _process_measurement(measurement: dict):
     """
     # Comment.
     comment = measurement["comment"].pop("entry")
-    __, values = list(zip(*[s.split(" = ") for s in comment.split(", ")]))
+    for line in comment:
+        if "PHD Lower Level" in line and "PHD Upper Level" in line:
+            __, values = list(zip(*[s.split(" = ") for s in line.split(", ")]))
     keys = ["phd_lower_level", "phd_upper_level"]
     measurement["comment"] = dict(zip(keys, values))
     # Wavelength.
@@ -199,10 +210,15 @@ def _process_measurement(measurement: dict):
     # Diffracted beam path.
     diffracted_beam_path = _process_values(measurement.pop("diffractedBeamPath"))
     measurement["diffracted_beam_path"] = diffracted_beam_path
-
     scan = _process_scan(measurement.pop("scan"))
-
-    return measurement
+    trace = {"angle": scan.pop("2Theta"), "intensity": scan.pop("intensities")}
+    meta = measurement
+    meta["counting_time"] = scan.pop("counting_time")
+    data = {
+        "uts": scan.pop("uts"),
+        "raw": {"traces": {"0": trace}}
+    }
+    return data, meta
 
 
 def process(
@@ -249,9 +265,6 @@ def process(
     sample["prepared_by"] = sample.pop("preparedBy")
     sample["type"] = sample.pop("@type")
     # Process measurement data.
-    measurement = _process_measurement(measurements["xrdMeasurement"])
-
-    # TODO Process timestamps.
-    timesteps = [{"uts": None, "fn": fn, "raw": None}]
-
-    return data, meta, True
+    data, meta = _process_measurement(measurements["xrdMeasurement"])
+    data["fn"] = fn
+    return [data], meta, True

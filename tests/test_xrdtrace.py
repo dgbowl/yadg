@@ -20,10 +20,10 @@ from .utils import datagram_from_input, standard_datagram_test, compare_result_d
             {"case": "210520step1_30min.csv", "parameters": {"tracetype": "panalytical.csv"}},
             {"nsteps": 1, "step": 0, "nrows": 1},
         ),
-        #(  # ts3 - 
-        #    {"case": "210520step1_30min.xrdml", "parameters": {"tracetype": "panalytical.xrdml"}},
-        #    {"nsteps": 1, "step": 0, "nrows": 0, "point": 0,},
-        #),
+        (  # ts2 - xml data 
+            {"case": "210520step1_30min.xrdml", "parameters": {"tracetype": "panalytical.xrdml"}},
+            {"nsteps": 1, "step": 0, "nrows": 1},
+        ),
     ],
 )
 def test_datagram_from_xrdtrace(input, ts, datadir):

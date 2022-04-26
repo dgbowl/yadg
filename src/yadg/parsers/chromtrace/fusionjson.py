@@ -108,11 +108,11 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     continue
                 h = {"n": float(peak.get("height", 0.0)), "s": 0.0, "u": " "}
                 A = {"n": float(peak.get("area", 0.0)), "s": 0.0, "u": " "}
-                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": " "}
+                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "%"}
                 x = {
-                    "n": float(peak.get("normalizedConcentration", 0.0)) / 100.0,
+                    "n": float(peak.get("normalizedConcentration", 0.0)),
                     "s": 0.0,
-                    "u": " ",
+                    "u": "%",
                 }
                 an["height"][peak["label"]] = h
                 an["area"][peak["label"]] = A

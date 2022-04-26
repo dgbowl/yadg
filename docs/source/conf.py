@@ -15,8 +15,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "src")))
 
-with open(os.path.join("..", "..", "VERSION"), "r") as infile:
-    version = infile.read().strip()
+version = "master"
 
 # -- Project information -----------------------------------------------------
 

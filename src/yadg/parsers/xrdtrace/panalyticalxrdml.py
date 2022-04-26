@@ -47,6 +47,7 @@ import numpy as np
 from .common import panalytical_comment
 from ...dgutils import dateutils
 
+
 def etree_to_dict(e: ElementTree.Element) -> dict:
     """Recursively converts an ElementTree.Element into a dictionary.
 
@@ -158,7 +159,7 @@ def _process_comment(comment: dict) -> dict:
 
 
 def _process_measurement(measurement: dict, timezone: str):
-    """ 
+    """
     A function that processes each section of the XRD XML file.
     """
     # Comment.
@@ -183,7 +184,7 @@ def _process_measurement(measurement: dict, timezone: str):
     meta["counting_time"] = scan.pop("counting_time")
     data = {
         "uts": dateutils.str_to_uts(scan.pop("timestamp"), timezone=timezone),
-        "raw": {"traces": {"0": trace}}
+        "raw": {"traces": {"0": trace}},
     }
     return data, meta
 

@@ -38,11 +38,10 @@ from .common import panalytical_comment, snake_case
 # Converting camelCase xrdml keys to snake_case.
 
 
-
 def _process_comments(comments: list[str]) -> dict:
     ret = {}
     for line in comments:
-       ret.update(panalytical_comment(line))
+        ret.update(panalytical_comment(line))
     return ret
 
 
@@ -149,9 +148,7 @@ def process(
     }
     # Process the metadata.
     uts = dateutils.str_to_uts(
-        header["file_date_and_time"], 
-        format = "%d/%B/%Y %H:%M",
-        timezone = timezone
+        header["file_date_and_time"], format="%d/%B/%Y %H:%M", timezone=timezone
     )
     traces = {"0": {"angle": angle, "intensity": intensity}}
     data = [{"fn": fn, "uts": uts, "raw": {"traces": traces}}]

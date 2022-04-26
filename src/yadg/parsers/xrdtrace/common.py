@@ -1,5 +1,6 @@
 import re
 
+
 def panalytical_comment(line: str) -> dict:
     """Processes a comments from the file header into a dictionary.
 
@@ -14,7 +15,7 @@ def panalytical_comment(line: str) -> dict:
         A dictionary containing the processed comment.
 
     """
-    
+
     if line.startswith("Configuration="):
         split = [s.split("=") for s in line.split(", ")]
         __, values = list(zip(*split))
@@ -22,7 +23,7 @@ def panalytical_comment(line: str) -> dict:
     elif line.startswith("Goniometer="):
         split = [s.replace("=", ":").split(":") for s in line.split(";")]
         __, values = list(zip(*split))
-        keys = ["goniometer", "min_step_size_2theta","min_step_size_omega"]
+        keys = ["goniometer", "min_step_size_2theta", "min_step_size_omega"]
     elif line.startswith("Sample stage="):
         __, values = line.split("=")
         keys = ["sample_stage"]
@@ -38,6 +39,7 @@ def panalytical_comment(line: str) -> dict:
         keys = ["calib_offset_2theta"]
     values = [values] if isinstance(values, str) else values
     return dict(zip(keys, values))
+
 
 def snake_case(s: str) -> str:
     """Converts Sentence case. and camelCase strings to snake_case.

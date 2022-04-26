@@ -180,6 +180,7 @@ def process(
     __, header, data = csv.split("[")
     assert header.startswith("Measurement conditions"), "Unexpected section."
     assert data.startswith("Scan points"), "Unexpected section."
+    header = _process_header(header)
     # Process the data trace.
     angle, intensity = _process_data(data)
     angle = {
@@ -187,16 +188,19 @@ def process(
         "s": [float(header["scan_step_size"])] * len(angle),
         "u": "deg",
     }
-    # TODO: Not sure about hte accuracy here. The counts are resolved as
-    # integers.
     intensity = {
         "n": intensity,
         "s": [1.0] * len(intensity),
         "u": "counts",
     }
     # Process the metadata.
-    meta = _process_header(header)
-    uts = datetime.strptime(meta["file_date_and_time"], "%d/%B/%Y %H:%M").timestamp()
+    uts = datetime.strptime(header["file_date_and_time"], "%d/%B/%Y %H:%M").timestamp()
     traces = {"0": {"angle": angle, "intensity": intensity}}
-    data = [{"fn": fn, "uts": uts, "traces": traces}]
-    return data, meta, True
+    data = [
+        {
+            "fn": fn, 
+            "uts": uts, 
+            "raw": {"traces": traces}
+        }
+    ]
+    return data, header, True

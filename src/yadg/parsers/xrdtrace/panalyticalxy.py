@@ -55,19 +55,22 @@ def process(
     angle, intensity = list(zip(*datapoints))
     angle = [float(a) for a in angle]
     intensity = [float(i) for i in intensity]
-    scan_step_size = intensity[1] - intensity[0]
+    scan_step_size = angle[1] - angle[0]
     angle = {
         "n": angle,
         "s": [scan_step_size] * len(angle),
         "u": "deg",
     }
-    # TODO: Not sure about hte accuracy here. The counts are resolved as
-    # integers.
     intensity = {
         "n": intensity,
         "s": [1.0] * len(intensity),
         "u": "counts",
     }
     traces = {"0": {"angle": angle, "intensity": intensity}}
-    data = [{"fn": fn, "traces": traces}]
+    data = [
+        {
+            "fn": fn, 
+            "raw": {"traces": traces}
+        }
+    ]
     return data, {}, False

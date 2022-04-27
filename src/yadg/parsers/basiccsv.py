@@ -230,7 +230,7 @@ def process(
                 units[header] = " "
         si = 1
 
-    dgutils.sanitize_units(units)
+    units = dgutils.sanitize_units(units)
 
     # Process rows
     data = []

@@ -1,1 +1,2 @@
-include VERSION
+include versioneer.py
+include src/yadg/_version.py

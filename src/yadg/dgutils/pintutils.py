@@ -47,7 +47,9 @@ def _sanitize_helper(unit: str) -> str:
         return unit
 
 
-def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
+def sanitize_units(
+    units: Union[str, dict[str, str], list[str]]
+) -> Union[str, dict[str, str], list[str]]:
     """
     Unit sanitizer.
 
@@ -76,3 +78,4 @@ def sanitize_units(units: Union[str, dict[str], list[str]]) -> None:
         units = _sanitize_helper(units)
     else:
         logger.error("Supplied type of 'units' not understood: '%s'", str(type(units)))
+    return units

@@ -3,5 +3,7 @@ description: "Test the package with pytest."
 runs:
   using: "composite"
   steps:
-    - run: pytest -v
+    - run: yadg --version
+      shell: bash
+    - run: pytest -vv
       shell: bash

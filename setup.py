@@ -1,7 +1,8 @@
 import setuptools
+import versioneer
 
-with open("VERSION", "r") as infile:
-    version = infile.read().strip()
+version = versioneer.get_version()
+cmdclass = versioneer.get_cmdclass()
 
 with open("README.md", "r", encoding="utf-8") as infile:
     readme = infile.read()
@@ -11,6 +12,7 @@ packagedir = "src"
 setuptools.setup(
     name="yadg",
     version=version,
+    cmdclass=cmdclass,
     author="Peter Kraus",
     author_email="peter@tondon.de",
     description="yet another datagram",

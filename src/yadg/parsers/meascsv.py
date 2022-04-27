@@ -66,7 +66,7 @@ def process(
     for h in headers:
         units[h] = _units.pop(0)
 
-    dgutils.sanitize_units(units)
+    units = dgutils.sanitize_units(units)
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
@@ -93,4 +93,4 @@ def process(
                     x = xin[species] / total
                     ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": " "}
         timesteps.append(ts)
-    return timesteps, None, True
+    return timesteps, None, fulldate

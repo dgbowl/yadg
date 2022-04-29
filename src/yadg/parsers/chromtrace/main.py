@@ -9,6 +9,7 @@ from . import (
     fusionzip,
 )
 from . import integration
+from dgbowl_schemas.yadg_dataschema.parameters import ChromTrace
 
 logger = logging.getLogger(__name__)
 
@@ -129,10 +130,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    tracetype: str = "ezchrom.asc",
-    detectors: dict = None,
-    species: dict = None,
-    calfile: str = None,
+    parameters: ChromTrace = None,
 ) -> tuple[list, dict, bool]:
     """
     Unified chromatogram parser.
@@ -183,27 +181,27 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. All currently
         supported file formats return full date.
     """
-    if tracetype == "ezchrom.asc":
+    if parameters.filetype == "ezchrom.asc":
         _data, _meta = ezchromasc.process(fn, encoding, timezone)
-    elif tracetype == "agilent.csv":
+    elif parameters.filetype == "agilent.csv":
         _data, _meta = agilentcsv.process(fn, encoding, timezone)
-    elif tracetype == "agilent.dx":
+    elif parameters.filetype == "agilent.dx":
         _data, _meta = agilentdx.process(fn, encoding, timezone)
-    elif tracetype == "agilent.ch":
+    elif parameters.filetype == "agilent.ch":
         _data, _meta = agilentch.process(fn, encoding, timezone)
-    elif tracetype == "fusion.json":
+    elif parameters.filetype == "fusion.json":
         _data, _meta = fusionjson.process(fn, encoding, timezone)
-    elif tracetype == "fusion.zip":
+    elif parameters.filetype == "fusion.zip":
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
-    if calfile is None and (species is None or detectors is None):
+    if parameters.calfile is None and (parameters.species is None or parameters.detectors is None):
         logger.warning(
             "Neither 'calfile' nor both of 'species' and 'detectors' were "
             "provided. Will proceed without peak integration."
         )
         chromspec = False
     else:
-        chromspec = parse_detector_spec(calfile, detectors, species)
+        chromspec = parse_detector_spec(parameters.calfile, parameters.detectors, parameters.species)
 
     results = []
     for chrom in _data:

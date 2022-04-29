@@ -1,4 +1,5 @@
 from . import eclabmpr, eclabmpt
+from dgbowl_schemas.yadg_dataschema.parameters import ElectroChem
 
 version = "4.1.0"
 
@@ -7,7 +8,7 @@ def process(
     fn: str,
     encoding: str = "windows-1252",
     timezone: str = "localtime",
-    filetype: str = "eclab.mpr",
+    parameters: ElectroChem = None,
 ) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.
 
@@ -35,8 +36,8 @@ def process(
         implemented parsers all return full date.
 
     """
-    if filetype == "eclab.mpr":
+    if parameters.filetype == "eclab.mpr":
         data, meta, fulldate = eclabmpr.process(fn, encoding, timezone)
-    elif filetype == "eclab.mpt":
+    elif parameters.filetype == "eclab.mpt":
         data, meta, fulldate = eclabmpt.process(fn, encoding, timezone)
     return data, meta, fulldate

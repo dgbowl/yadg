@@ -9,7 +9,20 @@ import zoneinfo
 import numpy as np
 from typing import Callable, Union
 from collections.abc import Iterable
-from dgbowl_schemas import dataschema
+from dgbowl_schemas.yadg_dataschema.externaldate import (
+    ExternalDate,
+    ExternalDateFile,
+    ExternalDateFilename,
+    ExternalDateISOString,
+    ExternalDateUTSOffset
+)
+from dgbowl_schemas.yadg_dataschema.timestamp import (
+    TimestampSpec,
+    Timestamp,
+    UTS,
+    TimeDate
+)
+
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +135,7 @@ def str_to_uts(
 
 
 def infer_timestamp_from(
-    headers: list = None, spec: dict = None, timezone: str = "UTC"
+    headers: list = None, spec: TimestampSpec = None, timezone: str = "UTC"
 ) -> tuple[list, Callable, bool]:
     """
     Convenience function for timestamping
@@ -155,37 +168,33 @@ def infer_timestamp_from(
     """
 
     if spec is not None:
-        if "uts" in spec:
-            return [spec["uts"].get("index", None)], float, True
-        if "timestamp" in spec:
+        print(spec)
+        if isinstance(spec, UTS):
+            return [spec.uts.index], float, True
+        elif isinstance(spec, Timestamp):
 
             def retfunc(value):
-                return str_to_uts(
-                    value, spec["timestamp"].get("format", None), timezone=timezone
-                )
+                return str_to_uts(value, spec.timestamp.format, timezone=timezone)
 
-            return [spec["timestamp"].get("index", None)], retfunc, True
-        if "date" in spec or "time" in spec:
+            return [spec.timestamp.index], retfunc, True
+        if isinstance(spec, TimeDate):
             specdict = {
                 "date": datetime.datetime.fromtimestamp(0).timestamp,
                 "time": datetime.datetime.fromtimestamp(0).timestamp,
             }
             cols = [None, None]
-            if "date" in spec:
+            if spec.date is not None:
 
                 def datefn(value):
-                    return str_to_uts(
-                        value, spec["date"].get("format", None), timezone=timezone
-                    )
+                    return str_to_uts(value, spec.date.format, timezone=timezone)
 
-                cols[0] = spec["date"].get("index", None)
+                cols[0] = spec.date.index
                 specdict["date"] = datefn
-
-            if "time" in spec:
-                if "format" in spec["time"]:
-
+            if spec.time is not None:
+                if spec.time.format is not None:
+                
                     def timefn(value):
-                        t = datetime.datetime.strptime(value, spec["time"]["format"])
+                        t = datetime.datetime.strptime(value, spec.time.format)
                         td = datetime.timedelta(
                             hours=t.hour,
                             minutes=t.minute,
@@ -194,7 +203,6 @@ def infer_timestamp_from(
                         )
                         return td.total_seconds()
 
-                    cols[1] = spec["time"].get("index", None)
                 else:
                     logger.debug(
                         "Assuming specified column containing the time is in ISO 8601 format"
@@ -210,7 +218,7 @@ def infer_timestamp_from(
                         )
                         return td.total_seconds()
 
-                    cols[1] = spec["time"].get("index", None)
+                cols[1] = spec.time.index
                 specdict["time"] = timefn
             if cols[0] is None:
                 return [cols[1]], specdict["time"], False
@@ -241,7 +249,7 @@ def infer_timestamp_from(
 
 
 def complete_timestamps(
-    timesteps: list, fn: str, spec: dataschema.main.ExternalDate, timezone: str
+    timesteps: list, fn: str, spec: ExternalDate, timezone: str
 ) -> None:
     """
     Timestamp completing function.
@@ -309,18 +317,22 @@ def complete_timestamps(
         Timezone, defaults to "UTC".
 
     """
-
-    replace = spec.mode == "replace"
-    method = spec.using
     delta = None
+    
+    if spec is not None:
+        replace = spec.mode == "replace"
+        method = spec.using
+    else:
+        replace = False
+        method = None
 
-    if method.file is not None:
+    if isinstance(method, ExternalDateFile):
         delta = timestamps_from_file(method.file.path, method.file.type, timezone)
-    elif method.isostring is not None:
+    elif isinstance(method, ExternalDateISOString):
         delta = str_to_uts(method.isostring, None, timezone, True)
-    elif method.utsoffset is not None:
-        delta = float(method.utsoffset)
-    elif method.filename:
+    elif isinstance(method, ExternalDateUTSOffset):
+        delta = method.utsoffset
+    elif isinstance(method, ExternalDateFilename):
         basename = os.path.basename(fn)
         filename, ext = os.path.splitext(basename)
         string = filename[: method.filename.len]

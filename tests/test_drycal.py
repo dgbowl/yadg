@@ -12,7 +12,7 @@ from tests.utils import (
         (
             {  # ts0 - rtf parser, supplied date
                 "case": "Cp_100mA_1mindelay.rtf",
-                "parameters": {},
+                "parameters": {"filetype": "drycal.rtf"},
                 "externaldate": {"from": {"isostring": "2021-09-17"}},
             },
             {
@@ -29,6 +29,7 @@ from tests.utils import (
         (
             {  # ts1 - default sep parser, date from fn
                 "case": "20211011_DryCal_out.csv",
+                "parameters": {"filetype": "drycal.csv"},
                 "externaldate": {"from": {"filename": {"format": "%Y%m%d", "len": 8}}},
             },
             {
@@ -45,7 +46,7 @@ from tests.utils import (
         (
             {  # ts2 - default sep parser, date from fn, sigma from length
                 "case": "2021-10-11_DryCal_out.txt",
-                "parameters": {},
+                "parameters": {"filetype": "drycal.txt"},
                 "externaldate": {
                     "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
                 },
@@ -64,7 +65,7 @@ from tests.utils import (
         (
             {  # ts3 - default sep parser, date from fn, calfile parser
                 "case": "2021-10-11_DryCal_out.txt",
-                "parameters": {"calfile": "drycal.json"},
+                "parameters": {"calfile": "drycal.json", "filetype": "drycal.txt"},
                 "externaldate": {
                     "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
                 },
@@ -83,7 +84,7 @@ from tests.utils import (
         (
             {  # ts4 - default sep parser, date from fn, passthrough units
                 "case": "2021-10-11_DryCal_out.txt",
-                "parameters": {},
+                "parameters": {"filetype": "drycal.txt"},
                 "externaldate": {
                     "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
                 },

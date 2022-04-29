@@ -1,10 +1,14 @@
 from .. import dgutils
+from dgbowl_schemas.yadg_dataschema.parameters import Dummy
 
 version = "4.0.0"
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwargs: dict
+    fn: str, 
+    encoding: str = "utf-8", 
+    timezone: str = "localtime", 
+    parameters: Dummy = None,
 ) -> tuple[list, dict, bool]:
     """
     A dummy parser.
@@ -30,7 +34,9 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-
+    kwargs = {} if parameters is None else parameters.dict()
+    if "parser" in kwargs:
+        del kwargs["parser"]
     result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
 
     return [result], None, True

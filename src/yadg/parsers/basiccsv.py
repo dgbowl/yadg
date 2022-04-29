@@ -3,6 +3,7 @@ import json
 import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
+from dgbowl_schemas.yadg_dataschema.parameters import BasicCSV
 from .. import dgutils
 
 logger = logging.getLogger(__name__)
@@ -136,11 +137,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    sep: str = ",",
-    units: dict = None,
-    timestamp: dict = None,
-    convert: dict = None,
-    calfile: str = None,
+    parameters: BasicCSV = None,
 ) -> tuple[list, dict, bool]:
     """
     A basic csv parser.
@@ -193,13 +190,13 @@ def process(
 
     """
     # Process calfile and convert into calib
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     # Load file, extract headers and get timestamping function
     with open(fn, "r", encoding=encoding) as infile:
@@ -207,15 +204,17 @@ def process(
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
-    headers = [header.strip() for header in lines[0].split(sep)]
+    headers = [header.strip() for header in lines[0].split(parameters.sep)]
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
-        headers=headers, spec=timestamp, timezone=timezone
+        headers=headers, spec=parameters.timestamp, timezone=timezone
     )
 
+
     # Populate units
+    units = parameters.units
     if units is None:
         units = {}
-        _units = [column.strip() for column in lines[1].split(sep)]
+        _units = [column.strip() for column in lines[1].split(parameters.sep)]
         for header in headers:
             units[header] = _units.pop(0)
         si = 2
@@ -236,7 +235,12 @@ def process(
     data = []
     for line in lines[si:]:
         element = process_row(
-            headers, line.split(sep), units, datefunc, datecolumns, calib=calib
+            headers, 
+            line.split(parameters.sep), 
+            units, 
+            datefunc, 
+            datecolumns, 
+            calib=calib
         )
         element["fn"] = str(fn)
         data.append(element)

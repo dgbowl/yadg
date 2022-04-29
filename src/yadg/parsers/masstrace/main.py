@@ -1,5 +1,5 @@
 from . import quadstarsac
-
+from dgbowl_schemas.yadg_dataschema.parameters import MassTrace
 
 version = "4.0.0"
 
@@ -8,7 +8,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    tracetype: str = "quadstar.sac",
+    parameters: MassTrace = None,
 ) -> tuple[list, dict, bool]:
     """Unified mass spectrometry data parser.
 
@@ -37,6 +37,6 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag.
 
     """
-    if tracetype == "quadstar.sac":
+    if parameters.filetype == "quadstar.sac":
         _data, _meta = quadstarsac.process(fn, encoding, timezone)
     return _data, _meta, True

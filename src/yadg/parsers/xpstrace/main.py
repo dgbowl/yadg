@@ -1,4 +1,5 @@
 from . import phispe
+from dgbowl_schemas.yadg_dataschema.parameters import XPSTrace
 
 
 version = "4.0.0"
@@ -8,7 +9,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    tracetype: str = "phi.spe",
+    parameters: XPSTrace = None,
 ) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 
@@ -38,5 +39,5 @@ def process(
         Multipak .spe files seemingly have no timestamp.
 
     """
-    if tracetype == "phi.spe":
+    if parameters.filetype == "phi.spe":
         return phispe.process(fn, encoding, timezone)

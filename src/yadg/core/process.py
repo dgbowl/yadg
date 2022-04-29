@@ -2,7 +2,7 @@ import json
 import os
 import logging
 from typing import Union, Callable
-from dgbowl_schemas import Dataschema
+from dgbowl_schemas.yadg_dataschema import DataSchema
 
 from ..parsers import (
     dummy,
@@ -61,7 +61,7 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return xrdtrace.process, xrdtrace.version
 
 
-def process_schema(dataschema: Dataschema) -> dict:
+def process_schema(dataschema: DataSchema) -> dict:
     """
     Main worker function of **yadg**.
 
@@ -110,9 +110,9 @@ def process_schema(dataschema: Dataschema) -> dict:
                 tf,
                 encoding=step.input.encoding,
                 timezone=dataschema.metadata.timezone,
-                **step.parameters,
+                parameters=step.parameters,
             )
-            if not fulldate or not step.externaldate._default:
+            if not fulldate or step.externaldate is not None:
                 dgutils.complete_timestamps(
                     ts, tf, step.externaldate, dataschema.metadata.timezone
                 )

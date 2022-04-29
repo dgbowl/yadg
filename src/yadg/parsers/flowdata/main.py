@@ -1,6 +1,7 @@
 import logging
 import json
 from . import drycal
+from dgbowl_schemas.yadg_dataschema.parameters import FlowData
 
 logger = logging.getLogger(__name__)
 
@@ -11,10 +12,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    filetype: str = "drycal",
-    convert: dict = None,
-    calfile: str = None,
-    date: str = None,
+    parameters: FlowData = None,
 ) -> tuple[list, dict, bool]:
     """
     Flow meter data processor
@@ -56,28 +54,28 @@ def process(
         is returned depends on the file parser.
 
     """
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     metadata = {}
 
-    if filetype.startswith("drycal"):
+    if parameters.filetype.startswith("drycal"):
         fulldate = False
 
         if "flow" not in calib:
             logger.info("Adding a default 'DryCal' -> 'flow' conversion")
             calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
-        if filetype.endswith(".rtf") or fn.endswith("rtf"):
+        if parameters.filetype.endswith(".rtf") or fn.endswith("rtf"):
             ts, meta = drycal.rtf(fn, encoding, timezone, calib)
-        elif filetype.endswith(".csv") or fn.endswith("csv"):
+        elif parameters.filetype.endswith(".csv") or fn.endswith("csv"):
             ts, meta = drycal.sep(fn, ",", encoding, timezone, calib)
-        elif filetype.endswith(".txt") or fn.endswith("txt"):
+        elif parameters.filetype.endswith(".txt") or fn.endswith("txt"):
             ts, meta = drycal.sep(fn, "\t", encoding, timezone, calib)
 
     metadata.update(meta)

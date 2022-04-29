@@ -11,6 +11,7 @@ parsed from the prefix of the filename.
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv import process_row
 from ... import dgutils
+from dgbowl_schemas.yadg_dataschema.timestamp import TimeDate
 
 
 def rtf(
@@ -71,7 +72,8 @@ def rtf(
             dl.append(line)
     headers, units, data = drycal_table(dl, sep="|")
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
+        spec=TimeDate(time={"index": 4, "format": "%I:%M:%S %p"}), 
+        timezone=timezone
     )
 
     # Correct each ts by provided date
@@ -148,7 +150,8 @@ def sep(
     else:
         fmt = "%H:%M:%S"
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec={"time": {"index": 4, "format": fmt}}, timezone=timezone
+        spec=TimeDate(time={"index": 4, "format": fmt}), 
+        timezone=timezone
     )
 
     # Correct each ts by provided date

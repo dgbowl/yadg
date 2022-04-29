@@ -2,7 +2,7 @@ import logging
 import json
 import os
 from typing import Union
-from dgbowl_schemas import Dataschema
+from dgbowl_schemas.yadg_dataschema import DataSchema
 
 from .. import dgutils
 from .. import core
@@ -246,7 +246,7 @@ def datagram_3to4(olddg: list) -> dict:
     return newdg
 
 
-def update_object(type: str, object: Union[list, dict]) -> Union[Dataschema, dict]:
+def update_object(type: str, object: Union[list, dict]) -> Union[DataSchema, dict]:
     """
     Yadg's update worker function.
 
@@ -304,7 +304,7 @@ def update_object(type: str, object: Union[list, dict]) -> Union[Dataschema, dic
 
     if type == "schema":
         logger.info("Validating new schema.")
-        newobj = Dataschema(**newobj)
+        newobj = DataSchema(**newobj)
     elif type == "datagram":
         logger.info("Validating new datagram.")
         core.validators.validate_datagram(newobj)

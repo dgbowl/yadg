@@ -3,6 +3,8 @@ import logging
 from uncertainties import ufloat
 from .basiccsv import process_row
 from .. import dgutils
+from dgbowl_schemas.yadg_dataschema.parameters import MeasCSV
+from dgbowl_schemas.yadg_dataschema.timestamp import Timestamp
 
 logger = logging.getLogger(__name__)
 version = "4.0.0"
@@ -12,8 +14,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    convert: dict = None,
-    calfile: str = None,
+    parameters: MeasCSV = None,
 ) -> tuple[list, dict, bool]:
     """
     Legacy MCPT measurement log parser.
@@ -49,13 +50,13 @@ def process(
     """
     logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     with open(fn, "r", encoding=encoding) as infile:
         lines = [i.strip() for i in infile.readlines()]
@@ -69,7 +70,7 @@ def process(
     units = dgutils.sanitize_units(units)
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
-        spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
+        spec=Timestamp(timestamp={"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}),
         timezone=timezone,
     )
     timesteps = []

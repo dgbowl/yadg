@@ -2,7 +2,7 @@ import pytest
 import os
 import json
 import yadg.core
-from dgbowl_schemas import Dataschema
+from dgbowl_schemas.yadg_dataschema import DataSchema
 from pydantic import ValidationError
 
 from tests.schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
@@ -23,7 +23,7 @@ from tests.schemas import exclude_1
 )
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
-    ds = Dataschema(**inp_dict)
+    ds = DataSchema(**inp_dict)
     ret = yadg.core.process_schema(ds)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
     assert len(ret["steps"]) == l_dg, "wrong number of steps"
@@ -47,7 +47,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     jsonpath = datadir.join(inp_fn)
     with open(jsonpath, "r") as infile:
         schema = json.load(infile)
-    ds = Dataschema(**schema)
+    ds = DataSchema(**schema)
     ret = yadg.core.process_schema(ds)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
     assert len(ret["steps"]) == ts["nsteps"], "wrong number of steps"
@@ -61,7 +61,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     "inp_dict, expr",
     [
         (fail_1, r"parser"),
-        (fail_2, r"name 'dumm' provided as a 'parser'"),
+        (fail_2, r"given=dumm"),
         (fail_3, r"Specifying multiple arguments"),
         (fail_4, r"Either 'files' or 'folders'"),
         (fail_5, r"extra fields not permitted"),
@@ -70,4 +70,6 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 def test_schema_validator(inp_dict, expr, datadir):
     os.chdir(datadir)
     with pytest.raises(ValidationError, match=expr):
-        assert Dataschema(**inp_dict)
+        ret = DataSchema(**inp_dict)
+        print(ret)
+        assert DataSchema(**inp_dict)

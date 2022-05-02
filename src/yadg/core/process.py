@@ -1,7 +1,6 @@
 import json
-import os
 import logging
-from typing import Union, Callable
+from typing import Callable
 from dgbowl_schemas.yadg_dataschema import DataSchema
 
 from ..parsers import (

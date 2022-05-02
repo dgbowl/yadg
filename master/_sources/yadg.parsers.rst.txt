@@ -18,6 +18,7 @@ Subpackages
    yadg.parsers.masstrace
    yadg.parsers.qftrace
    yadg.parsers.xpstrace
+   yadg.parsers.xrdtrace
 
 Submodules
 ----------

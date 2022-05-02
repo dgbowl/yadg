@@ -1,23 +1,21 @@
-yadg package
-============
+**yadg** autodocs
+=================
 
 .. automodule:: yadg
    :members:
    :undoc-members:
    :show-inheritance:
 
-Subpackages
------------
+.. toctree::
+   :maxdepth: 1
+
+   yadg.core
+   yadg.dgutils
 
 .. toctree::
    :maxdepth: 4
 
-   yadg.core
-   yadg.dgutils
    yadg.parsers
-
-Submodules
-----------
 
 yadg.main module
 ----------------

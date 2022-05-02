@@ -17,3 +17,4 @@ following links:
    parsers.masstrace
    parsers.xpstrace
    parsers.electrochem
+   parsers.xrdtrace

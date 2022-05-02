@@ -9,10 +9,12 @@ from ..parsers import (
     qftrace,
     chromtrace,
     flowdata,
+    masstrace,
+    xpstrace,
     meascsv,
     electrochem,
     masstrace,
-    xpstrace,
+    xrdtrace,
 )
 from .. import dgutils, core
 
@@ -54,6 +56,8 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         return masstrace.process, masstrace.version
     if parser == "xpstrace":
         return xpstrace.process, xpstrace.version
+    if parser == "xrdtrace":
+        return xrdtrace.process, xrdtrace.version
 
 
 def _infer_todo_files(importdict: dict) -> list:

@@ -1,5 +1,6 @@
 """
-Processing of PANalytical XRD csv files.
+panalyticalcsv: Processing of PANalytical XRD ``csv`` files
+-----------------------------------------------------------
 
 File Structure
 ``````````````

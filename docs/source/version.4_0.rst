@@ -7,7 +7,8 @@
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-02-14&color=red&logo=pypi
 
 A major rewrite of **yadg**. Developed at Empa - Materials Science and Technology, in 
-Dübendorf. The code includes documentation, test suite, and is tested using CI.
+Dübendorf. The code includes documentation, test suite, and is tested using CI. This 
+version has been published in JOSS [Kraus2022b]_.
 
 Major features are:
 

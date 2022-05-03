@@ -1,5 +1,6 @@
 """
-Processing of PANalytical XRD XML files.
+panalyticalxrdml: Processing of PANalytical XRD ``xml`` files
+-------------------------------------------------------------
 
 File Structure
 ``````````````

@@ -1,5 +1,6 @@
 """
-Processing of PANalytical XRD xy files.
+panalyticalxy: Processing of PANalytical XRD ``xy`` files
+---------------------------------------------------------
 
 File Structure
 ``````````````

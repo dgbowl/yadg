@@ -15,6 +15,6 @@ following links:
    parsers.meascsv
    parsers.flowdata
    parsers.masstrace
-   parsers.xpstrace
+   yadg.parsers.xpstrace
    parsers.electrochem
-   parsers.xrdtrace
+   yadg.parsers.xrdtrace

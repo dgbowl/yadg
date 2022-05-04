@@ -25,11 +25,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    tracetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_masstrace_formats>`.
-
-        The default is ``"quadstar.sac"``.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.MassTrace`.
 
     Returns
     -------

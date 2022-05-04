@@ -1,5 +1,5 @@
-yadg.parsers.flowdata package
-=============================
+**flowdata**: Flow data parser
+==============================
 
 .. automodule:: yadg.parsers.flowdata
    :members:

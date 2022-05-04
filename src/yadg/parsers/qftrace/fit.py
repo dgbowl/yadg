@@ -1,7 +1,8 @@
 """
-Quality factor fitting routines.
+.. _yadg.parsers.qftrace.methods:
 
-.. _parsers_qftrace_methods:
+**fit**: Quality factor fitting routines.
+-----------------------------------------
 
 List of supported quality factor fitting methods:
 

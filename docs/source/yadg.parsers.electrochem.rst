@@ -1,5 +1,5 @@
-yadg.parsers.electrochem package
-================================
+**electrochem**: Electrochemistry data parser
+=============================================
 
 .. automodule:: yadg.parsers.electrochem
    :members:

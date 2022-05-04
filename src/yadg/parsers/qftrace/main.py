@@ -81,23 +81,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    method
-        Method used for fitting :math:`Q_0` and :math:`f_0` to :math:`\\Gamma(f)` data.
-        One of ``"naive"``, ``"lorentz"``, or ``"kajfez"``. Default is ``"kajfez"``.
-
-    cutoff
-        Parameter passed to the cutoff-based pruning routine, defining the cutoff
-        threshold for the normalisation. Default is 0.4.
-
-    threshold
-        Parameter passed to the gradient-based pruning routine, defining the minimum
-        gradient below which the trace gets pruned. Default is 1e-6.
-
-    height
-        Parameter for the peak-picker.
-
-    distance
-        Parameter for the peak-picker.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.QFTrace`.
 
     Returns
     -------

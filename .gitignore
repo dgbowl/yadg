@@ -6,5 +6,4 @@ dist/
 *.egg-info
 *.egg
 build/
-docs/source/yadg*.rst
 public/

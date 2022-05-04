@@ -23,11 +23,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    filetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_electrochem_formats>`.
-
-        The default is ``eclab.mpr`` (auto).
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.ElectroChem`.
 
     Returns
     -------

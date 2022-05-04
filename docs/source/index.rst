@@ -29,7 +29,6 @@ systematically separated from the "raw" data.
    usage
    features
    parsers
-   version
    citing
 
 
@@ -39,5 +38,6 @@ systematically separated from the "raw" data.
    :hidden:
 
    devdocs
+   version
    objects
    yadg

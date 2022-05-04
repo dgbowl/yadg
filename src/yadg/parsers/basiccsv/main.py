@@ -4,7 +4,7 @@ import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
 from dgbowl_schemas.yadg_dataschema.parameters import BasicCSV
-from .. import dgutils
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
 version = "4.0.0"
@@ -158,28 +158,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    sep
-        Separator to use. Default is "," for csv.
-
-    units
-        Column-specific unit specification. If present, even if empty, 2nd line is
-        treated as data. If omitted, 2nd line is treated as units.
-
-    timestamp
-        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
-        ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`,
-        containing the column indices, and ``"format"`` :class:`(str)` with the format
-        string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from`
-        for more info.
-
-    convert
-        Specification for column conversion. The key of each entry will form a new
-        datapoint in the ``"derived"`` :class:`(dict)` of a timestep, including the
-        option to specify linear combinations. See :ref:`here<processing_convert>` for
-        more info.
-
-    calfile
-        ``convert``-like functionality specified in a json file.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.BasicCSV`.
 
     Returns
     -------

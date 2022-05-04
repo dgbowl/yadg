@@ -1,5 +1,5 @@
-yadg.parsers.chromtrace package
-===============================
+**chromtrace**: Chromatogram parser
+===================================
 
 .. automodule:: yadg.parsers.chromtrace
    :members:

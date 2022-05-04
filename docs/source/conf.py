@@ -58,6 +58,7 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "body_max_width": "none",
     "sticky_navigation": True,
+    "navigation_depth": 6
 }
 html_logo = "./images/yadg.png"
 html_favicon = "./images/yadg_ico.png"

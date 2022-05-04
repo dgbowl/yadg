@@ -1,4 +1,10 @@
-"""Processing of BioLogic's EC-Lab ASCII export files.
+"""
+**eclabmpt**: Processing of BioLogic's EC-Lab ASCII export files.
+-----------------------------------------------------------------
+
+``.mpt`` files are made up of a header portion (with the technique
+parameter sequences and an optional loops section) and a tab-separated
+data table.
 
 File Structure of `.mpt` Files
 ``````````````````````````````

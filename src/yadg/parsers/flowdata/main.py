@@ -38,7 +38,7 @@ def process(
         Specification for column conversion. The `key` of each entry will form a new
         datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
         each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)`
-        specification. See :ref:`processing convert<processing_convert>` for more info.
+        specification. See processing convert for more info.
 
     calfile
         ``convert``-like functionality specified in a json file.

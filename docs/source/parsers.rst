@@ -1,20 +1,21 @@
-**yadg** parsers
-----------------------
+Parsers available in **yadg**
+-----------------------------
 
-**yadg** offloads the responsibility of processing the raw data files to its 
-modules, called parsers. The currently implemented parsers are documented in the 
+yadg offloads the responsibility of processing the raw data files to its modules, 
+called parsers. The currently implemented parsers are documented in the 
 following links:
 
 .. toctree::
    :maxdepth: 1
 
-   parsers.dummy
-   parsers.basiccsv
-   parsers.chromtrace
-   parsers.qftrace
-   parsers.meascsv
-   parsers.flowdata
-   parsers.masstrace
+   yadg.parsers.dummy
+   yadg.parsers.basiccsv
+   yadg.parsers.meascsv
+   yadg.parsers.flowdata
+   yadg.parsers.electrochem
+   yadg.parsers.chromtrace
+   yadg.parsers.qftrace
    yadg.parsers.xpstrace
-   parsers.electrochem
    yadg.parsers.xrdtrace
+   yadg.parsers.masstrace
+   

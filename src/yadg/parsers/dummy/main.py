@@ -1,4 +1,4 @@
-from .. import dgutils
+from ... import dgutils
 from dgbowl_schemas.yadg_dataschema.parameters import Dummy
 
 version = "4.0.0"
@@ -26,6 +26,9 @@ def process(
 
     timezone
         Not used
+    
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.Dummy`.
 
     Returns
     -------

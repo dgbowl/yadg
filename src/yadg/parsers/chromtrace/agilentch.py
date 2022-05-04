@@ -1,5 +1,6 @@
 """
-File parser for Agilent OpenLab binary signal trace files (CH and IT).
+**agilentch**: Processing Agilent OpenLab binary signal trace files (CH and IT).
+--------------------------------------------------------------------------------
 
 Currently supports version "179" of the files. Version information is defined in
 the `magic_values` (parameters & metadata) and `data_dtypes` (data) dictionaries.

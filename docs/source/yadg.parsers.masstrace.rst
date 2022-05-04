@@ -1,5 +1,5 @@
-yadg.parsers.masstrace package
-==============================
+**masstrace**: Mass spectrometry parser
+=======================================
 
 .. automodule:: yadg.parsers.masstrace
    :members:

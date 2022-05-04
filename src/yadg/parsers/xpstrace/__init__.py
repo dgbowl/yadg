@@ -59,6 +59,8 @@ far only seem to take on values in those steps.
     Determining the uncertainty of the counts per second signal in XPS
     traces from the phispe parser should be done in a better way.
 
+Metadata
+````````
 The metadata collected from the raw files depends on the ``filetype``. The 
 following metadata entries are currently stored for each `step`:
 

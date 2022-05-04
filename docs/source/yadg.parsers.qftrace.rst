@@ -1,5 +1,5 @@
-yadg.parsers.qftrace package
-============================
+**qftrace**: VNA trace parser
+=============================
 
 .. automodule:: yadg.parsers.qftrace
    :members:

@@ -1,8 +1,8 @@
 import json
 import logging
 from uncertainties import ufloat
-from .basiccsv import process_row
-from .. import dgutils
+from ..basiccsv.main import process_row
+from ... import dgutils
 from dgbowl_schemas.yadg_dataschema.parameters import MeasCSV
 from dgbowl_schemas.yadg_dataschema.timestamp import Timestamp
 

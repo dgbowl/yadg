@@ -1,5 +1,6 @@
 """
-File parser for Agilent OpenLab data archive files (DX).
+**agilentch**: Processing Agilent OpenLab data archive files (DX).
+------------------------------------------------------------------
 
 This is a wrapper parser which unzips the provided DX file, and then uses the
 :mod:`yadg.parsers.chromtrace.agilentch` parser to parse every CH file present in

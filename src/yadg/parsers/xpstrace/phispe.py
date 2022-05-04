@@ -1,4 +1,6 @@
-"""Processing of ULVAC PHI Multipak XPS traces.
+"""
+**phispe**: Processing of ULVAC PHI Multipak XPS traces.
+--------------------------------------------------------
 
 The [IGOR `.spe` import script by jjweimer](https://www.wavemetrics.com/project/phispefileloader)
 was pretty helpful for writing this parser.

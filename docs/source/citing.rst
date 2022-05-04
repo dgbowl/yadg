@@ -2,8 +2,8 @@ Citing **yadg**
 ---------------
 yadg is currently being developed at the Materials for Energy Conversion lab at 
 Empa, Dübendorf. If you find yadg useful, please cite our recent paper [Kraus2022b]_,
-or our previous work where yadg was introduced [Kraus2022a]_. We extend no warranty, 
-either express or implied.
+or our previous work where yadg was first introduced [Kraus2022a]_. We extend no 
+warranty, neither express nor implied.
 
 Papers related to yadg
 ``````````````````````

@@ -6,12 +6,12 @@ yadg.parsers package
    :undoc-members:
    :show-inheritance:
 
-Subpackages
------------
-
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
+   yadg.parsers.dummy
+   yadg.parsers.basiccsv
+   yadg.parsers.meascsv
    yadg.parsers.chromtrace
    yadg.parsers.electrochem
    yadg.parsers.flowdata
@@ -19,24 +19,3 @@ Subpackages
    yadg.parsers.qftrace
    yadg.parsers.xpstrace
    yadg.parsers.xrdtrace
-
-Submodules
-----------
-
-
-.. automodule:: yadg.parsers.basiccsv
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-.. automodule:: yadg.parsers.dummy
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-.. automodule:: yadg.parsers.meascsv
-   :members:
-   :undoc-members:
-   :show-inheritance:

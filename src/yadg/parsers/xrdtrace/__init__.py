@@ -46,6 +46,8 @@ the linearly spaced :math:`2\\theta` values.
 The uncertainties ``"s"`` of ``"intensity"`` are currently set to a constant
 value of 1.0 count as all the supported files seem to produce integer values.
 
+Metadata
+````````
 .. warning::
   
   The metadata collected from the raw data file depends on the filetype, and 

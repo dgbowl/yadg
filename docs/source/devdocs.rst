@@ -34,7 +34,7 @@ Implementing new parsers
 ````````````````````````
 New parsers should be implemented by:
 
-- adding their schema into :class:`~dgbowl_schemas.yadg.DataSchema`
+- adding their schema into :class:`dgbowl_schemas.yadg.DataSchema`
 - adding their implementation in a separate Python package under :mod:`yadg.parsers`
 
 Generally, specific filetype parsers should be kept separate from the main parser

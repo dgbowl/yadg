@@ -5,10 +5,7 @@ yadg.dgutils package
    :members:
    :undoc-members:
    :show-inheritance:
-
-Submodules
-----------
-
+   
 
 .. automodule:: yadg.dgutils.btools
    :members:

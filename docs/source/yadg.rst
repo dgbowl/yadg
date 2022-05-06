@@ -1,5 +1,5 @@
-yadg package
-============
+**yadg** autodocs
+=================
 
 .. automodule:: yadg
    :members:
@@ -10,7 +10,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
 
    yadg.core
    yadg.dgutils

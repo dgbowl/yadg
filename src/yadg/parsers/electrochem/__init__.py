@@ -14,7 +14,7 @@ The parser supports the following parameters:
 
 .. _yadg.parsers.electrochem.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.ElectroChem
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params
 
 .. _yadg.parsers.electrochem.formats:
 

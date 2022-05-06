@@ -20,7 +20,7 @@ The parser supports the following parameters:
 
 .. _yadg.parsers.basiccsv.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.BasicCSV
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.BasicCSV.Params
 
 .. note::
 

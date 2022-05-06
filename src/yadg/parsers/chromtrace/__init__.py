@@ -16,7 +16,7 @@ following parameters:
 
 .. _yadg.parsers.chromtrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.ChromTrace
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params
 
 .. note::
 

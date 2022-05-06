@@ -9,7 +9,7 @@ The parser supports the following parameters:
 
 .. _yadg.parsers.xrdtrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.XRDTrace
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params
 
 .. _yadg.parsers.xrdtrace.formats:
 

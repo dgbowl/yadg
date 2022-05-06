@@ -13,7 +13,7 @@ keyword in the `dataschema`. Further information can be specified in the
 
 .. _yadg.parsers.masstrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.MassTrace
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params
 
 .. _yadg.parsers.masstrace.formats:
 

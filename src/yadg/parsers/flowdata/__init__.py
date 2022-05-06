@@ -11,7 +11,7 @@ supported by the parser:
 
 .. _yadg.parsers.flowdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.FlowData
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params
 
 .. _yadg.parsers.flowdata.formats:
 

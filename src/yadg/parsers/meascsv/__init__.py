@@ -17,7 +17,7 @@ are supported by the parser:
 
 .. _yadg.parsers.meascsv.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.MeasCSV
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params
 
 .. _parsers_meascsv_provides:
 

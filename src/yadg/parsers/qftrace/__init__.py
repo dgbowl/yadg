@@ -14,7 +14,7 @@ following parameters:
 
 .. _yadg.parsers.qftrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg_dataschema.parameters.QFTrace
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params
 
 .. _yadg.parsers.qftrace.formats:
 

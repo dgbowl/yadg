@@ -1,0 +1,21 @@
+{
+    "metadata": {
+        "provenance": {
+            "type": "manual"
+        },
+        "version": "4.1"
+    },
+    "steps": [
+        {
+            "parser": "dummy",
+            "input": {"files": ["ts0.dummy.json"]}
+        },
+        {
+            "parser": "dummy",
+            "input": {"folders": ["."], "suffix": ".json", "exclude": "dummy"},
+            "parameters": {
+                "k": "v"
+            }
+        } 
+    ]
+}

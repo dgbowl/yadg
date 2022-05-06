@@ -2,13 +2,22 @@ import pytest
 import os
 import json
 import yadg.core
+from dgbowl_schemas.yadg import to_dataschema
 
 
-def datagram_from_input(input, parser, datadir):
+def _schema_4_0(input, parser, version):
+    if "files" in input:
+        files = input["files"]
+    elif "case" in input:
+        files = [input["case"]]
+    elif "folders" in input:
+        files = None
+    else:
+        raise ValueError()
     schema = {
         "metadata": {
-            "provenance": "manual",
-            "schema_version": "0.1",
+            "provenance": "datagram_from_input",
+            "schema_version": version,
             "timezone": input.get("timezone", "UTC"),
         },
         "steps": [
@@ -19,22 +28,60 @@ def datagram_from_input(input, parser, datadir):
                     "suffix": input.get("suffix", ""),
                     "contains": input.get("contains", ""),
                     "encoding": input.get("encoding", "utf-8"),
+                    "folders": input.get("folders"),
+                    "files": files,
                 },
-                "parameters": input.get("parameters", {}),
+                "externaldate": input.get("externaldate", None),
             }
         ],
     }
-    if "externaldate" in input:
-        schema["steps"][0]["externaldate"] = input["externaldate"]
-    if "case" in input:
-        schema["steps"][0]["import"]["files"] = [input["case"]]
-    elif "files" in input:
-        schema["steps"][0]["import"]["files"] = input["files"]
+    if "parameters" in input:
+        schema["steps"][0]["parameters"] = input["parameters"]
+    return schema
+
+
+def _schema_4_1(input, parser, version):
+    if "files" in input:
+        files = input["files"]
+    elif "case" in input:
+        files = [input["case"]]
     elif "folders" in input:
-        schema["steps"][0]["import"]["folders"] = input["folders"]
+        files = input["folders"]
+    else:
+        raise ValueError()
+    schema = {
+        "metadata": {
+            "provenance": {"type": "datagram_from_input"},
+            "version": version,
+            "timezone": input.get("timezone", "UTC"),
+        },
+        "steps": [
+            {
+                "parser": parser,
+                "input": {
+                    "prefix": input.get("prefix", None),
+                    "suffix": input.get("suffix", None),
+                    "contains": input.get("contains", None),
+                    "encoding": input.get("encoding", "UTF-8"),
+                    "files": files,
+                },
+                "parameters": input.get("parameters", None),
+                "externaldate": input.get("externaldate", None),
+            }
+        ],
+    }
+    return schema
+
+
+def datagram_from_input(input, parser, datadir, version="4.0"):
+    if version in {"4.0", "4.0.0", "4.0.1"}:
+        schema = _schema_4_0(input, parser, version)
+    elif version in {"4.1"}:
+        schema = _schema_4_1(input, parser, version)
     os.chdir(datadir)
-    assert yadg.core.validators.validate_schema(schema)
-    return yadg.core.process_schema(schema)
+    print(schema)
+    ds = to_dataschema(**schema)
+    return yadg.core.process_schema(ds)
 
 
 def standard_datagram_test(datagram, testspec):

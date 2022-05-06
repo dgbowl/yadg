@@ -1,5 +1,6 @@
 """
-File parser for Fusion json data format (json).
+**fusionjson**: Processing Inficon Fusion json data format (json).
+------------------------------------------------------------------
 
 This is a fairly detailed data format, including the traces, the calibration applied,
 and also the integrated peak areas. If the peak areas are present, this is returned

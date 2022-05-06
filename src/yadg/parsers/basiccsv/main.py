@@ -3,10 +3,10 @@ import json
 import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
-from .. import dgutils
+from pydantic import BaseModel
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
-version = "4.0.0"
 
 
 def process_row(
@@ -136,11 +136,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    sep: str = ",",
-    units: dict = None,
-    timestamp: dict = None,
-    convert: dict = None,
-    calfile: str = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     A basic csv parser.
@@ -161,28 +157,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    sep
-        Separator to use. Default is "," for csv.
-
-    units
-        Column-specific unit specification. If present, even if empty, 2nd line is
-        treated as data. If omitted, 2nd line is treated as units.
-
-    timestamp
-        Specification for timestamping. Allowed keys are ``"date"``, ``"time"``,
-        ``"timestamp"``, ``"uts"``. The entries can be ``"index"`` :class:`(list[int])`,
-        containing the column indices, and ``"format"`` :class:`(str)` with the format
-        string to be used to parse the date. See :func:`yadg.dgutils.dateutils.infer_timestamp_from`
-        for more info.
-
-    convert
-        Specification for column conversion. The key of each entry will form a new
-        datapoint in the ``"derived"`` :class:`(dict)` of a timestep, including the
-        option to specify linear combinations. See :ref:`here<processing_convert>` for
-        more info.
-
-    calfile
-        ``convert``-like functionality specified in a json file.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.BasicCSV`.
 
     Returns
     -------
@@ -193,13 +169,13 @@ def process(
 
     """
     # Process calfile and convert into calib
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     # Load file, extract headers and get timestamping function
     with open(fn, "r", encoding=encoding) as infile:
@@ -207,15 +183,16 @@ def process(
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
-    headers = [header.strip() for header in lines[0].split(sep)]
+    headers = [header.strip() for header in lines[0].split(parameters.sep)]
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
-        headers=headers, spec=timestamp, timezone=timezone
+        headers=headers, spec=parameters.timestamp, timezone=timezone
     )
 
     # Populate units
+    units = parameters.units
     if units is None:
         units = {}
-        _units = [column.strip() for column in lines[1].split(sep)]
+        _units = [column.strip() for column in lines[1].split(parameters.sep)]
         for header in headers:
             units[header] = _units.pop(0)
         si = 2
@@ -236,7 +213,12 @@ def process(
     data = []
     for line in lines[si:]:
         element = process_row(
-            headers, line.split(sep), units, datefunc, datecolumns, calib=calib
+            headers,
+            line.split(parameters.sep),
+            units,
+            datefunc,
+            datecolumns,
+            calib=calib,
         )
         element["fn"] = str(fn)
         data.append(element)

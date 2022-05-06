@@ -1,7 +1,10 @@
 """
-.. _parsers_chromtrace_integration:
+.. _yadg.parsers.chromtrace.integration:
 
-This module contains the :func:`yadg.parsers.chromtrace.integration.integrate_trace`
+**integration**: Routines for chromatogram integration.
+-------------------------------------------------------
+
+This module contains the :func:`~yadg.parsers.chromtrace.integration.integrate_trace`
 function, as well as several helper functions to smoothen, peak-pick, determine edges,
 and integrate the supplied traces.
 

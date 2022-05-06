@@ -2,10 +2,24 @@ import os
 import argparse
 import logging
 import json
+import yaml
+from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_1
 from . import core, dgutils
 
 
 logger = logging.getLogger(__name__)
+
+
+def _load_file(infile: str) -> dict:
+    with open(infile, "r") as inf:
+        if infile.endswith("json"):
+            obj = json.load(inf)
+        elif infile.endswith("yml") or infile.endswith("yaml"):
+            obj = yaml.safe_load(inf)
+        else:
+            logging.critical("Filename type not recognised: '%s'", infile)
+            raise RuntimeError(f"Filename type not recognised: '{infile}'")
+    return obj
 
 
 def process(args: argparse.Namespace) -> None:
@@ -22,15 +36,15 @@ def process(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logger.info("Reading input json from '%s'.", args.infile)
-    with open(args.infile, "r") as infile:
-        schema = json.load(infile)
+    logger.info("Reading input file from '%s'.", args.infile)
+    schema = _load_file(args.infile)
 
-    logger.debug("Validating schema.")
-    assert core.validate_schema(schema, args.permissive)
+    logger.info("Loading dataschema.")
+    ds = to_dataschema(**schema)
+    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
     logger.debug("Processing schema")
-    datagram = core.process_schema(schema)
+    datagram = core.process_schema(ds)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
     with open(args.outfile, "w") as ofile:
@@ -61,9 +75,8 @@ def update(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logger.info("Reading input json from '%s'.", args.infile)
-    with open(args.infile) as infile:
-        inobj = json.load(infile)
+    logger.info("Reading input file from '%s'.", args.infile)
+    inobj = _load_file(args.infile)
 
     if args.outfile is None:
         name, ext = os.path.splitext(args.infile)
@@ -74,7 +87,10 @@ def update(args: argparse.Namespace) -> None:
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
-        json.dump(outobj, outfile, indent=1)
+        if isinstance(outobj, DataSchema_4_1):
+            json.dump(outobj.dict(), outfile, indent=1)
+        else:
+            json.dump(outobj, outfile, indent=1)
 
 
 def preset(args: argparse.Namespace) -> None:
@@ -108,22 +124,19 @@ def preset(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    logger.info("Reading input json from '%s'.", args.preset)
-    with open(args.preset) as infile:
-        preset = json.load(infile)
+    logger.info("Reading input file from '%s'.", args.preset)
+    preset = _load_file(args.preset)
 
-    logger.info("Validating loaded preset.")
-    assert core.validate_schema(preset, strictfiles=False, strictfolders=False)
-
-    logger.info("Creating a schema from preset for '{args.folder}'.")
+    logger.info("Creating a schema from preset for '%s'.", args.folder)
     schema = dgutils.schema_from_preset(preset, args.folder)
 
     logger.info("Validating created schema.")
-    assert core.validate_schema(schema)
+    ds = to_dataschema(**schema)
+    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
     if args.process:
         logger.info("Processing created schema.")
-        datagram = core.process_schema(schema)
+        datagram = core.process_schema(ds)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
@@ -132,4 +145,4 @@ def preset(args: argparse.Namespace) -> None:
         args.outfile = "schema.json" if args.outfile is None else args.outfile
         logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
-            json.dump(schema, ofile, indent=1)
+            json.dump(ds.dict(), ofile, indent=1)

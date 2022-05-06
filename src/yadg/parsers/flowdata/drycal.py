@@ -1,6 +1,9 @@
 """
-File parser for DryCal log files, including converted documents (rtf) and tabulated
-exports (txt, csv).
+**drycal**: File parser for DryCal log files.
+---------------------------------------------
+
+This module includes functions for parsing converted documents (``rtf``) and 
+tabulated exports (``txt``, ``csv``).
 
 The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
 the date has to be supplied either using the ``date`` argument in parameters, or is
@@ -9,8 +12,19 @@ parsed from the prefix of the filename.
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 from striprtf.striprtf import rtf_to_text
-from ..basiccsv import process_row
+from ..basiccsv.main import process_row
 from ... import dgutils
+from pydantic import BaseModel, Extra
+from typing import Optional
+
+
+class TimeDate(BaseModel):
+    class TimestampSpec(BaseModel, extra=Extra.forbid):
+        index: Optional[int]
+        format: Optional[str]
+
+    date: Optional[TimestampSpec]
+    time: Optional[TimestampSpec]
 
 
 def rtf(
@@ -71,7 +85,7 @@ def rtf(
             dl.append(line)
     headers, units, data = drycal_table(dl, sep="|")
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec={"time": {"index": 4, "format": "%I:%M:%S %p"}}, timezone=timezone
+        spec=TimeDate(time={"index": 4, "format": "%I:%M:%S %p"}), timezone=timezone
     )
 
     # Correct each ts by provided date
@@ -148,7 +162,7 @@ def sep(
     else:
         fmt = "%H:%M:%S"
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec={"time": {"index": 4, "format": fmt}}, timezone=timezone
+        spec=TimeDate(time={"index": 4, "format": fmt}), timezone=timezone
     )
 
     # Correct each ts by provided date

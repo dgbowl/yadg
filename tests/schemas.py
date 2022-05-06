@@ -1,19 +1,17 @@
-dummy_1 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+ts0 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [{"parser": "dummy", "import": {"folders": ["."], "suffix": "wrong"}}],
 }
-dummy_2 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
-    "steps": [{"parser": "dummy", "import": {"files": ["dummy_schema_2.json"]}}],
+ts1 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
+    "steps": [{"parser": "dummy", "import": {"files": ["ts1.json"]}}],
 }
-dummy_3 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
-    "steps": [
-        {"parser": "dummy", "import": {"folders": ["."], "contains": "dummy_schema"}}
-    ],
+ts2 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
+    "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": "dummy"}}],
 }
-dummy_4 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+ts3 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parser": "dummy",
@@ -21,17 +19,17 @@ dummy_4 = {
         }
     ],
 }
-dummy_5 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+ts4 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parser": "dummy",
-            "import": {"folders": ["."], "prefix": "dummy", "contains": "1"},
+            "import": {"folders": ["."], "prefix": "ts", "contains": "1"},
         }
     ],
 }
-fail_1 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+fts0 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parse": "dummy",
@@ -39,8 +37,8 @@ fail_1 = {
         }
     ],
 }
-fail_2 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+fts1 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parser": "dumm",
@@ -48,8 +46,8 @@ fail_2 = {
         }
     ],
 }
-fail_3 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+fts2 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parser": "dummy",
@@ -60,12 +58,12 @@ fail_3 = {
         }
     ],
 }
-fail_4 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+fts3 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [{"parser": "dummy", "import": {}}],
 }
-fail_5 = {
-    "metadata": {"provenance": "manual", "schema_version": "0.1"},
+fts4 = {
+    "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
     "steps": [
         {
             "parser": "dummy",
@@ -166,17 +164,55 @@ gctrace_chromtab = {
     },
 }
 
-exclude_1 = {
-    "metadata": {"provenance": "manual", "schema_version": "4.1.0"},
+ts5 = {
+    "metadata": {"provenance": {"type": "manual"}, "version": "4.1"},
     "steps": [
         {
             "parser": "dummy",
-            "import": {
+            "input": {
                 "folders": ["."],
                 "suffix": "json",
                 "contains": "schema",
                 "exclude": "3.1.0",
             },
+            "parameters": {},
+        }
+    ],
+}
+
+fts5 = {
+    "metadata": {"provenance": "wrong", "version": "4.1"},
+    "steps": [
+        {
+            "parser": "dummy",
+            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
+        }
+    ],
+}
+fts6 = {
+    "metadata": {"provenance": {"type": "manual"}, "version": "4.0"},
+    "steps": [
+        {
+            "parser": "dummy",
+            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
+        }
+    ],
+}
+fts7 = {
+    "metadata": {"provenance": {"type": "manual"}, "version": "4.1"},
+    "steps": [
+        {
+            "parser": "dummy",
+            "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
+        }
+    ],
+}
+fts8 = {
+    "metadata": {"provenance": {"type": "manual"}, "version": "4.1"},
+    "steps": [
+        {
+            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
+            "parameters": {"k": "v"},
         }
     ],
 }

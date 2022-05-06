@@ -1,10 +1,12 @@
-from .. import dgutils
-
-version = "4.0.0"
+from pydantic import BaseModel
+from ... import dgutils
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "localtime", **kwargs: dict
+    fn: str,
+    encoding: str = "utf-8",
+    timezone: str = "localtime",
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     A dummy parser.
@@ -23,6 +25,9 @@ def process(
     timezone
         Not used
 
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.Dummy`.
+
     Returns
     -------
     (data, metadata, fulldate) : tuple[list, dict, bool]
@@ -30,7 +35,9 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-
+    kwargs = {} if parameters is None else parameters.dict()
+    if "parser" in kwargs:
+        del kwargs["parser"]
     result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
 
     return [result], None, True

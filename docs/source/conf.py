@@ -34,9 +34,11 @@ extensions = [
     "sphinx.ext.autodoc",
     # "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
+    "sphinx.ext.intersphinx",
     # "sphinx.ext.autosummary",
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
+    "sphinxcontrib.autodoc_pydantic"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -57,6 +59,7 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "body_max_width": "none",
     "sticky_navigation": True,
+    "navigation_depth": 6
 }
 html_logo = "./images/yadg.png"
 html_favicon = "./images/yadg_ico.png"
@@ -72,10 +75,8 @@ html_static_path = ["images"]
 autosummary_generate = True
 autodoc_default_flags = ["members", "undoc-members", "show-inheritance"]
 
-html_context = {
-    'versions': [
-        "master",
-        "4.0.1", 
-        "4.0.0"
-    ]
+autodoc_pydantic_model_show_field_summary = False
+autodoc_pydantic_model_member_order = "bysource"
+intersphinx_mapping = {
+    'dgbowl_schemas': ("https://dgbowl.github.io/dgbowl-schemas/103", None)
 }

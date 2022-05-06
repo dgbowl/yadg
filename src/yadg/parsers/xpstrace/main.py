@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import phispe
-
-
-version = "4.0.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    tracetype: str = "phi.spe",
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 
@@ -25,11 +23,8 @@ def process(
     timezone
         A string description of the timezone. Default is "UTC".
 
-    tracetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_xpstrace_formats>`.
-
-        The default is ``"phi.spe"``.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.XPSTrace`.
 
     Returns
     -------
@@ -38,5 +33,5 @@ def process(
         Multipak .spe files seemingly have no timestamp.
 
     """
-    if tracetype == "phi.spe":
+    if parameters.filetype == "phi.spe":
         return phispe.process(fn, encoding, timezone)

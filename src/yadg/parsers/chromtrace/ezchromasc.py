@@ -1,5 +1,6 @@
 """
-File parser for EZ-Chrom ASCII export files (dat.asc).
+**ezchromasc**: Processing EZ-Chrom ASCII export files (dat.asc).
+-----------------------------------------------------------------
 
 This file format includes one timestep with multiple traces in each ASCII file. It
 contains a header section, and a sequence of Y datapoints for each detector. The X

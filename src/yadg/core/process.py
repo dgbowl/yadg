@@ -1,21 +1,9 @@
 import json
-import os
 import logging
-from typing import Union, Callable
-
-from ..parsers import (
-    dummy,
-    basiccsv,
-    qftrace,
-    chromtrace,
-    flowdata,
-    masstrace,
-    xpstrace,
-    meascsv,
-    electrochem,
-    masstrace,
-    xrdtrace,
-)
+import importlib
+from typing import Callable
+from packaging import version
+from dgbowl_schemas.yadg import latest_version, DataSchema_4_0
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
@@ -38,68 +26,17 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         A tuple containing the handler function as :class:`(Callable)` and the handler
         version as :class:`(str)`.
     """
-    if parser == "chromtrace":
-        return chromtrace.process, chromtrace.version
-    if parser == "qftrace":
-        return qftrace.process, qftrace.version
-    if parser == "dummy":
-        return dummy.process, dummy.version
-    if parser == "basiccsv":
-        return basiccsv.process, basiccsv.version
-    if parser == "flowdata":
-        return flowdata.process, flowdata.version
-    if parser == "meascsv":
-        return meascsv.process, meascsv.version
-    if parser == "electrochem":
-        return electrochem.process, electrochem.version
-    if parser == "masstrace":
-        return masstrace.process, masstrace.version
-    if parser == "xpstrace":
-        return xpstrace.process, xpstrace.version
-    if parser == "xrdtrace":
-        return xrdtrace.process, xrdtrace.version
+    modname = f"yadg.parsers.{parser}"
+    try:
+        m = importlib.import_module(modname)
+        func = getattr(m, "process")
+        return func
+    except ImportError as e:
+        logger.critical(f"could not import module '{modname}'")
+        raise e
 
 
-def _infer_todo_files(importdict: dict) -> list:
-    """
-    File enumerator function.
-
-    This function enumerates all paths to be processed by yadg using the "import" key
-    within a schema step. Currently, the specification allows for folders, files or paths.
-
-    Parameters
-    ----------
-    importdict
-        A (dict) describing the paths to process. A valid schema has to contain one, and
-        only one, of the following keys: ``"folders"``, ``"files"``. Additional keys
-        that are processed here are ``"prefix"``, ``"suffix"``, and ``"contains"``.
-
-    Returns
-    -------
-    todofiles
-        A sorted list of paths which match the ``importdict`` spec.
-    """
-    todofiles = []
-    if "folders" in importdict:
-        for folder in importdict["folders"]:
-            for fn in os.listdir(folder):
-                if (
-                    fn.startswith(importdict.get("prefix", ""))
-                    and fn.endswith(importdict.get("suffix", ""))
-                    and importdict.get("contains", "") in fn
-                    and not (
-                        importdict.get("exclude", False)
-                        and importdict.get("exclude", "") in fn
-                    )
-                ):
-                    todofiles.append(os.path.join(folder, fn))
-    if "files" in importdict:
-        for path in importdict["files"]:
-            todofiles.append(path)
-    return sorted(todofiles)
-
-
-def process_schema(schema: Union[list, tuple]) -> dict:
+def process_schema(dataschema) -> dict:
     """
     Main worker function of **yadg**.
 
@@ -126,46 +63,59 @@ def process_schema(schema: Union[list, tuple]) -> dict:
                 "yadg": dgutils.get_yadg_metadata(),
             },
             "date": dgutils.now(asstr=True),
-            "input_schema": schema.copy(),
+            "input_schema": dataschema.dict(),
             "datagram_version": core.spec_datagram.datagram_version,
         },
         "steps": [],
     }
-    for step in schema["steps"]:
+
+    current_version = dataschema.metadata.version
+    if version.parse(current_version) < version.parse(latest_version):
+        logger.warning(
+            "The version of the provided DataSchema '%s' is older than the current "
+            "latest version of DataSchema '%s'. Consider updating your schema.",
+            current_version,
+            latest_version,
+        )
+
+    si = 0
+    for step in dataschema.steps:
+        logger.info("Processing step %d:", si)
         metadata = dict()
         timesteps = list()
-        logger.info("processing step %d:", schema["steps"].index(step))
-        handler, parserversion = _infer_datagram_handler(step["parser"])
-        metadata["tag"] = step.get("tag", f"{schema['steps'].index(step):02d}")
-        metadata["parser"] = {step["parser"]: {"version": parserversion}}
-        todofiles = _infer_todo_files(step["import"])
+        handler = _infer_datagram_handler(step.parser)
+        metadata["tag"] = f"{si:02d}" if step.tag is None else step.tag
+        metadata["parser"] = step.parser
+        todofiles = step.input.paths()
         if len(todofiles) == 0:
             logger.warning("No files processed by step '%s'.", metadata["tag"])
         for tf in todofiles:
-            logger.debug("Processing item '%s'.", tf)
+            logger.info("Processing file '%s'.", tf)
             ts, meta, fulldate = handler(
                 tf,
-                encoding=step["import"].get("encoding", "utf-8"),
-                timezone=schema["metadata"].get("timezone", "localtime"),
-                **step.get("parameters", {}),
+                encoding=step.input.encoding,
+                timezone=dataschema.metadata.timezone,
+                parameters=step.parameters,
             )
-            ed = step.get("externaldate", {})
-            if not fulldate or ed != {}:
+            if not fulldate or step.externaldate is not None:
                 dgutils.complete_timestamps(
-                    ts, tf, ed, schema["metadata"].get("timezone", "localtime")
+                    ts, tf, step.externaldate, dataschema.metadata.timezone
                 )
-            assert isinstance(
-                ts, list
-            ), f"Handler for {step['parser']} yields timesteps that are not a enclosed in a 'list'."
+            assert isinstance(ts, list), (
+                f"Handler for '{step.parser}' yields timesteps "
+                "that are not a enclosed in a 'list'."
+            )
             timesteps += ts
-            assert (
-                isinstance(meta, dict) or meta is None
-            ), f"Handler for {step['parser']} yields metadata that are not a enclosed in a 'dict'."
+            assert isinstance(meta, dict) or meta is None, (
+                f"Handler for '{step.parser}' yields metadata "
+                "that are not a enclosed in a 'dict'."
+            )
             if meta is not None:
                 metadata.update(meta)
 
         datagram["steps"].append({"metadata": metadata, "data": timesteps})
-        if step.get("export", None) is not None:
-            with open(step["export"], "w") as ofile:
-                json.dump(datagram, ofile, indent=1)
+        if isinstance(dataschema, DataSchema_4_0):
+            if step.export is not None:
+                with open(step["export"], "w") as ofile:
+                    json.dump(datagram, ofile, indent=1)
     return datagram

@@ -1,7 +1,9 @@
-"""Processing of Quadstar 32-bit scan analog data.
+"""
+**quadstarsac**: Processing of Quadstar 32-bit scan analog data.
+----------------------------------------------------------------
 
-The [sac2dat.c code from Dr. Moritz Bubek](https://www.bubek.org/sac2dat.php)
-was a really useful stepping stone for this Python adaptation.
+The `sac2dat.c code from Dr. Moritz Bubek <https://www.bubek.org/sac2dat.php>`_
+was a really useful stepping stone for this Python file parser.
 
 Pretty much the entire file format has been reverse engineered. There
 are still one or two unknown fields.
@@ -283,7 +285,7 @@ def process(
             # TODO: Determine the correct accuracy from fsr. The 32bit
             # ADC is a guess that seems to put the error in the correct
             # order of magnitude.
-            sigma_adc = fsr / 2 ** 32
+            sigma_adc = fsr / 2**32
             sigma = []
             # Contributions to neighboring masses.
             for i in range(len(y_values)):

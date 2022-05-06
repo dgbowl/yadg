@@ -6,27 +6,25 @@
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
+
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    yadg.core
    yadg.dgutils
-
-.. toctree::
-   :maxdepth: 4
-
    yadg.parsers
 
-yadg.main module
-----------------
+Submodules
+----------
+
 
 .. automodule:: yadg.main
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.subcommands module
------------------------
 
 .. automodule:: yadg.subcommands
    :members:

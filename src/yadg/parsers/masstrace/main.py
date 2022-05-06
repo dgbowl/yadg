@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import quadstarsac
-
-
-version = "4.0.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    tracetype: str = "quadstar.sac",
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified mass spectrometry data parser.
 
@@ -25,11 +23,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    tracetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_masstrace_formats>`.
-
-        The default is ``"quadstar.sac"``.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.MassTrace`.
 
     Returns
     -------
@@ -37,6 +32,6 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag.
 
     """
-    if tracetype == "quadstar.sac":
+    if parameters.filetype == "quadstar.sac":
         _data, _meta = quadstarsac.process(fn, encoding, timezone)
     return _data, _meta, True

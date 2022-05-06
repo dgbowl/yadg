@@ -1,5 +1,6 @@
 import json
 import logging
+from pydantic import BaseModel
 from . import (
     ezchromasc,
     agilentcsv,
@@ -11,8 +12,6 @@ from . import (
 from . import integration
 
 logger = logging.getLogger(__name__)
-
-version = "4.1.0"
 
 
 def parse_detector_spec(
@@ -129,10 +128,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    tracetype: str = "ezchrom.asc",
-    detectors: dict = None,
-    species: dict = None,
-    calfile: str = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Unified chromatogram parser.
@@ -152,30 +148,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    tracetype
-        Determines the output file format. Currently supported formats are:
-
-        -  ``"ezchrom.asc"`` (EZ-Chrom ASCII export),
-        -  ``"agilent.csv"`` (Agilent Chemstation chromtab csv format),
-        -  ``"agilent.ch"`` (Agilent OpenLab binary signal file),
-        -  ``"agilent.dx"`` (Agilent OpenLab binary data archive),
-        -  ``"fusion.json"`` (Fusion json file),
-        -  ``"fusion.zip"`` (Fusion zip file),
-
-        The default is ``"ezchrom.asc"``.
-
-    detectors
-        Detector specification. Matches and identifies a trace in the `fn` file.
-        If provided, overrides data provided in ``calfile``, below.
-
-    species
-        Species specification. Per-detector species can be listed here, providing an
-        expected retention time range for the peak maximum. Additionally, calibration
-        data can be supplied here. Overrides data provided in ``calfile``, below.
-
-    calfile
-        Path to a json file containing the ``detectors`` and ``species`` spec. Either
-        ``calfile`` and/or ``species`` and ``detectors`` have to be provided.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.ChromTrace`.
 
     Returns
     -------
@@ -183,27 +157,31 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. All currently
         supported file formats return full date.
     """
-    if tracetype == "ezchrom.asc":
+    if parameters.filetype == "ezchrom.asc":
         _data, _meta = ezchromasc.process(fn, encoding, timezone)
-    elif tracetype == "agilent.csv":
+    elif parameters.filetype == "agilent.csv":
         _data, _meta = agilentcsv.process(fn, encoding, timezone)
-    elif tracetype == "agilent.dx":
+    elif parameters.filetype == "agilent.dx":
         _data, _meta = agilentdx.process(fn, encoding, timezone)
-    elif tracetype == "agilent.ch":
+    elif parameters.filetype == "agilent.ch":
         _data, _meta = agilentch.process(fn, encoding, timezone)
-    elif tracetype == "fusion.json":
+    elif parameters.filetype == "fusion.json":
         _data, _meta = fusionjson.process(fn, encoding, timezone)
-    elif tracetype == "fusion.zip":
+    elif parameters.filetype == "fusion.zip":
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
-    if calfile is None and (species is None or detectors is None):
+    if parameters.calfile is None and (
+        parameters.species is None or parameters.detectors is None
+    ):
         logger.warning(
             "Neither 'calfile' nor both of 'species' and 'detectors' were "
             "provided. Will proceed without peak integration."
         )
         chromspec = False
     else:
-        chromspec = parse_detector_spec(calfile, detectors, species)
+        chromspec = parse_detector_spec(
+            parameters.calfile, parameters.detectors, parameters.species
+        )
 
     results = []
     for chrom in _data:

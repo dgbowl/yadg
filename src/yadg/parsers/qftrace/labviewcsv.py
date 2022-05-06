@@ -1,5 +1,6 @@
 """
-File parser for the LabView CSV files generated using Agilent PNA-L N5320C.
+**labviewcsv**: Processing LabView CSV files generated using Agilent PNA-L N5320C.
+----------------------------------------------------------------------------------
 
 This file format includes a header, with the values of bandwith and averaging,
 and three tab-separated columns containing the frequency :math:`f`, and the real

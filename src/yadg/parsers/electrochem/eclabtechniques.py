@@ -1,4 +1,6 @@
-"""Implemented technique parameters.
+"""
+**eclabtechniques**: Parameters for implemented techniques.
+-----------------------------------------------------------
 
 Implemented techniques:
     CA - Chronoamperometry / Chronocoulometry

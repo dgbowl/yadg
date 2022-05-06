@@ -1,20 +1,16 @@
 import logging
 import json
+from pydantic import BaseModel
 from . import drycal
 
 logger = logging.getLogger(__name__)
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    filetype: str = "drycal",
-    convert: dict = None,
-    calfile: str = None,
-    date: str = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Flow meter data processor
@@ -40,7 +36,7 @@ def process(
         Specification for column conversion. The `key` of each entry will form a new
         datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
         each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)`
-        specification. See :ref:`processing convert<processing_convert>` for more info.
+        specification. See processing convert for more info.
 
     calfile
         ``convert``-like functionality specified in a json file.
@@ -56,28 +52,28 @@ def process(
         is returned depends on the file parser.
 
     """
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     metadata = {}
 
-    if filetype.startswith("drycal"):
+    if parameters.filetype.startswith("drycal"):
         fulldate = False
 
         if "flow" not in calib:
             logger.info("Adding a default 'DryCal' -> 'flow' conversion")
             calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
-        if filetype.endswith(".rtf") or fn.endswith("rtf"):
+        if parameters.filetype.endswith(".rtf") or fn.endswith("rtf"):
             ts, meta = drycal.rtf(fn, encoding, timezone, calib)
-        elif filetype.endswith(".csv") or fn.endswith("csv"):
+        elif parameters.filetype.endswith(".csv") or fn.endswith("csv"):
             ts, meta = drycal.sep(fn, ",", encoding, timezone, calib)
-        elif filetype.endswith(".txt") or fn.endswith("txt"):
+        elif parameters.filetype.endswith(".txt") or fn.endswith("txt"):
             ts, meta = drycal.sep(fn, "\t", encoding, timezone, calib)
 
     metadata.update(meta)

@@ -1,19 +1,18 @@
 import json
 import logging
+from pydantic import BaseModel
 from uncertainties import ufloat
-from .basiccsv import process_row
-from .. import dgutils
+from ..basiccsv.main import process_row
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
-version = "4.0.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    convert: dict = None,
-    calfile: str = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Legacy MCPT measurement log parser.
@@ -33,12 +32,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    convert
-        Specification for column conversion. See :ref:`this section<processing_convert>`
-        for syntax and further details.
-
-    calfile
-        ``convert``-like functionality specified in a json file.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.MeasCSV`.
 
     Returns
     -------
@@ -49,13 +44,13 @@ def process(
     """
     logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
-    if calfile is not None:
-        with open(calfile, "r") as infile:
+    if parameters.calfile is not None:
+        with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
-    if convert is not None:
-        calib.update(convert)
+    if parameters.convert is not None:
+        calib.update(parameters.convert)
 
     with open(fn, "r", encoding=encoding) as infile:
         lines = [i.strip() for i in infile.readlines()]
@@ -69,7 +64,7 @@ def process(
     units = dgutils.sanitize_units(units)
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
-        spec={"timestamp": {"index": 0, "format": "%Y-%m-%d-%H-%M-%S"}},
+        spec=parameters.timestamp,
         timezone=timezone,
     )
     timesteps = []

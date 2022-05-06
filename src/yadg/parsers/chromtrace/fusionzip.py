@@ -1,5 +1,6 @@
 """
-File parser for Fusion zip archive format (zip).
+**fusionzip**: Processing Inficon Fusion zipped data format (zip).
+------------------------------------------------------------------
 
 This is a wrapper parser which unzips the provided zip file, and then uses
 the :mod:`yadg.parsers.chromtrace.fusionjson` parser to parse every data

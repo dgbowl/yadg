@@ -1,9 +1,10 @@
 """
-File parser for Agilent Chemstation Chromtab tabulated data files (csv).
+**agilentcsv**: Processing Agilent Chemstation Chromtab tabulated data files (csv).
+-----------------------------------------------------------------------------------
 
 This file format may include more than one timestep in each CSV file. It contains
 a header section for each timestep, followed by a detector name, and a sequence of
-[X, Y] datapoints.
+``[X, Y]`` datapoints.
 
 Exposed metadata:
 `````````````````

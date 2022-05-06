@@ -1,13 +1,12 @@
+from pydantic import BaseModel
 from . import eclabmpr, eclabmpt
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "windows-1252",
     timezone: str = "localtime",
-    filetype: str = "eclab.mpr",
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.
 
@@ -22,11 +21,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    filetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_electrochem_formats>`.
-
-        The default is ``eclab.mpr`` (auto).
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.ElectroChem`.
 
     Returns
     -------
@@ -35,8 +31,8 @@ def process(
         implemented parsers all return full date.
 
     """
-    if filetype == "eclab.mpr":
+    if parameters.filetype == "eclab.mpr":
         data, meta, fulldate = eclabmpr.process(fn, encoding, timezone)
-    elif filetype == "eclab.mpt":
+    elif parameters.filetype == "eclab.mpt":
         data, meta, fulldate = eclabmpt.process(fn, encoding, timezone)
     return data, meta, fulldate

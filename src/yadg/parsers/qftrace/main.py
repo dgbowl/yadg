@@ -1,8 +1,7 @@
 from scipy.signal import find_peaks
 import numpy as np
+from pydantic import BaseModel
 from . import fit, prune, labviewcsv
-
-version = "4.0.0"
 
 
 def _fit(
@@ -58,12 +57,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "timezone",
-    tracetype: str = "labview.csv",
-    method: str = "kajfez",
-    height: float = 1.0,
-    distance: float = 5000.0,
-    cutoff: float = 0.4,
-    threshold: float = 1e-6,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     VNA reflection trace parser.
@@ -84,23 +78,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    method
-        Method used for fitting :math:`Q_0` and :math:`f_0` to :math:`\\Gamma(f)` data.
-        One of ``"naive"``, ``"lorentz"``, or ``"kajfez"``. Default is ``"kajfez"``.
-
-    cutoff
-        Parameter passed to the cutoff-based pruning routine, defining the cutoff
-        threshold for the normalisation. Default is 0.4.
-
-    threshold
-        Parameter passed to the gradient-based pruning routine, defining the minimum
-        gradient below which the trace gets pruned. Default is 1e-6.
-
-    height
-        Parameter for the peak-picker.
-
-    distance
-        Parameter for the peak-picker.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.QFTrace`.
 
     Returns
     -------
@@ -108,7 +87,7 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. The currently only
         supported tracetype ("labview.csv") does not return full date.
     """
-    if tracetype == "labview.csv":
+    if parameters.filetype == "labview.csv":
         data, meta = labviewcsv.process(fn, encoding, timezone)
         fulldate = False
     for ts in data:
@@ -118,11 +97,11 @@ def process(
                 trace.pop("fsigs"),
                 trace.pop("gamma"),
                 trace.pop("absgamma"),
-                method,
-                height,
-                distance,
-                cutoff,
-                threshold,
+                parameters.method,
+                parameters.height,
+                parameters.distance,
+                parameters.cutoff,
+                parameters.threshold,
             )
             if "derived" not in ts:
                 ts["derived"] = {}

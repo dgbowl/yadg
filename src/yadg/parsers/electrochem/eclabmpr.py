@@ -1,9 +1,14 @@
-"""Processing of BioLogic's EC-Lab binary modular files.
+"""
+**eclabmpr**: Processing of BioLogic's EC-Lab binary modular files.
+-------------------------------------------------------------------
 
-This code is partly an adaptation of the [`galvani` module by Chris
-Kerr](https://github.com/echemdata/galvani) and builds on the work done
-by the previous civilian service member working on the project, Jonas
-Krieger.
+``.mpr`` files are structured in a set of "modules", one concerning
+settings, one for actual data, one for logs, and an optional loops
+module. The parameter sequences can be found in the settings module.
+
+This code is partly an adaptation of the `galvani module by Chris
+Kerr <https://github.com/echemdata/galvani>`_, and builds on the work done
+by the previous civilian service member working on the project, Jonas Krieger.
 
 File Structure of `.mpr` Files
 ``````````````````````````````

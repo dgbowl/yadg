@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import panalyticalxrdml, panalyticalcsv, panalyticalxy
-
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    tracetype: str = "panalytical.xrdml",
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Unified X-ray diffractogram data parser.
@@ -26,11 +24,8 @@ def process(
     timezone
         A string description of the timezone. Default is "UTC".
 
-    tracetype
-        Determines the output file format. Currently supported formats
-        can be found :ref:`here<parsers_xrdtrace_formats>`.
-
-        The default is ``"panalytical.xrdml"``.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.XRDTrace`.
 
     Returns
     -------
@@ -39,9 +34,9 @@ def process(
         currently implemented parsers all return full date.
 
     """
-    if tracetype == "panalytical.xrdml":
+    if parameters.filetype == "panalytical.xrdml":
         return panalyticalxrdml.process(fn, encoding, timezone)
-    if tracetype == "panalytical.csv":
+    elif parameters.filetype == "panalytical.csv":
         return panalyticalcsv.process(fn, encoding, timezone)
-    if tracetype == "panalytical.xy":
+    elif parameters.filetype == "panalytical.xy":
         return panalyticalxy.process(fn, encoding, timezone)

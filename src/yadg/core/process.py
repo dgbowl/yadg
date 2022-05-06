@@ -1,9 +1,9 @@
 import json
 import logging
 import importlib
-from typing import Callable, Union
+from typing import Callable
 from packaging import version
-from dgbowl_schemas.yadg import to_dataschema, latest_version, DataSchema_4_0
+from dgbowl_schemas.yadg import latest_version, DataSchema_4_0
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)

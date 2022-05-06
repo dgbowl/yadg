@@ -8,9 +8,7 @@ ts1 = {
 }
 ts2 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
-    "steps": [
-        {"parser": "dummy", "import": {"folders": ["."], "contains": "dummy"}}
-    ],
+    "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": "dummy"}}],
 }
 ts3 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
@@ -167,10 +165,7 @@ gctrace_chromtab = {
 }
 
 ts5 = {
-    "metadata": {
-        "provenance": {"type": "manual"}, 
-        "version": "4.1"
-    },
+    "metadata": {"provenance": {"type": "manual"}, "version": "4.1"},
     "steps": [
         {
             "parser": "dummy",
@@ -180,7 +175,7 @@ ts5 = {
                 "contains": "schema",
                 "exclude": "3.1.0",
             },
-            "parameters": {}
+            "parameters": {},
         }
     ],
 }
@@ -190,7 +185,7 @@ fts5 = {
     "steps": [
         {
             "parser": "dummy",
-            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}
+            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
         }
     ],
 }
@@ -199,7 +194,7 @@ fts6 = {
     "steps": [
         {
             "parser": "dummy",
-            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}
+            "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
         }
     ],
 }
@@ -208,7 +203,7 @@ fts7 = {
     "steps": [
         {
             "parser": "dummy",
-            "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]}
+            "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
         }
     ],
 }
@@ -217,7 +212,7 @@ fts8 = {
     "steps": [
         {
             "input": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
-            "parameters": {"k": "v"}
+            "parameters": {"k": "v"},
         }
     ],
 }

@@ -189,7 +189,7 @@ def process(
     )
 
     # Populate units
-    units = parameters.units 
+    units = parameters.units
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(parameters.sep)]

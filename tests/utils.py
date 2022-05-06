@@ -4,6 +4,7 @@ import json
 import yadg.core
 from dgbowl_schemas.yadg import to_dataschema
 
+
 def _schema_4_0(input, parser, version):
     if "files" in input:
         files = input["files"]
@@ -28,7 +29,7 @@ def _schema_4_0(input, parser, version):
                     "contains": input.get("contains", ""),
                     "encoding": input.get("encoding", "utf-8"),
                     "folders": input.get("folders"),
-                    "files": files
+                    "files": files,
                 },
                 "externaldate": input.get("externaldate", None),
             }
@@ -37,6 +38,7 @@ def _schema_4_0(input, parser, version):
     if "parameters" in input:
         schema["steps"][0]["parameters"] = input["parameters"]
     return schema
+
 
 def _schema_4_1(input, parser, version):
     if "files" in input:
@@ -61,16 +63,17 @@ def _schema_4_1(input, parser, version):
                     "suffix": input.get("suffix", None),
                     "contains": input.get("contains", None),
                     "encoding": input.get("encoding", "UTF-8"),
-                    "files": files
+                    "files": files,
                 },
                 "parameters": input.get("parameters", None),
-                "externaldate": input.get("externaldate", None)
+                "externaldate": input.get("externaldate", None),
             }
         ],
     }
     return schema
 
-def datagram_from_input(input, parser, datadir, version = "4.0"):
+
+def datagram_from_input(input, parser, datadir, version="4.0"):
     if version in {"4.0", "4.0.0", "4.0.1"}:
         schema = _schema_4_0(input, parser, version)
     elif version in {"4.1"}:

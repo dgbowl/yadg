@@ -72,7 +72,6 @@ def test_yadg_update_schema_310_with_outfile(datadir):
     command = ["yadg", "update", "schema", "schema_3.1.0.json", "output.json"]
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("output.json")
-    
 
 
 def test_yadg_update_datagram_310(datadir):

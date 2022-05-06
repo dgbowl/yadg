@@ -11,7 +11,6 @@ from .. import core
 logger = logging.getLogger(__name__)
 
 
-
 def calib_3to4(oldcal: dict, caltype: str) -> dict:
     newcal = {}
     if caltype == "calfile":
@@ -177,9 +176,9 @@ def update_object(objtype: str, object: Union[list, dict]) -> dict:
 
     # distribute to updaters
     if version.parse(oldver).major == 3:
-        assert objtype == "schema", (
-            "Updating datagrams older than version 4.0.0 is not possible"
-        )
+        assert (
+            objtype == "schema"
+        ), "Updating datagrams older than version 4.0.0 is not possible"
         logger.info("Updating old schema %s -> %s", oldver, latest_version)
         newobj = schema_3to4(object)
     elif version.parse(oldver).major == 4:
@@ -195,7 +194,7 @@ def update_object(objtype: str, object: Union[list, dict]) -> dict:
     elif objtype == "datagram":
         logger.info("Validating new datagram.")
         core.validators.validate_datagram(newobj)
-    
+
     return newobj
 
 
@@ -205,7 +204,7 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
     elif isinstance(preset["metadata"]["provenance"], dict):
         preset["metadata"]["provenance"] = {
             "type": "yadg preset",
-            "metadata": {"preset_provenance": preset["metadata"]["provenance"]}
+            "metadata": {"preset_provenance": preset["metadata"]["provenance"]},
         }
     for step in preset["steps"]:
         inpk = "import" if "import" in step else "input"

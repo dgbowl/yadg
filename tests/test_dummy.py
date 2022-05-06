@@ -36,7 +36,7 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     "inp_fn, ts",
     [
         (
-            "ts0.dummy.json", 
+            "ts0.dummy.json",
             {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}},
         ),
         (

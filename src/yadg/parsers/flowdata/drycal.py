@@ -17,6 +17,7 @@ from ... import dgutils
 from pydantic import BaseModel, Extra
 from typing import Optional
 
+
 class TimeDate(BaseModel):
     class TimestampSpec(BaseModel, extra=Extra.forbid):
         index: Optional[int]

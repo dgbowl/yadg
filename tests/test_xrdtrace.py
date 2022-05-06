@@ -1,11 +1,7 @@
 import json
 import pytest
 
-from .utils import (
-    datagram_from_input, 
-    standard_datagram_test, 
-    compare_result_dicts
-)
+from .utils import datagram_from_input, standard_datagram_test, compare_result_dicts
 
 
 @pytest.mark.parametrize(
@@ -35,7 +31,7 @@ from .utils import (
     ],
 )
 def test_datagram_from_xrdtrace(input, ts, datadir):
-    dg = datagram_from_input(input, "xrdtrace", datadir, version = "4.1")
+    dg = datagram_from_input(input, "xrdtrace", datadir, version="4.1")
     standard_datagram_test(dg, ts)
     with open("xrd_data.json", "r") as inf:
         ref = json.load(inf)

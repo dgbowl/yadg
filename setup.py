@@ -36,11 +36,12 @@ setuptools.setup(
         "numpy",
         "scipy",
         "pint",
+        "pyyaml",
         "uncertainties",
         "striprtf",
         "tzlocal",
         "python-dateutil",
-        "dgbowl-schemas @ git+https://github.com/PeterKraus/dgbowl-schemas.git@dataschema#egg=dgbowl_schemas-103"
+        "dgbowl-schemas>=103"
     ],
     extras_require={
         "testing": [

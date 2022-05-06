@@ -1,12 +1,12 @@
 {
     "metadata": {
-        "provenance": "manual",
-        "schema_version": "1.0"
+        "provenance": {"type": "manual"},
+        "version": "4.1"
     },
     "steps": [
         {
             "parser": "qftrace",
-            "import": {"folders": ["f1", "f2"], "suffix": "csv"},
+            "input": {"folders": ["f1", "f2"], "suffix": "csv"},
             "parameters": {
                 "method": "kajfez",
                 "cutoff": 0.4
@@ -14,9 +14,9 @@
         },
         {
             "parser": "chromtrace",
-            "import": {"folders": [""], "suffix": "dat.asc"},
+            "input": {"folders": [""], "suffix": "dat.asc"},
             "parameters": {
-                "tracetype": "ezchrom.asc",
+                "filetype": "ezchrom.asc",
                 "calfile": "calib/fhi_gccal.json"
             }
         }

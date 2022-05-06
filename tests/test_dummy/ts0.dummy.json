@@ -1,13 +1,13 @@
 {
     "metadata": {
         "provenance": "manual",
-        "schema_version": "0.1"
+        "schema_version": "4.0.0"
     },
     "steps": [
         {
             "parser": "dummy",
             "import": {
-                "files": ["dummy_schema_1.json"]
+                "files": ["ts0.dummy.json"]
             }
         }
     ]

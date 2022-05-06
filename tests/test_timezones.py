@@ -1,6 +1,6 @@
 import os
 import json
-from dgbowl_schemas.yadg_dataschema import DataSchema
+from dgbowl_schemas.yadg import to_dataschema
 import yadg.core
 
 
@@ -8,7 +8,7 @@ def datagram_from(fn, datadir):
     os.chdir(datadir)
     with open(fn, "r") as infile:
         schema = json.load(infile)
-    ds = DataSchema(**schema)
+    ds = to_dataschema(**schema)
     return yadg.core.process_schema(ds)
 
 

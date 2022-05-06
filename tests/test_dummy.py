@@ -2,29 +2,29 @@ import pytest
 import os
 import json
 import yadg.core
-from dgbowl_schemas.yadg_dataschema import DataSchema
+from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_0, DataSchema_4_1
 from pydantic import ValidationError
 
-from tests.schemas import dummy_1, dummy_2, dummy_3, dummy_4, dummy_5
-from tests.schemas import fail_1, fail_2, fail_3, fail_4, fail_5
-from tests.schemas import exclude_1
+from .schemas import ts0, ts1, ts2, ts3, ts4, ts5
+from .schemas import fts0, fts1, fts2, fts3, fts4, fts5, fts6, fts7, fts8
 
 
 @pytest.mark.parametrize(
     "inp_dict, l_dg, l_res",
     [
-        (dummy_1, 1, 0),
-        (dummy_2, 1, 1),
-        (dummy_3, 1, 2),
-        (dummy_4, 1, 2),
-        (dummy_5, 1, 1),
-        (exclude_1, 1, 2),
+        (ts0, 1, 0),
+        (ts1, 1, 1),
+        (ts2, 1, 2),
+        (ts3, 1, 2),
+        (ts4, 1, 1),
+        (ts5, 1, 0),
     ],
 )
 def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
-    ds = DataSchema(**inp_dict)
+    ds = to_dataschema(**inp_dict)
     ret = yadg.core.process_schema(ds)
+    print(ret)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
     assert len(ret["steps"]) == l_dg, "wrong number of steps"
     if l_dg > 0:
@@ -35,9 +35,16 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
 @pytest.mark.parametrize(
     "inp_fn, ts",
     [
-        ("dummy_schema_1.json", {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}}),
         (
-            "dummy_schema_2.json",
+            "ts0.dummy.json", 
+            {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}},
+        ),
+        (
+            "ts1.dummy.json",
+            {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}},
+        ),
+        (
+            "ts2.json",
             {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}},
         ),
     ],
@@ -47,7 +54,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     jsonpath = datadir.join(inp_fn)
     with open(jsonpath, "r") as infile:
         schema = json.load(infile)
-    ds = DataSchema(**schema)
+    ds = to_dataschema(**schema)
     ret = yadg.core.process_schema(ds)
     assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
     assert len(ret["steps"]) == ts["nsteps"], "wrong number of steps"
@@ -60,16 +67,29 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 @pytest.mark.parametrize(
     "inp_dict, expr",
     [
-        (fail_1, r"parser"),
-        (fail_2, r"given=dumm"),
-        (fail_3, r"Specifying multiple arguments"),
-        (fail_4, r"Either 'files' or 'folders'"),
-        (fail_5, r"extra fields not permitted"),
+        (fts0, r"parser"),
+        (fts1, r"given=dumm"),
+        (fts2, r"Both 'files' and 'folders'"),
+        (fts3, r"Neither 'files' nor 'folders'"),
+        (fts4, r"extra fields not permitted"),
     ],
 )
-def test_schema_validator(inp_dict, expr, datadir):
+def test_schema_validator_4_0(inp_dict, expr, datadir):
     os.chdir(datadir)
     with pytest.raises(ValidationError, match=expr):
-        ret = DataSchema(**inp_dict)
-        print(ret)
-        assert DataSchema(**inp_dict)
+        assert DataSchema_4_0(**inp_dict)
+
+
+@pytest.mark.parametrize(
+    "inp_dict, expr",
+    [
+        (fts5, r"metadata -> provenance"),
+        (fts6, r"metadata -> version"),
+        (fts7, r"steps -> 0 -> input"),
+        (fts8, r"steps -> 0 -> parser"),
+    ],
+)
+def test_schema_validator_4_1(inp_dict, expr, datadir):
+    os.chdir(datadir)
+    with pytest.raises(ValidationError, match=expr):
+        assert DataSchema_4_1(**inp_dict)

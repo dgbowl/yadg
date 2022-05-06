@@ -1,0 +1,17 @@
+{
+    "metadata": {
+        "provenance": "manual",
+        "schema_version": "4.0.1"
+    },
+    "steps": [
+        {
+            "parser": "dummy",
+            "import": {"files": ["ts0.dummy.json"]}
+        },
+        {
+            "parser": "dummy",
+            "import": {"folders": ["."], "suffix": ".json", "contains": "dummy"},
+            "parameters": {"k": "v"}
+        } 
+    ]
+}

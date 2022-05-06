@@ -72,20 +72,27 @@ def test_yadg_update_schema_310_with_outfile(datadir):
     command = ["yadg", "update", "schema", "schema_3.1.0.json", "output.json"]
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("output.json")
+    
 
 
 def test_yadg_update_datagram_310(datadir):
     os.chdir(datadir)
     command = ["yadg", "update", "datagram", "datagram_3.1.0.json"]
-    subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("datagram_3.1.0.new.json")
+    with pytest.raises(AssertionError, match="Updating datagrams older than version"):
+        try:
+            subprocess.run(command, check=True, capture_output=True)
+        except subprocess.CalledProcessError as err:
+            assert False, err.stderr
 
 
 def test_yadg_update_datagram_310_with_outfile(datadir):
     os.chdir(datadir)
     command = ["yadg", "update", "datagram", "datagram_3.1.0.json", "output.json"]
-    subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("output.json")
+    with pytest.raises(AssertionError, match="Updating datagrams older than version"):
+        try:
+            subprocess.run(command, check=True, capture_output=True)
+        except subprocess.CalledProcessError as err:
+            assert False, err.stderr
 
 
 def test_yadg_preset(datadir):

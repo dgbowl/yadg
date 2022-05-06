@@ -29,12 +29,26 @@ All files should be formatted by ``black``. Lines containing text fields, includ
 docstrings, should be between 80-88 characters in length. Imports of functions should 
 be absolute, that is including the ``yadg.`` prefix.
 
+
+Implementing new parsers
+````````````````````````
+New parsers should be implemented by:
+
+- adding their schema into :class:`~dgbowl_schemas.yadg.DataSchema`
+- adding their implementation in a separate Python package under :mod:`yadg.parsers`
+
+Generally, specific filetype parsers should be kept separate from the main parser
+function in the module.
+
+
 Documentation
 `````````````
-Each parser should be documented with a standalone ``.rst`` file in the ``docs\source``
-folder. This documentation should describe the application and usage of the parser, 
-including the interface exposed via the ``"parameters"`` dictionary, as well as which 
-quantities are provided in the ``"raw"`` and ``"derived"`` entries, and whether any 
+Each parser should be documented by adding a structured docstring into the 
+``__init__.py`` file of each parser module. This documentation should describe the 
+application and usage of the parser, and refer to the Pydantic audotocs via 
+:class:`~dgbowl_schemas.yadg.DataSchema` to discuss the features exposed via the
+parameters dictionary. Finally, a short summary of the quantities provided in the 
+``"raw"`` and ``"derived"`` entries should be included, and whether any 
 ``"metadata"`` are exposed.
 
 Each file type of each parser should be documented as a top-level docstring in the 

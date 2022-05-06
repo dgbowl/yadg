@@ -8,7 +8,7 @@
 
 First released version of **yadg**, containing functionality developed at the 
 Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
-[Kraus2021x]_.
+[Kraus2022a]_.
 
 Major features are:
 

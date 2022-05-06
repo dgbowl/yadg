@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.parsers.electrochem package &mdash; yadg master documentation</title>
+  <title>electrochem: Electrochemistry data parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg.parsers.flowdata package" href="yadg.parsers.flowdata.html" />
-    <link rel="prev" title="yadg.parsers.chromtrace package" href="yadg.parsers.chromtrace.html" /> 
+    <link rel="next" title="chromtrace: Chromatogram parser" href="yadg.parsers.chromtrace.html" />
+    <link rel="prev" title="flowdata: Flow data parser" href="yadg.parsers.flowdata.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,39 +43,50 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html">yadg.parsers.chromtrace package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">yadg.parsers.electrochem package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html">yadg.parsers.flowdata package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html">yadg.parsers.masstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html">yadg.parsers.qftrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html">yadg.parsers.xpstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html">yadg.parsers.xrdtrace package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>electrochem</strong>: Electrochemistry data parser</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr">Submodules</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files"><strong>eclabmpr</strong>: Processing of BioLogic’s EC-Lab binary modular files.</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files"><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv">yadg.parsers.basiccsv module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.dummy">yadg.parsers.dummy module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.meascsv">yadg.parsers.meascsv module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -93,9 +105,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="yadg.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
-          <li><a href="yadg.parsers.html">yadg.parsers package</a> &raquo;</li>
-      <li>yadg.parsers.electrochem package</li>
+          <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
+      <li><strong>electrochem</strong>: Electrochemistry data parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.electrochem.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,28 +117,215 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.electrochem">
-<span id="yadg-parsers-electrochem-package"></span><h1>yadg.parsers.electrochem package<a class="headerlink" href="#module-yadg.parsers.electrochem" title="Permalink to this headline"></a></h1>
-<p id="parsers-electrochem-formats">List of supported file formats:</p>
+<span id="electrochem-electrochemistry-data-parser"></span><h1><strong>electrochem</strong>: Electrochemistry data parser<a class="headerlink" href="#module-yadg.parsers.electrochem" title="Permalink to this headline"></a></h1>
+<p>This module handles the reading and processing of files containing electrochemical
+data, including BioLogic’s EC-Lab file formats.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This interface is not yet final and will change with version 5.0.0</p>
+</div>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The usage of <a class="reference internal" href="#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> can be specified by supplying
+<code class="docutils literal notranslate"><span class="pre">electrochem</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
+The parser supports the following parameters:</p>
+<span class="target" id="yadg-parsers-electrochem-model"></span><dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params" title="Permalink to this definition"></a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;eclab.mpt&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">},</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></p><dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="formats">
+<span id="yadg-parsers-electrochem-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
+<p>The currently supported file formats are:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>EC-Lab raw data binary file and parameter settings
-<a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr" title="yadg.parsers.electrochem.eclabmpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem.eclabmpr</span></code></a></p></li>
+<a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr" title="yadg.parsers.electrochem.eclabmpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eclabmpr</span></code></a></p></li>
 <li><p>EC-Lab human-readable text export of data
-<a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpt" title="yadg.parsers.electrochem.eclabmpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem.eclabmpt</span></code></a></p></li>
+<a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpt" title="yadg.parsers.electrochem.eclabmpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eclabmpt</span></code></a></p></li>
 </ul>
 </div></blockquote>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="provides">
+<h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The basic function of the parser is to:</p>
+<ol class="arabic simple">
+<li><p>Read in the technique data and create timesteps.</p></li>
+<li><p>Collect metadata, such as the measurement settings and the loops
+contained in a given file.</p></li>
+<li><p>Collect data describing the technique parameter sequences.</p></li>
+</ol>
+<p>These are the implemented techniques for which the technique parameter
+sequences can be parsed:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>CA</p></td>
+<td><p>Chronoamperometry / Chronocoulometry</p></td>
+</tr>
+<tr class="row-even"><td><p>CP</p></td>
+<td><p>Chronopotentiometry</p></td>
+</tr>
+<tr class="row-odd"><td><p>CV</p></td>
+<td><p>Cyclic Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>GCPL</p></td>
+<td><p>Galvanostatic Cycling with Potential Limitation</p></td>
+</tr>
+<tr class="row-odd"><td><p>GEIS</p></td>
+<td><p>Galvano Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-even"><td><p>LOOP</p></td>
+<td><p>Loop</p></td>
+</tr>
+<tr class="row-odd"><td><p>LSV</p></td>
+<td><p>Linear Sweep Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>MB</p></td>
+<td><p>Modulo Bat</p></td>
+</tr>
+<tr class="row-odd"><td><p>OCV</p></td>
+<td><p>Open Circuit Voltage</p></td>
+</tr>
+<tr class="row-even"><td><p>PEIS</p></td>
+<td><p>Potentio Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-odd"><td><p>WAIT</p></td>
+<td><p>Wait</p></td>
+</tr>
+<tr class="row-even"><td><p>ZIR</p></td>
+<td><p>IR compensation (PEIS)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files can contain more data than the corresponding binary
+<code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file.</p>
+</div>
+<p>Most techniques write data that can be understood as a series of
+timesteps. Each timestep provided by the parser has the following
+format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
+of spectroscopy traces. The data is thus split into traces by the column
+<code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> and each trace is cast into a single timestep. Each trace
+now corresponds to a spectroscopy scan, indexed by the technique name (PEIS or
+GEIS). The timestep takes the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">technique</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">[</span><span class="kt">!!int,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parsed data may contain infinities (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> /
+<code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>) or NaNs (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;nan&quot;)</span></code>). While datagrams
+containing NaN and Inf can be exported and read back using python’s json
+module, they are not strictly valid jsons.</p>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/10">https://github.com/dgbowl/yadg/issues/10</a></p>
+<p>Current values of the uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are hard-coded from VMP-3 values
+of resolutions and accuracies, with <code class="docutils literal notranslate"><span class="pre">math.ulp(n)</span></code> as fallback. The values
+should be device-specific, and the fallback should be eliminated.</p>
+</div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/11">https://github.com/dgbowl/yadg/issues/11</a></p>
+<p>The “raw” data in electrochemistry files should only contain the raw quantities,
+that is the <code class="docutils literal notranslate"><span class="pre">control_I</span></code> or <code class="docutils literal notranslate"><span class="pre">control_V</span></code> and the measured potentials <code class="docutils literal notranslate"><span class="pre">Ewe</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Ece</span></code> or the measured current <code class="docutils literal notranslate"><span class="pre">I</span></code>. Analogous quantities should be recorded
+for PEIS/GEIS. All other columns should be computed by <strong>yadg</strong>.</p>
+</div>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
+<p>The metadata collected from the raw file will depend on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. For
+both <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> the metadata will contain a <code class="docutils literal notranslate"><span class="pre">settings</span></code> and a <code class="docutils literal notranslate"><span class="pre">params</span></code>
+field:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">settings</span></code> field for parsed <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files contains the technique name, a
+posix timestamp and the raw header lines as found in the file. The <code class="docutils literal notranslate"><span class="pre">settings</span></code>
+from parsed <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files contain the technique and more explicitly parsed
+information than from <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files, like the “cell characteristics” specified
+in EC-Lab.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">params</span></code> will contain the technique parameter sequences and the
+keys in each sequence will be the same independent of <code class="docutils literal notranslate"><span class="pre">filetype</span></code>, but
+an <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> value in the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file may be a <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> when
+parsed from the corresponding <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> file, since the mapping has not
+yet been reverse engineered.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/12">https://github.com/dgbowl/yadg/issues/12</a></p>
+<p>In <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files, some technique parameters in the settings module
+correspond to entries in drop-down lists in EC-Lab. These values are
+stored as single-byte values in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files.</p>
+</div>
+<p>The metadata from parsed <code class="docutils literal notranslate"><span class="pre">&quot;.mpr&quot;</span></code> files also provides the <code class="docutils literal notranslate"><span class="pre">&quot;log&quot;</span></code>
+which contains more general parameters, like software, firmware and
+server versions, channel number, host address and an acquisition start
+timestamp in Microsoft OLE format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file contains an <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module (containing parameters
+of any external sensors plugged into the device), the <code class="docutils literal notranslate"><span class="pre">log</span></code> is usually
+not present and therefore the full timestamp cannot be calculated.</p>
+</div>
 </section>
 <section id="module-yadg.parsers.electrochem.eclabmpr">
-<span id="yadg-parsers-electrochem-eclabmpr-module"></span><h2>yadg.parsers.electrochem.eclabmpr module<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabmpr" title="Permalink to this headline"></a></h2>
-<p>Processing of BioLogic’s EC-Lab binary modular files.</p>
-<p>This code is partly an adaptation of the [<cite>galvani</cite> module by Chris
-Kerr](<a class="reference external" href="https://github.com/echemdata/galvani">https://github.com/echemdata/galvani</a>) and builds on the work done
-by the previous civilian service member working on the project, Jonas
-Krieger.</p>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabmpr" title="Permalink to this headline"></a></h2>
+<section id="eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files">
+<h3><strong>eclabmpr</strong>: Processing of BioLogic’s EC-Lab binary modular files.<a class="headerlink" href="#eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files" title="Permalink to this headline"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files are structured in a set of “modules”, one concerning
+settings, one for actual data, one for logs, and an optional loops
+module. The parameter sequences can be found in the settings module.</p>
+<p>This code is partly an adaptation of the <a class="reference external" href="https://github.com/echemdata/galvani">galvani module by Chris
+Kerr</a>, and builds on the work done
+by the previous civilian service member working on the project, Jonas Krieger.</p>
 <section id="file-structure-of-mpr-files">
-<h3>File Structure of <cite>.mpr</cite> Files<a class="headerlink" href="#file-structure-of-mpr-files" title="Permalink to this headline"></a></h3>
+<h4>File Structure of <cite>.mpr</cite> Files<a class="headerlink" href="#file-structure-of-mpr-files" title="Permalink to this headline"></a></h4>
 <p>At a top level, <cite>.mpr</cite> files are made up of a number of modules,
 separated by the <cite>MODULE</cite> keyword. In all the files I have seen, the
 first module is the settings module, followed by the data module, the
@@ -234,7 +432,7 @@ EC-Lab, etc. Here a quick overview (offsets from start of module data).</p>
 </div>
 </section>
 <section id="structure-of-parsed-data">
-<h3>Structure of Parsed Data<a class="headerlink" href="#structure-of-parsed-data" title="Permalink to this headline"></a></h3>
+<h4>Structure of Parsed Data<a class="headerlink" href="#structure-of-parsed-data" title="Permalink to this headline"></a></h4>
 <p><em>EIS Techniques (PEIS/GEIS)</em></p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
@@ -280,11 +478,13 @@ the full date is specified if the “LOG” module is present.</p>
 
 </section>
 </section>
-<section id="module-yadg.parsers.electrochem.eclabmpt">
-<span id="yadg-parsers-electrochem-eclabmpt-module"></span><h2>yadg.parsers.electrochem.eclabmpt module<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabmpt" title="Permalink to this headline"></a></h2>
-<p>Processing of BioLogic’s EC-Lab ASCII export files.</p>
+<span class="target" id="module-yadg.parsers.electrochem.eclabmpt"></span><section id="eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files">
+<h3><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.<a class="headerlink" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files" title="Permalink to this headline"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files are made up of a header portion (with the technique
+parameter sequences and an optional loops section) and a tab-separated
+data table.</p>
 <section id="file-structure-of-mpt-files">
-<h3>File Structure of <cite>.mpt</cite> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h3>
+<h4>File Structure of <cite>.mpt</cite> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h4>
 <p>These human-readable files are sectioned into headerlines and datalines.
 The header part at is made up of information that can be found in the
 settings, log and loop modules of the binary <cite>.mpr</cite> file.</p>
@@ -292,7 +492,7 @@ settings, log and loop modules of the binary <cite>.mpr</cite> file.</p>
 the file’s ctime.</p>
 </section>
 <section id="id1">
-<h3>Structure of Parsed Data<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
+<h4>Structure of Parsed Data<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
 <p><em>EIS Techniques (PEIS/GEIS)</em></p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
@@ -338,9 +538,8 @@ the full date might not be specified if header is not present.</p>
 
 </section>
 </section>
-<section id="module-yadg.parsers.electrochem.eclabtechniques">
-<span id="yadg-parsers-electrochem-eclabtechniques-module"></span><h2>yadg.parsers.electrochem.eclabtechniques module<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabtechniques" title="Permalink to this headline"></a></h2>
-<p>Implemented technique parameters.</p>
+<span class="target" id="module-yadg.parsers.electrochem.eclabtechniques"></span><section id="eclabtechniques-parameters-for-implemented-techniques">
+<h3><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Permalink to this headline"></a></h3>
 <dl class="simple">
 <dt>Implemented techniques:</dt><dd><p>CA - Chronoamperometry / Chronocoulometry
 CP - Chronopotentiometry
@@ -428,11 +627,9 @@ names depending on what is present in the file.</p>
 </dd></dl>
 
 </section>
-<section id="module-yadg.parsers.electrochem.main">
-<span id="yadg-parsers-electrochem-main-module"></span><h2>yadg.parsers.electrochem.main module<a class="headerlink" href="#module-yadg.parsers.electrochem.main" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.parsers.electrochem.main"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.main.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'eclab.mpr'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.main.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified parser for electrochemistry data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -440,10 +637,7 @@ names depending on what is present in the file.</p>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the data to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “windows-1252”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>filetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – <p>Determines the output file format. Currently supported formats
-can be found <a class="reference internal" href="#parsers-electrochem-formats"><span class="std std-ref">here</span></a>.</p>
-<p>The default is <code class="docutils literal notranslate"><span class="pre">eclab.mpr</span></code> (auto).</p>
-</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ElectroChem</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -463,8 +657,8 @@ implemented parsers all return full date.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.chromtrace.html" class="btn btn-neutral float-left" title="yadg.parsers.chromtrace package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.flowdata.html" class="btn btn-neutral float-right" title="yadg.parsers.flowdata package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.flowdata.html" class="btn btn-neutral float-left" title="flowdata: Flow data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.chromtrace.html" class="btn btn-neutral float-right" title="chromtrace: Chromatogram parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

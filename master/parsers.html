@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg parsers &mdash; yadg master documentation</title>
+  <title>Parsers available in yadg &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dummy: A dummy parser" href="parsers.dummy.html" />
-    <link rel="prev" title="yadg features" href="features.html" /> 
+    <link rel="next" title="dummy: A dummy parser" href="yadg.parsers.dummy.html" />
+    <link rel="prev" title="Key features of yadg" href="features.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,28 +43,29 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> parsers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.chromtrace.html"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.xpstrace.html"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parsers available in <strong>yadg</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
 </ul>
@@ -82,7 +84,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li><strong>yadg</strong> parsers</li>
+      <li>Parsers available in <strong>yadg</strong></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/parsers.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -92,23 +94,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="yadg-parsers">
-<h1><strong>yadg</strong> parsers<a class="headerlink" href="#yadg-parsers" title="Permalink to this headline"></a></h1>
-<p><strong>yadg</strong> offloads the responsibility of processing the raw data files to its
-modules, called parsers. The currently implemented parsers are documented in the
+  <section id="parsers-available-in-yadg">
+<h1>Parsers available in <strong>yadg</strong><a class="headerlink" href="#parsers-available-in-yadg" title="Permalink to this headline"></a></h1>
+<p>yadg offloads the responsibility of processing the raw data files to its modules,
+called parsers. The currently implemented parsers are documented in the
 following links:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="parsers.dummy.html"><code class="docutils literal notranslate"><span class="pre">dummy</span></code>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.basiccsv.html"><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.chromtrace.html"><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: Chromatogram parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.qftrace.html"><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: VNA trace parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.meascsv.html"><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.flowdata.html"><code class="docutils literal notranslate"><span class="pre">flowdata</span></code>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.masstrace.html"><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: Mass spectrometry parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.xpstrace.html"><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: X-ray photoelectron spectroscopy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.electrochem.html"><code class="docutils literal notranslate"><span class="pre">electrochem</span></code>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
 </ul>
 </div>
 </section>
@@ -117,8 +119,8 @@ following links:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="features.html" class="btn btn-neutral float-left" title="yadg features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="parsers.dummy.html" class="btn btn-neutral float-right" title="dummy: A dummy parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="features.html" class="btn btn-neutral float-left" title="Key features of yadg" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.dummy.html" class="btn btn-neutral float-right" title="dummy: A dummy parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

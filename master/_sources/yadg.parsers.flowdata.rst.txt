@@ -1,5 +1,5 @@
-yadg.parsers.flowdata package
-=============================
+**flowdata**: Flow data parser
+==============================
 
 .. automodule:: yadg.parsers.flowdata
    :members:
@@ -9,16 +9,12 @@ yadg.parsers.flowdata package
 Submodules
 ----------
 
-yadg.parsers.flowdata.drycal module
------------------------------------
 
 .. automodule:: yadg.parsers.flowdata.drycal
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.flowdata.main module
----------------------------------
 
 .. automodule:: yadg.parsers.flowdata.main
    :members:

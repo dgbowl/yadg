@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>What is a datagram &mdash; yadg master documentation</title>
+  <title>yadg datagram &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,9 +20,7 @@
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg autodocs" href="yadg.html" />
-    <link rel="prev" title="What is a schema" href="object.schema.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,21 +42,18 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
-<ul class="current">
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="object.schema.html">What is a <cite>schema</cite></a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">What is a <cite>datagram</cite></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
 </ul>
 
@@ -75,8 +71,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="objects.html"><strong>yadg</strong> objects</a> &raquo;</li>
-      <li>What is a <cite>datagram</cite></li>
+      <li><strong>yadg</strong> <cite>datagram</cite></li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/object.datagram.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,8 +81,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="what-is-a-datagram">
-<span id="object-datagram"></span><h1>What is a <cite>datagram</cite><a class="headerlink" href="#what-is-a-datagram" title="Permalink to this headline"></a></h1>
+  <section id="yadg-datagram">
+<h1><strong>yadg</strong> <cite>datagram</cite><a class="headerlink" href="#yadg-datagram" title="Permalink to this headline"></a></h1>
 <p>The <cite>datagram</cite> is a structured and annotated representation of both raw and
 processed data. Here, “raw data” corresponds to data present in the output files
 as they come out of an instrument directly, while “processed data” corresponds
@@ -114,102 +109,45 @@ curve, or a more involved transformation, such as deriving <span class="math not
 </div></blockquote>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The datagram does not guarantee that timesteps are normalized. This means entries
-may or may not be present in all timesteps within a step. An example of this would
-be if an analyte appears in chromatographic traces after the first timesteps - the
-entry corresponding to the concentration of that analyte is <strong>not</strong> back-filled by
-<strong>yadg</strong>.</p>
+<p>The datagram does not guarantee that the data in the <cite>timesteps</cite> is normalized.
+This means entries may or may not be present in all timesteps within a step. An
+example of this would be if an analyte appears in chromatographic traces after the
+first timesteps - the entry corresponding to the concentration of that analyte is
+<strong>not</strong> back-filled by yadg.</p>
 </div>
-<p>The basic structure of a <cite>datagram</cite> is as follows:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;yadg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pytest&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-09-29 09:20:00&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;input_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;...&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;datagram_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.0.0&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="p">},</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;flow&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;meascsv&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.0.0&quot;</span><span class="p">}}</span><span class="w"></span>
-<span class="w">            </span><span class="p">},</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                </span><span class="p">{</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;uts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1632900000.0</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;fn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foo.csv&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;flow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml/min&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;C3H8&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0305</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;O2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0895</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;N2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8800</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">}</span><span class="w"></span>
-<span class="w">                    </span><span class="p">}</span><span class="w"></span>
-<span class="w">                </span><span class="p">},{</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;uts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1632900060.0</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;fn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foo.csv&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;flow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">14.9</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml/min&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;C3H8&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0304</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;O2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0896</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;N2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8800</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">}</span><span class="w"></span>
-<span class="w">                    </span><span class="p">}</span><span class="w"></span>
-<span class="w">                </span><span class="p">},{</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;uts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1632900120.0</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;fn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foo.csv&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;flow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml/min&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;C3H8&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0305</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;O2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0900</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;N2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8795</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">}</span><span class="w"></span>
-<span class="w">                </span><span class="p">},{</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;uts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1632900180.0</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;fn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;foo.csv&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                    </span><span class="nt">&quot;flow&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ml/min&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;C3H8&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0302</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;O2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0897</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0010</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">                        </span><span class="nt">&quot;N2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8801</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0100</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">}</span><span class="w"></span>
-<span class="w">                    </span><span class="p">}</span><span class="w"></span>
-<span class="w">                </span><span class="p">}</span><span class="w"></span>
-<span class="w">            </span><span class="p">]</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/4">https://github.com/dgbowl/yadg/issues/4</a></p>
+<p>The specification of the <cite>datagram</cite> schema should be moved to a Pydantic-based
+model. This feature is expected to be included in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
 </div>
-<p>The <cite>datagram</cite> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> which always contains two top-level entries:</p>
+<p>As of <cite>yadg-4.0</cite>, the <cite>datagram</cite> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> which always contains two top-level
+entries:</p>
 <ol class="arabic">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> with information about:</p>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">metadata</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> with information about:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>the version of <strong>yadg</strong> and the execution command used to generate the <cite>datagram</cite>;</p></li>
-<li><p>a copy of the <cite>schema</cite> used to created the <cite>datagram</cite>;</p></li>
+<li><p>the version of yadg and the execution command used to generate the <cite>datagram</cite>;</p></li>
+<li><p>a copy of the <cite>dataschema</cite> used to created the <cite>datagram</cite>;</p></li>
 <li><p>the version of the <cite>datagram</cite>; and</p></li>
 <li><p>the <cite>datagram</cite> creation timestamp formatted according to ISO8601.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list[dict])</span></code> containing the data. The length of this
-array matches the length of the <cite>schema</cite> used to generate the <cite>datagram</cite>. Each
-element within the <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list[dict])</span></code> has further mandatory entries:</p>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">steps</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">list[dict]</span></code> containing the data. The length of this
+array matches the length of the <code class="docutils literal notranslate"><span class="pre">steps</span></code> in the <cite>dataschema</cite> used to generate the
+<cite>datagram</cite>. Each element within the <code class="docutils literal notranslate"><span class="pre">steps</span></code> has further mandatory entries:</p>
 <blockquote>
 <div><ul>
-<li><p>The <cite>step</cite> specific <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>, which contains:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>the <code class="docutils literal notranslate"><span class="pre">&quot;tag&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> entry from the <cite>schema</cite>,</p></li>
-<li><p>information about the <code class="docutils literal notranslate"><span class="pre">&quot;parser&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> used for this <cite>step</cite></p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list[dict])</span></code> entry contains the actual data, organised as
+<li><p>The <cite>step</cite> specific <code class="docutils literal notranslate"><span class="pre">metadata</span></code> formatted as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">list[dict]</span></code>, containing the actual data, organised as
 a time series. Each entry in <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> has:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>a Unix timestamp in its <code class="docutils literal notranslate"><span class="pre">&quot;uts&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> entry,</p></li>
-<li><p>a filename of the raw data in its <code class="docutils literal notranslate"><span class="pre">&quot;fn&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> entry,</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry containing any data directly from <code class="docutils literal notranslate"><span class="pre">&quot;fn&quot;</span></code>.</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry containing any post-processed data.</p></li>
+<li><p>a Unix timestamp in its <code class="docutils literal notranslate"><span class="pre">uts</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> entry,</p></li>
+<li><p>a filename of the raw data in its <code class="docutils literal notranslate"><span class="pre">fn</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> entry,</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">raw</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any data directly from <code class="docutils literal notranslate"><span class="pre">fn</span></code>,</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">derived</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any post-processed data.</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -217,16 +155,20 @@ a time series. Each entry in <code class="docutils literal notranslate"><span cl
 </div></blockquote>
 </li>
 </ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The post-processing aspects of yadg are deprecated in favour of the <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>
+package and will likely be removed from <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+<p>All measurement (floating-point) data has to be provided using the <code class="docutils literal notranslate"><span class="pre">&quot;property&quot;:</span> <span class="pre">{&quot;n&quot;:</span>
+<span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">error,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;unit&quot;}</span></code> syntax, where both <code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are
+<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;u&quot;</span></code> is <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. The data can be organised in nested data
+structures, however it is recursively validated.</p>
+<p>In most cases, the data in will consist of a single value per <cite>timestep</cite>. However, it
+is also possible to store lists of data in each <cite>timestep</cite>. Generally, yadg will store
+such data under a <code class="docutils literal notranslate"><span class="pre">traces</span></code> key in the appropriate <code class="docutils literal notranslate"><span class="pre">raw</span></code> or <code class="docutils literal notranslate"><span class="pre">derived</span></code> entry:</p>
 <blockquote>
-<div><p>All measurement (floating-point) data has to be provided using the
-<code class="docutils literal notranslate"><span class="pre">&quot;property&quot;:</span> <span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">error,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;unit&quot;}</span></code> syntax, where both
-<code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are <code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;u&quot;</span></code> is <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>. The
-data can be organised in nested data structures, however it is recursively validated.</p>
-<p>In most cases, the data in <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> will consist of a single value
-per <cite>timestep</cite>. However, it is also possible to store lists of data in each
-<cite>timestep</cite>. Generally, <strong>yadg</strong> will store such data under a <code class="docutils literal notranslate"><span class="pre">&quot;traces&quot;</span></code> key in the
-appropriate <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entry:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;traces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nt">&quot;FID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;t&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s&quot;</span><span class="p">},</span><span class="w"></span>
@@ -236,11 +178,10 @@ appropriate <code class="docutils literal notranslate"><span class="pre">&quot;r
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The above example shows how a chromatographic trace might be stored. At each
-<cite>timestep</cite>, multiple values of <code class="docutils literal notranslate"><span class="pre">&quot;t&quot;</span></code> as well as <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are recorded and stored in
-a <code class="xref py py-class docutils literal notranslate"><span class="pre">(list)</span></code>, along with their uncertainties; the unit applies to each element
-in the array.</p>
 </div></blockquote>
+<p>The above example shows how a chromatographic trace might be stored. At each <cite>timestep</cite>,
+multiple values of <code class="docutils literal notranslate"><span class="pre">&quot;t&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are recorded and stored in a <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, along
+with their uncertainties; the unit applies to each element in the array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Futher information about the <cite>datagram</cite> can be found in the documentation of
@@ -252,10 +193,7 @@ as well as in the documentation of each parser.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="object.schema.html" class="btn btn-neutral float-left" title="What is a schema" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.html" class="btn btn-neutral float-right" title="yadg autodocs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

@@ -7,6 +7,7 @@
   <title>yadg version history &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Developer documentation" href="devdocs.html" />
-    <link rel="prev" title="xrdtrace: X-ray diffractogram parser" href="parsers.xrdtrace.html" /> 
+    <link rel="next" title="yadg objects" href="objects.html" />
+    <link rel="prev" title="Developer documentation" href="devdocs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,21 +43,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-1-0"><strong>yadg</strong> version 4.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-0-1"><strong>yadg</strong> version 4.0.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-3-1-0"><strong>yadg</strong> version 3.1.0</a></li>
 </ul>
 </li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
 </ul>
@@ -127,7 +129,8 @@ properly, without producing a non-compliant json file.</p></li>
 <a class="reference external image-reference" href="https://pypi.org/project/yadg/4.0.1/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" /></a>
 <img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" />
 <p>A major rewrite of <strong>yadg</strong>. Developed at Empa - Materials Science and Technology, in
-Dübendorf. The code includes documentation, test suite, and is tested using CI.</p>
+Dübendorf. The code includes documentation, test suite, and is tested using CI. This
+version has been published in JOSS <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>.</p>
 <p>Major features are:</p>
 <blockquote>
 <div><ul class="simple">
@@ -188,7 +191,7 @@ using external sources in a unified fashion</p></li>
 <img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" />
 <p>First released version of <strong>yadg</strong>, containing functionality developed at the
 Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
-<a class="reference internal" href="#kraus2021x" id="id1"><span>[Kraus2021x]</span></a>.</p>
+<a class="reference internal" href="citing.html#kraus2022a" id="id2"><span>[Kraus2022a]</span></a>.</p>
 <p>Major features are:</p>
 <blockquote>
 <div><ul class="simple">
@@ -203,25 +206,12 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
 <li><p><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: support for reflection trace measurements, including:</p>
 <ul>
 <li><p>fitting of quality factor using Lorentzian and naive methods</p></li>
-<li><p>fitting of quality factor using Kajfez’s circle fitting method <a class="reference internal" href="#kajfez1994" id="id2"><span>[Kajfez1994]</span></a></p></li>
+<li><p>fitting of quality factor using Kajfez’s circle fitting method <a class="reference internal" href="citing.html#kajfez1994" id="id3"><span>[Kajfez1994]</span></a></p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: support for in-house MCPT logger for flow and temperature data</p></li>
 </ul>
 </div></blockquote>
-<dl class="citation">
-<dt class="label" id="kraus2021x"><span class="brackets"><a class="fn-backref" href="#id1">Kraus2021x</a></span></dt>
-<dd><p>Kraus, Wolf, Prinz, Bellini, Trunschke, Schlögl.
-<em>Towards automation of operando experiments: A case study in contactless
-conductivity measurements</em>, <strong>2021</strong>,
-DOI: <a class="reference external" href="https://doi.org/10.33774/chemrxiv-2021-mh17g">https://doi.org/10.33774/chemrxiv-2021-mh17g</a></p>
-</dd>
-<dt class="label" id="kajfez1994"><span class="brackets"><a class="fn-backref" href="#id2">Kajfez1994</a></span></dt>
-<dd><p>Kajfez.
-<em>Linear fractional curve fitting for measurement of high Q factors</em>, <strong>1994</strong>,
-DOI: <a class="reference external" href="https://doi.org/10.1109/22.299749">https://doi.org/10.1109/22.299749</a></p>
-</dd>
-</dl>
 </section>
 </section>
 
@@ -229,8 +219,8 @@ DOI: <a class="reference external" href="https://doi.org/10.1109/22.299749">http
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="parsers.xrdtrace.html" class="btn btn-neutral float-left" title="xrdtrace: X-ray diffractogram parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="devdocs.html" class="btn btn-neutral float-right" title="Developer documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="devdocs.html" class="btn btn-neutral float-left" title="Developer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="objects.html" class="btn btn-neutral float-right" title="yadg objects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

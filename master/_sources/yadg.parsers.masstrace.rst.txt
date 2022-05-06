@@ -1,5 +1,5 @@
-yadg.parsers.masstrace package
-==============================
+**masstrace**: Mass spectrometry parser
+=======================================
 
 .. automodule:: yadg.parsers.masstrace
    :members:
@@ -9,16 +9,12 @@ yadg.parsers.masstrace package
 Submodules
 ----------
 
-yadg.parsers.masstrace.main module
-----------------------------------
 
 .. automodule:: yadg.parsers.masstrace.main
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.masstrace.quadstarsac module
------------------------------------------
 
 .. automodule:: yadg.parsers.masstrace.quadstarsac
    :members:

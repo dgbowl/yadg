@@ -7,6 +7,7 @@
   <title>yadg: yet another datagram &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg usage" href="usage.html" /> 
+    <link rel="next" title="How to use yadg" href="usage.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,16 +42,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
 </ul>
@@ -69,7 +71,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li><strong>yadg</strong>: <strong>y</strong>et <strong>a</strong>nother <strong>d</strong>ata<strong>g</strong>ram</li>
+      <li><strong>yadg</strong>: yet another datagram</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,17 +82,20 @@
            <div itemprop="articleBody">
              
   <section id="yadg-yet-another-datagram">
-<h1><strong>yadg</strong>: <strong>y</strong>et <strong>a</strong>nother <strong>d</strong>ata<strong>g</strong>ram<a class="headerlink" href="#yadg-yet-another-datagram" title="Permalink to this headline"></a></h1>
-<p><strong>yadg</strong> is a set of tools and parsers aimed to process raw instrument data.</p>
-<a class="reference internal image-reference" href="_images/schema_yadg_datagram.png"><img alt="Diagram of the relationship between a schema, yadg, and datagram." src="_images/schema_yadg_datagram.png" style="width: 600px;" /></a>
-<p>Given an experiment represented by a <cite>schema</cite>, <strong>yadg</strong> will process the files
-and folders specified in each experimental <cite>step</cite> of the <cite>schema</cite>, and produce a
+<h1><strong>yadg</strong>: yet another datagram<a class="headerlink" href="#yadg-yet-another-datagram" title="Permalink to this headline"></a></h1>
+<p>yadg is a set of tools and parsers aimed to process raw instrument data.</p>
+<a class="reference internal image-reference" href="_images/schema_yadg_datagram.png"><img alt="yadg is used to process raw data files using a DataSchema into a datagram." src="_images/schema_yadg_datagram.png" style="width: 600px;" /></a>
+<p>Given an experiment represented by a <cite>dataschema</cite>, yadg will process the files
+and folders specified in each experimental <cite>step</cite> of the <cite>dataschema</cite>, and produce a
 <cite>datagram</cite> – a unified data structure containing all measured (“raw”) data in a
 given experiment.</p>
-<p><strong>yadg</strong> also implements standardised processing of raw data, with features such as
-peak integration in chromatograms, quality factor determination from reflection
-coefficient traces, applying calibration curves to data, or simple numerical processing
-of tabular data. This “derived” data is systematically separated from the “raw” data.</p>
+<p>The produced <cite>datagram</cite> is associated with full provenance info, and the data within
+the <cite>datagram</cite> contains instrumental error estimates and is annotated with units.</p>
+<p>yadg also contains some tools for a standardised processing of raw data, including
+features such as peak integration in chromatograms, quality factor determination
+from reflection coefficient traces, applying calibration curves to data, or simple
+numerical processing of tabular data. The “derived” data obtained this way is
+systematically separated from the “raw” data.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -101,7 +106,7 @@ of tabular data. This “derived” data is systematically separated from the �
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-right" title="yadg usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="How to use yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

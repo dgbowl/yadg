@@ -7,6 +7,7 @@
   <title>yadg.dgutils package &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -42,32 +43,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">yadg.dgutils package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.btools">yadg.dgutils.btools module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.calib">yadg.dgutils.calib module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.dateutils">yadg.dgutils.dateutils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.helpers">yadg.dgutils.helpers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.pintutils">yadg.dgutils.pintutils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.dgutils.utils">yadg.dgutils.utils module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -99,12 +94,7 @@
              
   <section id="module-yadg.dgutils">
 <span id="yadg-dgutils-package"></span><h1>yadg.dgutils package<a class="headerlink" href="#module-yadg.dgutils" title="Permalink to this headline"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-yadg.dgutils.btools">
-<span id="yadg-dgutils-btools-module"></span><h2>yadg.dgutils.btools module<a class="headerlink" href="#module-yadg.dgutils.btools" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.dgutils.btools"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.btools.read_from_buffer">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_from_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_from_buffer" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
@@ -134,10 +124,7 @@
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.dgutils.calib">
-<span id="yadg-dgutils-calib-module"></span><h2>yadg.dgutils.calib module<a class="headerlink" href="#module-yadg.dgutils.calib" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.dgutils.calib"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.calib.calib_handler">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.calib.</span></span><span class="sig-name descname"><span class="pre">calib_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.calib.calib_handler" title="Permalink to this definition"></a></dt>
 <dd><p>Calibration handling function.</p>
@@ -178,12 +165,9 @@ no transformation (i.e. <code class="docutils literal notranslate"><span class="
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.dgutils.dateutils">
-<span id="yadg-dgutils-dateutils-module"></span><h2>yadg.dgutils.dateutils module<a class="headerlink" href="#module-yadg.dgutils.dateutils" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.dgutils.dateutils"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.complete_timestamps">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
 <dd><p>Timestamp completing function.</p>
 <p>This function allows for completing or overriding the uts timestamps determined by
 the individual parsers. <strong>yadg</strong> enters this function for any parser which does not
@@ -229,7 +213,7 @@ behaviour.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>timesteps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of timesteps generated from a single file, <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename used to create <code class="docutils literal notranslate"><span class="pre">timesteps</span></code>.</p></li>
-<li><p><strong>spec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
+<li><p><strong>spec</strong> (<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/103/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="(in dgbowl-schemas v103)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone, defaults to “UTC”.</p></li>
 </ul>
 </dd>
@@ -251,7 +235,7 @@ function which will compute the timestamp given the returned array.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>headers</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – An array of strings. If <cite>spec</cite> is not supplied, must contain either “uts”
 <code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> or “timestep” <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> (conforming to ISO 8601).</p></li>
-<li><p><strong>spec</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – A specification of timestamp elements with associated column indices and
+<li><p><strong>spec</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/103/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.timestamp.TimestampSpec" title="(in dgbowl-schemas v103)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampSpec</span></code></a>]) – A specification of timestamp elements with associated column indices and
 optional formats. Currently accepted combinations of keys are: “uts”; “timestamp”;
 “date” and / or “time”.</p></li>
 <li><p><strong>tz</strong> – Timezone to use for conversion. By default, UTC is used.</p></li>
@@ -354,10 +338,7 @@ file formats include <code class="docutils literal notranslate"><span class="pre
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.dgutils.helpers">
-<span id="yadg-dgutils-helpers-module"></span><h2>yadg.dgutils.helpers module<a class="headerlink" href="#module-yadg.dgutils.helpers" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.dgutils.helpers"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.helpers.get_yadg_metadata">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.helpers.</span></span><span class="sig-name descname"><span class="pre">get_yadg_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.helpers.get_yadg_metadata" title="Permalink to this definition"></a></dt>
 <dd><p>Returns current <strong>yadg</strong> metadata.</p>
@@ -368,10 +349,7 @@ file formats include <code class="docutils literal notranslate"><span class="pre
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.dgutils.pintutils">
-<span id="yadg-dgutils-pintutils-module"></span><h2>yadg.dgutils.pintutils module<a class="headerlink" href="#module-yadg.dgutils.pintutils" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
+<span class="target" id="module-yadg.dgutils.pintutils"></span><p><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
 <p>This package defines <code class="docutils literal notranslate"><span class="pre">ureg</span></code>, a <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> used for validation of
 <cite>datagrams</cite> in <strong>yadg</strong>. The default SI <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is extended
 by definitions of fractional quantities (%, ppm, etc.), standard volumetric
@@ -382,7 +360,7 @@ file types.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.pintutils.</span></span><span class="sig-name descname"><span class="pre">sanitize_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.pintutils.sanitize_units" title="Permalink to this definition"></a></dt>
 <dd><p>Unit sanitizer.</p>
 <p>This sanitizer should be used where user-supplied units are likely to occur,
-such as in the parsers <a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv</span></code></a>. Currently, only two
+such as in the parsers <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv</span></code></a>. Currently, only two
 replacements are done:</p>
 <blockquote>
 <div><ul class="simple">
@@ -401,22 +379,9 @@ replacements are done:</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.dgutils.utils">
-<span id="yadg-dgutils-utils-module"></span><h2>yadg.dgutils.utils module<a class="headerlink" href="#module-yadg.dgutils.utils" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.dgutils.utils"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.utils.calib_3to4">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.utils.</span></span><span class="sig-name descname"><span class="pre">calib_3to4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oldcal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caltype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.utils.calib_3to4" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.utils.datagram_3to4">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.utils.</span></span><span class="sig-name descname"><span class="pre">datagram_3to4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">olddg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.utils.datagram_3to4" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
@@ -446,7 +411,7 @@ replacements are done:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.utils.update_object">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.utils.</span></span><span class="sig-name descname"><span class="pre">update_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.utils.update_object" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.utils.</span></span><span class="sig-name descname"><span class="pre">update_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.utils.update_object" title="Permalink to this definition"></a></dt>
 <dd><p>Yadg’s update worker function.</p>
 <p>This is the main function called when <strong>yadg</strong> is executed as <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code>.
 The main idea is to allow a simple update pathway from older versions of <cite>schema</cite> and
@@ -462,7 +427,7 @@ updating the <code class="docutils literal notranslate"><span class="pre">schema
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>type</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The type of the passed object, either <cite>“datagram”</cite> or <cite>“schema”</cite>.</p></li>
+<li><p><strong>objtype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The type of the passed object, either <cite>“datagram”</cite> or <cite>“schema”</cite>.</p></li>
 <li><p><strong>object</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – The object to be updated</p></li>
 </ul>
 </dd>
@@ -475,7 +440,6 @@ updating the <code class="docutils literal notranslate"><span class="pre">schema
 </dl>
 </dd></dl>
 
-</section>
 </section>
 
 

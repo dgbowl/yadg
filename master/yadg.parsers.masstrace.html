@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.parsers.masstrace package &mdash; yadg master documentation</title>
+  <title>masstrace: Mass spectrometry parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg.parsers.qftrace package" href="yadg.parsers.qftrace.html" />
-    <link rel="prev" title="yadg.parsers.flowdata package" href="yadg.parsers.flowdata.html" /> 
+    <link rel="next" title="Citing yadg" href="citing.html" />
+    <link rel="prev" title="xrdtrace: X-ray diffractogram parser" href="yadg.parsers.xrdtrace.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,39 +43,47 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html">yadg.parsers.chromtrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html">yadg.parsers.electrochem package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html">yadg.parsers.flowdata package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">yadg.parsers.masstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html">yadg.parsers.qftrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html">yadg.parsers.xpstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html">yadg.parsers.xrdtrace package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>masstrace</strong>: Mass spectrometry parser</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.masstrace.main">Submodules</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#quadstarsac-processing-of-quadstar-32-bit-scan-analog-data"><strong>quadstarsac</strong>: Processing of Quadstar 32-bit scan analog data.</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv">yadg.parsers.basiccsv module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.dummy">yadg.parsers.dummy module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.meascsv">yadg.parsers.meascsv module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -93,9 +102,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="yadg.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
-          <li><a href="yadg.parsers.html">yadg.parsers package</a> &raquo;</li>
-      <li>yadg.parsers.masstrace package</li>
+          <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
+      <li><strong>masstrace</strong>: Mass spectrometry parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.masstrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,21 +114,103 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.masstrace">
-<span id="yadg-parsers-masstrace-package"></span><h1>yadg.parsers.masstrace package<a class="headerlink" href="#module-yadg.parsers.masstrace" title="Permalink to this headline"></a></h1>
-<p id="parsers-masstrace-formats">List of supported file formats:</p>
-<blockquote>
+<span id="masstrace-mass-spectrometry-parser"></span><h1><strong>masstrace</strong>: Mass spectrometry parser<a class="headerlink" href="#module-yadg.parsers.masstrace" title="Permalink to this headline"></a></h1>
+<p>The module handles the reading and processing of mass spectrometry files. The
+basic function of the parser is to:</p>
+<ol class="arabic simple">
+<li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
+<li><p>collect <cite>metadata</cite> such as the software version, author, etc.</p></li>
+</ol>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The use of <a class="reference internal" href="#module-yadg.parsers.masstrace" title="yadg.parsers.masstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">masstrace</span></code></a> can be requested using the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
+keyword in the <cite>dataschema</cite>. Further information can be specified in the
+<code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>:</p>
+<span class="target" id="yadg-parsers-masstrace-model"></span><dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params" title="Permalink to this definition"></a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quadstar.sac&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;quadstar.sac&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">},</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></p><dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'quadstar.sac'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'quadstar.sac'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<blockquote id="yadg-parsers-masstrace-formats">
 <div><ul class="simple">
-<li><p>Pfeiffer Quadstar 32-bit scan analog data (sac) <a class="reference internal" href="#module-yadg.parsers.masstrace.quadstarsac" title="yadg.parsers.masstrace.quadstarsac"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.masstrace.quadstarsac</span></code></a></p></li>
+<li><p>Pfeiffer Quadstar 32-bit scan analog data (<code class="docutils literal notranslate"><span class="pre">sac</span></code>):
+<a class="reference internal" href="#module-yadg.parsers.masstrace.quadstarsac" title="yadg.parsers.masstrace.quadstarsac"><code class="xref py py-mod docutils literal notranslate"><span class="pre">quadstarsac</span></code></a></p></li>
 </ul>
 </div></blockquote>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="provides">
+<span id="yadg-parsers-masstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p>The raw data, loaded from the supplied files, is stored using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># y-axis label from file</span><span class="w"></span>
+<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># comment</span><span class="w"></span>
+<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># full scale range of the detector</span><span class="w"></span>
+<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">m/z</span></code> are taken as the step-width of
+the linearly spaced mass values.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">y</span></code> are the largest value between:</p>
+<ol class="arabic simple">
+<li><p>The quantization error from the ADC, its resolution assumed to be 32
+bit. Dividing F.S.R. by <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">**</span> <span class="pre">32</span></code> gives an error in the order of
+magnitude of the smallest data value in <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></li>
+<li><p>The contribution from neighboring masses. In the operating manual of
+the QMS 200 (see 2.8 QMS 200 F &amp; 2.9 QMS 200 M), a maximum
+contribution from the neighboring mass of 50 ppm is noted.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The data in <code class="docutils literal notranslate"><span class="pre">y</span></code> may contain <code class="docutils literal notranslate"><span class="pre">NaN</span></code> s. The measured ion
+count/current value will occasionally exceed the specified detector
+F.S.R. (e.g. 1e-9), and will then flip directly to the maximum value
+of a float32. These values are set to <code class="docutils literal notranslate"><span class="pre">float(&quot;NaN&quot;)</span></code>.</p>
+</div>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
+<p>The metadata collected from the raw file will depend on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>.
+In general, the following metadata entries are stored for each <cite>step</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">software_id</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># software ID</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software version</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># file author</span><span class="w"></span>
+</pre></div>
+</div>
 </section>
 <section id="module-yadg.parsers.masstrace.main">
-<span id="yadg-parsers-masstrace-main-module"></span><h2>yadg.parsers.masstrace.main module<a class="headerlink" href="#module-yadg.parsers.masstrace.main" title="Permalink to this headline"></a></h2>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.masstrace.main" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.masstrace.main.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.masstrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadstar.sac'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.masstrace.main.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.masstrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.masstrace.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified mass spectrometry data parser.</p>
 <p>This parser processes mass spectrometry scans in signal(mass) format.</p>
 <dl class="field-list simple">
@@ -129,10 +219,7 @@
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>tracetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – <p>Determines the output file format. Currently supported formats
-can be found <a class="reference internal" href="#parsers-masstrace-formats"><span class="std std-ref">here</span></a>.</p>
-<p>The default is <code class="docutils literal notranslate"><span class="pre">&quot;quadstar.sac&quot;</span></code>.</p>
-</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">MassTrace</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -144,16 +231,14 @@ can be found <a class="reference internal" href="#parsers-masstrace-formats"><sp
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.parsers.masstrace.quadstarsac">
-<span id="yadg-parsers-masstrace-quadstarsac-module"></span><h2>yadg.parsers.masstrace.quadstarsac module<a class="headerlink" href="#module-yadg.parsers.masstrace.quadstarsac" title="Permalink to this headline"></a></h2>
-<p>Processing of Quadstar 32-bit scan analog data.</p>
-<p>The [sac2dat.c code from Dr. Moritz Bubek](<a class="reference external" href="https://www.bubek.org/sac2dat.php">https://www.bubek.org/sac2dat.php</a>)
-was a really useful stepping stone for this Python adaptation.</p>
+<span class="target" id="module-yadg.parsers.masstrace.quadstarsac"></span><section id="quadstarsac-processing-of-quadstar-32-bit-scan-analog-data">
+<h3><strong>quadstarsac</strong>: Processing of Quadstar 32-bit scan analog data.<a class="headerlink" href="#quadstarsac-processing-of-quadstar-32-bit-scan-analog-data" title="Permalink to this headline"></a></h3>
+<p>The <a class="reference external" href="https://www.bubek.org/sac2dat.php">sac2dat.c code from Dr. Moritz Bubek</a>
+was a really useful stepping stone for this Python file parser.</p>
 <p>Pretty much the entire file format has been reverse engineered. There
 are still one or two unknown fields.</p>
 <section id="file-structure-of-sac-files">
-<h3>File Structure of <cite>.sac</cite> Files<a class="headerlink" href="#file-structure-of-sac-files" title="Permalink to this headline"></a></h3>
+<h4>File Structure of <cite>.sac</cite> Files<a class="headerlink" href="#file-structure-of-sac-files" title="Permalink to this headline"></a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mh">0x00</span> <span class="s2">&quot;data_index&quot;</span>
 <span class="mh">0x02</span> <span class="s2">&quot;software_id&quot;</span>
 <span class="mh">0x06</span> <span class="s2">&quot;version_major&quot;</span>
@@ -206,7 +291,7 @@ are still one or two unknown fields.</p>
 </div>
 </section>
 <section id="structure-of-parsed-timesteps">
-<h3>Structure of Parsed Timesteps<a class="headerlink" href="#structure-of-parsed-timesteps" title="Permalink to this headline"></a></h3>
+<h4>Structure of Parsed Timesteps<a class="headerlink" href="#structure-of-parsed-timesteps" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
@@ -245,13 +330,14 @@ are still one or two unknown fields.</p>
 </section>
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.flowdata.html" class="btn btn-neutral float-left" title="yadg.parsers.flowdata package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-right" title="yadg.parsers.qftrace package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.xrdtrace.html" class="btn btn-neutral float-left" title="xrdtrace: X-ray diffractogram parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="citing.html" class="btn btn-neutral float-right" title="Citing yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

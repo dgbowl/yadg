@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.parsers.xpstrace package &mdash; yadg master documentation</title>
+  <title>xpstrace: X-ray photoelectron spectrum file parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg.parsers.xrdtrace package" href="yadg.parsers.xrdtrace.html" />
-    <link rel="prev" title="yadg.parsers.qftrace package" href="yadg.parsers.qftrace.html" /> 
+    <link rel="next" title="xrdtrace: X-ray diffractogram parser" href="yadg.parsers.xrdtrace.html" />
+    <link rel="prev" title="qftrace: VNA trace parser" href="yadg.parsers.qftrace.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,39 +43,48 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html">yadg.parsers.chromtrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html">yadg.parsers.electrochem package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html">yadg.parsers.flowdata package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html">yadg.parsers.masstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html">yadg.parsers.qftrace package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">yadg.parsers.xpstrace package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html">yadg.parsers.xrdtrace package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.xpstrace.main">Submodules</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#phispe-processing-of-ulvac-phi-multipak-xps-traces"><strong>phispe</strong>: Processing of ULVAC PHI Multipak XPS traces.</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv">yadg.parsers.basiccsv module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.dummy">yadg.parsers.dummy module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.meascsv">yadg.parsers.meascsv module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -93,9 +103,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="yadg.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
-          <li><a href="yadg.parsers.html">yadg.parsers package</a> &raquo;</li>
-      <li>yadg.parsers.xpstrace package</li>
+          <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
+      <li><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.xpstrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -106,21 +115,100 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.xpstrace">
-<span id="yadg-parsers-xpstrace-package"></span><h1>yadg.parsers.xpstrace package<a class="headerlink" href="#module-yadg.parsers.xpstrace" title="Permalink to this headline"></a></h1>
-<p id="parsers-xpstrace-formats">List of supported file formats:</p>
+<span id="xpstrace-x-ray-photoelectron-spectrum-file-parser"></span><h1><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser<a class="headerlink" href="#module-yadg.parsers.xpstrace" title="Permalink to this headline"></a></h1>
+<p>This module handles the reading and processing of X-ray photoelectron spectroscopy
+data.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The usage of <a class="reference internal" href="#module-yadg.parsers.xpstrace" title="yadg.parsers.xpstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code></a> can be specified by supplying
+<code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
+The parser supports the following parameters:</p>
+<span class="target" id="yadg-parsers-xpstrace-model"></span><dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params" title="Permalink to this definition"></a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;phi.spe&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;phi.spe&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">},</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></p><dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'phi.spe'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'phi.spe'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="formats">
+<span id="yadg-parsers-xpstrace-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
+<p>The currently supported file formats are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>ULVAC PHI Multipak XPS traces (spe) <a class="reference internal" href="#module-yadg.parsers.xpstrace.phispe" title="yadg.parsers.xpstrace.phispe"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.xpstrace.phispe</span></code></a></p></li>
+<li><p>ULVAC PHI Multipak XPS traces (<code class="docutils literal notranslate"><span class="pre">spe</span></code>) <a class="reference internal" href="#module-yadg.parsers.xpstrace.phispe" title="yadg.parsers.xpstrace.phispe"><code class="xref py py-mod docutils literal notranslate"><span class="pre">phispe</span></code></a></p></li>
 </ul>
 </div></blockquote>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="provides">
+<span id="yadg-parsers-xpstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code> loads X-ray photoelectron spectroscopy data,
+determines uncertainties of the signal (y-axis), and explicitly populates the
+points in the energy axis (<code class="docutils literal notranslate"><span class="pre">E</span></code>). This raw data is stored, for each timestep,
+using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="c1"># number of the trace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w">          </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">atomic_number</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">dwell_time</span><span class="p">:</span><span class="w">    </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">e_pass</span><span class="p">:</span><span class="w">        </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w">  </span><span class="c1">#</span><span class="w"></span>
+<span class="w">        </span><span class="nt">E</span><span class="p">:</span><span class="w">                    </span><span class="c1"># energies are always in eV</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;eV&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                    </span><span class="c1"># y-axis units from file</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">&quot;E&quot;</span></code> are taken as the step-width of
+the linearly spaced energy values.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are currently set to a constant
+value of <code class="docutils literal notranslate"><span class="pre">12.5</span></code> counts per second as all the signals in the files seen so
+far only seem to take on values in those steps.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/13">https://github.com/dgbowl/yadg/issues/13</a></p>
+<p>Determining the uncertainty of the counts per second signal in XPS
+traces from the phispe parser should be done in a better way.</p>
+</div>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
+<p>The metadata collected from the raw files depends on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. The
+following metadata entries are currently stored for each <cite>step</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">software_id</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software name</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software version</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># operator</span><span class="w"></span>
+</pre></div>
+</div>
 </section>
 <section id="module-yadg.parsers.xpstrace.main">
-<span id="yadg-parsers-xpstrace-main-module"></span><h2>yadg.parsers.xpstrace.main module<a class="headerlink" href="#module-yadg.parsers.xpstrace.main" title="Permalink to this headline"></a></h2>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.xpstrace.main" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.xpstrace.main.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xpstrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'phi.spe'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xpstrace.main.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xpstrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xpstrace.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified x-ray photoelectron spectroscopy parser.</p>
 <p>This parser processes XPS scans in signal(energy) format.</p>
 <dl class="field-list simple">
@@ -129,10 +217,7 @@
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
-<li><p><strong>tracetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – <p>Determines the output file format. Currently supported formats
-can be found <a class="reference internal" href="#parsers-xpstrace-formats"><span class="std std-ref">here</span></a>.</p>
-<p>The default is <code class="docutils literal notranslate"><span class="pre">&quot;phi.spe&quot;</span></code>.</p>
-</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">XPSTrace</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -145,14 +230,12 @@ Multipak .spe files seemingly have no timestamp.</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-yadg.parsers.xpstrace.phispe">
-<span id="yadg-parsers-xpstrace-phispe-module"></span><h2>yadg.parsers.xpstrace.phispe module<a class="headerlink" href="#module-yadg.parsers.xpstrace.phispe" title="Permalink to this headline"></a></h2>
-<p>Processing of ULVAC PHI Multipak XPS traces.</p>
+<span class="target" id="module-yadg.parsers.xpstrace.phispe"></span><section id="phispe-processing-of-ulvac-phi-multipak-xps-traces">
+<h3><strong>phispe</strong>: Processing of ULVAC PHI Multipak XPS traces.<a class="headerlink" href="#phispe-processing-of-ulvac-phi-multipak-xps-traces" title="Permalink to this headline"></a></h3>
 <p>The [IGOR <cite>.spe</cite> import script by jjweimer](<a class="reference external" href="https://www.wavemetrics.com/project/phispefileloader">https://www.wavemetrics.com/project/phispefileloader</a>)
 was pretty helpful for writing this parser.</p>
 <section id="file-structure-of-spe-files">
-<h3>File Structure of <cite>.spe</cite> Files<a class="headerlink" href="#file-structure-of-spe-files" title="Permalink to this headline"></a></h3>
+<h4>File Structure of <cite>.spe</cite> Files<a class="headerlink" href="#file-structure-of-spe-files" title="Permalink to this headline"></a></h4>
 <p>These binary files actually contain an ASCII file header, delimited by
 <cite>“SOFH
 “</cite> and <cite>“EOFH
@@ -220,7 +303,7 @@ datapoints there is a single 32bit float with the trace’s dwelling time
 again.</p>
 </section>
 <section id="structure-of-parsed-data">
-<h3>Structure of Parsed Data<a class="headerlink" href="#structure-of-parsed-data" title="Permalink to this headline"></a></h3>
+<h4>Structure of Parsed Data<a class="headerlink" href="#structure-of-parsed-data" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
@@ -271,13 +354,14 @@ Multipak .spe files seemingly have no timestamp.</p>
 </section>
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-left" title="yadg.parsers.qftrace package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.xrdtrace.html" class="btn btn-neutral float-right" title="yadg.parsers.xrdtrace package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-left" title="qftrace: VNA trace parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.xrdtrace.html" class="btn btn-neutral float-right" title="xrdtrace: X-ray diffractogram parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

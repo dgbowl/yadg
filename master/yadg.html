@@ -7,6 +7,7 @@
   <title>yadg autodocs &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -20,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="yadg.core package" href="yadg.core.html" />
-    <link rel="prev" title="What is a datagram" href="object.datagram.html" /> 
+    <link rel="prev" title="yadg objects" href="objects.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,23 +43,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> autodocs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-yadg.main">yadg.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-yadg.subcommands">yadg.subcommands module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.main">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -89,82 +93,30 @@
              
   <section id="module-yadg">
 <span id="yadg-autodocs"></span><h1><strong>yadg</strong> autodocs<a class="headerlink" href="#module-yadg" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html">yadg.parsers.chromtrace package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentch">yadg.parsers.chromtrace.agilentch module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentcsv">yadg.parsers.chromtrace.agilentcsv module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentdx">yadg.parsers.chromtrace.agilentdx module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.ezchromasc">yadg.parsers.chromtrace.ezchromasc module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.fusionjson">yadg.parsers.chromtrace.fusionjson module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.fusionzip">yadg.parsers.chromtrace.fusionzip module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.integration">yadg.parsers.chromtrace.integration module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.main">yadg.parsers.chromtrace.main module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html">yadg.parsers.electrochem package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.eclabmpr">yadg.parsers.electrochem.eclabmpr module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.eclabmpt">yadg.parsers.electrochem.eclabmpt module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.eclabtechniques">yadg.parsers.electrochem.eclabtechniques module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.main">yadg.parsers.electrochem.main module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.flowdata.html">yadg.parsers.flowdata package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata.drycal">yadg.parsers.flowdata.drycal module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata.main">yadg.parsers.flowdata.main module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.masstrace.html">yadg.parsers.masstrace package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#module-yadg.parsers.masstrace.main">yadg.parsers.masstrace.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#module-yadg.parsers.masstrace.quadstarsac">yadg.parsers.masstrace.quadstarsac module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.qftrace.html">yadg.parsers.qftrace package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.fit">yadg.parsers.qftrace.fit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.labviewcsv">yadg.parsers.qftrace.labviewcsv module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.main">yadg.parsers.qftrace.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.prune">yadg.parsers.qftrace.prune module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xpstrace.html">yadg.parsers.xpstrace package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace.main">yadg.parsers.xpstrace.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace.phispe">yadg.parsers.xpstrace.phispe module</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xrdtrace.html">yadg.parsers.xrdtrace package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.main">yadg.parsers.xrdtrace.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.panalyticalcsv">yadg.parsers.xrdtrace.panalyticalcsv module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.panalyticalxrdml">yadg.parsers.xrdtrace.panalyticalxrdml module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.panalyticalxy">yadg.parsers.xrdtrace.panalyticalxy module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.common">yadg.parsers.xrdtrace.common module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.basiccsv">yadg.parsers.basiccsv module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.dummy">yadg.parsers.dummy module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.html#module-yadg.parsers.meascsv">yadg.parsers.meascsv module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
 </ul>
 </li>
 </ul>
 </div>
+</section>
 <section id="module-yadg.main">
-<span id="yadg-main-module"></span><h2>yadg.main module<a class="headerlink" href="#module-yadg.main" title="Permalink to this headline"></a></h2>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.main" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.main.run_with_arguments">
 <span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">run_with_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.run_with_arguments" title="Permalink to this definition"></a></dt>
@@ -183,10 +135,7 @@ The function has three subcommands:</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">set_loglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.set_loglevel" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-yadg.subcommands">
-<span id="yadg-subcommands-module"></span><h2>yadg.subcommands module<a class="headerlink" href="#module-yadg.subcommands" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.subcommands"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.preset">
 <span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.preset" title="Permalink to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">preset</span></code> subcommand of <strong>yadg</strong>.</p>
@@ -247,7 +196,7 @@ suffix by default).</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="object.datagram.html" class="btn btn-neutral float-left" title="What is a datagram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="objects.html" class="btn btn-neutral float-left" title="yadg objects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="yadg.core.html" class="btn btn-neutral float-right" title="yadg.core package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

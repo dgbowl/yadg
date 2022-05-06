@@ -1,5 +1,5 @@
-yadg.parsers.xpstrace package
-=============================
+**xpstrace**: X-ray photoelectron spectrum file parser
+======================================================
 
 .. automodule:: yadg.parsers.xpstrace
    :members:
@@ -9,16 +9,12 @@ yadg.parsers.xpstrace package
 Submodules
 ----------
 
-yadg.parsers.xpstrace.main module
----------------------------------
 
 .. automodule:: yadg.parsers.xpstrace.main
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.xpstrace.phispe module
------------------------------------
 
 .. automodule:: yadg.parsers.xpstrace.phispe
    :members:

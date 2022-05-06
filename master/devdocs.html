@@ -7,6 +7,7 @@
   <title>Developer documentation &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -19,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg objects" href="objects.html" />
-    <link rel="prev" title="yadg version history" href="version.html" /> 
+    <link rel="next" title="yadg version history" href="version.html" />
+    <link rel="prev" title="Citing yadg" href="citing.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,21 +43,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Yadg features</span></p>
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>yadg</strong> usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html"><strong>yadg</strong> features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html"><strong>yadg</strong> parsers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Yadg components</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#formatting">Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-new-parsers">Implementing new parsers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
 </ul>
@@ -115,12 +118,24 @@ into a <cite>schema</cite>, that is then parsed into a <cite>datagram</cite></p>
 docstrings, should be between 80-88 characters in length. Imports of functions should
 be absolute, that is including the <code class="docutils literal notranslate"><span class="pre">yadg.</span></code> prefix.</p>
 </section>
+<section id="implementing-new-parsers">
+<h2>Implementing new parsers<a class="headerlink" href="#implementing-new-parsers" title="Permalink to this headline"></a></h2>
+<p>New parsers should be implemented by:</p>
+<ul class="simple">
+<li><p>adding their schema into <code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.DataSchema</span></code></p></li>
+<li><p>adding their implementation in a separate Python package under <a class="reference internal" href="yadg.parsers.html#module-yadg.parsers" title="yadg.parsers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers</span></code></a></p></li>
+</ul>
+<p>Generally, specific filetype parsers should be kept separate from the main parser
+function in the module.</p>
+</section>
 <section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h2>
-<p>Each parser should be documented with a standalone <code class="docutils literal notranslate"><span class="pre">.rst</span></code> file in the <code class="docutils literal notranslate"><span class="pre">docs\source</span></code>
-folder. This documentation should describe the application and usage of the parser,
-including the interface exposed via the <code class="docutils literal notranslate"><span class="pre">&quot;parameters&quot;</span></code> dictionary, as well as which
-quantities are provided in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entries, and whether any
+<p>Each parser should be documented by adding a structured docstring into the
+<code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file of each parser module. This documentation should describe the
+application and usage of the parser, and refer to the Pydantic audotocs via
+<code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> to discuss the features exposed via the
+parameters dictionary. Finally, a short summary of the quantities provided in the
+<code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entries should be included, and whether any
 <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> are exposed.</p>
 <p>Each file type of each parser should be documented as a top-level docstring in the
 relevant module. If the file is binary, a description of the file structure should
@@ -132,8 +147,8 @@ be provided in the docstring.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="version.html" class="btn btn-neutral float-left" title="yadg version history" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="objects.html" class="btn btn-neutral float-right" title="yadg objects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="citing.html" class="btn btn-neutral float-left" title="Citing yadg" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="version.html" class="btn btn-neutral float-right" title="yadg version history" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

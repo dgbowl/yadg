@@ -2,7 +2,7 @@ import os
 import argparse
 import logging
 import json
-from dgbowl_schemas.yadg_dataschema import DataSchema
+from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_1
 from . import core, dgutils
 
 
@@ -27,8 +27,9 @@ def process(args: argparse.Namespace) -> None:
     with open(args.infile, "r") as infile:
         schema = json.load(infile)
 
-    logger.debug("Validating schema.")
-    ds = DataSchema(**schema)
+    logger.info("Loading dataschema.")
+    ds = to_dataschema(**schema)
+    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
     logger.debug("Processing schema")
     datagram = core.process_schema(ds)
@@ -75,7 +76,7 @@ def update(args: argparse.Namespace) -> None:
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
-        if isinstance(outobj, DataSchema):
+        if isinstance(outobj, DataSchema_4_1):
             json.dump(outobj.dict(), outfile, indent=1)
         else:
             json.dump(outobj, outfile, indent=1)
@@ -120,7 +121,8 @@ def preset(args: argparse.Namespace) -> None:
     schema = dgutils.schema_from_preset(preset, args.folder)
 
     logger.info("Validating created schema.")
-    ds = DataSchema(**schema)
+    ds = to_dataschema(**schema)
+    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
     if args.process:
         logger.info("Processing created schema.")

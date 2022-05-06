@@ -7,14 +7,7 @@ datagram_step = {
             "type": dict,
             "all": {
                 "tag": {"type": str},
-                "parser": {
-                    "type": dict,
-                    "each": {
-                        "type": dict,
-                        "all": {"version": {"type": str}},
-                        "allow": True,
-                    },
-                },
+                "parser": {"type": str},
             },
             "allow": True,
         },

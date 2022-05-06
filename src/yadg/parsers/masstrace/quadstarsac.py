@@ -285,7 +285,7 @@ def process(
             # TODO: Determine the correct accuracy from fsr. The 32bit
             # ADC is a guess that seems to put the error in the correct
             # order of magnitude.
-            sigma_adc = fsr / 2 ** 32
+            sigma_adc = fsr / 2**32
             sigma = []
             # Contributions to neighboring masses.
             for i in range(len(y_values)):

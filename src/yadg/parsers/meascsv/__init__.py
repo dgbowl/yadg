@@ -34,4 +34,4 @@ The metadata section is currently empty.
 
 """
 
-from .main import process, version
+from .main import process

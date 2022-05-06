@@ -146,4 +146,4 @@ metadata entries are stored for each `step`:
 
 
 """
-from .main import process, version
+from .main import process

@@ -54,4 +54,4 @@ Metadata
   is currently not strictly defined.
 
 """
-from .main import process, version
+from .main import process

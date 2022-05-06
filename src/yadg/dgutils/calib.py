@@ -25,7 +25,7 @@ def _poly(x: UFloat, calspec: dict) -> UFloat:
             y += v
         elif k.startswith("c"):
             o = int(k[1:])
-            y += v * (x ** o)
+            y += v * (x**o)
     return y
 
 

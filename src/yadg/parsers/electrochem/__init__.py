@@ -163,4 +163,4 @@ timestamp in Microsoft OLE format.
     not present and therefore the full timestamp cannot be calculated.
 
 """
-from .main import process, version
+from .main import process

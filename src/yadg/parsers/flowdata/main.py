@@ -1,18 +1,16 @@
 import logging
 import json
+from pydantic import BaseModel
 from . import drycal
-from dgbowl_schemas.yadg_dataschema.parameters import FlowData
 
 logger = logging.getLogger(__name__)
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    parameters: FlowData = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Flow meter data processor

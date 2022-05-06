@@ -9,19 +9,8 @@ import zoneinfo
 import numpy as np
 from typing import Callable, Union
 from collections.abc import Iterable
-from dgbowl_schemas.yadg_dataschema.externaldate import (
-    ExternalDate,
-    ExternalDateFile,
-    ExternalDateFilename,
-    ExternalDateISOString,
-    ExternalDateUTSOffset
-)
-from dgbowl_schemas.yadg_dataschema.timestamp import (
-    TimestampSpec,
-    Timestamp,
-    UTS,
-    TimeDate
-)
+from dgbowl_schemas.yadg.dataschema_4_1.externaldate import ExternalDate
+from dgbowl_schemas.yadg.dataschema_4_1.timestamp import TimestampSpec
 
 
 logger = logging.getLogger(__name__)
@@ -168,16 +157,15 @@ def infer_timestamp_from(
     """
 
     if spec is not None:
-        print(spec)
-        if isinstance(spec, UTS):
+        if hasattr(spec, "uts"):
             return [spec.uts.index], float, True
-        elif isinstance(spec, Timestamp):
+        elif hasattr(spec, "timestamp"):
 
             def retfunc(value):
                 return str_to_uts(value, spec.timestamp.format, timezone=timezone)
 
             return [spec.timestamp.index], retfunc, True
-        if isinstance(spec, TimeDate):
+        elif hasattr(spec, "date") or hasattr(spec, "time"):
             specdict = {
                 "date": datetime.datetime.fromtimestamp(0).timestamp,
                 "time": datetime.datetime.fromtimestamp(0).timestamp,
@@ -192,7 +180,7 @@ def infer_timestamp_from(
                 specdict["date"] = datefn
             if spec.time is not None:
                 if spec.time.format is not None:
-                
+
                     def timefn(value):
                         t = datetime.datetime.strptime(value, spec.time.format)
                         td = datetime.timedelta(
@@ -318,7 +306,7 @@ def complete_timestamps(
 
     """
     delta = None
-    
+
     if spec is not None:
         replace = spec.mode == "replace"
         method = spec.using
@@ -326,13 +314,13 @@ def complete_timestamps(
         replace = False
         method = None
 
-    if isinstance(method, ExternalDateFile):
+    if hasattr(method, "file"):
         delta = timestamps_from_file(method.file.path, method.file.type, timezone)
-    elif isinstance(method, ExternalDateISOString):
+    elif hasattr(method, "isostring"):
         delta = str_to_uts(method.isostring, None, timezone, True)
-    elif isinstance(method, ExternalDateUTSOffset):
+    elif hasattr(method, "utsoffset"):
         delta = method.utsoffset
-    elif isinstance(method, ExternalDateFilename):
+    elif hasattr(method, "filename"):
         basename = os.path.basename(fn)
         filename, ext = os.path.splitext(basename)
         string = filename[: method.filename.len]

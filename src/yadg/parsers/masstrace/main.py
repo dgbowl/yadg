@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import quadstarsac
-from dgbowl_schemas.yadg_dataschema.parameters import MassTrace
-
-version = "4.0.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    parameters: MassTrace = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified mass spectrometry data parser.
 
@@ -26,7 +24,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.MassTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.MassTrace`.
 
     Returns
     -------

@@ -71,4 +71,4 @@ In general, the following metadata entries are stored for each `step`:
       username:     !!str  # file author
  
 """
-from .main import process, version
+from .main import process

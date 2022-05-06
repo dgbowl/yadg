@@ -3,11 +3,10 @@ import json
 import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
-from dgbowl_schemas.yadg_dataschema.parameters import BasicCSV
+from pydantic import BaseModel
 from ... import dgutils
 
 logger = logging.getLogger(__name__)
-version = "4.0.0"
 
 
 def process_row(
@@ -137,7 +136,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "localtime",
-    parameters: BasicCSV = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     A basic csv parser.
@@ -159,7 +158,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.BasicCSV`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.BasicCSV`.
 
     Returns
     -------
@@ -189,9 +188,8 @@ def process(
         headers=headers, spec=parameters.timestamp, timezone=timezone
     )
 
-
     # Populate units
-    units = parameters.units
+    units = parameters.units 
     if units is None:
         units = {}
         _units = [column.strip() for column in lines[1].split(parameters.sep)]
@@ -215,12 +213,12 @@ def process(
     data = []
     for line in lines[si:]:
         element = process_row(
-            headers, 
-            line.split(parameters.sep), 
-            units, 
-            datefunc, 
-            datecolumns, 
-            calib=calib
+            headers,
+            line.split(parameters.sep),
+            units,
+            datefunc,
+            datecolumns,
+            calib=calib,
         )
         element["fn"] = str(fn)
         data.append(element)

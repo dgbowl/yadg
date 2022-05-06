@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import panalyticalxrdml, panalyticalcsv, panalyticalxy
-from dgbowl_schemas.yadg_dataschema.parameters import XRDTrace
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    parameters: XRDTrace = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     Unified X-ray diffractogram data parser.
@@ -27,7 +25,7 @@ def process(
         A string description of the timezone. Default is "UTC".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.XRDTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.XRDTrace`.
 
     Returns
     -------

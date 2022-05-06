@@ -1,10 +1,7 @@
 from scipy.signal import find_peaks
 import numpy as np
+from pydantic import BaseModel
 from . import fit, prune, labviewcsv
-from dgbowl_schemas.yadg_dataschema.parameters import QFTrace
-
-
-version = "4.0.0"
 
 
 def _fit(
@@ -60,7 +57,7 @@ def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "timezone",
-    parameters: QFTrace = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
     VNA reflection trace parser.
@@ -82,7 +79,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.QFTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.QFTrace`.
 
     Returns
     -------

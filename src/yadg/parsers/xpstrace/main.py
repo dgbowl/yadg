@@ -1,15 +1,12 @@
+from pydantic import BaseModel
 from . import phispe
-from dgbowl_schemas.yadg_dataschema.parameters import XPSTrace
-
-
-version = "4.0.0"
 
 
 def process(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    parameters: XPSTrace = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 
@@ -27,7 +24,7 @@ def process(
         A string description of the timezone. Default is "UTC".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.XPSTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.XPSTrace`.
 
     Returns
     -------

@@ -2,14 +2,14 @@ import logging
 import json
 import os
 from typing import Union
-from dgbowl_schemas.yadg_dataschema import DataSchema
+from packaging import version
+from dgbowl_schemas.yadg import to_dataschema, latest_version
 
 from .. import dgutils
 from .. import core
 
 logger = logging.getLogger(__name__)
 
-version = "4.0.0"
 
 
 def calib_3to4(oldcal: dict, caltype: str) -> dict:
@@ -58,12 +58,14 @@ def calib_3to4(oldcal: dict, caltype: str) -> dict:
 def schema_3to4(oldschema: list) -> dict:
     newschema = {
         "metadata": {
-            "provenance": "yadg update",
-            "provenance_metadata": {
-                "yadg": dgutils.get_yadg_metadata(),
-                "update_schema": {"updater": "schema_3to4"},
+            "provenance": {
+                "type": "yadg update",
+                "metadata": {
+                    "yadg": dgutils.get_yadg_metadata(),
+                    "update_schema": {"updater": "schema_3to4"},
+                },
             },
-            "schema_version": version,
+            "version": latest_version,
             "timezone": "localtime",
         },
         "steps": [],
@@ -77,7 +79,7 @@ def schema_3to4(oldschema: list) -> dict:
 
         if "paths" in oldstep["import"]:
             oldstep["import"]["files"] = oldstep["import"].pop("paths")
-        newstep["import"] = oldstep["import"]
+        newstep["input"] = oldstep["import"]
 
         if oldstep.get("export", None) is not None:
             newstep["tag"] = oldstep["export"]
@@ -131,122 +133,7 @@ def schema_3to4(oldschema: list) -> dict:
     return newschema
 
 
-def datagram_3to4(olddg: list) -> dict:
-    logger.warning(
-        "Updating from datagram version 3.1.0 is lossy. It is considerably safer "
-        "to update schema instead, and re-process the raw data."
-    )
-
-    newdg = {
-        "metadata": {
-            "provenance": {
-                "yadg": dgutils.get_yadg_metadata(),
-                "update_object": {"updater": "datagram_3to4", "version": version},
-            },
-            "datagram_version": version,
-            "date": dgutils.now(asstr=True),
-            "input_schema": {},
-        },
-        "steps": [],
-    }
-
-    oldschema = []
-    for oldstep in olddg:
-        step = {}
-        oldschema.append(oldstep["input"])
-        step["metadata"] = {
-            "tag": oldstep["input"]["export"],
-            "parser": oldstep["metadata"],
-        }
-        step["metadata"]["parser"]["update_object"] = {
-            "version": version,
-            "updater": "datagram_3to4",
-        }
-
-        step["data"] = []
-        for timestep in oldstep["results"]:
-            ts = {"raw": {}, "derived": {}}
-            ts["uts"] = float(timestep.pop("uts"))
-
-            if oldstep["input"]["datagram"] == "meascsv":
-                if "files" in oldstep["input"]["import"]:
-                    ts["fn"] = oldstep["input"]["import"]["files"][0]
-                else:
-                    ts["fn"] = oldstep["input"]["import"]["paths"][0]
-            elif oldstep["input"]["datagram"] == "qftrace":
-                ts["fn"] = timestep.pop("path")
-            elif oldstep["input"]["datagram"] == "gctrace":
-                ts["fn"] = timestep.pop("fn")
-
-            for k, v in timestep.items():
-                if oldstep["input"]["datagram"] == "meascsv":
-                    if k == "raw":
-                        for kk, vv in v.items():
-                            if isinstance(vv, (int, str)):
-                                ts["raw"][kk] = vv
-                            else:
-                                if kk.startswith("T"):
-                                    s = 0.1
-                                    u = "%" if kk.endswith("o") else "degC"
-                                elif kk == "pressure":
-                                    s = 0.1
-                                    u = "mbar"
-                                elif kk == "heater flow":
-                                    s = 0.1
-                                    u = "l/min"
-                                else:
-                                    s = 0.1
-                                    u = "ml/min"
-                                ts["raw"][kk] = {"n": vv, "s": s, "u": u}
-                    elif k == "T":
-                        ts["derived"]["T"] = {"n": v, "s": 5.0, "u": "degC"}
-                    elif k == "flow":
-                        ts["derived"]["flow"] = {"n": v, "s": 0.001, "u": "ml/min"}
-                    elif k == "x":
-                        ts["derived"]["xin"] = {}
-                        for kk, vv in v.items():
-                            ts["derived"]["xin"][kk] = {"n": vv, "s": 0.001, "u": " "}
-
-                elif oldstep["input"]["datagram"] == "qftrace":
-                    if k in ["Q0", "f0"]:
-                        ts["derived"][k[0]] = {
-                            "n": v,
-                            "s": [20.0 if k == "Q0" else 1000.0] * len(v),
-                            "u": " " if k == "Q0" else "Hz",
-                        }
-
-                elif oldstep["input"]["datagram"] == "gctrace":
-                    if "peaks" not in ts["derived"]:
-                        ts["derived"]["peaks"] = {}
-                    if "xout" not in ts["derived"]:
-                        ts["derived"]["xout"] = {}
-                    if k in ["TCD", "FID"]:
-                        ts["derived"]["peaks"][k] = {}
-                        for kk, vv in v.items():
-                            ts["derived"]["peaks"][k][kk] = {
-                                "A": {"n": vv["A"], "s": 0.01 * vv["A"], "u": " "},
-                                "h": {"n": vv["h"], "s": 1.0, "u": " "},
-                                "c": {"n": vv["x"], "s": 0.01 * vv["x"], "u": "mol/l"},
-                            }
-                            if kk not in ts["derived"]["xout"] or k == "FID":
-                                ts["derived"]["xout"][kk] = {
-                                    "n": vv["x"] / 100,
-                                    "s": 0.01 * vv["x"] / 100,
-                                    "u": " ",
-                                }
-            if oldstep["input"]["datagram"] == "gctrace":
-                totx = sum([v["n"] for k, v in ts["derived"]["xout"].items()])
-                for k in ts["derived"]["xout"].keys():
-                    ts["derived"]["xout"][k]["n"] = ts["derived"]["xout"][k]["n"] / totx
-                    ts["derived"]["xout"][k]["s"] = ts["derived"]["xout"][k]["s"] / totx
-            step["data"].append(ts)
-        newdg["steps"].append(step)
-    newdg["metadata"]["input_schema"] = schema_3to4(oldschema)
-
-    return newdg
-
-
-def update_object(type: str, object: Union[list, dict]) -> Union[DataSchema, dict]:
+def update_object(objtype: str, object: Union[list, dict]) -> dict:
     """
     Yadg's update worker function.
 
@@ -262,7 +149,7 @@ def update_object(type: str, object: Union[list, dict]) -> Union[DataSchema, dic
 
     Parameters
     ----------
-    type
+    objtype
         The type of the passed object, either `"datagram"` or `"schema"`.
 
     object
@@ -274,8 +161,8 @@ def update_object(type: str, object: Union[list, dict]) -> Union[DataSchema, dic
         The updated and validated `"datagram"` or `"schema"`.
 
     """
-    assert type in {"datagram", "schema"}, (
-        f"Type '{type}' provided to update_object "
+    assert objtype in {"datagram", "schema"}, (
+        f"Type '{objtype}' provided to update_object "
         "is not one of {'datagram', 'schema'}."
     )
 
@@ -289,54 +176,56 @@ def update_object(type: str, object: Union[list, dict]) -> Union[DataSchema, dic
     )
 
     # distribute to updaters
-    if oldver.startswith("3.") and type == "schema":
-        logger.info("Updating old schema 3.X -> 4.0.0")
+    if version.parse(oldver).major == 3:
+        assert objtype == "schema", (
+            "Updating datagrams older than version 4.0.0 is not possible"
+        )
+        logger.info("Updating old schema %s -> %s", oldver, latest_version)
         newobj = schema_3to4(object)
-    elif oldver.startswith("3.") and type == "datagram":
-        logger.info("Updating old datagram 3.X -> 4.0.0")
-        newobj = datagram_3to4(object)
-    elif oldver.startswith("4."):
+    elif version.parse(oldver).major == 4:
         logger.info("Already at latest version, no update necessary.")
         newobj = object
 
     with open("temp.json", "w") as outfile:
         json.dump(newobj, outfile, indent=1)
 
-    if type == "schema":
+    if objtype == "schema":
         logger.info("Validating new schema.")
-        newobj = DataSchema(**newobj)
-    elif type == "datagram":
+        newobj = to_dataschema(**newobj)
+    elif objtype == "datagram":
         logger.info("Validating new datagram.")
         core.validators.validate_datagram(newobj)
-
+    
     return newobj
 
 
 def schema_from_preset(preset: dict, folder: str) -> dict:
-    newmeta = {
-        "provenance": "yadg preset",
-        "provenance_metadata": dgutils.get_yadg_metadata(),
-        "schema_version": version,
-    }
-    preset["metadata"].update(newmeta)
+    if isinstance(preset["metadata"]["provenance"], str):
+        preset["metadata"]["provenance"] = "yadg preset"
+    elif isinstance(preset["metadata"]["provenance"], dict):
+        preset["metadata"]["provenance"] = {
+            "type": "yadg preset",
+            "metadata": {"preset_provenance": preset["metadata"]["provenance"]}
+        }
     for step in preset["steps"]:
-        k = "files" if "files" in step["import"] else "folders"
+        inpk = "import" if "import" in step else "input"
+        filk = "files" if "files" in step[inpk] else "folders"
         newf = []
-        for oldf in step["import"][k]:
+        for oldf in step[inpk][filk]:
             if os.path.isabs(oldf):
                 logger.warning(
                     "Item '%s' in '%s' is an absolute path and will not be patched.",
                     oldf,
-                    k,
+                    filk,
                 )
             else:
                 assert not oldf.startswith("." + os.path.sep), (
-                    f"Item '{oldf}' in '{k}' does start with '.{os.path.sep}' and "
+                    f"Item '{oldf}' in '{filk}' does start with '.{os.path.sep}' and "
                     f"therefore should not be patched using '{folder}'."
                 )
                 newp = os.path.abspath(os.path.join(folder, oldf))
                 newf.append(newp)
-        step["import"][k] = newf
+        step[inpk][filk] = newf
         if "calfile" in step["parameters"]:
             oldf = step["parameters"]["calfile"]
             if os.path.isabs(oldf):

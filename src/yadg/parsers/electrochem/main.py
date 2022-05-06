@@ -1,14 +1,12 @@
+from pydantic import BaseModel
 from . import eclabmpr, eclabmpt
-from dgbowl_schemas.yadg_dataschema.parameters import ElectroChem
-
-version = "4.1.0"
 
 
 def process(
     fn: str,
     encoding: str = "windows-1252",
     timezone: str = "localtime",
-    parameters: ElectroChem = None,
+    parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.
 

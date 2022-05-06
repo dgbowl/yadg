@@ -1,21 +1,9 @@
 import json
 import logging
-from typing import Callable
-from dgbowl_schemas.yadg_dataschema import DataSchema
-
-from ..parsers import (
-    dummy,
-    basiccsv,
-    qftrace,
-    chromtrace,
-    flowdata,
-    masstrace,
-    xpstrace,
-    meascsv,
-    electrochem,
-    masstrace,
-    xrdtrace,
-)
+import importlib
+from typing import Callable, Union
+from packaging import version
+from dgbowl_schemas.yadg import to_dataschema, latest_version, DataSchema_4_0
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
@@ -38,29 +26,17 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         A tuple containing the handler function as :class:`(Callable)` and the handler
         version as :class:`(str)`.
     """
-    if parser == "chromtrace":
-        return chromtrace.process, chromtrace.version
-    if parser == "qftrace":
-        return qftrace.process, qftrace.version
-    if parser == "dummy":
-        return dummy.process, dummy.version
-    if parser == "basiccsv":
-        return basiccsv.process, basiccsv.version
-    if parser == "flowdata":
-        return flowdata.process, flowdata.version
-    if parser == "meascsv":
-        return meascsv.process, meascsv.version
-    if parser == "electrochem":
-        return electrochem.process, electrochem.version
-    if parser == "masstrace":
-        return masstrace.process, masstrace.version
-    if parser == "xpstrace":
-        return xpstrace.process, xpstrace.version
-    if parser == "xrdtrace":
-        return xrdtrace.process, xrdtrace.version
+    modname = f"yadg.parsers.{parser}"
+    try:
+        m = importlib.import_module(modname)
+        func = getattr(m, "process")
+        return func
+    except ImportError as e:
+        logger.critical(f"could not import module '{modname}'")
+        raise e
 
 
-def process_schema(dataschema: DataSchema) -> dict:
+def process_schema(dataschema) -> dict:
     """
     Main worker function of **yadg**.
 
@@ -92,19 +68,29 @@ def process_schema(dataschema: DataSchema) -> dict:
         },
         "steps": [],
     }
+
+    current_version = dataschema.metadata.version
+    if version.parse(current_version) < version.parse(latest_version):
+        logger.warning(
+            "The version of the provided DataSchema '%s' is older than the current "
+            "latest version of DataSchema '%s'. Consider updating your schema.",
+            current_version,
+            latest_version,
+        )
+
     si = 0
     for step in dataschema.steps:
+        logger.info("Processing step %d:", si)
         metadata = dict()
         timesteps = list()
-        logger.info("processing step %d:", si)
-        handler, parserversion = _infer_datagram_handler(step.parser)
-        metadata["tag"] = f"{si}:02d" if step.tag is None else step.tag
-        metadata["parser"] = {step.parser: {"version": parserversion}}
+        handler = _infer_datagram_handler(step.parser)
+        metadata["tag"] = f"{si:02d}" if step.tag is None else step.tag
+        metadata["parser"] = step.parser
         todofiles = step.input.paths()
         if len(todofiles) == 0:
             logger.warning("No files processed by step '%s'.", metadata["tag"])
         for tf in todofiles:
-            logger.debug("Processing item '%s'.", tf)
+            logger.info("Processing file '%s'.", tf)
             ts, meta, fulldate = handler(
                 tf,
                 encoding=step.input.encoding,
@@ -128,7 +114,8 @@ def process_schema(dataschema: DataSchema) -> dict:
                 metadata.update(meta)
 
         datagram["steps"].append({"metadata": metadata, "data": timesteps})
-        if step.export is not None:
-            with open(step["export"], "w") as ofile:
-                json.dump(datagram, ofile, indent=1)
+        if isinstance(dataschema, DataSchema_4_0):
+            if step.export is not None:
+                with open(step["export"], "w") as ofile:
+                    json.dump(datagram, ofile, indent=1)
     return datagram

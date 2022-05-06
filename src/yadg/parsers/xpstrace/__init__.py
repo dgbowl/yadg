@@ -72,4 +72,4 @@ following metadata entries are currently stored for each `step`:
       username:     !!str  # operator
 
 """
-from .main import process, version
+from .main import process

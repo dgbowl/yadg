@@ -75,7 +75,7 @@ def naive(
 
 
 def _lorentz(x, a, x0, gam, c):
-    return a * (gam ** 2 / ((x - x0) ** 2 + gam ** 2)) + c
+    return a * (gam**2 / ((x - x0) ** 2 + gam**2)) + c
 
 
 def lorentz(
@@ -245,6 +245,6 @@ def kajfez(
     # sddia1st = sdequi * 2
     sddia1 = sddia1an
     sdkapa1 = sddia1 / (2 - dia1) ** 2
-    sdQ01 = np.sqrt((1 + kapa1) ** 2 * sdQL1 ** 2 + QL1 ** 2 * sdkapa1 ** 2)
+    sdQ01 = np.sqrt((1 + kapa1) ** 2 * sdQL1**2 + QL1**2 * sdkapa1**2)
 
     return uc.ufloat(Q01, sdQ01), uc.ufloat(f011, fsigs[idia])

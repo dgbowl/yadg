@@ -138,11 +138,13 @@ def test_yadg_preset_with_preset_folder_p3(datadir):
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("data_2.dg.json")
 
+
 def test_yadg_process_with_yml(datadir):
     os.chdir(datadir)
     command = ["yadg", "process", "test_schema.yml"]
     subprocess.run(command, check=True)
     assert os.path.exists("datagram.json")
+
 
 def test_yadg_preset_with_yml(datadir):
     os.chdir(datadir)

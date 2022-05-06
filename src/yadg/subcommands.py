@@ -9,6 +9,7 @@ from . import core, dgutils
 
 logger = logging.getLogger(__name__)
 
+
 def _load_file(infile: str) -> dict:
     with open(infile, "r") as inf:
         if infile.endswith("json"):

@@ -23,6 +23,7 @@ def _load_file(infile: str) -> dict:
             raise RuntimeError(f"Filename type not recognised: '{infile}'")
     return obj
 
+
 def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
     if method in {"zip", "tar"}:
         fn = f"{outpath}.{method}"
@@ -36,7 +37,6 @@ def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
         for chunk in iter(lambda: f.read(4096), b""):
             m.update(chunk)
     return fn, m.hexdigest()
-
 
 
 def process(args: argparse.Namespace) -> None:
@@ -159,10 +159,7 @@ def preset(args: argparse.Namespace) -> None:
             zipfile = args.outfile.replace(".json", "")
             logger.info("Zipping input folder into '%s'", zipfile)
             fn, hash = _zip_file(args.folder, zipfile)
-            datagram["metadata"]["provenance"]["data"] = {
-                "sha-1": hash,
-                "archive": fn
-            }
+            datagram["metadata"]["provenance"]["data"] = {"sha-1": hash, "archive": fn}
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(datagram, ofile, indent=1)

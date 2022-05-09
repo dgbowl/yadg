@@ -152,6 +152,7 @@ def test_yadg_preset_with_yml(datadir):
     subprocess.run(command, check=True)
     assert os.path.exists("data_2.dg.json")
 
+
 def test_yadg_preset_archive(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "-pa", "data_2.preset.yaml", "data_2", "dg.json"]

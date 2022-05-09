@@ -44,10 +44,20 @@ Alternatively, if the `dataschema` should be processed immediately, the ``--proc
 
 .. code-block:: bash
 
-    yadg preset -p infile folder [outfile]
+    yadg preset -p infile folder [outfile.json]
 
 This syntax will process the created `dataschema` immediately, and the `datagram` will 
-be saved to ``outfile`` instead.
+be saved to ``outfile.json`` instead.
+
+Finally, the raw data files in the processed ``folder`` can be archived, checksumed,
+and referenced in the `datagram`, by using the following pattern:
+
+.. code-block:: bash
+
+    yadg preset -p -a infile folder [outfile.json]
+
+This will create a `datagram` in ``outfile.json`` as well as a ``outfile.zip`` archive
+from the whole contents of the specified ``folder``.
 
 Version updater
 ```````````````

@@ -36,15 +36,15 @@ def run_with_arguments():
 
     for p in [parser, verbose]:
         p.add_argument(
-            "-v",
             "--verbose",
+            "-v",
             action="count",
             default=0,
             help="Increase verbosity by one level.",
         )
         p.add_argument(
-            "-q",
             "--quiet",
+            "-q",
             action="count",
             default=0,
             help="Decrease verbosity by one level.",
@@ -93,11 +93,25 @@ def run_with_arguments():
 
     preset = subparsers.add_parser("preset")
     preset.add_argument(
-        "--process",
         "-p",
+        "--process",
         action="store_true",
         help="Immediately process the schema created from the preset.",
         default=False,
+    )
+    preset.add_argument(
+        "-a",
+        "--archive",
+        action="store_true",
+        help="Archive the whole preset folder after processing.",
+        default=False,
+    )
+    preset.add_argument(
+        "--packwith",
+        nargs="?",
+        choices=["zip", "tar", "bztar", "xztar", "gztar"],
+        help="Select compression algorithm for --archive.",
+        default="zip",
     )
     preset.add_argument(
         "preset",

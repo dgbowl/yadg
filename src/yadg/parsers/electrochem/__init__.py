@@ -26,6 +26,8 @@ The currently supported file formats are:
    :mod:`~yadg.parsers.electrochem.eclabmpr`
  - EC-Lab human-readable text export of data
    :mod:`~yadg.parsers.electrochem.eclabmpt`
+ - tomato's structured json output
+   :mod:`~yadg.parsers.electrochem.tomatojson`
   
 Provides
 ````````
@@ -35,35 +37,6 @@ The basic function of the parser is to:
 #. Collect metadata, such as the measurement settings and the loops
    contained in a given file.
 #. Collect data describing the technique parameter sequences.
-
-These are the implemented techniques for which the technique parameter
-sequences can be parsed:
-
-+------+-------------------------------------------------+
-| CA   | Chronoamperometry / Chronocoulometry            |
-+------+-------------------------------------------------+
-| CP   | Chronopotentiometry                             |
-+------+-------------------------------------------------+
-| CV   | Cyclic Voltammetry                              |
-+------+-------------------------------------------------+
-| GCPL | Galvanostatic Cycling with Potential Limitation |
-+------+-------------------------------------------------+
-| GEIS | Galvano Electrochemical Impedance Spectroscopy  |
-+------+-------------------------------------------------+
-| LOOP | Loop                                            |
-+------+-------------------------------------------------+
-| LSV  | Linear Sweep Voltammetry                        |
-+------+-------------------------------------------------+
-| MB   | Modulo Bat                                      |
-+------+-------------------------------------------------+
-| OCV  | Open Circuit Voltage                            |
-+------+-------------------------------------------------+
-| PEIS | Potentio Electrochemical Impedance Spectroscopy |
-+------+-------------------------------------------------+
-| WAIT | Wait                                            |
-+------+-------------------------------------------------+
-| ZIR  | IR compensation (PEIS)                          |
-+------+-------------------------------------------------+
 
 .. note::
 
@@ -127,8 +100,9 @@ GEIS). The timestep takes the following format:
 
 Metadata
 ````````
-The metadata collected from the raw file will depend on the ``filetype``. For 
-both ``.mpt`` and ``.mpr`` the metadata will contain a ``settings`` and a ``params`` 
+The metadata collected from the raw file will depend on the ``filetype``. Currently,
+no metadata is recorded for ``tomato.json`` filetype. For the ``eclab.mpt`` and 
+``eclab.mpr`` filetypes, the metadata will contain a ``settings`` and a ``params`` 
 field:
 
 The ``settings`` field for parsed ``.mpt`` files contains the technique name, a 

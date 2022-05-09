@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from . import eclabmpr, eclabmpt
+from . import eclabmpr, eclabmpt, tomatojson
 
 
 def process(
@@ -35,4 +35,6 @@ def process(
         data, meta, fulldate = eclabmpr.process(fn, encoding, timezone)
     elif parameters.filetype == "eclab.mpt":
         data, meta, fulldate = eclabmpt.process(fn, encoding, timezone)
+    elif parameters.filetype == "tomato.json":
+        data, meta, fulldate = tomatojson.process(fn, encoding, timezone)
     return data, meta, fulldate

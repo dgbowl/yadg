@@ -10,6 +10,38 @@ This code is partly an adaptation of the `galvani module by Chris
 Kerr <https://github.com/echemdata/galvani>`_, and builds on the work done
 by the previous civilian service member working on the project, Jonas Krieger.
 
+.. _eclabmpr_techniques_table:
+
+These are the implemented techniques for which the technique parameter
+sequences can be parsed:
+
++------+-------------------------------------------------+
+| CA   | Chronoamperometry / Chronocoulometry            |
++------+-------------------------------------------------+
+| CP   | Chronopotentiometry                             |
++------+-------------------------------------------------+
+| CV   | Cyclic Voltammetry                              |
++------+-------------------------------------------------+
+| GCPL | Galvanostatic Cycling with Potential Limitation |
++------+-------------------------------------------------+
+| GEIS | Galvano Electrochemical Impedance Spectroscopy  |
++------+-------------------------------------------------+
+| LOOP | Loop                                            |
++------+-------------------------------------------------+
+| LSV  | Linear Sweep Voltammetry                        |
++------+-------------------------------------------------+
+| MB   | Modulo Bat                                      |
++------+-------------------------------------------------+
+| OCV  | Open Circuit Voltage                            |
++------+-------------------------------------------------+
+| PEIS | Potentio Electrochemical Impedance Spectroscopy |
++------+-------------------------------------------------+
+| WAIT | Wait                                            |
++------+-------------------------------------------------+
+| ZIR  | IR compensation (PEIS)                          |
++------+-------------------------------------------------+
+
+
 File Structure of `.mpr` Files
 ``````````````````````````````
 

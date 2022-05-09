@@ -3,6 +3,8 @@ import argparse
 import logging
 import json
 import yaml
+import shutil
+import hashlib
 from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_1
 from . import core, dgutils
 
@@ -20,6 +22,21 @@ def _load_file(infile: str) -> dict:
             logging.critical("Filename type not recognised: '%s'", infile)
             raise RuntimeError(f"Filename type not recognised: '{infile}'")
     return obj
+
+def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
+    if method in {"zip", "tar"}:
+        fn = f"{outpath}.{method}"
+    elif method == {"bztar", "gztar", "xztar"}:
+        fn = f"{outpath}.tar.{method[:2]}"
+    logger.debug("Archiving.")
+    shutil.make_archive(outpath, method, root_dir=folder)
+    logger.debug("Hashing.")
+    m = hashlib.sha1()
+    with open(fn, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            m.update(chunk)
+    return fn, m.hexdigest()
+
 
 
 def process(args: argparse.Namespace) -> None:
@@ -138,10 +155,23 @@ def preset(args: argparse.Namespace) -> None:
         logger.info("Processing created schema.")
         datagram = core.process_schema(ds)
         args.outfile = "datagram.json" if args.outfile is None else args.outfile
+        if args.archive:
+            zipfile = args.outfile.replace(".json", "")
+            logger.info("Zipping input folder into '%s'", zipfile)
+            fn, hash = _zip_file(args.folder, zipfile)
+            datagram["metadata"]["provenance"]["data"] = {
+                "sha-1": hash,
+                "archive": fn
+            }
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(datagram, ofile, indent=1)
     else:
+        if args.archive:
+            logger.warning(
+                "The --archive option must be supplied along with --process. "
+                "Continuing without archiving."
+            )
         args.outfile = "schema.json" if args.outfile is None else args.outfile
         logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:

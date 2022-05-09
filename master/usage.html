@@ -120,11 +120,18 @@ should be modified, and the optional <code class="docutils literal notranslate">
 <cite>dataschema</cite> should be saved.</p>
 <p>Alternatively, if the <cite>dataschema</cite> should be processed immediately, the <code class="docutils literal notranslate"><span class="pre">--process</span></code>
 (or <code class="docutils literal notranslate"><span class="pre">-p</span></code>) switch can be used with the following usage pattern:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p infile folder <span class="o">[</span>outfile<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p infile folder <span class="o">[</span>outfile.json<span class="o">]</span>
 </pre></div>
 </div>
 <p>This syntax will process the created <cite>dataschema</cite> immediately, and the <cite>datagram</cite> will
-be saved to <code class="docutils literal notranslate"><span class="pre">outfile</span></code> instead.</p>
+be saved to <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> instead.</p>
+<p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed,
+and referenced in the <cite>datagram</cite>, by using the following pattern:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p -a infile folder <span class="o">[</span>outfile.json<span class="o">]</span>
+</pre></div>
+</div>
+<p>This will create a <cite>datagram</cite> in <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> as well as a <code class="docutils literal notranslate"><span class="pre">outfile.zip</span></code> archive
+from the whole contents of the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code>.</p>
 </section>
 <section id="version-updater">
 <h2>Version updater<a class="headerlink" href="#version-updater" title="Permalink to this headline"></a></h2>

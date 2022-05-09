@@ -27,8 +27,10 @@ def _load_file(infile: str) -> dict:
 def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
     if method in {"zip", "tar"}:
         fn = f"{outpath}.{method}"
-    elif method == {"bztar", "gztar", "xztar"}:
+    elif method in {"bztar", "gztar", "xztar"}:
         fn = f"{outpath}.tar.{method[:2]}"
+        if method == "bztar":
+            fn = f"{fn}2"
     logger.debug("Archiving.")
     shutil.make_archive(outpath, method, root_dir=folder)
     logger.debug("Hashing.")
@@ -158,7 +160,7 @@ def preset(args: argparse.Namespace) -> None:
         if args.archive:
             zipfile = args.outfile.replace(".json", "")
             logger.info("Zipping input folder into '%s'", zipfile)
-            fn, hash = _zip_file(args.folder, zipfile)
+            fn, hash = _zip_file(args.folder, zipfile, method=args.packwith)
             datagram["metadata"]["provenance"]["data"] = {"sha-1": hash, "archive": fn}
         logger.info("Saving datagram to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:

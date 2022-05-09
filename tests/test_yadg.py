@@ -153,9 +153,23 @@ def test_yadg_preset_with_yml(datadir):
     assert os.path.exists("data_2.dg.json")
 
 
-def test_yadg_preset_archive(datadir):
+@pytest.mark.parametrize(
+    "packwith, suffix",
+    [
+        (None, "zip"),
+        ("zip", "zip"),
+        ("tar", "tar"),
+        ("gztar", "tar.gz"),
+        ("xztar", "tar.xz"),
+        ("bztar", "tar.bz2"),
+    ],
+)
+def test_yadg_preset_archive(packwith, suffix, datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "-pa", "data_2.preset.yaml", "data_2", "dg.json"]
+    if packwith is not None:
+        command.append("--packwith")
+        command.append(packwith)
     subprocess.run(command, check=True)
     assert os.path.exists("dg.json")
-    assert os.path.exists("dg.zip")
+    assert os.path.exists(f"dg.{suffix}")

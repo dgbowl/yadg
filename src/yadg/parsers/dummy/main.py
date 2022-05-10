@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import json
 from ... import dgutils
 
 
@@ -35,9 +36,21 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-    kwargs = {} if parameters is None else parameters.dict()
-    if "parser" in kwargs:
-        del kwargs["parser"]
-    result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
+    if hasattr(parameters, "filetype") and parameters.filetype == "tomato.json":
+        with open(fn, "r") as inf:
+            jsdata = json.load(inf)
+        ret = []
+        for p in jsdata["data"]:
+            ts = {
+                "uts": p["time"],
+                "raw": {"value": p["value"]}
+            }
+            ret.append(ts)
+        return ret, None, False
+    else:
+        kwargs = {} if parameters is None else parameters.dict()
+        if "parser" in kwargs:
+            del kwargs["parser"]
+        result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
 
-    return [result], None, True
+        return [result], None, True

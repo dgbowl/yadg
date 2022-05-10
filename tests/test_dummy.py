@@ -8,6 +8,7 @@ from pydantic import ValidationError
 from .schemas import ts0, ts1, ts2, ts3, ts4, ts5
 from .schemas import fts0, fts1, fts2, fts3, fts4, fts5, fts6, fts7, fts8
 
+from .utils import datagram_from_file, standard_datagram_test, pars_datagram_test
 
 @pytest.mark.parametrize(
     "inp_dict, l_dg, l_res",
@@ -93,3 +94,27 @@ def test_schema_validator_4_1(inp_dict, expr, datadir):
     os.chdir(datadir)
     with pytest.raises(ValidationError, match=expr):
         assert DataSchema_4_1(**inp_dict)
+
+
+@pytest.mark.parametrize(
+    "infile, ts",
+    [
+        (
+            "ts0_dummy_tomato.yml",
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 20,
+                "point": 9,
+                "pars": {
+                    "uts": {"value": 100000000.905299},
+                    "value": {"value": 0.485624320335729, "sigma": 0.0, "unit": " "},
+                },
+            },
+        ),
+    ],
+)
+def test_dummy_tomato(infile, ts, datadir):
+    ret = datagram_from_file(infile, datadir)
+    standard_datagram_test(ret, ts)
+    pars_datagram_test(ret, ts)

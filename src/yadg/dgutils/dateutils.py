@@ -7,8 +7,7 @@ import logging
 import tzlocal
 import zoneinfo
 import numpy as np
-from typing import Callable, Union
-from collections.abc import Iterable
+from typing import Callable, Union, Mapping, Iterable
 from dgbowl_schemas.yadg.dataschema_4_1.externaldate import ExternalDate
 from dgbowl_schemas.yadg.dataschema_4_1.timestamp import TimestampSpec
 
@@ -315,7 +314,12 @@ def complete_timestamps(
         method = None
 
     if hasattr(method, "file"):
-        delta = timestamps_from_file(method.file.path, method.file.type, timezone)
+        delta = timestamps_from_file(
+            method.file.path, 
+            method.file.type, 
+            method.file.match,
+            timezone
+        )
     elif hasattr(method, "isostring"):
         delta = str_to_uts(method.isostring, None, timezone, True)
     elif hasattr(method, "utsoffset"):
@@ -342,7 +346,12 @@ def complete_timestamps(
             ts["uts"] = ts.get("uts", 0.0) + delta.pop(0)
 
 
-def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[float]:
+def timestamps_from_file(
+    path: str, 
+    type: str, 
+    match: str,
+    timezone: str = "UTC"
+) -> list[float]:
     """
     Load timestamps from file.
 
@@ -384,6 +393,9 @@ def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[fl
 
     if data is None:
         return data
+    elif isinstance(data, Mapping):
+        assert match in data
+        return data[match]
     elif isinstance(data, Iterable):
         parseddata = []
         for i in data:
@@ -393,3 +405,4 @@ def timestamps_from_file(path: str, type: str, timezone: str = "UTC") -> list[fl
             elif isinstance(i, (int, float, np.number)):
                 parseddata.append(float(i))
         return parseddata
+    

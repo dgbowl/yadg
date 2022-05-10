@@ -119,6 +119,32 @@ from tests.utils import (
                 "pars": {"uts": {"value": 43141.0}},
             },
         ),
+        
+        (
+            {  # ts6 - 
+                "case": "case_time_custom.csv",
+                "parameters": {
+                    "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
+                },
+                "externaldate": {
+                    "from": {
+                        "file": {
+                            "path": "file_6.json", 
+                            "type": "json", 
+                            "match": "uts"
+                        }
+                    },
+                    "mode": "add",
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 3,
+                "point": 0,
+                "pars": {"uts": {"value": 10000043140.0}},
+            },
+        ),
     ],
 )
 def test_datagram(input, ts, datadir):

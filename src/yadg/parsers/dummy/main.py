@@ -43,7 +43,8 @@ def process(
         for p in jsdata["data"]:
             ts = {
                 "uts": p["time"],
-                "raw": {"value": p["value"]}
+                "fn": fn,
+                "raw": {"value": {"n": p["value"], "s": 0.0, "u": " "}}
             }
             ret.append(ts)
         return ret, None, False

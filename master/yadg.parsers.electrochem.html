@@ -17,6 +17,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -72,6 +73,7 @@
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files"><strong>eclabmpr</strong>: Processing of BioLogic’s EC-Lab binary modular files.</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files"><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#tomatojson-processing-of-tomato-electrochemistry-outputs"><strong>tomatojson</strong>: Processing of tomato electrochemistry outputs.</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
 </ul>
 </li>
@@ -142,7 +144,8 @@ The parser supports the following parameters:</p>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">            </span><span class="s2">&quot;eclab.mpt&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;tomato.json&quot;</span><span class="w"></span>
 <span class="w">         </span><span class="p">],</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
@@ -153,7 +156,7 @@ The parser supports the following parameters:</p>
 </div>
 </details></p><dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tomato.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -168,6 +171,8 @@ The parser supports the following parameters:</p>
 <a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr" title="yadg.parsers.electrochem.eclabmpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eclabmpr</span></code></a></p></li>
 <li><p>EC-Lab human-readable text export of data
 <a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpt" title="yadg.parsers.electrochem.eclabmpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eclabmpt</span></code></a></p></li>
+<li><p>tomato’s structured json output
+<a class="reference internal" href="#module-yadg.parsers.electrochem.tomatojson" title="yadg.parsers.electrochem.tomatojson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tomatojson</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -180,52 +185,6 @@ The parser supports the following parameters:</p>
 contained in a given file.</p></li>
 <li><p>Collect data describing the technique parameter sequences.</p></li>
 </ol>
-<p>These are the implemented techniques for which the technique parameter
-sequences can be parsed:</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 11%" />
-<col style="width: 89%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p>CA</p></td>
-<td><p>Chronoamperometry / Chronocoulometry</p></td>
-</tr>
-<tr class="row-even"><td><p>CP</p></td>
-<td><p>Chronopotentiometry</p></td>
-</tr>
-<tr class="row-odd"><td><p>CV</p></td>
-<td><p>Cyclic Voltammetry</p></td>
-</tr>
-<tr class="row-even"><td><p>GCPL</p></td>
-<td><p>Galvanostatic Cycling with Potential Limitation</p></td>
-</tr>
-<tr class="row-odd"><td><p>GEIS</p></td>
-<td><p>Galvano Electrochemical Impedance Spectroscopy</p></td>
-</tr>
-<tr class="row-even"><td><p>LOOP</p></td>
-<td><p>Loop</p></td>
-</tr>
-<tr class="row-odd"><td><p>LSV</p></td>
-<td><p>Linear Sweep Voltammetry</p></td>
-</tr>
-<tr class="row-even"><td><p>MB</p></td>
-<td><p>Modulo Bat</p></td>
-</tr>
-<tr class="row-odd"><td><p>OCV</p></td>
-<td><p>Open Circuit Voltage</p></td>
-</tr>
-<tr class="row-even"><td><p>PEIS</p></td>
-<td><p>Potentio Electrochemical Impedance Spectroscopy</p></td>
-</tr>
-<tr class="row-odd"><td><p>WAIT</p></td>
-<td><p>Wait</p></td>
-</tr>
-<tr class="row-even"><td><p>ZIR</p></td>
-<td><p>IR compensation (PEIS)</p></td>
-</tr>
-</tbody>
-</table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files can contain more data than the corresponding binary
@@ -283,8 +242,9 @@ for PEIS/GEIS. All other columns should be computed by <strong>yadg</strong>.</p
 </section>
 <section id="metadata">
 <h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata collected from the raw file will depend on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. For
-both <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> the metadata will contain a <code class="docutils literal notranslate"><span class="pre">settings</span></code> and a <code class="docutils literal notranslate"><span class="pre">params</span></code>
+<p>The metadata collected from the raw file will depend on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. Currently,
+no metadata is recorded for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetype. For the <code class="docutils literal notranslate"><span class="pre">eclab.mpt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">eclab.mpr</span></code> filetypes, the metadata will contain a <code class="docutils literal notranslate"><span class="pre">settings</span></code> and a <code class="docutils literal notranslate"><span class="pre">params</span></code>
 field:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">settings</span></code> field for parsed <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files contains the technique name, a
 posix timestamp and the raw header lines as found in the file. The <code class="docutils literal notranslate"><span class="pre">settings</span></code>
@@ -324,6 +284,52 @@ module. The parameter sequences can be found in the settings module.</p>
 <p>This code is partly an adaptation of the <a class="reference external" href="https://github.com/echemdata/galvani">galvani module by Chris
 Kerr</a>, and builds on the work done
 by the previous civilian service member working on the project, Jonas Krieger.</p>
+<p id="yadg-parsers-electrochem-eclabmpr-techniques">These are the implemented techniques for which the technique parameter
+sequences can be parsed:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>CA</p></td>
+<td><p>Chronoamperometry / Chronocoulometry</p></td>
+</tr>
+<tr class="row-even"><td><p>CP</p></td>
+<td><p>Chronopotentiometry</p></td>
+</tr>
+<tr class="row-odd"><td><p>CV</p></td>
+<td><p>Cyclic Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>GCPL</p></td>
+<td><p>Galvanostatic Cycling with Potential Limitation</p></td>
+</tr>
+<tr class="row-odd"><td><p>GEIS</p></td>
+<td><p>Galvano Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-even"><td><p>LOOP</p></td>
+<td><p>Loop</p></td>
+</tr>
+<tr class="row-odd"><td><p>LSV</p></td>
+<td><p>Linear Sweep Voltammetry</p></td>
+</tr>
+<tr class="row-even"><td><p>MB</p></td>
+<td><p>Modulo Bat</p></td>
+</tr>
+<tr class="row-odd"><td><p>OCV</p></td>
+<td><p>Open Circuit Voltage</p></td>
+</tr>
+<tr class="row-even"><td><p>PEIS</p></td>
+<td><p>Potentio Electrochemical Impedance Spectroscopy</p></td>
+</tr>
+<tr class="row-odd"><td><p>WAIT</p></td>
+<td><p>Wait</p></td>
+</tr>
+<tr class="row-even"><td><p>ZIR</p></td>
+<td><p>IR compensation (PEIS)</p></td>
+</tr>
+</tbody>
+</table>
 <section id="file-structure-of-mpr-files">
 <h4>File Structure of <cite>.mpr</cite> Files<a class="headerlink" href="#file-structure-of-mpr-files" title="Permalink to this headline"></a></h4>
 <p>At a top level, <cite>.mpr</cite> files are made up of a number of modules,
@@ -483,6 +489,7 @@ the full date is specified if the “LOG” module is present.</p>
 <p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files are made up of a header portion (with the technique
 parameter sequences and an optional loops section) and a tab-separated
 data table.</p>
+<p>A list of techniques supported by this parser is shown in <a class="reference external" href="yadg.parsers.electrochem.eclabmpr.techniques">the techniques table</a>.</p>
 <section id="file-structure-of-mpt-files">
 <h4>File Structure of <cite>.mpt</cite> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h4>
 <p>These human-readable files are sectioned into headerlines and datalines.
@@ -537,6 +544,41 @@ the full date might not be specified if header is not present.</p>
 </dd></dl>
 
 </section>
+</section>
+<span class="target" id="module-yadg.parsers.electrochem.tomatojson"></span><section id="tomatojson-processing-of-tomato-electrochemistry-outputs">
+<h3><strong>tomatojson</strong>: Processing of tomato electrochemistry outputs.<a class="headerlink" href="#tomatojson-processing-of-tomato-electrochemistry-outputs" title="Permalink to this headline"></a></h3>
+<p>This module parses the electrochemistry <code class="docutils literal notranslate"><span class="pre">json</span></code> files generated by tomato.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This parser is brand-new in <cite>yadg-4.1</cite> and the interface is unstable.</p>
+</div>
+<p>Four sections are expected in each tomato data file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">technique</span></code> section, describing the current technique,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">previous</span></code> section, containing status information of the previous file,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">current</span></code> section, containing status information of the current file,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> section, containing the timesteps.</p></li>
+</ul>
+<p>The reason why both <code class="docutils literal notranslate"><span class="pre">previous</span></code> and <code class="docutils literal notranslate"><span class="pre">current</span></code> are requires is that the device
+status is recorded at the time of data polling, which means the values in <code class="docutils literal notranslate"><span class="pre">current</span></code>
+might be invalid (after the run has finished) or not in sync with the <code class="docutils literal notranslate"><span class="pre">data</span></code> (if
+a technique change happened). However, <code class="docutils literal notranslate"><span class="pre">previous</span></code> may not be present in the first
+data file of an experiment.</p>
+<p>To determine the measurement errors, the values from BioLogic manual are used: for
+measured voltages (<span class="math notranslate nohighlight">\(E_{\text{we}}\)</span> and <span class="math notranslate nohighlight">\(E_{\text{ce}}\)</span>) this corresponds
+to a constant uncertainty of 0.004% of the applied E-range with a maximum of 75 uV,
+while for currents (<span class="math notranslate nohighlight">\(I\)</span>) this is a constant uncertainty of 0.0015% of the applied
+I-range with a maximum of 0.76 uA.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.electrochem.tomatojson.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.tomatojson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.tomatojson.process" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <span class="target" id="module-yadg.parsers.electrochem.eclabtechniques"></span><section id="eclabtechniques-parameters-for-implemented-techniques">
 <h3><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Permalink to this headline"></a></h3>

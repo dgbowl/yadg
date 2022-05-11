@@ -22,6 +22,12 @@ Submodules
    :show-inheritance:
 
 
+.. automodule:: yadg.parsers.electrochem.tomatojson
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 .. automodule:: yadg.parsers.electrochem.eclabtechniques
    :members:
    :undoc-members:

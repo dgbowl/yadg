@@ -118,6 +118,9 @@
 <dd><p>A dummy parser.</p>
 <p>This parser simply returns the current time, the filename provided, and any
 <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> passed.</p>
+<p>In case the provided <code class="docutils literal notranslate"><span class="pre">filetype</span></code> is a <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> file, this is a json
+data file from the <code class="xref py py-mod docutils literal notranslate"><span class="pre">tomato</span></code> package, which should contain a <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>
+of <code class="docutils literal notranslate"><span class="pre">{&quot;value&quot;:</span> <span class="pre">float,</span> <span class="pre">&quot;time&quot;:</span> <span class="pre">float}</span></code> datapoints in its <code class="docutils literal notranslate"><span class="pre">data</span></code> entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

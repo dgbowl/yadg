@@ -247,41 +247,29 @@ def complete_timestamps(
     specified by the user.
 
     The ``externaldate`` specification is as follows:
+    
+    .. _yadg.dgutils.dateutils.externaldate.model:
+
+    .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate
+
+    The ``using`` key specifies how an external timestamp is created. Only one entry in
+    ``using`` is permitted. By default, this entry is:
 
     .. code-block:: yaml
 
-        externaldate:
-          from:
-            file:
-                path:    !!str     # path of the external date file
-                type:    !!str     # type of the external date file
-                match:   !!str     # string to match timestamps with
-            isostring:   !!str     # string offset parsed with dateutil
-            utsoffset:   !!float   # float offset
-            filename:
-                format:  !!str     # strptime-style format
-                len:     !!int     # length of filename string to match
-          mode:          !!str     # "add" or "replace" timestamp
-
-    The ``"from"`` key specifies how an external timestamp is created. Only one entry in
-    ``"from"`` is permitted. By default, this entry is:
-
-    .. code-block:: yaml
-
-        externaldate:
-          from:
-            filename:
-              format: "%Y-%m-%d-%H-%M-%S"
-              len: 19
+        using:
+          filename:
+            format: "%Y-%m-%d-%H-%M-%S"
+            len: 19
 
     Which means the code will attempt to deduce the timestamp from the path of the
     processed file (``fn``), using the first 19 characters of the base filename
     according to the above format (eg. "2021-12-31-13-45-00").
 
-    If ``"file"`` is specified, the handling of timestamps is handed off to
+    If ``file`` is specified, the handling of timestamps is handed off to
     :func:`timestamps_from_file`.
 
-    The ``"mode"`` key specifies whether the offsets determined in this function are
+    The ``mode`` key specifies whether the offsets determined in this function are
     added to the current timestamps (eg. date offset being added to time) or whether
     they should replace the existing timestamps completely.
 
@@ -349,15 +337,17 @@ def complete_timestamps(
 def timestamps_from_file(
     path: str, 
     type: str, 
-    match: str,
+    match: str = None,
     timezone: str = "UTC"
-) -> list[float]:
+) -> Union[float, list[float]]:
     """
     Load timestamps from file.
 
-    This function enables loading timestamps from file. The currently supported
-    file formats include ``json`` and ``pkl``, which must contain a top-level
-    :class:`(Iterable)` of :class:`(str)` or :class:`(float)`-like objects.
+    This function enables loading timestamps from file specified by the ``path``. 
+    The currently supported file formats include ``json`` and ``pkl``, which must 
+    contain a top-level :class:`Mapping` with a key that is matched by ``match``,
+    or a top-level :class:`Iterable`, both containing :class:`str` or :class:`float`
+    -like objects that can be processed into an Unix timestamp.
 
     Parameters
     ----------
@@ -366,14 +356,17 @@ def timestamps_from_file(
 
     type
         Type of the external file. Currently, ``"json", "pkl"`` are supported.
+    
+    match
+        An optional key to match if the object in ``path`` is a :class:`Mapping`.
 
     timezone
         An optional timezone string, defaults to "UTC"
 
     Returns
     -------
-    parseddata: list[float]
-        A list of POSIX timestamps.
+    parseddata: Union[float, list[float]]
+        A single or a list of POSIX timestamps.
 
     """
     assert os.path.exists(path), f"timestamps_from_file: path '{path}' doesn't exist."
@@ -393,16 +386,23 @@ def timestamps_from_file(
 
     if data is None:
         return data
-    elif isinstance(data, Mapping):
-        assert match in data
-        return data[match]
     elif isinstance(data, Iterable):
-        parseddata = []
-        for i in data:
-            if isinstance(i, str):
-                delta = str_to_uts(i, None, timezone, True)
-                parseddata.append(delta)
-            elif isinstance(i, (int, float, np.number)):
-                parseddata.append(float(i))
-        return parseddata
+        if isinstance(data, Mapping):
+            assert match in data
+            data = data[match]
+        if isinstance(data, Iterable):
+            parseddata = []
+            for i in data:
+                if isinstance(i, str):
+                    delta = str_to_uts(i, None, timezone, True)
+                    parseddata.append(delta)
+                elif isinstance(i, (int, float, np.number)):
+                    parseddata.append(float(i))
+            return parseddata
+        else:
+            if isinstance(data, str):
+                return str_to_uts(data, None, timezone, True)
+            else:
+                return float(data)
+        
     

@@ -8,7 +8,7 @@ ts1 = {
 }
 ts2 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
-    "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": "dummy"}}],
+    "steps": [{"parser": "dummy", "import": {"folders": ["."], "contains": ".dummy."}}],
 }
 ts3 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},

@@ -236,4 +236,17 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
             else:
                 newp = os.path.abspath(os.path.join(folder, oldf))
                 step["parameters"]["calfile"] = newp
+        if "externaldate" in step["parameters"]:
+            using = "from" if "from" in step["parameters"] else "using"
+            if "file" in step["parameters"][using]:
+                oldf = step["parameters"][using]["file"]["path"]
+                if os.path.isabs(oldf):
+                    logger.warning(
+                        "Specified externaldate file '%s' is an absolute path "
+                        "and will not be patched.",
+                        oldf,
+                    )
+                else:
+                    newp = os.path.abspath(os.path.join(folder, oldf))
+                    step["parameters"][using]["file"]["path"] = newp
     return preset

@@ -247,7 +247,7 @@ def complete_timestamps(
     specified by the user.
 
     The ``externaldate`` specification is as follows:
-    
+
     .. _yadg.dgutils.dateutils.externaldate.model:
 
     .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate
@@ -303,10 +303,7 @@ def complete_timestamps(
 
     if hasattr(method, "file"):
         delta = timestamps_from_file(
-            method.file.path, 
-            method.file.type, 
-            method.file.match,
-            timezone
+            method.file.path, method.file.type, method.file.match, timezone
         )
     elif hasattr(method, "isostring"):
         delta = str_to_uts(method.isostring, None, timezone, True)
@@ -335,16 +332,13 @@ def complete_timestamps(
 
 
 def timestamps_from_file(
-    path: str, 
-    type: str, 
-    match: str = None,
-    timezone: str = "UTC"
+    path: str, type: str, match: str = None, timezone: str = "UTC"
 ) -> Union[float, list[float]]:
     """
     Load timestamps from file.
 
-    This function enables loading timestamps from file specified by the ``path``. 
-    The currently supported file formats include ``json`` and ``pkl``, which must 
+    This function enables loading timestamps from file specified by the ``path``.
+    The currently supported file formats include ``json`` and ``pkl``, which must
     contain a top-level :class:`Mapping` with a key that is matched by ``match``,
     or a top-level :class:`Iterable`, both containing :class:`str` or :class:`float`
     -like objects that can be processed into an Unix timestamp.
@@ -356,7 +350,7 @@ def timestamps_from_file(
 
     type
         Type of the external file. Currently, ``"json", "pkl"`` are supported.
-    
+
     match
         An optional key to match if the object in ``path`` is a :class:`Mapping`.
 
@@ -404,5 +398,3 @@ def timestamps_from_file(
                 return str_to_uts(data, None, timezone, True)
             else:
                 return float(data)
-        
-    

@@ -15,7 +15,7 @@ def process(
     This parser simply returns the current time, the filename provided, and any
     ``kwargs`` passed.
 
-    In case the provided ``filetype`` is a ``tomato.json`` file, this is a json 
+    In case the provided ``filetype`` is a ``tomato.json`` file, this is a json
     data file from the :mod:`tomato` package, which should contain a :class:`list`
     of ``{"value": float, "time": float}`` datapoints in its ``data`` entry.
 
@@ -48,7 +48,7 @@ def process(
             ts = {
                 "uts": p["time"],
                 "fn": fn,
-                "raw": {"value": {"n": p["value"], "s": 0.0, "u": " "}}
+                "raw": {"value": {"n": p["value"], "s": 0.0, "u": " "}},
             }
             ret.append(ts)
         return ret, None, False

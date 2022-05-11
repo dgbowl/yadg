@@ -78,5 +78,5 @@ autodoc_default_flags = ["members", "undoc-members", "show-inheritance"]
 autodoc_pydantic_model_show_field_summary = False
 autodoc_pydantic_model_member_order = "bysource"
 intersphinx_mapping = {
-    'dgbowl_schemas': ("https://dgbowl.github.io/dgbowl-schemas/103", None)
+    'dgbowl_schemas': ("https://dgbowl.github.io/dgbowl-schemas/104", None)
 }

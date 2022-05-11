@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import json
 from ... import dgutils
 
 
@@ -13,6 +14,10 @@ def process(
 
     This parser simply returns the current time, the filename provided, and any
     ``kwargs`` passed.
+
+    In case the provided ``filetype`` is a ``tomato.json`` file, this is a json 
+    data file from the :mod:`tomato` package, which should contain a :class:`list`
+    of ``{"value": float, "time": float}`` datapoints in its ``data`` entry.
 
     Parameters
     ----------
@@ -35,9 +40,22 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-    kwargs = {} if parameters is None else parameters.dict()
-    if "parser" in kwargs:
-        del kwargs["parser"]
-    result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
+    if hasattr(parameters, "filetype") and parameters.filetype == "tomato.json":
+        with open(fn, "r") as inf:
+            jsdata = json.load(inf)
+        ret = []
+        for p in jsdata["data"]:
+            ts = {
+                "uts": p["time"],
+                "fn": fn,
+                "raw": {"value": {"n": p["value"], "s": 0.0, "u": " "}}
+            }
+            ret.append(ts)
+        return ret, None, False
+    else:
+        kwargs = {} if parameters is None else parameters.dict()
+        if "parser" in kwargs:
+            del kwargs["parser"]
+        result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
 
-    return [result], None, True
+        return [result], None, True

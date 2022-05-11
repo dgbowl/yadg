@@ -1,0 +1,58 @@
+{
+ "settings": {
+  "state": {
+   "type": "sqlite3",
+   "path": ".\\database.db"
+  },
+  "queue": {
+   "type": "sqlite3",
+   "path": ".\\database.db",
+   "storage": ".\\Jobs"
+  },
+  "samples": {
+   "path": ".\\samples.yml"
+  },
+  "devices": {
+   "path": ".\\devices.yml"
+  },
+  "drivers": {
+   "biologic": {
+    "dllpath": "C:\\EC-Lab Development Package\\EC-Lab Development Package"
+   }
+  }
+ },
+ "pipeline": {
+  "name": "dummy-10",
+  "devices": [
+   {
+    "name": "dummy_device",
+    "address": null,
+    "driver": "dummy",
+    "capabilities": [
+     "random",
+     "sequential"
+    ],
+    "pollrate": 1,
+    "tag": "worker",
+    "channel": 10
+   }
+  ]
+ },
+ "payload": {
+  "sample": {
+   "name": "dummy_random_2_0.1"
+  },
+  "method": [
+   {
+    "device": "worker",
+    "technique": "random",
+    "time": 2,
+    "delay": 0.1
+   }
+  ],
+  "tomato": {
+   "verbosity": "DEBUG"
+  }
+ },
+ "jobid": 1
+}

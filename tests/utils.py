@@ -1,6 +1,7 @@
 import pytest
 import os
 import json
+import yaml
 import yadg.core
 from dgbowl_schemas.yadg import to_dataschema
 
@@ -73,13 +74,24 @@ def _schema_4_1(input, parser, version):
     return schema
 
 
+
+def datagram_from_file(infile, datadir):
+    os.chdir(datadir)
+    with open(infile, "r") as f:
+        if infile.endswith("json"):
+            schema = json.load(f)
+        else:
+            schema = yaml.safe_load(f)
+    ds = to_dataschema(**schema)
+    return yadg.core.process_schema(ds)
+
+
 def datagram_from_input(input, parser, datadir, version="4.0"):
     if version in {"4.0", "4.0.0", "4.0.1"}:
         schema = _schema_4_0(input, parser, version)
     elif version in {"4.1"}:
         schema = _schema_4_1(input, parser, version)
     os.chdir(datadir)
-    print(schema)
     ds = to_dataschema(**schema)
     return yadg.core.process_schema(ds)
 

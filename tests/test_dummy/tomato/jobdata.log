@@ -1,0 +1,47 @@
+2022-05-10 15:32:10,201:INFO    :MainProcess:attempting to load jobfile '.\Jobs\1\jobdata.json'
+2022-05-10 15:32:10,203:DEBUG   :MainProcess:parsing data from jobfile
+2022-05-10 15:32:10,203:DEBUG   :MainProcess:setting logger verbosity to 'DEBUG'
+2022-05-10 15:32:10,204:DEBUG   :MainProcess:assigning job '1' on pid '20432' into pipeline 'dummy-10'
+2022-05-10 15:32:10,236:INFO    :MainProcess:handing off to 'driver_worker'
+2022-05-10 15:32:10,236:INFO    :MainProcess:==============================
+2022-05-10 15:32:10,242:DEBUG   :MainProcess:starting 'log_listener'
+2022-05-10 15:32:10,250:DEBUG   :MainProcess:started 'log_listener' on pid 12352
+2022-05-10 15:32:10,250:INFO    :MainProcess:device id: 1 out of 1
+2022-05-10 15:32:10,251:INFO    :MainProcess:1: processing device 'worker' of type 'dummy'
+2022-05-10 15:32:10,251:DEBUG   :MainProcess:1: getting status
+2022-05-10 15:32:10,251:DEBUG   :MainProcess:in 'dummy.get_status'
+2022-05-10 15:32:10,251:DEBUG   :MainProcess:1: starting payload
+2022-05-10 15:32:10,252:INFO    :MainProcess:in 'dummy.start_job'
+2022-05-10 15:32:10,252:DEBUG   :MainProcess:payload=[{'device': 'worker', 'technique': 'random', 'time': 2, 'delay': 0.1}]
+2022-05-10 15:32:10,252:DEBUG   :MainProcess:starting 'dummy._dummy_process' 0 with tech='random', t=2, delay=0.1.
+2022-05-10 15:32:11,269:DEBUG   :MainProcess:1: writing metadata
+2022-05-10 15:32:11,270:INFO    :MainProcess:1: starting 'data_poller': every 1s
+2022-05-10 15:32:11,308:INFO    :MainProcess:1: started 'data_poller' on pid 16732
+2022-05-10 15:32:11,308:INFO    :MainProcess:waiting for all 'data_poller' jobs to join
+2022-05-10 15:32:11,308:INFO    :MainProcess:------------------------------------------
+2022-05-10 15:32:12,510:DEBUG   :data_poller_1_worker:in 'data_poller', pollrate=1
+2022-05-10 15:32:12,511:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-10 15:32:12,511:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:12,511:DEBUG   :data_poller_1_worker:found 7 data rows, writing into '.\Jobs\1\worker_2022-05-10T133212.511381+0000_data.json'
+2022-05-10 15:32:12,512:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:13,516:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-10 15:32:13,516:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:13,517:DEBUG   :data_poller_1_worker:found 10 data rows, writing into '.\Jobs\1\worker_2022-05-10T133213.516705+0000_data.json'
+2022-05-10 15:32:13,519:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:14,532:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-10 15:32:14,533:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:14,533:DEBUG   :data_poller_1_worker:found 3 data rows, writing into '.\Jobs\1\worker_2022-05-10T133214.533119+0000_data.json'
+2022-05-10 15:32:14,534:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-10 15:32:15,545:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-10 15:32:15,546:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is empty
+2022-05-10 15:32:15,546:INFO    :data_poller_1_worker:rejoining main thread
+2022-05-10 15:32:15,570:INFO    :MainProcess:'data_poller' with pid 16732 closed successfully
+2022-05-10 15:32:15,571:INFO    :MainProcess:-----------------------
+2022-05-10 15:32:15,571:INFO    :MainProcess:quitting 'log_listener'
+2022-05-10 15:32:15,589:INFO    :MainProcess:==============================
+2022-05-10 15:32:15,590:DEBUG   :MainProcess:creating a preset file 'preset.1.json'
+2022-05-10 15:32:15,590:INFO    :MainProcess:running yadg to create a datagram in 'results.1.json'
+2022-05-10 15:32:15,590:DEBUG   :MainProcess:yadg preset -pa preset.1.json C:\Users\krpe\AppData\Local\Temp\pytest-of-krpe\pytest-2136\test_run_dummy_random_dummy_ra0\Jobs\1 results.1.json
+2022-05-10 15:32:16,463:DEBUG   :MainProcess:removing the preset file 'preset.1.json'
+2022-05-10 15:32:16,464:INFO    :MainProcess:job finished successfully, setting status to 'c'
+2022-05-10 15:32:16,468:DEBUG   :MainProcess:setting pipeline 'dummy-10' as 'not ready'

@@ -9,7 +9,7 @@ The DryCal files only contain the timestamps of the datapoints, not the date. Th
 the date has to be supplied either using the ``date`` argument in parameters, or is
 parsed from the prefix of the filename.
 
-.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+.. codeauthor:: Peter Kraus
 """
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv.main import process_row

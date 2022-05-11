@@ -1,0 +1,21 @@
+metadata:
+  version: "4.1.1"
+  provenance:
+    type: manual
+  timezone: Europe/Berlin
+steps:
+  - parser: dummy
+    tag: worker
+    input:
+      folders: ["tomato"]
+      prefix: worker
+      suffix: data.json
+    parameters:
+      filetype: tomato.json
+    externaldate:
+      using:
+        file:
+          path: tomato/worker_2022-05-10T133210.251125+0000_status.json
+          type: json
+          match: uts
+      mode: add

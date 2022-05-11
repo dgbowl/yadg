@@ -1,6 +1,9 @@
 import pytest
 import subprocess
 import os
+import json
+
+from .utils import pars_datagram_test, standard_datagram_test
 
 
 def test_yadg_version():
@@ -173,3 +176,16 @@ def test_yadg_preset_archive(packwith, suffix, datadir):
     subprocess.run(command, check=True)
     assert os.path.exists("dg.json")
     assert os.path.exists(f"dg.{suffix}")
+
+
+def test_yadg_preset_externaldate(datadir):
+    ts = {"nsteps": 1, "step": 0, "nrows": 20, "point": 19}
+    ts["pars"] = {"uts": {"value": 1652254017.1712718}}
+    os.chdir(datadir)
+    command = ["yadg", "preset", "-p", "data_4.preset.json", "data_4", "data_4.dg.json"]
+    subprocess.run(command, check=True)
+    assert os.path.exists("data_4.dg.json")
+    with open("data_4.dg.json", "r") as inf:
+        dg = json.load(inf)
+    standard_datagram_test(dg, ts)
+    pars_datagram_test(dg, ts)

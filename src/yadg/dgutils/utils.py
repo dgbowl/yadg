@@ -236,7 +236,7 @@ def schema_from_preset(preset: dict, folder: str) -> dict:
             else:
                 newp = os.path.abspath(os.path.join(folder, oldf))
                 step["parameters"]["calfile"] = newp
-        if "externaldate" in step["externaldate"]:
+        if "externaldate" in step:
             using = "from" if "from" in step["externaldate"] else "using"
             if "file" in step["externaldate"][using]:
                 oldf = step["externaldate"][using]["file"]["path"]

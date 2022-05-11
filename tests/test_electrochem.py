@@ -532,6 +532,7 @@ def test_vsp_3e(input, ts, datadir):
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
 
+
 @pytest.mark.parametrize(
     "infile, ts",
     [

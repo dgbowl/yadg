@@ -74,7 +74,6 @@ def _schema_4_1(input, parser, version):
     return schema
 
 
-
 def datagram_from_file(infile, datadir):
     os.chdir(datadir)
     with open(infile, "r") as f:

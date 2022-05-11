@@ -10,6 +10,7 @@ from .schemas import fts0, fts1, fts2, fts3, fts4, fts5, fts6, fts7, fts8
 
 from .utils import datagram_from_file, standard_datagram_test, pars_datagram_test
 
+
 @pytest.mark.parametrize(
     "inp_dict, l_dg, l_res",
     [

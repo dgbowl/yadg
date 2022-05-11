@@ -119,20 +119,15 @@ from tests.utils import (
                 "pars": {"uts": {"value": 43141.0}},
             },
         ),
-        
         (
-            {  # ts6 - 
+            {  # ts6 -
                 "case": "case_time_custom.csv",
                 "parameters": {
                     "timestamp": {"time": {"index": 0, "format": "%I.%M%p"}}
                 },
                 "externaldate": {
                     "from": {
-                        "file": {
-                            "path": "file_6.json", 
-                            "type": "json", 
-                            "match": "uts"
-                        }
+                        "file": {"path": "file_6.json", "type": "json", "match": "uts"}
                     },
                     "mode": "add",
                 },

@@ -52,7 +52,7 @@ def process(
 ) -> tuple[list, dict, bool]:
     with open(fn, "r") as infile:
         jsdata = json.load(infile)
-    
+
     technique = jsdata["technique"]
     previous = jsdata.get("previous", None)
     current = jsdata["current"]
@@ -63,7 +63,7 @@ def process(
     else:
         uts = 0
         fulldate = False
-    
+
     if previous is None:
         meta = current
     elif current["status"] == "STOP":
@@ -78,19 +78,15 @@ def process(
 
     timesteps = []
     for point in jsdata["data"]:
-        p = {
-            "fn": fn,
-            "uts": uts + technique["start_time"],
-            "raw": {}
-        }
+        p = {"fn": fn, "uts": uts + technique["start_time"], "raw": {}}
         for k, v in point.items():
             if k == "time":
                 p["uts"] += v
             elif k in {"Ewe", "Ece"}:
-                s = max(E_range * 0.0015/100, 75e-6)
+                s = max(E_range * 0.0015 / 100, 75e-6)
                 p["raw"][k] = {"n": v, "s": s, "u": "V"}
             elif k in {"I"}:
-                s = max(I_range * 0.004/100, 760e-12)
+                s = max(I_range * 0.004 / 100, 760e-12)
                 p["raw"][k] = {"n": v, "s": s, "u": "A"}
             elif k in {"cycle"}:
                 p["raw"]["cycle number"] = v
@@ -102,6 +98,3 @@ def process(
         timesteps.append(p)
 
     return timesteps, None, fulldate
-
-
-

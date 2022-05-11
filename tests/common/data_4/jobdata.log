@@ -1,0 +1,44 @@
+2022-05-11 09:26:55,219:INFO    :MainProcess:attempting to load jobfile '.\Jobs\1\jobdata.json'
+2022-05-11 09:26:55,220:DEBUG   :MainProcess:parsing data from jobfile
+2022-05-11 09:26:55,220:DEBUG   :MainProcess:setting logger verbosity to 'DEBUG'
+2022-05-11 09:26:55,220:DEBUG   :MainProcess:assigning job '1' on pid '4612' into pipeline 'dummy-10'
+2022-05-11 09:26:55,252:INFO    :MainProcess:handing off to 'driver_worker'
+2022-05-11 09:26:55,253:INFO    :MainProcess:==============================
+2022-05-11 09:26:55,260:DEBUG   :MainProcess:starting 'log_listener'
+2022-05-11 09:26:55,267:DEBUG   :MainProcess:started 'log_listener' on pid 24128
+2022-05-11 09:26:55,267:INFO    :MainProcess:device id: 1 out of 1
+2022-05-11 09:26:55,268:INFO    :MainProcess:1: processing device 'worker' of type 'dummy'
+2022-05-11 09:26:55,269:DEBUG   :MainProcess:1: getting status
+2022-05-11 09:26:55,269:DEBUG   :MainProcess:in 'dummy.get_status'
+2022-05-11 09:26:55,269:DEBUG   :MainProcess:1: starting payload
+2022-05-11 09:26:55,269:INFO    :MainProcess:in 'dummy.start_job'
+2022-05-11 09:26:55,269:DEBUG   :MainProcess:payload=[{'device': 'worker', 'technique': 'random', 'time': 2, 'delay': 0.1}]
+2022-05-11 09:26:55,269:DEBUG   :MainProcess:starting 'dummy._dummy_process' 0 with tech='random', t=2, delay=0.1.
+2022-05-11 09:26:56,287:DEBUG   :MainProcess:1: writing initial status
+2022-05-11 09:26:56,289:INFO    :MainProcess:1: starting 'data_poller': every 1s
+2022-05-11 09:26:56,336:INFO    :MainProcess:1: started 'data_poller' on pid 11988
+2022-05-11 09:26:56,336:INFO    :MainProcess:waiting for all 'data_poller' jobs to join
+2022-05-11 09:26:56,336:INFO    :MainProcess:------------------------------------------
+2022-05-11 09:26:57,495:DEBUG   :data_poller_1_worker:in 'data_poller', pollrate=1
+2022-05-11 09:26:57,496:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-11 09:26:57,496:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:26:57,497:DEBUG   :data_poller_1_worker:found 5 data rows, writing into '.\Jobs\1\worker_2022-05-11T072657.496498+0000_data.json'
+2022-05-11 09:26:57,498:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:26:58,501:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-11 09:26:58,501:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:26:58,501:DEBUG   :data_poller_1_worker:found 10 data rows, writing into '.\Jobs\1\worker_2022-05-11T072658.501600+0000_data.json'
+2022-05-11 09:26:58,502:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:26:59,516:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-11 09:26:59,517:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:26:59,517:DEBUG   :data_poller_1_worker:found 5 data rows, writing into '.\Jobs\1\worker_2022-05-11T072659.517186+0000_data.json'
+2022-05-11 09:26:59,519:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is not empty
+2022-05-11 09:27:00,530:DEBUG   :data_poller_1_worker:in 'dummy.get_status'
+2022-05-11 09:27:00,531:DEBUG   :data_poller_1_worker:in 'dummy.get_data', jobqueue is empty
+2022-05-11 09:27:00,531:INFO    :data_poller_1_worker:rejoining main thread
+2022-05-11 09:27:00,549:INFO    :MainProcess:'data_poller' with pid 11988 closed successfully
+2022-05-11 09:27:00,550:INFO    :MainProcess:-----------------------
+2022-05-11 09:27:00,550:INFO    :MainProcess:quitting 'log_listener'
+2022-05-11 09:27:00,566:INFO    :MainProcess:==============================
+2022-05-11 09:27:00,566:DEBUG   :MainProcess:creating a preset file 'preset.1.json'
+2022-05-11 09:27:00,567:INFO    :MainProcess:running yadg to create a datagram in 'results.1.json'
+2022-05-11 09:27:00,567:DEBUG   :MainProcess:yadg preset -pa preset.1.json C:\Users\krpe\AppData\Local\Temp\pytest-of-krpe\pytest-2183\test_run_dummy_random_dummy_ra0\Jobs\1 results.1.json

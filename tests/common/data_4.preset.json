@@ -1,0 +1,1 @@
+{"metadata": {"version": "4.1.1", "provenance": {"type": "tomato"}, "timezone": "localtime"}, "steps": [{"tag": "worker", "parser": "dummy", "input": {"folders": ["."], "prefix": "worker", "suffix": "data.json"}, "parameters": {"filetype": "tomato.json"}, "externaldate": {"using": {"file": {"type": "json", "path": "worker_status.json", "match": "uts"}}}}]}

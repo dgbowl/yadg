@@ -41,7 +41,8 @@ setuptools.setup(
         "striprtf",
         "tzlocal",
         "python-dateutil",
-        "dgbowl-schemas>=104"
+        "dgbowl-schemas>=104",
+        "packaging",
         #"dgbowl-schemas @ git+https://github.com/PeterKraus/dgbowl-schemas.git@tomatojson#egg=dgbowl_schemas"
     ],
     extras_require={

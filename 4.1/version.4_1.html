@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg version 4.1.0 &mdash; yadg 4.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><strong>yadg</strong> version 4.1.0</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/version.4_1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yadg-version-4-1-0">
+<h1><strong>yadg</strong> version 4.1.0<a class="headerlink" href="#yadg-version-4-1-0" title="Permalink to this headline"></a></h1>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.1.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.1.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.0.0 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ability to archive raw data and reference the archive from within the <cite>datagram</cite>,
+by using <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">preset</span> <span class="pre">--process</span> <span class="pre">--archive</span></code></p></li>
+<li><p>migrated <cite>dataschema</cite> validation from an in-house validation routine to a
+Pydantic-based model, see <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/104/dgbowl_schemas.yadg.html#module-dgbowl_schemas.yadg" title="(in dgbowl-schemas vmaster)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg</span></code></a></p></li>
+<li><p>added the <a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace" title="yadg.parsers.xpstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code></a> parser with support for Panalytical files</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetypes to the <a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a>
+and <a class="reference internal" href="yadg.parsers.dummy.html#module-yadg.parsers.dummy" title="yadg.parsers.dummy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dummy</span></code></a> parsers</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> filetypes to the <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes and other modifications include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace</span></code></a> format modified:</p>
+<ul>
+<li><p>if peak integration data is present in the raw data file, this is now included
+in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> key directly. The included quantities are <code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>,
+<code class="docutils literal notranslate"><span class="pre">concentration</span></code>, and <code class="docutils literal notranslate"><span class="pre">xout</span></code> for every detected species.</p></li>
+<li><p>if peak integration is to be carried out by yadg, the resulting data is now
+available in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> key directly. The included quantities are
+<code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>, <code class="docutils literal notranslate"><span class="pre">concentration</span></code>, in addition to <code class="docutils literal notranslate"><span class="pre">xout</span></code> which was
+already part of the spec in v4.0.0.</p></li>
+<li><p>peak integration is now more reliable by applying a threshold around zero
+for inflection point detection</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem</span></code></a> format fixes:</p>
+<ul>
+<li><p>the PEIS/GEIS data is split into timesteps, not cycles.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> in the metadata of some input formats should now be handled
+properly, without producing a non-compliant json file.</p></li>
+<li><p>added partial support for <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files including the <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 4.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

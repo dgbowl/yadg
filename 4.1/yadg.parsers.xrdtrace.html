@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xrdtrace: X-ray diffractogram parser &mdash; yadg 4.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="masstrace: Mass spectrometry parser" href="yadg.parsers.masstrace.html" />
+    <link rel="prev" title="xpstrace: X-ray photoelectron spectrum file parser" href="yadg.parsers.xpstrace.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Chromatogram parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>xrdtrace</strong>: X-ray diffractogram parser</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.xrdtrace.common">Submodules</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#panalyticalcsv-processing-of-panalytical-xrd-csv-files">panalyticalcsv: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">csv</span></code> files</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#panalyticalxrdml-processing-of-panalytical-xrd-xml-files">panalyticalxrdml: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xml</span></code> files</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#panalyticalxy-processing-of-panalytical-xrd-xy-files">panalyticalxy: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xy</span></code> files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
+      <li><strong>xrdtrace</strong>: X-ray diffractogram parser</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/yadg.parsers.xrdtrace.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.parsers.xrdtrace">
+<span id="xrdtrace-x-ray-diffractogram-parser"></span><h1><strong>xrdtrace</strong>: X-ray diffractogram parser<a class="headerlink" href="#module-yadg.parsers.xrdtrace" title="Permalink to this headline"></a></h1>
+<p>This module handles the reading and processing of X-ray diffraction data.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>The usage of <a class="reference internal" href="#module-yadg.parsers.xrdtrace" title="yadg.parsers.xrdtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xrdtrace</span></code></a> can be specified by supplying
+<code class="docutils literal notranslate"><span class="pre">xrdtrace</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
+The parser supports the following parameters:</p>
+<span class="target" id="yadg-parsers-xrdtrace-model"></span><dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params" title="Permalink to this definition"></a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;panalytical.csv&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;panalytical.xy&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;panalytical.csv&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;panalytical.xrdml&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">},</span><span class="w"></span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></p><dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'panalytical.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="formats">
+<span id="yadg-parsers-xrdtrace-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
+<p>The currently supported file formats are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xrdml</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxrdml" title="yadg.parsers.xrdtrace.panalyticalxrdml"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxrdml</span></code></a></p></li>
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">csv</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalcsv" title="yadg.parsers.xrdtrace.panalyticalcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalcsv</span></code></a></p></li>
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xy</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxy" title="yadg.parsers.xrdtrace.panalyticalxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxy</span></code></a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="provides">
+<span id="yadg-parsers-xrdtrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
+<p><a class="reference internal" href="#module-yadg.parsers.xrdtrace" title="yadg.parsers.xrdtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xrdtrace</span></code></a> loads X-ray diffraction data, determines reasonable
+uncertainties of the signal intensity (y-axis), and explicitly populates the angle
+axis (<span class="math notranslate nohighlight">\(2\theta\)</span>), if necessary. This raw data is stored, for each timestep,
+using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="c1"># number of the trace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">angle</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deg&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">intensity</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;counts&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code> are taken as the step-width of
+the linearly spaced <span class="math notranslate nohighlight">\(2\theta\)</span> values.</p>
+<p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are currently set to a constant
+value of 1.0 count as all the supported files seem to produce integer values.</p>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The metadata collected from the raw data file depends on the filetype, and
+is currently not strictly defined.</p>
+</div>
+</section>
+<section id="module-yadg.parsers.xrdtrace.common">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.xrdtrace.common" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.common.panalytical_comment">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.common.</span></span><span class="sig-name descname"><span class="pre">panalytical_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.common.panalytical_comment" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a comments from the file header into a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A line containing the comment.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary containing the processed comment.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.common.snake_case">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.common.</span></span><span class="sig-name descname"><span class="pre">snake_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.common.snake_case" title="Permalink to this definition"></a></dt>
+<dd><p>Converts Sentence case. and camelCase strings to snake_case.</p>
+<p>From <a class="reference external" href="https://stackoverflow.com/a/1176023">https://stackoverflow.com/a/1176023</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The input string to be converted.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The corresponding snake_case string.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-yadg.parsers.xrdtrace.main"></span><dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.main.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.main.process" title="Permalink to this definition"></a></dt>
+<dd><p>Unified X-ray diffractogram data parser.</p>
+<p>This parser processes X-ray diffractogram scans in intensity(angle) format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">XRDTrace</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and full date tag. The
+currently implemented parsers all return full date.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-yadg.parsers.xrdtrace.panalyticalcsv"></span><section id="panalyticalcsv-processing-of-panalytical-xrd-csv-files">
+<h3>panalyticalcsv: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">csv</span></code> files<a class="headerlink" href="#panalyticalcsv-processing-of-panalytical-xrd-csv-files" title="Permalink to this headline"></a></h3>
+<section id="file-structure">
+<h4>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this headline"></a></h4>
+<p>These files are split into a <code class="docutils literal notranslate"><span class="pre">[Measurement</span> <span class="pre">conditions]</span></code> and a <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code>
+section. The former stores the metadata and the latter all the datapoints.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This parser is fairly new and untested. As a result, the returned metadata
+contain all the entries in the <code class="docutils literal notranslate"><span class="pre">[Measurement</span> <span class="pre">conditions]</span></code> section, without
+any additional filtering.</p>
+</div>
+</section>
+<section id="structure-of-parsed-timesteps">
+<h4>Structure of Parsed Timesteps<a class="headerlink" href="#structure-of-parsed-timesteps" title="Permalink to this headline"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Number of the trace.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">angle</span><span class="p">:</span><span class="w">               </span><span class="c1"># Diffraction angle.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deg&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">intensity</span><span class="p">:</span><span class="w">           </span><span class="c1"># Detector counts.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;counts&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.panalyticalcsv.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.panalyticalcsv.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.panalyticalcsv.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a PANalytical XRD csv file. All information contained in the header
+of the csv file is stored in the metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, meta)</strong> – (data, metadata, fulldate) : tuple[list, dict, bool]
+Tuple containing the timesteps, metadata, and the full date tag.
+For .csv files tag is specified.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<span class="target" id="module-yadg.parsers.xrdtrace.panalyticalxrdml"></span><section id="panalyticalxrdml-processing-of-panalytical-xrd-xml-files">
+<h3>panalyticalxrdml: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xml</span></code> files<a class="headerlink" href="#panalyticalxrdml-processing-of-panalytical-xrd-xml-files" title="Permalink to this headline"></a></h3>
+<section id="id1">
+<h4>File Structure<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+<p>These are xml-formatted files, which we here parse using the <code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree</span></code>
+library into a Python <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">angle</span></code> returned from this parser is based on a linear interpolation of
+the start and end point of the scan, and is the <span class="math notranslate nohighlight">\(2\theta\)</span>. The values
+of <span class="math notranslate nohighlight">\(\omega\)</span> are discarded.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This parser is fairly new and untested. As a result, the returned metadata
+contain only a subset of the available metadata in the XML file. If something
+important is missing, please contact us!</p>
+</div>
+</section>
+<section id="id2">
+<h4>Structure of Parsed Timesteps<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Number of the trace.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">angle</span><span class="p">:</span><span class="w">               </span><span class="c1"># Diffraction angle.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deg&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">intensity</span><span class="p">:</span><span class="w">           </span><span class="c1"># Detector counts.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;counts&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.panalyticalxrdml.etree_to_dict">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.panalyticalxrdml.</span></span><span class="sig-name descname"><span class="pre">etree_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.panalyticalxrdml.etree_to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Recursively converts an ElementTree.Element into a dictionary.</p>
+<p>Element attributes are stored into <cite>“&#64;”</cite>-prefixed attribute keys.
+Element text is stored into <cite>“#text”</cite> for all nodes.</p>
+<p>From <a class="reference external" href="https://stackoverflow.com/a/10076823">https://stackoverflow.com/a/10076823</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code>) – The ElementTree root Element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ElementTree parsed into a dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.panalyticalxrdml.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.panalyticalxrdml.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.panalyticalxrdml.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a PANalytical xrdml file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and the full date tag.
+For .xrdml tag is always specified</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<span class="target" id="module-yadg.parsers.xrdtrace.panalyticalxy"></span><section id="panalyticalxy-processing-of-panalytical-xrd-xy-files">
+<h3>panalyticalxy: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xy</span></code> files<a class="headerlink" href="#panalyticalxy-processing-of-panalytical-xrd-xy-files" title="Permalink to this headline"></a></h3>
+<section id="id3">
+<h4>File Structure<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h4>
+<p>These files basically just contain the <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code> part of PANalytical csv
+files <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalcsv" title="yadg.parsers.xrdtrace.panalyticalcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.xrdtrace.panalyticalcsv</span></code></a>. As a consequence, no metadata
+is recorded, and the format does not have an associated timestamp.</p>
+</section>
+<section id="id4">
+<h4>Structure of Parsed Timesteps<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Number of the trace.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">angle</span><span class="p">:</span><span class="w">               </span><span class="c1"># Diffraction angle.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;deg&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">        </span><span class="nt">intensity</span><span class="p">:</span><span class="w">           </span><span class="c1"># Detector counts.</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;counts&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.xrdtrace.panalyticalxy.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.xrdtrace.panalyticalxy.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.xrdtrace.panalyticalxy.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes a PANalytical XRD xy file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and the full date tag.
+For .xy files tag is never specified.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-left" title="xpstrace: X-ray photoelectron spectrum file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.masstrace.html" class="btn btn-neutral float-right" title="masstrace: Mass spectrometry parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 4.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

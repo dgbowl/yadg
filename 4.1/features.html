@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Key features of yadg &mdash; yadg 4.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parsers available in yadg" href="parsers.html" />
+    <link rel="prev" title="How to use yadg" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> yadg
+            <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                4.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Key features of <strong>yadg</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#units-and-uncertainties">Units and uncertainties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#units">Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#timestamping">Timestamping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-validation">Object validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Key features of <strong>yadg</strong></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/features.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="key-features-of-yadg">
+<h1>Key features of <strong>yadg</strong><a class="headerlink" href="#key-features-of-yadg" title="Permalink to this headline"></a></h1>
+<section id="units-and-uncertainties">
+<h2>Units and uncertainties<a class="headerlink" href="#units-and-uncertainties" title="Permalink to this headline"></a></h2>
+<p>One of the key features of yadg is the enforced association of units and uncertainties
+with measured properties. This means that all floating-point values are stored in the
+format <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">float,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">float,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">str}</span></code>, where <code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> is the nominal value,
+<code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> is the uncertainty / error estimate, and <code class="docutils literal notranslate"><span class="pre">&quot;u&quot;</span></code> is the unit.</p>
+<section id="units">
+<h3>Units<a class="headerlink" href="#units" title="Permalink to this headline"></a></h3>
+<p>yadg uses the <a class="reference external" href="https://pint.readthedocs.io/en/stable/">pint</a> package to
+validate units in the created <cite>datagrams</cite>. For this, an extended
+<code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is exposed in yadg, containing definitions of some
+quantities present in the raw data files in addition to pint’s standard unit
+registry. This <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> should be used in downstream packages
+which depend on yadg. An arbitrary unit is denoted as <code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">&quot;</span></code>. See
+<a class="reference internal" href="yadg.dgutils.html#module-yadg.dgutils.pintutils" title="yadg.dgutils.pintutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.dgutils.pintutils</span></code></a> for more info.</p>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Permalink to this headline"></a></h3>
+<p>In many cases it is possible to define more than one uncertainty: for example,
+accuracy, precision, instrument resolution etc. may be available. The convention
+in yadg is that when both a measure of within-measurement uncertainty (resolution)
+and a cross-measurement error (accuracy) are available, <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> corresponds to
+the instrumental resolution associated with each datapoint, and the accuracy of
+the measurement (which is normally a higher value than that of the resoution)
+should be noted in the step metadata.</p>
+<p>Unless more information is available, when converting <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> data to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, the uncertainty is determined from the last significant digit
+specified in the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. For this, the functionality from within the
+<a class="reference external" href="https://pythonhosted.org/uncertainties/">uncertainties</a> package is used.</p>
+<p>When derived data is generated by yadg, error propagation is handled using the
+linear error propagation functionality as implemented in the
+<a class="reference external" href="https://pythonhosted.org/uncertainties/">uncertainties</a> package.</p>
+</section>
+</section>
+<section id="timestamping">
+<h2>Timestamping<a class="headerlink" href="#timestamping" title="Permalink to this headline"></a></h2>
+<p>Another key feature in yadg is the timestamping of all datapoints. The Unix
+timestamp is used, as it’s the natural timestamp for Python, and with its second
+resolution it can be easily converted to minutes or hours.</p>
+<p>Most of the supported file formats contain a timestamp of some kind. However, several
+file formats may not define both date and time of each datapoint, or may define
+neither. That is why yadg includes a powerful “external date” interface, see
+<a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.dateutils.complete_timestamps()</span></code></a>.</p>
+</section>
+<section id="object-validation">
+<h2>Object validation<a class="headerlink" href="#object-validation" title="Permalink to this headline"></a></h2>
+<p>Additionally, yadg provides <cite>dataschema</cite> and <cite>datagram</cite> validation functionality.
+The validation of <cite>dataschema</cite> is handled using a
+<a class="reference external" href="https://pydantic-docs.helpmanual.io/">Pydantic</a> model implemented in the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg_dataschema</span></code> package, developed in lockstep with yadg.
+This Pydantic-based validator class should be used to ensure that the incoming
+<cite>dataschema</cite> is valid.</p>
+<p>The validation of the created <cite>datagram</cite> is handled by <a class="reference internal" href="yadg.core.html#module-yadg.core.validators" title="yadg.core.validators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.validators</span></code></a>.
+By default, yadg checks that the <cite>datagram</cite> conforms to the specification. Among
+others, the validator ensures that provenance data is included for every operation,
+and that uncertainties and units are specified for each measurement.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="How to use yadg" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers.html" class="btn btn-neutral float-right" title="Parsers available in yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 4.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

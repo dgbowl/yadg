@@ -10,15 +10,27 @@ Developed at Empa - Materials Science and Technology, in Dübendorf.
 
 New features since v4.0.0 are:
 
+  - ability to archive raw data and reference the archive from within the `datagram`, by
+    using ``yadg preset --process --archive``
+  - migrated `dataschema` validation from in-house validation routine to a Pydantic-based
+    model, see :mod:`~dgbowl_schemas.yadg`
+  - added the ``XPSTrace`` parser with support for Panalytical files
+  - added support for ``tomato.json`` filetypes to the ``ElectroChem`` and ``Dummy`` parsers
+  - added support for ``fusion.zip`` filetypes to the ``ChromTrace`` parser
+
+Bug fixes and other modifications include:
+
   - ``chromtrace`` format modified:
     
     - if peak integration data is present in the raw data file, this is now included
       in the ``"raw"`` key directly. The included quantities are ``height``, ``area``,
       ``concentration``, and ``xout`` for every detected species.
-    - if peak integration is to be carried out by **yadg**, the resulting data is now
+    - if peak integration is to be carried out by yadg, the resulting data is now
       available in the ``"derived"`` key directly. The included quantities are 
       ``height``, ``area``, ``concentration``, in addition to ``xout`` which was
       already part of the spec in v4.0.0.
+    - peak integration is now more reliable by applying a threshold around zero
+      for inflection point detection
   
   - ``electrochemistry`` format fixes:
 
@@ -27,7 +39,5 @@ New features since v4.0.0 are:
     - ``NaN`` and ``Inf`` in the metadata of some input formats should now be handled
       properly, without producing a non-compliant json file.
     - added partial support for ``mpr`` files including ``ExtDev`` module
-      
-  - ``chromtrace`` supports ``fusion.zip`` format, which is a zipped archive containing
-    ``fusion.json`` files. 
+
     

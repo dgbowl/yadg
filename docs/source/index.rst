@@ -21,6 +21,8 @@ from reflection coefficient traces, applying calibration curves to data, or simp
 numerical processing of tabular data. The "derived" data obtained this way is
 systematically separated from the "raw" data.
 
+You can read more about yadg in our paper: [Kraus2022b]_.
+
 .. toctree::
    :maxdepth: 3
    :caption: yadg user manual

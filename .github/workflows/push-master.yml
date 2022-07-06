@@ -30,8 +30,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-master
-      - run: pip install --pre --find-links=. yadg[testing]
-        shell: bash
+      - uses: jannekem/run-python-script-action@v1
+        with:
+          script: |
+            import os
+            import subprocess
+            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+            subprocess.run(["pip", "install", f"{fn}[testing]"])
       - uses: ./.github/workflows/test-job
   pages:
     needs: [build]
@@ -45,8 +50,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: dist-master
-      - run: pip install --pre --find-links=. yadg[docs]
-        shell: bash
+      - uses: jannekem/run-python-script-action@v1
+        with:
+          script: |
+            import os
+            import subprocess
+            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+            subprocess.run(["pip", "install", f"{fn}[docs]"])
       - uses: ./.github/workflows/docs-job
       - uses: actions/upload-artifact@v2
         with: 

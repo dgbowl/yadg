@@ -330,10 +330,13 @@ data_columns = {
     0x01D7: ("<f4", "<Ece>", "V"),
     0x01D9: ("<f4", "THD Ewe", "%"),
     0x01DA: ("<f4", "THD I", "%"),
+    0x01DB: ("<f4", "THD Ece", "%"),
     0x01DC: ("<f4", "NSD Ewe", "%"),
     0x01DD: ("<f4", "NSD I", "%"),
+    0x01DE: ("<f4", "NSD Ece", "%"),
     0x01DF: ("<f4", "NSR Ewe", "%"),
     0x01E0: ("<f4", "NSR I", "%"),
+    0x01E1: ("<f4", "NSR Ece", "%"),
     0x01E6: ("<f4", "|Ewe h2|", "V"),
     0x01E7: ("<f4", "|Ewe h3|", "V"),
     0x01E8: ("<f4", "|Ewe h4|", "V"),
@@ -346,6 +349,12 @@ data_columns = {
     0x01EF: ("<f4", "|I h5|", "A"),
     0x01F0: ("<f4", "|I h6|", "A"),
     0x01F1: ("<f4", "|I h7|", "A"),
+    0x01F2: ("<f4", "|Ece h2|", "V"),
+    0x01F3: ("<f4", "|Ece h3|", "V"),
+    0x01F4: ("<f4", "|Ece h4|", "V"),
+    0x01F5: ("<f4", "|Ece h5|", "V"),
+    0x01F6: ("<f4", "|Ece h6|", "V"),
+    0x01F7: ("<f4", "|Ece h7|", "V"),
 }
 
 
@@ -584,7 +593,11 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
             dtypes.append(dtype)
             units.append(unit)
         else:
-            raise NotImplementedError(f"Unknown column ID: {id}")
+            name = f"unknown_{len(names)}"
+            logger.warning("Unknown column ID '%d' was assigned into '%s'.", id, name)
+            names.append(name)
+            dtypes.append("<f4")
+            units.append("")
     return names, dtypes, units, flags
 
 

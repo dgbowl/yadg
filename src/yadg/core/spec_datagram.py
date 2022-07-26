@@ -1,4 +1,6 @@
-datagram_version = "4.1.0rc2"
+from importlib import metadata as ilmd
+
+datagram_version = ilmd.version("yadg")
 
 datagram_step = {
     "type": dict,

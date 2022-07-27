@@ -76,6 +76,20 @@ def process(
         elif parameters.filetype.endswith(".txt") or fn.endswith("txt"):
             ts, meta = drycal.sep(fn, "\t", encoding, timezone, calib)
 
+        # check timestamps are increasing:
+        warn = True
+        ndays = 0
+        for i in range(1, len(ts)):
+            if ts[i]["uts"] < ts[i - 1]["uts"]:
+                if warn:
+                    logger.warning("DryCal log crossing day boundary. Adding offset.")
+                    warn = False
+                uts = ts[i]["uts"] + ndays * 86400
+                while uts < ts[i - 1]["uts"]:
+                    ndays += 1
+                    uts = ts[i]["uts"] + ndays * 86400
+                ts[i]["uts"] = uts
+
     metadata.update(meta)
 
     return ts, metadata, fulldate

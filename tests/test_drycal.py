@@ -104,6 +104,23 @@ from tests.utils import (
                 },
             },
         ),
+        (
+            {  # ts5 - overnight run
+                "case": "20220721-porosity-study-20p-Cu-200mA-EDLC-01-flow.csv",
+                "parameters": {"filetype": "drycal.csv"},
+                "externaldate": {"from": {"filename": {"format": "%Y%m%d", "len": 8}}},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 77,
+                "point": 76,
+                "pars": {
+                    "Temp": {"sigma": 0.1, "value": 28.6, "unit": "degC"},
+                    "uts": {"value": 1658475079.0},
+                },
+            },
+        ),
     ],
 )
 def test_datagram_from_drycal(input, ts, datadir):

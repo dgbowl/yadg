@@ -104,13 +104,11 @@ from tests.utils import (
                 },
             },
         ),
-         (
+        (
             {  # ts5 - overnight run
                 "case": "20220721-porosity-study-20p-Cu-200mA-EDLC-01-flow.csv",
                 "parameters": {"filetype": "drycal.csv"},
-                "externaldate": {
-                    "from": {"filename": {"format": "%Y%m%d", "len": 8}}
-                },
+                "externaldate": {"from": {"filename": {"format": "%Y%m%d", "len": 8}}},
             },
             {
                 "nsteps": 1,

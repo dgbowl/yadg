@@ -78,13 +78,17 @@ def process(
 
         # check timestamps are increasing:
         warn = True
+        ndays = 0
         for i in range(1, len(ts)):
             if ts[i]["uts"] < ts[i - 1]["uts"]:
                 if warn:
                     logger.warning("DryCal log crossing day boundary. Adding offset.")
                     warn = False
-                ts[i]["uts"] += 86400
-                assert ts[i]["uts"] > ts[i - 1]["uts"]
+                uts = ts[i]["uts"] + ndays * 86400
+                while uts < ts[i - 1]["uts"]:
+                    ndays += 1
+                    uts = ts[i]["uts"] + ndays * 86400
+                ts[i]["uts"] = uts
 
     metadata.update(meta)
 

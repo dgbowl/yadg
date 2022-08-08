@@ -26,7 +26,7 @@ The formats currently supported by the parser are:
  - Inficon Fusion zip archive (``zip``): :mod:`~yadg.parsers.chromdata.fusionzip`
  - Inficon Fusion csv export (``csv``): :mod:`~yadg.parsers.chromdata.fusioncsv`
 
-.. _yadg.parsers.chromtrace.provides:
+.. _yadg.parsers.chromdata.provides:
 
 Provides
 ````````
@@ -51,22 +51,11 @@ for each timestep, using the following format:
       "{{ species_name }}": 
           {n: !!float, s: !!float, u: " "}
 
-The data processing performed by :mod:`~yadg.parsers.chromtrace` is enabled 
-automatically when calibration information is provided. The resulting data is stored 
-in the ``derived`` entry in each `timestep`, and contains the following information:
-
 .. note::
 
-    The quantity ``c``, determined for each integrated peak, may not necessarily 
-    be concentration. It can also be mole fraction, as it is determined from the 
-    peak area in ``A`` and any provided calibration specification. The calibration 
-    interface allows for units to be supplied.
-
-.. note::
-
-    The mol fractions in ``xout`` always sum up to unity. If there is more than
-    one outlet stream, these mol fractions have to be weighted by the flow rate 
-    in a post-processing routine.
+    The mole fractions in ``xout`` always sum up to unity. If there is more than
+    one outlet stream, or if some analytes remain unidentified, the values in 
+    ``xout`` will not be accurate.
 
 Metadata
 ````````
@@ -81,7 +70,6 @@ metadata entries are stored for each `step`:
     sampleid: !!str # sample ID
     username: !!str # username of raw file creator
     version:  !!str # raw file version or program version
-    valve:    !!int # multiplexer valve number
     datafile: !!str # original data file location
 
 

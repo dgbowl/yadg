@@ -59,8 +59,8 @@ stored, for each timestep, using the following format:
 
 .. note::
 
-  To parse processed data, such as integrated peak areas or concentrations, use the
-  :mod:`~yadg.parsers.chromdata` parser instead.
+  To parse processed data in the raw data files, such as integrated peak areas or 
+  concentrations, use the :mod:`~yadg.parsers.chromdata` parser instead.
 
 The data processing performed by :mod:`~yadg.parsers.chromtrace` is enabled 
 automatically when calibration information is provided. The resulting data is stored 

@@ -42,7 +42,8 @@ setuptools.setup(
         "tzlocal",
         "packaging",
         "python-dateutil",
-        "dgbowl-schemas>=104",
+        #"dgbowl-schemas>=104",
+        "dgbowl-schemas @ https://github.com/dgbowl/dgbowl-schemas/tarball/master"
     ],
     extras_require={
         "testing": [

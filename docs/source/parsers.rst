@@ -14,6 +14,7 @@ following links:
    yadg.parsers.flowdata
    yadg.parsers.electrochem
    yadg.parsers.chromtrace
+   yadg.parsers.chromdata
    yadg.parsers.qftrace
    yadg.parsers.xpstrace
    yadg.parsers.xrdtrace

@@ -16,7 +16,6 @@ Exposed metadata:
       sampleid: !!str
       username: !!str
       version:  !!str
-      valve:    None
       datafile: !!str
 
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>

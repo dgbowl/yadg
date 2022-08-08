@@ -20,7 +20,6 @@ Exposed metadata:
       sampleid: !!str
       username: None
       version:  !!str
-      valve:    !!int
       datafile: !!str
 
 .. codeauthor:: Peter Kraus
@@ -34,7 +33,13 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     Fusion json format.
 
-    One chromatogram per file with multiple traces, and pre-analysed results.
+    One chromatogram per file with multiple traces, and integrated peak areas.
+
+    .. warning::
+
+        To parse the integrated data present in these files, use the 
+        :mod:`~yadg.parsers.chromdata` parser.
+
     Only a subset of the metadata is retained, including the method name,
     detector names, and information about assigned peaks.
 
@@ -62,18 +67,18 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         "params": {
             "method": jsdata.get("methodName", "n/a"),
             "sampleid": jsdata.get("annotations", {}).get("name", None),
-            "valve": jsdata.get("annotations", {}).get("valcoPosition", None),
             "version": jsdata.get("softwareVersion", {}).get("version", None),
             "datafile": jsdata.get("sequence", {}).get("location", None),
             "username": None,
         },
     }
-    chrom = {"fn": str(fn), "traces": {}}
+    chrom = {"fn": str(fn), "traces": {}, "raw": {}}
     chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
     detid = 0
-    # prepare analysis dictionary:
-    an = {"height": {}, "area": {}, "concentration": {}, "xout": {}}
-    has_an = False
+
+    valve = jsdata.get("annotations", {}).get("valcoPosition", None)
+    if valve is not None:
+        chrom["raw"]["valve"] = valve
 
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
@@ -102,25 +107,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             "u": " ",
         }
         trace["data"] = [xs, ys]
-        if "analysis" in detdict:
-            has_an = True
-            for peak in detdict["analysis"]["peaks"]:
-                if "label" not in peak:
-                    continue
-                h = {"n": float(peak.get("height", 0.0)), "s": 0.0, "u": " "}
-                A = {"n": float(peak.get("area", 0.0)), "s": 0.0, "u": " "}
-                c = {"n": float(peak.get("concentration", 0.0)), "s": 0.0, "u": "%"}
-                x = {
-                    "n": float(peak.get("normalizedConcentration", 0.0)),
-                    "s": 0.0,
-                    "u": "%",
-                }
-                an["height"][peak["label"]] = h
-                an["area"][peak["label"]] = A
-                an["concentration"][peak["label"]] = c
-                an["xout"][peak["label"]] = x
         chrom["traces"][detname] = trace
 
-    if has_an:
-        chrom.update(an)
     return [chrom], metadata

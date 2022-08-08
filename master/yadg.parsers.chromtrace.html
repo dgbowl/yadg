@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>chromtrace: Chromatogram parser &mdash; yadg master documentation</title>
+  <title>chromtrace: Raw chromatogram trace parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qftrace: VNA trace parser" href="yadg.parsers.qftrace.html" />
+    <link rel="next" title="chromdata: Processed chromatography data parser" href="yadg.parsers.chromdata.html" />
     <link rel="prev" title="electrochem: Electrochemistry data parser" href="yadg.parsers.electrochem.html" /> 
 </head>
 
@@ -63,7 +63,7 @@
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>chromtrace</strong>: Chromatogram parser</a><ul>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>chromtrace</strong>: Raw chromatogram trace parser</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
@@ -110,7 +110,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
-      <li><strong>chromtrace</strong>: Chromatogram parser</li>
+      <li><strong>chromtrace</strong>: Raw chromatogram trace parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.chromtrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,7 +121,7 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.chromtrace">
-<span id="chromtrace-chromatogram-parser"></span><h1><strong>chromtrace</strong>: Chromatogram parser<a class="headerlink" href="#module-yadg.parsers.chromtrace" title="Permalink to this headline"></a></h1>
+<span id="chromtrace-raw-chromatogram-trace-parser"></span><h1><strong>chromtrace</strong>: Raw chromatogram trace parser<a class="headerlink" href="#module-yadg.parsers.chromtrace" title="Permalink to this headline"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> parser handles the reading and processing of all chromatography
 files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
 The basic function of the parser is to:</p>
@@ -137,8 +137,8 @@ The basic function of the parser is to:</p>
 as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>. The parser supports the
 following parameters:</p>
 <span class="target" id="yadg-parsers-chromtrace-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -159,13 +159,16 @@ following parameters:</p>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;calfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calfile&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;species&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Species&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Species&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;detectors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Detectors&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Detectors&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
 <span class="w">   </span><span class="p">},</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
@@ -173,24 +176,42 @@ following parameters:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ezchrom.asc'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.ch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.dx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ezchrom.asc'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ezchrom.asc'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.ch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.dx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ezchrom.asc'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.calfile">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.calfile" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.calfile">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.calfile" title="Permalink to this definition"></a></dt>
+<dd><p>Species calibration specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.species">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">species</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.species" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.species">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">species</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.species" title="Permalink to this definition"></a></dt>
+<dd><p>Species information as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.detectors">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">detectors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ChromTrace.Params.detectors" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.detectors">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">detectors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params.detectors" title="Permalink to this definition"></a></dt>
+<dd><p>Detector integration parameters as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -231,22 +252,10 @@ stored, for each timestep, using the following format:</p>
 <span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>If the raw data file contains information such as peak areas, concentrations, or mol
-fractions for detected species those are also included in the timestep:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">height</span><span class="p">:</span><span class="w">                     </span><span class="c1"># height of the peak maxima</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">area</span><span class="p">:</span><span class="w">                       </span><span class="c1"># integrated area of the peak</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">concentration</span><span class="p">:</span><span class="w">              </span><span class="c1"># concentration</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">xout</span><span class="p">:</span><span class="w">                       </span><span class="c1"># normalised concentration</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To parse processed data in the raw data files, such as integrated peak areas or
+concentrations, use the <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser instead.</p>
 </div>
 <p>The data processing performed by <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> is enabled
 automatically when calibration information is provided. The resulting data is stored
@@ -329,7 +338,6 @@ the <cite>magic_values</cite> (parameters &amp; metadata) and <cite>data_dtypes<
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 </pre></div>
 </div>
@@ -391,7 +399,6 @@ a header section for each timestep, followed by a detector name, and a sequence 
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
@@ -435,7 +442,6 @@ the archive. The IT files in the archive are currently ignored.</p>
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
@@ -486,7 +492,6 @@ axis is uniform between traces, and its units have to be deduced from the header
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
@@ -534,7 +539,6 @@ may change between different files. Hence, the keys are sorted.</p>
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="kt">!!int</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
@@ -542,8 +546,13 @@ may change between different files. Hence, the keys are sorted.</p>
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.fusionjson.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.fusionjson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.fusionjson.process" title="Permalink to this definition"></a></dt>
 <dd><p>Fusion json format.</p>
-<p>One chromatogram per file with multiple traces, and pre-analysed results.
-Only a subset of the metadata is retained, including the method name,
+<p>One chromatogram per file with multiple traces, and integrated peak areas.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To parse the integrated data present in these files, use the
+<a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser.</p>
+</div>
+<p>Only a subset of the metadata is retained, including the method name,
 detector names, and information about assigned peaks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -576,7 +585,6 @@ file present in the archive.</p>
 <span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="kt">!!int</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
@@ -752,7 +760,7 @@ as dictionaries, as shown <a class="reference internal" href="#parsers-chromtrac
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.main.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.main.process" title="Permalink to this definition"></a></dt>
-<dd><p>Unified chromatogram parser.</p>
+<dd><p>Unified raw chromatogram parser.</p>
 <p>This parser processes GC and LC chromatograms in signal(time) format. When
 provided with a calibration file, this tool will integrate the trace, and provide
 the peak areas, retention times, and concentrations of the detected species.</p>
@@ -783,7 +791,7 @@ supported file formats return full date.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="yadg.parsers.electrochem.html" class="btn btn-neutral float-left" title="electrochem: Electrochemistry data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-right" title="qftrace: VNA trace parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-right" title="chromdata: Processed chromatography data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

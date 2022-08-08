@@ -5,7 +5,7 @@ import json
 import yaml
 import shutil
 import hashlib
-from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_1
+from dgbowl_schemas import to_dataschema, DataSchema
 from . import core, dgutils
 
 
@@ -106,7 +106,7 @@ def update(args: argparse.Namespace) -> None:
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
-        if isinstance(outobj, DataSchema_4_1):
+        if isinstance(outobj, DataSchema):
             json.dump(outobj.dict(), outfile, indent=1)
         else:
             json.dump(outobj, outfile, indent=1)

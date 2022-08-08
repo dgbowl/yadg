@@ -16,7 +16,6 @@ Exposed metadata:
       sampleid: !!str
       username: !!str
       version:  !!str
-      valve:    None
       datafile: !!str
 
 In addition to the metadata exposed by the CH parser, the ``datafile`` entry

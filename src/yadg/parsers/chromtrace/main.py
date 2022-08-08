@@ -131,7 +131,7 @@ def process(
     parameters: BaseModel = None,
 ) -> tuple[list, dict, bool]:
     """
-    Unified chromatogram parser.
+    Unified raw chromatogram parser.
 
     This parser processes GC and LC chromatograms in signal(time) format. When
     provided with a calibration file, this tool will integrate the trace, and provide

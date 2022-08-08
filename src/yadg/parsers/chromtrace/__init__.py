@@ -57,24 +57,10 @@ stored, for each timestep, using the following format:
           y:                       # y-axis units are determined from raw file
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
 
-If the raw data file contains information such as peak areas, concentrations, or mol
-fractions for detected species those are also included in the timestep:
+.. note::
 
-.. code-block:: yaml
-
-  raw:
-    height:                     # height of the peak maxima
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    area:                       # integrated area of the peak
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    concentration:              # concentration
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    xout:                       # normalised concentration
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: " "}
+  To parse processed data, such as integrated peak areas or concentrations, use the
+  :mod:`~yadg.parsers.chromdata` parser instead.
 
 The data processing performed by :mod:`~yadg.parsers.chromtrace` is enabled 
 automatically when calibration information is provided. The resulting data is stored 

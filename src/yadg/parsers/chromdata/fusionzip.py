@@ -3,7 +3,7 @@
 ------------------------------------------------------------------
 
 This is a wrapper parser which unzips the provided zip file, and then uses
-the :mod:`yadg.parsers.chromtrace.fusionjson` parser to parse every data
+the :mod:`yadg.parsers.chromdata.fusionjson` parser to parse every data
 file present in the archive.
 
 Exposed metadata:
@@ -57,14 +57,16 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         zf.extractall(tempdir)
         chroms = []
         meta = {}
+        fd = True
         for ffn in sorted(os.listdir(tempdir)):
             ffn = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                _chrom, _meta = processjson(ffn, encoding, timezone)
+                _chrom, _meta, _fd = processjson(ffn, encoding, timezone)
                 for ts in _chrom:
                     ts["fn"] = str(fn)
                     chroms.append(ts)
                 if _meta is not None:
                     meta.update(_meta)
                 meta["params"]["datafile"] = str(ffn)
-    return chroms, meta
+                fd = fd and _fd
+    return chroms, meta, fd

@@ -16,7 +16,6 @@ Exposed metadata:
       sampleid: !!str
       username: None
       version:  None
-      valve:    None
       datafile: !!str
 
 Unfortunately, neither ``method`` nor ``version`` are exposed, which is a big weakness

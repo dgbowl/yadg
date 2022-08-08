@@ -18,7 +18,6 @@ Exposed metadata:
       sampleid: !!str
       username: !!str
       version:  !!str
-      valve:    None
       datafile: None
 
 File Structure of ``.ch`` files

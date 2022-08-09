@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -91,11 +92,11 @@ and folders specified in each experimental <cite>step</cite> of the <cite>datasc
 given experiment.</p>
 <p>The produced <cite>datagram</cite> is associated with full provenance info, and the data within
 the <cite>datagram</cite> contains instrumental error estimates and is annotated with units.</p>
-<p>yadg also contains some tools for a standardised processing of raw data, including
-features such as peak integration in chromatograms, quality factor determination
-from reflection coefficient traces, applying calibration curves to data, or simple
-numerical processing of tabular data. The “derived” data obtained this way is
-systematically separated from the “raw” data.</p>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The post-processing features within <code class="docutils literal notranslate"><span class="pre">yadg</span></code> are deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> in
+favour of the <code class="docutils literal notranslate"><span class="pre">dgpost</span></code> library, and will be completely removed in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
 <p>You can read more about yadg in our paper: <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>.</p>
 <div class="toctree-wrapper compound">
 </div>

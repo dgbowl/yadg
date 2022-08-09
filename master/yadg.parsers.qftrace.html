@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -71,7 +72,6 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>qftrace</strong>: VNA trace parser</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.qftrace.fit">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#fit-quality-factor-fitting-routines"><strong>fit</strong>: Quality factor fitting routines.</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#labviewcsv-processing-labview-csv-files-generated-using-agilent-pna-l-n5320c"><strong>labviewcsv</strong>: Processing LabView CSV files generated using Agilent PNA-L N5320C.</a></li>
@@ -124,14 +124,19 @@ traces, containing the reflection coefficient as a function of the sweeped frequ
 <li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
 <li><p>detect the peaks in each trace (<span class="math notranslate nohighlight">\(f_0\)</span>) and fit the quality factor <span class="math notranslate nohighlight">\(Q_0\)</span></p></li>
 </ol>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The fitting of peaks and quality factors in network analyzer traces is deprecated
+as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
 <p>The use of <a class="reference internal" href="#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qftrace</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">qftrace</span></code> as
 an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword in the <cite>dataschema</cite>. The parser supports the
 following parameters:</p>
 <span class="target" id="yadg-parsers-qftrace-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -181,33 +186,33 @@ following parameters:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'labview.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'labview.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'labview.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'labview.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.method">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'naive'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lorentz'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kajfez'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kajfez'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.method" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.method">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'naive'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lorentz'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kajfez'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'kajfez'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.method" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.height">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.height" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.height">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.height" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.distance">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5000.0</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.distance" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.distance">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5000.0</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.distance" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.cutoff">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.4</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.cutoff" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.cutoff">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.4</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.cutoff" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.threshold">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params.threshold" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.threshold">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params.threshold" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -252,10 +257,6 @@ information:</p>
 <span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Hz&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata section is currently empty.</p>
 </section>
 <section id="module-yadg.parsers.qftrace.fit">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.qftrace.fit" title="Permalink to this headline"></a></h2>
@@ -416,7 +417,7 @@ worked up to produce the quality factor <span class="math notranslate nohighligh
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – File to process</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">QFTrace</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QFTrace</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

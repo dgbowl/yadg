@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -74,7 +75,6 @@
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.xrdtrace.common">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#panalyticalcsv-processing-of-panalytical-xrd-csv-files">panalyticalcsv: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">csv</span></code> files</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#panalyticalxrdml-processing-of-panalytical-xrd-xml-files">panalyticalxrdml: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xml</span></code> files</a></li>
@@ -126,8 +126,8 @@
 <code class="docutils literal notranslate"><span class="pre">xrdtrace</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
 The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-xrdtrace-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -149,8 +149,8 @@ The parser supports the following parameters:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'panalytical.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'panalytical.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -186,14 +186,6 @@ using the following format:</p>
 the linearly spaced <span class="math notranslate nohighlight">\(2\theta\)</span> values.</p>
 <p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are currently set to a constant
 value of 1.0 count as all the supported files seem to produce integer values.</p>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The metadata collected from the raw data file depends on the filetype, and
-is currently not strictly defined.</p>
-</div>
 </section>
 <section id="module-yadg.parsers.xrdtrace.common">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.xrdtrace.common" title="Permalink to this headline"></a></h2>
@@ -243,7 +235,7 @@ is currently not strictly defined.</p>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">XRDTrace</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">XRDTrace</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

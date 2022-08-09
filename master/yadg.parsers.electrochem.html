@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -122,18 +123,14 @@
 <span id="electrochem-electrochemistry-data-parser"></span><h1><strong>electrochem</strong>: Electrochemistry data parser<a class="headerlink" href="#module-yadg.parsers.electrochem" title="Permalink to this headline"></a></h1>
 <p>This module handles the reading and processing of files containing electrochemical
 data, including BioLogic’s EC-Lab file formats.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This interface is not yet final and will change with version 5.0.0</p>
-</div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The usage of <a class="reference internal" href="#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> can be specified by supplying
-<code class="docutils literal notranslate"><span class="pre">electrochem</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
-The parser supports the following parameters:</p>
+<p>Select <a class="reference internal" href="#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">electrochem</span></code> to the
+<code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword, starting in <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code>. The parser supports the
+following parameters:</p>
 <span class="target" id="yadg-parsers-electrochem-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -155,8 +152,8 @@ The parser supports the following parameters:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tomato.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tomato.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -679,7 +676,7 @@ names depending on what is present in the file.</p>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the data to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “windows-1252”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ElectroChem</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ElectroChem</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

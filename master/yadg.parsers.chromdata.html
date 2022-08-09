@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -58,7 +59,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-yadg.parsers.chromdata.fusioncsv">yadg.parsers.chromdata.fusioncsv module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fusioncsv-processing-inficon-fusion-csv-export-format-csv"><strong>fusioncsv</strong>: Processing Inficon Fusion csv export format (csv).</a><ul>
@@ -128,16 +128,17 @@
   <section id="module-yadg.parsers.chromdata">
 <span id="chromdata-processed-chromatography-data-parser"></span><h1><strong>chromdata</strong>: Processed chromatography data parser<a class="headerlink" href="#module-yadg.parsers.chromdata" title="Permalink to this headline"></a></h1>
 <p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code> parser handles the reading of processed chromatography data, i.e.
-files with peak areas, concentrations, or mole fractions.</p>
+files containing peak areas, concentrations, or mole fractions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>To parse raw chromatograms, use the <code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code> parser.</p>
+<p>To parse trace data as present in raw chromatograms, use the
+<a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser.</p>
 </div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <a class="reference internal" href="#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">chromdata</span></code>
-as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>. The parser supports the
-following parameters:</p>
+<p>Select <a class="reference internal" href="#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">chromdata</span></code> to the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
+keyword, starting in <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.2</span></code>. The parser supports the following
+parameters:</p>
 <span class="target" id="yadg-parsers-chromdata-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params" title="Permalink to this definition"></a></dt>
@@ -206,20 +207,6 @@ for each timestep, using the following format:</p>
 <p>The mole fractions in <code class="docutils literal notranslate"><span class="pre">xout</span></code> always sum up to unity. If there is more than
 one outlet stream, or if some analytes remain unidentified, the values in
 <code class="docutils literal notranslate"><span class="pre">xout</span></code> will not be accurate.</p>
-</div>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata collected from the raw file varies greatly by the raw file format.
-See the documentation of each file parser for details. In general, the following
-metadata entries are stored for each <cite>step</cite>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># path or other specifier of the chromatographic method</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># sample ID</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># username of raw file creator</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># raw file version or program version</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># original data file location</span><span class="w"></span>
-</pre></div>
 </div>
 </section>
 <section id="submodules">

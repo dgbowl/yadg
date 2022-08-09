@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -69,7 +70,6 @@
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.flowdata.drycal">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#drycal-file-parser-for-drycal-log-files"><strong>drycal</strong>: File parser for DryCal log files.</a></li>
 </ul>
@@ -116,17 +116,16 @@
              
   <section id="module-yadg.parsers.flowdata">
 <span id="flowdata-flow-data-parser"></span><h1><strong>flowdata</strong>: Flow data parser<a class="headerlink" href="#module-yadg.parsers.flowdata" title="Permalink to this headline"></a></h1>
-<p>This parser handles the reading and processing of flow meter data. Files parsed
-through this parser are guaranteed to contain the <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code> entry in the derived
-keys.</p>
+<p>This parser handles the reading and processing of flow controller or flow meter
+data.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <a class="reference internal" href="#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">flowdata</span></code>
-as the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword in the <cite>dataschema</cite>. The following list of parameters is
+<p>Select <a class="reference internal" href="#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">flowdata</span></code> to the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
+keyword, starting from <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code>. The following list of parameters is
 supported by the parser:</p>
 <span class="target" id="yadg-parsers-flowdata-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -142,12 +141,14 @@ supported by the parser:</p>
 <span class="w">         </span><span class="p">],</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;convert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Convert&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;calfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calfile&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;convert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
 <span class="w">   </span><span class="p">},</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
@@ -155,19 +156,31 @@ supported by the parser:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'drycal.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'drycal.rtf'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'drycal.txt'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'drycal.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'drycal.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'drycal.rtf'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'drycal.txt'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'drycal.csv'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.convert">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.convert" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.calfile">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.calfile" title="Permalink to this definition"></a></dt>
+<dd><p>Column calibration specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.calfile">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params.calfile" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.convert">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params.convert" title="Permalink to this definition"></a></dt>
+<dd><p>Column renaming specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -188,17 +201,13 @@ supported by the parser:</p>
 </section>
 <section id="provides">
 <span id="yadg-parsers-flowdata-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p>The parser is used to extract all tabular data in the input file. Additionally,
-the parser automatically assigns a best-guess value as <code class="docutils literal notranslate"><span class="pre">flow</span></code> in the <code class="docutils literal notranslate"><span class="pre">derived</span></code>
-entry. This behaviour can be modified by supplying either the <code class="docutils literal notranslate"><span class="pre">calfile</span></code>
-and/or <code class="docutils literal notranslate"><span class="pre">convert</span></code> parameters.</p>
-<p>This parser processes additional calibration information analogously to
-<a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a>.</p>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata section currently stores all metadata available from the raw flow
-data files, including information about the measuring device.</p>
+<p>The parser is used to extract all tabular data in the input file. This parser processes
+additional calibration information analogously to <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a>.</p>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The processing of calibration information has been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>
+and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
 </section>
 <section id="module-yadg.parsers.flowdata.drycal">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.flowdata.drycal" title="Permalink to this headline"></a></h2>
@@ -376,15 +385,7 @@ each line in the measurement table.</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – File to process</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>filetype</strong> – Whether a rtf, csv, or txt file is to be expected. When <cite>None</cite>, the suffix of
-the file is used to determine the file type.</p></li>
-<li><p><strong>convert</strong> – Specification for column conversion. The <cite>key</cite> of each entry will form a new
-datapoint in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> of a timestep. The elements within
-each entry must either be one of the <code class="docutils literal notranslate"><span class="pre">&quot;header&quot;</span></code> fields, or <code class="docutils literal notranslate"><span class="pre">&quot;unit&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>
-specification. See processing convert for more info.</p></li>
-<li><p><strong>calfile</strong> – <code class="docutils literal notranslate"><span class="pre">convert</span></code>-like functionality specified in a json file.</p></li>
-<li><p><strong>date</strong> – An optional date argument, required for parsing DryCal files. Otherwise the date
-is parsed from <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.FlowData" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FlowData</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

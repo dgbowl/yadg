@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -65,7 +66,6 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>meascsv</strong>: Legacy MCPT log file parser</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.meascsv.main">Submodules</a></li>
 </ul>
 </li>
@@ -116,10 +116,10 @@
 the LabView interface for the MCPT instrument. With a provided calibration, this
 parser calculates the temperature, inlet composition, and the inlet flow of the
 MCPT instrument.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-4.0.0</span></code>, this parser is deprecated and is no longer maintained.
-Please consider switching to other parsers.</p>
+<div class="admonition-deprecated-in-yadg-4-0 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code></p>
+<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>, this parser is deprecated and should not be used for new data.
+Please consider switching to the <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> parser.</p>
 </div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
@@ -127,8 +127,8 @@ Please consider switching to other parsers.</p>
 to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword in the <cite>dataschema</cite>. The following additional parameters
 are supported by the parser:</p>
 <span class="target" id="yadg-parsers-meascsv-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -156,16 +156,19 @@ are supported by the parser:</p>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;calfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calfile&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;convert&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Convert&quot;</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Convert&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
 <span class="w">   </span><span class="p">},</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;TimestampSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TimestampSpec&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Specification of the column index and string format of the timestamp.&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -181,6 +184,7 @@ are supported by the parser:</p>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;Timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timestamp&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timestamp from a column containing a single timestamp string.&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -194,6 +198,7 @@ are supported by the parser:</p>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;TimeDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TimeDate&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timestamp from a separate date and/or time column.&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -207,6 +212,7 @@ are supported by the parser:</p>
 <span class="w">      </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;UTS&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UTS&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timestamp from a column containing a Unix timestamp.&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;uts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -223,19 +229,31 @@ are supported by the parser:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.timestamp">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.timestamp.Timestamp" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.timestamp.Timestamp</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.timestamp.TimeDate" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.timestamp.TimeDate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.timestamp.UTS" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.timestamp.UTS</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Timestamp(timestamp=TimestampSpec(index=0,</span> <span class="pre">format='%Y-%m-%d-%H-%M-%S'))</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.timestamp" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.timestamp">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.timestamp.Timestamp" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.timestamp.Timestamp</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.timestamp.TimeDate" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.timestamp.TimeDate</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.timestamp.UTS" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.timestamp.UTS</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Timestamp(timestamp=TimestampSpec(index=0,</span> <span class="pre">format='%Y-%m-%d-%H-%M-%S'))</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.timestamp" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.calfile">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.calfile" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.calfile">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.calfile" title="Permalink to this definition"></a></dt>
+<dd><p>Column calibration specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.convert">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params.convert" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.convert">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params.convert" title="Permalink to this definition"></a></dt>
+<dd><p>Column renaming specification.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This feature is deprecated as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will
+stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -245,10 +263,6 @@ are supported by the parser:</p>
 <p>The parser is used to extract all of the tabular data in the input file, storing
 them using the column headers as keys. The functionality exposed by this parser
 is using <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> behind the scenes.</p>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata section is currently empty.</p>
 </section>
 <section id="module-yadg.parsers.meascsv.main">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.meascsv.main" title="Permalink to this headline"></a></h2>

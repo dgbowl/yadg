@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -72,7 +73,6 @@
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.xpstrace.main">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#phispe-processing-of-ulvac-phi-multipak-xps-traces"><strong>phispe</strong>: Processing of ULVAC PHI Multipak XPS traces.</a></li>
 </ul>
@@ -124,8 +124,8 @@ data.</p>
 <code class="docutils literal notranslate"><span class="pre">xpstrace</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
 The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-xpstrace-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
@@ -145,8 +145,8 @@ The parser supports the following parameters:</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'phi.spe'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'phi.spe'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params.filetype" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'phi.spe'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'phi.spe'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -193,17 +193,6 @@ far only seem to take on values in those steps.</p>
 traces from the phispe parser should be done in a better way.</p>
 </div>
 </section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata collected from the raw files depends on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. The
-following metadata entries are currently stored for each <cite>step</cite>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">software_id</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software name</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># software version</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">  </span><span class="c1"># operator</span><span class="w"></span>
-</pre></div>
-</div>
-</section>
 <section id="module-yadg.parsers.xpstrace.main">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.xpstrace.main" title="Permalink to this headline"></a></h2>
 <dl class="py function">
@@ -217,7 +206,7 @@ following metadata entries are currently stored for each <cite>step</cite>:</p>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">XPSTrace</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">XPSTrace</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

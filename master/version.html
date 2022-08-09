@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -54,6 +55,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-2"><strong>yadg</strong> version 4.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-1-0"><strong>yadg</strong> version 4.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-0-1"><strong>yadg</strong> version 4.0.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-3-1-0"><strong>yadg</strong> version 3.1.0</a></li>
@@ -89,6 +91,37 @@
              
   <section id="yadg-version-history">
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Permalink to this headline"></a></h1>
+<section id="yadg-version-4-2">
+<h2><strong>yadg</strong> version 4.2<a class="headerlink" href="#yadg-version-4-2" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> is not yet released.</p>
+</div>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.2"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.2/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.1 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser for parsing integrated chromatography data,</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes and other modifications include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">drycal</span></code> filetypes in <a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.flowdata</span></code></a> should now work for
+overnight experiments;</p></li>
+<li><p>the <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser now focuses on parsing chromatography
+traces only, with trace integration deprecated in favour of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>;</p></li>
+<li><p>the <a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> parser now no longer creates a default <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code>
+entry in derived data;</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">calfile</span></code> and <code class="docutils literal notranslate"><span class="pre">calib</span></code> parameters have been deprecated in favour of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>;</p></li>
+<li><p>the metadata in <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> and <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a>
+was modified to only include true metadata as opposed to sample data;</p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="yadg-version-4-1-0">
 <h2><strong>yadg</strong> version 4.1.0<a class="headerlink" href="#yadg-version-4-1-0" title="Permalink to this headline"></a></h2>
 <a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.1.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" /></a>

@@ -8,7 +8,7 @@ containing measurements from multiple sources (or devices) and following a
 succession of experimental `steps`.
 
 The current version of the `dataschema` is implemented as a Pydantic model in the 
-class :obj:`~dgbowl_schemas.yadg.dataschema_4_1.DataSchema` of the :mod:`dgbowl_schemas.yadg`
+class :obj:`~dgbowl_schemas.yadg.dataschema_4_2.DataSchema` of the :mod:`dgbowl_schemas.yadg`
 module. Previous versions of the `dataschema` are available in the same repository:
 
 - :class:`dgbowl_schemas.yadg.dataschema_4_1.DataSchema`

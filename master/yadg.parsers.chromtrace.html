@@ -8,6 +8,7 @@
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/yadg_ico.png"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -67,7 +68,6 @@
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#agilentch-processing-agilent-openlab-binary-signal-trace-files-ch-and-it"><strong>agilentch</strong>: Processing Agilent OpenLab binary signal trace files (CH and IT).</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#agilentcsv-processing-agilent-chemstation-chromtab-tabulated-data-files-csv"><strong>agilentcsv</strong>: Processing Agilent Chemstation Chromtab tabulated data files (csv).</a></li>
@@ -122,20 +122,18 @@
              
   <section id="module-yadg.parsers.chromtrace">
 <span id="chromtrace-raw-chromatogram-trace-parser"></span><h1><strong>chromtrace</strong>: Raw chromatogram trace parser<a class="headerlink" href="#module-yadg.parsers.chromtrace" title="Permalink to this headline"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> parser handles the reading and processing of all chromatography
+<p>The <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> parser handles the parsing of raw traces present in chromatography
 files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
 The basic function of the parser is to:</p>
 <ol class="arabic simple">
 <li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
 <li><p>collect <cite>metadata</cite> such as the method information, sample ID, etc.</p></li>
-<li><p>match and integrate peaks in each <cite>trace</cite> using built-in routines</p></li>
-<li><p>calculate the outlet composition <code class="docutils literal notranslate"><span class="pre">xout</span></code> if calibration information is provided</p></li>
 </ol>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>
-as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>. The parser supports the
-following parameters:</p>
+<p>Select <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> to the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
+keyword, starting in <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code>. The parser supports the following
+parameters:</p>
 <span class="target" id="yadg-parsers-chromtrace-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params" title="Permalink to this definition"></a></dt>
@@ -215,11 +213,10 @@ stop working in <code class="docutils literal notranslate"><span class="pre">yad
 
 </dd></dl>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">calfile</span></code>, <code class="docutils literal notranslate"><span class="pre">detectors</span></code> and <code class="docutils literal notranslate"><span class="pre">species</span></code> parameters are processed with
-<a class="reference internal" href="#yadg.parsers.chromtrace.main.parse_detector_spec" title="yadg.parsers.chromtrace.main.parse_detector_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_detector_spec()</span></code></a>. See there for a
-detailed format description.</p>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">calfile</span></code>, <code class="docutils literal notranslate"><span class="pre">detectors</span></code> and <code class="docutils literal notranslate"><span class="pre">species</span></code> parameters are deprecated
+as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
 </div>
 </section>
 <section id="formats">
@@ -306,21 +303,6 @@ interface allows for units to be supplied.</p>
 <p>The mol fractions in <code class="docutils literal notranslate"><span class="pre">xout</span></code> always sum up to unity. If there is more than
 one outlet stream, these mol fractions have to be weighted by the flow rate
 in a post-processing routine.</p>
-</div>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata collected from the raw file varies greatly by the raw file format.
-See the documentation of each file parser for details. In general, the following
-metadata entries are stored for each <cite>step</cite>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># path or other specifier of the chromatographic method</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># sample ID</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># username of raw file creator</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># raw file version or program version</span><span class="w"></span>
-<span class="w">  </span><span class="nt">valve</span><span class="p">:</span><span class="w">    </span><span class="kt">!!int</span><span class="w"> </span><span class="c1"># multiplexer valve number</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"> </span><span class="c1"># original data file location</span><span class="w"></span>
-</pre></div>
 </div>
 </section>
 <section id="module-yadg.parsers.chromtrace.agilentch">

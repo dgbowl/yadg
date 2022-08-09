@@ -95,11 +95,11 @@ from tests.utils import (
                 "nrows": 29,
                 "point": 28,
                 "pars": {
-                    "flow": {
+                    "DryCal": {
                         "sigma": 0.0001,
                         "value": 14.848,
                         "unit": "smL/min",
-                        "raw": False,
+                        "raw": True,
                     },
                 },
             },

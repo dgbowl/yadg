@@ -13,7 +13,7 @@ keyword in the `dataschema`. Further information can be specified in the
 
 .. _yadg.parsers.masstrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.MassTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.MassTrace.Params
 
 .. _yadg.parsers.masstrace.formats:
 
@@ -57,18 +57,6 @@ The uncertainties ``"s"`` of ``y`` are the largest value between:
     count/current value will occasionally exceed the specified detector
     F.S.R. (e.g. 1e-9), and will then flip directly to the maximum value
     of a float32. These values are set to ``float("NaN")``.
-
-Metadata
-````````
-The metadata collected from the raw file will depend on the ``filetype``. 
-In general, the following metadata entries are stored for each `step`:
-
-.. code-block:: yaml
-
-    params:
-      software_id:  !!int  # software ID
-      version:      !!str  # software version
-      username:     !!str  # file author
  
 """
 from .main import process

@@ -30,7 +30,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_2.parameters.ChromData`.
+        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_2.step.ChromData`.
 
     Returns
     -------

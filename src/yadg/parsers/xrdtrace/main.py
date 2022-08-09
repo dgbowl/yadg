@@ -25,7 +25,7 @@ def process(
         A string description of the timezone. Default is "UTC".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.XRDTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2step.XRDTrace`.
 
     Returns
     -------

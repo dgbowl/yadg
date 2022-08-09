@@ -6,6 +6,11 @@ traces, containing the reflection coefficient as a function of the sweeped frequ
 1) read in the raw data and create timestamped `traces` 
 2) detect the peaks in each trace (:math:`f_0`) and fit the quality factor :math:`Q_0`
 
+.. admonition:: DEPRECATED in ``yadg-4.2``
+
+    The fitting of peaks and quality factors in network analyzer traces is deprecated
+    as of ``yadg-4.2`` and will stop working in ``yadg-5.0``.
+
 Usage
 `````
 The use of :mod:`~yadg.parsers.qftrace` can be requested by supplying ``qftrace`` as
@@ -14,7 +19,7 @@ following parameters:
 
 .. _yadg.parsers.qftrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.QFTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params
 
 .. _yadg.parsers.qftrace.formats:
 
@@ -61,9 +66,6 @@ information:
         Q:                  # the cavity quality factors for each peak
           {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
           
-Metadata
-````````
-The metadata section is currently empty.
 
 """
 from .main import process

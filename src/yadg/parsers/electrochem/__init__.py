@@ -2,19 +2,15 @@
 This module handles the reading and processing of files containing electrochemical
 data, including BioLogic's EC-Lab file formats.
 
-.. note::
-
-    This interface is not yet final and will change with version 5.0.0
-
 Usage
 `````
-The usage of :mod:`~yadg.parsers.electrochem` can be specified by supplying
-``electrochem`` as an argument to the ``parser`` keyword of the `dataschema`.
-The parser supports the following parameters:
+Select :mod:`~yadg.parsers.electrochem` by supplying ``electrochem`` to the 
+``parser`` keyword, starting in :class:`DataSchema-4.0`. The parser supports the 
+following parameters:
 
 .. _yadg.parsers.electrochem.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.ElectroChem.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params
 
 .. _yadg.parsers.electrochem.formats:
 

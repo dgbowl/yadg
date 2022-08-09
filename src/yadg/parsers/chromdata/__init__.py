@@ -1,16 +1,17 @@
 """
 The :mod:`chromdata` parser handles the reading of processed chromatography data, i.e.
-files with peak areas, concentrations, or mole fractions.
+files containing peak areas, concentrations, or mole fractions.
 
 .. note:: 
 
-  To parse raw chromatograms, use the :mod:`chromtrace` parser.
+  To parse trace data as present in raw chromatograms, use the 
+  :mod:`~yadg.parsers.chromtrace` parser.
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.chromdata` can be requested by supplying ``chromdata``
-as an argument to the ``parser`` keyword of the `dataschema`. The parser supports the
-following parameters:
+Select :mod:`~yadg.parsers.chromdata` by supplying ``chromdata`` to the ``parser``
+keyword, starting in :class:`DataSchema-4.2`. The parser supports the following 
+parameters:
 
 .. _yadg.parsers.chromdata.model:
 
@@ -56,22 +57,6 @@ for each timestep, using the following format:
     The mole fractions in ``xout`` always sum up to unity. If there is more than
     one outlet stream, or if some analytes remain unidentified, the values in 
     ``xout`` will not be accurate.
-
-Metadata
-````````
-The metadata collected from the raw file varies greatly by the raw file format. 
-See the documentation of each file parser for details. In general, the following
-metadata entries are stored for each `step`:
-
-.. code-block:: yaml
-  
-  params:
-    method:   !!str # path or other specifier of the chromatographic method
-    sampleid: !!str # sample ID
-    username: !!str # username of raw file creator
-    version:  !!str # raw file version or program version
-    datafile: !!str # original data file location
-
 
 """
 from .main import process

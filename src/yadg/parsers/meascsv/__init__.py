@@ -4,10 +4,10 @@ the LabView interface for the MCPT instrument. With a provided calibration, this
 parser calculates the temperature, inlet composition, and the inlet flow of the 
 MCPT instrument.
 
-.. warning::
+.. admonition:: DEPRECATED in ``yadg-4.0``
 
-    As of ``yadg-4.0.0``, this parser is deprecated and is no longer maintained.
-    Please consider switching to other parsers.
+    As of ``yadg-4.0``, this parser is deprecated and should not be used for new data.
+    Please consider switching to the :mod:`~yadg.parsers.basiccsv` parser.
 
 Usage
 `````
@@ -17,7 +17,7 @@ are supported by the parser:
 
 .. _yadg.parsers.meascsv.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.MeasCSV.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params
 
 .. _parsers_meascsv_provides:
 
@@ -26,10 +26,6 @@ Provides
 The parser is used to extract all of the tabular data in the input file, storing 
 them using the column headers as keys. The functionality exposed by this parser
 is using :mod:`~yadg.parsers.basiccsv` behind the scenes.
-
-Metadata
-````````
-The metadata section is currently empty.
 
 
 """

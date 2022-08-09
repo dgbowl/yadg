@@ -79,7 +79,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.QFTrace`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace`.
 
     Returns
     -------

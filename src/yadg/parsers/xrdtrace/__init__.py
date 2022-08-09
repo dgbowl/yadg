@@ -9,7 +9,7 @@ The parser supports the following parameters:
 
 .. _yadg.parsers.xrdtrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.XRDTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params
 
 .. _yadg.parsers.xrdtrace.formats:
 
@@ -46,12 +46,6 @@ the linearly spaced :math:`2\\theta` values.
 The uncertainties ``"s"`` of ``"intensity"`` are currently set to a constant
 value of 1.0 count as all the supported files seem to produce integer values.
 
-Metadata
-````````
-.. warning::
-  
-  The metadata collected from the raw data file depends on the filetype, and 
-  is currently not strictly defined.
 
 """
 from .main import process

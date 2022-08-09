@@ -10,7 +10,7 @@ The parser supports the following parameters:
 
 .. _yadg.parsers.xpstrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.XPSTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params
 
 .. _yadg.parsers.xpstrace.formats:
 
@@ -58,18 +58,6 @@ far only seem to take on values in those steps.
 
     Determining the uncertainty of the counts per second signal in XPS
     traces from the phispe parser should be done in a better way.
-
-Metadata
-````````
-The metadata collected from the raw files depends on the ``filetype``. The 
-following metadata entries are currently stored for each `step`:
-
-.. code-block:: yaml
-
-    params:
-      software_id:  !!str  # software name
-      version:      !!str  # software version
-      username:     !!str  # operator
 
 """
 from .main import process

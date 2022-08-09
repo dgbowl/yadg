@@ -6,6 +6,7 @@ from tests.utils import (
     compare_result_dicts,
 )
 
+
 def special_datagram_test(datagram, testspec):
     step = datagram["steps"][testspec["step"]]
     if testspec["method"] is not None:
@@ -15,6 +16,7 @@ def special_datagram_test(datagram, testspec):
         for k, v in testspec[i].items():
             compare_result_dicts(tstep["raw"][i][k], v)
     assert tstep["uts"] == testspec["uts"]
+
 
 @pytest.mark.parametrize(
     "input, ts",
@@ -36,14 +38,9 @@ def special_datagram_test(datagram, testspec):
                 "point": 1,
                 "height": {"MeOH": {"n": 0.0, "s": 1.0, "u": " "}},
                 "area": {"O2": {"n": 1034.53, "s": 0.01, "u": " "}},
-                "concentration": {
-                    "CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"}
-                },
-                "xout": {
-                    "C2H6": {"n": 0.22425762, "s": 0.00022426, "u": "%"}
-                },
-                "uts": 1654697826.467
-                
+                "concentration": {"CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"}},
+                "xout": {"C2H6": {"n": 0.22425762, "s": 0.00022426, "u": "%"}},
+                "uts": 1654697826.467,
             },
         ),
         (
@@ -63,13 +60,9 @@ def special_datagram_test(datagram, testspec):
                 "point": 13,
                 "height": {"MeOH": {"n": 0.0, "s": 1.0, "u": " "}},
                 "area": {"O2": {"n": 1034.53, "s": 0.01, "u": " "}},
-                "concentration": {
-                    "CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"}
-                },
-                "xout": {
-                    "C2H6": {"n": 0.22425762, "s": 0.00022426, "u": "%"}
-                },
-                "uts": 1654697826.467
+                "concentration": {"CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"}},
+                "xout": {"C2H6": {"n": 0.22425762, "s": 0.00022426, "u": "%"}},
+                "uts": 1654697826.467,
             },
         ),
         (
@@ -89,13 +82,9 @@ def special_datagram_test(datagram, testspec):
                 "point": 1,
                 "height": {},
                 "area": {"O2": {"n": 1034.53, "s": 0.001, "u": " "}},
-                "concentration": {
-                    "CO": {"n": 0.02911539, "s": 1e-8, "u": "%"}
-                },
-                "xout": {
-                    "C2H6": {"n": 0.22425762, "s": 1e-8, "u": "%"}
-                },
-                "uts": 1654697826.0
+                "concentration": {"CO": {"n": 0.02911539, "s": 1e-8, "u": "%"}},
+                "xout": {"C2H6": {"n": 0.22425762, "s": 1e-8, "u": "%"}},
+                "uts": 1654697826.0,
             },
         ),
     ],

@@ -172,17 +172,17 @@ def process(
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
     if parameters.calfile is not None:
-        dgutils.helpers.deprecated('parameters.calfile')
+        dgutils.helpers.deprecated("parameters.calfile")
         chromspec = parse_detector_spec(
             parameters.calfile, parameters.detectors, parameters.species
         )
-    elif parameters.species is not None: 
-        dgutils.helpers.deprecated('parameters.species')
+    elif parameters.species is not None:
+        dgutils.helpers.deprecated("parameters.species")
         chromspec = parse_detector_spec(
             parameters.calfile, parameters.detectors, parameters.species
         )
     elif parameters.detectors is not None:
-        dgutils.helpers.deprecated('parameters.detectors')
+        dgutils.helpers.deprecated("parameters.detectors")
         chromspec = parse_detector_spec(
             parameters.calfile, parameters.detectors, parameters.species
         )

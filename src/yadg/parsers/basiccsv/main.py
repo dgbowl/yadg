@@ -170,13 +170,13 @@ def process(
     """
     # Process calfile and convert into calib
     if parameters.calfile is not None:
-        dgutils.helpers.deprecated('parameters.calfile')
+        dgutils.helpers.deprecated("parameters.calfile")
         with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
     if parameters.convert is not None:
-        dgutils.helpers.deprecated('parameters.convert')
+        dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
     # Load file, extract headers and get timestamping function

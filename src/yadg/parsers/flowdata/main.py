@@ -40,13 +40,13 @@ def process(
 
     """
     if parameters.calfile is not None:
-        dgutils.helpers.deprecated('parameters.calfile')
+        dgutils.helpers.deprecated("parameters.calfile")
         with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
     if parameters.convert is not None:
-        dgutils.helpers.deprecated('parameters.convert')
+        dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
     metadata = {}

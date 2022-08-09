@@ -38,6 +38,7 @@ _headers = {
     "Area": ["area", " "],
 }
 
+
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
     Fusion csv export format.
@@ -63,7 +64,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-    
+
     data = []
     for line in lines[3:]:
         print(f"{line=}")
@@ -72,14 +73,14 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             method = header[0]
             for ii, i in enumerate(header):
                 if i == "":
-                    header[ii] = header[ii-1]
+                    header[ii] = header[ii - 1]
         elif "Detectors" in line:
-            detectors = [i.replace("\"","").strip() for i in line.split(",")]
+            detectors = [i.replace('"', "").strip() for i in line.split(",")]
             for ii, i in enumerate(detectors):
                 if i == "":
-                    detectors[ii] = detectors[ii-1]
+                    detectors[ii] = detectors[ii - 1]
         elif "Time" in line:
-            samples = [i.replace("\"","").strip() for i in line.split(",")]
+            samples = [i.replace('"', "").strip() for i in line.split(",")]
             time = samples[0]
             if time == "Time (GMT 120 mins)":
                 offset = "+02:00"
@@ -108,13 +109,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     "u": h[1],
                 }
             data.append({"uts": uts, "raw": point, "fn": fn})
-    meta = {
-        "params":
-            {
-                "method": method,
-                "sampleid": samplename
-            }
-    }
+    meta = {"params": {"method": method, "sampleid": samplename}}
 
     return data, meta, True
-

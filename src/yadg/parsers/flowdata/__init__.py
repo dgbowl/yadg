@@ -1,17 +1,16 @@
 """
-This parser handles the reading and processing of flow meter data. Files parsed 
-through this parser are guaranteed to contain the ``"flow"`` entry in the derived
-keys.
+This parser handles the reading and processing of flow controller or flow meter 
+data. 
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.flowdata` can be requested by supplying ``flowdata``
-as the ``parser`` keyword in the `dataschema`. The following list of parameters is 
+Select :mod:`~yadg.parsers.flowdata` by supplying ``flowdata`` to the ``parser`` 
+keyword, starting from :class:`DataSchema-4.0`. The following list of parameters is 
 supported by the parser:
 
 .. _yadg.parsers.flowdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.step.FlowData.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params
 
 .. _yadg.parsers.flowdata.formats:
 
@@ -30,18 +29,13 @@ The formats currently supported by the parser are:
 
 Provides
 ````````
-The parser is used to extract all tabular data in the input file. Additionally,
-the parser automatically assigns a best-guess value as ``flow`` in the ``derived`` 
-entry. This behaviour can be modified by supplying either the ``calfile``
-and/or ``convert`` parameters. 
-
-This parser processes additional calibration information analogously to 
-:mod:`~yadg.parsers.basiccsv`. 
+The parser is used to extract all tabular data in the input file. This parser processes 
+additional calibration information analogously to :mod:`~yadg.parsers.basiccsv`. 
         
-Metadata
-````````
-The metadata section currently stores all metadata available from the raw flow
-data files, including information about the measuring device.
+.. admonition:: DEPRECATED in ``yadg-4.2``
+
+  The processing of calibration information has been deprecated in ``yadg-4.2``
+  and will stop working in ``yadg-5.0``.
 
 """
 from .main import process

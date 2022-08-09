@@ -158,7 +158,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.BasicCSV`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.BasicCSV`.
 
     Returns
     -------
@@ -170,11 +170,13 @@ def process(
     """
     # Process calfile and convert into calib
     if parameters.calfile is not None:
+        dgutils.helpers.deprecated("parameters.calfile")
         with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
     if parameters.convert is not None:
+        dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
     # Load file, extract headers and get timestamping function

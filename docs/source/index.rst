@@ -15,11 +15,10 @@ given experiment.
 The produced `datagram` is associated with full provenance info, and the data within
 the `datagram` contains instrumental error estimates and is annotated with units.
 
-yadg also contains some tools for a standardised processing of raw data, including
-features such as peak integration in chromatograms, quality factor determination 
-from reflection coefficient traces, applying calibration curves to data, or simple
-numerical processing of tabular data. The "derived" data obtained this way is
-systematically separated from the "raw" data.
+.. admonition:: DEPRECATED in ``yadg-4.2``
+
+   The post-processing features within ``yadg`` are deprecated as of ``yadg-4.2`` in 
+   favour of the ``dgpost`` library, and will be completely removed in ``yadg-5.0``.
 
 You can read more about yadg in our paper: [Kraus2022b]_.
 

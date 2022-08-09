@@ -72,7 +72,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     }
     chrom = {"fn": str(fn), "raw": {}}
     chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
-    
+
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)
     if valve is not None:
         chrom["raw"]["valve"] = valve
@@ -94,21 +94,21 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     raw["area"][peak["label"]] = A
                 if "concentration" in peak:
                     c = {
-                        "n": float(peak["concentration"]), 
-                        "s": float(peak["concentration"])*1e-3, 
+                        "n": float(peak["concentration"]),
+                        "s": float(peak["concentration"]) * 1e-3,
                         "u": "%",
                     }
                     raw["concentration"][peak["label"]] = c
                 if "normalizedConcentration" in peak:
                     x = {
                         "n": float(peak["normalizedConcentration"]),
-                        "s": float(peak["normalizedConcentration"])*1e-3,
+                        "s": float(peak["normalizedConcentration"]) * 1e-3,
                         "u": "%",
                     }
                     raw["xout"][peak["label"]] = x
         else:
             logger.warning("'analysis' of chromatogram not present in file '%s'", fn)
-    
+
     for k in {"height", "area", "concentration", "xout"}:
         if raw[k] == 0:
             del raw[k]

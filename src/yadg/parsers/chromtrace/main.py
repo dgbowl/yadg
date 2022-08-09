@@ -10,6 +10,7 @@ from . import (
     fusionzip,
 )
 from . import integration
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -170,18 +171,23 @@ def process(
     elif parameters.filetype == "fusion.zip":
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
-    if parameters.calfile is None and (
-        parameters.species is None or parameters.detectors is None
-    ):
-        logger.warning(
-            "Neither 'calfile' nor both of 'species' and 'detectors' were "
-            "provided. Will proceed without peak integration."
-        )
-        chromspec = False
-    else:
+    if parameters.calfile is not None:
+        dgutils.helpers.deprecated("parameters.calfile")
         chromspec = parse_detector_spec(
             parameters.calfile, parameters.detectors, parameters.species
         )
+    elif parameters.species is not None:
+        dgutils.helpers.deprecated("parameters.species")
+        chromspec = parse_detector_spec(
+            parameters.calfile, parameters.detectors, parameters.species
+        )
+    elif parameters.detectors is not None:
+        dgutils.helpers.deprecated("parameters.detectors")
+        chromspec = parse_detector_spec(
+            parameters.calfile, parameters.detectors, parameters.species
+        )
+    else:
+        chromspec = False
 
     results = []
     for chrom in _data:

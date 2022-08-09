@@ -1,28 +1,25 @@
 """
-The ``chromtrace`` parser handles the reading and processing of all chromatography 
+The ``chromtrace`` parser handles the parsing of raw traces present in chromatography 
 files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC). 
 The basic function of the parser is to:
 
 1) read in the raw data and create timestamped `traces`
 2) collect `metadata` such as the method information, sample ID, etc.
-3) match and integrate peaks in each `trace` using built-in routines
-4) calculate the outlet composition ``xout`` if calibration information is provided
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.chromtrace` can be requested by supplying ``chromtrace``
-as an argument to the ``parser`` keyword of the `dataschema`. The parser supports the
-following parameters:
+Select :mod:`~yadg.parsers.chromtrace` by supplying ``chromtrace`` to the ``parser``
+keyword, starting in :class:`DataSchema-4.0`. The parser supports the following 
+parameters:
 
 .. _yadg.parsers.chromtrace.model:
 
 .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params
 
-.. note::
+.. admonition:: DEPRECATED in ``yadg-4.2``
 
-    The ``calfile``, ``detectors`` and ``species`` parameters are processed with
-    :func:`~yadg.parsers.chromtrace.main.parse_detector_spec`. See there for a 
-    detailed format description.
+    The ``calfile``, ``detectors`` and ``species`` parameters are deprecated
+    as of ``yadg-4.2`` and will stop working in ``yadg-5.0``.
 
 .. _yadg.parsers.chromtrace.formats:
 
@@ -113,23 +110,6 @@ in the ``derived`` entry in each `timestep`, and contains the following informat
     The mol fractions in ``xout`` always sum up to unity. If there is more than
     one outlet stream, these mol fractions have to be weighted by the flow rate 
     in a post-processing routine.
-
-Metadata
-````````
-The metadata collected from the raw file varies greatly by the raw file format. 
-See the documentation of each file parser for details. In general, the following
-metadata entries are stored for each `step`:
-
-.. code-block:: yaml
-  
-  params:
-    method:   !!str # path or other specifier of the chromatographic method
-    sampleid: !!str # sample ID
-    username: !!str # username of raw file creator
-    version:  !!str # raw file version or program version
-    valve:    !!int # multiplexer valve number
-    datafile: !!str # original data file location
-
 
 """
 from .main import process

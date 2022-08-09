@@ -2,6 +2,7 @@ import logging
 import json
 from pydantic import BaseModel
 from . import drycal
+from ... import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -28,22 +29,8 @@ def process(
     timezone
         A string description of the timezone. Default is "localtime".
 
-    filetype
-        Whether a rtf, csv, or txt file is to be expected. When `None`, the suffix of
-        the file is used to determine the file type.
-
-    convert
-        Specification for column conversion. The `key` of each entry will form a new
-        datapoint in the ``"derived"`` :class:`(dict)` of a timestep. The elements within
-        each entry must either be one of the ``"header"`` fields, or ``"unit"`` :class:`(str)`
-        specification. See processing convert for more info.
-
-    calfile
-        ``convert``-like functionality specified in a json file.
-
-    date
-        An optional date argument, required for parsing DryCal files. Otherwise the date
-        is parsed from ``fn``.
+    parameters
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.FlowData`.
 
     Returns
     -------
@@ -53,21 +40,19 @@ def process(
 
     """
     if parameters.calfile is not None:
+        dgutils.helpers.deprecated("parameters.calfile")
         with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
     if parameters.convert is not None:
+        dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
     metadata = {}
 
     if parameters.filetype.startswith("drycal"):
         fulldate = False
-
-        if "flow" not in calib:
-            logger.info("Adding a default 'DryCal' -> 'flow' conversion")
-            calib["flow"] = {"DryCal": {"calib": {"linear": {"slope": 1.0}}}}
 
         if parameters.filetype.endswith(".rtf") or fn.endswith("rtf"):
             ts, meta = drycal.rtf(fn, encoding, timezone, calib)

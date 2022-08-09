@@ -45,11 +45,13 @@ def process(
     logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
     if parameters.calfile is not None:
+        dgutils.helpers.deprecated("parameters.calfile")
         with open(parameters.calfile, "r") as infile:
             calib = json.load(infile)
     else:
         calib = {}
     if parameters.convert is not None:
+        dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
     with open(fn, "r", encoding=encoding) as infile:

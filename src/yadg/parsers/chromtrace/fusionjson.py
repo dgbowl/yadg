@@ -37,7 +37,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     .. warning::
 
-        To parse the integrated data present in these files, use the 
+        To parse the integrated data present in these files, use the
         :mod:`~yadg.parsers.chromdata` parser.
 
     Only a subset of the metadata is retained, including the method name,

@@ -77,7 +77,13 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     if valve is not None:
         chrom["raw"]["valve"] = valve
 
-    raw = {"height": {}, "area": {}, "concentration": {}, "xout": {}}
+    raw = {
+        "height": {},
+        "area": {},
+        "concentration": {},
+        "xout": {},
+        "retention time": {},
+    }
 
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
@@ -106,13 +112,19 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                         "u": "%",
                     }
                     raw["xout"][peak["label"]] = x
+                if "top" in peak:
+                    rt = {
+                        "n": float(peak["top"]),
+                        "s": 0.01,
+                        "u": "s",
+                    }
+                    raw["retention time"][peak["label"]] = rt
         else:
             logger.warning("'analysis' of chromatogram not present in file '%s'", fn)
 
-    for k in {"height", "area", "concentration", "xout"}:
+    for k in {"height", "area", "concentration", "xout", "retention time"}:
         if raw[k] == 0:
             del raw[k]
 
     chrom["raw"].update(raw)
-    print(raw)
     return [chrom], metadata, True

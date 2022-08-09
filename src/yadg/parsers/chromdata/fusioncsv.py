@@ -19,7 +19,6 @@ Exposed metadata:
 
     params:
       method:   !!str
-      sampleid: !!str
       username: None
       version:  None
       datafile: None
@@ -36,6 +35,7 @@ _headers = {
     "Concentration": ["concentration", "%"],
     "NormalizedConcentration": ["xout", "%"],
     "Area": ["area", " "],
+    "RT(s)": ["retention time", "s"],
 }
 
 
@@ -67,9 +67,9 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     data = []
     for line in lines[3:]:
-        print(f"{line=}")
         if "SampleName" in line:
             header = [i.strip() for i in line.split(",")]
+            sni = header.index("SampleName")
             method = header[0]
             for ii, i in enumerate(header):
                 if i == "":
@@ -94,7 +94,12 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         else:
             items = line.split(",")
             samplename = items[1]
-            point = {"concentration": {}, "xout": {}, "area": {}}
+            point = {
+                "concentration": {},
+                "xout": {},
+                "area": {},
+                "retention time": {},
+            }
             uts = str_to_uts(f"{items[0]}{offset}", timezone=timezone)
             for ii, i in enumerate(items[2:]):
                 ii += 2
@@ -108,7 +113,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     "s": s,
                     "u": h[1],
                 }
+            point["samplename"] = items[sni]
             data.append({"uts": uts, "raw": point, "fn": fn})
-    meta = {"params": {"method": method, "sampleid": samplename}}
-
-    return data, meta, True
+    return data, {"params": {"method": method}}, True

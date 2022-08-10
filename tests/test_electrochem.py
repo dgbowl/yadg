@@ -556,3 +556,40 @@ def test_electrochem_tomato(infile, ts, datadir):
     ret = datagram_from_file(infile, datadir)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
+
+
+@pytest.mark.parametrize(
+    "input",
+    [
+        {"case": "peis.mpr", "parameters": {"filetype": "eclab.mpr"}},
+        {
+            "case": "peis.mpt",
+            "encoding": "windows-1252",
+            "parameters": {"filetype": "eclab.mpt"},
+        },
+        {"case": "geis.mpr", "parameters": {"filetype": "eclab.mpr"}},
+        {
+            "case": "geis.mpt",
+            "encoding": "windows-1252",
+            "parameters": {"filetype": "eclab.mpt"},
+        },
+    ],
+)
+@pytest.mark.parametrize("transpose", [True, False])
+def test_electrochem_transpose(input, transpose, datadir):
+    input["parameters"]["transpose"] = transpose
+    ret = datagram_from_input(input, "electrochem", datadir, version="4.2")
+    if transpose and input["case"].startswith("p"):
+        nrows = 1
+    elif input["case"].startswith("p"):
+        nrows = 32
+    if transpose and input["case"].startswith("g"):
+        nrows = 61
+    elif input["case"].startswith("g"):
+        nrows = 2528
+    ts = {"nsteps": 1, "step": 0, "nrows": nrows}
+    standard_datagram_test(ret, ts)
+    if transpose:
+        assert all(["traces" in ts["raw"] for ts in ret["steps"][0]["data"]])
+    else:
+        assert all(["traces" not in ts["raw"] for ts in ret["steps"][0]["data"]])

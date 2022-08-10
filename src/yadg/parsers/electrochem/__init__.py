@@ -52,11 +52,11 @@ format:
         "{{ col2 }}":
           {n: !!float, s: !!float, u: !!str}
 
-For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
-of spectroscopy traces. The data is thus split into traces by the column
-``"cycle number"`` and each trace is cast into a single timestep. Each trace 
-now corresponds to a spectroscopy scan, indexed by the technique name (PEIS or
-GEIS). The timestep takes the following format:
+For impedance spectroscopy techniques (PEIS, GEIS), the data is by default
+transposed to be made of spectroscopy traces. The data is split into traces using 
+the ``"cycle number"`` column, and each trace is cast into a single timestep. Each 
+trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS 
+or GEIS). The timestep takes the following format:
 
 .. code-block:: yaml
 
@@ -70,12 +70,8 @@ GEIS). The timestep takes the following format:
             "{{ col2 }}":
                 {n: [!!float, ...], s: [!!float, ...], u: !!str}
 
-.. note::
-
-    The parsed data may contain infinities (i.e. ``float("inf")`` /
-    ``float("-inf")``) or NaNs (i.e. ``float("nan")``). While datagrams 
-    containing NaN and Inf can be exported and read back using python's json 
-    module, they are not strictly valid jsons.
+This behaviour can be toggled off by setting the ``transpose`` parameter to ``False``,
+see :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params`.
 
 .. admonition:: TODO
 
@@ -85,52 +81,6 @@ GEIS). The timestep takes the following format:
     of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
     should be device-specific, and the fallback should be eliminated.
 
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/11
-
-    The "raw" data in electrochemistry files should only contain the raw quantities,
-    that is the ``control_I`` or ``control_V`` and the measured potentials ``Ewe``,
-    ``Ece`` or the measured current ``I``. Analogous quantities should be recorded
-    for PEIS/GEIS. All other columns should be computed by **yadg**.
-
-Metadata
-````````
-The metadata collected from the raw file will depend on the ``filetype``. Currently,
-no metadata is recorded for ``tomato.json`` filetype. For the ``eclab.mpt`` and 
-``eclab.mpr`` filetypes, the metadata will contain a ``settings`` and a ``params`` 
-field:
-
-The ``settings`` field for parsed ``.mpt`` files contains the technique name, a 
-posix timestamp and the raw header lines as found in the file. The ``settings`` 
-from parsed ``.mpr`` files contain the technique and more explicitly parsed 
-information than from ``.mpt`` files, like the "cell characteristics" specified 
-in EC-Lab.
-
-The ``params`` will contain the technique parameter sequences and the
-keys in each sequence will be the same independent of ``filetype``, but
-an :class:`int` value in the ``.mpr`` file may be a :class:`str` when 
-parsed from the corresponding ``.mpt`` file, since the mapping has not 
-yet been reverse engineered.
-
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/12
-
-    In ``.mpr`` files, some technique parameters in the settings module
-    correspond to entries in drop-down lists in EC-Lab. These values are
-    stored as single-byte values in ``.mpr`` files.
-
-The metadata from parsed ``".mpr"`` files also provides the ``"log"``
-which contains more general parameters, like software, firmware and
-server versions, channel number, host address and an acquisition start
-timestamp in Microsoft OLE format. 
-
-.. note::
-
-    If the ``.mpr`` file contains an ``ExtDev`` module (containing parameters
-    of any external sensors plugged into the device), the ``log`` is usually 
-    not present and therefore the full timestamp cannot be calculated.
 
 """
 from .main import process

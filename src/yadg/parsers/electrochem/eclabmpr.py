@@ -663,7 +663,7 @@ def _process_data(
         for (name, value), unit in list(zip(datapoint.items(), units)):
             if unit is None:
                 continue
-            s = get_resolution(name, value, Erange, Irange)
+            s = get_resolution(name, value, unit, Erange, Irange)
             datapoint[name] = {"n": value, "s": s, "u": unit}
         if flags:
             logger.debug("Extracting flag values.")

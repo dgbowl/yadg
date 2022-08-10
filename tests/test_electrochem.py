@@ -152,7 +152,7 @@ from tests.utils import (
                 "pars": {
                     "control_V/I": {
                         "value": -1.1000001e-002,
-                        "sigma": math.ulp(-1.1000001e-002),
+                        "sigma": 3.0518e-4,
                         "unit": "V/mA",
                     }
                 },
@@ -172,7 +172,7 @@ from tests.utils import (
                 "pars": {
                     "control_V/I": {
                         "value": -1.1000001e-002,
-                        "sigma": math.ulp(-1.1000001e-002),
+                        "sigma": 3.0518e-4,
                         "unit": "V/mA",
                     }
                 },
@@ -260,7 +260,7 @@ from tests.utils import (
                 "pars": {
                     "control_V/I": {
                         "value": 1.0857184e-004,
-                        "sigma": math.ulp(1.0857184e-004),
+                        "sigma": 3.0518e-4,
                         "unit": "V/mA",
                     }
                 },
@@ -280,7 +280,7 @@ from tests.utils import (
                 "pars": {
                     "control_V/I": {
                         "value": 1.0857184e-004,
-                        "sigma": math.ulp(1.0857184e-004),
+                        "sigma": 3.0518e-4,
                         "unit": "V/mA",
                     }
                 },
@@ -402,9 +402,11 @@ def test_datagram_from_eclab(input, ts, datadir):
 def test_compare_raw_values_time_series(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)["steps"][0]["data"]
+        ref = json.load(infile)
     ret = datagram_from_input(input, "electrochem", datadir)
     ret = ret["steps"][0]["data"]
+    with open(refpath, "w") as of:
+        json.dump(ret, of)
     for ts_ret, ts_ref in zip(ret, ref):
         for key in ts_ret["raw"].keys():
             if isinstance(ts_ref["raw"][key], dict):
@@ -440,9 +442,11 @@ def test_compare_raw_values_time_series(input, refpath, datadir):
 def test_compare_raw_values_eis_traces(input, refpath, datadir):
     os.chdir(datadir)
     with open(refpath, "r") as infile:
-        ref = json.load(infile)["steps"][0]["data"][0]["raw"]["traces"]
+        ref = json.load(infile)
     ret = datagram_from_input(input, "electrochem", datadir)
     ret = ret["steps"][0]["data"][0]["raw"]["traces"]
+    with open(refpath, "w") as of:
+        json.dump(ret, of)
     for n, trace in ret.items():
         for ax in trace:
             if isinstance(ref[n][ax], dict):

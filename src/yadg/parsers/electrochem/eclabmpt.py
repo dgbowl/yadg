@@ -124,7 +124,7 @@ column_units = {
     "THD Ewe/%": ("THD Ewe", "%"),
     "THD I/%": ("THD I", "%"),
     "time/s": ("time", "s"),
-    "x": ("x", " "),
+    "x": ("x", None),
     "z cycle": ("z cycle", None),
 }
 
@@ -258,7 +258,7 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
             if unit is None:
                 continue
             assert isinstance(val, float), "`n` should not be string"
-            s = get_resolution(col, val, Erange, Irange)
+            s = get_resolution(col, val, unit, Erange, Irange)
             datapoint[col] = {"n": val, "s": s, "u": unit}
         datapoints.append(datapoint)
     return datapoints

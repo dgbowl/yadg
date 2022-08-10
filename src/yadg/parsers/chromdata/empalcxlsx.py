@@ -53,11 +53,16 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     ([chrom], metadata, fulldate): tuple[list, dict, bool]
         Standard timesteps, metadata, and date tuple.
     """
-
-    wb = openpyxl.load_workbook(
-        filename=fn,
-        read_only=True,
-    )
+    try:
+        wb = openpyxl.load_workbook(
+            filename=fn,
+            read_only=True,
+        )
+    except TypeError:
+        raise RuntimeError(
+            f"Could not read the file '{fn}' using openpyxl. Try to open and save the "
+            f"file in Excel."
+        )
 
     ws = wb["Page 1"]
     metadata = {}

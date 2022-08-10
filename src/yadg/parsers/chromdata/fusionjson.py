@@ -8,9 +8,14 @@ by this module.
 
 .. note ::
 
+    To parse the raw trace data, use the :mod:`~yadg.parsers.chromtrace` module.
+
+.. warning ::
+
     The detectors in the json files are not necessarily in a consistent order. To
     avoid inconsistent parsing of species which appear in both detectors, the
-    detector keys are sorted.
+    detector keys are sorted. **Species present in both detectors** will be 
+    **overwritten by the last detector** in alphabetical order.
 
 Exposed metadata:
 `````````````````
@@ -19,7 +24,6 @@ Exposed metadata:
 
     params:
       method:   !!str
-      sampleid: !!str
       username: None
       version:  !!str
       datafile: !!str
@@ -64,7 +68,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         "filetype": "fusion.json",
         "params": {
             "method": jsdata.get("methodName", "n/a"),
-            "sampleid": jsdata.get("annotations", {}).get("name", None),
             "version": jsdata.get("softwareVersion", {}).get("version", None),
             "datafile": jsdata.get("sequence", {}).get("location", None),
             "username": None,
@@ -77,7 +80,17 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     if valve is not None:
         chrom["raw"]["valve"] = valve
 
-    raw = {"height": {}, "area": {}, "concentration": {}, "xout": {}}
+    sampleid = jsdata.get("annotations", {}).get("name", None)
+    if sampleid is not None:
+        chrom["raw"]["sampleid"] = sampleid
+
+    raw = {
+        "height": {},
+        "area": {},
+        "concentration": {},
+        "xout": {},
+        "retention time": {},
+    }
 
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
@@ -106,13 +119,19 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                         "u": "%",
                     }
                     raw["xout"][peak["label"]] = x
+                if "top" in peak:
+                    rt = {
+                        "n": float(peak["top"]),
+                        "s": 0.01,
+                        "u": "s",
+                    }
+                    raw["retention time"][peak["label"]] = rt
         else:
             logger.warning("'analysis' of chromatogram not present in file '%s'", fn)
 
-    for k in {"height", "area", "concentration", "xout"}:
+    for k in {"height", "area", "concentration", "xout", "retention time"}:
         if raw[k] == 0:
             del raw[k]
 
     chrom["raw"].update(raw)
-    print(raw)
     return [chrom], metadata, True

@@ -13,7 +13,6 @@ Exposed metadata:
 
     params:
       method:   !!str
-      sampleid: !!str
       username: None
       version:  !!str
       datafile: !!str

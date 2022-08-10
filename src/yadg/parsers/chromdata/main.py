@@ -5,6 +5,8 @@ from . import (
     fusionjson,
     fusionzip,
     fusioncsv,
+    empalccsv,
+    empalcxlsx,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,5 +47,9 @@ def process(
         data, meta, fulldate = fusionzip.process(fn, encoding, timezone)
     elif parameters.filetype == "fusion.csv":
         data, meta, fulldate = fusioncsv.process(fn, encoding, timezone)
+    elif parameters.filetype == "empalc.csv":
+        data, meta, fulldate = empalccsv.process(fn, encoding, timezone)
+    elif parameters.filetype == "empalc.xlsx":
+        data, meta, fulldate = empalcxlsx.process(fn, encoding, timezone)
 
     return data, meta, fulldate

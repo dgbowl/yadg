@@ -34,7 +34,6 @@ The metadata will contain the information from the header of the file.
 import re
 import logging
 from collections import defaultdict
-from pydantic import BaseModel
 from ...dgutils.dateutils import str_to_uts
 from .eclabtechniques import get_resolution, technique_params, param_from_key
 

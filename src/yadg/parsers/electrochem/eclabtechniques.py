@@ -19,20 +19,11 @@ Implemented techniques:
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
 
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/10
-
-    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
-    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values
-    should be device-specific, and the fallback should be eliminated.
-
 """
 import re
 import numpy as np
 from typing import Union
 import bisect
-import math
 import logging
 
 logger = logging.getLogger(__name__)

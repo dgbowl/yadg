@@ -19,20 +19,11 @@ Implemented techniques:
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
 
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/10
-
-    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
-    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values
-    should be device-specific, and the fallback should be eliminated.
-
 """
 import re
 import numpy as np
 from typing import Union
 import bisect
-import math
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1047,7 +1038,9 @@ def param_from_key(
     return key
 
 
-def get_resolution(name: str, value: float, Erange: float, Irange: float) -> float:
+def get_resolution(
+    name: str, value: float, unit: str, Erange: float, Irange: float
+) -> float:
     """
     Function that returns the resolution of a property based on its name, value,
     E-range and I-range.
@@ -1057,7 +1050,7 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
     (currently ``freq`` and ``Phase``).
 
     """
-    if name in ["control_V"]:
+    if name in {"control_V", "control_V/I"}:
         # VMP-3: bisect function between 5 µV and 300 µV, as the
         # voltage is stored in a 16-bit int.
         if Erange >= 20.0:
@@ -1066,30 +1059,52 @@ def get_resolution(name: str, value: float, Erange: float, Irange: float) -> flo
             res = [5e-6, 10e-6, 20e-6, 50e-6, 100e-6, 150e-6, 200e-6, 300e-6, 305.18e-6]
             i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
             return res[i]
-    elif name in ["Ewe", "Ece", "|Ewe|", "|Ece|"]:
-        # VMP-3: 0.0015% of FSR, 75 µV minimum
-        return max(Erange * 0.0015 / 100, 75e-6)
-    elif name in ["control_I"]:
+    elif name in {"control_I"}:
         # VMP-3: 0.004% of FSR, 760 µV at 10 µA I-range
         return max(Irange * 0.004 / 100, 760e-12)
-    elif name in ["I", "|I|"]:
+    elif unit in {"V", "mV", "μV"}:
+        # VMP-3: 0.0015% of FSR, 75 µV minimum
+        return max(Erange * 0.0015 / 100, 75e-6)
+    elif unit in {"A", "mA", "µA", "nA", "pA"}:
         # VMP-3: 0.004% of FSR
         if Irange is None:
-            logger.warning("'I range' not specified. Using 'I'.")
-            Irange = 10 ** math.ceil(math.log10(value))
+            logger.warning(f"'I range' not specified. Using 1 A.")
+            Irange = 1.0
         return Irange * 0.004 / 100
-    elif name in ["freq"]:
+    elif unit in {"Hz"}:
         # VMP-3: using accuracy: 1% of value
         return value * 0.01
-    elif name in ["Phase(Z)", "Phase(Y)"]:
+    elif unit in {"deg"}:
         # VMP-3: using accuracy: 1 degree
         return 1.0
-    elif name in ["|Z|", "Re(Z)", "-Im(Z)"]:
-        # |Z| = |Ewe|/|I|; assuming GEIS
-        return get_resolution("I", value, Erange, Irange)
-    elif name in ["Analog IN 1", "Analog IN 2"]:
-        # These are voltages, generally 0 - 10 V
-        # Therefore assuming 0.0015% of 10 V FSR
-        return 10 * 0.0015 / 100
+    elif unit in {"Ω", "S", "W"}:
+        # [Ω] = [V]/[A];
+        # [S] = [A]/[V];
+        # [W] = [A]*[V];
+        return max(
+            get_resolution("U", value, "V", Erange, Irange),
+            get_resolution("I", value, "A", Erange, Irange),
+        )
+    elif unit in {"C"}:
+        # [C] = [A]*[s];
+        return get_resolution("I", value, "A", Erange, Irange)
+    elif unit in {"mA·h"}:
+        return get_resolution("Q", value / 3.6, "C", Erange, Irange)
+    elif unit in {"W·h"}:
+        return get_resolution("P", value / 3600, "W", Erange, Irange)
+    elif unit in {"µF"}:
+        # [F] = [C]/[V]
+        return max(
+            get_resolution("Q", value * 1e-6, "C", Erange, Irange),
+            get_resolution("U", value * 1e-6, "V", Erange, Irange),
+        )
+    elif unit in {"s"}:
+        # Based on the EC-Lib documentation,
+        # 50 us is a safe upper limit for timebase
+        return 50e-6
+    elif unit in {"%"}:
+        return 0.1
     else:
-        return math.ulp(value)
+        raise RuntimeError(
+            f"Could not get resolution of quantity '{name}' with unit '{unit}."
+        )

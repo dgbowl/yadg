@@ -70,7 +70,6 @@
 <li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.electrochem.eclabmpr">Submodules</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files"><strong>eclabmpr</strong>: Processing of BioLogic’s EC-Lab binary modular files.</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files"><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.</a></li>
@@ -145,6 +144,11 @@ following parameters:</p>
 <span class="w">            </span><span class="s2">&quot;tomato.json&quot;</span><span class="w"></span>
 <span class="w">         </span><span class="p">],</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;transpose&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transpose&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
 <span class="w">   </span><span class="p">},</span><span class="w"></span>
 <span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
@@ -155,6 +159,12 @@ following parameters:</p>
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.filetype">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'eclab.mpt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'eclab.mpr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tomato.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eclab.mpr'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.transpose">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transpose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params.transpose" title="Permalink to this definition"></a></dt>
+<dd><p>Transpose impedance data into traces (default) or keep as timesteps.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -198,11 +208,11 @@ format:</p>
 <span class="w">      </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>For impedance spectroscopy techniques (PEIS, GEIS), the data is made up
-of spectroscopy traces. The data is thus split into traces by the column
-<code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> and each trace is cast into a single timestep. Each trace
-now corresponds to a spectroscopy scan, indexed by the technique name (PEIS or
-GEIS). The timestep takes the following format:</p>
+<p>For impedance spectroscopy techniques (PEIS, GEIS), the data is by default
+transposed to be made of spectroscopy traces. The data is split into traces using
+the <code class="docutils literal notranslate"><span class="pre">&quot;cycle</span> <span class="pre">number&quot;</span></code> column, and each trace is cast into a single timestep. Each
+trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS
+or GEIS). The timestep takes the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
@@ -214,61 +224,14 @@ GEIS). The timestep takes the following format:</p>
 <span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The parsed data may contain infinities (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;inf&quot;)</span></code> /
-<code class="docutils literal notranslate"><span class="pre">float(&quot;-inf&quot;)</span></code>) or NaNs (i.e. <code class="docutils literal notranslate"><span class="pre">float(&quot;nan&quot;)</span></code>). While datagrams
-containing NaN and Inf can be exported and read back using python’s json
-module, they are not strictly valid jsons.</p>
-</div>
+<p>This behaviour can be toggled off by setting the <code class="docutils literal notranslate"><span class="pre">transpose</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+see <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params" title="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code></a>.</p>
 <div class="admonition-todo admonition">
 <p class="admonition-title">TODO</p>
 <p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/10">https://github.com/dgbowl/yadg/issues/10</a></p>
 <p>Current values of the uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are hard-coded from VMP-3 values
 of resolutions and accuracies, with <code class="docutils literal notranslate"><span class="pre">math.ulp(n)</span></code> as fallback. The values
 should be device-specific, and the fallback should be eliminated.</p>
-</div>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/11">https://github.com/dgbowl/yadg/issues/11</a></p>
-<p>The “raw” data in electrochemistry files should only contain the raw quantities,
-that is the <code class="docutils literal notranslate"><span class="pre">control_I</span></code> or <code class="docutils literal notranslate"><span class="pre">control_V</span></code> and the measured potentials <code class="docutils literal notranslate"><span class="pre">Ewe</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Ece</span></code> or the measured current <code class="docutils literal notranslate"><span class="pre">I</span></code>. Analogous quantities should be recorded
-for PEIS/GEIS. All other columns should be computed by <strong>yadg</strong>.</p>
-</div>
-</section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h2>
-<p>The metadata collected from the raw file will depend on the <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. Currently,
-no metadata is recorded for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetype. For the <code class="docutils literal notranslate"><span class="pre">eclab.mpt</span></code> and
-<code class="docutils literal notranslate"><span class="pre">eclab.mpr</span></code> filetypes, the metadata will contain a <code class="docutils literal notranslate"><span class="pre">settings</span></code> and a <code class="docutils literal notranslate"><span class="pre">params</span></code>
-field:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">settings</span></code> field for parsed <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files contains the technique name, a
-posix timestamp and the raw header lines as found in the file. The <code class="docutils literal notranslate"><span class="pre">settings</span></code>
-from parsed <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files contain the technique and more explicitly parsed
-information than from <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files, like the “cell characteristics” specified
-in EC-Lab.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">params</span></code> will contain the technique parameter sequences and the
-keys in each sequence will be the same independent of <code class="docutils literal notranslate"><span class="pre">filetype</span></code>, but
-an <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> value in the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file may be a <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> when
-parsed from the corresponding <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> file, since the mapping has not
-yet been reverse engineered.</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/12">https://github.com/dgbowl/yadg/issues/12</a></p>
-<p>In <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files, some technique parameters in the settings module
-correspond to entries in drop-down lists in EC-Lab. These values are
-stored as single-byte values in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files.</p>
-</div>
-<p>The metadata from parsed <code class="docutils literal notranslate"><span class="pre">&quot;.mpr&quot;</span></code> files also provides the <code class="docutils literal notranslate"><span class="pre">&quot;log&quot;</span></code>
-which contains more general parameters, like software, firmware and
-server versions, channel number, host address and an acquisition start
-timestamp in Microsoft OLE format.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file contains an <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module (containing parameters
-of any external sensors plugged into the device), the <code class="docutils literal notranslate"><span class="pre">log</span></code> is usually
-not present and therefore the full timestamp cannot be calculated.</p>
 </div>
 </section>
 <section id="module-yadg.parsers.electrochem.eclabmpr">
@@ -328,9 +291,9 @@ sequences can be parsed:</p>
 </tbody>
 </table>
 <section id="file-structure-of-mpr-files">
-<h4>File Structure of <cite>.mpr</cite> Files<a class="headerlink" href="#file-structure-of-mpr-files" title="Permalink to this headline"></a></h4>
-<p>At a top level, <cite>.mpr</cite> files are made up of a number of modules,
-separated by the <cite>MODULE</cite> keyword. In all the files I have seen, the
+<h4>File Structure of <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> Files<a class="headerlink" href="#file-structure-of-mpr-files" title="Permalink to this headline"></a></h4>
+<p>At a top level, <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files are made up of a number of modules,
+separated by the <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> keyword. In all the files I have seen, the
 first module is the settings module, followed by the data module, the
 log module and then an optional loop module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>0x0000 BIO-LOGIC MODULAR FILE  # File magic.
@@ -344,7 +307,7 @@ log module and then an optional loop module.</p>
 ...                            # Module 4.
 </pre></div>
 </div>
-<p>After splitting the entire file on <cite>MODULE</cite>, each module starts with a
+<p>After splitting the entire file on <code class="docutils literal notranslate"><span class="pre">MODULE</span></code>, each module starts with a
 header that is structured like this (offsets from start of module):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mh">0x0000</span> <span class="n">short_name</span>  <span class="c1"># Short name, e.g. VMP Set.</span>
 <span class="mh">0x000A</span> <span class="n">long_name</span>   <span class="c1"># Longer name, e.g. VMP settings.</span>
@@ -434,32 +397,31 @@ EC-Lab, etc. Here a quick overview (offsets from start of module data).</p>
 </pre></div>
 </div>
 </section>
-<section id="structure-of-parsed-data">
-<h4>Structure of Parsed Data<a class="headerlink" href="#structure-of-parsed-data" title="Permalink to this headline"></a></h4>
-<p><em>EIS Techniques (PEIS/GEIS)</em></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">technique</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">[</span><span class="kt">!!int,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
+<section id="metadata">
+<h4>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h4>
+<p>The metadata will contain the information from the <em>Settings module</em>. This should
+include information about the technique, as well as any explicitly parsed cell
+characteristics data specified in EC-Lab.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/12">https://github.com/dgbowl/yadg/issues/12</a></p>
+<p>The mapping between metadata parameters between <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files
+is not yet complete. In <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files, some technique parameters in the settings
+module correspond to entries in drop-down lists in EC-Lab. These values are
+stored as single-byte values in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files.</p>
 </div>
-<p><em>All Other Techniques</em></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
+<p>The metadata also contains the infromation from the <em>Log module</em>, which contains
+more general parameters, like software, firmware and server versions, channel number,
+host address and an acquisition start timestamp in Microsoft OLE format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file contains an <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module (containing parameters
+of any external sensors plugged into the device), the <code class="docutils literal notranslate"><span class="pre">log</span></code> is usually
+not present and therefore the full timestamp cannot be calculated.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabmpr.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpr.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpr.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpr.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpr.process" title="Permalink to this definition"></a></dt>
 <dd><p>Processes EC-Lab raw data binary files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -488,39 +450,24 @@ parameter sequences and an optional loops section) and a tab-separated
 data table.</p>
 <p>A list of techniques supported by this parser is shown in <a class="reference external" href="yadg.parsers.electrochem.eclabmpr.techniques">the techniques table</a>.</p>
 <section id="file-structure-of-mpt-files">
-<h4>File Structure of <cite>.mpt</cite> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h4>
+<h4>File Structure of <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h4>
 <p>These human-readable files are sectioned into headerlines and datalines.
-The header part at is made up of information that can be found in the
-settings, log and loop modules of the binary <cite>.mpr</cite> file.</p>
+The header part of the <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files is made up of information that can be found
+in the settings, log and loop modules of the binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file.</p>
 <p>If no header is present, the timestamps will instead be calculated from
-the file’s ctime.</p>
+the file’s <code class="docutils literal notranslate"><span class="pre">mtime()</span></code>.</p>
 </section>
 <section id="id1">
-<h4>Structure of Parsed Data<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
-<p><em>EIS Techniques (PEIS/GEIS)</em></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">technique</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">[</span><span class="kt">!!int,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p><em>All Other Techniques</em></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fn   !!str</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uts  !!float</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col1</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">col2</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
+<h4>Metadata<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+<p>The metadata will contain the information from the header of the file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The mapping between metadata parameters between <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files
+is not yet complete.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabmpt.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpt.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpt.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpt.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpt.process" title="Permalink to this definition"></a></dt>
 <dd><p>Processes EC-Lab human-readable text export files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -568,7 +515,7 @@ while for currents (<span class="math notranslate nohighlight">\(I\)</span>) thi
 I-range with a maximum of 0.76 uA.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.tomatojson.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.tomatojson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.tomatojson.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.tomatojson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.tomatojson.process" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</p>

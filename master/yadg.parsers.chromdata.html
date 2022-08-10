@@ -153,7 +153,9 @@ parameters:</p>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">            </span><span class="s2">&quot;fusion.json&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">            </span><span class="s2">&quot;fusion.zip&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;fusion.csv&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;fusion.csv&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;empalc.csv&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="s2">&quot;empalc.xlsx&quot;</span><span class="w"></span>
 <span class="w">         </span><span class="p">],</span><span class="w"></span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">}</span><span class="w"></span>
@@ -164,7 +166,7 @@ parameters:</p>
 </div>
 </details></p><dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fusion.json'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params.filetype" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fusion.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'empalc.csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'empalc.xlsx'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fusion.json'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params.filetype" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -178,6 +180,8 @@ parameters:</p>
 <li><p>Inficon Fusion JSON format (<code class="docutils literal notranslate"><span class="pre">json</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionjson" title="yadg.parsers.chromdata.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionjson</span></code></a></p></li>
 <li><p>Inficon Fusion zip archive (<code class="docutils literal notranslate"><span class="pre">zip</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionzip" title="yadg.parsers.chromdata.fusionzip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionzip</span></code></a></p></li>
 <li><p>Inficon Fusion csv export (<code class="docutils literal notranslate"><span class="pre">csv</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusioncsv" title="yadg.parsers.chromdata.fusioncsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusioncsv</span></code></a></p></li>
+<li><p>Empa’s Agilent LC csv export (<code class="docutils literal notranslate"><span class="pre">csv</span></code>): :mod`~yadg.parsers.chromdata.empalccsv`</p></li>
+<li><p>Empa’s Agilent LC excel export (<code class="docutils literal notranslate"><span class="pre">xlsx</span></code>): :mod`~yadg.parsers.chromdata.empalcxlsx`</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -188,16 +192,20 @@ specified file, including the peak height, and area, as well as the concentratio
 and mole fraction (normalised, unitless concentration). This raw data is stored,
 for each timestep, using the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">height</span><span class="p">:</span><span class="w">                     </span><span class="c1"># height of the peak maxima</span><span class="w"></span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">             </span><span class="c1"># sample name or valve ID</span><span class="w"></span>
+<span class="w">  </span><span class="nt">height</span><span class="p">:</span><span class="w">                     </span><span class="c1"># heights of the peak maxima</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">area</span><span class="p">:</span><span class="w">                       </span><span class="c1"># integrated area of the peak</span><span class="w"></span>
+<span class="w">  </span><span class="nt">area</span><span class="p">:</span><span class="w">                       </span><span class="c1"># integrated areas of the peaks</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">concentration</span><span class="p">:</span><span class="w">              </span><span class="c1"># concentration</span><span class="w"></span>
+<span class="w">  </span><span class="nt">concentration</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">xout</span><span class="p">:</span><span class="w">                       </span><span class="c1"># mole fraction (normalised concentration)</span><span class="w"></span>
+<span class="w">  </span><span class="nt">xout</span><span class="p">:</span><span class="w">                       </span><span class="c1"># mole fractions (normalised concentrations)</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">  </span><span class="nt">retention time</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
 <span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
@@ -228,7 +236,6 @@ be parsed instead.</p>
 <h4>Exposed metadata:<a class="headerlink" href="#exposed-metadata" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
@@ -268,15 +275,19 @@ and also the integrated peak areas and other processed information, which are pa
 by this module.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>To parse the raw trace data, use the <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> module.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>The detectors in the json files are not necessarily in a consistent order. To
 avoid inconsistent parsing of species which appear in both detectors, the
-detector keys are sorted.</p>
+detector keys are sorted. <strong>Species present in both detectors</strong> will be
+<strong>overwritten by the last detector</strong> in alphabetical order.</p>
 </div>
 <section id="id1">
 <h4>Exposed metadata:<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
@@ -320,7 +331,6 @@ file present in the archive.</p>
 <h4>Exposed metadata:<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
 <span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>

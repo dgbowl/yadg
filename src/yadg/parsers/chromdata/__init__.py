@@ -39,17 +39,20 @@ for each timestep, using the following format:
 .. code-block:: yaml
 
   raw:
-    height:                     # height of the peak maxima
+    height:                     # heights of the peak maxima
       "{{ species_name }}": 
           {n: !!float, s: !!float, u: !!str}
-    area:                       # integrated area of the peak
+    area:                       # integrated areas of the peaks
       "{{ species_name }}": 
           {n: !!float, s: !!float, u: !!str}
-    concentration:              # concentration
+    concentration:
       "{{ species_name }}": 
           {n: !!float, s: !!float, u: !!str}
-    xout:                       # mole fraction (normalised concentration)
+    xout:                       # mole fractions (normalised concentrations)
       "{{ species_name }}": 
+          {n: !!float, s: !!float, u: " "}
+    retention time:
+      "{{ species_name }}":
           {n: !!float, s: !!float, u: " "}
 
 .. note::

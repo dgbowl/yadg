@@ -1,6 +1,6 @@
 """
-**empalccsv**: Processing Empa's online LC exported data (csv)
---------------------------------------------------------------
+**empalcxlsx**: Processing Empa's online LC exported data (xlsx)
+----------------------------------------------------------------
 
 This is a structured format produced by the export from Agilent's Online LC device
 at Empa. It contains three sections:
@@ -25,6 +25,7 @@ Exposed metadata:
 """
 import logging
 import datetime
+import openpyxl
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 logger = logging.getLogger(__name__)
@@ -32,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
-    Fusion csv export format.
+    Fusion xlsx export format.
 
     Multiple chromatograms per file, with multiple detectors.
 
@@ -53,58 +54,51 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         Standard timesteps, metadata, and date tuple.
     """
 
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
-        lines = infile.readlines()
-
+    wb = openpyxl.load_workbook(
+        filename=fn, 
+        read_only=True, 
+    )
+    
+    ws = wb["Page 1"]
     metadata = {}
-    while len(lines) > 0:
-        line = lines.pop(0)
-        if len(lines) == 0:
-            raise RuntimeError(
-                f"Last line of file '{fn}' read during metadata section."
-            )
-        elif line.strip() == "":
-            break
-        elif line.strip().startswith("Sequence name"):
-            metadata["sequence"] = line.split(":,")[1]
-        elif line.strip().startswith("Description"):
-            metadata["description"] = line.split(":,")[1]
-        elif line.strip().startswith("Acquired by"):
-            metadata["username"] = line.split(":,")[1]
-        elif line.strip().startswith("Data path"):
-            metadata["datafile"] = line.split(":,")[1]
-        elif line.strip().startswith("Report version"):
-            metadata["version"] = int(line.split(":,")[1])
+    for row in ws.rows:
+        val = row[1].value if len(row) > 1 else ""
+        if row[0].value.startswith("Sequence name"):
+            metadata["sequence"] = val
+        elif row[0].value.startswith("Description"):
+            metadata["description"] = val
+        elif row[0].value.startswith("Acquired by"):
+            metadata["username"] = val
+        elif row[0].value.startswith("Data path"):
+            metadata["datafile"] = val
+        elif row[0].value.startswith("Report version"):
+            metadata["version"] = int(val)
 
     if metadata.get("version", None) is None:
         raise RuntimeError(f"Report version in file '{fn}' was not specified.")
 
+    ws = wb["Page 2"]
     samples = {}
-    while len(lines) > 0:
-        line = lines.pop(0)
-        if len(lines) == 0:
-            raise RuntimeError(f"Last line of file '{fn}' read during samples section.")
-        elif line.strip() == "":
-            break
-        elif "Line#" in line:
-            headers = [i.strip() for i in line.split(",")]
+    for row in ws.rows:
+        if "Line#" in row[0].value:
+            headers = [i.value.replace("\n", "").replace(" ", "") for i in row]
         else:
-            data = [i.strip() for i in line.split(",")]
+            data = [str(i.value) if i.value is not None else None for i in row]
             sample = {
                 "location": data[headers.index("Location")],
-                "injection date": data[headers.index("Injection Date")],
+                "injection date": data[headers.index("InjectionDate")],
                 "acquisition": {
-                    "method": data[headers.index("Acq Method Name")],
-                    "version": data[headers.index("Acq Method Version")],
+                    "method": data[headers.index("AcqMethodName")],
+                    "version": data[headers.index("AcqMethodVersion")],
                 },
                 "integration": {
-                    "method": data[headers.index("Injection DA Method Name")],
-                    "version": data[headers.index("Injection DA Method Version")],
+                    "method": data[headers.index("InjectionDAMethodName")],
+                    "version": data[headers.index("InjectionDAMethodVersion")],
                 },
-                "offset": data[headers.index("Time offset")],
+                "offset": data[headers.index("Timeoffset")],
             }
-            if sample["offset"] != "":
-                sn = data[headers.index("Sample Name")]
+            if sample["offset"] is not None:
+                sn = data[headers.index("SampleName")]
                 samples[sn] = sample
 
     svals = samples.values()
@@ -120,30 +114,29 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     if any([s["integration"]["method"] != r["integration"]["method"] for s in svals]):
         logger.warning("Integration method is inconsistent in file '%s'.", fn)
 
-    metadata["method"] = r["acquisition"]["method"]
+    metadata["method"] = r["acquisition"]["method"].replace("\n", "")
 
-    while len(lines) > 0:
-        line = lines.pop(0)
-        if len(lines) == 0:
-            break
-        elif line.strip() == "":
-            break
-        elif "Line#" in line:
-            headers = [i.strip() for i in line.split(",")]
+    print(f"{metadata=}")
+    
+    ws = wb["Page 3"]
+    for row in ws.rows:
+        if "Line#" in str(row[0].value):
+            headers = [i.value.replace("\n", "").replace(" ", "") for i in row]
+            print(f"{headers=}")
         else:
-            data = [i.strip() for i in line.split(",")]
-            sn = data[headers.index("Sample Name")]
+            data = [str(i.value) if i.value is not None else None for i in row]
+            sn = data[headers.index("SampleName")]
             cn = data[headers.index("Compound")]
 
-            h = data[headers.index("Peak Height")]
-            if h != "":
+            h = data[headers.index("PeakHeight")]
+            if h is not None:
                 if "height" not in samples[sn]:
                     samples[sn]["height"] = {}
                 n, s = tuple_fromstr(h)
                 samples[sn]["height"][cn] = {"n": n, "s": s, "u": " "}
 
             A = data[headers.index("Area")]
-            if A != "":
+            if A is not None:
                 if "area" not in samples[sn]:
                     samples[sn]["area"] = {}
                 n, s = tuple_fromstr(A)
@@ -160,14 +153,14 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 )
                 c = data[headers.index("Concentration")]
                 u = "mmol/l"
-            if c != "":
+            if c is not None:
                 if "concentration" not in samples[sn]:
                     samples[sn]["concentration"] = {}
                 n, s = tuple_fromstr(c)
                 samples[sn]["concentration"][cn] = {"n": n, "s": s, "u": u}
 
-            rt = data[headers.index("RT [min]")]
-            if rt != "":
+            rt = data[headers.index("RT[min]")]
+            if rt is not None:
                 if "retention time" not in samples[sn]:
                     samples[sn]["retention time"] = {}
                 n, s = tuple_fromstr(rt)

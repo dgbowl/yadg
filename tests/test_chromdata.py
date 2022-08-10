@@ -180,6 +180,37 @@ def special_datagram_test(datagram, testspec):
                 "uts": 21600.0,
             },
         ),
+        (
+            {  # ts2 - empalc.csv
+                "folders": ["."],
+                "suffix": "25p_v2.xlsx",
+                "parameters": {
+                    "filetype": "empalc.xlsx",
+                },
+                "externaldate": {"using": {"utsoffset": 0}},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 19,
+                "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
+                "point": 18,
+                "height": {
+                    "Ethanol": {"n": 25495.948, "s": 0.001, "u": " "},
+                },
+                "area": {
+                    "Ethanol": {"n": 2745541.097, "s": 0.001, "u": " "},
+                },
+                "concentration": {
+                    "Ethanol": {"n": 254.4736, "s": 0.0001, "u": "mmol/l"},
+                },
+                "retention time": {
+                    "Ethanol": {"n": 21.098, "s": 0.001, "u": "min"},
+                },
+                "xout": {},
+                "uts": 21600.0,
+            },
+        ),
     ],
 )
 def test_datagram_from_chromdata(input, ts, datadir):

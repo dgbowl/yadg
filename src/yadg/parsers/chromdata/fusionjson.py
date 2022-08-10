@@ -8,9 +8,14 @@ by this module.
 
 .. note ::
 
+    To parse the raw trace data, use the :mod:`~yadg.parsers.chromtrace` module.
+
+.. warning ::
+
     The detectors in the json files are not necessarily in a consistent order. To
     avoid inconsistent parsing of species which appear in both detectors, the
-    detector keys are sorted.
+    detector keys are sorted. **Species present in both detectors** will be 
+    **overwritten by the last detector** in alphabetical order.
 
 Exposed metadata:
 `````````````````
@@ -19,7 +24,6 @@ Exposed metadata:
 
     params:
       method:   !!str
-      sampleid: !!str
       username: None
       version:  !!str
       datafile: !!str
@@ -64,7 +68,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         "filetype": "fusion.json",
         "params": {
             "method": jsdata.get("methodName", "n/a"),
-            "sampleid": jsdata.get("annotations", {}).get("name", None),
             "version": jsdata.get("softwareVersion", {}).get("version", None),
             "datafile": jsdata.get("sequence", {}).get("location", None),
             "username": None,
@@ -76,6 +79,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)
     if valve is not None:
         chrom["raw"]["valve"] = valve
+
+    sampleid = jsdata.get("annotations", {}).get("name", None)
+    if sampleid is not None:
+        chrom["raw"]["sampleid"] = sampleid
 
     raw = {
         "height": {},

@@ -98,7 +98,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 "xout": {},
                 "area": {},
                 "retention time": {},
-                "samplename": items[sni],
+                "sampleid": items[sni],
             }
             uts = str_to_uts(f"{items[0]}{offset}", timezone=timezone)
             for ii, i in enumerate(items[2:]):

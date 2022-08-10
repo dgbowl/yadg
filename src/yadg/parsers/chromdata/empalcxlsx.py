@@ -55,10 +55,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     """
 
     wb = openpyxl.load_workbook(
-        filename=fn, 
-        read_only=True, 
+        filename=fn,
+        read_only=True,
     )
-    
+
     ws = wb["Page 1"]
     metadata = {}
     for row in ws.rows:
@@ -117,7 +117,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     metadata["method"] = r["acquisition"]["method"].replace("\n", "")
 
     print(f"{metadata=}")
-    
+
     ws = wb["Page 3"]
     for row in ws.rows:
         if "Line#" in str(row[0].value):
@@ -171,7 +171,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         # Remove unnecessary parameters
         del v["acquisition"]
         del v["integration"]
-        v["samplename"] = k
+        v["sampleid"] = k
         # Process offset to uts
         offset = v.pop("offset")
         t = None

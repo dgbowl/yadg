@@ -178,7 +178,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         # Remove unnecessary parameters
         del v["acquisition"]
         del v["integration"]
-        v["samplename"] = k
+        v["sampleid"] = k
         # Process offset to uts
         offset = v.pop("offset")
         t = None

@@ -26,6 +26,8 @@ The formats currently supported by the parser are:
  - Inficon Fusion JSON format (``json``): :mod:`~yadg.parsers.chromdata.fusionjson`
  - Inficon Fusion zip archive (``zip``): :mod:`~yadg.parsers.chromdata.fusionzip`
  - Inficon Fusion csv export (``csv``): :mod:`~yadg.parsers.chromdata.fusioncsv`
+ - Empa's Agilent LC csv export (``csv``): :mod`~yadg.parsers.chromdata.empalccsv`
+ - Empa's Agilent LC excel export (``xlsx``): :mod`~yadg.parsers.chromdata.empalcxlsx`
 
 .. _yadg.parsers.chromdata.provides:
 
@@ -39,6 +41,7 @@ for each timestep, using the following format:
 .. code-block:: yaml
 
   raw:
+    sampleid: !!str             # sample name or valve ID
     height:                     # heights of the peak maxima
       "{{ species_name }}": 
           {n: !!float, s: !!float, u: !!str}

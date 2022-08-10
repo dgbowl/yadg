@@ -543,16 +543,9 @@ ZIR - IR compensation (PEIS)</p>
 </dl>
 <p>The module also implements resolution determination for parameters of techniques,
 in <a class="reference internal" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="yadg.parsers.electrochem.eclabtechniques.get_resolution"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_resolution()</span></code></a>.</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/10">https://github.com/dgbowl/yadg/issues/10</a></p>
-<p>Current values of the uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are hard-coded from VMP-3 values
-of resolutions and accuracies, with <code class="docutils literal notranslate"><span class="pre">math.ulp(n)</span></code> as fallback. The values
-should be device-specific, and the fallback should be eliminated.</p>
-</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabtechniques.get_resolution">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="Permalink to this definition"></a></dt>
 <dd><p>Function that returns the resolution of a property based on its name, value,
 E-range and I-range.</p>
 <p>The values used here are hard-coded from VMP-3 potentiostats. Generally, the

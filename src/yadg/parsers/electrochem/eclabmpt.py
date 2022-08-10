@@ -9,44 +9,25 @@ data table.
 A list of techniques supported by this parser is shown in `the techniques table 
 <yadg.parsers.electrochem.eclabmpr.techniques>`_.
 
-File Structure of `.mpt` Files
-``````````````````````````````
+File Structure of ``.mpt`` Files
+````````````````````````````````
 
 These human-readable files are sectioned into headerlines and datalines.
-The header part at is made up of information that can be found in the
-settings, log and loop modules of the binary `.mpr` file.
+The header part of the ``.mpt`` files is made up of information that can be found 
+in the settings, log and loop modules of the binary ``.mpr`` file.
 
 If no header is present, the timestamps will instead be calculated from
-the file's ctime.
+the file's ``mtime()``.
 
 
-Structure of Parsed Data
-````````````````````````
+Metadata
+````````
+The metadata will contain the information from the header of the file. 
 
-*EIS Techniques (PEIS/GEIS)*
+.. note ::
 
-.. code-block:: yaml
-
-    - fn   !!str
-    - uts  !!float
-    - raw:
-        traces:
-          "{{ technique name }}":
-            "{{ col1 }}":
-              [!!int, ...]
-            "{{ col2 }}":
-              {n: [!!float, ...], s: [!!float, ...], u: !!str}
-
-*All Other Techniques*
-
-.. code-block:: yaml
-
-    - fn   !!str
-    - uts  !!float
-    - raw:
-        "{{ col1 }}":  !!int
-        "{{ col2 }}":
-          {n: !!float, s: !!float, u: !!str}
+    The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
+    is not yet complete.
 
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """

@@ -1048,11 +1048,7 @@ def param_from_key(
 
 
 def get_resolution(
-    name: str, 
-    value: float, 
-    unit: str,
-    Erange: float, 
-    Irange: float
+    name: str, value: float, unit: str, Erange: float, Irange: float
 ) -> float:
     """
     Function that returns the resolution of a property based on its name, value,
@@ -1102,17 +1098,17 @@ def get_resolution(
         # [C] = [A]*[s];
         return get_resolution("I", value, "A", Erange, Irange)
     elif unit in {"mA·h"}:
-        return get_resolution("Q", value/3.6, "C", Erange, Irange)
+        return get_resolution("Q", value / 3.6, "C", Erange, Irange)
     elif unit in {"W·h"}:
-        return get_resolution("P", value/3600, "W", Erange, Irange)
+        return get_resolution("P", value / 3600, "W", Erange, Irange)
     elif unit in {"µF"}:
         # [F] = [C]/[V]
         return max(
-            get_resolution("Q", value*1e-6, "C", Erange, Irange),
-            get_resolution("U", value*1e-6, "V", Erange, Irange)
+            get_resolution("Q", value * 1e-6, "C", Erange, Irange),
+            get_resolution("U", value * 1e-6, "V", Erange, Irange),
         )
     elif unit in {"s"}:
-        # Based on the EC-Lib documentation, 
+        # Based on the EC-Lib documentation,
         # 50 us is a safe upper limit for timebase
         return 50e-6
     elif unit in {"%"}:

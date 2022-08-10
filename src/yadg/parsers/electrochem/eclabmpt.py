@@ -53,6 +53,7 @@ Structure of Parsed Data
 import re
 import logging
 from collections import defaultdict
+from pydantic import BaseModel
 from ...dgutils.dateutils import str_to_uts
 from .eclabtechniques import get_resolution, technique_params, param_from_key
 
@@ -284,7 +285,10 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
 
 
 def process(
-    fn: str, encoding: str = "windows-1252", timezone: str = "UTC"
+    fn: str, 
+    encoding: str = "windows-1252", 
+    timezone: str = "UTC",
+    transpose: bool = True,
 ) -> tuple[list, dict, bool]:
     """Processes EC-Lab human-readable text export files.
 
@@ -337,7 +341,7 @@ def process(
     timesteps = []
     # If the technique is an impedance spectroscopy, split it into
     # traces at different cycle numbers and put each trace into its own timestep
-    if settings["technique"] in {"PEIS", "GEIS"}:
+    if settings["technique"] in {"PEIS", "GEIS"} and transpose:
         # Grouping by cycle.
         cycles = defaultdict(list)
         for d in data:

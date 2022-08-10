@@ -801,7 +801,10 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 
 def process(
-    fn: str, encoding: str = "windows-1252", timezone: str = "localtime"
+    fn: str, 
+    encoding: str = "windows-1252", 
+    timezone: str = "localtime",
+    transpose: bool = True,
 ) -> tuple[list, dict, bool]:
     """Processes EC-Lab raw data binary files.
 
@@ -844,7 +847,7 @@ def process(
     timesteps = []
     # If the technique is an impedance spectroscopy, split it into
     # traces at different cycle numbers and put each trace into its own timestep
-    if settings["technique"] in {"PEIS", "GEIS"}:
+    if settings["technique"] in {"PEIS", "GEIS"} and transpose:
         # Grouping by cycle.
         cycles = defaultdict(list)
         for d in data:

@@ -125,7 +125,6 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
         schema = _schema_4_1(input, parser, version)
     elif version in {"4.2"}:
         schema = _schema_4_2(input, parser, version)
-    print(schema)
     os.chdir(datadir)
     ds = to_dataschema(**schema)
     return yadg.core.process_schema(ds)
@@ -135,7 +134,10 @@ def standard_datagram_test(datagram, testspec):
     assert yadg.core.validators.validate_datagram(datagram), "datagram is invalid"
     assert len(datagram["steps"]) == testspec["nsteps"], "wrong number of steps"
     steps = datagram["steps"][testspec["step"]]["data"]
-    assert len(steps) == testspec["nrows"], "wrong number of timesteps in a step"
+    assert len(steps) == testspec["nrows"], (
+        "wrong number of timesteps in a step: "
+        f"ret: {len(steps)}, ref: {testspec['nrows']}"
+    )
     json.dumps(datagram)
 
 

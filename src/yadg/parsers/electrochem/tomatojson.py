@@ -48,7 +48,10 @@ I_ranges = {
 
 
 def process(
-    fn: str, encoding: str = "UTF-8", timezone: str = "UTC"
+    fn: str, 
+    encoding: str = "UTF-8", 
+    timezone: str = "UTC",
+    transpose: bool = True,
 ) -> tuple[list, dict, bool]:
     with open(fn, "r") as infile:
         jsdata = json.load(infile)

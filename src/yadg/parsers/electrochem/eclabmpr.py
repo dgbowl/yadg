@@ -801,8 +801,8 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 
 def process(
-    fn: str, 
-    encoding: str = "windows-1252", 
+    fn: str,
+    encoding: str = "windows-1252",
     timezone: str = "localtime",
     transpose: bool = True,
 ) -> tuple[list, dict, bool]:

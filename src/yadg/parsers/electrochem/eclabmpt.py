@@ -285,8 +285,8 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
 
 
 def process(
-    fn: str, 
-    encoding: str = "windows-1252", 
+    fn: str,
+    encoding: str = "windows-1252",
     timezone: str = "UTC",
     transpose: bool = True,
 ) -> tuple[list, dict, bool]:

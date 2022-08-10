@@ -34,14 +34,23 @@ def process(
     transpose = parameters.transpose if hasattr(parameters, "transpose") else True
     if parameters.filetype == "eclab.mpr":
         data, meta, fulldate = eclabmpr.process(
-            fn, encoding, timezone, transpose,
+            fn,
+            encoding,
+            timezone,
+            transpose,
         )
     elif parameters.filetype == "eclab.mpt":
         data, meta, fulldate = eclabmpt.process(
-            fn, encoding, timezone, transpose,
+            fn,
+            encoding,
+            timezone,
+            transpose,
         )
     elif parameters.filetype == "tomato.json":
         data, meta, fulldate = tomatojson.process(
-            fn, encoding, timezone, transpose,
+            fn,
+            encoding,
+            timezone,
+            transpose,
         )
     return data, meta, fulldate

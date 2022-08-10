@@ -25,7 +25,6 @@ Exposed metadata:
 """
 import logging
 import datetime
-from ...dgutils.dateutils import str_to_uts
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 logger = logging.getLogger(__name__)

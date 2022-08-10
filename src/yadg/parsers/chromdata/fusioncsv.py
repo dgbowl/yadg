@@ -93,12 +93,12 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             continue
         else:
             items = line.split(",")
-            samplename = items[1]
             point = {
                 "concentration": {},
                 "xout": {},
                 "area": {},
                 "retention time": {},
+                "samplename": items[sni],
             }
             uts = str_to_uts(f"{items[0]}{offset}", timezone=timezone)
             for ii, i in enumerate(items[2:]):
@@ -113,6 +113,5 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     "s": s,
                     "u": h[1],
                 }
-            point["samplename"] = items[sni]
             data.append({"uts": uts, "raw": point, "fn": fn})
     return data, {"params": {"method": method}}, True

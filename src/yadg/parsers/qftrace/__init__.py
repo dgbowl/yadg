@@ -9,8 +9,7 @@ the time axis (x-axis).
 
 Usage
 `````
-Select :mod:`~yadg.parsers.qftrace` by supplying it as an argument to the ``parser`` 
-keyword in the `dataschema`. The parser supports the following parameters:
+Available since ``yadg-3.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.qftrace.model:
 

@@ -8,8 +8,7 @@ points in the energy axis (``E``).
 
 Usage
 `````
-Select :mod:`~yadg.parsers.xpstrace` by supplying it as an argument to the ``parser`` 
-keyword of the `dataschema`. The parser supports the following parameters:
+Available since ``yadg-4.1``. The parser supports the following parameters:
 
 .. _yadg.parsers.xpstrace.model:
 

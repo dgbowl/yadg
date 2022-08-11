@@ -7,8 +7,7 @@ axis (:math:`2\\theta`), if necessary.
 
 Usage
 `````
-Select :mod:`~yadg.parsers.xrdtrace` by supplying it an argument to the ``parser`` 
-keyword of the `dataschema`. The parser supports the following parameters:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.xrdtrace.model:
 

@@ -1,21 +1,16 @@
 """
-The ``qftrace`` parser handles the reading and processing of the network analyzer 
+The module handles the reading and processing of the network analyzer 
 traces, containing the reflection coefficient as a function of the sweeped frequency,
-:math:`\\Gamma(f)`. The basic function of the parser is to:
+:math:`\\Gamma(f)`.
 
-1) read in the raw data and create timestamped `traces` 
-2) detect the peaks in each trace (:math:`f_0`) and fit the quality factor :math:`Q_0`
-
-.. admonition:: DEPRECATED in ``yadg-4.2``
-
-    The fitting of peaks and quality factors in network analyzer traces is deprecated
-    as of ``yadg-4.2`` and will stop working in ``yadg-5.0``.
+:mod:`~yadg.parsers.qftrace` loads the reflection trace data, determines the 
+uncertainties of the signal (y-axis), and explicitly populates the points in 
+the time axis (x-axis). 
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.qftrace` can be requested by supplying ``qftrace`` as
-an argument to the ``parser`` keyword in the `dataschema`. The parser supports the
-following parameters:
+Select :mod:`~yadg.parsers.qftrace` by supplying it as an argument to the ``parser`` 
+keyword in the `dataschema`. The parser supports the following parameters:
 
 .. _yadg.parsers.qftrace.model:
 
@@ -30,10 +25,7 @@ following parameters:
 
 Provides
 ````````
-:mod:`~yadg.parsers.qftrace` loads the reflection trace data, determines the 
-uncertainties of the signal (y-axis), and explicitly populates the points in 
-the time axis (x-axis). This raw data is stored, for each
-timestep, using the following format:
+This raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 
@@ -50,6 +42,10 @@ timestep, using the following format:
           Im(Γ):              # imaginary part of the reflection coefficient
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
 
+.. admonition:: DEPRECATED in ``yadg-4.2``
+
+    The fitting of peaks and quality factors in network analyzer traces is deprecated
+    as of ``yadg-4.2`` and will stop working in ``yadg-5.0``.
 
 The fitting of :math:`f_0` and :math:`Q_0` to all peaks found in each trace is 
 performed by :mod:`~yadg.parsers.qftrace` automatically, and can be adjusted by 

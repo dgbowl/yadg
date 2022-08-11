@@ -11,9 +11,8 @@ MCPT instrument.
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.meascsv` can be requested by supplying ``meascsv``
-to the ``parser`` keyword in the `dataschema`. The following additional parameters
-are supported by the parser:
+Available since ``yadg-3.0``. Deprecated since ``yadg-4.0``. The parser supports the 
+following parameters:
 
 .. _yadg.parsers.meascsv.model:
 
@@ -24,8 +23,9 @@ are supported by the parser:
 Provides
 ````````
 The parser is used to extract all of the tabular data in the input file, storing 
-them using the column headers as keys. The functionality exposed by this parser
-is using :mod:`~yadg.parsers.basiccsv` behind the scenes.
+them in the same format as :mod:`~yadg.parsers.basiccsv`, using the column headers 
+as keys. The functionality exposed by this parser is using :mod:`~yadg.parsers.basiccsv` 
+behind the scenes.
 
 
 """

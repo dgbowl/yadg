@@ -1,0 +1,79 @@
+{%- macro automodule(modname, options) -%}
+.. automodule:: {{ modname }}
+{%- for option in options %}
+   :{{ option }}:
+{%- endfor %}
+{%- endmacro %}
+
+{%- macro toctree(docnames) -%}
+.. toctree::
+   :maxdepth: {{ maxdepth }}
+{% for docname in docnames %}
+   {{ docname }}
+{%- endfor %}
+{%- endmacro %}
+
+{%- if is_namespace %}
+{{- [pkgname, "namespace"] | join(" ") | e | heading }}
+{% elif 'yadg.parsers.basiccsv' == pkgname %}
+{{- "**basiccsv**: Common tabular file parser" | heading }}
+{% elif 'yadg.parsers.chromdata' == pkgname %}
+{{- "**chromdata**: Post-processed chromatography data parser" | heading }}
+{% elif 'yadg.parsers.chromtrace' == pkgname %}
+{{- "**chromtrace**: Raw chromatogram trace file parser" | heading }}
+{% elif 'yadg.parsers.dummy' == pkgname %}
+{{- "**dummy**: A dummy parser" | heading }}
+{% elif 'yadg.parsers.electrochem' == pkgname %}
+{{- "**electrochem**: Electrochemistry data parser" | heading }}
+{% elif 'yadg.parsers.flowdata' == pkgname %}
+{{- "**flowdata**: Flow data parser" | heading }}
+{% elif 'yadg.parsers.masstrace' == pkgname %}
+{{- "**masstrace**: Mass spectroscopy trace file parser" | heading }}
+{% elif 'yadg.parsers.meascsv' == pkgname %}
+{{- "**meascsv**: Legacy MCPT log file parser" | heading }}
+{% elif 'yadg.parsers.qftrace' == pkgname %}
+{{- "**qftrace**: Network analyser trace file parser" | heading }}
+{% elif 'yadg.parsers.xpstrace' == pkgname %}
+{{- "**xpstrace**: XPS trace file parser" | heading }}
+{% elif 'yadg.parsers.xrdtrace' == pkgname %}
+{{- "**xrdtrace**: X-ray diffractogram trace file parser" | heading }}
+{% else %}
+{{- [pkgname, "package"] | join(" ") | e | heading }}
+{% endif %}
+
+{%- if is_namespace %}
+.. py:module:: {{ pkgname }}
+{% endif %}
+
+{%- if modulefirst and not is_namespace %}
+{{ automodule(pkgname, automodule_options) }}
+{% endif %}
+
+{%- if subpackages %}
+Subpackages
+-----------
+
+{{ toctree(subpackages) }}
+{% endif %}
+
+{%- if submodules %}
+Submodules
+----------
+{% if separatemodules %}
+{{ toctree(submodules) }}
+{% else %}
+{%- for submodule in submodules %}
+{% if show_headings %}
+{{- [submodule, "module"] | join(" ") | e | heading(2) }}
+{% endif %}
+{{ automodule(submodule, automodule_options) }}
+{% endfor %}
+{%- endif %}
+{%- endif %}
+
+{%- if not modulefirst and not is_namespace %}
+Module contents
+---------------
+
+{{ automodule(pkgname, automodule_options) }}
+{% endif %}

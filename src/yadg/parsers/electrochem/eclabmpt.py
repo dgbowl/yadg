@@ -348,5 +348,6 @@ def process(
     # All other techniques have multiple timesteps.
     for d in data:
         uts = start_time + d["time"]["n"]
+        d["technique"] = settings["technique"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
     return timesteps, metadata, fulldate

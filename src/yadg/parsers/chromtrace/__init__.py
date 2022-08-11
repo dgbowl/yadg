@@ -1,16 +1,18 @@
 """
-The ``chromtrace`` parser handles the parsing of raw traces present in chromatography 
-files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC). 
+This module handles the parsing of raw traces present in chromatography files, 
+whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC). 
 The basic function of the parser is to:
 
-1) read in the raw data and create timestamped `traces`
-2) collect `metadata` such as the method information, sample ID, etc.
+#. read in the raw data and create timestamped `traces`
+#. collect `metadata` such as the method information, sample ID, etc.
+
+:mod:`~yadg.parsers.chromtrace` loads the chromatographic data from the specified
+file, determines the uncertainties of the signal (y-axis), and explicitly 
+populates the points in the time axis (x-axis), when required. 
 
 Usage
 `````
-Select :mod:`~yadg.parsers.chromtrace` by supplying ``chromtrace`` to the ``parser``
-keyword, starting in :class:`DataSchema-4.0`. The parser supports the following 
-parameters:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.chromtrace.model:
 
@@ -38,14 +40,13 @@ The formats currently supported by the parser are:
 
 Provides
 ````````
-:mod:`~yadg.parsers.chromtrace`` loads the chromatographic data from the specified
-file, determines the uncertainties of the signal (y-axis), and explicitly 
-populates the points in the time axis (x-axis), when required. This raw data is 
-stored, for each timestep, using the following format:
+The raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 
-  - raw:
+  - uts: !!float
+    fn:  !!str
+    raw:
       traces:
         "{{ trace_name }}":        # detector name from the raw data file
           id:               !!int  # detector id for matching with calibration data
@@ -58,6 +59,11 @@ stored, for each timestep, using the following format:
 
   To parse processed data in the raw data files, such as integrated peak areas or 
   concentrations, use the :mod:`~yadg.parsers.chromdata` parser instead.
+
+.. admonition:: DEPRECATED in ``yadg-4.2``
+
+  The below functionality has been deprecated in ``yadg-4.2`` and will stop working
+  in ``yadg-5.0``.
 
 The data processing performed by :mod:`~yadg.parsers.chromtrace` is enabled 
 automatically when calibration information is provided. The resulting data is stored 

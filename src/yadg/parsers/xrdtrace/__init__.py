@@ -1,11 +1,14 @@
 """
 This module handles the reading and processing of X-ray diffraction data.
 
+:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable 
+uncertainties of the signal intensity (y-axis), and explicitly populates the angle
+axis (:math:`2\\theta`), if necessary. 
+
 Usage
 `````
-The usage of :mod:`~yadg.parsers.xrdtrace` can be specified by supplying 
-``xrdtrace`` as an argument to the ``parser`` keyword of the `dataschema`. 
-The parser supports the following parameters:
+Select :mod:`~yadg.parsers.xrdtrace` by supplying it an argument to the ``parser`` 
+keyword of the `dataschema`. The parser supports the following parameters:
 
 .. _yadg.parsers.xrdtrace.model:
 
@@ -25,10 +28,7 @@ The currently supported file formats are:
 
 Provides
 ````````
-:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable 
-uncertainties of the signal intensity (y-axis), and explicitly populates the angle
-axis (:math:`2\\theta`), if necessary. This raw data is stored, for each timestep, 
-using the following format:
+The raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 

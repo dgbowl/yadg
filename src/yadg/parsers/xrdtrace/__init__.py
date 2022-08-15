@@ -17,11 +17,14 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 Formats
 ```````
-The currently supported file formats are:
+The ``filetypes`` currently supported by the parser are:
 
- - PANalytical ``xrdml`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
- - PANalytical ``csv`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
- - PANalytical ``xy`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
+ - PANalytical ``xrdml`` files (``panalytical.xrdml``): 
+   :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
+ - PANalytical ``csv`` files (``panalytical.csv``): 
+   :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
+ - PANalytical ``xy`` files (``panalytical.xy``): 
+   :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
 
 .. _yadg.parsers.xrdtrace.provides:
 

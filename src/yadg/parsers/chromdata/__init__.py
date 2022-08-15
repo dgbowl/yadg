@@ -23,13 +23,18 @@ Available since ``yadg-4.2``. The parser supports the following parameters:
 
 Formats
 ```````
-The formats currently supported by the parser are:
+The ``filetypes`` currently supported by the parser are:
 
- - Inficon Fusion JSON format (``json``): :mod:`~yadg.parsers.chromdata.fusionjson`
- - Inficon Fusion zip archive (``zip``): :mod:`~yadg.parsers.chromdata.fusionzip`
- - Inficon Fusion csv export (``csv``): :mod:`~yadg.parsers.chromdata.fusioncsv`
- - Empa's Agilent LC csv export (``csv``): :mod`~yadg.parsers.chromdata.empalccsv`
- - Empa's Agilent LC excel export (``xlsx``): :mod`~yadg.parsers.chromdata.empalcxlsx`
+ - Inficon Fusion JSON format (``fusion.json``): 
+   :mod:`~yadg.parsers.chromdata.fusionjson`
+ - Inficon Fusion zip archive (``fusion.zip``): 
+   :mod:`~yadg.parsers.chromdata.fusionzip`
+ - Inficon Fusion csv export (``fusion.csv``): 
+   :mod:`~yadg.parsers.chromdata.fusioncsv`
+ - Empa's Agilent LC csv export (``empalc.csv``): 
+   :mod:`~yadg.parsers.chromdata.empalccsv`
+ - Empa's Agilent LC excel export (``empalc.xlsx``): 
+   :mod:`~yadg.parsers.chromdata.empalcxlsx`
 
 .. _yadg.parsers.chromdata.provides:
 

@@ -18,9 +18,10 @@ Available since ``yadg-4.1``. The parser supports the following parameters:
 
 Formats
 ```````
-The currently supported file formats are:
+The ``filetypes`` currently supported by the parser are:
 
- - ULVAC PHI Multipak XPS traces (``spe``) :mod:`~yadg.parsers.xpstrace.phispe`
+ - ULVAC PHI Multipak XPS traces (``phi.spe``): 
+   :mod:`~yadg.parsers.xpstrace.phispe`
 
 .. _yadg.parsers.xpstrace.provides:
 

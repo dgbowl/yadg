@@ -21,12 +21,12 @@ Formats
 ```````
 The ``filetypes`` currently supported by the parser are:
 
- - EC-Lab raw data binary file and parameter settings (``eclab.mpr``):
-   :mod:`~yadg.parsers.electrochem.eclabmpr`
- - EC-Lab human-readable text export of data (``eclab.mpt``):
-   :mod:`~yadg.parsers.electrochem.eclabmpt`
- - tomato's structured json output (``tomato.json``):
-   :mod:`~yadg.parsers.electrochem.tomatojson`
+ - EC-Lab raw data binary file and parameter settings (``eclab.mpr``),
+   see :mod:`~yadg.parsers.electrochem.eclabmpr`
+ - EC-Lab human-readable text export of data (``eclab.mpt``),
+   see :mod:`~yadg.parsers.electrochem.eclabmpt`
+ - tomato's structured json output (``tomato.json``),
+   see :mod:`~yadg.parsers.electrochem.tomatojson`
   
 Provides
 ````````

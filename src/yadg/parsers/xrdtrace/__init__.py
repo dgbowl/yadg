@@ -19,12 +19,12 @@ Formats
 ```````
 The ``filetypes`` currently supported by the parser are:
 
- - PANalytical ``xrdml`` files (``panalytical.xrdml``): 
-   :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
- - PANalytical ``csv`` files (``panalytical.csv``): 
-   :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
- - PANalytical ``xy`` files (``panalytical.xy``): 
-   :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
+ - PANalytical ``xrdml`` files (``panalytical.xrdml``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
+ - PANalytical ``csv`` files (``panalytical.csv``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
+ - PANalytical ``xy`` files (``panalytical.xy``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
 
 .. _yadg.parsers.xrdtrace.provides:
 

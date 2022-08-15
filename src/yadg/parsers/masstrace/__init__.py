@@ -18,10 +18,10 @@ in the `dataschema`. The parser supports the following parameters:
 
 Formats
 ```````
-The ``filetypes``currently supported by the parser are:
+The ``filetypes`` currently supported by the parser are:
 
- - Pfeiffer Quadstar 32-bit scan analog data (``quadstar.sac``): 
-   :mod:`~yadg.parsers.masstrace.quadstarsac`
+ - Pfeiffer Quadstar 32-bit scan analog data (``quadstar.sac``),
+   see :mod:`~yadg.parsers.masstrace.quadstarsac`
  
 .. _yadg.parsers.masstrace.provides:
 

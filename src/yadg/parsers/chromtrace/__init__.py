@@ -29,12 +29,18 @@ Formats
 ```````
 The ``filetypes`` currently supported by the parser are:
 
- - EZ-Chrom ASCII export (``ezchrom.asc``): :mod:`~yadg.parsers.chromtrace.ezchromasc`
- - Agilent Chemstation Chromtab (``agilent.csv``): :mod:`~yadg.parsers.chromtrace.agilentcsv`
- - Agilent OpenLab binary signal (``agilent.ch``): :mod:`~yadg.parsers.chromtrace.agilentch`
- - Agilent OpenLab data archive (``agilent.dx``): :mod:`~yadg.parsers.chromtrace.agilentdx`
- - Inficon Fusion JSON format (``fusion.json``): :mod:`~yadg.parsers.chromtrace.fusionjson`
- - Inficon Fusion zip archive (``fusion.zip``) :mod:`~yadg.parsers.chromtrace.fusionzip`
+ - EZ-Chrom ASCII export (``ezchrom.asc``): 
+   see :mod:`~yadg.parsers.chromtrace.ezchromasc`
+ - Agilent Chemstation Chromtab (``agilent.csv``): 
+   see :mod:`~yadg.parsers.chromtrace.agilentcsv`
+ - Agilent OpenLab binary signal (``agilent.ch``): 
+   see :mod:`~yadg.parsers.chromtrace.agilentch`
+ - Agilent OpenLab data archive (``agilent.dx``): 
+   see :mod:`~yadg.parsers.chromtrace.agilentdx`
+ - Inficon Fusion JSON format (``fusion.json``): 
+   see :mod:`~yadg.parsers.chromtrace.fusionjson`
+ - Inficon Fusion zip archive (``fusion.zip``): 
+   see :mod:`~yadg.parsers.chromtrace.fusionzip`
 
 .. _yadg.parsers.chromtrace.provides:
 

@@ -20,8 +20,8 @@ Formats
 ```````
 The ``filetypes`` currently supported by the parser are:
 
- - ULVAC PHI Multipak XPS traces (``phi.spe``): 
-   :mod:`~yadg.parsers.xpstrace.phispe`
+ - ULVAC PHI Multipak XPS traces (``phi.spe``),
+   see :mod:`~yadg.parsers.xpstrace.phispe`
 
 .. _yadg.parsers.xpstrace.provides:
 

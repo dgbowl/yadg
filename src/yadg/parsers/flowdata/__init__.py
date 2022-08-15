@@ -14,14 +14,14 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 Formats
 ```````
-The ``filetypes``currently supported by the parser are:
+The ``filetypes`` currently supported by the parser are:
 
- - DryCal log file text output (``drycal.txt``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
- - DryCal log file tabulated output (``drycal.csv``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
- - DryCal log file document file (``drycal.rtf``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file text output (``drycal.txt``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file tabulated output (``drycal.csv``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file document file (``drycal.rtf``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
 
 .. _yadg.parsers.flowdata.provides:
 

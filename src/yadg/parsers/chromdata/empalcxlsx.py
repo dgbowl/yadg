@@ -121,13 +121,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     metadata["method"] = r["acquisition"]["method"].replace("\n", "")
 
-    print(f"{metadata=}")
-
     ws = wb["Page 3"]
     for row in ws.rows:
         if "Line#" in str(row[0].value):
             headers = [i.value.replace("\n", "").replace(" ", "") for i in row]
-            print(f"{headers=}")
         else:
             data = [str(i.value) if i.value is not None else None for i in row]
             sn = data[headers.index("SampleName")]

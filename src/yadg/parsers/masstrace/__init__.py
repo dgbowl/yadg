@@ -2,14 +2,13 @@
 The module handles the reading and processing of mass spectrometry files. The 
 basic function of the parser is to:
 
-1) read in the raw data and create timestamped `traces`
-2) collect `metadata` such as the software version, author, etc.
+#. read in the raw data and create timestamped ``traces``
+#. collect `metadata` such as the software version, author, etc.
 
 Usage
 `````
-The use of :mod:`~yadg.parsers.masstrace` can be requested using the ``parser`` 
-keyword in the `dataschema`. Further information can be specified in the
-``"parameters"`` :class:`(dict)`:
+Select :mod:`~yadg.parsers.masstrace` by supplying it to the ``parser`` keyword 
+in the `dataschema`. The parser supports the following parameters:
 
 .. _yadg.parsers.masstrace.model:
 
@@ -17,8 +16,12 @@ keyword in the `dataschema`. Further information can be specified in the
 
 .. _yadg.parsers.masstrace.formats:
 
- - Pfeiffer Quadstar 32-bit scan analog data (``sac``): 
-   :mod:`~yadg.parsers.masstrace.quadstarsac`
+Formats
+```````
+The ``filetypes`` currently supported by the parser are:
+
+ - Pfeiffer Quadstar 32-bit scan analog data (``quadstar.sac``),
+   see :mod:`~yadg.parsers.masstrace.quadstarsac`
  
 .. _yadg.parsers.masstrace.provides:
 

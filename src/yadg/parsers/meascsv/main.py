@@ -18,8 +18,11 @@ def process(
     Legacy MCPT measurement log parser.
 
     This parser is included to maintain parity with older schemas and datagrams.
-    It is essentially a wrapper around :func:`yadg.parsers.basiccsv.process_row`.
-    For new applications, please use the `basiccsv` parser.
+    It is essentially a wrapper around :func:`yadg.parsers.basiccsv.main.process_row`.
+
+    .. admonition:: DEPRECATED in ``yadg-4.0``
+    
+        For new applications, please use the :mod:`~yadg.parsers.basiccsv` parser.
 
     Parameters
     ----------
@@ -33,7 +36,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.parameters.dataschema_4_1.MeasCSV`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV`.
 
     Returns
     -------

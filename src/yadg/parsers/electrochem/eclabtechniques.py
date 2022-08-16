@@ -3,18 +3,19 @@
 -----------------------------------------------------------
 
 Implemented techniques:
-    CA - Chronoamperometry / Chronocoulometry
-    CP - Chronopotentiometry
-    CV - Cyclic Voltammetry
-    GCPL - Galvanostatic Cycling with Potential Limitation
-    GEIS - Galvano Electrochemical Impedance Spectroscopy
-    LOOP - Loop
-    LSV - Linear Sweep Voltammetry
-    MB - Modulo Bat
-    OCV - Open Circuit Voltage
-    PEIS - Potentio Electrochemical Impedance Spectroscopy
-    WAIT - Wait
-    ZIR - IR compensation (PEIS)
+
+    - CA - Chronoamperometry / Chronocoulometry
+    - CP - Chronopotentiometry
+    - CV - Cyclic Voltammetry
+    - GCPL - Galvanostatic Cycling with Potential Limitation
+    - GEIS - Galvano Electrochemical Impedance Spectroscopy
+    - LOOP - Loop
+    - LSV - Linear Sweep Voltammetry
+    - MB - Modulo Bat
+    - OCV - Open Circuit Voltage
+    - PEIS - Potentio Electrochemical Impedance Spectroscopy
+    - WAIT - Wait
+    - ZIR - IR compensation (PEIS)
 
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.

@@ -1,12 +1,15 @@
 """
 This module handles the reading and processing of files containing electrochemical
-data, including BioLogic's EC-Lab file formats.
+data, including BioLogic's EC-Lab file formats. The basic function of the parser is to:
+
+#. Read in the technique data and create timesteps.
+#. Collect metadata, such as the measurement settings and the loops
+   contained in a given file.
+#. Collect data describing the technique parameter sequences.
 
 Usage
 `````
-Select :mod:`~yadg.parsers.electrochem` by supplying ``electrochem`` to the 
-``parser`` keyword, starting in :class:`DataSchema-4.0`. The parser supports the 
-following parameters:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.electrochem.model:
 
@@ -16,45 +19,42 @@ following parameters:
 
 Formats
 ```````
-The currently supported file formats are:
+The ``filetypes`` currently supported by the parser are:
 
- - EC-Lab raw data binary file and parameter settings
-   :mod:`~yadg.parsers.electrochem.eclabmpr`
- - EC-Lab human-readable text export of data
-   :mod:`~yadg.parsers.electrochem.eclabmpt`
- - tomato's structured json output
-   :mod:`~yadg.parsers.electrochem.tomatojson`
+ - EC-Lab raw data binary file and parameter settings (``eclab.mpr``),
+   see :mod:`~yadg.parsers.electrochem.eclabmpr`
+ - EC-Lab human-readable text export of data (``eclab.mpt``),
+   see :mod:`~yadg.parsers.electrochem.eclabmpt`
+ - tomato's structured json output (``tomato.json``),
+   see :mod:`~yadg.parsers.electrochem.tomatojson`
   
 Provides
 ````````
-The basic function of the parser is to:
-
-#. Read in the technique data and create timesteps.
-#. Collect metadata, such as the measurement settings and the loops
-   contained in a given file.
-#. Collect data describing the technique parameter sequences.
-
-.. note::
-
-    ``.mpt`` files can contain more data than the corresponding binary
-    ``.mpr`` file.
-
-Most techniques write data that can be understood as a series of
-timesteps. Each timestep provided by the parser has the following
-format:
+Most standard techniques write data that can be understood as a series of
+timesteps, with a measurement of the potential of the working electrode ``Ewe``,
+the current applied by the potentiostat ``I``, and if present, also the potential
+of the counter electrode ``Ece``. Depending on the technique, these quantitites
+may be recorded as averages, i.e. ``<Ewe>``, ``<Ece>``, and ``<I>``. Technique 
+metadata, such as the ``cycle number`` and the name of the ``technique`` are also
+stored in each timestep:
 
 .. code-block:: yaml
 
     - fn   !!str
-    - uts  !!float
-    - raw:
-        "{{ col1 }}":  !!int
-        "{{ col2 }}":
+      uts  !!float
+      raw:
+        Ewe:                 # potential of the working electrode, might be <Ewe>
           {n: !!float, s: !!float, u: !!str}
+        Ece:                 # potential of the counter electrode, might be <Ece>
+          {n: !!float, s: !!float, u: !!str}
+        I:                   # current, might be <I>
+          {n: !!float, s: !!float, u: !!str}
+        cycle number: !!int
+        technique:    !!str 
 
 For impedance spectroscopy techniques (PEIS, GEIS), the data is by default
 transposed to be made of spectroscopy traces. The data is split into traces using 
-the ``"cycle number"`` column, and each trace is cast into a single timestep. Each 
+the ``cycle number`` column, and each trace is cast into a single timestep. Each 
 trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS 
 or GEIS). The timestep takes the following format:
 
@@ -70,16 +70,11 @@ or GEIS). The timestep takes the following format:
             "{{ col2 }}":
                 {n: [!!float, ...], s: [!!float, ...], u: !!str}
 
-This behaviour can be toggled off by setting the ``transpose`` parameter to ``False``,
-see :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params`.
+.. note::
 
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/10
-
-    Current values of the uncertainties ``"s"`` are hard-coded from VMP-3 values
-    of resolutions and accuracies, with ``math.ulp(n)`` as fallback. The values 
-    should be device-specific, and the fallback should be eliminated.
+  This transposing behaviour can be toggled off by setting the ``transpose`` 
+  parameter to ``False``, see documentation of the 
+  :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params` class.
 
 
 """

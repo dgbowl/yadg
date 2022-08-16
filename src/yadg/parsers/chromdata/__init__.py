@@ -1,6 +1,10 @@
 """
-The :mod:`chromdata` parser handles the reading of processed chromatography data, i.e.
+This module handles the reading of post-processed chromatography data, i.e.
 files containing peak areas, concentrations, or mole fractions.
+
+:mod:`~yadg.parsers.chromdata` loads the processed chromatographic data from the 
+specified file, including the peak heights, areas, retention times, as well as the 
+concentrations and mole fractions (normalised, unitless concentrations).
 
 .. note:: 
 
@@ -9,9 +13,7 @@ files containing peak areas, concentrations, or mole fractions.
 
 Usage
 `````
-Select :mod:`~yadg.parsers.chromdata` by supplying ``chromdata`` to the ``parser``
-keyword, starting in :class:`DataSchema-4.2`. The parser supports the following 
-parameters:
+Available since ``yadg-4.2``. The parser supports the following parameters:
 
 .. _yadg.parsers.chromdata.model:
 
@@ -21,42 +23,46 @@ parameters:
 
 Formats
 ```````
-The formats currently supported by the parser are:
+The ``filetypes`` currently supported by the parser are:
 
- - Inficon Fusion JSON format (``json``): :mod:`~yadg.parsers.chromdata.fusionjson`
- - Inficon Fusion zip archive (``zip``): :mod:`~yadg.parsers.chromdata.fusionzip`
- - Inficon Fusion csv export (``csv``): :mod:`~yadg.parsers.chromdata.fusioncsv`
- - Empa's Agilent LC csv export (``csv``): :mod`~yadg.parsers.chromdata.empalccsv`
- - Empa's Agilent LC excel export (``xlsx``): :mod`~yadg.parsers.chromdata.empalcxlsx`
+ - Inficon Fusion JSON format (``fusion.json``):  
+   see :mod:`~yadg.parsers.chromdata.fusionjson`
+ - Inficon Fusion zip archive (``fusion.zip``): 
+   see :mod:`~yadg.parsers.chromdata.fusionzip`
+ - Inficon Fusion csv export (``fusion.csv``): 
+   see :mod:`~yadg.parsers.chromdata.fusioncsv`
+ - Empa's Agilent LC csv export (``empalc.csv``): 
+   see :mod:`~yadg.parsers.chromdata.empalccsv`
+ - Empa's Agilent LC excel export (``empalc.xlsx``): 
+   see :mod:`~yadg.parsers.chromdata.empalcxlsx`
 
 .. _yadg.parsers.chromdata.provides:
 
 Provides
 ````````
-:mod:`~yadg.parsers.chromdata`` loads the processed chromatographic data from the 
-specified file, including the peak height, and area, as well as the concentration
-and mole fraction (normalised, unitless concentration). This raw data is stored, 
-for each timestep, using the following format:
+This raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 
-  raw:
-    sampleid: !!str             # sample name or valve ID
-    height:                     # heights of the peak maxima
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    area:                       # integrated areas of the peaks
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    concentration:
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: !!str}
-    xout:                       # mole fractions (normalised concentrations)
-      "{{ species_name }}": 
-          {n: !!float, s: !!float, u: " "}
-    retention time:
-      "{{ species_name }}":
-          {n: !!float, s: !!float, u: " "}
+  - uts: !!float
+    fn:  !!str
+    raw:
+      sampleid: !!str             # sample name or valve ID
+      height:                     # heights of the peak maxima
+        "{{ species_name }}": 
+            {n: !!float, s: !!float, u: !!str}
+      area:                       # integrated areas of the peaks
+        "{{ species_name }}": 
+            {n: !!float, s: !!float, u: !!str}
+      concentration:
+        "{{ species_name }}": 
+            {n: !!float, s: !!float, u: !!str}
+      xout:                       # mole fractions (normalised concentrations)
+        "{{ species_name }}": 
+            {n: !!float, s: !!float, u: " "}
+      retention time:
+        "{{ species_name }}":
+            {n: !!float, s: !!float, u: " "}
 
 .. note::
 

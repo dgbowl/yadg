@@ -41,6 +41,10 @@ sequences can be parsed:
 | ZIR  | IR compensation (PEIS)                          |
 +------+-------------------------------------------------+
 
+.. note::
+
+    ``.mpt`` files can contain more data than the corresponding binary
+    ``.mpr`` file.
 
 File Structure of ``.mpr`` Files
 ````````````````````````````````
@@ -871,5 +875,6 @@ def process(
     # All other techniques have multiple timesteps.
     for d in data:
         uts = start_time + d["time"]["n"]
+        d["technique"] = settings["technique"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
     return timesteps, metadata, fulldate

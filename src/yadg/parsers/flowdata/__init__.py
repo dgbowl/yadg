@@ -4,9 +4,7 @@ data.
 
 Usage
 `````
-Select :mod:`~yadg.parsers.flowdata` by supplying ``flowdata`` to the ``parser`` 
-keyword, starting from :class:`DataSchema-4.0`. The following list of parameters is 
-supported by the parser:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.flowdata.model:
 
@@ -16,14 +14,14 @@ supported by the parser:
 
 Formats
 ```````
-The formats currently supported by the parser are:
+The ``filetypes`` currently supported by the parser are:
 
- - DryCal log file text output (``txt``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
- - DryCal log file tabulated output (``csv``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
- - DryCal log file document file (``rtf``): 
-   :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file text output (``drycal.txt``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file tabulated output (``drycal.csv``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
+  - DryCal log file document file (``drycal.rtf``),
+    see :mod:`~yadg.parsers.flowdata.drycal`
 
 .. _yadg.parsers.flowdata.provides:
 

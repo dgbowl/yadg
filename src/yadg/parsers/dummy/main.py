@@ -31,7 +31,7 @@ def process(
         Not used
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg_dataschema.dataschema_4_1.parameters.Dummy`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.Dummy`.
 
     Returns
     -------

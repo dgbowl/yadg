@@ -1,18 +1,19 @@
 """
 This parser handles the reading and processing of any tabular files, as long as 
-the first line contains the column headers, and the second line an optional
-set of units. The columns of the table must be separated using a separator 
-(``,`` or ``;`` or ``\\t`` or similar). 
+the first line contains the column headers. By default, the second should contain
+the units. The columns of the table must be separated using a separator such as 
+``,``, ``;``, or ``\\t``. 
 
-An attempt to deduce the timestamp from column headers is made automatically,
-using :func:`yadg.dgutils.dateutils.infer_timestamp_from`. Alternatively, the 
-timestamp column(s) and format can be provided using parameters.
+.. note::
+
+  :mod:`~yadg.parsers.basiccsv` attempts to deduce the timestamp from the column 
+  headers, using :func:`yadg.dgutils.dateutils.infer_timestamp_from`. Alternatively, 
+  the column(s) containing the timestamp data and their format can be provided using 
+  parameters.
 
 Usage
 `````
-Select :mod:`~yadg.parsers.basiccsv` by supplying ``basiccsv`` to the ``parser`` 
-keyword, starting in :class:`DataSchema-4.0`. The parser supports the following 
-parameters:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.basiccsv.model:
 
@@ -27,7 +28,15 @@ Provides
 ````````
 The primary functionality of :mod:`~yadg.parsers.basiccsv` is to load the tabular 
 data, and determine the Unix timestamp. The headers of the tabular data are taken 
-`verbatim` from the file, and appear as ``raw`` data keys.
+`verbatim` from the file, and appear as ``raw`` data keys:
+
+.. code-block:: yaml
+
+  - uts: !!float
+    fn:  !!str
+    raw:
+        "{{ column_name }}": 
+            {n: !!float, s: !!float, u: !!str}
 
 
 """

@@ -1,11 +1,13 @@
 """
 This module handles the reading and processing of X-ray diffraction data.
 
+:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable 
+uncertainties of the signal intensity (y-axis), and explicitly populates the angle
+axis (:math:`2\\theta`), if necessary. 
+
 Usage
 `````
-The usage of :mod:`~yadg.parsers.xrdtrace` can be specified by supplying 
-``xrdtrace`` as an argument to the ``parser`` keyword of the `dataschema`. 
-The parser supports the following parameters:
+Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.xrdtrace.model:
 
@@ -15,20 +17,20 @@ The parser supports the following parameters:
 
 Formats
 ```````
-The currently supported file formats are:
+The ``filetypes`` currently supported by the parser are:
 
- - PANalytical ``xrdml`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
- - PANalytical ``csv`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
- - PANalytical ``xy`` files: :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
+ - PANalytical ``xrdml`` files (``panalytical.xrdml``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalxrdml`
+ - PANalytical ``csv`` files (``panalytical.csv``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalcsv`
+ - PANalytical ``xy`` files (``panalytical.xy``),
+   see :mod:`~yadg.parsers.xrdtrace.panalyticalxy`
 
 .. _yadg.parsers.xrdtrace.provides:
 
 Provides
 ````````
-:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable 
-uncertainties of the signal intensity (y-axis), and explicitly populates the angle
-axis (:math:`2\\theta`), if necessary. This raw data is stored, for each timestep, 
-using the following format:
+The raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 

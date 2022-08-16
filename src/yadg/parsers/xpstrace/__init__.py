@@ -2,11 +2,13 @@
 This module handles the reading and processing of X-ray photoelectron spectroscopy
 data.
 
+:mod:`~yadg.parser.xpstrace` loads X-ray photoelectron spectroscopy data, 
+determines uncertainties of the signal (y-axis), and explicitly populates the 
+points in the energy axis (``E``). 
+
 Usage
 `````
-The usage of :mod:`~yadg.parsers.xpstrace` can be specified by supplying
-``xpstrace`` as an argument to the ``parser`` keyword of the `dataschema`.
-The parser supports the following parameters:
+Available since ``yadg-4.1``. The parser supports the following parameters:
 
 .. _yadg.parsers.xpstrace.model:
 
@@ -16,19 +18,16 @@ The parser supports the following parameters:
 
 Formats
 ```````
-The currently supported file formats are:
+The ``filetypes`` currently supported by the parser are:
 
- - ULVAC PHI Multipak XPS traces (``spe``) :mod:`~yadg.parsers.xpstrace.phispe`
-
+ - ULVAC PHI Multipak XPS traces (``phi.spe``),
+   see :mod:`~yadg.parsers.xpstrace.phispe`
 
 .. _yadg.parsers.xpstrace.provides:
 
 Provides
 ````````
-:mod:`~yadg.parser.xpstrace` loads X-ray photoelectron spectroscopy data, 
-determines uncertainties of the signal (y-axis), and explicitly populates the 
-points in the energy axis (``E``). This raw data is stored, for each timestep, 
-using the following format:
+The raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 

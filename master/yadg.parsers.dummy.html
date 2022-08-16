@@ -56,24 +56,28 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>dummy</strong>: A dummy parser</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.dummy.main">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>dummy</strong>: A dummy parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.dummy.main">Submodules</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -128,7 +132,7 @@ of <code class="docutils literal notranslate"><span class="pre">{&quot;value&quo
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">Dummy</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.Dummy" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dummy</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

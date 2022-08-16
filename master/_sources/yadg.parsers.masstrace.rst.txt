@@ -1,5 +1,5 @@
-**masstrace**: Mass spectrometry parser
-=======================================
+**masstrace**: Mass spectroscopy trace file parser
+==================================================
 
 .. automodule:: yadg.parsers.masstrace
    :members:

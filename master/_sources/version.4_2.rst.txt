@@ -15,20 +15,27 @@ Developed at Empa - Materials Science and Technology, in Dübendorf.
 
 New features since v4.1 are:
 
-  - :mod:`~yadg.parsers.chromdata` parser for parsing integrated chromatography data,
-  
+  - :mod:`~yadg.parsers.chromdata` parser for parsing post-processed chromatography data.
 
-Bug fixes and other modifications include:
+Backwards-incompatible changes include:
 
-  - the ``drycal`` filetypes in :mod:`yadg.parsers.flowdata` should now work for 
-    overnight experiments;
   - the :mod:`~yadg.parsers.chromtrace` parser now focuses on parsing chromatography
-    traces only, with trace integration deprecated in favour of ``dgpost``;
+    traces only, use :mod:`~yadg.parsers.chromdata` for parsing post-processed chromatographic
+    data; 
   - the :mod:`~yadg.parsers.flowdata` parser now no longer creates a default ``"flow"``
-    entry in derived data;
-  - the ``calfile`` and ``calib`` parameters have been deprecated in favour of ``dgpost``;
+    entry in derived data;  
+  - data post-processing within :mod:`yadg`, including chromatographic trace integration,
+    reflection coefficient processing, and calibration functionality is deprecated in favour 
+    of ``dgpost``.
+  
+Bug fixes include:
+
+  - the ``drycal`` filetypes in :mod:`~yadg.parsers.flowdata` should now work for 
+    overnight experiments;
   - the metadata in :mod:`~yadg.parsers.chromdata` and :mod:`~yadg.parsers.chromtrace`
     was modified to only include true metadata as opposed to sample data;
+  - the :mod:`~yadg.parsers.electrochem` parser now allows for toggling the transposing
+    of PEIS/GEIS traces.
 
 
     

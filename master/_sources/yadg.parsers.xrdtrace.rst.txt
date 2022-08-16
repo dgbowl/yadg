@@ -1,5 +1,5 @@
-**xrdtrace**: X-ray diffractogram parser
-========================================
+**xrdtrace**: X-ray diffractogram trace file parser
+===================================================
 
 .. automodule:: yadg.parsers.xrdtrace
    :members:

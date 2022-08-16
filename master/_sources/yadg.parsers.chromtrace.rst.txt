@@ -1,5 +1,5 @@
-**chromtrace**: Raw chromatogram trace parser
-=============================================
+**chromtrace**: Raw chromatogram trace file parser
+==================================================
 
 .. automodule:: yadg.parsers.chromtrace
    :members:

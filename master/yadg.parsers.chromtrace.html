@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>chromtrace: Raw chromatogram trace parser &mdash; yadg master documentation</title>
+  <title>chromtrace: Raw chromatogram trace file parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="chromdata: Processed chromatography data parser" href="yadg.parsers.chromdata.html" />
+    <link rel="next" title="chromdata: Post-processed chromatography data parser" href="yadg.parsers.chromdata.html" />
     <link rel="prev" title="electrochem: Electrochemistry data parser" href="yadg.parsers.electrochem.html" /> 
 </head>
 
@@ -56,36 +56,31 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>chromtrace</strong>: Raw chromatogram trace parser</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch">Submodules</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="#agilentch-processing-agilent-openlab-binary-signal-trace-files-ch-and-it"><strong>agilentch</strong>: Processing Agilent OpenLab binary signal trace files (CH and IT).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#agilentcsv-processing-agilent-chemstation-chromtab-tabulated-data-files-csv"><strong>agilentcsv</strong>: Processing Agilent Chemstation Chromtab tabulated data files (csv).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#agilentch-processing-agilent-openlab-data-archive-files-dx"><strong>agilentch</strong>: Processing Agilent OpenLab data archive files (DX).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#ezchromasc-processing-ez-chrom-ascii-export-files-dat-asc"><strong>ezchromasc</strong>: Processing EZ-Chrom ASCII export files (dat.asc).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#fusionjson-processing-inficon-fusion-json-data-format-json"><strong>fusionjson</strong>: Processing Inficon Fusion json data format (json).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#fusionzip-processing-inficon-fusion-zipped-data-format-zip"><strong>fusionzip</strong>: Processing Inficon Fusion zipped data format (zip).</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#integration-routines-for-chromatogram-integration"><strong>integration</strong>: Routines for chromatogram integration.</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch">Submodules</a></li>
 </ul>
 </li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
 </ul>
 </li>
 </ul>
@@ -110,7 +105,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
-      <li><strong>chromtrace</strong>: Raw chromatogram trace parser</li>
+      <li><strong>chromtrace</strong>: Raw chromatogram trace file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.chromtrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -121,19 +116,20 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.chromtrace">
-<span id="chromtrace-raw-chromatogram-trace-parser"></span><h1><strong>chromtrace</strong>: Raw chromatogram trace parser<a class="headerlink" href="#module-yadg.parsers.chromtrace" title="Permalink to this headline"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> parser handles the parsing of raw traces present in chromatography
-files, whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
+<span id="chromtrace-raw-chromatogram-trace-file-parser"></span><h1><strong>chromtrace</strong>: Raw chromatogram trace file parser<a class="headerlink" href="#module-yadg.parsers.chromtrace" title="Permalink to this headline"></a></h1>
+<p>This module handles the parsing of raw traces present in chromatography files,
+whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
 The basic function of the parser is to:</p>
 <ol class="arabic simple">
 <li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
 <li><p>collect <cite>metadata</cite> such as the method information, sample ID, etc.</p></li>
 </ol>
+<p><a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> loads the chromatographic data from the specified
+file, determines the uncertainties of the signal (y-axis), and explicitly
+populates the points in the time axis (x-axis), when required.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>Select <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">chromtrace</span></code> to the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
-keyword, starting in <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code>. The parser supports the following
-parameters:</p>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>. The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-chromtrace-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params" title="Permalink to this definition"></a></dt>
@@ -221,25 +217,30 @@ as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</spa
 </section>
 <section id="formats">
 <span id="yadg-parsers-chromtrace-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
-<p>The formats currently supported by the parser are:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">filetypes</span></code> currently supported by the parser are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>EZ-Chrom ASCII export (<code class="docutils literal notranslate"><span class="pre">dat.asc</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromtrace.ezchromasc" title="yadg.parsers.chromtrace.ezchromasc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ezchromasc</span></code></a></p></li>
-<li><p>Agilent Chemstation Chromtab (<code class="docutils literal notranslate"><span class="pre">csv</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentcsv" title="yadg.parsers.chromtrace.agilentcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentcsv</span></code></a></p></li>
-<li><p>Agilent OpenLab binary signal (<code class="docutils literal notranslate"><span class="pre">ch</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch" title="yadg.parsers.chromtrace.agilentch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentch</span></code></a></p></li>
-<li><p>Agilent OpenLab data archive (<code class="docutils literal notranslate"><span class="pre">dx</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentdx" title="yadg.parsers.chromtrace.agilentdx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentdx</span></code></a></p></li>
-<li><p>Inficon Fusion JSON format (<code class="docutils literal notranslate"><span class="pre">json</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjson" title="yadg.parsers.chromtrace.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionjson</span></code></a></p></li>
-<li><p>Inficon Fusion zip archive (<code class="docutils literal notranslate"><span class="pre">zip</span></code>) <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionzip" title="yadg.parsers.chromtrace.fusionzip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionzip</span></code></a></p></li>
+<li><p>EZ-Chrom ASCII export (<code class="docutils literal notranslate"><span class="pre">ezchrom.asc</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.ezchromasc" title="yadg.parsers.chromtrace.ezchromasc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ezchromasc</span></code></a></p></li>
+<li><p>Agilent Chemstation Chromtab (<code class="docutils literal notranslate"><span class="pre">agilent.csv</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentcsv" title="yadg.parsers.chromtrace.agilentcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentcsv</span></code></a></p></li>
+<li><p>Agilent OpenLab binary signal (<code class="docutils literal notranslate"><span class="pre">agilent.ch</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentch" title="yadg.parsers.chromtrace.agilentch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentch</span></code></a></p></li>
+<li><p>Agilent OpenLab data archive (<code class="docutils literal notranslate"><span class="pre">agilent.dx</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.agilentdx" title="yadg.parsers.chromtrace.agilentdx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agilentdx</span></code></a></p></li>
+<li><p>Inficon Fusion JSON format (<code class="docutils literal notranslate"><span class="pre">fusion.json</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjson" title="yadg.parsers.chromtrace.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionjson</span></code></a></p></li>
+<li><p>Inficon Fusion zip archive (<code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionzip" title="yadg.parsers.chromtrace.fusionzip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionzip</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="provides">
 <span id="yadg-parsers-chromtrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace`</span></code> loads the chromatographic data from the specified
-file, determines the uncertainties of the signal (y-axis), and explicitly
-populates the points in the time axis (x-axis), when required. This raw data is
-stored, for each timestep, using the following format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<p>The raw data is stored, for each timestep, using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="w">  </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">        </span><span class="c1"># detector name from the raw data file</span><span class="w"></span>
 <span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w">               </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># detector id for matching with calibration data</span><span class="w"></span>
@@ -253,6 +254,11 @@ stored, for each timestep, using the following format:</p>
 <p class="admonition-title">Note</p>
 <p>To parse processed data in the raw data files, such as integrated peak areas or
 concentrations, use the <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser instead.</p>
+</div>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The below functionality has been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working
+in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
 </div>
 <p>The data processing performed by <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> is enabled
 automatically when calibration information is provided. The resulting data is stored
@@ -773,7 +779,7 @@ supported file formats return full date.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="yadg.parsers.electrochem.html" class="btn btn-neutral float-left" title="electrochem: Electrochemistry data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-right" title="chromdata: Processed chromatography data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-right" title="chromdata: Post-processed chromatography data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

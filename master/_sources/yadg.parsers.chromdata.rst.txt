@@ -1,5 +1,5 @@
-**chromdata**: Processed chromatography data parser
-===================================================
+**chromdata**: Post-processed chromatography data parser
+========================================================
 
 .. automodule:: yadg.parsers.chromdata
    :members:
@@ -9,32 +9,36 @@
 Submodules
 ----------
 
-yadg.parsers.chromdata.fusioncsv module
----------------------------------------
+
+.. automodule:: yadg.parsers.chromdata.empalccsv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.parsers.chromdata.empalcxlsx
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 .. automodule:: yadg.parsers.chromdata.fusioncsv
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.chromdata.fusionjson module
-----------------------------------------
 
 .. automodule:: yadg.parsers.chromdata.fusionjson
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.chromdata.fusionzip module
----------------------------------------
 
 .. automodule:: yadg.parsers.chromdata.fusionzip
    :members:
    :undoc-members:
    :show-inheritance:
 
-yadg.parsers.chromdata.main module
-----------------------------------
 
 .. automodule:: yadg.parsers.chromdata.main
    :members:

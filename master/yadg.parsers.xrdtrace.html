@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xrdtrace: X-ray diffractogram parser &mdash; yadg master documentation</title>
+  <title>xrdtrace: X-ray diffractogram trace file parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -22,8 +22,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="masstrace: Mass spectrometry parser" href="yadg.parsers.masstrace.html" />
-    <link rel="prev" title="xpstrace: X-ray photoelectron spectrum file parser" href="yadg.parsers.xpstrace.html" /> 
+    <link rel="next" title="masstrace: Mass spectroscopy trace file parser" href="yadg.parsers.masstrace.html" />
+    <link rel="prev" title="xpstrace: XPS trace file parser" href="yadg.parsers.xpstrace.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,28 +57,27 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>xrdtrace</strong>: X-ray diffractogram parser</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#formats">Formats</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.xrdtrace.common">Submodules</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="#panalyticalcsv-processing-of-panalytical-xrd-csv-files">panalyticalcsv: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">csv</span></code> files</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#panalyticalxrdml-processing-of-panalytical-xrd-xml-files">panalyticalxrdml: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xml</span></code> files</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#panalyticalxy-processing-of-panalytical-xrd-xy-files">panalyticalxy: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xy</span></code> files</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.xrdtrace.common">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -107,7 +106,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
-      <li><strong>xrdtrace</strong>: X-ray diffractogram parser</li>
+      <li><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.xrdtrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -118,13 +117,14 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.xrdtrace">
-<span id="xrdtrace-x-ray-diffractogram-parser"></span><h1><strong>xrdtrace</strong>: X-ray diffractogram parser<a class="headerlink" href="#module-yadg.parsers.xrdtrace" title="Permalink to this headline"></a></h1>
+<span id="xrdtrace-x-ray-diffractogram-trace-file-parser"></span><h1><strong>xrdtrace</strong>: X-ray diffractogram trace file parser<a class="headerlink" href="#module-yadg.parsers.xrdtrace" title="Permalink to this headline"></a></h1>
 <p>This module handles the reading and processing of X-ray diffraction data.</p>
+<p><a class="reference internal" href="#module-yadg.parsers.xrdtrace" title="yadg.parsers.xrdtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xrdtrace</span></code></a> loads X-ray diffraction data, determines reasonable
+uncertainties of the signal intensity (y-axis), and explicitly populates the angle
+axis (<span class="math notranslate nohighlight">\(2\theta\)</span>), if necessary.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The usage of <a class="reference internal" href="#module-yadg.parsers.xrdtrace" title="yadg.parsers.xrdtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xrdtrace</span></code></a> can be specified by supplying
-<code class="docutils literal notranslate"><span class="pre">xrdtrace</span></code> as an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword of the <cite>dataschema</cite>.
-The parser supports the following parameters:</p>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>. The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-xrdtrace-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.XRDTrace.Params" title="Permalink to this definition"></a></dt>
@@ -158,21 +158,21 @@ The parser supports the following parameters:</p>
 </section>
 <section id="formats">
 <span id="yadg-parsers-xrdtrace-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
-<p>The currently supported file formats are:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">filetypes</span></code> currently supported by the parser are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xrdml</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxrdml" title="yadg.parsers.xrdtrace.panalyticalxrdml"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxrdml</span></code></a></p></li>
-<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">csv</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalcsv" title="yadg.parsers.xrdtrace.panalyticalcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalcsv</span></code></a></p></li>
-<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xy</span></code> files: <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxy" title="yadg.parsers.xrdtrace.panalyticalxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxy</span></code></a></p></li>
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xrdml</span></code> files (<code class="docutils literal notranslate"><span class="pre">panalytical.xrdml</span></code>),
+see <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxrdml" title="yadg.parsers.xrdtrace.panalyticalxrdml"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxrdml</span></code></a></p></li>
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">csv</span></code> files (<code class="docutils literal notranslate"><span class="pre">panalytical.csv</span></code>),
+see <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalcsv" title="yadg.parsers.xrdtrace.panalyticalcsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalcsv</span></code></a></p></li>
+<li><p>PANalytical <code class="docutils literal notranslate"><span class="pre">xy</span></code> files (<code class="docutils literal notranslate"><span class="pre">panalytical.xy</span></code>),
+see <a class="reference internal" href="#module-yadg.parsers.xrdtrace.panalyticalxy" title="yadg.parsers.xrdtrace.panalyticalxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">panalyticalxy</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="provides">
 <span id="yadg-parsers-xrdtrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="#module-yadg.parsers.xrdtrace" title="yadg.parsers.xrdtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xrdtrace</span></code></a> loads X-ray diffraction data, determines reasonable
-uncertainties of the signal intensity (y-axis), and explicitly populates the angle
-axis (<span class="math notranslate nohighlight">\(2\theta\)</span>), if necessary. This raw data is stored, for each timestep,
-using the following format:</p>
+<p>The raw data is stored, for each timestep, using the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="c1"># number of the trace</span><span class="w"></span>
@@ -428,8 +428,8 @@ For .xy files tag is never specified.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-left" title="xpstrace: X-ray photoelectron spectrum file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.masstrace.html" class="btn btn-neutral float-right" title="masstrace: Mass spectrometry parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-left" title="xpstrace: XPS trace file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.masstrace.html" class="btn btn-neutral float-right" title="masstrace: Mass spectroscopy trace file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

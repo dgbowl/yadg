@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qftrace: VNA trace parser &mdash; yadg master documentation</title>
+  <title>qftrace: Network analyser trace file parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -22,8 +22,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="xpstrace: X-ray photoelectron spectrum file parser" href="yadg.parsers.xpstrace.html" />
-    <link rel="prev" title="chromdata: Processed chromatography data parser" href="yadg.parsers.chromdata.html" /> 
+    <link rel="next" title="xpstrace: XPS trace file parser" href="yadg.parsers.xpstrace.html" />
+    <link rel="prev" title="chromdata: Post-processed chromatography data parser" href="yadg.parsers.chromdata.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,30 +57,30 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>qftrace</strong>: VNA trace parser</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.qftrace.fit">Submodules</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="#fit-quality-factor-fitting-routines"><strong>fit</strong>: Quality factor fitting routines.</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#labviewcsv-processing-labview-csv-files-generated-using-agilent-pna-l-n5320c"><strong>labviewcsv</strong>: Processing LabView CSV files generated using Agilent PNA-L N5320C.</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>qftrace</strong>: Network analyser trace file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.qftrace.fit">Submodules</a></li>
 </ul>
 </li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +105,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
-      <li><strong>qftrace</strong>: VNA trace parser</li>
+      <li><strong>qftrace</strong>: Network analyser trace file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.qftrace.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,24 +116,16 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.qftrace">
-<span id="qftrace-vna-trace-parser"></span><h1><strong>qftrace</strong>: VNA trace parser<a class="headerlink" href="#module-yadg.parsers.qftrace" title="Permalink to this headline"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">qftrace</span></code> parser handles the reading and processing of the network analyzer
+<span id="qftrace-network-analyser-trace-file-parser"></span><h1><strong>qftrace</strong>: Network analyser trace file parser<a class="headerlink" href="#module-yadg.parsers.qftrace" title="Permalink to this headline"></a></h1>
+<p>The module handles the reading and processing of the network analyzer
 traces, containing the reflection coefficient as a function of the sweeped frequency,
-<span class="math notranslate nohighlight">\(\Gamma(f)\)</span>. The basic function of the parser is to:</p>
-<ol class="arabic simple">
-<li><p>read in the raw data and create timestamped <cite>traces</cite></p></li>
-<li><p>detect the peaks in each trace (<span class="math notranslate nohighlight">\(f_0\)</span>) and fit the quality factor <span class="math notranslate nohighlight">\(Q_0\)</span></p></li>
-</ol>
-<div class="admonition-deprecated-in-yadg-4-2 admonition">
-<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
-<p>The fitting of peaks and quality factors in network analyzer traces is deprecated
-as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-</div>
+<span class="math notranslate nohighlight">\(\Gamma(f)\)</span>.</p>
+<p><a class="reference internal" href="#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qftrace</span></code></a> loads the reflection trace data, determines the
+uncertainties of the signal (y-axis), and explicitly populates the points in
+the time axis (x-axis).</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <a class="reference internal" href="#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qftrace</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">qftrace</span></code> as
-an argument to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword in the <cite>dataschema</cite>. The parser supports the
-following parameters:</p>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-3.0</span></code>. The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-qftrace-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.QFTrace.Params" title="Permalink to this definition"></a></dt>
@@ -226,10 +218,7 @@ following parameters:</p>
 </section>
 <section id="provides">
 <span id="yadg-parsers-qftrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p><a class="reference internal" href="#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qftrace</span></code></a> loads the reflection trace data, determines the
-uncertainties of the signal (y-axis), and explicitly populates the points in
-the time axis (x-axis). This raw data is stored, for each
-timestep, using the following format:</p>
+<p>This raw data is stored, for each timestep, using the following format:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">avg</span><span class="p">:</span><span class="w">             </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># number of scans that are averaged for each trace</span><span class="w"></span>
 <span class="w">    </span><span class="nt">bw</span><span class="p">:</span><span class="w">                     </span><span class="c1"># filter bandwith used to measure the trace</span><span class="w"></span>
@@ -243,6 +232,11 @@ timestep, using the following format:</p>
 <span class="w">        </span><span class="nt">Im(Γ)</span><span class="p">:</span><span class="w">              </span><span class="c1"># imaginary part of the reflection coefficient</span><span class="w"></span>
 <span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="admonition-deprecated-in-yadg-4-2 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
+<p>The fitting of peaks and quality factors in network analyzer traces is deprecated
+as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
 </div>
 <p>The fitting of <span class="math notranslate nohighlight">\(f_0\)</span> and <span class="math notranslate nohighlight">\(Q_0\)</span> to all peaks found in each trace is
 performed by <a class="reference internal" href="#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qftrace</span></code></a> automatically, and can be adjusted by
@@ -487,8 +481,8 @@ each minimum. Two routines for trace-pruning are provided:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-left" title="chromdata: Processed chromatography data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-right" title="xpstrace: X-ray photoelectron spectrum file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-left" title="chromdata: Post-processed chromatography data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-right" title="xpstrace: XPS trace file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

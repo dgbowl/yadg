@@ -56,26 +56,30 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>meascsv</strong>: Legacy MCPT log file parser</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l5"><a class="reference internal" href="#module-yadg.parsers.meascsv.main">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>meascsv</strong>: Legacy MCPT log file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.meascsv.main">Submodules</a></li>
 </ul>
 </li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -123,9 +127,8 @@ Please consider switching to the <a class="reference internal" href="yadg.parser
 </div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>The use of <a class="reference internal" href="#module-yadg.parsers.meascsv" title="yadg.parsers.meascsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">meascsv</span></code></a> can be requested by supplying <code class="docutils literal notranslate"><span class="pre">meascsv</span></code>
-to the <code class="docutils literal notranslate"><span class="pre">parser</span></code> keyword in the <cite>dataschema</cite>. The following additional parameters
-are supported by the parser:</p>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-3.0</span></code>. Deprecated since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>. The parser supports the
+following parameters:</p>
 <span class="target" id="yadg-parsers-meascsv-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params" title="Permalink to this definition"></a></dt>
@@ -261,8 +264,9 @@ stop working in <code class="docutils literal notranslate"><span class="pre">yad
 <section id="provides">
 <span id="parsers-meascsv-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
 <p>The parser is used to extract all of the tabular data in the input file, storing
-them using the column headers as keys. The functionality exposed by this parser
-is using <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> behind the scenes.</p>
+them in the same format as <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a>, using the column headers
+as keys. The functionality exposed by this parser is using <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a>
+behind the scenes.</p>
 </section>
 <section id="module-yadg.parsers.meascsv.main">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.meascsv.main" title="Permalink to this headline"></a></h2>
@@ -271,15 +275,18 @@ is using <a class="reference internal" href="yadg.parsers.basiccsv.html#module-y
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.meascsv.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.meascsv.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Legacy MCPT measurement log parser.</p>
 <p>This parser is included to maintain parity with older schemas and datagrams.
-It is essentially a wrapper around <code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv.process_row()</span></code>.
-For new applications, please use the <cite>basiccsv</cite> parser.</p>
+It is essentially a wrapper around <a class="reference internal" href="yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.main.process_row" title="yadg.parsers.basiccsv.main.process_row"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv.main.process_row()</span></code></a>.</p>
+<div class="admonition-deprecated-in-yadg-4-0 admonition">
+<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code></p>
+<p>For new applications, please use the <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> parser.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – File to process</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCSV</span></code>.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeasCSV</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

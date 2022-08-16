@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>chromdata: Processed chromatography data parser &mdash; yadg master documentation</title>
+  <title>chromdata: Post-processed chromatography data parser &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qftrace: VNA trace parser" href="yadg.parsers.qftrace.html" />
-    <link rel="prev" title="chromtrace: Raw chromatogram trace parser" href="yadg.parsers.chromtrace.html" /> 
+    <link rel="next" title="qftrace: Network analyser trace file parser" href="yadg.parsers.qftrace.html" />
+    <link rel="prev" title="chromtrace: Raw chromatogram trace file parser" href="yadg.parsers.chromtrace.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,59 +45,49 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><strong>chromdata</strong>: Processed chromatography data parser</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#formats">Formats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#provides">Provides</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.parsers.chromdata.fusioncsv">yadg.parsers.chromdata.fusioncsv module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fusioncsv-processing-inficon-fusion-csv-export-format-csv"><strong>fusioncsv</strong>: Processing Inficon Fusion csv export format (csv).</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#exposed-metadata">Exposed metadata:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.parsers.chromdata.fusionjson">yadg.parsers.chromdata.fusionjson module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fusionjson-processing-inficon-fusion-json-data-format-json"><strong>fusionjson</strong>: Processing Inficon Fusion json data format (json).</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#id1">Exposed metadata:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.parsers.chromdata.fusionzip">yadg.parsers.chromdata.fusionzip module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#fusionzip-processing-inficon-fusion-zipped-data-format-zip"><strong>fusionzip</strong>: Processing Inficon Fusion zipped data format (zip).</a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#id2">Exposed metadata:</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-yadg.parsers.chromdata.main">yadg.parsers.chromdata.main module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>chromdata</strong>: Post-processed chromatography data parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#provides">Provides</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.chromdata.empalccsv">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -115,7 +105,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="parsers.html">Parsers available in <strong>yadg</strong></a> &raquo;</li>
-      <li><strong>chromdata</strong>: Processed chromatography data parser</li>
+      <li><strong>chromdata</strong>: Post-processed chromatography data parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.chromdata.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -126,9 +116,12 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.chromdata">
-<span id="chromdata-processed-chromatography-data-parser"></span><h1><strong>chromdata</strong>: Processed chromatography data parser<a class="headerlink" href="#module-yadg.parsers.chromdata" title="Permalink to this headline"></a></h1>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code> parser handles the reading of processed chromatography data, i.e.
+<span id="chromdata-post-processed-chromatography-data-parser"></span><h1><strong>chromdata</strong>: Post-processed chromatography data parser<a class="headerlink" href="#module-yadg.parsers.chromdata" title="Permalink to this headline"></a></h1>
+<p>This module handles the reading of post-processed chromatography data, i.e.
 files containing peak areas, concentrations, or mole fractions.</p>
+<p><a class="reference internal" href="#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> loads the processed chromatographic data from the
+specified file, including the peak heights, areas, retention times, as well as the
+concentrations and mole fractions (normalised, unitless concentrations).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To parse trace data as present in raw chromatograms, use the
@@ -136,9 +129,7 @@ files containing peak areas, concentrations, or mole fractions.</p>
 </div>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
-<p>Select <a class="reference internal" href="#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> by supplying <code class="docutils literal notranslate"><span class="pre">chromdata</span></code> to the <code class="docutils literal notranslate"><span class="pre">parser</span></code>
-keyword, starting in <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema-4.2</span></code>. The parser supports the following
-parameters:</p>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>. The parser supports the following parameters:</p>
 <span class="target" id="yadg-parsers-chromdata-model"></span><dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params" title="Permalink to this definition"></a></dt>
@@ -174,40 +165,44 @@ parameters:</p>
 </section>
 <section id="formats">
 <span id="yadg-parsers-chromdata-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
-<p>The formats currently supported by the parser are:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">filetypes</span></code> currently supported by the parser are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Inficon Fusion JSON format (<code class="docutils literal notranslate"><span class="pre">json</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionjson" title="yadg.parsers.chromdata.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionjson</span></code></a></p></li>
-<li><p>Inficon Fusion zip archive (<code class="docutils literal notranslate"><span class="pre">zip</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionzip" title="yadg.parsers.chromdata.fusionzip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionzip</span></code></a></p></li>
-<li><p>Inficon Fusion csv export (<code class="docutils literal notranslate"><span class="pre">csv</span></code>): <a class="reference internal" href="#module-yadg.parsers.chromdata.fusioncsv" title="yadg.parsers.chromdata.fusioncsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusioncsv</span></code></a></p></li>
-<li><p>Empa’s Agilent LC csv export (<code class="docutils literal notranslate"><span class="pre">csv</span></code>): :mod`~yadg.parsers.chromdata.empalccsv`</p></li>
-<li><p>Empa’s Agilent LC excel export (<code class="docutils literal notranslate"><span class="pre">xlsx</span></code>): :mod`~yadg.parsers.chromdata.empalcxlsx`</p></li>
+<li><p>Inficon Fusion JSON format (<code class="docutils literal notranslate"><span class="pre">fusion.json</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionjson" title="yadg.parsers.chromdata.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionjson</span></code></a></p></li>
+<li><p>Inficon Fusion zip archive (<code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionzip" title="yadg.parsers.chromdata.fusionzip"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusionzip</span></code></a></p></li>
+<li><p>Inficon Fusion csv export (<code class="docutils literal notranslate"><span class="pre">fusion.csv</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromdata.fusioncsv" title="yadg.parsers.chromdata.fusioncsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fusioncsv</span></code></a></p></li>
+<li><p>Empa’s Agilent LC csv export (<code class="docutils literal notranslate"><span class="pre">empalc.csv</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromdata.empalccsv" title="yadg.parsers.chromdata.empalccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">empalccsv</span></code></a></p></li>
+<li><p>Empa’s Agilent LC excel export (<code class="docutils literal notranslate"><span class="pre">empalc.xlsx</span></code>):
+see <a class="reference internal" href="#module-yadg.parsers.chromdata.empalcxlsx" title="yadg.parsers.chromdata.empalcxlsx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">empalcxlsx</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="provides">
 <span id="yadg-parsers-chromdata-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
-<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata`</span></code> loads the processed chromatographic data from the
-specified file, including the peak height, and area, as well as the concentration
-and mole fraction (normalised, unitless concentration). This raw data is stored,
-for each timestep, using the following format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">             </span><span class="c1"># sample name or valve ID</span><span class="w"></span>
-<span class="w">  </span><span class="nt">height</span><span class="p">:</span><span class="w">                     </span><span class="c1"># heights of the peak maxima</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">area</span><span class="p">:</span><span class="w">                       </span><span class="c1"># integrated areas of the peaks</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">concentration</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">xout</span><span class="p">:</span><span class="w">                       </span><span class="c1"># mole fractions (normalised concentrations)</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">  </span><span class="nt">retention time</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<p>This raw data is stored, for each timestep, using the following format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
+<span class="w">  </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">             </span><span class="c1"># sample name or valve ID</span><span class="w"></span>
+<span class="w">    </span><span class="nt">height</span><span class="p">:</span><span class="w">                     </span><span class="c1"># heights of the peak maxima</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">area</span><span class="p">:</span><span class="w">                       </span><span class="c1"># integrated areas of the peaks</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">concentration</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">xout</span><span class="p">:</span><span class="w">                       </span><span class="c1"># mole fractions (normalised concentrations)</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">retention time</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="nv"> </span><span class="s">&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -217,12 +212,97 @@ one outlet stream, or if some analytes remain unidentified, the values in
 <code class="docutils literal notranslate"><span class="pre">xout</span></code> will not be accurate.</p>
 </div>
 </section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<section id="module-yadg.parsers.chromdata.empalccsv">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.chromdata.empalccsv" title="Permalink to this headline"></a></h2>
+<section id="empalccsv-processing-empa-s-online-lc-exported-data-csv">
+<h3><strong>empalccsv</strong>: Processing Empa’s online LC exported data (csv)<a class="headerlink" href="#empalccsv-processing-empa-s-online-lc-exported-data-csv" title="Permalink to this headline"></a></h3>
+<p>This is a structured format produced by the export from Agilent’s Online LC device
+at Empa. It contains three sections:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>metadata section,</p></li>
+<li><p>table containing sampling information,</p></li>
+<li><p>table containing analysed chromatography data.</p></li>
+</ul>
+</div></blockquote>
+<section id="exposed-metadata">
+<h4>Exposed metadata:<a class="headerlink" href="#exposed-metadata" title="Permalink to this headline"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.chromdata.empalccsv.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromdata.empalccsv.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromdata.empalccsv.process" title="Permalink to this definition"></a></dt>
+<dd><p>Fusion csv export format.</p>
+<p>Multiple chromatograms per file, with multiple detectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding used to open the file.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>([chrom], metadata, fulldate)</strong> – Standard timesteps, metadata, and date tuple.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-yadg.parsers.chromdata.fusioncsv">
-<span id="yadg-parsers-chromdata-fusioncsv-module"></span><h2>yadg.parsers.chromdata.fusioncsv module<a class="headerlink" href="#module-yadg.parsers.chromdata.fusioncsv" title="Permalink to this headline"></a></h2>
-<section id="fusioncsv-processing-inficon-fusion-csv-export-format-csv">
+</section>
+<span class="target" id="module-yadg.parsers.chromdata.empalcxlsx"></span><section id="empalcxlsx-processing-empa-s-online-lc-exported-data-xlsx">
+<h3><strong>empalcxlsx</strong>: Processing Empa’s online LC exported data (xlsx)<a class="headerlink" href="#empalcxlsx-processing-empa-s-online-lc-exported-data-xlsx" title="Permalink to this headline"></a></h3>
+<p>This is a structured format produced by the export from Agilent’s Online LC device
+at Empa. It contains three sections:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>metadata section,</p></li>
+<li><p>table containing sampling information,</p></li>
+<li><p>table containing analysed chromatography data.</p></li>
+</ul>
+</div></blockquote>
+<section id="id1">
+<h4>Exposed metadata:<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w"></span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.chromdata.empalcxlsx.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromdata.empalcxlsx.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromdata.empalcxlsx.process" title="Permalink to this definition"></a></dt>
+<dd><p>Fusion xlsx export format.</p>
+<p>Multiple chromatograms per file, with multiple detectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding used to open the file.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>([chrom], metadata, fulldate)</strong> – Standard timesteps, metadata, and date tuple.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<span class="target" id="module-yadg.parsers.chromdata.fusioncsv"></span><section id="fusioncsv-processing-inficon-fusion-csv-export-format-csv">
 <h3><strong>fusioncsv</strong>: Processing Inficon Fusion csv export format (csv).<a class="headerlink" href="#fusioncsv-processing-inficon-fusion-csv-export-format-csv" title="Permalink to this headline"></a></h3>
 <p>This is a tabulated format, including the concentrations, mole fractions, peak
 areas, and retention times. The latter is ignored by this parser.</p>
@@ -232,8 +312,8 @@ areas, and retention times. The latter is ignored by this parser.</p>
 is discouraged, and the <code class="docutils literal notranslate"><span class="pre">json</span></code> files (or a zipped archive of them) should
 be parsed instead.</p>
 </div>
-<section id="exposed-metadata">
-<h4>Exposed metadata:<a class="headerlink" href="#exposed-metadata" title="Permalink to this headline"></a></h4>
+<section id="id2">
+<h4>Exposed metadata:<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
@@ -265,10 +345,7 @@ be parsed instead.</p>
 
 </section>
 </section>
-</section>
-<section id="module-yadg.parsers.chromdata.fusionjson">
-<span id="yadg-parsers-chromdata-fusionjson-module"></span><h2>yadg.parsers.chromdata.fusionjson module<a class="headerlink" href="#module-yadg.parsers.chromdata.fusionjson" title="Permalink to this headline"></a></h2>
-<section id="fusionjson-processing-inficon-fusion-json-data-format-json">
+<span class="target" id="module-yadg.parsers.chromdata.fusionjson"></span><section id="fusionjson-processing-inficon-fusion-json-data-format-json">
 <h3><strong>fusionjson</strong>: Processing Inficon Fusion json data format (json).<a class="headerlink" href="#fusionjson-processing-inficon-fusion-json-data-format-json" title="Permalink to this headline"></a></h3>
 <p>This is a fairly detailed data format, including the traces, the calibration applied,
 and also the integrated peak areas and other processed information, which are parsed
@@ -284,8 +361,8 @@ avoid inconsistent parsing of species which appear in both detectors, the
 detector keys are sorted. <strong>Species present in both detectors</strong> will be
 <strong>overwritten by the last detector</strong> in alphabetical order.</p>
 </div>
-<section id="id1">
-<h4>Exposed metadata:<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+<section id="id3">
+<h4>Exposed metadata:<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
@@ -319,16 +396,13 @@ detector names, and information about assigned peaks.</p>
 
 </section>
 </section>
-</section>
-<section id="module-yadg.parsers.chromdata.fusionzip">
-<span id="yadg-parsers-chromdata-fusionzip-module"></span><h2>yadg.parsers.chromdata.fusionzip module<a class="headerlink" href="#module-yadg.parsers.chromdata.fusionzip" title="Permalink to this headline"></a></h2>
-<section id="fusionzip-processing-inficon-fusion-zipped-data-format-zip">
+<span class="target" id="module-yadg.parsers.chromdata.fusionzip"></span><section id="fusionzip-processing-inficon-fusion-zipped-data-format-zip">
 <h3><strong>fusionzip</strong>: Processing Inficon Fusion zipped data format (zip).<a class="headerlink" href="#fusionzip-processing-inficon-fusion-zipped-data-format-zip" title="Permalink to this headline"></a></h3>
 <p>This is a wrapper parser which unzips the provided zip file, and then uses
 the <a class="reference internal" href="#module-yadg.parsers.chromdata.fusionjson" title="yadg.parsers.chromdata.fusionjson"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromdata.fusionjson</span></code></a> parser to parse every data
 file present in the archive.</p>
-<section id="id2">
-<h4>Exposed metadata:<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+<section id="id4">
+<h4>Exposed metadata:<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h4>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
 <span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
 <span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
@@ -362,10 +436,7 @@ without the user having to unzip &amp; move the data.</p>
 
 </section>
 </section>
-</section>
-<section id="module-yadg.parsers.chromdata.main">
-<span id="yadg-parsers-chromdata-main-module"></span><h2>yadg.parsers.chromdata.main module<a class="headerlink" href="#module-yadg.parsers.chromdata.main" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+<span class="target" id="module-yadg.parsers.chromdata.main"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromdata.main.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromdata.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromdata.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified chromatographic data parser.</p>
@@ -395,8 +466,8 @@ supported file formats return full date.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.chromtrace.html" class="btn btn-neutral float-left" title="chromtrace: Raw chromatogram trace parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-right" title="qftrace: VNA trace parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.chromtrace.html" class="btn btn-neutral float-left" title="chromtrace: Raw chromatogram trace file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.qftrace.html" class="btn btn-neutral float-right" title="qftrace: Network analyser trace file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

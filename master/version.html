@@ -62,7 +62,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -104,21 +104,31 @@
 <p>New features since v4.1 are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser for parsing integrated chromatography data,</p></li>
+<li><p><a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser for parsing post-processed chromatography data.</p></li>
 </ul>
 </div></blockquote>
-<p>Bug fixes and other modifications include:</p>
+<p>Backwards-incompatible changes include:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>the <code class="docutils literal notranslate"><span class="pre">drycal</span></code> filetypes in <a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.flowdata</span></code></a> should now work for
-overnight experiments;</p></li>
 <li><p>the <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser now focuses on parsing chromatography
-traces only, with trace integration deprecated in favour of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>;</p></li>
+traces only, use <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> for parsing post-processed chromatographic
+data;</p></li>
 <li><p>the <a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> parser now no longer creates a default <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code>
 entry in derived data;</p></li>
-<li><p>the <code class="docutils literal notranslate"><span class="pre">calfile</span></code> and <code class="docutils literal notranslate"><span class="pre">calib</span></code> parameters have been deprecated in favour of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>;</p></li>
+<li><p>data post-processing within <a class="reference internal" href="yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a>, including chromatographic trace integration,
+reflection coefficient processing, and calibration functionality is deprecated in favour
+of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">drycal</span></code> filetypes in <a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> should now work for
+overnight experiments;</p></li>
 <li><p>the metadata in <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> and <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a>
 was modified to only include true metadata as opposed to sample data;</p></li>
+<li><p>the <a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser now allows for toggling the transposing
+of PEIS/GEIS traces.</p></li>
 </ul>
 </div></blockquote>
 </section>

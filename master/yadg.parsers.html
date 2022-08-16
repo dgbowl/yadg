@@ -55,21 +55,25 @@
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html"><strong>yadg</strong> autodocs</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">yadg.parsers package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -93,7 +97,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="yadg.html"><strong>yadg</strong> autodocs</a> &raquo;</li>
+          <li><a href="yadg.html">yadg package</a> &raquo;</li>
       <li>yadg.parsers package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/yadg.parsers.rst.txt" rel="nofollow"> View page source</a>
@@ -106,20 +110,192 @@
              
   <section id="module-yadg.parsers">
 <span id="yadg-parsers-package"></span><h1>yadg.parsers package<a class="headerlink" href="#module-yadg.parsers" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectrometry parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: VNA trace parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: X-ray photoelectron spectrum file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv.main">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromdata.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromdata.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromdata.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata.empalccsv">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromdata.html#empalccsv-processing-empa-s-online-lc-exported-data-csv"><strong>empalccsv</strong>: Processing Empa’s online LC exported data (csv)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#exposed-metadata">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromdata.html#empalcxlsx-processing-empa-s-online-lc-exported-data-xlsx"><strong>empalcxlsx</strong>: Processing Empa’s online LC exported data (xlsx)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#id1">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromdata.html#fusioncsv-processing-inficon-fusion-csv-export-format-csv"><strong>fusioncsv</strong>: Processing Inficon Fusion csv export format (csv).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#id2">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromdata.html#fusionjson-processing-inficon-fusion-json-data-format-json"><strong>fusionjson</strong>: Processing Inficon Fusion json data format (json).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#id3">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromdata.html#fusionzip-processing-inficon-fusion-zipped-data-format-zip"><strong>fusionzip</strong>: Processing Inficon Fusion zipped data format (zip).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#id4">Exposed metadata:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentch">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#agilentch-processing-agilent-openlab-binary-signal-trace-files-ch-and-it"><strong>agilentch</strong>: Processing Agilent OpenLab binary signal trace files (CH and IT).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#exposed-metadata">Exposed metadata:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#file-structure-of-ch-files">File Structure of <code class="docutils literal notranslate"><span class="pre">.ch</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#agilentcsv-processing-agilent-chemstation-chromtab-tabulated-data-files-csv"><strong>agilentcsv</strong>: Processing Agilent Chemstation Chromtab tabulated data files (csv).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#id1">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#agilentch-processing-agilent-openlab-data-archive-files-dx"><strong>agilentch</strong>: Processing Agilent OpenLab data archive files (DX).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#id2">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#ezchromasc-processing-ez-chrom-ascii-export-files-dat-asc"><strong>ezchromasc</strong>: Processing EZ-Chrom ASCII export files (dat.asc).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#id3">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#fusionjson-processing-inficon-fusion-json-data-format-json"><strong>fusionjson</strong>: Processing Inficon Fusion json data format (json).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#id4">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#fusionzip-processing-inficon-fusion-zipped-data-format-zip"><strong>fusionzip</strong>: Processing Inficon Fusion zipped data format (zip).</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#id5">Exposed metadata:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.chromtrace.html#integration-routines-for-chromatogram-integration"><strong>integration</strong>: Routines for chromatogram integration.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#smoothing">Smoothing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#peak-picking-and-edge-finding">Peak-picking and edge-finding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#baseline-correction">Baseline correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#peak-integration">Peak integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.dummy.html#module-yadg.parsers.dummy.main">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.eclabmpr">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html#eclabmpr-processing-of-biologic-s-ec-lab-binary-modular-files"><strong>eclabmpr</strong>: Processing of BioLogic’s EC-Lab binary modular files.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#file-structure-of-mpr-files">File Structure of <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#metadata">Metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files"><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#file-structure-of-mpt-files">File Structure of <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#id1">Metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html#tomatojson-processing-of-tomato-electrochemistry-outputs"><strong>tomatojson</strong>: Processing of tomato electrochemistry outputs.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata.drycal">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.flowdata.html#drycal-file-parser-for-drycal-log-files"><strong>drycal</strong>: File parser for DryCal log files.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.masstrace.html#module-yadg.parsers.masstrace.main">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.masstrace.html#quadstarsac-processing-of-quadstar-32-bit-scan-analog-data"><strong>quadstarsac</strong>: Processing of Quadstar 32-bit scan analog data.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#file-structure-of-sac-files">File Structure of <cite>.sac</cite> Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#structure-of-parsed-timesteps">Structure of Parsed Timesteps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.meascsv.html#module-yadg.parsers.meascsv.main">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.fit">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.qftrace.html#fit-quality-factor-fitting-routines"><strong>fit</strong>: Quality factor fitting routines.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.qftrace.html#labviewcsv-processing-labview-csv-files-generated-using-agilent-pna-l-n5320c"><strong>labviewcsv</strong>: Processing LabView CSV files generated using Agilent PNA-L N5320C.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace.main">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xpstrace.html#phispe-processing-of-ulvac-phi-multipak-xps-traces"><strong>phispe</strong>: Processing of ULVAC PHI Multipak XPS traces.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#file-structure-of-spe-files">File Structure of <cite>.spe</cite> Files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#structure-of-parsed-data">Structure of Parsed Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html#formats">Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html#provides">Provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.common">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xrdtrace.html#panalyticalcsv-processing-of-panalytical-xrd-csv-files">panalyticalcsv: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">csv</span></code> files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#file-structure">File Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#structure-of-parsed-timesteps">Structure of Parsed Timesteps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xrdtrace.html#panalyticalxrdml-processing-of-panalytical-xrd-xml-files">panalyticalxrdml: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xml</span></code> files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#id1">File Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#id2">Structure of Parsed Timesteps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.xrdtrace.html#panalyticalxy-processing-of-panalytical-xrd-xy-files">panalyticalxy: Processing of PANalytical XRD <code class="docutils literal notranslate"><span class="pre">xy</span></code> files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#id3">File Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#id4">Structure of Parsed Timesteps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
+</section>
 </section>
 
 

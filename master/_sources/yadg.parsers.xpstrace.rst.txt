@@ -1,5 +1,5 @@
-**xpstrace**: X-ray photoelectron spectrum file parser
-======================================================
+**xpstrace**: XPS trace file parser
+===================================
 
 .. automodule:: yadg.parsers.xpstrace
    :members:

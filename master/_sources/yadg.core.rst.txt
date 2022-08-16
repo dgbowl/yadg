@@ -6,6 +6,9 @@ yadg.core package
    :undoc-members:
    :show-inheritance:
 
+Submodules
+----------
+
 
 .. automodule:: yadg.core.process
    :members:

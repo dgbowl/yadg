@@ -1,5 +1,5 @@
-**qftrace**: VNA trace parser
-=============================
+**qftrace**: Network analyser trace file parser
+===============================================
 
 .. automodule:: yadg.parsers.qftrace
    :members:

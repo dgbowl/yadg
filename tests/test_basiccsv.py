@@ -355,7 +355,7 @@ from tests.utils import (
                 "parameters": {
                     "sep": ",",
                     "timestamp": {"uts": {"index": 0}},
-                    "strip": "\"",
+                    "strip": '"',
                     "units": {
                         "Outside Last (C)": "degC",
                         "Outside Ave. (C)": "degC",
@@ -369,7 +369,7 @@ from tests.utils import (
                         "Inside_Nafion_TCK02 Ave. (C)": "degC",
                         "Inside_Nafion_TCK02 Min. (C)": "degC",
                         "Inside_Nafion_TCK02 Max. (C)": "degC",
-                    }
+                    },
                 },
             },
             {

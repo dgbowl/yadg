@@ -179,13 +179,18 @@ def process(
         dgutils.helpers.deprecated("parameters.convert")
         calib.update(parameters.convert)
 
+    if hasattr(parameters, "strip"):
+        strip = parameters.strip
+    else:
+        strip = None
+
     # Load file, extract headers and get timestamping function
     with open(fn, "r", encoding=encoding) as infile:
         # This decode/encode is done to account for some csv files that have a BOM
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
-    headers = [header.strip() for header in lines[0].split(parameters.sep)]
+    headers = [h.strip(strip) for h in lines[0].split(parameters.sep)]
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone
     )
@@ -194,7 +199,7 @@ def process(
     units = parameters.units
     if units is None:
         units = {}
-        _units = [column.strip() for column in lines[1].split(parameters.sep)]
+        _units = [c.strip(strip) for c in lines[1].split(parameters.sep)]
         for header in headers:
             units[header] = _units.pop(0)
         si = 2
@@ -216,7 +221,7 @@ def process(
     for line in lines[si:]:
         element = process_row(
             headers,
-            line.split(parameters.sep),
+            [i.strip(strip) for i in line.split(parameters.sep)],
             units,
             datefunc,
             datecolumns,

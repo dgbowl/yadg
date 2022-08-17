@@ -348,9 +348,49 @@ from tests.utils import (
                 },
             },
         ),
+        (
+            {  # ts16
+                "case": "picolog_temperature.csv",
+                "version": "4.2",
+                "parameters": {
+                    "sep": ",",
+                    "timestamp": {"uts": {"index": 0}},
+                    "strip": '"',
+                    "units": {
+                        "Outside Last (C)": "degC",
+                        "Outside Ave. (C)": "degC",
+                        "Outside Min. (C)": "degC",
+                        "Outside Max. (C)": "degC",
+                        "Inside_GDE_TCK01 Last (C)": "degC",
+                        "Inside_GDE_TCK01 Ave. (C)": "degC",
+                        "Inside_GDE_TCK01 Min. (C)": "degC",
+                        "Inside_GDE_TCK01 Max. (C)": "degC",
+                        "Inside_Nafion_TCK02 Last (C)": "degC",
+                        "Inside_Nafion_TCK02 Ave. (C)": "degC",
+                        "Inside_Nafion_TCK02 Min. (C)": "degC",
+                        "Inside_Nafion_TCK02 Max. (C)": "degC",
+                    },
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 2470,
+                "point": 2469,
+                "pars": {
+                    "Outside Last (C)": {
+                        "sigma": 0.01,
+                        "value": 26.14,
+                        "unit": "degC",
+                        "raw": True,
+                    }
+                },
+            },
+        ),
     ],
 )
 def test_datagram_from_basiccsv(input, ts, datadir):
-    ret = datagram_from_input(input, "basiccsv", datadir)
+    ver = input.pop("version", "4.0")
+    ret = datagram_from_input(input, "basiccsv", datadir, version=ver)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)

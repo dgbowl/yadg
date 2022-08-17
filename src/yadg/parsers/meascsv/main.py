@@ -21,7 +21,7 @@ def process(
     It is essentially a wrapper around :func:`yadg.parsers.basiccsv.main.process_row`.
 
     .. admonition:: DEPRECATED in ``yadg-4.0``
-    
+
         For new applications, please use the :mod:`~yadg.parsers.basiccsv` parser.
 
     Parameters

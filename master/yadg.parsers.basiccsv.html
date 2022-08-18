@@ -120,6 +120,12 @@
 the first line contains the column headers. By default, the second should contain
 the units. The columns of the table must be separated using a separator such as
 <code class="docutils literal notranslate"><span class="pre">,</span></code>, <code class="docutils literal notranslate"><span class="pre">;</span></code>, or <code class="docutils literal notranslate"><span class="pre">\t</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>, the parser handles sparse tables (i.e. tables with missing
+data) by creating sparse <cite>datagrams</cite>, which means that the each element of the
+header might not be present in each timestep.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> attempts to deduce the timestamp from the column

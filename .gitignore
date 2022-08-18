@@ -7,4 +7,4 @@ dist/
 *.egg
 build/
 public/
-docs/source/yadg*.rst
+docs/source/apidoc/

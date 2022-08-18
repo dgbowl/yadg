@@ -426,7 +426,7 @@ from tests.utils import (
                     "Inside_Nafion_TCK02 Max. (C)": {
                         "value": None,
                         "raw": True,
-                    }
+                    },
                 },
             },
         ),

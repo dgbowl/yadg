@@ -21,8 +21,8 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. admonition:: DEPRECATED in ``yadg-4.2``
 
-    The ``convert`` and ``calfile`` parameters are deprecated as of ``yadg-4.2``
-    and will stop working in ``yadg-5.0``.
+    The ``sigma``,  ``convert`` and ``calfile`` parameters are deprecated as of 
+    ``yadg-4.2`` and will stop working in ``yadg-5.0``.
 
 Provides
 ````````

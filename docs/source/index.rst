@@ -25,13 +25,12 @@ You can read more about yadg in our paper: [Kraus2022b]_.
 .. toctree::
    :maxdepth: 3
    :caption: yadg user manual
-   :hidden:
 
    usage
    features
-   parsers
    citing
 
+.. include:: parsers.rst
 
 .. toctree::
    :maxdepth: 1
@@ -41,4 +40,4 @@ You can read more about yadg in our paper: [Kraus2022b]_.
    devdocs
    version
    objects
-   yadg
+   apidoc/yadg

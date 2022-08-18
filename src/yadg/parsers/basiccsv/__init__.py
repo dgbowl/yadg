@@ -4,6 +4,12 @@ the first line contains the column headers. By default, the second should contai
 the units. The columns of the table must be separated using a separator such as 
 ``,``, ``;``, or ``\\t``. 
 
+.. warning::
+
+  Since ``yadg-4.2``, the parser handles sparse tables (i.e. tables with missing 
+  data) by creating sparse `datagrams`, which means that the each element of the 
+  header might not be present in each timestep.
+
 .. note::
 
   :mod:`~yadg.parsers.basiccsv` attempts to deduce the timestamp from the column 

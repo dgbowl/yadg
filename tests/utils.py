@@ -147,13 +147,16 @@ def pars_datagram_test(datagram, testspec):
     for tk, tv in testspec["pars"].items():
         if tk != "uts":
             rd = "raw" if tv.get("raw", True) else "derived"
-            assert (
-                len(tstep[rd][tk].keys()) == 3
-            ), "value not in [val, dev, unit] format"
-            compare_result_dicts(
-                tstep[rd][tk],
-                {"n": tv["value"], "s": tv["sigma"], "u": tv["unit"]},
-            )
+            if tk not in tstep[rd]:
+                assert tv["value"] is None
+            else:
+                assert (
+                    len(tstep[rd][tk].keys()) == 3
+                ), "value not in [val, dev, unit] format"
+                compare_result_dicts(
+                    tstep[rd][tk],
+                    {"n": tv["value"], "s": tv["sigma"], "u": tv["unit"]},
+                )
         else:
             assert tstep[tk] == tv["value"], "wrong uts"
 

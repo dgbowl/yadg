@@ -15,7 +15,9 @@ Developed at Empa - Materials Science and Technology, in Dübendorf.
 
 New features since v4.1 are:
 
-  - :mod:`~yadg.parsers.chromdata` parser for parsing post-processed chromatography data.
+  - a new :mod:`~yadg.parsers.chromdata` parser for parsing post-processed chromatography data,
+  - the :mod:`~yadg.parsers.basiccsv` parser has an additional parameter ``strip``, allowing
+    the user to strip extra characters (such as ``"`` or ``'``) from column headers and data.
 
 Backwards-incompatible changes include:
 

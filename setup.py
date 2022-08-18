@@ -43,8 +43,9 @@ setuptools.setup(
         "packaging",
         "python-dateutil",
         "openpyxl>=3.0.0",
-        #"dgbowl-schemas>=110",
-        "dgbowl-schemas @ https://github.com/dgbowl/dgbowl-schemas/tarball/master",
+        "dgbowl-schemas>=111",
+        # Master branch dgbowl-schemas can be installed by:
+        # "dgbowl-schemas @ https://github.com/dgbowl/dgbowl-schemas/tarball/master",
     ],
     extras_require={
         "testing": [

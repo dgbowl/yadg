@@ -349,7 +349,7 @@ from tests.utils import (
             },
         ),
         (
-            {  # ts16
+            {  # ts16 - test stripping
                 "case": "picolog_temperature.csv",
                 "version": "4.2",
                 "parameters": {
@@ -382,6 +382,49 @@ from tests.utils import (
                         "sigma": 0.01,
                         "value": 26.14,
                         "unit": "degC",
+                        "raw": True,
+                    }
+                },
+            },
+        ),
+        (
+            {  # ts17 - test sparse tables
+                "case": "picolog_temperature_sparse.csv",
+                "version": "4.2",
+                "parameters": {
+                    "sep": ",",
+                    "timestamp": {"uts": {"index": 0}},
+                    "strip": '"',
+                    "units": {
+                        "Outside Last (C)": "degC",
+                        "Outside Ave. (C)": "degC",
+                        "Outside Min. (C)": "degC",
+                        "Outside Max. (C)": "degC",
+                        "Inside_GDE_TCK01 Last (C)": "degC",
+                        "Inside_GDE_TCK01 Ave. (C)": "degC",
+                        "Inside_GDE_TCK01 Min. (C)": "degC",
+                        "Inside_GDE_TCK01 Max. (C)": "degC",
+                        "Inside_Nafion_TCK02 Last (C)": "degC",
+                        "Inside_Nafion_TCK02 Ave. (C)": "degC",
+                        "Inside_Nafion_TCK02 Min. (C)": "degC",
+                        "Inside_Nafion_TCK02 Max. (C)": "degC",
+                    },
+                },
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 2226,
+                "point": 361,
+                "pars": {
+                    "Outside Last (C)": {
+                        "sigma": 0.01,
+                        "value": 25.97,
+                        "unit": "degC",
+                        "raw": True,
+                    },
+                    "Inside_Nafion_TCK02 Max. (C)": {
+                        "value": None,
                         "raw": True,
                     }
                 },

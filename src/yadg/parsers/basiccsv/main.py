@@ -86,9 +86,10 @@ def process_row(
 
     # Process raw data, assign sigma and units
     element["uts"] = datefunc(*[columns[i] for i in datecolumns])
-    for header in headers:
-        ci = headers.index(header)
+    for ci, header in enumerate(headers):
         if ci in datecolumns:
+            continue
+        elif columns[ci] == "":
             continue
         try:
             val, sig = tuple_fromstr(columns[ci])

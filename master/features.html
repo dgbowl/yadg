@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Parsers available in yadg" href="parsers.html" />
+    <link rel="next" title="Citing yadg" href="citing.html" />
     <link rel="prev" title="How to use yadg" href="usage.html" /> 
 </head>
 
@@ -57,15 +57,28 @@
 <li class="toctree-l2"><a class="reference internal" href="#object-validation">Object validation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -108,7 +121,7 @@ validate units in the created <cite>datagrams</cite>. For this, an extended
 quantities present in the raw data files in addition to pint’s standard unit
 registry. This <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> should be used in downstream packages
 which depend on yadg. An arbitrary unit is denoted as <code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">&quot;</span></code>. See
-<a class="reference internal" href="yadg.dgutils.html#module-yadg.dgutils.pintutils" title="yadg.dgutils.pintutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.dgutils.pintutils</span></code></a> for more info.</p>
+<a class="reference internal" href="apidoc/yadg.dgutils.html#module-yadg.dgutils.pintutils" title="yadg.dgutils.pintutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.dgutils.pintutils</span></code></a> for more info.</p>
 </section>
 <section id="uncertainties">
 <h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Permalink to this headline"></a></h3>
@@ -136,7 +149,7 @@ resolution it can be easily converted to minutes or hours.</p>
 <p>Most of the supported file formats contain a timestamp of some kind. However, several
 file formats may not define both date and time of each datapoint, or may define
 neither. That is why yadg includes a powerful “external date” interface, see
-<a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.dateutils.complete_timestamps()</span></code></a>.</p>
+<a class="reference internal" href="apidoc/yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.dateutils.complete_timestamps()</span></code></a>.</p>
 </section>
 <section id="object-validation">
 <h2>Object validation<a class="headerlink" href="#object-validation" title="Permalink to this headline"></a></h2>
@@ -146,7 +159,7 @@ The validation of <cite>dataschema</cite> is handled using a
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg_dataschema</span></code> package, developed in lockstep with yadg.
 This Pydantic-based validator class should be used to ensure that the incoming
 <cite>dataschema</cite> is valid.</p>
-<p>The validation of the created <cite>datagram</cite> is handled by <a class="reference internal" href="yadg.core.html#module-yadg.core.validators" title="yadg.core.validators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.validators</span></code></a>.
+<p>The validation of the created <cite>datagram</cite> is handled by <a class="reference internal" href="apidoc/yadg.core.html#module-yadg.core.validators" title="yadg.core.validators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.validators</span></code></a>.
 By default, yadg checks that the <cite>datagram</cite> conforms to the specification. Among
 others, the validator ensures that provenance data is included for every operation,
 and that uncertainties and units are specified for each measurement.</p>
@@ -158,7 +171,7 @@ and that uncertainties and units are specified for each measurement.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="usage.html" class="btn btn-neutral float-left" title="How to use yadg" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="parsers.html" class="btn btn-neutral float-right" title="Parsers available in yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="citing.html" class="btn btn-neutral float-right" title="Citing yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

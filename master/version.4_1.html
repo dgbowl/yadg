@@ -46,15 +46,28 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -94,16 +107,16 @@
 by using <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">preset</span> <span class="pre">--process</span> <span class="pre">--archive</span></code></p></li>
 <li><p>migrated <cite>dataschema</cite> validation from an in-house validation routine to a
 Pydantic-based model, see <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.html#module-dgbowl_schemas.yadg" title="(in dgbowl-schemas vmaster)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg</span></code></a></p></li>
-<li><p>added the <a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace" title="yadg.parsers.xpstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code></a> parser with support for Panalytical files</p></li>
-<li><p>added support for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetypes to the <a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a>
-and <a class="reference internal" href="yadg.parsers.dummy.html#module-yadg.parsers.dummy" title="yadg.parsers.dummy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dummy</span></code></a> parsers</p></li>
-<li><p>added support for <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> filetypes to the <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser</p></li>
+<li><p>added the <a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace" title="yadg.parsers.xpstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code></a> parser with support for Panalytical files</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetypes to the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a>
+and <a class="reference internal" href="apidoc/yadg.parsers.dummy.html#module-yadg.parsers.dummy" title="yadg.parsers.dummy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dummy</span></code></a> parsers</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> filetypes to the <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser</p></li>
 </ul>
 </div></blockquote>
 <p>Bug fixes and other modifications include:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace</span></code></a> format modified:</p>
+<li><p><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace</span></code></a> format modified:</p>
 <ul>
 <li><p>if peak integration data is present in the raw data file, this is now included
 in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> key directly. The included quantities are <code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>,
@@ -116,7 +129,7 @@ already part of the spec in v4.0.0.</p></li>
 for inflection point detection</p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem</span></code></a> format fixes:</p>
+<li><p><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem</span></code></a> format fixes:</p>
 <ul>
 <li><p>the PEIS/GEIS data is split into timesteps, not cycles.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> in the metadata of some input formats should now be handled

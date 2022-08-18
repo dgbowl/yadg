@@ -7,16 +7,17 @@ following links:
 
 .. toctree::
    :maxdepth: 1
+   :caption: yadg parsers
 
-   yadg.parsers.dummy
-   yadg.parsers.basiccsv
-   yadg.parsers.meascsv
-   yadg.parsers.flowdata
-   yadg.parsers.electrochem
-   yadg.parsers.chromtrace
-   yadg.parsers.chromdata
-   yadg.parsers.qftrace
-   yadg.parsers.xpstrace
-   yadg.parsers.xrdtrace
-   yadg.parsers.masstrace
+   apidoc/yadg.parsers.dummy
+   apidoc/yadg.parsers.basiccsv
+   apidoc/yadg.parsers.meascsv
+   apidoc/yadg.parsers.flowdata
+   apidoc/yadg.parsers.electrochem
+   apidoc/yadg.parsers.chromtrace
+   apidoc/yadg.parsers.chromdata
+   apidoc/yadg.parsers.qftrace
+   apidoc/yadg.parsers.xpstrace
+   apidoc/yadg.parsers.xrdtrace
+   apidoc/yadg.parsers.masstrace
    

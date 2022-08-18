@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="yadg package" href="yadg.html" />
+    <link rel="next" title="yadg package" href="apidoc/yadg.html" />
     <link rel="prev" title="yadg version history" href="version.html" /> 
 </head>
 
@@ -49,8 +49,21 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers.html">Parsers available in <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
@@ -61,7 +74,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#yadg-datagram"><strong>yadg</strong> <cite>datagram</cite></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -150,7 +163,7 @@ processed data. Here, “raw data” corresponds to data present in the output f
 as they come out of an instrument directly, while “processed data” corresponds
 to data after any processing – whether the processing is applying a calibration
 curve, or a more involved transformation, such as deriving <span class="math notranslate nohighlight">\(Q_0\)</span> and
-<span class="math notranslate nohighlight">\(f_0\)</span> from <span class="math notranslate nohighlight">\(\Gamma(f)\)</span> in the <a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.qftrace</span></code></a> module.</p>
+<span class="math notranslate nohighlight">\(f_0\)</span> from <span class="math notranslate nohighlight">\(\Gamma(f)\)</span> in the <a class="reference internal" href="apidoc/yadg.parsers.qftrace.html#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.qftrace</span></code></a> module.</p>
 <p>The <cite>datagram</cite> is designed to be a mirror of the raw data files, with:</p>
 <blockquote>
 <div><ul class="simple">
@@ -247,7 +260,7 @@ with their uncertainties; the unit applies to each element in the array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Futher information about the <cite>datagram</cite> can be found in the documentation of
-the <cite>datagram</cite> validator function: <a class="reference internal" href="yadg.core.html#yadg.core.validators.validate_datagram" title="yadg.core.validators.validate_datagram"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code></a>,
+the <cite>datagram</cite> validator function: <a class="reference internal" href="apidoc/yadg.core.html#yadg.core.validators.validate_datagram" title="yadg.core.validators.validate_datagram"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code></a>,
 as well as in the documentation of each parser.</p>
 </div>
 </section>
@@ -258,7 +271,7 @@ as well as in the documentation of each parser.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="version.html" class="btn btn-neutral float-left" title="yadg version history" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.html" class="btn btn-neutral float-right" title="yadg package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="apidoc/yadg.html" class="btn btn-neutral float-right" title="yadg package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

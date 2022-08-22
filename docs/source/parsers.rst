@@ -1,8 +1,5 @@
-Parsers available in **yadg**
------------------------------
-
-yadg offloads the responsibility of processing the raw data files to its modules, 
-called parsers. The currently implemented parsers are documented in the 
+**yadg** offloads the responsibility of processing the raw data files to its 
+modules, called parsers. The currently implemented parsers are documented in the 
 following links:
 
 .. toctree::

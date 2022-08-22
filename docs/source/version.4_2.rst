@@ -32,6 +32,8 @@ Backwards-incompatible changes include:
   
 Bug fixes include:
 
+  - the :func:`~yadg.parsers.basiccsv.process_row` from the :mod:`~yadg.parsers.basiccsv`
+    parser now handles empty cells by creating sparse `datagrams`;
   - the ``drycal`` filetypes in :mod:`~yadg.parsers.flowdata` should now work for 
     overnight experiments;
   - the metadata in :mod:`~yadg.parsers.chromdata` and :mod:`~yadg.parsers.chromtrace`

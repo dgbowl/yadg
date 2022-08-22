@@ -1,7 +1,7 @@
 **yadg**: yet another datagram
 ==============================
 
-yadg is a set of tools and parsers aimed to process raw instrument data.
+**yadg** is a set of tools and parsers aimed to process raw instrument data.
 
 .. image:: images/schema_yadg_datagram.png
    :width: 600
@@ -23,7 +23,7 @@ the `datagram` contains instrumental error estimates and is annotated with units
 You can read more about yadg in our paper: [Kraus2022b]_.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    :caption: yadg user manual
 
    usage

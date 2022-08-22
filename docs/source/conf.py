@@ -74,9 +74,12 @@ html_static_path = ["images", "_static"]
 
 
 # -- Extension configuration -------------------------------------------------
-
-autosummary_generate = True
+show_authors = True
+autosummary_generate = False
 autodoc_default_flags = ["members", "undoc-members", "show-inheritance"]
+autodoc_member_order = "bysource"
+autodoc_pydantic_model_show_field_summary = False
+autodoc_pydantic_model_member_order = "bysource"
 
 autodoc_pydantic_model_show_field_summary = False
 autodoc_pydantic_model_member_order = "bysource"

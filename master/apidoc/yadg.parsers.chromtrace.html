@@ -372,6 +372,7 @@ the <cite>magic_values</cite> (parameters &amp; metadata) and <cite>data_dtypes<
 </div>
 <p>Data is stored in a consecutive set of <code class="docutils literal notranslate"><span class="pre">&lt;f8</span></code>, starting at the offset (calculated
 as <code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">=</span>&#160; <span class="pre">(&quot;data</span> <span class="pre">offset&quot;</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">512</span></code>) until the end of the file.</p>
+<p><em>Code author: Peter Kraus &lt;<a class="reference external" href="mailto:peter&#46;kraus&#37;&#52;&#48;empa&#46;ch">peter<span>&#46;</span>kraus<span>&#64;</span>empa<span>&#46;</span>ch</a>&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.agilentch.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.agilentch.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.agilentch.process" title="Permalink to this definition"></a></dt>
@@ -413,6 +414,7 @@ a header section for each timestep, followed by a detector name, and a sequence 
 </div>
 <p>Unfortunately, neither <code class="docutils literal notranslate"><span class="pre">method</span></code> nor <code class="docutils literal notranslate"><span class="pre">version</span></code> are exposed, which is a big weakness
 of this file format.</p>
+<p><em>Code author: Peter Kraus &lt;peter.kraus.empa.ch&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.agilentcsv.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.agilentcsv.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.agilentcsv.process" title="Permalink to this definition"></a></dt>
@@ -462,6 +464,7 @@ timestep contains the parent DX file.</p>
 <p>Currently the timesteps from multiple CH files (if present) are appended in the
 timesteps array without any further sorting.</p>
 </div>
+<p><em>Code author: Peter Kraus</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.agilentdx.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.agilentdx.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.agilentdx.process" title="Permalink to this definition"></a></dt>
@@ -504,6 +507,7 @@ axis is uniform between traces, and its units have to be deduced from the header
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
+<p><em>Code author: Peter Kraus &lt;<a class="reference external" href="mailto:peter&#46;kraus&#37;&#52;&#48;empa&#46;ch">peter<span>&#46;</span>kraus<span>&#64;</span>empa<span>&#46;</span>ch</a>&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.ezchromasc.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.ezchromasc.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.ezchromasc.process" title="Permalink to this definition"></a></dt>
@@ -551,6 +555,7 @@ may change between different files. Hence, the keys are sorted.</p>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
+<p><em>Code author: Peter Kraus</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.fusionjson.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.fusionjson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.fusionjson.process" title="Permalink to this definition"></a></dt>
@@ -597,6 +602,7 @@ file present in the archive.</p>
 <span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
 </pre></div>
 </div>
+<p><em>Code author: Peter Kraus</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.fusionzip.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.fusionzip.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.fusionzip.process" title="Permalink to this definition"></a></dt>
@@ -661,6 +667,7 @@ the original raw (not smoothened) data.</p>
 <h4>Peak integration<a class="headerlink" href="#peak-integration" title="Permalink to this headline"></a></h4>
 <p>Peak integration is performed on the corrected baseline and the matching X-data using
 the trapezoidal method as implemented in <code class="docutils literal notranslate"><span class="pre">np.trapz</span></code>.</p>
+<p><em>Code author: Peter Kraus &lt;<a class="reference external" href="mailto:peter&#46;kraus&#37;&#52;&#48;empa&#46;ch">peter<span>&#46;</span>kraus<span>&#64;</span>empa<span>&#46;</span>ch</a>&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.integration.integrate_trace">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.integration.</span></span><span class="sig-name descname"><span class="pre">integrate_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chromspec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.integration.integrate_trace" title="Permalink to this definition"></a></dt>

@@ -421,6 +421,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.</p>
 of any external sensors plugged into the device), the <code class="docutils literal notranslate"><span class="pre">log</span></code> is usually
 not present and therefore the full timestamp cannot be calculated.</p>
 </div>
+<p><em>Code author: Nicolas Vetsch &lt;<a class="reference external" href="mailto:vetschnicolas&#37;&#52;&#48;gmail&#46;com">vetschnicolas<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabmpr.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpr.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpr.process" title="Permalink to this definition"></a></dt>
@@ -467,6 +468,7 @@ the file’s <code class="docutils literal notranslate"><span class="pre">mtime(
 <p>The mapping between metadata parameters between <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files
 is not yet complete.</p>
 </div>
+<p><em>Code author: Nicolas Vetsch &lt;<a class="reference external" href="mailto:vetschnicolas&#37;&#52;&#48;gmail&#46;com">vetschnicolas<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabmpt.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabmpt.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabmpt.process" title="Permalink to this definition"></a></dt>
@@ -513,16 +515,22 @@ the full date might not be specified if header is not present.</p>
 <p>The module also implements resolution determination for parameters of techniques,
 in <a class="reference internal" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="yadg.parsers.electrochem.eclabtechniques.get_resolution"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_resolution()</span></code></a>.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabtechniques.get_resolution">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="Permalink to this definition"></a></dt>
-<dd><p>Function that returns the resolution of a property based on its name, value,
-E-range and I-range.</p>
-<p>The values used here are hard-coded from VMP-3 potentiostats. Generally, the
-resolution is returned, however in some cases only the accuracy is specified
-(currently <code class="docutils literal notranslate"><span class="pre">freq</span></code> and <code class="docutils literal notranslate"><span class="pre">Phase</span></code>).</p>
+<dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabtechniques.technique_params">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">technique_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">technique</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.technique_params" title="Permalink to this definition"></a></dt>
+<dd><p>Constructs the parameter names for different techniques.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The full name of the technique.</p></li>
+<li><p><strong>settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The list of settings from the start of an .mpt or .mps file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The short technique name and a full list of technique parameter
+names depending on what is present in the file.</p>
+</dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+<dd class="field-odd"><p>tuple[str, list]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -554,22 +562,16 @@ is not present in <code class="docutils literal notranslate"><span class="pre">p
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabtechniques.technique_params">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">technique_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">technique</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.technique_params" title="Permalink to this definition"></a></dt>
-<dd><p>Constructs the parameter names for different techniques.</p>
+<dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabtechniques.get_resolution">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabtechniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabtechniques.get_resolution" title="Permalink to this definition"></a></dt>
+<dd><p>Function that returns the resolution of a property based on its name, value,
+E-range and I-range.</p>
+<p>The values used here are hard-coded from VMP-3 potentiostats. Generally, the
+resolution is returned, however in some cases only the accuracy is specified
+(currently <code class="docutils literal notranslate"><span class="pre">freq</span></code> and <code class="docutils literal notranslate"><span class="pre">Phase</span></code>).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>technique</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The full name of the technique.</p></li>
-<li><p><strong>settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The list of settings from the start of an .mpt or .mps file.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The short technique name and a full list of technique parameter
-names depending on what is present in the file.</p>
-</dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[str, list]</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -622,6 +624,7 @@ measured voltages (<span class="math notranslate nohighlight">\(E_{\text{we}}\)<
 to a constant uncertainty of 0.004% of the applied E-range with a maximum of 75 uV,
 while for currents (<span class="math notranslate nohighlight">\(I\)</span>) this is a constant uncertainty of 0.0015% of the applied
 I-range with a maximum of 0.76 uA.</p>
+<p><em>Code author: Peter Kraus</em></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.tomatojson.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.tomatojson.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTF-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.tomatojson.process" title="Permalink to this definition"></a></dt>

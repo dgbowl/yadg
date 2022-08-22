@@ -207,6 +207,7 @@ tabulated exports (<code class="docutils literal notranslate"><span class="pre">
 <p>The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
 the date has to be supplied either using the <code class="docutils literal notranslate"><span class="pre">date</span></code> argument in parameters, or is
 parsed from the prefix of the filename.</p>
+<p><em>Code author: Peter Kraus</em></p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.TimeDate">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">TimeDate</span></span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.TimeDate" title="Permalink to this definition"></a></dt>
@@ -290,31 +291,6 @@ parsed from the prefix of the filename.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.drycal_table">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">drycal_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.drycal_table" title="Permalink to this definition"></a></dt>
-<dd><p>DryCal table-processing function.</p>
-<p>Given a table with headers and units in the first line, and data in the following
-lines, this function returns the headers, units, and data extracted from the table.
-The returned values are always of <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> type, any post-processing is done
-in the calling routine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list containing the lines to be parsed</p></li>
-<li><p><strong>sep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The separator string used to split each line into individual items</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>(headers, units, data)</strong> – A tuple of a list of the stripped headers, dictionary of header-unit key-value
-pairs, and a list of lists containing the rows of the table.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[list, dict, list]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.rtf">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">rtf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.rtf" title="Permalink to this definition"></a></dt>
 <dd><p>RTF version of the drycal parser.</p>
@@ -358,6 +334,31 @@ each line in the measurement table.</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>tuple[list, dict, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.flowdata.drycal.drycal_table">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.flowdata.drycal.</span></span><span class="sig-name descname"><span class="pre">drycal_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.flowdata.drycal.drycal_table" title="Permalink to this definition"></a></dt>
+<dd><p>DryCal table-processing function.</p>
+<p>Given a table with headers and units in the first line, and data in the following
+lines, this function returns the headers, units, and data extracted from the table.
+The returned values are always of <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> type, any post-processing is done
+in the calling routine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list containing the lines to be parsed</p></li>
+<li><p><strong>sep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The separator string used to split each line into individual items</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(headers, units, data)</strong> – A tuple of a list of the stripped headers, dictionary of header-unit key-value
+pairs, and a list of lists containing the rows of the table.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, list]</p>
 </dd>
 </dl>
 </dd></dl>

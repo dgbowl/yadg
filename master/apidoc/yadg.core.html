@@ -137,6 +137,38 @@ a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. 
 </dd></dl>
 
 <span class="target" id="module-yadg.core.spec_datagram"></span><span class="target" id="module-yadg.core.validators"></span><dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.validators.validator">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validator" title="Permalink to this definition"></a></dt>
+<dd><p>Worker validator function.</p>
+<p>This function checks that <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the specification supplied in <code class="docutils literal notranslate"><span class="pre">spec</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">spec</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> can have the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(type)</span></code>, a required entry, defining the type of <code class="docutils literal notranslate"><span class="pre">item</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of required keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of optional keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of mutually exclusive keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;each&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> providing the <code class="docutils literal notranslate"><span class="pre">spec</span></code> for any keywords not listed in <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;allow&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(bool)</span></code> a switch whether to allow unspecified keys.</p></li>
+</ul>
+<p>To extend the existing <cite>datagram</cite> and <cite>schema</cite> specs, look into <a class="reference internal" href="#module-yadg.core.spec_datagram" title="yadg.core.spec_datagram"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_datagram</span></code></a>
+and <code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_schema</span></code>, respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The <code class="docutils literal notranslate"><span class="pre">item</span></code> to be validated.</p></li>
+<li><p><strong>spec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – The <code class="docutils literal notranslate"><span class="pre">spec</span></code> with which to validate the <code class="docutils literal notranslate"><span class="pre">item</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> – If the <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the <code class="docutils literal notranslate"><span class="pre">spec</span></code>, returns <cite>True</cite>. Otherwise, an <cite>AssertionError</cite> is raised.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.core.validators.validate_datagram">
 <span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validate_datagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datagram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validate_datagram" title="Permalink to this definition"></a></dt>
 <dd><p>Datagram validator.</p>
@@ -184,38 +216,6 @@ for properties with a defined unit.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>True</strong> – If the <cite>datagram</cite> passes all assertions, returns <cite>True</cite>. Else, an <cite>AssertionError</cite> is raised.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.core.validators.validator">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.validators.</span></span><span class="sig-name descname"><span class="pre">validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validators.validator" title="Permalink to this definition"></a></dt>
-<dd><p>Worker validator function.</p>
-<p>This function checks that <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the specification supplied in <code class="docutils literal notranslate"><span class="pre">spec</span></code>.
-The <code class="docutils literal notranslate"><span class="pre">spec</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> can have the following entries:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(type)</span></code>, a required entry, defining the type of <code class="docutils literal notranslate"><span class="pre">item</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of required keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of optional keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of mutually exclusive keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;each&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> providing the <code class="docutils literal notranslate"><span class="pre">spec</span></code> for any keywords not listed in <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;allow&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(bool)</span></code> a switch whether to allow unspecified keys.</p></li>
-</ul>
-<p>To extend the existing <cite>datagram</cite> and <cite>schema</cite> specs, look into <a class="reference internal" href="#module-yadg.core.spec_datagram" title="yadg.core.spec_datagram"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_datagram</span></code></a>
-and <code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_schema</span></code>, respectively.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>item</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The <code class="docutils literal notranslate"><span class="pre">item</span></code> to be validated.</p></li>
-<li><p><strong>spec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – The <code class="docutils literal notranslate"><span class="pre">spec</span></code> with which to validate the <code class="docutils literal notranslate"><span class="pre">item</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>True</strong> – If the <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the <code class="docutils literal notranslate"><span class="pre">spec</span></code>, returns <cite>True</cite>. Otherwise, an <cite>AssertionError</cite> is raised.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bool</p>

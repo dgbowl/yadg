@@ -181,7 +181,7 @@ def special_datagram_test(datagram, testspec):
             },
         ),
         (
-            {  # ts2 - empalc.csv
+            {  # ts2 - empalc.xlsx
                 "folders": ["."],
                 "suffix": "25p_v2.xlsx",
                 "parameters": {
@@ -206,6 +206,37 @@ def special_datagram_test(datagram, testspec):
                 },
                 "retention time": {
                     "Ethanol": {"n": 21.098, "s": 0.001, "u": "min"},
+                },
+                "xout": {},
+                "uts": 21600.0,
+            },
+        ),
+        (
+            {  # ts3 - empalc.xlsx with newlines
+                "folders": ["."],
+                "suffix": "newlines.xlsx",
+                "parameters": {
+                    "filetype": "empalc.xlsx",
+                },
+                "externaldate": {"using": {"utsoffset": 0}},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 20,
+                "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
+                "point": 18,
+                "height": {
+                    "Ethanol": {"n": 464.048, "s": 0.001, "u": " "},
+                },
+                "area": {
+                    "Ethanol": {"n": 26514.098, "s": 0.001, "u": " "},
+                },
+                "concentration": {
+                    "Ethanol": {"n": 2.4303, "s": 0.0001, "u": "mmol/l"},
+                },
+                "retention time": {
+                    "Ethanol": {"n": 20.74, "s": 0.01, "u": "min"},
                 },
                 "xout": {},
                 "uts": 21600.0,

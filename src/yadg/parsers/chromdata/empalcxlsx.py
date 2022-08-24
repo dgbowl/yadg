@@ -104,6 +104,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             }
             if sample["offset"] is not None:
                 sn = data[headers.index("SampleName")]
+                sn = sn.replace(" ", "").replace("\n", "")
                 samples[sn] = sample
 
     svals = samples.values()
@@ -119,7 +120,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     if any([s["integration"]["method"] != r["integration"]["method"] for s in svals]):
         logger.warning("Integration method is inconsistent in file '%s'.", fn)
 
-    metadata["method"] = r["acquisition"]["method"].replace("\n", "")
+    metadata["method"] = r["acquisition"]["method"].replace("\n", "").replace(" ", "")
 
     ws = wb["Page 3"]
     for row in ws.rows:
@@ -127,7 +128,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             headers = [i.value.replace("\n", "").replace(" ", "") for i in row]
         else:
             data = [str(i.value) if i.value is not None else None for i in row]
-            sn = data[headers.index("SampleName")]
+            sn = data[headers.index("SampleName")].replace("\n", "").replace(" ", "")
             cn = data[headers.index("Compound")]
 
             h = data[headers.index("PeakHeight")]

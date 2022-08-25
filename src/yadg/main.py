@@ -9,23 +9,20 @@ from . import subcommands
 
 logger = logging.getLogger(__name__)
 
+
 def version_check(project="yadg"):
     url = f"https://pypi.org/pypi/{project}/json"
     try:
-        res = requests.get(url, timeout = 1)
+        res = requests.get(url, timeout=1)
     except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-        logger.debug(
-            f"Version check could not proceed due to Exception={e}."
-        )
-        return 
+        logger.debug(f"Version check could not proceed due to Exception={e}.")
+        return
     jsdata = json.loads(res.text)
     versions = sorted([version.parse(i) for i in jsdata["releases"].keys()])
     latest = versions[-1]
     current = version.parse(metadata.version(project))
     if latest > current:
-        logger.warning(
-            "You are using an out-of-date version of '%s'. ", project
-        )
+        logger.warning("You are using an out-of-date version of '%s'. ", project)
         logger.info(
             "The latest version is '%s', the current version is '%s'.", latest, current
         )
@@ -161,7 +158,7 @@ def run_with_arguments():
         default=None,
     )
     preset.set_defaults(func=subcommands.preset)
-    
+
     # parse subparser args
     args, extras = parser.parse_known_args()
     # parse extras for verbose tags
@@ -173,6 +170,6 @@ def run_with_arguments():
     set_loglevel(args.verbose - args.quiet)
 
     version_check()
-    
+
     if "func" in args:
         args.func(args)

@@ -17,7 +17,8 @@ New features since v4.1 are:
 
   - a new :mod:`~yadg.parsers.chromdata` parser for parsing post-processed chromatography data,
   - the :mod:`~yadg.parsers.basiccsv` parser has an additional parameter ``strip``, allowing
-    the user to strip extra characters (such as ``"`` or ``'``) from column headers and data.
+    the user to strip extra characters (such as ``"`` or ``'``) from column headers and data,
+  - :mod:`yadg` will now warn you if a newer version is available on PyPI.
 
 Backwards-incompatible changes include:
 

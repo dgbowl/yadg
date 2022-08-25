@@ -22,7 +22,7 @@ def version_check(project="yadg"):
     versions = sorted([version.parse(i) for i in jsdata["releases"].keys()])
     latest = versions[-1]
     current = version.parse(metadata.version(project))
-    if latest >= current:
+    if latest > current:
         logger.warning(
             "You are using an out-of-date version of '%s'. ", project
         )

@@ -1,15 +1,10 @@
 **yadg** version 4.2
 ``````````````````````
-
-.. warning::
-
-  ``yadg-4.2`` is not yet released.
-
 .. image:: https://img.shields.io/static/v1?label=yadg&message=v4.2&color=blue&logo=github
     :target: https://github.com/PeterKraus/yadg/tree/4.2
 .. image:: https://img.shields.io/static/v1?label=yadg&message=v4.2&color=blue&logo=pypi
     :target: https://pypi.org/project/yadg/4.2/
-.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-05-13&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2022-08-29&color=red&logo=pypi
 
 Developed at Empa - Materials Science and Technology, in Dübendorf. 
 

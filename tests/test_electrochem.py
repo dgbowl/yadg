@@ -379,6 +379,32 @@ def test_datagram_from_eclab(input, ts, datadir):
 
 
 @pytest.mark.parametrize(
+    "input, ts",
+    [
+        (
+            {  # ts0 - wait.mpr
+                "case": "wait.mpr",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpr"},
+            },
+            "ca_data.json",
+        ),
+        (
+            {  # ts1 - wait.mpt
+                "case": "wait.mpt",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpt"},
+            },
+            "ca_data.json",
+        ),
+    ],
+)
+def test_datagram_wait_technique(input, ts, datadir):
+    ret = datagram_from_input(input, "electrochem", datadir)
+    assert not ret["steps"][0]["data"], "No data should be present."
+
+
+@pytest.mark.parametrize(
     "input, refpath",
     [
         (

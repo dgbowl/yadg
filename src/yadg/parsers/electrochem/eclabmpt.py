@@ -328,7 +328,9 @@ def process(
         Eranges = []
         Iranges = []
         for el in params:
-            Eranges.append(el["E_range_max"] - el["E_range_min"])
+            E_range_max = el.get("E_range_max", float("inf"))
+            E_range_min = el.get("E_range_min", float("-inf"))
+            Eranges.append(E_range_max - E_range_min)
             Iranges.append(el.get("I_range", "Auto"))
     data = _process_data(data_lines, Eranges, Iranges)
     # Arrange all the data into the correct format.

@@ -768,7 +768,9 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             Eranges = []
             Iranges = []
             for el in params:
-                Eranges.append(el["E_range_max"] - el["E_range_min"])
+                E_range_max = el.get("E_range_max", float("inf"))
+                E_range_min = el.get("E_range_min", float("-inf"))
+                Eranges.append(E_range_max - E_range_min)
                 Iranges.append(el.get("I_range", "Auto"))
         elif name == "VMP data":
             data = _process_data(module_data, header["version"], Eranges, Iranges)

@@ -64,11 +64,13 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
+        print(os.listdir(tempdir))
         chroms = []
         meta = {}
         for ffn in os.listdir(tempdir):
             if ffn.endswith("CH"):
-                _chrom, _meta = processch(ffn, encoding, timezone)
+                path = os.path.join(tempdir, ffn)
+                _chrom, _meta = processch(path, encoding, timezone)
                 for ts in _chrom:
                     ts["fn"] = str(fn)
                     chroms.append(ts)

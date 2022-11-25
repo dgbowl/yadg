@@ -58,9 +58,9 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         chroms = []
         meta = {}
         for ffn in sorted(os.listdir(tempdir)):
-            ffn = os.path.join(tempdir, ffn)
+            path = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                _chrom, _meta = processjson(ffn, encoding, timezone)
+                _chrom, _meta = processjson(path, encoding, timezone)
                 for ts in _chrom:
                     ts["fn"] = str(fn)
                     chroms.append(ts)

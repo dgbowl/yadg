@@ -161,7 +161,7 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
         values = []
         for param in params:
             try:
-                val = float(param[seq * 20 : (seq + 1) * 20])
+                val = float(param[seq * 20 : (seq + 1) * 20].replace(",","."))
             except ValueError:
                 val = param[seq * 20 : (seq + 1) * 20].strip()
             values.append(val)
@@ -224,7 +224,7 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
     data_lines = lines[2:]
     datapoints = []
     for line in data_lines:
-        values = line.split("\t")
+        values = [value.replace(",", ".") for value in line.split("\t")]
         datapoint = {}
         for col, val, unit in list(zip(columns, values, units)):
             if unit is None:
@@ -257,7 +257,7 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
                 val = val.strip()
             if unit is None:
                 continue
-            assert isinstance(val, float), "`n` should not be string"
+            assert isinstance(val, float), "`n` should not be {}".format(type(val))
             s = get_resolution(col, val, unit, Erange, Irange)
             datapoint[col] = {"n": val, "s": s, "u": unit}
         datapoints.append(datapoint)

@@ -670,7 +670,7 @@ def _process_data(
             s = get_resolution(name, value, unit, Erange, Irange)
             datapoint[name] = {"n": value, "s": s, "u": unit}
         if flags:
-            logger.debug("Extracting flag values.")
+            #logger.debug("Extracting flag values.")
             flag_bits = datapoint.pop("flags")
             for name, bitmask in flags.items():
                 # Two's complement hack to find the position of the

@@ -514,7 +514,7 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     """
     settings = {}
     # First parse the settings right at the top of the data block.
-    technique, params_dtype = technique_params_dtypes[data[0x0000]]
+    technique, params_dtypes = technique_params_dtypes[data[0x0000]]
     settings["technique"] = technique
     for offset, (dtype, name) in settings_dtypes.items():
         settings[name] = _read_value(data, offset, dtype)
@@ -525,14 +525,12 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     for offset in (0x0572, 0x1845, 0x1846):
         logger.debug("Trying to find the technique parameters at 0x%x.", offset)
         n_params = _read_value(data, offset + 0x0002, "<u2")
-        if isinstance(params_dtype, list):
-            # The params_dtype has multiple possible lengths if a list.
-            for dtype in params_dtype:
-                if len(dtype) == n_params:
-                    params_dtype, params_offset = dtype, offset
-        elif len(params_dtype) == n_params:
-            params_offset = offset
-            logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
+        for dtype in params_dtypes:
+            if len(dtype) == n_params:
+                params_dtype, params_offset = dtype, offset
+                logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
+                break
+        if params_offset is not None:
             break
     if params_offset is None:
         raise NotImplementedError("Unknown parameter offset or technique dtype.")
@@ -670,7 +668,7 @@ def _process_data(
             s = get_resolution(name, value, unit, Erange, Irange)
             datapoint[name] = {"n": value, "s": s, "u": unit}
         if flags:
-            #logger.debug("Extracting flag values.")
+            # logger.debug("Extracting flag values.")
             flag_bits = datapoint.pop("flags")
             for name, bitmask in flags.items():
                 # Two's complement hack to find the position of the

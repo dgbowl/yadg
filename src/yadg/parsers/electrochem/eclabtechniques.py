@@ -86,35 +86,37 @@ def _ca_params(settings: list[str]) -> list[str]:
     return _prepend_ns(settings, params)
 
 
-_ca_params_dtype = np.dtype(
-    [
-        ("Ei", "<f4"),
-        ("Ei_vs", "|u1"),
-        ("ti", "<f4"),
-        ("Imax", "<f4"),
-        ("Imax_unit", "|u1"),
-        ("Imin", "<f4"),
-        ("Imin_unit", "|u1"),
-        ("dQM", "<f4"),
-        ("dQM_unit", "|u1"),
-        ("record", "|u1"),
-        ("dI", "<f4"),
-        ("dI_unit", "|u1"),
-        ("dQ", "<f4"),
-        ("dQ_unit", "|u1"),
-        ("dt", "<f4"),
-        ("dta", "<f4"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("I_range_min", "|u1"),
-        ("I_range_max", "|u1"),
-        ("I_range_init", "|u1"),
-        ("bandwidth", "u1"),
-        ("goto_Ns", "<u4"),
-        ("nc_cycles", "<u4"),
-    ]
-)
+_ca_params_dtypes = [
+    np.dtype(
+        [
+            ("Ei", "<f4"),
+            ("Ei_vs", "|u1"),
+            ("ti", "<f4"),
+            ("Imax", "<f4"),
+            ("Imax_unit", "|u1"),
+            ("Imin", "<f4"),
+            ("Imin_unit", "|u1"),
+            ("dQM", "<f4"),
+            ("dQM_unit", "|u1"),
+            ("record", "|u1"),
+            ("dI", "<f4"),
+            ("dI_unit", "|u1"),
+            ("dQ", "<f4"),
+            ("dQ_unit", "|u1"),
+            ("dt", "<f4"),
+            ("dta", "<f4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("I_range_min", "|u1"),
+            ("I_range_max", "|u1"),
+            ("I_range_init", "|u1"),
+            ("bandwidth", "u1"),
+            ("goto_Ns", "<u4"),
+            ("nc_cycles", "<u4"),
+        ]
+    )
+]
 
 
 ########################## Chronopotentiometry #########################
@@ -141,26 +143,28 @@ def _cp_params(settings: list[str]) -> list[str]:
     return _prepend_ns(settings, params)
 
 
-_cp_params_dtype = np.dtype(
-    [
-        ("Is", "<f4"),
-        ("Is_unit", "|u1"),
-        ("Is_vs", "|u1"),
-        ("ts", "<f4"),
-        ("EM", "<f4"),
-        ("dQM", "<f4"),
-        ("dQM_unit", "|u1"),
-        ("record", "|u1"),
-        ("dEs", "<f4"),
-        ("dts", "<f4"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("bandwidth", "|u1"),
-        ("goto_Ns", "<u4"),
-        ("nc_cycles", "<u4"),
-    ]
-)
+_cp_params_dtypes = [
+    np.dtype(
+        [
+            ("Is", "<f4"),
+            ("Is_unit", "|u1"),
+            ("Is_vs", "|u1"),
+            ("ts", "<f4"),
+            ("EM", "<f4"),
+            ("dQM", "<f4"),
+            ("dQM_unit", "|u1"),
+            ("record", "|u1"),
+            ("dEs", "<f4"),
+            ("dts", "<f4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("bandwidth", "|u1"),
+            ("goto_Ns", "<u4"),
+            ("nc_cycles", "<u4"),
+        ]
+    )
+]
 
 ########################## Cyclic Voltammetry ##########################
 def _cv_params(settings: list[str]) -> list[str]:
@@ -191,31 +195,33 @@ def _cv_params(settings: list[str]) -> list[str]:
     return params
 
 
-_cv_params_dtype = np.dtype(
-    [
-        ("Ei", "<f4"),
-        ("Ei_vs", "|u1"),
-        ("dE/dt", "<f4"),
-        ("dE/dt_unit", "|u1"),
-        ("E1", "<f4"),
-        ("E1_vs", "|u1"),
-        ("step_percent", "|u1"),
-        ("N", "<u4"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("I_range_min", "|u1"),
-        ("I_range_max", "|u1"),
-        ("I_range_init", "|u1"),
-        ("bandwidth", "u1"),
-        ("E2", "<f4"),
-        ("E2_vs", "|u1"),
-        ("nc_cycles", "<u4"),
-        ("reverse_scan", "|u1"),
-        ("Ef", "<f4"),
-        ("Ef_vs", "|u1"),
-    ]
-)
+_cv_params_dtypes = [
+    np.dtype(
+        [
+            ("Ei", "<f4"),
+            ("Ei_vs", "|u1"),
+            ("dE/dt", "<f4"),
+            ("dE/dt_unit", "|u1"),
+            ("E1", "<f4"),
+            ("E1_vs", "|u1"),
+            ("step_percent", "|u1"),
+            ("N", "<u4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("I_range_min", "|u1"),
+            ("I_range_max", "|u1"),
+            ("I_range_init", "|u1"),
+            ("bandwidth", "u1"),
+            ("E2", "<f4"),
+            ("E2_vs", "|u1"),
+            ("nc_cycles", "<u4"),
+            ("reverse_scan", "|u1"),
+            ("Ef", "<f4"),
+            ("Ef_vs", "|u1"),
+        ]
+    )
+]
 
 ############ Galvanostatic Cycling with Potential Limitation ###########
 def _gcpl_params(settings: list[str]) -> list[str]:
@@ -257,42 +263,44 @@ def _gcpl_params(settings: list[str]) -> list[str]:
     return _prepend_ns(settings, params)
 
 
-_gcpl_params_dtype = np.dtype(
-    [
-        ("set_I/C", "|u1"),
-        ("Is", "<f4"),
-        ("Is_unit", "|u1"),
-        ("Is_vs", "|u1"),
-        ("N", "f4"),
-        ("I_sign", "|u1"),
-        ("t1", "<f4"),
-        ("I_range", "|u1"),
-        ("bandwidth", "|u1"),
-        ("dE1", "<f4"),
-        ("dt1", "<f4"),
-        ("EM", "<f4"),
-        ("tM", "<f4"),
-        ("Im", "<f4"),
-        ("Im_unit", "|u1"),
-        ("dI/dt", "<f4"),
-        ("dI/dt_unit", "|u1"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("dq", "<f4"),
-        ("dq_unit", "|u1"),
-        ("dtq", "<f4"),
-        ("dQM", "<f4"),
-        ("dQM_unit", "|u1"),
-        ("dxM", "<f4"),
-        ("tR", "<f4"),
-        ("dER/dt", "<f4"),
-        ("dER", "<f4"),
-        ("dtR", "<f4"),
-        ("EL", "<f4"),
-        ("goto_Ns", "<u4"),
-        ("nc_cycles", "<u4"),
-    ]
-)
+_gcpl_params_dtypes = [
+    np.dtype(
+        [
+            ("set_I/C", "|u1"),
+            ("Is", "<f4"),
+            ("Is_unit", "|u1"),
+            ("Is_vs", "|u1"),
+            ("N", "f4"),
+            ("I_sign", "|u1"),
+            ("t1", "<f4"),
+            ("I_range", "|u1"),
+            ("bandwidth", "|u1"),
+            ("dE1", "<f4"),
+            ("dt1", "<f4"),
+            ("EM", "<f4"),
+            ("tM", "<f4"),
+            ("Im", "<f4"),
+            ("Im_unit", "|u1"),
+            ("dI/dt", "<f4"),
+            ("dI/dt_unit", "|u1"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("dq", "<f4"),
+            ("dq_unit", "|u1"),
+            ("dtq", "<f4"),
+            ("dQM", "<f4"),
+            ("dQM_unit", "|u1"),
+            ("dxM", "<f4"),
+            ("tR", "<f4"),
+            ("dER/dt", "<f4"),
+            ("dER", "<f4"),
+            ("dtR", "<f4"),
+            ("EL", "<f4"),
+            ("goto_Ns", "<u4"),
+            ("nc_cycles", "<u4"),
+        ]
+    )
+]
 
 ############ Galvano Electrochemical Impedance Spectroscopy ############
 def _geis_params(settings: list[str]) -> list[str]:
@@ -347,65 +355,67 @@ def _geis_params(settings: list[str]) -> list[str]:
     return params
 
 
-_geis_params_dtype = np.dtype(
-    [
-        ("sine_mode", "|u1"),
-        ("Is", "<f4"),
-        ("Is_unit", "|u1"),
-        ("Is_vs", "|u1"),
-        ("tIs", "<f4"),
-        ("record", "|u1"),
-        ("dE", "<f4"),
-        ("dt", "<f4"),
-        ("fi", "<f4"),
-        ("fi_unit", "|u1"),
-        ("ff", "<f4"),
-        ("ff_unit", "|u1"),
-        ("Nd", "<u4"),
-        ("points", "|u1"),
-        ("spacing", "|u1"),
-        ("Ia/Va", "|u1"),
-        ("Ia", "<f4"),
-        ("Ia_unit", "|u1"),
-        ("va_pourcent", "<f4"),
-        ("pw", "<f4"),
-        ("Na", "<u4"),
-        ("corr", "|u1"),
-        ("lim_nb", "|u1"),
-        ("limit_type1", "|u1"),
-        ("limit_comp1", "|u1"),
-        ("limit_value1", "<f4"),
-        ("limit_unit1", "|u1"),
-        ("limit_type2", "|u1"),
-        ("limit_comp2", "|u1"),
-        ("limit_value2", "<f4"),
-        ("limit_unit2", "|u1"),
-        ("limit_type3", "|u1"),
-        ("limit_comp3", "|u1"),
-        ("limit_value3", "<f4"),
-        ("limit_unit3", "|u1"),
-        ("limit_type4", "|u1"),
-        ("limit_comp4", "|u1"),
-        ("limit_value4", "<f4"),
-        ("limit_unit4", "|u1"),
-        ("limit_type5", "|u1"),
-        ("limit_comp5", "|u1"),
-        ("limit_value5", "<f4"),
-        ("limit_unit5", "|u1"),
-        ("limit_type6", "|u1"),
-        ("limit_comp6", "|u1"),
-        ("limit_value6", "<f4"),
-        ("limit_unit6", "|u1"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("bandwidth", "|u1"),
-        ("nc_cycles", "<u4"),
-        ("goto_Ns", "<u4"),
-        ("nr_cycles", "<u4"),
-        ("inc_cycle", "<u4"),
-    ]
-)
+_geis_params_dtype = [
+    np.dtype(
+        [
+            ("sine_mode", "|u1"),
+            ("Is", "<f4"),
+            ("Is_unit", "|u1"),
+            ("Is_vs", "|u1"),
+            ("tIs", "<f4"),
+            ("record", "|u1"),
+            ("dE", "<f4"),
+            ("dt", "<f4"),
+            ("fi", "<f4"),
+            ("fi_unit", "|u1"),
+            ("ff", "<f4"),
+            ("ff_unit", "|u1"),
+            ("Nd", "<u4"),
+            ("points", "|u1"),
+            ("spacing", "|u1"),
+            ("Ia/Va", "|u1"),
+            ("Ia", "<f4"),
+            ("Ia_unit", "|u1"),
+            ("va_pourcent", "<f4"),
+            ("pw", "<f4"),
+            ("Na", "<u4"),
+            ("corr", "|u1"),
+            ("lim_nb", "|u1"),
+            ("limit_type1", "|u1"),
+            ("limit_comp1", "|u1"),
+            ("limit_value1", "<f4"),
+            ("limit_unit1", "|u1"),
+            ("limit_type2", "|u1"),
+            ("limit_comp2", "|u1"),
+            ("limit_value2", "<f4"),
+            ("limit_unit2", "|u1"),
+            ("limit_type3", "|u1"),
+            ("limit_comp3", "|u1"),
+            ("limit_value3", "<f4"),
+            ("limit_unit3", "|u1"),
+            ("limit_type4", "|u1"),
+            ("limit_comp4", "|u1"),
+            ("limit_value4", "<f4"),
+            ("limit_unit4", "|u1"),
+            ("limit_type5", "|u1"),
+            ("limit_comp5", "|u1"),
+            ("limit_value5", "<f4"),
+            ("limit_unit5", "|u1"),
+            ("limit_type6", "|u1"),
+            ("limit_comp6", "|u1"),
+            ("limit_value6", "<f4"),
+            ("limit_unit6", "|u1"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("bandwidth", "|u1"),
+            ("nc_cycles", "<u4"),
+            ("goto_Ns", "<u4"),
+            ("nr_cycles", "<u4"),
+            ("inc_cycle", "<u4"),
+        ]
+    )
+]
 
 ################################# Loop #################################
 def _loop_params(settings: list[str]) -> list[str]:
@@ -446,33 +456,35 @@ def _lsv_params(settings: list[str]) -> list[str]:
 
 
 ####################### Linear Sweep Voltammetry #######################
-_lsv_params_dtype = np.dtype(
-    [
-        ("tR", "<f4"),
-        ("dER/dt", "<f4"),
-        ("dER", "<f4"),
-        ("dtR", "<f4"),
-        ("dE/dt", "<f4"),
-        ("dE/dt_unit", "|u1"),
-        ("Ei", "<f4"),
-        ("Ei_vs", "|u1"),
-        ("EL", "<f4"),
-        ("EL_vs", "|u1"),
-        ("record", "|u1"),
-        ("dI", "<f4"),
-        ("dI_unit", "|u1"),
-        ("tI", "<f4"),
-        ("step_percent", "|u1"),
-        ("N", "<u4"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("I_range_min", "|u1"),
-        ("I_range_max", "|u1"),
-        ("I_range_init", "|u1"),
-        ("bandwidth", "|u1"),
-    ]
-)
+_lsv_params_dtype = [
+    np.dtype(
+        [
+            ("tR", "<f4"),
+            ("dER/dt", "<f4"),
+            ("dER", "<f4"),
+            ("dtR", "<f4"),
+            ("dE/dt", "<f4"),
+            ("dE/dt_unit", "|u1"),
+            ("Ei", "<f4"),
+            ("Ei_vs", "|u1"),
+            ("EL", "<f4"),
+            ("EL_vs", "|u1"),
+            ("record", "|u1"),
+            ("dI", "<f4"),
+            ("dI_unit", "|u1"),
+            ("tI", "<f4"),
+            ("step_percent", "|u1"),
+            ("N", "<u4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("I_range_min", "|u1"),
+            ("I_range_max", "|u1"),
+            ("I_range_init", "|u1"),
+            ("bandwidth", "|u1"),
+        ]
+    )
+]
 
 
 ############################## Modulo Bat ##############################
@@ -844,62 +856,64 @@ def _peis_params(settings: list[str]) -> list[str]:
     return params
 
 
-_peis_params_dtype = np.dtype(
-    [
-        ("sine_mode", "|u1"),
-        ("E", "<f4"),
-        ("E_vs", "|u1"),
-        ("tE", "<f4"),
-        ("record", "|u1"),
-        ("dI", "<f4"),
-        ("dI_unit", "|u1"),
-        ("dt", "<f4"),
-        ("fi", "<f4"),
-        ("fi_unit", "|u1"),
-        ("ff", "<f4"),
-        ("ff_unit", "|u1"),
-        ("Nd", "<u4"),
-        ("points", "|u1"),
-        ("spacing", "|u1"),
-        ("Va", "<f4"),
-        ("pw", "<f4"),
-        ("Na", "<u4"),
-        ("corr", "|u1"),
-        ("lim_nb", "|u1"),
-        ("limit_type1", "|u1"),
-        ("limit_comp1", "|u1"),
-        ("limit_value1", "<f4"),
-        ("limit_unit1", "|u1"),
-        ("limit_type2", "|u1"),
-        ("limit_comp2", "|u1"),
-        ("limit_value2", "<f4"),
-        ("limit_unit2", "|u1"),
-        ("limit_type3", "|u1"),
-        ("limit_comp3", "|u1"),
-        ("limit_value3", "<f4"),
-        ("limit_unit3", "|u1"),
-        ("limit_type4", "|u1"),
-        ("limit_comp4", "|u1"),
-        ("limit_value4", "<f4"),
-        ("limit_unit4", "|u1"),
-        ("limit_type5", "|u1"),
-        ("limit_comp5", "|u1"),
-        ("limit_value5", "<f4"),
-        ("limit_unit5", "|u1"),
-        ("limit_type6", "|u1"),
-        ("limit_comp6", "|u1"),
-        ("limit_value6", "<f4"),
-        ("limit_unit6", "|u1"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("bandwidth", "|u1"),
-        ("nc_cycles", "<u4"),
-        ("goto_Ns", "<u4"),
-        ("nr_cycles", "<u4"),
-        ("inc_cycle", "<u4"),
-    ]
-)
+_peis_params_dtypes = [
+    np.dtype(
+        [
+            ("sine_mode", "|u1"),
+            ("E", "<f4"),
+            ("E_vs", "|u1"),
+            ("tE", "<f4"),
+            ("record", "|u1"),
+            ("dI", "<f4"),
+            ("dI_unit", "|u1"),
+            ("dt", "<f4"),
+            ("fi", "<f4"),
+            ("fi_unit", "|u1"),
+            ("ff", "<f4"),
+            ("ff_unit", "|u1"),
+            ("Nd", "<u4"),
+            ("points", "|u1"),
+            ("spacing", "|u1"),
+            ("Va", "<f4"),
+            ("pw", "<f4"),
+            ("Na", "<u4"),
+            ("corr", "|u1"),
+            ("lim_nb", "|u1"),
+            ("limit_type1", "|u1"),
+            ("limit_comp1", "|u1"),
+            ("limit_value1", "<f4"),
+            ("limit_unit1", "|u1"),
+            ("limit_type2", "|u1"),
+            ("limit_comp2", "|u1"),
+            ("limit_value2", "<f4"),
+            ("limit_unit2", "|u1"),
+            ("limit_type3", "|u1"),
+            ("limit_comp3", "|u1"),
+            ("limit_value3", "<f4"),
+            ("limit_unit3", "|u1"),
+            ("limit_type4", "|u1"),
+            ("limit_comp4", "|u1"),
+            ("limit_value4", "<f4"),
+            ("limit_unit4", "|u1"),
+            ("limit_type5", "|u1"),
+            ("limit_comp5", "|u1"),
+            ("limit_value5", "<f4"),
+            ("limit_unit5", "|u1"),
+            ("limit_type6", "|u1"),
+            ("limit_comp6", "|u1"),
+            ("limit_value6", "<f4"),
+            ("limit_unit6", "|u1"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("bandwidth", "|u1"),
+            ("nc_cycles", "<u4"),
+            ("goto_Ns", "<u4"),
+            ("nr_cycles", "<u4"),
+            ("inc_cycle", "<u4"),
+        ]
+    )
+]
 
 
 ################################# Wait #################################
@@ -921,21 +935,23 @@ def _wait_params(settings: list[str]) -> list[str]:
     return params
 
 
-_wait_params_dtype = np.dtype(
-    [
-        ("select", "|u1"),
-        ("td", "<u4"),
-        ("from", "|u1"),
-        ("tech_num", "|u1"),
-        ("ole_date", "<f4"),  # Why the hell would they split this?!
-        ("ole_time", "<f4"),
-        ("record", "|u1"),
-        ("dE", "<f4"),
-        ("dI", "<f4"),
-        ("dI_unit", "|u1"),
-        ("dt", "<f4"),
-    ]
-)
+_wait_params_dtypes = [
+    np.dtype(
+        [
+            ("select", "|u1"),
+            ("td", "<u4"),
+            ("from", "|u1"),
+            ("tech_num", "|u1"),
+            ("ole_date", "<f4"),  # Why the hell would they split this?!
+            ("ole_time", "<f4"),
+            ("record", "|u1"),
+            ("dE", "<f4"),
+            ("dI", "<f4"),
+            ("dI_unit", "|u1"),
+            ("dt", "<f4"),
+        ]
+    )
+]
 
 
 ######################## IR compensation (PEIS) ########################
@@ -960,24 +976,26 @@ def _zir_params(settings: list[str]) -> list[str]:
     return params
 
 
-_zir_params_dtype = np.dtype(
-    [
-        ("E", "<f4"),
-        ("E_vs", "|u1"),
-        ("f", "<f4"),
-        ("f_unit", "|u1"),
-        ("Va", "<f4"),
-        ("pw", "<f4"),
-        ("Na", "<u4"),
-        ("E_range_min", "<f4"),
-        ("E_range_max", "<f4"),
-        ("I_range", "|u1"),
-        ("bandwidth", "|u1"),
-        ("comp_level", "|u1"),
-        ("use_results", "|u1"),
-        ("comp_mode", "|u1"),
-    ]
-)
+_zir_params_dtypes = [
+    np.dtype(
+        [
+            ("E", "<f4"),
+            ("E_vs", "|u1"),
+            ("f", "<f4"),
+            ("f_unit", "|u1"),
+            ("Va", "<f4"),
+            ("pw", "<f4"),
+            ("Na", "<u4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("bandwidth", "|u1"),
+            ("comp_level", "|u1"),
+            ("use_results", "|u1"),
+            ("comp_mode", "|u1"),
+        ]
+    )
+]
 
 
 def technique_params(technique: str, settings: list[str]) -> tuple[str, list]:
@@ -1027,15 +1045,15 @@ def technique_params(technique: str, settings: list[str]) -> tuple[str, list]:
 
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
-    0x04: ("GCPL", _gcpl_params_dtype),
-    0x06: ("CV", _cv_params_dtype),
+    0x04: ("GCPL", _gcpl_params_dtypes),
+    0x06: ("CV", _cv_params_dtypes),
     0x0B: ("OCV", _ocv_params_dtypes),
-    0x18: ("CA", _ca_params_dtype),
-    0x19: ("CP", _cp_params_dtype),
-    0x1C: ("WAIT", _wait_params_dtype),
-    0x1D: ("PEIS", _peis_params_dtype),
+    0x18: ("CA", _ca_params_dtypes),
+    0x19: ("CP", _cp_params_dtypes),
+    0x1C: ("WAIT", _wait_params_dtypes),
+    0x1D: ("PEIS", _peis_params_dtypes),
     0x1E: ("GEIS", _geis_params_dtype),
-    0x32: ("ZIR", _zir_params_dtype),
+    0x32: ("ZIR", _zir_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
     0x7F: ("MB", _mb_params_dtypes),
 }

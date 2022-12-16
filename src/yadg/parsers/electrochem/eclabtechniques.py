@@ -701,6 +701,7 @@ _mb_params_dtypes = [
         [
             ("ctrl_type", "|u1"),
             ("apply_I/C", "|u1"),
+            ("current/potential", "|u1"),
             ("ctrl1_val", "<f4"),
             ("ctrl1_val_unit", "|u1"),
             ("ctrl1_val_vs", "|u1"),
@@ -759,7 +760,6 @@ _mb_params_dtypes = [
             ("rec3_value_unit", "|u1"),
             ("E_range_min", "<f4"),
             ("E_range_max", "<f4"),
-            ("unknown_1", "|u1"),
             ("I_range", "|u1"),
             ("I_range_min", "|u1"),
             ("I_range_max", "|u1"),

@@ -370,6 +370,23 @@ from tests.utils import (
                 "pars": {"uts": {"value": 1522109455.9886506}},
             },
         ),
+        (  # ts20 - mb_67.mpr
+            {
+                "case": "mb_67.mpr",
+                "encoding": "windows-1252",
+                "parameters": {"filetype": "eclab.mpr"},
+            },
+            {
+                "nsteps": 1,
+                "step": 0,
+                "nrows": 33,
+                "point": 0,
+                "pars": {
+                    "uts": {"value": 1670510213.355},
+                    "Ewe": {"value": 2.3278546, "unit": "V", "sigma": 7.5e-05},
+                },
+            },
+        ),
     ],
 )
 def test_datagram_from_eclab(input, ts, datadir):

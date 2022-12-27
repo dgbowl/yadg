@@ -1,5 +1,13 @@
 **yadg**: yet another datagram
 ==============================
+.. image:: https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox
+   :target: https://dgbowl.github.io/yadg
+.. image:: https://badgen.net/pypi/v/yadg/?icon=pypi
+   :target: https://pypi.org/project/yadg
+.. image:: https://badgen.net/github/tag/dgbowl/yadg/?icon=github
+   :target: https://github.com/dgbowl/yadg
+.. image:: https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master
+   :target: https://github.com/dgbowl/yadg/actions/workflows/codeql.yml
 
 **yadg** is a set of tools and parsers aimed to process raw instrument data.
 

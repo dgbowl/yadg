@@ -3,7 +3,12 @@ description: "Test the package with pytest."
 runs:
   using: "composite"
   steps:
-    - run: yadg --version
+    - name: Prepare locales
+      run: sudo locale-gen de_DE.UTF-8 || echo windows
       shell: bash
-    - run: pytest -vv
+    - name: Print yadg version
+      run: yadg --version
+      shell: bash
+    - name: Run pytest
+      run: pytest -vv
       shell: bash

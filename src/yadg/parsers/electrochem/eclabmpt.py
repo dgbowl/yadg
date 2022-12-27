@@ -52,6 +52,7 @@ Structure of Parsed Data
 """
 import re
 import logging
+import locale
 from collections import defaultdict
 from ...dgutils.dateutils import str_to_uts
 from .eclabtechniques import get_resolution, technique_params, param_from_key
@@ -173,6 +174,21 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     settings_lines = sections[2].split("\n")
     technique, params_keys = technique_params(technique, settings_lines)
     params = settings_lines[-len(params_keys) :]
+
+    # Get the locale
+    old_loc = locale.getlocale(category=locale.LC_NUMERIC)
+    ewe_ctrl_re = re.compile(r"Ewe ctrl range : min = (?P<min>.+), max = (?P<max>.+)")
+    ewe_ctrl_match = ewe_ctrl_re.search("\n".join(settings_lines))
+    for loc in [old_loc, "de_DE.UTF-8", "en_GB.UTF-8", "en_US.UTF-8"]:
+        try:
+            locale.setlocale(locale.LC_NUMERIC, locale=loc)
+            locale.atof(ewe_ctrl_match["min"].split()[0])
+            locale.atof(ewe_ctrl_match["max"].split()[0])
+            logging.debug(f"The locale of the current file is '{loc}'.")
+            break
+        except ValueError:
+            logging.debug(f"Could not parse Ewe ctrl using locale '{loc}'.")
+
     # The sequence param columns are always allocated 20 characters.
     n_sequences = int(len(params[0]) / 20)
     params_values = []
@@ -180,7 +196,7 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
         values = []
         for param in params:
             try:
-                val = float(param[seq * 20 : (seq + 1) * 20])
+                val = locale.atof(param[seq * 20 : (seq + 1) * 20])
             except ValueError:
                 val = param[seq * 20 : (seq + 1) * 20].strip()
             values.append(val)
@@ -211,6 +227,7 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
         loops = {"n_loops": n_loops, "indexes": indexes}
     settings = {
         "posix_timestamp": uts,
+        "locale": loc,
         "technique": technique,
         "raw": "\n".join(lines),
     }
@@ -247,7 +264,7 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
         datapoint = {}
         for col, val, unit in list(zip(columns, values, units)):
             if unit is None:
-                ival = int(float(val))
+                ival = int(locale.atof(val))
                 if col == "I Range":
                     datapoint[col] = param_from_key("I_range", ival)
                     Irange = param_from_key("I_range", ival, to_str=False)
@@ -271,7 +288,7 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
             Irange = param_from_key("I_range", Irstr, to_str=False)
         for col, val, unit in list(zip(columns, values, units)):
             try:
-                val = float(val)
+                val = locale.atof(val)
             except ValueError:
                 val = val.strip()
             if unit is None:
@@ -315,6 +332,8 @@ def process(
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
+    # Store current LC_NUMERIC before we do anything:
+    old_loc = locale.getlocale(category=locale.LC_NUMERIC)
     if nb_header_lines <= 3:
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
@@ -367,4 +386,6 @@ def process(
     for d in data:
         uts = start_time + d["time"]["n"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
+    # reset to original LC_NUMERIC
+    locale.setlocale(category=locale.LC_NUMERIC, locale=old_loc)
     return timesteps, metadata, fulldate

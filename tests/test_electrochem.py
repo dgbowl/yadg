@@ -387,7 +387,7 @@ from tests.utils import (
                 },
             },
         ),
-        (  # ts20 - mb_67.mpt
+        (  # ts21 - mb_67.mpt
             {
                 "case": "mb_67.mpt",
                 "encoding": "windows-1252",

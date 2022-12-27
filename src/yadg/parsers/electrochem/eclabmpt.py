@@ -157,10 +157,10 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     params = settings_lines[-len(params_keys) :]
 
     # Get the locale
-    nat_loc = locale.getlocale(category = locale.LC_NUMERIC)
+    old_loc = locale.getlocale(category = locale.LC_NUMERIC)
     ewe_ctrl_re = re.compile(r"Ewe ctrl range : min = (?P<min>.+), max = (?P<max>.+)")
     ewe_ctrl_match = ewe_ctrl_re.search("\n".join(settings_lines))
-    for loc in [nat_loc, 'de_DE.UTF-8', 'en_US.UTF-8']:
+    for loc in [old_loc, 'de_DE.UTF-8', 'en_GB.UTF-8', 'en_US.UTF-8']:
         try:
             locale.setlocale(locale.LC_NUMERIC, locale = loc)
             locale.atof(ewe_ctrl_match['min'].split()[0])
@@ -316,6 +316,8 @@ def process(
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
     settings, params, loops = {}, [], {}
+    # Store current LC_NUMERIC before we do anything:
+    old_loc = locale.getlocale(category = locale.LC_NUMERIC)
     if nb_header_lines <= 3:
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
@@ -369,4 +371,6 @@ def process(
         uts = start_time + d["time"]["n"]
         d["technique"] = settings["technique"]
         timesteps.append({"fn": fn, "uts": uts, "raw": d})
+    # reset to original LC_NUMERIC
+    locale.setlocale(category = locale.LC_NUMERIC, locale = old_loc)
     return timesteps, metadata, fulldate

@@ -14,7 +14,7 @@ jobs:
           python-version: '3.9'
       - uses: ./.github/workflows/before-job
       - uses: ./.github/workflows/build-job
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with: 
           name: dist-master
           path: dist
@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.9'
       - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: dist-master
       - uses: jannekem/run-python-script-action@v1
@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: '3.9'
       - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: dist-master
       - uses: jannekem/run-python-script-action@v1
@@ -58,7 +58,7 @@ jobs:
             fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
             subprocess.run(["pip", "install", f"{fn}[docs]"])
       - uses: ./.github/workflows/docs-job
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with: 
           name: public-master
           path: public/master
@@ -70,7 +70,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: public-master
           path: public/master

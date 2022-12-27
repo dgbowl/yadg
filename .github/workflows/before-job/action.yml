@@ -3,6 +3,8 @@ description: "Set up a python dev environment."
 runs:
   using: "composite"
   steps:
+    - run: sudo locale-gen de_DE.UTF-8 || echo windows
+      shell: bash
     - run: python -V
       shell: bash
     - run: pip install virtualenv

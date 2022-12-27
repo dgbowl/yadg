@@ -1,21 +1,21 @@
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04166/status.svg)](https://doi.org/10.21105/joss.04166)
 [![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
 [![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
-![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)
-![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)
-[![LGTM analysis](https://badgen.net/lgtm/grade/g/dgbowl/yadg/python/?logo=lgtm)](https://lgtm.com/projects/g/dgbowl/yadg/context:python)
+[![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/)
+[![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/actions/workflows/push-master.yml)
+[![CodeQL analysis](https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/dgbowl/yadg/actions/workflows/codeql.yml)
 
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-Set of tools to process raw instrument data according to a *dataschema* into a standardised form called *datagram*, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) at Empa - Materials Science and Technology.
+Set of tools to process raw instrument data according to a *dataschema* into a standardised form called *datagram*, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH) and by the [Centre for Advanced Ceramic Materials](https://www.tu.berlin/ceramics) at Technische Universität Berlin (Berlin, DE).
 
 ![schema to datagram with yadg](./docs/source/images/schema_yadg_datagram.png)
 
 ### Capabilities:
-- Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats. Columns can be post-processed using any linear combinations of raw and processed data using the calibration functionality.
-- Parsing **chromatography data** from gas and liquid chromatography, including several Agilent, Masshunter, and Fusion formats. If a calibration file is provided, the traces are automatically integrated using built-in integration routines.
-- Parsing **reflection coefficient** traces from network analysers. The raw data can be fitted to obtain the quality factor and central frequency using several algorithms.
+- Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats. 
+- Parsing **chromatography data** from gas and liquid chromatography, including several Agilent, Masshunter, and Fusion formats.
+- Parsing **reflection coefficient** traces from network analysers. 
 - Parsing **potentiostat files** for electrochemistry applications. Supports BioLogic file formats.
 
 ### Features:

@@ -89,32 +89,17 @@ def schema_3to4(oldschema: list) -> dict:
         parameters = {}
         for k, v in oldstep["parameters"].items():
             if k in ["Tcalfile", "MFCcalfile", "calfile"]:
-                try:
-                    with open(v, "r") as cf:
-                        temp = calib_3to4(json.load(cf), k)
-                    logger.info(
-                        "Found calfile '%s' at '%s', "
-                        "will attempt to modernise the calibration.",
-                        k,
-                        v,
-                    )
-                    if k == "calfile":
-                        for kk, vv in temp.items():
-                            species[kk] = vv.pop("species")
-                            detectors[kk] = vv
-                    else:
-                        calib.update(temp)
-                except IOError:
-                    logger.error(
-                        "Error reading '%s' file: '{k}'. "
-                        "Keeping original key-value pair.",
-                        k,
-                        v,
-                    )
-                    parameters[k] = v
+                logger.warning(
+                    "Parsing of post-processing parameter '{k}' has been removed in "
+                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
+                )
+                del parameters[k]
             elif k == "method" and v == "q0refl":
-                v = "kajfez"
-                parameters[k] = v
+                logger.warning(
+                    "Parsing of post-processing parameter '{k}' has been removed in "
+                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
+                )
+                del parameters[k]
             else:
                 parameters[k] = v
         if newstep["parser"] == "meascsv" and "flow" not in calib:

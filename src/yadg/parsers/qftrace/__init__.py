@@ -39,28 +39,7 @@ This raw data is stored, for each timestep, using the following format:
           Re(Γ):              # real part of the reflection coefficient
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
           Im(Γ):              # imaginary part of the reflection coefficient
-            {n: [!!float, ...], s: [!!float, ...], u: !!str}  
-
-.. admonition:: DEPRECATED in ``yadg-4.2``
-
-    The fitting of peaks and quality factors in network analyzer traces is deprecated
-    as of ``yadg-4.2`` and will stop working in ``yadg-5.0``.
-
-The fitting of :math:`f_0` and :math:`Q_0` to all peaks found in each trace is 
-performed by :mod:`~yadg.parsers.qftrace` automatically, and can be adjusted by 
-specifying the ``method`` parameter and related options. The resulting data is 
-stored in the ``derived`` entry in each `timestep`, and contains the following 
-information:
-
-.. code-block:: yaml
-
-  - derived:
-      "{{ trace_name }}":   # see above, currently set to S11
-        f:                  # the frequencies of each peak
-          {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
-        Q:                  # the cavity quality factors for each peak
-          {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
-          
+            {n: [!!float, ...], s: [!!float, ...], u: !!str}            
 
 """
 from .main import process

@@ -2,7 +2,11 @@ import pytest
 import os
 import json
 import numpy as np
-from tests.utils import datagram_from_input, standard_datagram_test, compare_result_dicts
+from tests.utils import (
+    datagram_from_input,
+    standard_datagram_test,
+    compare_result_dicts,
+)
 
 
 def special_datagram_test(datagram, testspec):
@@ -53,12 +57,12 @@ def special_datagram_test(datagram, testspec):
                 "peak": 0,
                 "test": {
                     "S11": {
-                        "i": 0, 
+                        "i": 0,
                         "f": {"n": 7.1e9, "s": 1e3, "u": "Hz"},
                         "re": {"n": -0.0192804, "s": 1e-8, "u": " "},
                         "im": {"n": 0.9448405, "s": 1e-7, "u": " "},
                     }
-                }
+                },
             },
         )
     ],

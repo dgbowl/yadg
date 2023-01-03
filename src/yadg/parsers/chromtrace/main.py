@@ -12,6 +12,7 @@ from . import (
 
 logger = logging.getLogger(__name__)
 
+
 def process(
     fn: str,
     encoding: str = "utf-8",

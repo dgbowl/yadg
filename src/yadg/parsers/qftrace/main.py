@@ -41,5 +41,5 @@ def process(
     if parameters.filetype == "labview.csv":
         data, meta = labviewcsv.process(fn, encoding, timezone)
         fulldate = False
-    
+
     return data, meta, fulldate

@@ -48,15 +48,15 @@ def special_datagram_test(datagram, testspec):
                 "point": 1,
                 "test": {
                     "0": {
-                        "i": 1000, 
-                        "t": {"n": 100.002, "s": 0.100002, "u": "s"}, 
+                        "i": 1000,
+                        "t": {"n": 100.002, "s": 0.100002, "u": "s"},
                         "y": {"n": 2.085281, "s": 0.000130, "u": "pA"},
                     },
                     "1": {
-                        "i": 1000, 
-                        "t": {"n": 100.002, "s": 0.100002, "u": "s"}, 
+                        "i": 1000,
+                        "t": {"n": 100.002, "s": 0.100002, "u": "s"},
                         "y": {"n": 55.892435, "s": 0.000130, "u": "V"},
-                    }
+                    },
                 },
             },
         ),
@@ -75,15 +75,15 @@ def special_datagram_test(datagram, testspec):
                 "point": 0,
                 "test": {
                     "TCD1A.ch": {
-                        "i": 10, 
-                        "t": {"n": 2.15999999, "s": 0.06, "u": "s"}, 
+                        "i": 10,
+                        "t": {"n": 2.15999999, "s": 0.06, "u": "s"},
                         "y": {"n": 488830.0, "s": 0.001, "u": " "},
                     },
                     "FID2B.ch": {
-                        "i": 10, 
-                        "t": {"n": 2.15999999, "s": 0.06, "u": "s"}, 
+                        "i": 10,
+                        "t": {"n": 2.15999999, "s": 0.06, "u": "s"},
                         "y": {"n": 42430.0, "s": 0.001, "u": " "},
-                    }
+                    },
                 },
             },
         ),
@@ -102,15 +102,15 @@ def special_datagram_test(datagram, testspec):
                 "point": 4,
                 "test": {
                     "moduleA:tcd": {
-                        "i": 100, 
-                        "t": {"n": 2.0, "s": 0.02, "u": "s"}, 
-                        "y": {"n": 1566., "s": 1.0, "u": " "},
+                        "i": 100,
+                        "t": {"n": 2.0, "s": 0.02, "u": "s"},
+                        "y": {"n": 1566.0, "s": 1.0, "u": " "},
                     },
                     "moduleB:tcd": {
-                        "i": 100, 
-                        "t": {"n": 2.0, "s": 0.02, "u": "s"}, 
-                        "y": {"n": -1412., "s": 1.0, "u": " "},
-                    }
+                        "i": 100,
+                        "t": {"n": 2.0, "s": 0.02, "u": "s"},
+                        "y": {"n": -1412.0, "s": 1.0, "u": " "},
+                    },
                 },
             },
         ),
@@ -129,8 +129,8 @@ def special_datagram_test(datagram, testspec):
                 "point": 4,
                 "test": {
                     "moduleA:tcd": {
-                        "i": 0, 
-                        "t": {"n": 0.0, "s": 0.02, "u": "s"}, 
+                        "i": 0,
+                        "t": {"n": 0.0, "s": 0.02, "u": "s"},
                         "y": {"n": 0.0, "s": 1.0, "u": " "},
                     }
                 },
@@ -150,8 +150,8 @@ def special_datagram_test(datagram, testspec):
                 "point": 0,
                 "test": {
                     "RID1A": {
-                        "i": 0, 
-                        "t": {"n": 0.0675, "s": 0.0675, "u": "s"}, 
+                        "i": 0,
+                        "t": {"n": 0.0675, "s": 0.0675, "u": "s"},
                         "y": {"n": 0.39, "s": 0.01, "u": "nRIU"},
                     }
                 },
@@ -171,11 +171,11 @@ def special_datagram_test(datagram, testspec):
                 "point": 0,
                 "test": {
                     "RID1A": {
-                        "i": 10, 
-                        "t": {"n": 2.2276485, "s": 0.0675, "u": "s"}, 
+                        "i": 10,
+                        "t": {"n": 2.2276485, "s": 0.0675, "u": "s"},
                         "y": {"n": -1.6, "s": 0.01, "u": "nRIU"},
                     }
-                }
+                },
             },
         ),
     ],
@@ -185,7 +185,6 @@ def test_datagram_from_chromtrace(input, ts, datadir):
     ret = datagram_from_input(input, "chromtrace", datadir)
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
-
 
 
 @pytest.mark.parametrize(

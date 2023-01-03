@@ -116,7 +116,7 @@ def process(
         when only time is specified in columns.
 
     """
-    
+
     if hasattr(parameters, "strip"):
         strip = parameters.strip
     else:

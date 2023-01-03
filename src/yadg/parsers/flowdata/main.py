@@ -37,7 +37,7 @@ def process(
         is returned depends on the file parser.
 
     """
-    
+
     metadata = {}
 
     if parameters.filetype.startswith("drycal"):

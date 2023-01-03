@@ -47,16 +47,6 @@ def process(
     """
     logger.warning("This parser is deprecated. Please switch to 'basiccsv'.")
 
-    if parameters.calfile is not None:
-        dgutils.helpers.deprecated("parameters.calfile")
-        with open(parameters.calfile, "r") as infile:
-            calib = json.load(infile)
-    else:
-        calib = {}
-    if parameters.convert is not None:
-        dgutils.helpers.deprecated("parameters.convert")
-        calib.update(parameters.convert)
-
     with open(fn, "r", encoding=encoding) as infile:
         lines = [i.strip() for i in infile.readlines()]
 
@@ -74,23 +64,8 @@ def process(
     )
     timesteps = []
     for line in lines:
-        ts = process_row(
-            headers, line.split(";"), units, datefunc, datecolumns, calib=calib
-        )
+        ts = process_row(headers, line.split(";"), units, datefunc, datecolumns)
         ts["fn"] = str(fn)
 
-        if "derived" in ts:
-            xin = {}
-            total = ufloat(0, 0)
-            for mfc in ts["derived"].keys():
-                if mfc.startswith("flow") or mfc.startswith("T"):
-                    continue
-                xin[mfc] = ufloat(ts["derived"][mfc]["n"], ts["derived"][mfc]["s"])
-                total += xin[mfc]
-            if xin != {}:
-                ts["derived"]["xin"] = {}
-                for species in xin:
-                    x = xin[species] / total
-                    ts["derived"]["xin"][species] = {"n": x.n, "s": x.s, "u": " "}
         timesteps.append(ts)
     return timesteps, None, fulldate

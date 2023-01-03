@@ -23,12 +23,8 @@ given experiment.
 The produced `datagram` is associated with full provenance info, and the data within
 the `datagram` contains instrumental error estimates and is annotated with units.
 
-.. admonition:: DEPRECATED in ``yadg-4.2``
-
-   The post-processing features within ``yadg`` are deprecated as of ``yadg-4.2`` in 
-   favour of the ``dgpost`` library, and will be completely removed in ``yadg-5.0``.
-
-You can read more about yadg in our paper: [Kraus2022b]_.
+You can read more about yadg in our paper: [Kraus2022b]_. Please note that the post-processing
+features within ``yadg`` have been deprecated in ``yadg-4.2`` and removed in ``yadg-5.0``.
 
 .. toctree::
    :maxdepth: 1

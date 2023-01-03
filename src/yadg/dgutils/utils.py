@@ -93,13 +93,11 @@ def schema_3to4(oldschema: list) -> dict:
                     "Parsing of post-processing parameter '{k}' has been removed in "
                     "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
                 )
-                del parameters[k]
             elif k == "method" and v == "q0refl":
                 logger.warning(
                     "Parsing of post-processing parameter '{k}' has been removed in "
                     "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
                 )
-                del parameters[k]
             else:
                 parameters[k] = v
         if newstep["parser"] == "meascsv" and "flow" not in calib:

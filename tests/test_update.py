@@ -20,55 +20,31 @@ def test_update_schema_310(datadir):
     compare_result_dicts(
         ret["steps"][0]["data"][0]["raw"]["T_f"], {"n": 20.9, "s": 0.1, "u": "degC"}
     )
-    compare_result_dicts(
-        ret["steps"][0]["data"][0]["derived"]["T"],
-        {"n": 27.1976616, "s": 0.0914933, "u": "degC"},
-    )
-    compare_result_dicts(
-        ret["steps"][0]["data"][0]["derived"]["flow"],
-        {"n": 2.1717380, "s": 0.0110035, "u": "ml/min"},
-    )
-    compare_result_dicts(
-        ret["steps"][0]["data"][0]["derived"]["xin"]["C3H8"],
-        {"n": 0.0, "s": 0.0000626, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][0]["data"][0]["derived"]["xin"]["N2"],
-        {"n": 0.9505747, "s": 0.0003311, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][0]["data"][0]["derived"]["xin"]["O2"],
-        {"n": 0.0494253, "s": 0.0003257, "u": " "},
-    )
 
     # qftrace test
-    compare_result_dicts(
-        ret["steps"][1]["data"][0]["derived"]["S11"]["Q"],
-        {"n": [3060.4456994, 1546.0093196], "s": [18.1552741, 18.3307637], "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][1]["data"][0]["derived"]["S11"]["f"],
-        {"n": [7173122961.931216, 7348299014.344608], "s": [1000.0, 1000.0], "u": "Hz"},
-    )
+    f = {
+        "n": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["f"]["n"][0],
+        "s": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["f"]["s"][0],
+        "u": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["f"]["u"],
+    }
+    compare_result_dicts(f, {"n": 7.1e9, "s": 1e3, "u": "Hz"})
+    re = {
+        "n": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["Re(Γ)"]["n"][0],
+        "s": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["Re(Γ)"]["s"][0],
+        "u": ret["steps"][1]["data"][0]["raw"]["traces"]["S11"]["Re(Γ)"]["u"],
+    }
+    compare_result_dicts(re, {"n": -0.0192804, "s": 1e-8, "u": " "})
 
     # gctrace test
-    compare_result_dicts(
-        ret["steps"][2]["data"][0]["derived"]["xout"]["O2"],
-        {"n": 0.0298672, "s": 0.0006050, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][2]["data"][0]["derived"]["xout"]["N2"],
-        {"n": 0.9172920, "s": 0.0007279, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][2]["data"][0]["derived"]["xout"]["propane"],
-        {"n": 0.0159712, "s": 0.0000442, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][2]["data"][0]["derived"]["xout"]["CO2"],
-        {"n": 0.0080323, "s": 0.0000520, "u": " "},
-    )
-    compare_result_dicts(
-        ret["steps"][2]["data"][0]["derived"]["xout"]["CO"],
-        {"n": 0.0288312, "s": 0.0004395, "u": " "},
-    )
+    t = {
+        "n": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["t"]["n"][0],
+        "s": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["t"]["s"][0],
+        "u": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["t"]["u"],
+    }
+    compare_result_dicts(t, {"n": 0.0, "s": 0.100002, "u": "s"})
+    y = {
+        "n": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["y"]["n"][0],
+        "s": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["y"]["s"][0],
+        "u": ret["steps"][2]["data"][0]["raw"]["traces"]["0"]["y"]["u"],
+    }
+    compare_result_dicts(y, {"n": 2.105203, "s": 0.000130, "u": "pA"})

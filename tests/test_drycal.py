@@ -63,26 +63,7 @@ from tests.utils import (
             },
         ),
         (
-            {  # ts3 - default sep parser, date from fn, calfile parser
-                "case": "2021-10-11_DryCal_out.txt",
-                "parameters": {"calfile": "drycal.json", "filetype": "drycal.txt"},
-                "externaldate": {
-                    "from": {"filename": {"format": "%Y-%m-%d", "len": 10}}
-                },
-            },
-            {
-                "nsteps": 1,
-                "step": 0,
-                "nrows": 29,
-                "point": 28,
-                "pars": {
-                    "T": {"sigma": 0.1, "value": 299.25, "unit": "K", "raw": False},
-                    "p": {"sigma": 100, "value": 97100.0, "unit": "Pa", "raw": False},
-                },
-            },
-        ),
-        (
-            {  # ts4 - default sep parser, date from fn, passthrough units
+            {  # ts3 - default sep parser, date from fn
                 "case": "2021-10-11_DryCal_out.txt",
                 "parameters": {"filetype": "drycal.txt"},
                 "externaldate": {
@@ -95,17 +76,13 @@ from tests.utils import (
                 "nrows": 29,
                 "point": 28,
                 "pars": {
-                    "DryCal": {
-                        "sigma": 0.0001,
-                        "value": 14.848,
-                        "unit": "smL/min",
-                        "raw": True,
-                    },
+                    "DryCal": {"sigma": 0.0001, "value": 14.848, "unit": "smL/min"},
+                    "Pressure": {"sigma": 0.001, "value": 971.0, "unit": "mbar"},
                 },
             },
         ),
         (
-            {  # ts5 - overnight run
+            {  # ts4 - overnight run
                 "case": "20220721-porosity-study-20p-Cu-200mA-EDLC-01-flow.csv",
                 "parameters": {"filetype": "drycal.csv"},
                 "externaldate": {"from": {"filename": {"format": "%Y%m%d", "len": 8}}},

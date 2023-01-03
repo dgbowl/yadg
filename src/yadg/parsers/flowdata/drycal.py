@@ -31,7 +31,6 @@ def rtf(
     fn: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    calib: dict = {},
 ) -> tuple[list, dict]:
     """
     RTF version of the drycal parser.
@@ -91,7 +90,7 @@ def rtf(
     # Correct each ts by provided date
     timesteps = []
     for r in data:
-        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
+        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns)
         ts["fn"] = fn
         timesteps.append(ts)
 
@@ -103,7 +102,6 @@ def sep(
     sep: str,
     encoding: str = "utf-8",
     timezone: str = "UTC",
-    calib: dict = {},
 ) -> tuple[list, dict]:
     """
     Generic drycal parser, using ``sep`` as separator string.
@@ -168,7 +166,7 @@ def sep(
     # Correct each ts by provided date
     timesteps = list()
     for r in data:
-        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns, calib=calib)
+        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns)
         ts["fn"] = str(fn)
         timesteps.append(ts)
 

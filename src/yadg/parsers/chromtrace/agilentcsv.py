@@ -52,13 +52,10 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
 
 def _to_trace(tx, ty):
     xsn, xss = [np.array(x) * 60 for x in zip(*tx)]
-    xs = [xsn, xss]
     ysn, yss = [np.array(y) for y in zip(*ty)]
-    ys = [ysn, yss]
     trace = {
         "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
         "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": " "},
-        "data": [xs, ys],
     }
     return trace
 

@@ -124,7 +124,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
                 "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": pars["yunit"]},
                 "id": 0,
-                "data": [(xsn, xss), (ysn, yss)],
             }
         },
     }

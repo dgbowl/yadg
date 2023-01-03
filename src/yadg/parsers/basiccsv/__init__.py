@@ -25,11 +25,6 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.BasicCSV.Params
 
-.. admonition:: DEPRECATED in ``yadg-4.2``
-
-    The ``sigma``,  ``convert`` and ``calfile`` parameters are deprecated as of 
-    ``yadg-4.2`` and will stop working in ``yadg-5.0``.
-
 Provides
 ````````
 The primary functionality of :mod:`~yadg.parsers.basiccsv` is to load the tabular 

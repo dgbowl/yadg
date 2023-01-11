@@ -46,7 +46,7 @@ setuptools.setup(
         "requests",
         # "dgbowl-schemas>=111",
         # Master branch dgbowl-schemas can be installed by:
-        "dgbowl-schemas @ https://github.com/dgbowl/dgbowl-schemas/tarball/master",
+        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas/#egg=dgbowl-schemas-112.a1",
     ],
     extras_require={
         "testing": [

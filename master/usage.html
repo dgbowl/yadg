@@ -49,7 +49,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How to use <strong>yadg</strong></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dataschema-processing"><cite>Dataschema</cite> processing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dataschema-from-presets"><cite>Dataschema</cite> from presets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#version-updater">Version updater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dataschema-version-updater"><cite>Dataschema</cite> version updater</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
@@ -113,7 +113,7 @@ the direct link to Binder are:</p>
 <p>The basic purpose of yadg is to process a bunch of raw data files according to a
 provided <cite>dataschema</cite> into a well-defined, annotated, FAIR-data file called <cite>datagram</cite>.
 To use yadg like this, it should be invoked as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg process infile <span class="o">[</span>outfile<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>process<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
 <p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <cite>dataschema</cite> json file, and the optional
@@ -126,7 +126,7 @@ To use yadg like this, it should be invoked as follows:</p>
 in a consistent folder structure between several experimental runs. The user should
 prepare a <cite>preset</cite> file, which then gets patched to a <cite>dataschema</cite> file using the
 provided folder path:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset infile folder <span class="o">[</span>outfile<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
 <p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> is the <cite>preset</cite>, <code class="docutils literal notranslate"><span class="pre">folder</span></code> is the folder path for which the <cite>preset</cite>
@@ -134,34 +134,27 @@ should be modified, and the optional <code class="docutils literal notranslate">
 <cite>dataschema</cite> should be saved.</p>
 <p>Alternatively, if the <cite>dataschema</cite> should be processed immediately, the <code class="docutils literal notranslate"><span class="pre">--process</span></code>
 (or <code class="docutils literal notranslate"><span class="pre">-p</span></code>) switch can be used with the following usage pattern:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p infile folder <span class="o">[</span>outfile.json<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.json<span class="o">]</span>
 </pre></div>
 </div>
 <p>This syntax will process the created <cite>dataschema</cite> immediately, and the <cite>datagram</cite> will
 be saved to <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> instead.</p>
 <p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed,
 and referenced in the <cite>datagram</cite>, by using the following pattern:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg preset -p -a infile folder <span class="o">[</span>outfile.json<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>-a<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.json<span class="o">]</span>
 </pre></div>
 </div>
 <p>This will create a <cite>datagram</cite> in <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> as well as a <code class="docutils literal notranslate"><span class="pre">outfile.zip</span></code> archive
 from the whole contents of the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code>.</p>
 </section>
-<section id="version-updater">
-<h2>Version updater<a class="headerlink" href="#version-updater" title="Permalink to this headline"></a></h2>
+<section id="dataschema-version-updater">
+<h2><cite>Dataschema</cite> version updater<a class="headerlink" href="#dataschema-version-updater" title="Permalink to this headline"></a></h2>
 <p>If you’d like to update a <cite>dataschema</cite> from a previous version of yadg to the current
 latest one, use the following syntax:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg update schema infile <span class="o">[</span>outfile<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>update<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>This will update the <cite>dataschema</cite> specified in <code class="docutils literal notranslate"><span class="pre">infile</span></code>, also parsing old calibration
-files, if findable.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Updating of <cite>datagrams</cite> is possible, but not recommended, unless the raw data files
-are not available. We strongly recommend updating a <cite>dataschema</cite> and re-processing
-the raw data.</p>
-</div>
+<p>This will update the <cite>dataschema</cite> specified in <code class="docutils literal notranslate"><span class="pre">infile</span></code>.</p>
 </section>
 </section>
 

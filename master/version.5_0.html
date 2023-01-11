@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg: yet another datagram &mdash; yadg master documentation</title>
+  <title>yadg version 5.0 &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -20,8 +20,7 @@
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="How to use yadg" href="usage.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -29,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> yadg
+            <a href="index.html" class="icon icon-home"> yadg
             <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
@@ -77,17 +76,17 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">yadg</a>
+          <a href="index.html">yadg</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active"><strong>yadg</strong>: yet another datagram</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active"><strong>yadg</strong> version 5.0</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/version.5_0.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -95,59 +94,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="yadg-yet-another-datagram">
-<h1><strong>yadg</strong>: yet another datagram<a class="headerlink" href="#yadg-yet-another-datagram" title="Permalink to this headline"></a></h1>
-<a class="reference external image-reference" href="https://dgbowl.github.io/yadg"><img alt="https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox" src="https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox" /></a>
-<a class="reference external image-reference" href="https://pypi.org/project/yadg"><img alt="https://badgen.net/pypi/v/yadg/?icon=pypi" src="https://badgen.net/pypi/v/yadg/?icon=pypi" /></a>
-<a class="reference external image-reference" href="https://github.com/dgbowl/yadg"><img alt="https://badgen.net/github/tag/dgbowl/yadg/?icon=github" src="https://badgen.net/github/tag/dgbowl/yadg/?icon=github" /></a>
-<a class="reference external image-reference" href="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml"><img alt="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master" src="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master" /></a>
-<p><strong>yadg</strong> is a set of tools and parsers aimed to process raw instrument data.</p>
-<a class="reference internal image-reference" href="_images/schema_yadg_datagram.png"><img alt="yadg is used to process raw data files using a DataSchema into a datagram." src="_images/schema_yadg_datagram.png" style="width: 600px;" /></a>
-<p>Given an experiment represented by a <cite>dataschema</cite>, yadg will process the files
-and folders specified in each experimental <cite>step</cite> of the <cite>dataschema</cite>, and produce a
-<cite>datagram</cite> – a unified data structure containing all measured (“raw”) data in a
-given experiment.</p>
-<p>The produced <cite>datagram</cite> is associated with full provenance info, and the data within
-the <cite>datagram</cite> contains instrumental error estimates and is annotated with units.</p>
-<p>You can read more about yadg in our paper: <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>. Please note that the post-processing
-features within <code class="docutils literal notranslate"><span class="pre">yadg</span></code> have been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and removed in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+  <section id="yadg-version-5-0">
+<h1><strong>yadg</strong> version 5.0<a class="headerlink" href="#yadg-version-5-0" title="Permalink to this headline"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code> has not yet been released.</p>
+</div>
+<p>Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf, CH).</p>
+<p>New features since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Support for <code class="docutils literal notranslate"><span class="pre">DataSchema-5.0</span></code>.</p></li>
+<li><p>Automatic update of read <cite>dataschemas</cite> from version <code class="docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code> and above,
+yielding the latest verison of <cite>dataschema</cite> prior to parsing.</p></li>
 </ul>
-</div>
-<p><strong>yadg</strong> offloads the responsibility of processing the raw data files to its
-modules, called parsers. The currently implemented parsers are documented in the
-following links:</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+</div></blockquote>
+<p>Backwards-incompatible changes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Data post-processing within <a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a> has been removed, following its deprecation
+in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>. All previously included post-processing functionality is available
+in <code class="docutils literal notranslate"><span class="pre">dgpost-2.0</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code> functionality is now only for updating <cite>dataschema</cite>; the ability
+to update <cite>datagrams</cite> has been removed.</p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-</div>
+</div></blockquote>
+<p>Bug fixes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser now properly parses files with <code class="docutils literal notranslate"><span class="pre">WAIT</span></code>
+technique;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser understands more versions of the <code class="docutils literal notranslate"><span class="pre">MB</span></code>
+technique versions in the <code class="docutils literal notranslate"><span class="pre">biologic.mpr</span></code> filetype;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser can handle localized versions of data
+in the <code class="docutils literal notranslate"><span class="pre">biologic.mpt</span></code> filetype;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser now properly unzips data when using the
+<code class="docutils literal notranslate"><span class="pre">agilent.dx</span></code> filetype.</p></li>
+</ul>
+</div></blockquote>
+<p>This project has received funding from the European Union’s Horizon 2020 research
+and innovation programme under grant agreement No 957189. The project is part of
+BATTERY 2030+, the large-scale European research initiative for inventing the
+sustainable batteries of the future.</p>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="usage.html" class="btn btn-neutral float-right" title="How to use yadg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

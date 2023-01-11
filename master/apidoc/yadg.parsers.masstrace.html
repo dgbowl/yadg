@@ -125,21 +125,21 @@ in the <cite>dataschema</cite>. The parser supports the following parameters:</p
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.MassTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.MassTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.MassTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quadstar.sac&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;quadstar.sac&quot;</span><span class="w"></span>
-<span class="w">         </span><span class="p">],</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">   </span><span class="p">},</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quadstar.sac&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;quadstar.sac&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
@@ -163,16 +163,16 @@ see <a class="reference internal" href="#module-yadg.parsers.masstrace.quadstars
 <section id="provides">
 <span id="yadg-parsers-masstrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
 <p>The raw data, loaded from the supplied files, is stored using the following format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># y-axis label from file</span><span class="w"></span>
-<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># comment</span><span class="w"></span>
-<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># full scale range of the detector</span><span class="w"></span>
-<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span>
+<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># y-axis label from file</span>
+<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># comment</span>
+<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">       </span><span class="c1"># full scale range of the detector</span>
+<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
 <p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">m/z</span></code> are taken as the step-width of
@@ -280,18 +280,18 @@ are still one or two unknown fields.</p>
 </section>
 <section id="structure-of-parsed-timesteps">
 <h4>Structure of Parsed Timesteps<a class="headerlink" href="#structure-of-parsed-timesteps" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># y-axis label from file</span><span class="w"></span>
-<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># comment</span><span class="w"></span>
-<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># full scale range of detector</span><span class="w"></span>
-<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">raw</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_number</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># number of the trace</span>
+<span class="w">        </span><span class="nt">y_title</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># y-axis label from file</span>
+<span class="w">        </span><span class="nt">comment</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># comment</span>
+<span class="w">        </span><span class="nt">fsr</span><span class="p">:</span><span class="w">      </span><span class="kt">!!str</span><span class="w">      </span><span class="c1"># full scale range of detector</span>
+<span class="w">        </span><span class="nt">m/z</span><span class="p">:</span><span class="w">                 </span><span class="c1"># masses are always in amu</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;amu&quot;</span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                   </span><span class="c1"># y-axis units from file</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
 <p><em>Code author: Nicolas Vetsch &lt;<a class="reference external" href="mailto:vetschnicolas&#37;&#52;&#48;gmail&#46;com">vetschnicolas<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>

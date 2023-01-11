@@ -18,7 +18,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -97,28 +96,26 @@
              
   <section id="yadg-datagram">
 <h1><strong>yadg</strong> <cite>datagram</cite><a class="headerlink" href="#yadg-datagram" title="Permalink to this headline"></a></h1>
-<p>The <cite>datagram</cite> is a structured and annotated representation of both raw and
-processed data. Here, “raw data” corresponds to data present in the output files
-as they come out of an instrument directly, while “processed data” corresponds
-to data after any processing – whether the processing is applying a calibration
-curve, or a more involved transformation, such as deriving <span class="math notranslate nohighlight">\(Q_0\)</span> and
-<span class="math notranslate nohighlight">\(f_0\)</span> from <span class="math notranslate nohighlight">\(\Gamma(f)\)</span> in the <a class="reference internal" href="apidoc/yadg.parsers.qftrace.html#module-yadg.parsers.qftrace" title="yadg.parsers.qftrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.qftrace</span></code></a> module.</p>
-<p>The <cite>datagram</cite> is designed to be a mirror of the raw data files, with:</p>
+<p>The <cite>datagram</cite> is a structured and annotated representation of raw data. Here,
+“raw data” strictly denotes the data present in the parsed files, as they come out of an
+instrument directly. It may therefore also contain derived data (e.g. data processed using
+a calibration curve in chromatography, or a more involved transformation in electrochemistry),
+while referring to them as “raw data”, since they are present in the parsed files.</p>
+<p>The <cite>datagram</cite> is designed to be a FAIR representation of the parsed files, with:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>uncertainties of measured datapoints</p></li>
-<li><p>units associated with data</p></li>
-<li><p>a consistent data structure for timestamped traces</p></li>
-<li><p>a consistent variable mapping between different filetypes</p></li>
+<li><p>uncertainties of measured datapoints;</p></li>
+<li><p>units associated with data;</p></li>
+<li><p>a consistent data structure for timestamped traces;</p></li>
+<li><p>a consistent variable mapping between different filetypes.</p></li>
 </ul>
 </div></blockquote>
-<p>Additionally, the <cite>datagram</cite> is  annotated by relevant metadata, including:</p>
+<p>Additionally, the <cite>datagram</cite> is annotated by relevant metadata, including:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>version information</p></li>
-<li><p>clear provenance of raw data</p></li>
-<li><p>documentation of any post-processing</p></li>
-<li><p>uniform data timestamping between all <cite>datagrams</cite></p></li>
+<li><p>version information;</p></li>
+<li><p>clear provenance of the data;</p></li>
+<li><p>uniform data timestamping within and between all <cite>datagrams</cite>.</p></li>
 </ul>
 </div></blockquote>
 <div class="admonition note">
@@ -160,8 +157,7 @@ a time series. Each entry in <code class="docutils literal notranslate"><span cl
 <div><ul class="simple">
 <li><p>a Unix timestamp in its <code class="docutils literal notranslate"><span class="pre">uts</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> entry,</p></li>
 <li><p>a filename of the raw data in its <code class="docutils literal notranslate"><span class="pre">fn</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> entry,</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">raw</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any data directly from <code class="docutils literal notranslate"><span class="pre">fn</span></code>,</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">derived</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any post-processed data.</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">raw</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any data directly from <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -169,11 +165,6 @@ a time series. Each entry in <code class="docutils literal notranslate"><span cl
 </div></blockquote>
 </li>
 </ol>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The post-processing aspects of yadg are deprecated in favour of the <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>
-package and will likely be removed from <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-</div>
 <p>All measurement (floating-point) data has to be provided using the <code class="docutils literal notranslate"><span class="pre">&quot;property&quot;:</span> <span class="pre">{&quot;n&quot;:</span>
 <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">error,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;unit&quot;}</span></code> syntax, where both <code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are
 <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;u&quot;</span></code> is <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. The data can be organised in nested data
@@ -182,14 +173,14 @@ structures, however it is recursively validated.</p>
 is also possible to store lists of data in each <cite>timestep</cite>. Generally, yadg will store
 such data under a <code class="docutils literal notranslate"><span class="pre">traces</span></code> key in the appropriate <code class="docutils literal notranslate"><span class="pre">raw</span></code> or <code class="docutils literal notranslate"><span class="pre">derived</span></code> entry:</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;traces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nt">&quot;FID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;t&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s&quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;traces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;FID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;t&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s&quot;</span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div></blockquote>

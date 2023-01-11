@@ -1,25 +1,23 @@
 **yadg** `datagram`
 ```````````````````
-The `datagram` is a structured and annotated representation of both raw and 
-processed data. Here, "raw data" corresponds to data present in the output files
-as they come out of an instrument directly, while "processed data" corresponds 
-to data after any processing -- whether the processing is applying a calibration 
-curve, or a more involved transformation, such as deriving :math:`Q_0` and 
-:math:`f_0` from :math:`\Gamma(f)` in the :mod:`yadg.parsers.qftrace` module. 
+The `datagram` is a structured and annotated representation of raw data. Here, 
+"raw data" strictly denotes the data present in the parsed files, as they come out of an 
+instrument directly. It may therefore also contain derived data (e.g. data processed using
+a calibration curve in chromatography, or a more involved transformation in electrochemistry), 
+while referring to them as "raw data", since they are present in the parsed files.
 
-The `datagram` is designed to be a mirror of the raw data files, with:
+The `datagram` is designed to be a FAIR representation of the parsed files, with:
 
-    - uncertainties of measured datapoints
-    - units associated with data
-    - a consistent data structure for timestamped traces
-    - a consistent variable mapping between different filetypes
+    - uncertainties of measured datapoints;
+    - units associated with data;
+    - a consistent data structure for timestamped traces;
+    - a consistent variable mapping between different filetypes.
 
-Additionally, the `datagram` is  annotated by relevant metadata, including:
+Additionally, the `datagram` is annotated by relevant metadata, including:
 
-    - version information
-    - clear provenance of raw data 
-    - documentation of any post-processing
-    - uniform data timestamping between all `datagrams`
+    - version information;
+    - clear provenance of the data;
+    - uniform data timestamping within and between all `datagrams`.
 
 .. note::
 
@@ -56,13 +54,7 @@ entries:
        
        - a Unix timestamp in its ``uts`` :class:`float` entry,
        - a filename of the raw data in its ``fn`` :class:`str` entry,
-       - a ``raw`` :class:`dict` entry containing any data directly from ``fn``,
-       - a ``derived`` :class:`dict` entry containing any post-processed data.
-
-.. warning::
-
-    The post-processing aspects of yadg are deprecated in favour of the ``dgpost``
-    package and will likely be removed from ``yadg-5.0``.
+       - a ``raw`` :class:`dict` entry containing any data directly from ``fn``.
        
 All measurement (floating-point) data has to be provided using the ``"property": {"n": 
 value, "s": error, "u": "unit"}`` syntax, where both ``"n"`` and ``"s"`` are 

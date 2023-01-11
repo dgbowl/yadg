@@ -87,13 +87,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#id5">Exposed metadata:</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#integration-routines-for-chromatogram-integration"><strong>integration</strong>: Routines for chromatogram integration.</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#smoothing">Smoothing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#peak-picking-and-edge-finding">Peak-picking and edge-finding</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#baseline-correction">Baseline correction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#peak-integration">Peak integration</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -155,39 +148,39 @@ populates the points in the time axis (x-axis), when required.</p>
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.</span></span><span class="sig-name descname"><span class="pre">Params</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params" title="Permalink to this definition"></a></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ezchrom.asc&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;ezchrom.asc&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;fusion.json&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;fusion.zip&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;agilent.ch&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;agilent.dx&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="s2">&quot;agilent.csv&quot;</span><span class="w"></span>
-<span class="w">         </span><span class="p">],</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="p">},</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;calfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calfile&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="p">},</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;species&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Species&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="w">      </span><span class="p">},</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;detectors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Detectors&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="w">      </span><span class="p">}</span><span class="w"></span>
-<span class="w">   </span><span class="p">},</span><span class="w"></span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Params&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ezchrom.asc&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;ezchrom.asc&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;fusion.json&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;fusion.zip&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;agilent.ch&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;agilent.dx&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;agilent.csv&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;calfile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Calfile&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;species&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Species&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;detectors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Detectors&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;deprecated&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
@@ -230,11 +223,6 @@ stop working in <code class="docutils literal notranslate"><span class="pre">yad
 
 </dd></dl>
 
-<div class="admonition-deprecated-in-yadg-4-2 admonition">
-<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
-<p>The <code class="docutils literal notranslate"><span class="pre">calfile</span></code>, <code class="docutils literal notranslate"><span class="pre">detectors</span></code> and <code class="docutils literal notranslate"><span class="pre">species</span></code> parameters are deprecated
-as of <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-</div>
 </section>
 <section id="formats">
 <span id="yadg-parsers-chromtrace-formats"></span><h2>Formats<a class="headerlink" href="#formats" title="Permalink to this headline"></a></h2>
@@ -259,77 +247,22 @@ see <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionzi
 <section id="provides">
 <span id="yadg-parsers-chromtrace-provides"></span><h2>Provides<a class="headerlink" href="#provides" title="Permalink to this headline"></a></h2>
 <p>The raw data is stored, for each timestep, using the following format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"></span>
-<span class="w">  </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">raw</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">traces</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">        </span><span class="c1"># detector name from the raw data file</span><span class="w"></span>
-<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w">               </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># detector id for matching with calibration data</span><span class="w"></span>
-<span class="w">        </span><span class="nt">t</span><span class="p">:</span><span class="w">                       </span><span class="c1"># time-axis units are always seconds</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                       </span><span class="c1"># y-axis units are determined from raw file</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uts</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span>
+<span class="w">  </span><span class="nt">fn</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">raw</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">traces</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">        </span><span class="c1"># detector name from the raw data file</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w">               </span><span class="kt">!!int</span><span class="w">  </span><span class="c1"># detector id for matching with calibration data</span>
+<span class="w">        </span><span class="nt">t</span><span class="p">:</span><span class="w">                       </span><span class="c1"># time-axis units are always seconds</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="nt">y</span><span class="p">:</span><span class="w">                       </span><span class="c1"># y-axis units are determined from raw file</span>
+<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="kt">!!float,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">],</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To parse processed data in the raw data files, such as integrated peak areas or
 concentrations, use the <a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser instead.</p>
-</div>
-<div class="admonition-deprecated-in-yadg-4-2 admonition">
-<p class="admonition-title">DEPRECATED in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code></p>
-<p>The below functionality has been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and will stop working
-in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-</div>
-<p>The data processing performed by <a class="reference internal" href="#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> is enabled
-automatically when calibration information is provided. The resulting data is stored
-in the <code class="docutils literal notranslate"><span class="pre">derived</span></code> entry in each <cite>timestep</cite>, and contains the following information:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">derived</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">peaks</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">trace_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">     </span><span class="c1"># detector name from raw data file</span><span class="w"></span>
-<span class="w">        </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># species name matched from calibration</span><span class="w"></span>
-<span class="w">          </span><span class="nt">peak</span><span class="p">:</span><span class="w"></span>
-<span class="w">            </span><span class="nt">max</span><span class="p">:</span><span class="w">      </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak maximum</span><span class="w"></span>
-<span class="w">            </span><span class="nt">llim</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak left limit</span><span class="w"></span>
-<span class="w">            </span><span class="nt">rlim</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># index of peak right limit</span><span class="w"></span>
-<span class="w">          </span><span class="nt">A</span><span class="p">:</span><span class="w">                  </span><span class="c1"># integrated peak area</span><span class="w"></span>
-<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">          </span><span class="nt">h</span><span class="p">:</span><span class="w">                  </span><span class="c1"># height of peak maximum</span><span class="w"></span>
-<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">          </span><span class="nt">c</span><span class="p">:</span><span class="w">                  </span><span class="c1"># calibrated &quot;concentration&quot; or other quantity</span><span class="w"></span>
-<span class="w">            </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">    </span><span class="nt">height</span><span class="p">:</span><span class="w">                   </span><span class="c1"># baseline-corrected height of peak maximum</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">    </span><span class="nt">area</span><span class="p">:</span><span class="w">                     </span><span class="c1"># integrated area of the sample peak</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">    </span><span class="nt">concentration</span><span class="p">:</span><span class="w">            </span><span class="c1"># concentration of species derived from area</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-<span class="w">    </span><span class="nt">xout</span><span class="p">:</span><span class="w">                     </span><span class="c1"># normalised mol fractions of species</span><span class="w"></span>
-<span class="w">      </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The specification of dictionaries that ought to be passed to <code class="docutils literal notranslate"><span class="pre">species</span></code> and
-<code class="docutils literal notranslate"><span class="pre">detectors</span></code> (or stored as json in <code class="docutils literal notranslate"><span class="pre">&quot;calfile&quot;</span></code>) is described in
-<a class="reference internal" href="#yadg.parsers.chromtrace.main.parse_detector_spec" title="yadg.parsers.chromtrace.main.parse_detector_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.main.parse_detector_spec()</span></code></a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The quantity <code class="docutils literal notranslate"><span class="pre">c</span></code>, determined for each integrated peak, may not necessarily
-be concentration. It can also be mole fraction, as it is determined from the
-peak area in <code class="docutils literal notranslate"><span class="pre">A</span></code> and any provided calibration specification. The calibration
-interface allows for units to be supplied.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The mol fractions in <code class="docutils literal notranslate"><span class="pre">xout</span></code> always sum up to unity. If there is more than
-one outlet stream, these mol fractions have to be weighted by the flow rate
-in a post-processing routine.</p>
 </div>
 </section>
 <section id="module-yadg.parsers.chromtrace.agilentch">
@@ -342,12 +275,12 @@ the <cite>magic_values</cite> (parameters &amp; metadata) and <cite>data_dtypes<
 <a class="reference external" href="https://github.com/bovee/Aston">aston</a>.</p>
 <section id="exposed-metadata">
 <h4>Exposed metadata:<a class="headerlink" href="#exposed-metadata" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
 </pre></div>
 </div>
 </section>
@@ -404,12 +337,12 @@ a header section for each timestep, followed by a detector name, and a sequence 
 <code class="docutils literal notranslate"><span class="pre">[X,</span> <span class="pre">Y]</span></code> datapoints.</p>
 <section id="id1">
 <h4>Exposed metadata:<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
 </pre></div>
 </div>
 <p>Unfortunately, neither <code class="docutils literal notranslate"><span class="pre">method</span></code> nor <code class="docutils literal notranslate"><span class="pre">version</span></code> are exposed, which is a big weakness
@@ -448,12 +381,12 @@ includes a header line and x,y-data.</p>
 the archive. The IT files in the archive are currently ignored.</p>
 <section id="id2">
 <h4>Exposed metadata:<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
 </pre></div>
 </div>
 <p>In addition to the metadata exposed by the CH parser, the <code class="docutils literal notranslate"><span class="pre">datafile</span></code> entry
@@ -499,12 +432,12 @@ contains a header section, and a sequence of Y datapoints for each detector. The
 axis is uniform between traces, and its units have to be deduced from the header.</p>
 <section id="id3">
 <h4>Exposed metadata:<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
 </pre></div>
 </div>
 <p><em>Code author: Peter Kraus &lt;<a class="reference external" href="mailto:peter&#46;kraus&#37;&#52;&#48;empa&#46;ch">peter<span>&#46;</span>kraus<span>&#64;</span>empa<span>&#46;</span>ch</a>&gt;</em></p>
@@ -547,12 +480,12 @@ may change between different files. Hence, the keys are sorted.</p>
 </div>
 <section id="id4">
 <h4>Exposed metadata:<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
 </pre></div>
 </div>
 <p><em>Code author: Peter Kraus</em></p>
@@ -594,12 +527,12 @@ the <a class="reference internal" href="#module-yadg.parsers.chromtrace.fusionjs
 file present in the archive.</p>
 <section id="id5">
 <h4>Exposed metadata:<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h4>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span><span class="w"></span>
-<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w">   </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">sampleid</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w">  </span><span class="kt">!!str</span>
+<span class="w">  </span><span class="nt">datafile</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span>
 </pre></div>
 </div>
 <p><em>Code author: Peter Kraus</em></p>
@@ -629,151 +562,7 @@ without the user having to unzip &amp; move the data.</p>
 
 </section>
 </section>
-<span class="target" id="module-yadg.parsers.chromtrace.integration"></span><section id="integration-routines-for-chromatogram-integration">
-<span id="yadg-parsers-chromtrace-integration"></span><h3><strong>integration</strong>: Routines for chromatogram integration.<a class="headerlink" href="#integration-routines-for-chromatogram-integration" title="Permalink to this headline"></a></h3>
-<p>This module contains the <a class="reference internal" href="#yadg.parsers.chromtrace.integration.integrate_trace" title="yadg.parsers.chromtrace.integration.integrate_trace"><code class="xref py py-func docutils literal notranslate"><span class="pre">integrate_trace()</span></code></a>
-function, as well as several helper functions to smoothen, peak-pick, determine edges,
-and integrate the supplied traces.</p>
-<section id="smoothing">
-<h4>Smoothing<a class="headerlink" href="#smoothing" title="Permalink to this headline"></a></h4>
-<p>Smoothing can be optionally performed on the Y-values of each trace, using a
-Savigny-Golay filter. The default smoothing is performed using a cubic fit to a window
-length of 7; if the polyorder or the window length are not specified, smoothing is
-not used.</p>
-</section>
-<section id="peak-picking-and-edge-finding">
-<h4>Peak-picking and edge-finding<a class="headerlink" href="#peak-picking-and-edge-finding" title="Permalink to this headline"></a></h4>
-<p>Peak-picking is performed on the smoothed Y-data to find peaks, as well as on the mirror
-image of the data to find bands. Only peaks are further processed. Additionally, the
-1st and 2nd derivatives of the Y-data are evaluated, and the zero-points are found using
-numpy routines.</p>
-<p>The peak edges are taken as either the nearest minima adjacent to the peak maximum,
-or as the inflection points at which the gradient falls below a prescribed threshold,
-whichever is closest to the peak maximum.</p>
-</section>
-<section id="baseline-correction">
-<h4>Baseline correction<a class="headerlink" href="#baseline-correction" title="Permalink to this headline"></a></h4>
-<p>Using the determined peak-edges, the baseline is linearly interpolated in sections of
-Y-data which belong to a peak. The interpolation is performed using the raw (not
-smoothened) Y-data.</p>
-<p>If multiple peaks are adjacent to each other without a gap, the interpolation begins
-at the left limit of the leftmost peak and continues uninterrupted to the right limit
-of the rightmost peak. The points which belong to the interpolated areas are assumed
-to have an uncertainty of zero.</p>
-<p>The corrected baseline is then obtained by subtracting the interpolated baseline from
-the original raw (not smoothened) data.</p>
-</section>
-<section id="peak-integration">
-<h4>Peak integration<a class="headerlink" href="#peak-integration" title="Permalink to this headline"></a></h4>
-<p>Peak integration is performed on the corrected baseline and the matching X-data using
-the trapezoidal method as implemented in <code class="docutils literal notranslate"><span class="pre">np.trapz</span></code>.</p>
-<p><em>Code author: Peter Kraus &lt;<a class="reference external" href="mailto:peter&#46;kraus&#37;&#52;&#48;empa&#46;ch">peter<span>&#46;</span>kraus<span>&#64;</span>empa<span>&#46;</span>ch</a>&gt;</em></p>
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.parsers.chromtrace.integration.integrate_trace">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.integration.</span></span><span class="sig-name descname"><span class="pre">integrate_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chromspec</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.integration.integrate_trace" title="Permalink to this definition"></a></dt>
-<dd><p>Integration, calibration, and normalisation handling function. Used to process
-all chromatographic data for which a calibration has been provided</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traces</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary of trace data, with keys being the “raw” name of the detector,
-and the values containing the <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code> for specification matching, and a
-<code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> tuple containing the <code class="docutils literal notranslate"><span class="pre">(xs,</span> <span class="pre">ys)</span></code> where each element is a pair of
-<code class="xref py py-class docutils literal notranslate"><span class="pre">(np.ndarray)</span></code> with the nominal values and standard deviations.</p></li>
-<li><p><strong>chromspec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Parsed calibration information, with keys being the detector names in the
-calibration file, and values containing the <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code> for detector matching,
-<code class="docutils literal notranslate"><span class="pre">&quot;peakdetect&quot;</span></code> dictionary with peak-picking and edge-finding settings,
-and <code class="docutils literal notranslate"><span class="pre">&quot;species&quot;</span></code> dictionary with names of species as keys and the left,
-right limits and calibration information as values.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>derived</strong> – A dictionary containing the derived data, including the peak heights,
-areas, concentrations, mol fractions, and a dictionary with the peak
-picking information (name, maximum, limits, height, area).</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict[dict]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-</section>
 <span class="target" id="module-yadg.parsers.chromtrace.main"></span><dl class="py function">
-<dt class="sig sig-object py" id="yadg.parsers.chromtrace.main.parse_detector_spec">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.main.</span></span><span class="sig-name descname"><span class="pre">parse_detector_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.main.parse_detector_spec" title="Permalink to this definition"></a></dt>
-<dd><p>Chromatography detector parser.</p>
-<p>Combines the specification provided in <code class="docutils literal notranslate"><span class="pre">calfile</span></code> with that provided in
-<code class="docutils literal notranslate"><span class="pre">detectors</span></code> and <code class="docutils literal notranslate"><span class="pre">species</span></code>.</p>
-<p id="parsers-chromtrace-calfile">The format of <code class="docutils literal notranslate"><span class="pre">calfile</span></code> is as follows:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">detector_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="c1"># name of the detector</span><span class="w"></span>
-<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w">           </span><span class="kt">!!int</span><span class="w">     </span><span class="c1"># ID of the detector used for matching</span><span class="w"></span>
-<span class="w">  </span><span class="nt">prefer</span><span class="p">:</span><span class="w">       </span><span class="kt">!!bool</span><span class="w">    </span><span class="c1"># whether to prefer this detector for xout calc</span><span class="w"></span>
-<span class="w">  </span><span class="nt">peakdetect</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">window</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">     </span><span class="c1"># Savigny-Golay window_length = 2*window + 1</span><span class="w"></span>
-<span class="w">    </span><span class="nt">polyorder</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w">     </span><span class="c1"># Savigny-Golay polyorder</span><span class="w"></span>
-<span class="w">    </span><span class="nt">prominence</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking prominence parameter</span><span class="w"></span>
-<span class="w">    </span><span class="nt">threshold</span><span class="p">:</span><span class="w">  </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak edge detection threshold</span><span class="w"></span>
-<span class="w">  </span><span class="nt">species</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># name of the analyte</span><span class="w"></span>
-<span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking left limit [s]</span><span class="w"></span>
-<span class="w">      </span><span class="nt">r</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking right limit [s]</span><span class="w"></span>
-<span class="w">      </span><span class="nt">calib</span><span class="p">:</span><span class="w">    </span><span class="p p-Indicator">{}</span><span class="w">        </span><span class="c1"># calibration specification</span><span class="w"></span>
-<span class="w">      </span><span class="nt">unit</span><span class="p">:</span><span class="w">     </span><span class="kt">!!str</span><span class="w">     </span><span class="c1"># optional unit for the concentration, by default %</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The syntax of the calibration specification is detailed in
-<a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.calib.calib_handler" title="yadg.dgutils.calib.calib_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.calib.calib_handler()</span></code></a>.</p>
-</div>
-<p id="parsers-chromtrace-detectors">The format of <code class="docutils literal notranslate"><span class="pre">detectors</span></code> is as follows:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">detector_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># name of the detector</span><span class="w"></span>
-<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w">           </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># ID of the detector used for matching</span><span class="w"></span>
-<span class="w">  </span><span class="nt">prefer</span><span class="p">:</span><span class="w">       </span><span class="kt">!!bool</span><span class="w">  </span><span class="c1"># whether to prefer this detector for xout calc</span><span class="w"></span>
-<span class="w">  </span><span class="nt">peakdetect</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">window</span><span class="p">:</span><span class="w">     </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># Savigny-Golay window_length = 2*window + 1</span><span class="w"></span>
-<span class="w">    </span><span class="nt">polyorder</span><span class="p">:</span><span class="w">  </span><span class="kt">!!int</span><span class="w">   </span><span class="c1"># Savigny-Golay polyorder</span><span class="w"></span>
-<span class="w">    </span><span class="nt">prominence</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float</span><span class="w"> </span><span class="c1"># peak picking prominence parameter</span><span class="w"></span>
-<span class="w">    </span><span class="nt">threshold</span><span class="p">:</span><span class="w">  </span><span class="kt">!!float</span><span class="w"> </span><span class="c1"># peak edge detection threshold</span><span class="w"></span>
-</pre></div>
-</div>
-<p id="parsers-chromtrace-species">The format of <code class="docutils literal notranslate"><span class="pre">species</span></code> is as follows:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">detector_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w">    </span><span class="c1"># name of the detector</span><span class="w"></span>
-<span class="w">  </span><span class="nt">species</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">species_name</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="c1"># name of the analyte</span><span class="w"></span>
-<span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking left limit [s]</span><span class="w"></span>
-<span class="w">      </span><span class="nt">r</span><span class="p">:</span><span class="w">        </span><span class="kt">!!float</span><span class="w">   </span><span class="c1"># peak picking right limit [s]</span><span class="w"></span>
-<span class="w">      </span><span class="nt">calib</span><span class="p">:</span><span class="w">    </span><span class="kt">!!calib</span><span class="w">   </span><span class="c1"># calibration specification</span><span class="w"></span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The syntax of the calibration specification is detailed in
-<a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.calib.calib_handler" title="yadg.dgutils.calib.calib_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.calib.calib_handler()</span></code></a>.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>calfile</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – A json file containing the calibration data in the format prescribed
-<a class="reference internal" href="#parsers-chromtrace-calfile"><span class="std std-ref">above</span></a>.</p></li>
-<li><p><strong>detectors</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – A dictionary containing the <code class="docutils literal notranslate"><span class="pre">&quot;id&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;peakdetect&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;prefer&quot;</span></code>
-keys for each detector, as shown <a class="reference internal" href="#parsers-chromtrace-detectors"><span class="std std-ref">here</span></a>.</p></li>
-<li><p><strong>species</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – A dictionary containing the species names as keys and their specification
-as dictionaries, as shown <a class="reference internal" href="#parsers-chromtrace-species"><span class="std std-ref">here</span></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>calib</strong> – The combined calibration specification.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.main.process">
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified raw chromatogram parser.</p>

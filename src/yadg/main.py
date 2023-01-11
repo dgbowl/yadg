@@ -101,13 +101,8 @@ def run_with_arguments():
 
     update = subparsers.add_parser("update")
     update.add_argument(
-        "type",
-        choices=["schema", "datagram"],
-        help="Specify whether a schema or a datagram is to be expected.",
-    )
-    update.add_argument(
         "infile",
-        help="The file containing the schema/datagram in the old format.",
+        help="The file containing the schema in the old format.",
     )
     update.add_argument(
         "outfile",

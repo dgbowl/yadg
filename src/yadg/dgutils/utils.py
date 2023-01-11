@@ -1,12 +1,9 @@
 import logging
-import json
 import os
 from typing import Union
-from packaging import version
-from dgbowl_schemas.yadg import to_dataschema, latest_version
+from dgbowl_schemas.yadg import to_dataschema
 
 from .. import dgutils
-from .. import core
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +61,7 @@ def schema_3to4(oldschema: list) -> dict:
                     "update_schema": {"updater": "schema_3to4"},
                 },
             },
-            "version": latest_version,
+            "version": "4.1",
             "timezone": "localtime",
         },
         "steps": [],
@@ -90,13 +87,15 @@ def schema_3to4(oldschema: list) -> dict:
         for k, v in oldstep["parameters"].items():
             if k in ["Tcalfile", "MFCcalfile", "calfile"]:
                 logger.warning(
-                    "Parsing of post-processing parameter '{k}' has been removed in "
-                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
+                    "Parsing of post-processing parameter '%s' has been removed in "
+                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality.",
+                    k,
                 )
             elif k == "method" and v == "q0refl":
                 logger.warning(
-                    "Parsing of post-processing parameter '{k}' has been removed in "
-                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality."
+                    "Parsing of post-processing parameter '%s' has been removed in "
+                    "yadg-5.0, please use dgpost-2.0 to reproduce this functionality.",
+                    k,
                 )
             else:
                 parameters[k] = v
@@ -115,7 +114,7 @@ def schema_3to4(oldschema: list) -> dict:
     return newschema
 
 
-def update_object(objtype: str, object: Union[list, dict]) -> dict:
+def update_schema(object: Union[list, dict]) -> dict:
     """
     Yadg's update worker function.
 
@@ -125,15 +124,11 @@ def update_object(objtype: str, object: Union[list, dict]) -> dict:
 
     Currently supports:
 
-     - updating ``schema`` version 3.1.0 to 4.0.0
-     - updating ``datagram`` version 3.1.0 to 4.0.0, although you **really** should be
-       updating the ``schema`` instead and re-processing files.
+     - updating ``DataSchema`` version 3.1 to 4.0 using routines in ``yadg``
+     - updating ``DataSchema`` version 4.0 and above to the latest ``DataSchema``
 
     Parameters
     ----------
-    objtype
-        The type of the passed object, either `"datagram"` or `"schema"`.
-
     object
         The object to be updated
 
@@ -143,41 +138,19 @@ def update_object(objtype: str, object: Union[list, dict]) -> dict:
         The updated and validated `"datagram"` or `"schema"`.
 
     """
-    assert objtype in {"datagram", "schema"}, (
-        f"Type '{objtype}' provided to update_object "
-        "is not one of {'datagram', 'schema'}."
-    )
 
-    oldver = None
     if isinstance(object, list):
-        oldver = "3.1.0"
-
-    assert oldver is not None, (
-        f"update_object: Impossible to figure out old '{type}' version. "
-        "Please convert manually."
-    )
-
-    # distribute to updaters
-    if version.parse(oldver).major == 3:
-        assert (
-            objtype == "schema"
-        ), "Updating datagrams older than version 4.0.0 is not possible"
-        logger.info("Updating old schema %s -> %s", oldver, latest_version)
+        logger.info("Updating list-style DataSchema")
         newobj = schema_3to4(object)
-    elif version.parse(oldver).major == 4:
-        logger.info("Already at latest version, no update necessary.")
+    elif isinstance(object, dict):
+        logger.info("Updating dict-style DataSchema")
         newobj = object
-
-    with open("temp.json", "w") as outfile:
-        json.dump(newobj, outfile, indent=1)
-
-    if objtype == "schema":
-        logger.info("Validating new schema.")
-        newobj = to_dataschema(**newobj)
-    elif objtype == "datagram":
-        logger.info("Validating new datagram.")
-        core.validators.validate_datagram(newobj)
-
+    else:
+        raise
+    newobj = to_dataschema(**newobj)
+    while hasattr(newobj, "update"):
+        newobj = newobj.update()
+        print(newobj.dict())
     return newobj
 
 

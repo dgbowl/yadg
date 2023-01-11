@@ -59,20 +59,14 @@ and referenced in the `datagram`, by using the following pattern:
 This will create a `datagram` in ``outfile.json`` as well as a ``outfile.zip`` archive
 from the whole contents of the specified ``folder``.
 
-Version updater
-```````````````
+`Dataschema` version updater
+````````````````````````````
 If you'd like to update a `dataschema` from a previous version of yadg to the current 
 latest one, use the following syntax:
 
 .. code-block:: bash
 
-    yadg update schema infile [outfile]
+    yadg update infile [outfile]
 
-This will update the `dataschema` specified in ``infile``, also parsing old calibration
-files, if findable. 
+This will update the `dataschema` specified in ``infile``. 
 
-.. warning::
-    
-    Updating of `datagrams` is possible, but not recommended, unless the raw data files 
-    are not available. We strongly recommend updating a `dataschema` and re-processing 
-    the raw data.

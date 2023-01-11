@@ -9,120 +9,8 @@ from . import (
     fusionjson,
     fusionzip,
 )
-from . import integration
-from ... import dgutils
 
 logger = logging.getLogger(__name__)
-
-
-def parse_detector_spec(
-    calfile: str = None, detectors: dict = None, species: dict = None
-) -> dict:
-    """
-    Chromatography detector parser.
-
-    Combines the specification provided in ``calfile`` with that provided in
-    ``detectors`` and ``species``.
-
-    .. _parsers_chromtrace_calfile:
-
-    The format of ``calfile`` is as follows:
-
-    .. code-block:: yaml
-
-        "{{ detector_name }}":    # name of the detector
-          id:           !!int     # ID of the detector used for matching
-          prefer:       !!bool    # whether to prefer this detector for xout calc
-          peakdetect:
-            window:     !!int     # Savigny-Golay window_length = 2*window + 1
-            polyorder:  !!int     # Savigny-Golay polyorder
-            prominence: !!float   # peak picking prominence parameter
-            threshold:  !!float   # peak edge detection threshold
-          species:
-            "{{ species_name }}": # name of the analyte
-              l:        !!float   # peak picking left limit [s]
-              r:        !!float   # peak picking right limit [s]
-              calib:    {}        # calibration specification
-              unit:     !!str     # optional unit for the concentration, by default %
-
-    .. note::
-        The syntax of the calibration specification is detailed in
-        :func:`yadg.dgutils.calib.calib_handler`.
-
-    .. _parsers_chromtrace_detectors:
-
-    The format of ``detectors`` is as follows:
-
-    .. code-block:: yaml
-
-        "{{ detector_name }}":  # name of the detector
-          id:           !!int   # ID of the detector used for matching
-          prefer:       !!bool  # whether to prefer this detector for xout calc
-          peakdetect:
-            window:     !!int   # Savigny-Golay window_length = 2*window + 1
-            polyorder:  !!int   # Savigny-Golay polyorder
-            prominence: !!float # peak picking prominence parameter
-            threshold:  !!float # peak edge detection threshold
-
-    .. _parsers_chromtrace_species:
-
-    The format of ``species`` is as follows:
-
-    .. code-block:: yaml
-
-        "{{ detector_name }}":    # name of the detector
-          species:
-            "{{ species_name }}": # name of the analyte
-              l:        !!float   # peak picking left limit [s]
-              r:        !!float   # peak picking right limit [s]
-              calib:    !!calib   # calibration specification
-
-    .. note::
-        The syntax of the calibration specification is detailed in
-        :func:`yadg.dgutils.calib.calib_handler`.
-
-    Parameters
-    ----------
-    calfile
-        A json file containing the calibration data in the format prescribed
-        :ref:`above<parsers_chromtrace_calfile>`.
-
-    detectors
-        A dictionary containing the ``"id"``, ``"peakdetect"`` and ``"prefer"``
-        keys for each detector, as shown :ref:`here<parsers_chromtrace_detectors>`.
-
-    species
-        A dictionary containing the species names as keys and their specification
-        as dictionaries, as shown :ref:`here<parsers_chromtrace_species>`.
-
-    Returns
-    -------
-    calib: dict
-        The combined calibration specification.
-    """
-
-    if calfile is not None:
-        with open(calfile, "r") as infile:
-            calib = json.load(infile)
-    else:
-        calib = {}
-    if isinstance(detectors, dict):
-        for name, det in detectors.items():
-            try:
-                calib[name].update(det)
-            except KeyError:
-                calib[name] = det
-    if isinstance(species, dict):
-        for name, sp in species.items():
-            assert name in calib, (
-                f"chromtrace: Detector with name {name} specified in supplied "
-                f"'species' but previously undefined."
-            )
-            try:
-                calib[name]["species"].update(sp)
-            except KeyError:
-                calib[name]["species"] = sp
-    return calib
 
 
 def process(
@@ -171,38 +59,14 @@ def process(
     elif parameters.filetype == "fusion.zip":
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
-    if parameters.calfile is not None:
-        dgutils.helpers.deprecated("parameters.calfile")
-        chromspec = parse_detector_spec(
-            parameters.calfile, parameters.detectors, parameters.species
-        )
-    elif parameters.species is not None:
-        dgutils.helpers.deprecated("parameters.species")
-        chromspec = parse_detector_spec(
-            parameters.calfile, parameters.detectors, parameters.species
-        )
-    elif parameters.detectors is not None:
-        dgutils.helpers.deprecated("parameters.detectors")
-        chromspec = parse_detector_spec(
-            parameters.calfile, parameters.detectors, parameters.species
-        )
-    else:
-        chromspec = False
-
     results = []
     for chrom in _data:
         result = {}
-        # process derived data
-        if chromspec:
-            result["derived"] = integration.integrate_trace(chrom["traces"], chromspec)
-        else:
-            for k, v in chrom["traces"].items():
-                v.pop("data")
-        # process raw data here
         result["uts"] = chrom.pop("uts")
         result["fn"] = chrom.pop("fn")
-        result["raw"] = chrom
-
+        result["raw"] = {}
+        result["raw"].update(chrom.pop("raw", {}))
+        result["raw"].update(chrom)
         results.append(result)
 
     return results, _meta, True

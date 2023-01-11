@@ -44,20 +44,16 @@ setuptools.setup(
         "python-dateutil",
         "openpyxl>=3.0.0",
         "requests",
-        "dgbowl-schemas>=111",
-        # Master branch dgbowl-schemas can be installed by:
-        # "dgbowl-schemas @ https://github.com/dgbowl/dgbowl-schemas/tarball/master",
+        "dgbowl-schemas>=113",
     ],
     extras_require={
-        "testing": [
-            "pytest"
-        ],
+        "testing": ["pytest"],
         "docs": [
             "sphinx==4.5.0",
             "sphinx-rtd-theme",
             "sphinx-autodoc-typehints",
-            "autodoc-pydantic"
-        ]
+            "autodoc-pydantic",
+        ],
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},
 )

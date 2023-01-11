@@ -62,6 +62,9 @@ def process(args: argparse.Namespace) -> None:
     ds = to_dataschema(**schema)
     logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
+    while hasattr(ds, "update"):
+        ds = ds.update()
+
     logger.debug("Processing schema")
     datagram = core.process_schema(ds)
 
@@ -74,20 +77,11 @@ def update(args: argparse.Namespace) -> None:
     """
     The ``update`` subcommand of **yadg**.
 
-    This function requires the ``args.type`` argument, which defines whether the
-    object to be updated is a `datagram` or a `schema`. Generally, updating a
-    `schema` and then re-processing the raw data is preferred to updating a
-    `datagram`.
-
-    If the supplied ``args.infile`` exists, and can be parsed as a json, it will
-    be passed to :func:`yadg.dgutils.update_object` to perform the update. If the
-    update is successful, the object is checked for validity and written out
-    into ``args.outfile`` (which is the ``args.infile`` with  a `".new.json"`
-    suffix by default).
+    This function updates the `DataSchema` present in the ``args.infile`` argument to
+    comply with the newest version of `DataSchema`, and saves the resulting object into
+    ``args.outfile`` (which is the ``args.infile`` with  a `".new.json"` suffix
+    by default).
     """
-    assert args.type in ["datagram", "schema"], (
-        f"Specified object type '{args.type}' is not one of " "['datagram', 'schema']."
-    )
 
     assert os.path.exists(args.infile) and os.path.isfile(args.infile), (
         f"Supplied object filename '{args.infile}' does not exist "
@@ -101,15 +95,11 @@ def update(args: argparse.Namespace) -> None:
         name, ext = os.path.splitext(args.infile)
         args.outfile = f"{name}.new.json"
 
-    logger.info("Updating old object.")
-    outobj = dgutils.update_object(args.type, inobj)
+    outobj = dgutils.update_schema(inobj)
 
     logger.info("Writing new object into '%s'.", args.outfile)
     with open(args.outfile, "w") as outfile:
-        if isinstance(outobj, DataSchema):
-            json.dump(outobj.dict(), outfile, indent=1)
-        else:
-            json.dump(outobj, outfile, indent=1)
+        json.dump(outobj.dict(), outfile, indent=1)
 
 
 def preset(args: argparse.Namespace) -> None:

@@ -15,29 +15,12 @@ def process_row(
     units: dict,
     datefunc: Callable,
     datecolumns: list,
-    calib: dict = {},
 ) -> dict:
     """
     A function that processes a row of a table.
 
     This is the main worker function of ``basiccsv``, but can be re-used by any other
     parser that needs to process tabular data.
-
-    .. _processing_convert:
-
-    This function processes the ``"calib"`` parameter, which should be a :class:`(dict)`
-    in the following format:
-
-    .. code-block:: yaml
-
-      - new_name:     !!str    # derived entry name
-        - old_name:   !!str    # raw header name
-          - calib: {}          # calibration specification
-          fraction:   !!float  # coefficient for linear combinations of old_name
-        unit:         !!str    # unit of new_name
-
-    The syntax of the calibration specification is detailed in
-    :func:`yadg.dgutils.calib.calib_handler`.
 
     Parameters
     ----------
@@ -55,11 +38,6 @@ def process_row(
 
     datecolumns
         Column indices that need to be passed to ``datefunc`` to generate uts.
-
-    calib
-        Specification for converting raw data in ``headers`` and ``items`` to other
-        quantities. Arbitrary linear combinations of ``headers`` are possible. See
-        :ref:`the above section<processing_convert>` for the specification.
 
     Returns
     -------
@@ -99,37 +77,6 @@ def process_row(
         except ValueError:
             element["raw"][header] = columns[ci]
 
-    # Process calib
-    for newk, spec in calib.items():
-        y = uc.ufloat(0, 0)
-        oldu = " "
-        for oldk, v in spec.items():
-            if oldk in der:
-                dy = dgutils.calib_handler(
-                    der[oldk],
-                    v.get("calib", None),
-                )
-                y += dy * v.get("fraction", 1.0)
-                oldu = element["derived"][oldk]["u"]
-            elif oldk in raw:
-                dy = dgutils.calib_handler(
-                    uc.ufloat(*raw[oldk]),
-                    v.get("calib", None),
-                )
-                y += dy * v.get("fraction", 1.0)
-                oldu = element["raw"][oldk]["u"]
-            elif oldk == "unit":
-                pass
-            else:
-                logger.warning(
-                    "process_row: Supplied key '%s' is neither a 'raw' "
-                    "nor a 'derived' key.",
-                    oldk,
-                )
-        if "derived" not in element:
-            element["derived"] = dict()
-        element["derived"][newk] = {"n": y.n, "s": y.s, "u": spec.get("unit", oldu)}
-        der[newk] = y
     return element
 
 
@@ -169,16 +116,6 @@ def process(
         when only time is specified in columns.
 
     """
-    # Process calfile and convert into calib
-    if parameters.calfile is not None:
-        dgutils.helpers.deprecated("parameters.calfile")
-        with open(parameters.calfile, "r") as infile:
-            calib = json.load(infile)
-    else:
-        calib = {}
-    if parameters.convert is not None:
-        dgutils.helpers.deprecated("parameters.convert")
-        calib.update(parameters.convert)
 
     if hasattr(parameters, "strip"):
         strip = parameters.strip
@@ -226,7 +163,6 @@ def process(
             units,
             datefunc,
             datecolumns,
-            calib=calib,
         )
         element["fn"] = str(fn)
         data.append(element)

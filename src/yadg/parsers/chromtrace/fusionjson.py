@@ -92,10 +92,8 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         ), f"fusion: Inconsistent trace length in file {fn}."
         xsn = np.arange(npoints) / xmul
         xss = np.ones(npoints) / xmul
-        xs = [xsn, xss]
         ysn = np.array(detdict["values"])
         yss = np.ones(npoints)
-        ys = [ysn, yss]
         trace["t"] = {
             "n": xsn.tolist(),
             "s": xss.tolist(),
@@ -106,7 +104,6 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             "s": yss.tolist(),
             "u": " ",
         }
-        trace["data"] = [xs, ys]
         chrom["traces"][detname] = trace
 
     return [chrom], metadata

@@ -46,6 +46,7 @@ def process(
     assert (
         len(lines) > 2
     ), f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
+
     # process header
     bw = [10000.0, 1.0]
     avg = 15
@@ -57,6 +58,7 @@ def process(
             if item.startswith("AVG"):
                 avg = int(item.split("=")[-1].strip())
     fsbw = bw[0] / avg
+
     # calculate precision of trace
     data["raw"] = {"traces": {}, "bw": {"n": bw[0], "s": bw[1], "u": "Hz"}, "avg": avg}
     freq = []
@@ -78,9 +80,6 @@ def process(
         absgamma.append(abs(c))
     temp = {"f": {}, "Re(Γ)": {}, "Im(Γ)": {}}
     freq = [np.array(i) for i in zip(*freq)]
-    temp["fvals"], temp["fsigs"] = freq
-    temp["gamma"] = np.array(gamma)
-    temp["absgamma"] = np.array(absgamma)
     temp["f"]["n"], temp["f"]["s"] = [i.tolist() for i in freq]
     temp["f"]["u"] = "Hz"
     real = [np.array(i) for i in zip(*real)]

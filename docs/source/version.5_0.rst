@@ -15,11 +15,17 @@ Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf
 
 New features since ``yadg-4.2`` are:
 
+  - Support for ``DataSchema-5.0``.
+  - Automatic update of read `dataschemas` from version ``DataSchema-4.0`` and above,
+    yielding the latest verison of `dataschema` prior to parsing.
+
 Backwards-incompatible changes include:
 
   - Data post-processing within :mod:`yadg` has been removed, following its deprecation
     in ``yadg-4.2``. All previously included post-processing functionality is available
     in ``dgpost-2.0``.
+  - The ``yadg update`` functionality is now only for updating `dataschema`; the ability
+    to update `datagrams` has been removed.
   
 Bug fixes include:
 

@@ -69,11 +69,11 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 @pytest.mark.parametrize(
     "inp_dict, expr",
     [
-        (fts0, r"parser"),
-        (fts1, r"given=dumm"),
+        (fts0, r"Discriminator 'parser' is missing in value"),
+        (fts1, r"No match for discriminator 'parser' and value 'dumm'"),
         (fts2, r"Both 'files' and 'folders'"),
         (fts3, r"Neither 'files' nor 'folders'"),
-        (fts4, r"extra fields not permitted"),
+        (fts4, r"steps -> 0 -> Dummy -> key\n  extra fields not permitted"),
     ],
 )
 def test_schema_validator_4_0(inp_dict, expr, datadir):
@@ -85,10 +85,10 @@ def test_schema_validator_4_0(inp_dict, expr, datadir):
 @pytest.mark.parametrize(
     "inp_dict, expr",
     [
-        (fts5, r"metadata -> provenance"),
-        (fts6, r"metadata -> version"),
-        (fts7, r"steps -> 0 -> input"),
-        (fts8, r"steps -> 0 -> parser"),
+        (fts5, r"metadata -> provenance\n  value is not a valid dict"),
+        (fts6, r"metadata -> version\n  unexpected value"),
+        (fts7, r"steps -> 0 -> Dummy -> input\n  field required"),
+        (fts8, r"Discriminator 'parser' is missing in value"),
     ],
 )
 def test_schema_validator_4_1(inp_dict, expr, datadir):

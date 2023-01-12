@@ -9,4 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: marian-code/python-lint-annotate@v3
+        with:
+          python-version: "3.9"
       

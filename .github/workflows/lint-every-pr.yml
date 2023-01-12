@@ -8,8 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: rahul-deepsource/pyaction@1.4.0
-        with:
-          use-pycodestyle: false
-          use-isort: false
-          extra-pylint-options: "--output-format="colorized"
+      - uses: marian-code/python-lint-annotate@v3
+      

@@ -248,9 +248,8 @@ def complete_timestamps(
 
     The ``externaldate`` specification is as follows:
 
-    .. _yadg.dgutils.dateutils.externaldate.model:
-
     .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate
+       :noindex:
 
     The ``using`` key specifies how an external timestamp is created. Only one entry in
     ``using`` is permitted. By default, this entry is:

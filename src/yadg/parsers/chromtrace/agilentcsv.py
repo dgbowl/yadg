@@ -100,24 +100,13 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     chrom = {"fn": str(fn), "traces": {}}
     tx = []
     ty = []
+    detname = None
     for li in range(len(lines)):
         line = lines[li].strip()
         parts = line.strip().split(",")
-        if len(parts) == 1:
-            detname = parts[0].replace('"', "").split("\\")[-1]
-            if tx != [] and ty != []:
-                trace = _to_trace(tx, ty)
-                trace["id"] = len(chrom["traces"])
-                chrom["traces"][detname] = trace
-                tx = []
-                ty = []
-        elif len(parts) == 2:
-            x, y = [tuple_fromstr(i) for i in parts]
-            tx.append(x)
-            ty.append(y)
-        elif len(parts) > 2:
+        if len(parts) > 2:
             if '"Date Acquired"' in parts:
-                if tx != [] and ty != []:
+                if tx != [] and ty != [] and detname is not None:
                     trace = _to_trace(tx, ty)
                     trace["id"] = len(chrom["traces"])
                     chrom["traces"][detname] = trace
@@ -132,6 +121,18 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 ret = _process_headers(headers, columns, timezone)
                 chrom["uts"] = ret.pop("uts")
                 metadata["params"].update(ret)
+        elif len(parts) == 1:
+            if tx != [] and ty != [] and detname is not None:
+                trace = _to_trace(tx, ty)
+                trace["id"] = len(chrom["traces"])
+                chrom["traces"][detname] = trace
+                tx = []
+                ty = []
+            detname = parts[0].replace('"', "").split("\\")[-1]
+        elif len(parts) == 2:
+            x, y = [tuple_fromstr(i) for i in parts]
+            tx.append(x)
+            ty.append(y)
     trace = _to_trace(tx, ty)
     trace["id"] = len(chrom["traces"])
     chrom["traces"][detname] = trace

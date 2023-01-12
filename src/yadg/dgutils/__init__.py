@@ -10,7 +10,6 @@ __all__ = [
     "infer_timestamp_from",
     "ole_to_uts",
     "complete_timestamps",
-    "calib_handler",
     "update_schema",
     "schema_from_preset",
     "read_value",

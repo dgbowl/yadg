@@ -25,11 +25,11 @@ def read_from_buffer(
     buf: bytes, offset: int, dtype: str, count: int = 1
 ) -> Union[str, np.ndarray]:
     if dtype == "utf-8":
-        len = int.from_bytes(buf[offset], byteorder="big")
+        len = int.from_bytes(buf[offset:offset], byteorder="big")
         chars = buf[offset + 1 : offset + 1 + len]
         return chars.decode("utf-8")
     elif dtype == "utf-16":
-        len = int.from_bytes(buf[offset], byteorder="big") * 2
+        len = int.from_bytes(buf[offset:offset], byteorder="big") * 2
         chars = buf[offset + 1 : offset + 1 + len]
         return chars.decode("utf-16")
     elif count == 1:

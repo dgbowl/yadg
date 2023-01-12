@@ -1,8 +1,8 @@
 import sys
 from .main import run_with_arguments
-
-sys.path += sys.modules["yadg"].__path__
-
 from . import _version
 
+__all__ = ["run_with_arguments"]
 __version__ = _version.get_versions()["version"]
+
+sys.path += sys.modules["yadg"].__path__

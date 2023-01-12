@@ -122,7 +122,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         ymul = ymuls[ti]
         xsn = np.arange(npoints[ti]) * xmul
         xss = np.ones(npoints[ti]) * xmul
-        ytup = [tuple_fromstr(l) for l in lines[si : si + npoints[ti]]]
+        ytup = [tuple_fromstr(li) for li in lines[si : si + npoints[ti]]]
         ysn, yss = [np.array(p) * ymul for p in zip(*ytup)]
         chrom["traces"][f"{ti}"] = {"id": ti}
         chrom["traces"][f"{ti}"]["t"] = {

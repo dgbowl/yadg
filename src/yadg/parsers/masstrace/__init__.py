@@ -1,5 +1,5 @@
 """
-The module handles the reading and processing of mass spectrometry files. The 
+The module handles the reading and processing of mass spectrometry files. The
 basic function of the parser is to:
 
 #. read in the raw data and create timestamped ``traces``
@@ -7,7 +7,7 @@ basic function of the parser is to:
 
 Usage
 `````
-Select :mod:`~yadg.parsers.masstrace` by supplying it to the ``parser`` keyword 
+Select :mod:`~yadg.parsers.masstrace` by supplying it to the ``parser`` keyword
 in the `dataschema`. The parser supports the following parameters:
 
 .. _yadg.parsers.masstrace.model:
@@ -22,7 +22,7 @@ The ``filetypes`` currently supported by the parser are:
 
  - Pfeiffer Quadstar 32-bit scan analog data (``quadstar.sac``),
    see :mod:`~yadg.parsers.masstrace.quadstarsac`
- 
+
 .. _yadg.parsers.masstrace.provides:
 
 Provides
@@ -60,6 +60,8 @@ The uncertainties ``"s"`` of ``y`` are the largest value between:
     count/current value will occasionally exceed the specified detector
     F.S.R. (e.g. 1e-9), and will then flip directly to the maximum value
     of a float32. These values are set to ``float("NaN")``.
- 
+
 """
 from .main import process
+
+__all__ = ["process"]

@@ -1,6 +1,6 @@
 """
-This parser handles the reading and processing of flow controller or flow meter 
-data. 
+This parser handles the reading and processing of flow controller or flow meter
+data.
 
 Usage
 `````
@@ -27,8 +27,10 @@ The ``filetypes`` currently supported by the parser are:
 
 Provides
 ````````
-The parser is used to extract all tabular data in the input file. This parser processes 
-additional calibration information analogously to :mod:`~yadg.parsers.basiccsv`. 
+The parser is used to extract all tabular data in the input file. This parser processes
+additional calibration information analogously to :mod:`~yadg.parsers.basiccsv`.
 
 """
 from .main import process
+
+__all__ = ["process"]

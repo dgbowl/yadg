@@ -2,7 +2,7 @@
 **drycal**: File parser for DryCal log files.
 ---------------------------------------------
 
-This module includes functions for parsing converted documents (``rtf``) and 
+This module includes functions for parsing converted documents (``rtf``) and
 tabulated exports (``txt``, ``csv``).
 
 The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,

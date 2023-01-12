@@ -34,7 +34,7 @@ Most standard techniques write data that can be understood as a series of
 timesteps, with a measurement of the potential of the working electrode ``Ewe``,
 the current applied by the potentiostat ``I``, and if present, also the potential
 of the counter electrode ``Ece``. Depending on the technique, these quantitites
-may be recorded as averages, i.e. ``<Ewe>``, ``<Ece>``, and ``<I>``. Technique 
+may be recorded as averages, i.e. ``<Ewe>``, ``<Ece>``, and ``<I>``. Technique
 metadata, such as the ``cycle number`` and the name of the ``technique`` are also
 stored in each timestep:
 
@@ -50,12 +50,12 @@ stored in each timestep:
         I:                   # current, might be <I>
           {n: !!float, s: !!float, u: !!str}
         cycle number: !!int
-        technique:    !!str 
+        technique:    !!str
 
 For impedance spectroscopy techniques (PEIS, GEIS), the data is by default
-transposed to be made of spectroscopy traces. The data is split into traces using 
-the ``cycle number`` column, and each trace is cast into a single timestep. Each 
-trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS 
+transposed to be made of spectroscopy traces. The data is split into traces using
+the ``cycle number`` column, and each trace is cast into a single timestep. Each
+trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS
 or GEIS). The timestep takes the following format:
 
 .. code-block:: yaml
@@ -72,10 +72,12 @@ or GEIS). The timestep takes the following format:
 
 .. note::
 
-  This transposing behaviour can be toggled off by setting the ``transpose`` 
-  parameter to ``False``, see documentation of the 
+  This transposing behaviour can be toggled off by setting the ``transpose``
+  parameter to ``False``, see documentation of the
   :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params` class.
 
 
 """
 from .main import process
+
+__all__ = ["process"]

@@ -9,14 +9,14 @@ These are xml-formatted files, which we here parse using the :mod:`xml.etree`
 library into a Python :class:`dict`.
 
 .. note::
-    
+
     The ``angle`` returned from this parser is based on a linear interpolation of
     the start and end point of the scan, and is the :math:`2\\theta`. The values
     of :math:`\\omega` are discarded.
 
 .. warning::
-    
-    This parser is fairly new and untested. As a result, the returned metadata 
+
+    This parser is fairly new and untested. As a result, the returned metadata
     contain only a subset of the available metadata in the XML file. If something
     important is missing, please contact us!
 
@@ -35,7 +35,7 @@ Structure of Parsed Timesteps
             intensity:           # Detector counts.
               {n: [!!float, ...], s: [!!float, ...], u: "counts"}
 
-.. codeauthor:: 
+.. codeauthor::
     Nicolas Vetsch,
     Peter Kraus
 """

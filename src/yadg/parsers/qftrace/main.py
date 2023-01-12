@@ -1,5 +1,3 @@
-from scipy.signal import find_peaks
-import numpy as np
 from pydantic import BaseModel
 from . import labviewcsv
 

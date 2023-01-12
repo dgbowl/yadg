@@ -14,7 +14,7 @@ by this module.
 
     The detectors in the json files are not necessarily in a consistent order. To
     avoid inconsistent parsing of species which appear in both detectors, the
-    detector keys are sorted. **Species present in both detectors** will be 
+    detector keys are sorted. **Species present in both detectors** will be
     **overwritten by the last detector** in alphabetical order.
 
 Exposed metadata:

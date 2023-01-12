@@ -1,6 +1,4 @@
 import logging
-import json
-import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
 from pydantic import BaseModel
@@ -58,7 +56,6 @@ def process_row(
     )
 
     raw = dict()
-    der = dict()
     element = {"raw": dict()}
     columns = [column.strip() for column in items]
 

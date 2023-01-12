@@ -5,7 +5,7 @@ import json
 import yaml
 import shutil
 import hashlib
-from dgbowl_schemas import to_dataschema, DataSchema
+from dgbowl_schemas import to_dataschema
 from . import core, dgutils
 
 

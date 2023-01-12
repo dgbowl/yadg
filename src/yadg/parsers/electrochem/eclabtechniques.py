@@ -29,6 +29,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 # Short helper function for constructing params.
 def _prepend_ns(settings: list[str], params: list) -> list[str]:
     """Prepends the 'Ns' parameter to the parameters if present.
@@ -53,7 +54,7 @@ def _prepend_ns(settings: list[str], params: list) -> list[str]:
     return params
 
 
-################# Chronoamperometry / Chronocoulometry #################
+# ~~~~~~~~~~~~~ Chronoamperometry / Chronocoulometry ~~~~~~~~~~~~~
 def _ca_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the CA technique."""
     params = [
@@ -119,7 +120,7 @@ _ca_params_dtypes = [
 ]
 
 
-########################## Chronopotentiometry #########################
+# ~~~~~~~~~~~~~ Chronopotentiometry ~~~~~~~~~~~~~
 def _cp_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the CP technique."""
     params = [
@@ -166,7 +167,8 @@ _cp_params_dtypes = [
     )
 ]
 
-########################## Cyclic Voltammetry ##########################
+
+# ~~~~~~~~~~~~~ Cyclic Voltammetry ~~~~~~~~~~~~~
 def _cv_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the CV technique."""
     params = [
@@ -223,7 +225,8 @@ _cv_params_dtypes = [
     )
 ]
 
-############ Galvanostatic Cycling with Potential Limitation ###########
+
+# ~~~~~~~~~~~~~ Galvanostatic Cycling with Potential Limitation ~~~~~~~~~~~~~
 def _gcpl_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the GCPL technique."""
     params = [
@@ -302,7 +305,8 @@ _gcpl_params_dtypes = [
     )
 ]
 
-############ Galvano Electrochemical Impedance Spectroscopy ############
+
+# ~~~~~~~~~~~~~ Galvano Electrochemical Impedance Spectroscopy ~~~~~~~~~~~~~
 def _geis_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the GEIS technique."""
     params = [
@@ -417,14 +421,15 @@ _geis_params_dtype = [
     )
 ]
 
-################################# Loop #################################
+
+# ~~~~~~~~~~~~~ Loop ~~~~~~~~~~~~~
 def _loop_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the LOOP technique."""
     params = ["goto_Ne", "nt_times"]
     return params
 
 
-####################### Linear Sweep Voltammetry #######################
+# ~~~~~~~~~~~~~ Linear Sweep Voltammetry ~~~~~~~~~~~~~
 def _lsv_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the LSV technique."""
     params = [
@@ -455,7 +460,7 @@ def _lsv_params(settings: list[str]) -> list[str]:
     return params
 
 
-####################### Linear Sweep Voltammetry #######################
+# ~~~~~~~~~~~~~ Linear Sweep Voltammetry ~~~~~~~~~~~~~
 _lsv_params_dtype = [
     np.dtype(
         [
@@ -487,7 +492,7 @@ _lsv_params_dtype = [
 ]
 
 
-############################## Modulo Bat ##############################
+# ~~~~~~~~~~~~~ Modulo Bat ~~~~~~~~~~~~~
 def _mb_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the MB technique."""
     params = [
@@ -770,7 +775,8 @@ _mb_params_dtypes = [
     ),
 ]
 
-######################### Open Circuit Voltage #########################
+
+#~~~~~~~~~~~~~ Open Circuit Voltage ~~~~~~~~~~~~~
 def _ocv_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the OCV technique."""
     params = ["tR", "dER/dt"]
@@ -806,7 +812,7 @@ _ocv_params_dtypes = [
 ]
 
 
-########### Potentio Electrochemical Impedance Spectroscopy ############
+# ~~~~~~~~~~~~~ Potentio Electrochemical Impedance Spectroscopy ~~~~~~~~~~~~~
 def _peis_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the PEIS technique."""
     params = [
@@ -916,7 +922,7 @@ _peis_params_dtypes = [
 ]
 
 
-################################# Wait #################################
+# ~~~~~~~~~~~~~ Wait ~~~~~~~~~~~~~
 def _wait_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the WAIT technique."""
     params = [
@@ -954,7 +960,7 @@ _wait_params_dtypes = [
 ]
 
 
-######################## IR compensation (PEIS) ########################
+# ~~~~~~~~~~~~~ IR compensation (PEIS) ~~~~~~~~~~~~~
 def _zir_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the ZIR technique."""
     params = [
@@ -1158,7 +1164,7 @@ def get_resolution(
     elif unit in {"A", "mA", "µA", "nA", "pA"}:
         # VMP-3: 0.004% of FSR
         if Irange is None:
-            logger.warning(f"'I range' not specified. Using 1 A.")
+            logger.warning("'I range' not specified. Using 1 A.")
             Irange = 1.0
         return Irange * 0.004 / 100
     elif unit in {"Hz"}:

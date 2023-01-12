@@ -5,7 +5,7 @@ panalyticalxy: Processing of PANalytical XRD ``xy`` files
 File Structure
 ``````````````
 
-These files basically just contain the ``[Scan points]`` part of PANalytical csv 
+These files basically just contain the ``[Scan points]`` part of PANalytical csv
 files :mod:`yadg.parsers.xrdtrace.panalyticalcsv`. As a consequence, no metadata
 is recorded, and the format does not have an associated timestamp.
 
@@ -54,7 +54,7 @@ def process(
     """
     with open(fn, "r", encoding=encoding) as xy_file:
         xy = xy_file.read()
-    datapoints = [l.split() for l in xy.split("\n")[:-1]]
+    datapoints = [li.split() for li in xy.split("\n")[:-1]]
     angle, intensity = list(zip(*datapoints))
     angle = [float(a) for a in angle]
     intensity = [float(i) for i in intensity]

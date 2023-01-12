@@ -27,7 +27,7 @@ The ``filetypes`` currently supported by the parser are:
    see :mod:`~yadg.parsers.electrochem.eclabmpt`
  - tomato's structured json output (``tomato.json``),
    see :mod:`~yadg.parsers.electrochem.tomatojson`
-  
+
 Provides
 ````````
 Most standard techniques write data that can be understood as a series of

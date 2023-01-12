@@ -1,0 +1,20 @@
+name: lint-every-pr
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  lint:
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v2
+       with:
+         fetch-depth: 0
+     - uses: github/super-linter/slim@v4
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         DEFAULT_BRANCH: master
+         VALIDATE_ALL_CODEBASE: true
+         # VALIDATE_PYTHON_BLACK: true
+         # VALIDATE_PYTHON_FLAKE8: true
+         # VALIDATE_PYTHON_PYLINT: true

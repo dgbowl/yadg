@@ -776,7 +776,7 @@ _mb_params_dtypes = [
 ]
 
 
-#~~~~~~~~~~~~~ Open Circuit Voltage ~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~ Open Circuit Voltage ~~~~~~~~~~~~~
 def _ocv_params(settings: list[str]) -> list[str]:
     """Constructs the parameter names for the OCV technique."""
     params = ["tR", "dER/dt"]

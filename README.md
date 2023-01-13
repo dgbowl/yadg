@@ -3,7 +3,6 @@
 [![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
 [![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/)
 [![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/actions/workflows/push-master.yml)
-[![CodeQL analysis](https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/dgbowl/yadg/actions/workflows/codeql.yml)
 
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)

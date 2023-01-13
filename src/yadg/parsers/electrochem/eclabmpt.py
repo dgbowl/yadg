@@ -6,14 +6,14 @@
 parameter sequences and an optional loops section) and a tab-separated
 data table.
 
-A list of techniques supported by this parser is shown in `the techniques table 
+A list of techniques supported by this parser is shown in `the techniques table
 <yadg.parsers.electrochem.eclabmpr.techniques>`_.
 
 File Structure of ``.mpt`` Files
 ````````````````````````````````
 
 These human-readable files are sectioned into headerlines and datalines.
-The header part of the ``.mpt`` files is made up of information that can be found 
+The header part of the ``.mpt`` files is made up of information that can be found
 in the settings, log and loop modules of the binary ``.mpr`` file.
 
 If no header is present, the timestamps will instead be calculated from
@@ -22,7 +22,7 @@ the file's ``mtime()``.
 
 Metadata
 ````````
-The metadata will contain the information from the header of the file. 
+The metadata will contain the information from the header of the file.
 
 .. note ::
 

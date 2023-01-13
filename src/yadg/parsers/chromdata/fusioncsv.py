@@ -2,7 +2,7 @@
 **fusioncsv**: Processing Inficon Fusion csv export format (csv).
 ------------------------------------------------------------------
 
-This is a tabulated format, including the concentrations, mole fractions, peak 
+This is a tabulated format, including the concentrations, mole fractions, peak
 areas, and retention times. The latter is ignored by this parser.
 
 .. warning::

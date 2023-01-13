@@ -7,23 +7,23 @@ from ..dgutils import ureg
 logger = logging.getLogger(__name__)
 
 
-def _list_validator(l: list) -> bool:
-    if len(l) == 3:
-        return _float_list(l)
+def _list_validator(li: list) -> bool:
+    if len(li) == 3:
+        return _float_list(li)
     else:
-        return _general_list(l)
+        return _general_list(li)
 
 
-def _float_list(l: list) -> bool:
-    if isinstance(l[0], float) and isinstance(l[1], float) and isinstance(l[2], str):
+def _float_list(li: list) -> bool:
+    if isinstance(li[0], float) and isinstance(li[1], float) and isinstance(li[2], str):
         logger.warning("Old [float, float, str] syntax detected.")
         return True
     else:
-        return _general_list(l)
+        return _general_list(li)
 
 
-def _general_list(l: list) -> bool:
-    for v in l:
+def _general_list(li: list) -> bool:
+    for v in li:
         if isinstance(v, list):
             return _list_validator(v)
         elif isinstance(v, dict):
@@ -31,7 +31,7 @@ def _general_list(l: list) -> bool:
         else:
             assert isinstance(v, str) or isinstance(v, int), (
                 f"List elements have to be one of [str, int, dict, list], "
-                f"but entry id:{l.index(v)}:{type(v)} is neither: {l}"
+                f"but entry id:{li.index(v)}:{type(v)} is neither: {li}"
             )
     return True
 
@@ -73,10 +73,14 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     The ``spec`` :class:`(dict)` can have the following entries:
 
     - ``"type"`` :class:`(type)`, a required entry, defining the type of ``item``,
-    - ``"all"`` :class:`(dict)` defining a set of required keywords and their respective ``spec``,
-    - ``"any"`` :class:`(dict)` defining a set of optional keywords and their respective ``spec``,
-    - ``"one"`` :class:`(dict)` defining a set of mutually exclusive keywords and their respective ``spec``,
-    - ``"each"`` :class:`(dict)` providing the ``spec`` for any keywords not listed in ``"all"``, ``"any"``, or ``"one"``,
+    - ``"all"`` :class:`(dict)` defining a set of required keywords and their
+      respective ``spec``,
+    - ``"any"`` :class:`(dict)` defining a set of optional keywords and their
+      respective ``spec``,
+    - ``"one"`` :class:`(dict)` defining a set of mutually exclusive keywords and
+      their respective ``spec``,
+    - ``"each"`` :class:`(dict)` providing the ``spec`` for any keywords not listed
+      in ``"all"``, ``"any"``, or ``"one"``,
     - ``"allow"`` :class:`(bool)` a switch whether to allow unspecified keys.
 
     To extend the existing `datagram` and `schema` specs, look into :mod:`yadg.core.spec_datagram`
@@ -93,7 +97,8 @@ def validator(item: Union[list, dict, str], spec: dict) -> True:
     Returns
     -------
     True: bool
-        If the ``item`` matches the ``spec``, returns `True`. Otherwise, an `AssertionError` is raised.
+        If the ``item`` matches the ``spec``, returns ``True``. Otherwise, an
+        :class:`AssertionError` is raised.
     """
     assert isinstance(item, spec["type"]), (
         f"Item '{item}' does not match prescribed type " f"in spec '{spec['type']}'."

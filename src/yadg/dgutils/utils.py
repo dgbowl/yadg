@@ -80,9 +80,6 @@ def schema_3to4(oldschema: list) -> dict:
         if oldstep.get("export", None) is not None:
             newstep["tag"] = oldstep["export"]
 
-        calib = {}
-        species = {}
-        detectors = {}
         parameters = {}
         for k, v in oldstep["parameters"].items():
             if k in ["Tcalfile", "MFCcalfile", "calfile"]:
@@ -99,14 +96,6 @@ def schema_3to4(oldschema: list) -> dict:
                 )
             else:
                 parameters[k] = v
-        if newstep["parser"] == "meascsv" and "flow" not in calib:
-            calib["flow"] = {"flow high": {}, "flow low": {}, "unit": "ml/min"}
-        if calib != {}:
-            parameters["convert"] = calib
-        if species != {}:
-            parameters["species"] = species
-        if detectors != {}:
-            parameters["detectors"] = detectors
         if parameters != {}:
             newstep["parameters"] = parameters
         newschema["steps"].append(newstep)
@@ -146,7 +135,7 @@ def update_schema(object: Union[list, dict]) -> dict:
         logger.info("Updating dict-style DataSchema")
         newobj = object
     else:
-        raise
+        raise ValueError(f"Supplied object is of incorrect type: {type(object)}")
     newobj = to_dataschema(**newobj)
     while hasattr(newobj, "update"):
         newobj = newobj.update()

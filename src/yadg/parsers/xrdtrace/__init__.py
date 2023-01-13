@@ -1,9 +1,9 @@
 """
 This module handles the reading and processing of X-ray diffraction data.
 
-:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable 
+:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable
 uncertainties of the signal intensity (y-axis), and explicitly populates the angle
-axis (:math:`2\\theta`), if necessary. 
+axis (:math:`2\\theta`), if necessary.
 
 Usage
 `````
@@ -37,7 +37,7 @@ The raw data is stored, for each timestep, using the following format:
     - raw:
         traces:
           "{{ trace_number }}":   # number of the trace
-            angle:                
+            angle:
               {n: [!!float, ...], s: [!!float, ...], u: "deg"}
             intensity:
               {n: [!!float, ...], s: [!!float, ...], u: "counts"}
@@ -48,6 +48,7 @@ the linearly spaced :math:`2\\theta` values.
 The uncertainties ``"s"`` of ``"intensity"`` are currently set to a constant
 value of 1.0 count as all the supported files seem to produce integer values.
 
-
 """
 from .main import process
+
+__all__ = ["process"]

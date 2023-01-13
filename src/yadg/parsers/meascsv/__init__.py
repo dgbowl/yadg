@@ -1,7 +1,7 @@
 """
-This parser handles the reading and processing of the legacy log files created by 
-the LabView interface for the MCPT instrument. With a provided calibration, this 
-parser calculates the temperature, inlet composition, and the inlet flow of the 
+This parser handles the reading and processing of the legacy log files created by
+the LabView interface for the MCPT instrument. With a provided calibration, this
+parser calculates the temperature, inlet composition, and the inlet flow of the
 MCPT instrument.
 
 .. admonition:: DEPRECATED in ``yadg-4.0``
@@ -11,7 +11,7 @@ MCPT instrument.
 
 Usage
 `````
-Available since ``yadg-3.0``. Deprecated since ``yadg-4.0``. The parser supports the 
+Available since ``yadg-3.0``. Deprecated since ``yadg-4.0``. The parser supports the
 following parameters:
 
 .. _yadg.parsers.meascsv.model:
@@ -22,12 +22,13 @@ following parameters:
 
 Provides
 ````````
-The parser is used to extract all of the tabular data in the input file, storing 
-them in the same format as :mod:`~yadg.parsers.basiccsv`, using the column headers 
-as keys. The functionality exposed by this parser is using :mod:`~yadg.parsers.basiccsv` 
+The parser is used to extract all of the tabular data in the input file, storing
+them in the same format as :mod:`~yadg.parsers.basiccsv`, using the column headers
+as keys. The functionality exposed by this parser is using :mod:`~yadg.parsers.basiccsv`
 behind the scenes.
-
 
 """
 
 from .main import process
+
+__all__ = ["process"]

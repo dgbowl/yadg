@@ -2,9 +2,9 @@
 This module handles the reading and processing of X-ray photoelectron spectroscopy
 data.
 
-:mod:`~yadg.parser.xpstrace` loads X-ray photoelectron spectroscopy data, 
-determines uncertainties of the signal (y-axis), and explicitly populates the 
-points in the energy axis (``E``). 
+:mod:`~yadg.parser.xpstrace` loads X-ray photoelectron spectroscopy data,
+determines uncertainties of the signal (y-axis), and explicitly populates the
+points in the energy axis (``E``).
 
 Usage
 `````
@@ -60,3 +60,5 @@ far only seem to take on values in those steps.
 
 """
 from .main import process
+
+__all__ = ["process"]

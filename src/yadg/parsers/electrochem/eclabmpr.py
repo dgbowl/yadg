@@ -178,18 +178,18 @@ characteristics data specified in EC-Lab.
     https://github.com/dgbowl/yadg/issues/12
 
     The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
-    is not yet complete. In ``.mpr`` files, some technique parameters in the settings 
+    is not yet complete. In ``.mpr`` files, some technique parameters in the settings
     module correspond to entries in drop-down lists in EC-Lab. These values are
     stored as single-byte values in ``.mpr`` files.
 
-The metadata also contains the infromation from the *Log module*, which contains 
-more general parameters, like software, firmware and server versions, channel number, 
-host address and an acquisition start timestamp in Microsoft OLE format. 
+The metadata also contains the infromation from the *Log module*, which contains
+more general parameters, like software, firmware and server versions, channel number,
+host address and an acquisition start timestamp in Microsoft OLE format.
 
 .. note::
 
     If the ``.mpr`` file contains an ``ExtDev`` module (containing parameters
-    of any external sensors plugged into the device), the ``log`` is usually 
+    of any external sensors plugged into the device), the ``log`` is usually
     not present and therefore the full timestamp cannot be calculated.
 
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>

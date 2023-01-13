@@ -230,6 +230,29 @@ or GEIS). The timestep takes the following format:</p>
 parameter to <code class="docutils literal notranslate"><span class="pre">False</span></code>, see documentation of the
 <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params" title="dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code></a> class.</p>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.electrochem.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'windows-1252'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.process" title="Permalink to this definition"></a></dt>
+<dd><p>Unified parser for electrochemistry data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the data to parse.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “windows-1252”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ElectroChem</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and full date tag. The currently
+implemented parsers all return full date.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-yadg.parsers.electrochem.eclabmpr">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabmpr" title="Permalink to this headline"></a></h2>

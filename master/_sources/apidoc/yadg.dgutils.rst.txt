@@ -16,12 +16,6 @@ Submodules
    :show-inheritance:
 
 
-.. automodule:: yadg.dgutils.calib
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 .. automodule:: yadg.dgutils.dateutils
    :members:
    :undoc-members:

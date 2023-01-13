@@ -111,82 +111,20 @@
              
   <section id="module-yadg.dgutils">
 <span id="yadg-dgutils-package"></span><h1>yadg.dgutils package<a class="headerlink" href="#module-yadg.dgutils" title="Permalink to this headline"></a></h1>
-<section id="module-yadg.dgutils.btools">
-<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.dgutils.btools" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.btools.read_from_file">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_from_file" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.btools.read_from_buffer">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_from_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_from_buffer" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.btools.read_value">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_value" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<span class="target" id="module-yadg.dgutils.calib"></span><dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.calib.calib_handler">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.calib.</span></span><span class="sig-name descname"><span class="pre">calib_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.calib.calib_handler" title="Permalink to this definition"></a></dt>
-<dd><p>Calibration handling function.</p>
-<p>Returns <code class="docutils literal notranslate"><span class="pre">y</span></code> calculated from <code class="docutils literal notranslate"><span class="pre">x</span></code> and the other supplied arguments.</p>
-<p id="processing-calib">The <code class="docutils literal notranslate"><span class="pre">&quot;calib&quot;</span></code> parameter is a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> in the following format:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">calib</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">linear</span><span class="p">:</span><span class="w">                </span><span class="c1"># y = slope * x + intercept</span>
-<span class="w">    </span><span class="nt">intercept</span><span class="p">:</span><span class="w">  </span><span class="kt">!!float</span>
-<span class="w">    </span><span class="nt">slope</span><span class="p">:</span><span class="w">      </span><span class="kt">!!float</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">inverse</span><span class="p">:</span><span class="w">               </span><span class="c1"># y = (x - intercept) / slope</span>
-<span class="w">    </span><span class="nt">intercept</span><span class="p">:</span><span class="w">  </span><span class="kt">!!float</span>
-<span class="w">    </span><span class="nt">slope</span><span class="p">:</span><span class="w">      </span><span class="kt">!!float</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">polynomial</span><span class="p">:</span><span class="w">            </span><span class="c1"># y = sum(cN * x**N)</span>
-<span class="w">    </span><span class="nt">c0</span><span class="p">:</span><span class="w">         </span><span class="kt">!!float</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">cN</span><span class="p">:</span><span class="w">         </span><span class="kt">!!float</span>
-<span class="w">  </span><span class="nt">atol</span><span class="p">:</span><span class="w">         </span><span class="kt">!!float</span><span class="w">    </span><span class="c1"># absolute uncertainty of y</span>
-<span class="w">  </span><span class="nt">rtol</span><span class="p">:</span><span class="w">         </span><span class="kt">!!float</span><span class="w">    </span><span class="c1"># relative uncertainty of y</span>
-</pre></div>
-</div>
+<dt class="sig sig-object py" id="yadg.dgutils.get_yadg_metadata">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">get_yadg_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.get_yadg_metadata" title="Permalink to this definition"></a></dt>
+<dd><p>Returns current <strong>yadg</strong> metadata.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">AffineScalarFunc</span></code>]) – The raw value</p></li>
-<li><p><strong>calib</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – Calibration dictionary, specified using the format
-<a class="reference internal" href="#processing-calib"><span class="std std-ref">described above</span></a>. If empty, corresponds to
-no transformation (i.e. <code class="docutils literal notranslate"><span class="pre">linear</span></code> with <code class="docutils literal notranslate"><span class="pre">&quot;slope&quot;</span> <span class="pre">=</span> <span class="pre">1</span></code>) and a <code class="docutils literal notranslate"><span class="pre">rtol</span> <span class="pre">=</span> <span class="pre">1e-3</span></code>.</p></li>
-<li><p><strong>atol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Optional absolute uncertainty of y, overrides that provided in <code class="docutils literal notranslate"><span class="pre">calib</span></code>.</p></li>
-<li><p><strong>rtol</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Optional relative uncertainty of y, overrides that provided in <code class="docutils literal notranslate"><span class="pre">calib</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>y</strong> – The derived value.</p>
-</dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>UFloat</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
-<span class="target" id="module-yadg.dgutils.dateutils"></span><dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.dateutils.now">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timezone.utc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.now" title="Permalink to this definition"></a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.now">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timezone.utc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.now" title="Permalink to this definition"></a></dt>
 <dd><p>Wrapper around datetime.now()</p>
 <p>A convenience function for returning the current time as a ISO 8601 or as a unix timestamp.</p>
 <dl class="field-list simple">
@@ -197,58 +135,8 @@ no transformation (i.e. <code class="docutils literal notranslate"><span class="
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.dateutils.ole_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
-<dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
-<p>The OLE automation date format is a floating point value, counting
-days since midnight 30 December 1899. Hours and minutes are
-represented as fractional days.</p>
-<p><a class="reference external" href="https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653">https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653</a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>time</strong> – The corresponding Unix timestamp.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.dateutils.str_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">str_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.str_to_uts" title="Permalink to this definition"></a></dt>
-<dd><p>Converts a string to POSIX timestamp.</p>
-<p>If the optional <code class="docutils literal notranslate"><span class="pre">format</span></code> is specified, the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> string is processed
-using the <code class="xref py py-func docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code> function; if no <code class="docutils literal notranslate"><span class="pre">format</span></code> is
-supplied, an ISO 8601 format is assumed and an attempt to parse using
-<code class="xref py py-func docutils literal notranslate"><span class="pre">dateutil.parser.parse()</span></code> is made.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string containing the timestamp.</p></li>
-<li><p><strong>format</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Optional format string for parsing of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Optional timezone of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>. By default, “UTC”.</p></li>
-<li><p><strong>strict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to re-raise any parsing errors.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>uts</strong> – Returns the POSIX timestamp if successful, otherwise None.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Union[float, None]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.dateutils.infer_timestamp_from">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.dgutils.infer_timestamp_from">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
 <dd><p>Convenience function for timestamping</p>
 <p>Given a set of headers, and an optional specification, return an array containing
 column indices from which a timestamp in a given row can be computed, as well as the
@@ -276,17 +164,41 @@ timestamp is full or partial.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.dgutils.dateutils.complete_timestamps">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.dgutils.ole_to_uts">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.ole_to_uts" title="Permalink to this definition"></a></dt>
+<dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
+<p>The OLE automation date format is a floating point value, counting
+days since midnight 30 December 1899. Hours and minutes are
+represented as fractional days.</p>
+<p><a class="reference external" href="https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653">https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> – The corresponding Unix timestamp.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.complete_timestamps">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.complete_timestamps" title="Permalink to this definition"></a></dt>
 <dd><p>Timestamp completing function.</p>
 <p>This function allows for completing or overriding the uts timestamps determined by
 the individual parsers. <strong>yadg</strong> enters this function for any parser which does not
 return a full timestamp, as well as if the <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification is
 specified by the user.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification is as follows:</p>
-<span class="target" id="yadg-dgutils-dateutils-externaldate-model"></span><dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.</span></span><span class="sig-name descname"><span class="pre">ExternalDate</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="Permalink to this definition"></a></dt>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.</span></span><span class="sig-name descname"><span class="pre">ExternalDate</span></span></dt>
 <dd><p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDate&quot;</span><span class="p">,</span>
@@ -425,13 +337,402 @@ specified by the user.</p>
 </pre></div>
 </div>
 </details></p><dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate.using">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">using</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate.using" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">using</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate.mode">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'replace'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'add'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate.mode" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'replace'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'add'</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p>The <code class="docutils literal notranslate"><span class="pre">using</span></code> key specifies how an external timestamp is created. Only one entry in
+<code class="docutils literal notranslate"><span class="pre">using</span></code> is permitted. By default, this entry is:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">using</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">filename</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;%Y-%m-%d-%H-%M-%S&quot;</span>
+<span class="w">    </span><span class="nt">len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">19</span>
+</pre></div>
+</div>
+<p>Which means the code will attempt to deduce the timestamp from the path of the
+processed file (<code class="docutils literal notranslate"><span class="pre">fn</span></code>), using the first 19 characters of the base filename
+according to the above format (eg. “2021-12-31-13-45-00”).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">file</span></code> is specified, the handling of timestamps is handed off to
+<code class="xref py py-func docutils literal notranslate"><span class="pre">timestamps_from_file()</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">mode</span></code> key specifies whether the offsets determined in this function are
+added to the current timestamps (eg. date offset being added to time) or whether
+they should replace the existing timestamps completely.</p>
+<p>As a measure of last resort, the <code class="docutils literal notranslate"><span class="pre">mtime</span></code> of the <code class="docutils literal notranslate"><span class="pre">fn</span></code> is used. <code class="docutils literal notranslate"><span class="pre">mtime</span></code> is
+preferred to <code class="docutils literal notranslate"><span class="pre">ctime</span></code>, as the former has a more consistent cross-platform
+behaviour.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timesteps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of timesteps generated from a single file, <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename used to create <code class="docutils literal notranslate"><span class="pre">timesteps</span></code>.</p></li>
+<li><p><strong>spec</strong> (<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone, defaults to “UTC”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.update_schema">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">update_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.update_schema" title="Permalink to this definition"></a></dt>
+<dd><p>Yadg’s update worker function.</p>
+<p>This is the main function called when <strong>yadg</strong> is executed as <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code>.
+The main idea is to allow a simple update pathway from older versions of <cite>schema</cite> and
+<code class="docutils literal notranslate"><span class="pre">datagram</span></code> files to the current latest and greatest.</p>
+<p>Currently supports:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>updating <code class="docutils literal notranslate"><span class="pre">DataSchema</span></code> version 3.1 to 4.0 using routines in <code class="docutils literal notranslate"><span class="pre">yadg</span></code></p></li>
+<li><p>updating <code class="docutils literal notranslate"><span class="pre">DataSchema</span></code> version 4.0 and above to the latest <code class="docutils literal notranslate"><span class="pre">DataSchema</span></code></p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>object</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – The object to be updated</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>newobj</strong> – The updated and validated <cite>“datagram”</cite> or <cite>“schema”</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.schema_from_preset">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">schema_from_preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.schema_from_preset" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.read_value">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">read_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.read_value" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.sanitize_units">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">sanitize_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.sanitize_units" title="Permalink to this definition"></a></dt>
+<dd><p>Unit sanitizer.</p>
+<p>This sanitizer should be used where user-supplied units are likely to occur,
+such as in the parsers <a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.basiccsv</span></code></a>. Currently, only two
+replacements are done:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“Bar” is replaced with “bar”</p></li>
+<li><p>“Deg C” is replace with “degC</p></li>
+</ul>
+</div></blockquote>
+<p>Use with caution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Object containing string units.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="module-yadg.dgutils.btools">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.dgutils.btools" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.btools.read_from_file">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_from_file" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.btools.read_from_buffer">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_from_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_from_buffer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.btools.read_value">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.btools.read_value" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-yadg.dgutils.dateutils"></span><dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dateutils.now">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">datetime.timezone.utc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.now" title="Permalink to this definition"></a></dt>
+<dd><p>Wrapper around datetime.now()</p>
+<p>A convenience function for returning the current time as a ISO 8601 or as a unix timestamp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dateutils.ole_to_uts">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
+<dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
+<p>The OLE automation date format is a floating point value, counting
+days since midnight 30 December 1899. Hours and minutes are
+represented as fractional days.</p>
+<p><a class="reference external" href="https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653">https://devblogs.microsoft.com/oldnewthing/20030905-02/?p=42653</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time</strong> – The corresponding Unix timestamp.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dateutils.str_to_uts">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">str_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.str_to_uts" title="Permalink to this definition"></a></dt>
+<dd><p>Converts a string to POSIX timestamp.</p>
+<p>If the optional <code class="docutils literal notranslate"><span class="pre">format</span></code> is specified, the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> string is processed
+using the <code class="xref py py-func docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code> function; if no <code class="docutils literal notranslate"><span class="pre">format</span></code> is
+supplied, an ISO 8601 format is assumed and an attempt to parse using
+<code class="xref py py-func docutils literal notranslate"><span class="pre">dateutil.parser.parse()</span></code> is made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string containing the timestamp.</p></li>
+<li><p><strong>format</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Optional format string for parsing of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Optional timezone of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>. By default, “UTC”.</p></li>
+<li><p><strong>strict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to re-raise any parsing errors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>uts</strong> – Returns the POSIX timestamp if successful, otherwise None.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[float, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dateutils.infer_timestamp_from">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
+<dd><p>Convenience function for timestamping</p>
+<p>Given a set of headers, and an optional specification, return an array containing
+column indices from which a timestamp in a given row can be computed, as well as the
+function which will compute the timestamp given the returned array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>headers</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – An array of strings. If <cite>spec</cite> is not supplied, must contain either “uts”
+<code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> or “timestep” <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> (conforming to ISO 8601).</p></li>
+<li><p><strong>spec</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.timestamp.TimestampSpec" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimestampSpec</span></code></a>]) – A specification of timestamp elements with associated column indices and
+optional formats. Currently accepted combinations of keys are: “uts”; “timestamp”;
+“date” and / or “time”.</p></li>
+<li><p><strong>tz</strong> – Timezone to use for conversion. By default, UTC is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(datecolumns, datefunc, fulldate)</strong> – A tuple containing a list of indices of columns, a Callable to which the
+columns have to be passed to obtain a uts timestamp, and whether the determined
+timestamp is full or partial.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, Callable, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dateutils.complete_timestamps">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
+<dd><p>Timestamp completing function.</p>
+<p>This function allows for completing or overriding the uts timestamps determined by
+the individual parsers. <strong>yadg</strong> enters this function for any parser which does not
+return a full timestamp, as well as if the <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification is
+specified by the user.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification is as follows:</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.</span></span><span class="sig-name descname"><span class="pre">ExternalDate</span></span></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDate&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;using&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Using&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/ExternalDateFile&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/ExternalDateFilename&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/ExternalDateISOString&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/ExternalDateUTSOffset&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;replace&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;using&quot;</span>
+<span class="w">   </span><span class="p">],</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_4_1__externaldate__ExternalDateFile__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Path&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Type&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;match&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Match&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;type&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ExternalDateFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFile&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/dgbowl_schemas__yadg__dataschema_4_1__externaldate__ExternalDateFile__Content&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;file&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_4_1__externaldate__ExternalDateFilename__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Format&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;len&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Len&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;format&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;len&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ExternalDateFilename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFilename&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/dgbowl_schemas__yadg__dataschema_4_1__externaldate__ExternalDateFilename__Content&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;filename&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ExternalDateISOString&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateISOString&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;isostring&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Isostring&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;isostring&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ExternalDateUTSOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateUTSOffset&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;utsoffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Utsoffset&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;utsoffset&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">using</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFile</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateFilename</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateISOString</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset" title="(in dgbowl-schemas vmaster)"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDateUTSOffset</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'replace'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'add'</span></em></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -460,7 +761,7 @@ behaviour.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>timesteps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of timesteps generated from a single file, <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename used to create <code class="docutils literal notranslate"><span class="pre">timesteps</span></code>.</p></li>
-<li><p><strong>spec</strong> (<a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
+<li><p><strong>spec</strong> (<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone, defaults to “UTC”.</p></li>
 </ul>
 </dd>

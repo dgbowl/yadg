@@ -332,6 +332,34 @@ data, and determine the Unix timestamp. The headers of the tabular data are take
 <span class="w">          </span><span class="p p-Indicator">{</span><span class="nt">n</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> s</span><span class="p">:</span><span class="w"> </span><span class="kt">!!float,</span><span class="nt"> u</span><span class="p">:</span><span class="w"> </span><span class="kt">!!str</span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.parsers.basiccsv.process">
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.basiccsv.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.basiccsv.process" title="Permalink to this definition"></a></dt>
+<dd><p>A basic csv parser.</p>
+<p>This parser processes a csv file. The header of the csv file consists of one or two
+lines, with the column headers in the first line and the units in the second. The
+parser also attempts to parse column names to produce a timestamp, and save all other
+columns as floats or strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – File to process</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.step.BasicCSV" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasicCSV</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and full date tag. No metadata is
+returned by the basiccsv parser. The full date might not be returned, eg.
+when only time is specified in columns.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-yadg.parsers.basiccsv.main">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.basiccsv.main" title="Permalink to this headline"></a></h2>

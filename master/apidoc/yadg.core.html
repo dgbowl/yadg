@@ -111,6 +111,84 @@
              
   <section id="module-yadg.core">
 <span id="yadg-core-package"></span><h1>yadg.core package<a class="headerlink" href="#module-yadg.core" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.process_schema">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process_schema" title="Permalink to this definition"></a></dt>
+<dd><p>Main worker function of <strong>yadg</strong>.</p>
+<p>Takes in a validated <cite>schema</cite> as an argument and returns a single annotated
+<cite>datagram</cite> created from the <cite>schema</cite>. It is the job of the user to supply a
+validated <cite>schema</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>schema</strong> – A fully validated <cite>schema</cite>. Use the function <code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_schema()</span></code>
+to validate your <cite>schema</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>datagram</strong> – An unvalidated <cite>datagram</cite>. The <cite>parser</cite>s included in <strong>yadg</strong> should return
+a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. Use the function
+<a class="reference internal" href="#yadg.core.validators.validate_datagram" title="yadg.core.validators.validate_datagram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code></a> to validate the resulting <cite>datagram</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.core.validate_datagram">
+<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">validate_datagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datagram</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.validate_datagram" title="Permalink to this definition"></a></dt>
+<dd><p>Datagram validator.</p>
+<p>Checks the overall <cite>datagram</cite> format against the <cite>datagram</cite> spec, and ensures that
+each floating-point value is accompanied by standard deviation and unit.</p>
+<p>The current <cite>datagram</cite> specification is:</p>
+<ul class="simple">
+<li><p>The <cite>datagram</cite> must be a <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> with two entries:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>: A top-level entry containing metadata.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list[dict])</span></code>: List corresponding to a sequence of <cite>steps</cite>.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> entry has to contain information about the <code class="docutils literal notranslate"><span class="pre">&quot;provenance&quot;</span></code> of
+the <cite>datagram</cite>, the creation date using ISO8601 format in <code class="docutils literal notranslate"><span class="pre">&quot;date&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>
+entry, a full copy of the input <cite>schema</cite> in the <code class="docutils literal notranslate"><span class="pre">&quot;input_schema&quot;</span></code> entry, and
+version information in <code class="docutils literal notranslate"><span class="pre">&quot;datagram_version&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code>.</p></li>
+<li><p>Each element in the <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> corresponds to a single <cite>step</cite> from the <cite>schema</cite>.</p></li>
+<li><p>Each <cite>step</cite> in <code class="docutils literal notranslate"><span class="pre">&quot;steps&quot;</span></code> has to contain a <code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry,
+and a <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(list)</span></code>; an optional <code class="docutils literal notranslate"><span class="pre">&quot;common&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> data
+block can be provided.</p></li>
+<li><p>Each timestep in the <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> list has to specify a timestamp using the
+Unix Timestamp format in <code class="docutils literal notranslate"><span class="pre">&quot;uts&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(float)</span></code> entry; the original filename
+in <code class="docutils literal notranslate"><span class="pre">&quot;fn&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> entry. The raw data present in this original filename
+is stored as sub-entries within the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> entry. Any derived
+data, such as that obtained via calibration, integration, or fitting, has to be
+stored in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A floating-point entry should always have its standard deviation specified.
+Internal processing of this data is always carried out using the <code class="xref py py-class docutils literal notranslate"><span class="pre">(ufloat)</span></code>
+type, which ought to be exported as a <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;-&quot;}</span></code> keypair.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most numerical data should have associated units. The validator expects all
+floating-point entries to be in a <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev}</span></code> format for
+properties with an arbitrary unit, and <code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">std_dev,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">unit}</span></code>
+for properties with a defined unit.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>datagram</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – The <cite>datagram</cite> to be validated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>True</strong> – If the <cite>datagram</cite> passes all assertions, returns <cite>True</cite>. Else, an <cite>AssertionError</cite> is raised.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 <section id="module-yadg.core.process">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.core.process" title="Permalink to this headline"></a></h2>
 <dl class="py function">
@@ -144,10 +222,14 @@ a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. 
 The <code class="docutils literal notranslate"><span class="pre">spec</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> can have the following entries:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(type)</span></code>, a required entry, defining the type of <code class="docutils literal notranslate"><span class="pre">item</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of required keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of optional keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of mutually exclusive keywords and their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;each&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> providing the <code class="docutils literal notranslate"><span class="pre">spec</span></code> for any keywords not listed in <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of required keywords and their
+respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of optional keywords and their
+respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> defining a set of mutually exclusive keywords and
+their respective <code class="docutils literal notranslate"><span class="pre">spec</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;each&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code> providing the <code class="docutils literal notranslate"><span class="pre">spec</span></code> for any keywords not listed
+in <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;any&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;one&quot;</span></code>,</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;allow&quot;</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">(bool)</span></code> a switch whether to allow unspecified keys.</p></li>
 </ul>
 <p>To extend the existing <cite>datagram</cite> and <cite>schema</cite> specs, look into <a class="reference internal" href="#module-yadg.core.spec_datagram" title="yadg.core.spec_datagram"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.spec_datagram</span></code></a>
@@ -160,7 +242,8 @@ and <code class="xref py py-mod docutils literal notranslate"><span class="pre">
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>True</strong> – If the <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the <code class="docutils literal notranslate"><span class="pre">spec</span></code>, returns <cite>True</cite>. Otherwise, an <cite>AssertionError</cite> is raised.</p>
+<dd class="field-even"><p><strong>True</strong> – If the <code class="docutils literal notranslate"><span class="pre">item</span></code> matches the <code class="docutils literal notranslate"><span class="pre">spec</span></code>, returns <code class="docutils literal notranslate"><span class="pre">True</span></code>. Otherwise, an
+<code class="xref py py-class docutils literal notranslate"><span class="pre">AssertionError</span></code> is raised.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bool</p>

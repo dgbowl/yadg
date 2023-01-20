@@ -184,7 +184,7 @@ def _process_measurement(measurement: dict, timezone: str):
     meta = measurement
     meta["counting_time"] = scan.pop("counting_time")
     data = {
-        "uts": dateutils.str_to_uts(scan.pop("timestamp"), timezone=timezone),
+        "uts": dateutils.str_to_uts(timestamp=scan.pop("timestamp"), timezone=timezone),
         "raw": {"traces": {"0": trace}},
     }
     return data, meta

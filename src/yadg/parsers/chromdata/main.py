@@ -1,5 +1,6 @@
 import logging
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 
 from . import (
     fusionjson,
@@ -13,10 +14,13 @@ logger = logging.getLogger(__name__)
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     Unified chromatographic data parser.
@@ -41,15 +45,15 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. All currently
         supported file formats return full date.
     """
-    if parameters.filetype == "fusion.json":
+    if filetype == "fusion.json":
         data, meta, fulldate = fusionjson.process(fn, encoding, timezone)
-    elif parameters.filetype == "fusion.zip":
+    elif filetype == "fusion.zip":
         data, meta, fulldate = fusionzip.process(fn, encoding, timezone)
-    elif parameters.filetype == "fusion.csv":
+    elif filetype == "fusion.csv":
         data, meta, fulldate = fusioncsv.process(fn, encoding, timezone)
-    elif parameters.filetype == "empalc.csv":
+    elif filetype == "empalc.csv":
         data, meta, fulldate = empalccsv.process(fn, encoding, timezone)
-    elif parameters.filetype == "empalc.xlsx":
+    elif filetype == "empalc.xlsx":
         data, meta, fulldate = empalcxlsx.process(fn, encoding, timezone)
 
     return data, meta, fulldate

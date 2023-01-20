@@ -46,6 +46,7 @@ as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 import numpy as np
+from zoneinfo import ZoneInfo
 from ... import dgutils
 from ...dgutils.dateutils import str_to_uts
 
@@ -71,7 +72,7 @@ data_dtypes = {}
 data_dtypes["179"] = (8, "<f8")
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     """
     Agilent OpenLAB signal trace parser
 
@@ -118,7 +119,9 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     chrom = {
         "fn": str(fn),
-        "uts": str_to_uts(pars["timestamp"], "%d-%b-%y, %H:%M:%S", timezone),
+        "uts": str_to_uts(
+            timestamp=pars["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
+        ),
         "traces": {
             detector: {
                 "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},

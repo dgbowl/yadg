@@ -1,12 +1,16 @@
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import phispe
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "UTC",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    parameters: BaseModel,
+    filetype: str,
+    locale: str,
 ) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 
@@ -33,5 +37,5 @@ def process(
         Multipak .spe files seemingly have no timestamp.
 
     """
-    if parameters.filetype == "phi.spe":
+    if filetype == "phi.spe":
         return phispe.process(fn, encoding, timezone)

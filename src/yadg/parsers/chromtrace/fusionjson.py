@@ -25,11 +25,12 @@ Exposed metadata:
 .. codeauthor:: Peter Kraus
 """
 import json
+from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import str_to_uts
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     """
     Fusion json format.
 
@@ -73,7 +74,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         },
     }
     chrom = {"fn": str(fn), "traces": {}, "raw": {}}
-    chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
+    chrom["uts"] = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
     detid = 0
 
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)

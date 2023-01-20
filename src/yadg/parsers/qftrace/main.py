@@ -1,12 +1,15 @@
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import labviewcsv
 
 
 def process(
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "timezone",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    parameters: BaseModel,
+    filetype: str,
+    locale: str,
 ) -> tuple[list, dict, bool]:
     """
     VNA reflection trace parser.
@@ -36,7 +39,7 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. The currently only
         supported tracetype ("labview.csv") does not return full date.
     """
-    if parameters.filetype == "labview.csv":
+    if filetype == "labview.csv":
         data, meta = labviewcsv.process(fn, encoding, timezone)
         fulldate = False
 

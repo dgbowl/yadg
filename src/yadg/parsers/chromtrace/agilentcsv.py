@@ -24,18 +24,19 @@ of this file format.
 .. codeauthor:: Peter Kraus <peter.kraus.empa.ch>
 """
 import numpy as np
+from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from ...dgutils.dateutils import str_to_uts
 
 
-def _process_headers(headers: list, columns: list, timezone: str) -> dict:
+def _process_headers(headers: list, columns: list, timezone: ZoneInfo) -> dict:
     res = {}
     assert len(headers) == len(
         columns
     ), "chromtab: The number of headers and columns do not match."
     assert "Date Acquired" in headers, "chromtab: Cannot infer date."
     res["uts"] = str_to_uts(
-        columns[headers.index("Date Acquired")].strip(),
+        timestamp=columns[headers.index("Date Acquired")].strip(),
         format="%d %b %Y %H:%M",
         timezone=timezone,
     )

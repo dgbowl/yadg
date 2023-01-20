@@ -1,4 +1,5 @@
 import logging
+from zoneinfo import ZoneInfo
 from pydantic import BaseModel
 from . import (
     ezchromasc,
@@ -13,10 +14,13 @@ logger = logging.getLogger(__name__)
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     Unified raw chromatogram parser.
@@ -45,17 +49,17 @@ def process(
         Tuple containing the timesteps, metadata, and full date tag. All currently
         supported file formats return full date.
     """
-    if parameters.filetype == "ezchrom.asc":
+    if filetype == "ezchrom.asc":
         _data, _meta = ezchromasc.process(fn, encoding, timezone)
-    elif parameters.filetype == "agilent.csv":
+    elif filetype == "agilent.csv":
         _data, _meta = agilentcsv.process(fn, encoding, timezone)
-    elif parameters.filetype == "agilent.dx":
+    elif filetype == "agilent.dx":
         _data, _meta = agilentdx.process(fn, encoding, timezone)
-    elif parameters.filetype == "agilent.ch":
+    elif filetype == "agilent.ch":
         _data, _meta = agilentch.process(fn, encoding, timezone)
-    elif parameters.filetype == "fusion.json":
+    elif filetype == "fusion.json":
         _data, _meta = fusionjson.process(fn, encoding, timezone)
-    elif parameters.filetype == "fusion.zip":
+    elif filetype == "fusion.zip":
         _data, _meta = fusionzip.process(fn, encoding, timezone)
 
     results = []

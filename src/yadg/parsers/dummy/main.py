@@ -1,13 +1,17 @@
 from pydantic import BaseModel
 import json
+from zoneinfo import ZoneInfo
 from ... import dgutils
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    parameters: BaseModel,
+    locale: str,
+    filetype: str,
 ) -> tuple[list, dict, bool]:
     """
     A dummy parser.
@@ -40,7 +44,7 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-    if hasattr(parameters, "filetype") and parameters.filetype == "tomato.json":
+    if filetype == "tomato.json":
         with open(fn, "r") as inf:
             jsdata = json.load(inf)
         ret = []

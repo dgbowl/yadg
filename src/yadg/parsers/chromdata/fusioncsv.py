@@ -26,6 +26,7 @@ Exposed metadata:
 .. codeauthor:: Peter Kraus
 """
 import logging
+from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
@@ -39,7 +40,7 @@ _headers = {
 }
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     """
     Fusion csv export format.
 
@@ -100,7 +101,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 "retention time": {},
                 "sampleid": items[sni],
             }
-            uts = str_to_uts(f"{items[0]}{offset}", timezone=timezone)
+            uts = str_to_uts(timestamp=f"{items[0]}{offset}", timezone=timezone)
             for ii, i in enumerate(items[2:]):
                 ii += 2
                 h = _headers.get(header[ii], None)

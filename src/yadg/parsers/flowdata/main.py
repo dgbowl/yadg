@@ -6,10 +6,13 @@ logger = logging.getLogger(__name__)
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: str,
+    parameters: BaseModel,
+    filetype: str,
+    locale: str,
 ) -> tuple[list, dict, bool]:
     """
     Flow meter data processor
@@ -40,14 +43,14 @@ def process(
 
     metadata = {}
 
-    if parameters.filetype.startswith("drycal"):
+    if filetype.startswith("drycal"):
         fulldate = False
 
-        if parameters.filetype.endswith(".rtf") or fn.endswith("rtf"):
+        if filetype.endswith(".rtf") or fn.endswith("rtf"):
             ts, meta = drycal.rtf(fn, encoding, timezone)
-        elif parameters.filetype.endswith(".csv") or fn.endswith("csv"):
+        elif filetype.endswith(".csv") or fn.endswith("csv"):
             ts, meta = drycal.sep(fn, ",", encoding, timezone)
-        elif parameters.filetype.endswith(".txt") or fn.endswith("txt"):
+        elif filetype.endswith(".txt") or fn.endswith("txt"):
             ts, meta = drycal.sep(fn, "\t", encoding, timezone)
 
         # check timestamps are increasing:

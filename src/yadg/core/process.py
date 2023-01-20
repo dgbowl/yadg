@@ -2,8 +2,8 @@ import json
 import logging
 import importlib
 from typing import Callable
-from packaging import version
-from dgbowl_schemas.yadg import latest_version, DataSchema_4_0
+from .extractor import StepDefaults, Extractor
+from dgbowl_schemas.yadg import DataSchema
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
@@ -36,19 +36,18 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         raise e
 
 
-def process_schema(dataschema) -> dict:
+def process_schema(dataschema: DataSchema) -> dict:
     """
     Main worker function of **yadg**.
 
-    Takes in a validated `schema` as an argument and returns a single annotated
-    `datagram` created from the `schema`. It is the job of the user to supply a
+    Takes in a :class:`DataSchema` object and returns a single annotated
+    `datagram` created from the `dataschema`. It is the job of the user to supply a
     validated `schema`.
 
     Parameters
     ----------
-    schema
-        A fully validated `schema`. Use the function :meth:`yadg.core.validators.validate_schema`
-        to validate your `schema`.
+    dataschema: DataSchema
+        A fully validated `dataschema` object.
 
     Returns
     -------
@@ -69,18 +68,19 @@ def process_schema(dataschema) -> dict:
         "steps": [],
     }
 
-    current_version = dataschema.metadata.version
-    if version.parse(current_version) < version.parse(latest_version):
-        logger.warning(
-            "The version of the provided DataSchema '%s' is older than the current "
-            "latest version of DataSchema '%s'. Consider updating your schema.",
-            current_version,
-            latest_version,
-        )
+    while hasattr(dataschema, "update"):
+        dataschema = dataschema.update()
+
+    defaults = StepDefaults(dataschema.step_defaults)
 
     si = 0
     for step in dataschema.steps:
         logger.info("Processing step %d:", si)
+
+        ex = Extractor(
+            defaults, timezone=step.timezone, locale=step.locale, encoding=step.encoding
+        )
+
         metadata = dict()
         timesteps = list()
         handler = _infer_datagram_handler(step.parser)
@@ -92,14 +92,16 @@ def process_schema(dataschema) -> dict:
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
             ts, meta, fulldate = handler(
-                tf,
-                encoding=step.input.encoding,
-                timezone=dataschema.metadata.timezone,
+                fn=tf,
+                encoding=ex.encoding,
+                timezone=ex.timezone,
+                locale=ex.locale,
+                filetype=step.filetype,
                 parameters=step.parameters,
             )
             if not fulldate or step.externaldate is not None:
                 dgutils.complete_timestamps(
-                    ts, tf, step.externaldate, dataschema.metadata.timezone
+                    timesteps=ts, fn=tf, spec=step.externaldate, timezone=ex.timezone
                 )
             assert isinstance(ts, list), (
                 f"Handler for '{step.parser}' yields timesteps "
@@ -114,8 +116,4 @@ def process_schema(dataschema) -> dict:
                 metadata.update(meta)
 
         datagram["steps"].append({"metadata": metadata, "data": timesteps})
-        if isinstance(dataschema, DataSchema_4_0):
-            if step.export is not None:
-                with open(step["export"], "w") as ofile:
-                    json.dump(datagram, ofile, indent=1)
     return datagram

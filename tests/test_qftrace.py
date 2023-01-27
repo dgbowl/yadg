@@ -14,8 +14,8 @@ def special_datagram_test(datagram, testspec):
     tstep = step["data"][testspec["point"]]
     assert (
         len(tstep["raw"]["traces"]["S11"]["f"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Re(Γ)"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Im(Γ)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Re(G)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Im(G)"]["n"]) == testspec["tracelen"]
     ), "length of 'f', 'Re(Γ)', 'Im(Γ)' not as prescribed."
     print(tstep["raw"]["traces"].keys())
     for k, v in testspec["test"].items():
@@ -26,15 +26,15 @@ def special_datagram_test(datagram, testspec):
         }
         compare_result_dicts(t, v["f"])
         re = {
-            "n": tstep["raw"]["traces"][k]["Re(Γ)"]["n"][v["i"]],
-            "s": tstep["raw"]["traces"][k]["Re(Γ)"]["s"][v["i"]],
-            "u": tstep["raw"]["traces"][k]["Re(Γ)"]["u"],
+            "n": tstep["raw"]["traces"][k]["Re(G)"]["n"][v["i"]],
+            "s": tstep["raw"]["traces"][k]["Re(G)"]["s"][v["i"]],
+            "u": tstep["raw"]["traces"][k]["Re(G)"]["u"],
         }
         compare_result_dicts(re, v["re"])
         im = {
-            "n": tstep["raw"]["traces"][k]["Im(Γ)"]["n"][v["i"]],
-            "s": tstep["raw"]["traces"][k]["Im(Γ)"]["s"][v["i"]],
-            "u": tstep["raw"]["traces"][k]["Im(Γ)"]["u"],
+            "n": tstep["raw"]["traces"][k]["Im(G)"]["n"][v["i"]],
+            "s": tstep["raw"]["traces"][k]["Im(G)"]["s"][v["i"]],
+            "u": tstep["raw"]["traces"][k]["Im(G)"]["u"],
         }
         compare_result_dicts(im, v["im"])
 
@@ -84,6 +84,6 @@ def test_qftrace_compare_raw_values(datadir):
     with open("yvals.json", "r") as infile:
         ref = json.load(infile)["traces"]
     for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
-        for kk in ["f", "Re(Γ)", "Im(Γ)"]:
+        for kk in ["f", "Re(G)", "Im(G)"]:
             for kkk in ["n", "s"]:
                 assert np.allclose(ref[k][kk][kkk], v[kk][kkk])

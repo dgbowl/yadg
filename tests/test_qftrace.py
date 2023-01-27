@@ -10,8 +10,8 @@ def special_datagram_test(datagram, testspec):
     tstep = step["data"][testspec["point"]]
     assert (
         len(tstep["raw"]["traces"]["S11"]["f"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Re(Γ)"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Im(Γ)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Re(G)"]["n"]) == testspec["tracelen"]
+        and len(tstep["raw"]["traces"]["S11"]["Im(G)"]["n"]) == testspec["tracelen"]
     ), "length of 'f', 'Re(Γ)', 'Im(Γ)' not as prescribed."
 
     assert (
@@ -172,6 +172,6 @@ def test_compare_raw_values(datadir):
     with open("yvals.json", "r") as infile:
         ref = json.load(infile)["traces"]
     for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
-        for kk in ["f", "Re(Γ)", "Im(Γ)"]:
+        for kk in ["f", "Re(G)", "Im(G)"]:
             for kkk in ["n", "s"]:
                 assert np.allclose(ref[k][kk][kkk], v[kk][kkk])

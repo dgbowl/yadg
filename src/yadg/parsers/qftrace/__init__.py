@@ -40,9 +40,9 @@ timestep, using the following format:
         "{{ trace_name }}":   # detector name, currently hard-coded to S11
           f:                  # frequency-axis units are always Hz
             {n: [!!float, ...], s: [!!float, ...], u: "Hz"} 
-          Re(Γ):              # real part of the reflection coefficient
+          Re(G):              # real part of the reflection coefficient
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
-          Im(Γ):              # imaginary part of the reflection coefficient
+          Im(G):              # imaginary part of the reflection coefficient
             {n: [!!float, ...], s: [!!float, ...], u: !!str}  
 
 

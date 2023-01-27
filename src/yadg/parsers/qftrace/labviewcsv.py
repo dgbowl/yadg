@@ -76,7 +76,7 @@ def process(
         c = complex(ren, imn)
         gamma.append(c)
         absgamma.append(abs(c))
-    temp = {"f": {}, "Re(Γ)": {}, "Im(Γ)": {}}
+    temp = {"f": {}, "Re(G)": {}, "Im(G)": {}}
     freq = [np.array(i) for i in zip(*freq)]
     temp["fvals"], temp["fsigs"] = freq
     temp["gamma"] = np.array(gamma)
@@ -84,10 +84,10 @@ def process(
     temp["f"]["n"], temp["f"]["s"] = [i.tolist() for i in freq]
     temp["f"]["u"] = "Hz"
     real = [np.array(i) for i in zip(*real)]
-    temp["Re(Γ)"]["n"], temp["Re(Γ)"]["s"] = [i.tolist() for i in real]
-    temp["Re(Γ)"]["u"] = " "
+    temp["Re(G)"]["n"], temp["Re(G)"]["s"] = [i.tolist() for i in real]
+    temp["Re(G)"]["u"] = " "
     imag = [np.array(i) for i in zip(*imag)]
-    temp["Im(Γ)"]["n"], temp["Im(Γ)"]["s"] = [i.tolist() for i in imag]
-    temp["Im(Γ)"]["u"] = " "
+    temp["Im(G)"]["n"], temp["Im(G)"]["s"] = [i.tolist() for i in imag]
+    temp["Im(G)"]["u"] = " "
     data["raw"]["traces"]["S11"] = temp
     return [data], None

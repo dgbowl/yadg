@@ -1,5 +1,6 @@
 import logging
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import drycal
 
 logger = logging.getLogger(__name__)
@@ -9,10 +10,10 @@ def process(
     *,
     fn: str,
     encoding: str,
-    timezone: str,
-    parameters: BaseModel,
-    filetype: str,
+    timezone: ZoneInfo,
     locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     Flow meter data processor

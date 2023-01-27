@@ -1,14 +1,16 @@
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import quadstarsac
 
 
 def process(
+    *,
     fn: str,
     encoding: str,
-    timezone: str,
-    parameters: BaseModel,
-    filetype: str,
+    timezone: ZoneInfo,
     locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """Unified mass spectrometry data parser.
 

@@ -9,9 +9,9 @@ def process(
     fn: str,
     encoding: str,
     timezone: ZoneInfo,
-    parameters: BaseModel,
     locale: str,
     filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     A dummy parser.

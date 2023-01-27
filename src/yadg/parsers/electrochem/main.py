@@ -8,8 +8,8 @@ def process(
     fn: str,
     encoding: str,
     timezone: ZoneInfo,
-    filetype: str,
     locale: str,
+    filetype: str,
     parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.

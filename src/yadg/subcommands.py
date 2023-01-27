@@ -5,8 +5,11 @@ import json
 import yaml
 import shutil
 import hashlib
-from dgbowl_schemas import to_dataschema
-from . import core, dgutils
+from pathlib import Path
+#from dgbowl_schemas import to_dataschema
+from dgbowl_schemas.yadg import to_dataschema, FileTypeFactory
+from pydantic import ValidationError
+from . import core, dgutils, extractors
 
 
 logger = logging.getLogger(__name__)
@@ -165,3 +168,29 @@ def preset(args: argparse.Namespace) -> None:
         logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(ds.dict(), ofile, indent=1)
+
+
+def extract(args: argparse.Namespace) -> None:
+    """
+    """
+
+    path = Path(args.infile)
+
+    assert path.is_file(), (
+        f"Supplied object filename '{args.infile}' does not exist "
+        "or is not a valid file."
+    )
+
+    
+    for k in {args.filetype, f"marda:{args.filetype}"}:
+        try:
+            filetype = FileTypeFactory(filetype={"filetype": k}).filetype
+            break
+        except ValidationError:
+            pass
+    else:
+        raise RuntimeError(f"Filetype '{args.filetype}' could not be understood.")
+    
+    retvals = extractors.extract(filetype, path)
+    print(f"{retvals=}")
+

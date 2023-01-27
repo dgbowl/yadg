@@ -197,6 +197,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 import logging
 from collections import defaultdict
 from typing import Any
+from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
 from .eclabtechniques import technique_params_dtypes, param_from_key, get_resolution
@@ -803,8 +804,8 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 def process(
     fn: str,
-    encoding: str = "windows-1252",
-    timezone: str = "localtime",
+    encoding: str,
+    timezone: ZoneInfo,
     transpose: bool = True,
 ) -> tuple[list, dict, bool]:
     """Processes EC-Lab raw data binary files.

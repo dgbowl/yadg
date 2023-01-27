@@ -2,7 +2,7 @@ import json
 import logging
 import importlib
 from typing import Callable
-from .extractor import StepDefaults, Extractor
+from zoneinfo import ZoneInfo
 from dgbowl_schemas.yadg import DataSchema
 from .. import dgutils, core
 
@@ -70,17 +70,25 @@ def process_schema(dataschema: DataSchema) -> dict:
 
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
-
-    defaults = StepDefaults(dataschema.step_defaults)
-
+    
     si = 0
     for step in dataschema.steps:
         logger.info("Processing step %d:", si)
 
-        ex = Extractor(
-            defaults, timezone=step.timezone, locale=step.locale, encoding=step.encoding
-        )
-
+        # Backfill default timezone, locale, encoding.
+        if step.timezone is None:
+            tz = ZoneInfo(dataschema.step_defaults.timezone)
+        else:
+            tz = ZoneInfo(step.timezone)
+        if step.locale is None:
+            loc = dataschema.step_defaults.locale
+        else:
+            loc = step.locale
+        if step.encoding is None:
+            enc = dataschema.step_defaults.encoding
+        else:
+            enc = step.encoding
+        
         metadata = dict()
         timesteps = list()
         handler = _infer_datagram_handler(step.parser)
@@ -93,15 +101,15 @@ def process_schema(dataschema: DataSchema) -> dict:
             logger.info("Processing file '%s'.", tf)
             ts, meta, fulldate = handler(
                 fn=tf,
-                encoding=ex.encoding,
-                timezone=ex.timezone,
-                locale=ex.locale,
+                encoding=enc,
+                timezone=tz,
+                locale=loc,
                 filetype=step.filetype,
                 parameters=step.parameters,
             )
             if not fulldate or step.externaldate is not None:
                 dgutils.complete_timestamps(
-                    timesteps=ts, fn=tf, spec=step.externaldate, timezone=ex.timezone
+                    timesteps=ts, fn=tf, spec=step.externaldate, timezone=tz
                 )
             assert isinstance(ts, list), (
                 f"Handler for '{step.parser}' yields timesteps "

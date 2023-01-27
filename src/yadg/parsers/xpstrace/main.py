@@ -8,9 +8,9 @@ def process(
     fn: str,
     encoding: str,
     timezone: ZoneInfo,
-    parameters: BaseModel,
-    filetype: str,
     locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """Unified x-ray photoelectron spectroscopy parser.
 

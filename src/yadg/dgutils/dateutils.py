@@ -339,9 +339,9 @@ def complete_timestamps(
 
 
 def timestamps_from_file(
-    path: str, 
-    type: str, 
-    match: str, 
+    path: str,
+    type: str,
+    match: str,
     timezone: ZoneInfo,
 ) -> Union[float, list[float]]:
     """

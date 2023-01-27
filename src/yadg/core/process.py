@@ -70,25 +70,28 @@ def process_schema(dataschema: DataSchema) -> dict:
 
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
-    
+
+    print(dataschema.step_defaults)
+
     si = 0
     for step in dataschema.steps:
         logger.info("Processing step %d:", si)
 
+        print(step.extractor)
         # Backfill default timezone, locale, encoding.
-        if step.timezone is None:
+        if step.extractor.timezone is None:
             tz = ZoneInfo(dataschema.step_defaults.timezone)
         else:
-            tz = ZoneInfo(step.timezone)
-        if step.locale is None:
+            tz = ZoneInfo(step.extractor.timezone)
+        if step.extractor.locale is None:
             loc = dataschema.step_defaults.locale
         else:
-            loc = step.locale
-        if step.encoding is None:
+            loc = step.extractor.locale
+        if step.extractor.encoding is None:
             enc = dataschema.step_defaults.encoding
         else:
-            enc = step.encoding
-        
+            enc = step.extractor.encoding
+
         metadata = dict()
         timesteps = list()
         handler = _infer_datagram_handler(step.parser)
@@ -104,7 +107,7 @@ def process_schema(dataschema: DataSchema) -> dict:
                 encoding=enc,
                 timezone=tz,
                 locale=loc,
-                filetype=step.filetype,
+                filetype=step.extractor.filetype,
                 parameters=step.parameters,
             )
             if not fulldate or step.externaldate is not None:

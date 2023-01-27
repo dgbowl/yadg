@@ -166,9 +166,7 @@ def run_with_arguments():
     extract.add_argument(
         "outfile",
         nargs="?",
-        help=(
-            "Optionally specify the output file name."
-        ),
+        help=("Optionally specify the output file name."),
         default=None,
     )
     extract.set_defaults(func=subcommands.extract)

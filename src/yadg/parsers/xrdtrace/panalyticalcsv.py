@@ -149,7 +149,9 @@ def process(
     }
     # Process the metadata.
     uts = dateutils.str_to_uts(
-        timestamp=header["file_date_and_time"], format="%d/%B/%Y %H:%M", timezone=timezone
+        timestamp=header["file_date_and_time"],
+        format="%d/%B/%Y %H:%M",
+        timezone=timezone,
     )
     traces = {"0": {"angle": angle, "intensity": intensity}}
     data = [{"fn": fn, "uts": uts, "raw": {"traces": traces}}]

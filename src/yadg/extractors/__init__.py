@@ -7,10 +7,7 @@ logger = logging.getLogger(__name__)
 
 extractors = {}
 
-for modname in {
-    "eclabmpr",
-    "eclabmpt"
-}:
+for modname in {"eclabmpr", "eclabmpt"}:
     try:
         m = importlib.import_module(f"yadg.extractors.{modname}")
         supp = getattr(m, "supports")

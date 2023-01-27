@@ -12,13 +12,12 @@ supports = {
     "marda:biologic-mpt",
 }
 
+
 def extract(
     path: Path,
     filetype: FileType,
 ) -> tuple[list, dict, bool]:
 
     return process(
-        fn = str(path), 
-        encoding = filetype.encoding, 
-        timezone = ZoneInfo(filetype.timezone)
+        fn=str(path), encoding=filetype.encoding, timezone=ZoneInfo(filetype.timezone)
     )

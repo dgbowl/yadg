@@ -6,7 +6,8 @@ import yaml
 import shutil
 import hashlib
 from pathlib import Path
-#from dgbowl_schemas import to_dataschema
+
+# from dgbowl_schemas import to_dataschema
 from dgbowl_schemas.yadg import to_dataschema, FileTypeFactory
 from pydantic import ValidationError
 from . import core, dgutils, extractors
@@ -171,8 +172,7 @@ def preset(args: argparse.Namespace) -> None:
 
 
 def extract(args: argparse.Namespace) -> None:
-    """
-    """
+    """ """
 
     path = Path(args.infile)
 
@@ -181,7 +181,6 @@ def extract(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    
     for k in {args.filetype, f"marda:{args.filetype}"}:
         try:
             filetype = FileTypeFactory(filetype={"filetype": k}).filetype
@@ -190,7 +189,6 @@ def extract(args: argparse.Namespace) -> None:
             pass
     else:
         raise RuntimeError(f"Filetype '{args.filetype}' could not be understood.")
-    
+
     retvals = extractors.extract(filetype, path)
     print(f"{retvals=}")
-

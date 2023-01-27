@@ -42,7 +42,7 @@ setuptools.setup(
         "tzlocal",
         "packaging",
         "python-dateutil",
-        "dgbowl-schemas>=104",
+        "dgbowl-schemas>=104<=111",
     ],
     extras_require={
         "testing": [

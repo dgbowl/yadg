@@ -159,3 +159,23 @@ def test_yadg_preset_externaldate(datadir):
         dg = json.load(inf)
     standard_datagram_test(dg, ts)
     pars_datagram_test(dg, ts)
+
+
+@pytest.mark.parametrize(
+    "filetype, infile",
+    [
+        ("eclab.mpr", "cp.mpr"),
+        ("marda:biologic-mpr", "cp.mpr"),
+        ("biologic-mpr", "cp.mpr"),
+    ],
+)
+def test_yadg_extract(filetype, infile, datadir):
+    os.chdir(datadir)
+    command = ["yadg", "extract", filetype, infile, "test.json"]
+    subprocess.run(command, check=True)
+    assert os.path.exists("test.json")
+    with open("test.json", "r") as inf:
+        ret = json.load(inf)
+    with open(f"ref.{infile}.json") as inf:
+        ref = json.load(inf)
+    assert ret == ref

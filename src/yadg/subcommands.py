@@ -186,7 +186,7 @@ def extract(args: argparse.Namespace) -> None:
     if args.outfile is None:
         outpath = path.with_suffix(".json")
     else:
-        outpath = Path("output.json")
+        outpath = Path(args.outfile)
 
     print(f"{outpath=}")
 

@@ -8,7 +8,7 @@ import hashlib
 from pathlib import Path
 
 # from dgbowl_schemas import to_dataschema
-from dgbowl_schemas.yadg import to_dataschema, FileTypeFactory
+from dgbowl_schemas.yadg import to_dataschema, ExtractorFactory
 from pydantic import ValidationError
 from . import core, dgutils, extractors
 
@@ -181,14 +181,29 @@ def extract(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
+    print(f"{args=}")
+
+    if args.outfile is None:
+        outpath = path.with_suffix(".json")
+    else:
+        outpath = Path("output.json")
+
+    print(f"{outpath=}")
+
     for k in {args.filetype, f"marda:{args.filetype}"}:
         try:
-            filetype = FileTypeFactory(filetype={"filetype": k}).filetype
+            filetype = ExtractorFactory(extractor={"filetype": k}).extractor
             break
         except ValidationError:
             pass
     else:
         raise RuntimeError(f"Filetype '{args.filetype}' could not be understood.")
 
-    retvals = extractors.extract(filetype, path)
-    print(f"{retvals=}")
+    metadata, data = extractors.extract(filetype, path)
+    if data is None:
+        ret = dict(metadata=metadata)
+    else:
+        ret = dict(metadata=metadata, data=data)
+
+    with outpath.open(mode="w") as out:
+        json.dump(ret, out)

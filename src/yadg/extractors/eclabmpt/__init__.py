@@ -18,6 +18,10 @@ def extract(
     filetype: FileType,
 ) -> tuple[list, dict, bool]:
 
-    return process(
-        fn=str(path), encoding=filetype.encoding, timezone=ZoneInfo(filetype.timezone)
+    data, metadata, _ = process(
+        fn=str(path),
+        encoding=filetype.encoding,
+        timezone=ZoneInfo(filetype.timezone),
     )
+
+    return metadata, data

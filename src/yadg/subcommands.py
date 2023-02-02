@@ -172,7 +172,18 @@ def preset(args: argparse.Namespace) -> None:
 
 
 def extract(args: argparse.Namespace) -> None:
-    """ """
+    """
+    The ``extract`` subcommand of **yadg**.
+
+    This function requires the ``args.filetype`` and ``args.infile`` positional arguments.
+    If ``args.filetype`` (or it's namespaced version, such as ``marda:{args.filetype}``)
+    is a known :class:`FileType`, ``yadg`` will attempt to extract metadata and data from
+    the provided ``args.infile``.
+
+    The data is returned as a ``json`` file. The location can be configured using the
+    ``args.outfile`` parameter, by default this is set to the stem of ``args.infile`` with
+    a ``.json`` suffix.
+    """
 
     path = Path(args.infile)
 
@@ -181,14 +192,10 @@ def extract(args: argparse.Namespace) -> None:
         "or is not a valid file."
     )
 
-    print(f"{args=}")
-
     if args.outfile is None:
         outpath = path.with_suffix(".json")
     else:
         outpath = Path(args.outfile)
-
-    print(f"{outpath=}")
 
     for k in {args.filetype, f"marda:{args.filetype}"}:
         try:

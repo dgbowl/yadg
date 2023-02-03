@@ -32,12 +32,13 @@ Exposed metadata:
 """
 import json
 import logging
+from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     """
     Fusion json format.
 
@@ -74,7 +75,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         },
     }
     chrom = {"fn": str(fn), "raw": {}}
-    chrom["uts"] = str_to_uts(jsdata["runTimeStamp"], timezone=timezone)
+    chrom["uts"] = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)
     if valve is not None:

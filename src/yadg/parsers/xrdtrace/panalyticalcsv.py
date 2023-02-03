@@ -5,13 +5,13 @@ panalyticalcsv: Processing of PANalytical XRD ``csv`` files
 File Structure
 ``````````````
 
-These files are split into a ``[Measurement conditions]`` and a ``[Scan points]`` 
-section. The former stores the metadata and the latter all the datapoints. 
+These files are split into a ``[Measurement conditions]`` and a ``[Scan points]``
+section. The former stores the metadata and the latter all the datapoints.
 
 .. warning::
-    
-    This parser is fairly new and untested. As a result, the returned metadata 
-    contain all the entries in the ``[Measurement conditions]`` section, without 
+
+    This parser is fairly new and untested. As a result, the returned metadata
+    contain all the entries in the ``[Measurement conditions]`` section, without
     any additional filtering.
 
 
@@ -62,7 +62,7 @@ def _process_header(header: str) -> dict:
 
     """
     header_lines = header.split("\n")[1:-1]
-    header = dict([l.split(",", 1) for l in header_lines])
+    header = dict([line.split(",", 1) for line in header_lines])
     # Process comment entries.
     comments = []
     for key in list(header.keys()):
@@ -95,7 +95,7 @@ def _process_data(data: str) -> tuple[list, list]:
     data_lines = data.split("\n")[1:-1]
     columns = data_lines[0].split(",")
     assert columns == ["Angle", "Intensity"], "Unexpected columns."
-    datapoints = [l.split(",") for l in data_lines[1:]]
+    datapoints = [line.split(",") for line in data_lines[1:]]
     angle, intensity = [list(d) for d in zip(*datapoints)]
     angle = [float(a) for a in angle]
     intensity = [float(i) for i in intensity]
@@ -149,7 +149,9 @@ def process(
     }
     # Process the metadata.
     uts = dateutils.str_to_uts(
-        header["file_date_and_time"], format="%d/%B/%Y %H:%M", timezone=timezone
+        timestamp=header["file_date_and_time"],
+        format="%d/%B/%Y %H:%M",
+        timezone=timezone,
     )
     traces = {"0": {"angle": angle, "intensity": intensity}}
     data = [{"fn": fn, "uts": uts, "raw": {"traces": traces}}]

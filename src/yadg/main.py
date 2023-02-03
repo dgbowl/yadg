@@ -154,6 +154,23 @@ def run_with_arguments():
     )
     preset.set_defaults(func=subcommands.preset)
 
+    extract = subparsers.add_parser("extract")
+    extract.add_argument(
+        "filetype",
+        help="Specify the filetype to select the appropriate extractor.",
+    )
+    extract.add_argument(
+        "infile",
+        help="Specify the 'infile' which should be extracted.",
+    )
+    extract.add_argument(
+        "outfile",
+        nargs="?",
+        help=("Optionally specify the output file name."),
+        default=None,
+    )
+    extract.set_defaults(func=subcommands.extract)
+
     # parse subparser args
     args, extras = parser.parse_known_args()
     # parse extras for verbose tags

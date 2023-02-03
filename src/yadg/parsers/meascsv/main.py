@@ -1,5 +1,6 @@
 import logging
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from ..basiccsv.main import process_row
 from ... import dgutils
 
@@ -7,10 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     Legacy MCPT measurement log parser.

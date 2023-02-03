@@ -1,12 +1,16 @@
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import panalyticalxrdml, panalyticalcsv, panalyticalxy
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "UTC",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """
     Unified X-ray diffractogram data parser.
@@ -34,9 +38,9 @@ def process(
         currently implemented parsers all return full date.
 
     """
-    if parameters.filetype == "panalytical.xrdml":
+    if filetype == "panalytical.xrdml":
         return panalyticalxrdml.process(fn, encoding, timezone)
-    elif parameters.filetype == "panalytical.csv":
+    elif filetype == "panalytical.csv":
         return panalyticalcsv.process(fn, encoding, timezone)
-    elif parameters.filetype == "panalytical.xy":
+    elif filetype == "panalytical.xy":
         return panalyticalxy.process(fn, encoding, timezone)

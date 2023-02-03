@@ -190,7 +190,9 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     timestamp_match = timestamp_re.search("\n".join(settings_lines))
     timestamp = timestamp_match["val"]
     for format in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
-        uts = str_to_uts(timestamp, format, timezone, False)
+        uts = str_to_uts(
+            timestamp=timestamp, format=format, timezone=timezone, strict=False
+        )
         if uts is not None:
             break
     if uts is None:

@@ -1,12 +1,16 @@
 from pydantic import BaseModel
+from zoneinfo import ZoneInfo
 from . import eclabmpr, eclabmpt, tomatojson
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "windows-1252",
-    timezone: str = "localtime",
-    parameters: BaseModel = None,
+    encoding: str,
+    timezone: ZoneInfo,
+    locale: str,
+    filetype: str,
+    parameters: BaseModel,
 ) -> tuple[list, dict, bool]:
     """Unified parser for electrochemistry data.
 
@@ -32,21 +36,21 @@ def process(
 
     """
     transpose = parameters.transpose if hasattr(parameters, "transpose") else True
-    if parameters.filetype == "eclab.mpr":
+    if filetype == "eclab.mpr":
         data, meta, fulldate = eclabmpr.process(
             fn,
             encoding,
             timezone,
             transpose,
         )
-    elif parameters.filetype == "eclab.mpt":
+    elif filetype == "eclab.mpt":
         data, meta, fulldate = eclabmpt.process(
             fn,
             encoding,
             timezone,
             transpose,
         )
-    elif parameters.filetype == "tomato.json":
+    elif filetype == "tomato.json":
         data, meta, fulldate = tomatojson.process(
             fn,
             encoding,

@@ -4,8 +4,14 @@ runs:
   using: "composite"
   steps:
     - name: Prepare locales
-      run: sudo locale-gen de_DE.UTF-8 || echo windows
+      run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows
       shell: bash
+    - name: Prepare timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: Europe/Berlin
+        timezoneMacos: Europe/Berlin
+        timezoneWindows: W. Europe Standard Time
     - name: Print yadg version
       run: yadg --version
       shell: bash

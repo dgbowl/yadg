@@ -5,8 +5,12 @@ import json
 import yaml
 import shutil
 import hashlib
-from dgbowl_schemas import to_dataschema
-from . import core, dgutils
+from pathlib import Path
+
+# from dgbowl_schemas import to_dataschema
+from dgbowl_schemas.yadg import to_dataschema, ExtractorFactory
+from pydantic import ValidationError
+from . import core, dgutils, extractors
 
 
 logger = logging.getLogger(__name__)
@@ -165,3 +169,48 @@ def preset(args: argparse.Namespace) -> None:
         logger.info("Saving schema to '%s'.", args.outfile)
         with open(args.outfile, "w") as ofile:
             json.dump(ds.dict(), ofile, indent=1)
+
+
+def extract(args: argparse.Namespace) -> None:
+    """
+    The ``extract`` subcommand of **yadg**.
+
+    This function requires the ``args.filetype`` and ``args.infile`` positional arguments.
+    If ``args.filetype`` (or it's namespaced version, such as ``marda:{args.filetype}``)
+    is a known :class:`FileType`, ``yadg`` will attempt to extract metadata and data from
+    the provided ``args.infile``.
+
+    The data is returned as a ``json`` file. The location can be configured using the
+    ``args.outfile`` parameter, by default this is set to the stem of ``args.infile`` with
+    a ``.json`` suffix.
+    """
+
+    path = Path(args.infile)
+
+    assert path.is_file(), (
+        f"Supplied object filename '{args.infile}' does not exist "
+        "or is not a valid file."
+    )
+
+    if args.outfile is None:
+        outpath = path.with_suffix(".json")
+    else:
+        outpath = Path(args.outfile)
+
+    for k in {args.filetype, f"marda:{args.filetype}"}:
+        try:
+            filetype = ExtractorFactory(extractor={"filetype": k}).extractor
+            break
+        except ValidationError:
+            pass
+    else:
+        raise RuntimeError(f"Filetype '{args.filetype}' could not be understood.")
+
+    metadata, data = extractors.extract(filetype, path)
+    if data is None:
+        ret = dict(metadata=metadata)
+    else:
+        ret = dict(metadata=metadata, data=data)
+
+    with outpath.open(mode="w") as out:
+        json.dump(ret, out)

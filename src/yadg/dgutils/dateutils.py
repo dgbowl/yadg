@@ -4,8 +4,7 @@ import json
 import datetime
 import dateutil.parser
 import logging
-import tzlocal
-import zoneinfo
+from zoneinfo import ZoneInfo
 import numpy as np
 from typing import Callable, Union, Mapping, Iterable
 from dgbowl_schemas.yadg.dataschema_4_1.externaldate import ExternalDate
@@ -30,7 +29,7 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_uts(ole_timestamp: float, timezone: str = "UTC") -> float:
+def ole_to_uts(ole_timestamp: float, timezone: ZoneInfo) -> float:
     """
     Converts a Microsoft OLE timestamp into a POSIX timestamp.
 
@@ -53,19 +52,14 @@ def ole_to_uts(ole_timestamp: float, timezone: str = "UTC") -> float:
         The corresponding Unix timestamp.
 
     """
-    if timezone == "localtime":
-        tz = tzlocal.get_localzone()
-    else:
-        tz = zoneinfo.ZoneInfo(timezone)
-
-    ole_base = datetime.datetime(year=1899, month=12, day=30, tzinfo=tz)
+    ole_base = datetime.datetime(year=1899, month=12, day=30, tzinfo=timezone)
     ole_delta = datetime.timedelta(days=ole_timestamp)
     time = ole_base + ole_delta
     return time.timestamp()
 
 
 def str_to_uts(
-    timestamp: str, format: str = None, timezone: str = "UTC", strict: bool = True
+    *, timestamp: str, timezone: ZoneInfo, format: str = None, strict: bool = True
 ) -> Union[float, None]:
     """
     Converts a string to POSIX timestamp.
@@ -95,10 +89,6 @@ def str_to_uts(
         Returns the POSIX timestamp if successful, otherwise None.
 
     """
-    if timezone == "localtime":
-        tz = tzlocal.get_localzone()
-    else:
-        tz = zoneinfo.ZoneInfo(timezone)
 
     try:
         if format is None:
@@ -106,7 +96,7 @@ def str_to_uts(
         else:
             dt = datetime.datetime.strptime(timestamp, format)
 
-        local_tz = tz if dt.tzinfo is None else dt.tzinfo
+        local_tz = timezone if dt.tzinfo is None else dt.tzinfo
         local_dt = dt.replace(tzinfo=local_tz)
         utc_dt = local_dt.astimezone(datetime.timezone.utc)
         return utc_dt.timestamp()
@@ -123,7 +113,10 @@ def str_to_uts(
 
 
 def infer_timestamp_from(
-    headers: list = None, spec: TimestampSpec = None, timezone: str = "UTC"
+    *,
+    headers: list = None,
+    spec: TimestampSpec = None,
+    timezone: ZoneInfo,
 ) -> tuple[list, Callable, bool]:
     """
     Convenience function for timestamping
@@ -161,7 +154,9 @@ def infer_timestamp_from(
         elif hasattr(spec, "timestamp"):
 
             def retfunc(value):
-                return str_to_uts(value, spec.timestamp.format, timezone=timezone)
+                return str_to_uts(
+                    timestamp=value, format=spec.timestamp.format, timezone=timezone
+                )
 
             return [spec.timestamp.index], retfunc, True
         elif hasattr(spec, "date") or hasattr(spec, "time"):
@@ -173,7 +168,9 @@ def infer_timestamp_from(
             if spec.date is not None:
 
                 def datefn(value):
-                    return str_to_uts(value, spec.date.format, timezone=timezone)
+                    return str_to_uts(
+                        timestamp=value, format=spec.date.format, timezone=timezone
+                    )
 
                 cols[0] = spec.date.index
                 specdict["date"] = datefn
@@ -228,7 +225,7 @@ def infer_timestamp_from(
         )
 
         def retfunc(value):
-            return str_to_uts(value, timezone=timezone)
+            return str_to_uts(timestamp=value, timezone=timezone)
 
         return [headers.index("timestamp")], retfunc, True
     else:
@@ -236,7 +233,11 @@ def infer_timestamp_from(
 
 
 def complete_timestamps(
-    timesteps: list, fn: str, spec: ExternalDate, timezone: str
+    *,
+    timesteps: list,
+    fn: str,
+    spec: ExternalDate,
+    timezone: ZoneInfo,
 ) -> None:
     """
     Timestamp completing function.
@@ -305,14 +306,21 @@ def complete_timestamps(
             method.file.path, method.file.type, method.file.match, timezone
         )
     elif hasattr(method, "isostring"):
-        delta = str_to_uts(method.isostring, None, timezone, True)
+        delta = str_to_uts(
+            timestamp=method.isostring, format=None, timezone=timezone, strict=True
+        )
     elif hasattr(method, "utsoffset"):
         delta = method.utsoffset
     elif hasattr(method, "filename"):
         basename = os.path.basename(fn)
         filename, ext = os.path.splitext(basename)
         string = filename[: method.filename.len]
-        delta = str_to_uts(string, method.filename.format, timezone, False)
+        delta = str_to_uts(
+            timestamp=string,
+            format=method.filename.format,
+            timezone=timezone,
+            strict=False,
+        )
 
     if delta is None:
         logger.warning("Timestamp completion failed. Using 'mtime'.")
@@ -331,7 +339,10 @@ def complete_timestamps(
 
 
 def timestamps_from_file(
-    path: str, type: str, match: str = None, timezone: str = "UTC"
+    path: str,
+    type: str,
+    match: str,
+    timezone: ZoneInfo,
 ) -> Union[float, list[float]]:
     """
     Load timestamps from file.
@@ -387,13 +398,17 @@ def timestamps_from_file(
             parseddata = []
             for i in data:
                 if isinstance(i, str):
-                    delta = str_to_uts(i, None, timezone, True)
+                    delta = str_to_uts(
+                        timestamp=i, format=None, timezone=timezone, strict=True
+                    )
                     parseddata.append(delta)
                 elif isinstance(i, (int, float, np.number)):
                     parseddata.append(float(i))
             return parseddata
         else:
             if isinstance(data, str):
-                return str_to_uts(data, None, timezone, True)
+                return str_to_uts(
+                    timestamp=data, format=None, timezone=timezone, strict=True
+                )
             else:
                 return float(data)

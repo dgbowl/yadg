@@ -139,7 +139,6 @@ def update_schema(object: Union[list, dict]) -> dict:
     newobj = to_dataschema(**newobj)
     while hasattr(newobj, "update"):
         newobj = newobj.update()
-        print(newobj.dict())
     return newobj
 
 

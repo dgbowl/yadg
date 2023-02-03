@@ -22,13 +22,14 @@ Exposed metadata:
 """
 import numpy as np
 import logging
+from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from ...dgutils.dateutils import str_to_uts
 
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     """
     EZ-Chrome ASCII export file parser.
 
@@ -70,7 +71,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 chrom[k] = line.split(f"{key}:")[1].strip()
         if line.startswith("Acquisition Date and Time:"):
             chrom["uts"] = str_to_uts(
-                line.split("Time:")[1].strip(),
+                timestamp=line.split("Time:")[1].strip(),
                 format="%m/%d/%Y %I:%M:%S %p",
                 timezone=timezone,
             )

@@ -1,0 +1,7 @@
+yadg.extractors.eclabmpt package
+================================
+
+.. automodule:: yadg.extractors.eclabmpt
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
 </ul>
 </li>
@@ -130,6 +131,14 @@ The function has three subcommands:</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#module-yadg.dgutils.btools">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpr.html">yadg.extractors.eclabmpr package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpt.html">yadg.extractors.eclabmpt package</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul>
@@ -279,6 +288,24 @@ this function will prepend the specified <code class="docutils literal notransla
 in the supplied <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code>.</p>
 <p>Alternatively, if <code class="docutils literal notranslate"><span class="pre">args.process</span></code> is specified, the created <cite>schema</cite> will be
 directly processed into a <cite>datagram</cite>, which is then saved in <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.subcommands.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.extract" title="Permalink to this definition"></a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">extract</span></code> subcommand of <strong>yadg</strong>.</p>
+<p>This function requires the <code class="docutils literal notranslate"><span class="pre">args.filetype</span></code> and <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> positional arguments.
+If <code class="docutils literal notranslate"><span class="pre">args.filetype</span></code> (or it’s namespaced version, such as <code class="docutils literal notranslate"><span class="pre">marda:{args.filetype}</span></code>)
+is a known <code class="xref py py-class docutils literal notranslate"><span class="pre">FileType</span></code>, <code class="docutils literal notranslate"><span class="pre">yadg</span></code> will attempt to extract metadata and data from
+the provided <code class="docutils literal notranslate"><span class="pre">args.infile</span></code>.</p>
+<p>The data is returned as a <code class="docutils literal notranslate"><span class="pre">json</span></code> file. The location can be configured using the
+<code class="docutils literal notranslate"><span class="pre">args.outfile</span></code> parameter, by default this is set to the stem of <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> with
+a <code class="docutils literal notranslate"><span class="pre">.json</span></code> suffix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>

@@ -266,7 +266,7 @@ concentrations, use the <a class="reference internal" href="yadg.parsers.chromda
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified raw chromatogram parser.</p>
 <p>This parser processes GC and LC chromatograms in signal(time) format. When
 provided with a calibration file, this tool will integrate the trace, and provide
@@ -276,8 +276,8 @@ the peak areas, retention times, and concentrations of the detected species.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ChromTrace</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ChromTrace</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -342,7 +342,7 @@ as <code class="docutils literal notranslate"><span class="pre">offset</span> <s
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used as the file is binary.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -480,7 +480,7 @@ They are assigned their numerical index in the file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding used to open the file.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -532,7 +532,7 @@ detector names, and information about assigned peaks.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding used to open the file.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -590,7 +590,7 @@ without the user having to unzip &amp; move the data.</p>
 </section>
 <span class="target" id="module-yadg.parsers.chromtrace.main"></span><dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.chromtrace.main.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localtime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.main.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.chromtrace.main.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.chromtrace.main.process" title="Permalink to this definition"></a></dt>
 <dd><p>Unified raw chromatogram parser.</p>
 <p>This parser processes GC and LC chromatograms in signal(time) format. When
 provided with a calibration file, this tool will integrate the trace, and provide
@@ -600,8 +600,8 @@ the peak areas, retention times, and concentrations of the detected species.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “utf-8”.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
-<li><p><strong>parameters</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>]) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ChromTrace</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – A string description of the timezone. Default is “localtime”.</p></li>
+<li><p><strong>parameters</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code>) – Parameters for <code class="xref py py-class docutils literal notranslate"><span class="pre">ChromTrace</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

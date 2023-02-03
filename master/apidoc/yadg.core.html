@@ -76,6 +76,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
 </ul>
 </li>
@@ -115,13 +116,12 @@
 <dt class="sig sig-object py" id="yadg.core.process_schema">
 <span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process_schema" title="Permalink to this definition"></a></dt>
 <dd><p>Main worker function of <strong>yadg</strong>.</p>
-<p>Takes in a validated <cite>schema</cite> as an argument and returns a single annotated
-<cite>datagram</cite> created from the <cite>schema</cite>. It is the job of the user to supply a
+<p>Takes in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> object and returns a single annotated
+<cite>datagram</cite> created from the <cite>dataschema</cite>. It is the job of the user to supply a
 validated <cite>schema</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>schema</strong> – A fully validated <cite>schema</cite>. Use the function <code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_schema()</span></code>
-to validate your <cite>schema</cite>.</p>
+<dd class="field-odd"><p><strong>dataschema</strong> (<em>DataSchema</em>) – A fully validated <cite>dataschema</cite> object.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>datagram</strong> – An unvalidated <cite>datagram</cite>. The <cite>parser</cite>s included in <strong>yadg</strong> should return
@@ -195,13 +195,12 @@ for properties with a defined unit.</p>
 <dt class="sig sig-object py" id="yadg.core.process.process_schema">
 <span class="sig-prename descclassname"><span class="pre">yadg.core.process.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process.process_schema" title="Permalink to this definition"></a></dt>
 <dd><p>Main worker function of <strong>yadg</strong>.</p>
-<p>Takes in a validated <cite>schema</cite> as an argument and returns a single annotated
-<cite>datagram</cite> created from the <cite>schema</cite>. It is the job of the user to supply a
+<p>Takes in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> object and returns a single annotated
+<cite>datagram</cite> created from the <cite>dataschema</cite>. It is the job of the user to supply a
 validated <cite>schema</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>schema</strong> – A fully validated <cite>schema</cite>. Use the function <code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_schema()</span></code>
-to validate your <cite>schema</cite>.</p>
+<dd class="field-odd"><p><strong>dataschema</strong> (<em>DataSchema</em>) – A fully validated <cite>dataschema</cite> object.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>datagram</strong> – An unvalidated <cite>datagram</cite>. The <cite>parser</cite>s included in <strong>yadg</strong> should return

@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="yadg.parsers package" href="yadg.parsers.html" />
+    <link rel="next" title="yadg.extractors package" href="yadg.extractors.html" />
     <link rel="prev" title="yadg.core package" href="yadg.core.html" /> 
 </head>
 
@@ -76,6 +76,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.btools">Submodules</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
 </ul>
 </li>
@@ -136,7 +137,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.infer_timestamp_from">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
 <dd><p>Convenience function for timestamping</p>
 <p>Given a set of headers, and an optional specification, return an array containing
 column indices from which a timestamp in a given row can be computed, as well as the
@@ -165,7 +166,7 @@ timestamp is full or partial.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.ole_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.ole_to_uts" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.ole_to_uts" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
 <p>The OLE automation date format is a floating point value, counting
 days since midnight 30 December 1899. Hours and minutes are
@@ -175,7 +176,7 @@ represented as fractional days.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – String desribing the timezone.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -189,7 +190,7 @@ represented as fractional days.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.complete_timestamps">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.complete_timestamps" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.complete_timestamps" title="Permalink to this definition"></a></dt>
 <dd><p>Timestamp completing function.</p>
 <p>This function allows for completing or overriding the uts timestamps determined by
 the individual parsers. <strong>yadg</strong> enters this function for any parser which does not
@@ -373,7 +374,7 @@ behaviour.</p>
 <li><p><strong>timesteps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of timesteps generated from a single file, <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename used to create <code class="docutils literal notranslate"><span class="pre">timesteps</span></code>.</p></li>
 <li><p><strong>spec</strong> (<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone, defaults to “UTC”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Timezone, defaults to “UTC”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -499,7 +500,7 @@ replacements are done:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.ole_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">ole_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ole_timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.ole_to_uts" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a Microsoft OLE timestamp into a POSIX timestamp.</p>
 <p>The OLE automation date format is a floating point value, counting
 days since midnight 30 December 1899. Hours and minutes are
@@ -509,7 +510,7 @@ represented as fractional days.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ole_timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – A timestamp in Microsoft OLE format.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – String desribing the timezone.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – String desribing the timezone.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -523,7 +524,7 @@ represented as fractional days.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.str_to_uts">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">str_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.str_to_uts" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">str_to_uts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.str_to_uts" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a string to POSIX timestamp.</p>
 <p>If the optional <code class="docutils literal notranslate"><span class="pre">format</span></code> is specified, the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> string is processed
 using the <code class="xref py py-func docutils literal notranslate"><span class="pre">datetime.datetime.strptime()</span></code> function; if no <code class="docutils literal notranslate"><span class="pre">format</span></code> is
@@ -534,7 +535,7 @@ supplied, an ISO 8601 format is assumed and an attempt to parse using
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>timestamp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string containing the timestamp.</p></li>
 <li><p><strong>format</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Optional format string for parsing of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Optional timezone of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>. By default, “UTC”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Optional timezone of the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code>. By default, “UTC”.</p></li>
 <li><p><strong>strict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to re-raise any parsing errors.</p></li>
 </ul>
 </dd>
@@ -549,7 +550,7 @@ supplied, an ISO 8601 format is assumed and an attempt to parse using
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.infer_timestamp_from">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">infer_timestamp_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.infer_timestamp_from" title="Permalink to this definition"></a></dt>
 <dd><p>Convenience function for timestamping</p>
 <p>Given a set of headers, and an optional specification, return an array containing
 column indices from which a timestamp in a given row can be computed, as well as the
@@ -578,7 +579,7 @@ timestamp is full or partial.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.complete_timestamps">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">complete_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timesteps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.complete_timestamps" title="Permalink to this definition"></a></dt>
 <dd><p>Timestamp completing function.</p>
 <p>This function allows for completing or overriding the uts timestamps determined by
 the individual parsers. <strong>yadg</strong> enters this function for any parser which does not
@@ -762,7 +763,7 @@ behaviour.</p>
 <li><p><strong>timesteps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of timesteps generated from a single file, <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename used to create <code class="docutils literal notranslate"><span class="pre">timesteps</span></code>.</p></li>
 <li><p><strong>spec</strong> (<a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalDate</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification part of the <cite>schema</cite>.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone, defaults to “UTC”.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – Timezone, defaults to “UTC”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -773,7 +774,7 @@ behaviour.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.timestamps_from_file">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">timestamps_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UTC'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.timestamps_from_file" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">timestamps_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dateutils.timestamps_from_file" title="Permalink to this definition"></a></dt>
 <dd><p>Load timestamps from file.</p>
 <p>This function enables loading timestamps from file specified by the <code class="docutils literal notranslate"><span class="pre">path</span></code>.
 The currently supported file formats include <code class="docutils literal notranslate"><span class="pre">json</span></code> and <code class="docutils literal notranslate"><span class="pre">pkl</span></code>, which must
@@ -785,8 +786,8 @@ or a top-level <code class="xref py py-class docutils literal notranslate"><span
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Location of the external file.</p></li>
 <li><p><strong>type</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Type of the external file. Currently, <code class="docutils literal notranslate"><span class="pre">&quot;json&quot;,</span> <span class="pre">&quot;pkl&quot;</span></code> are supported.</p></li>
-<li><p><strong>match</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – An optional key to match if the object in <code class="docutils literal notranslate"><span class="pre">path</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – An optional timezone string, defaults to “UTC”</p></li>
+<li><p><strong>match</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – An optional key to match if the object in <code class="docutils literal notranslate"><span class="pre">path</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ZoneInfo</span></code>) – An optional timezone string, defaults to “UTC”</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -914,7 +915,7 @@ The main idea is to allow a simple update pathway from older versions of <cite>s
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="yadg.core.html" class="btn btn-neutral float-left" title="yadg.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.html" class="btn btn-neutral float-right" title="yadg.parsers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.extractors.html" class="btn btn-neutral float-right" title="yadg.extractors package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -6,6 +6,12 @@ runs:
     - name: Prepare locales
       run: sudo locale-gen de_DE.UTF-8 || echo windows
       shell: bash
+    - name: Prepare timezone
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: Australia/Perth
+        timezoneMacos: Australia/Perth
+        timezoneWindows: Australia/Perth
     - name: Print yadg version
       run: yadg --version
       shell: bash

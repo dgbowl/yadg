@@ -407,6 +407,8 @@ def timestamps_from_file(
             return parseddata
         else:
             if isinstance(data, str):
-                return str_to_uts(data, None, timezone, True)
+                return str_to_uts(
+                    timestamp=data, format=None, timezone=timezone, strict=True
+                )
             else:
                 return float(data)

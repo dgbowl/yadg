@@ -11,7 +11,7 @@ runs:
       with:
         timezoneLinux: Europe/Berlin
         timezoneMacos: Europe/Berlin
-        timezoneWindows: Europe/Berlin
+        timezoneWindows: W. Europe Standard Time
     - name: Print yadg version
       run: yadg --version
       shell: bash

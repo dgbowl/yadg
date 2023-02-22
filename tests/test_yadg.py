@@ -167,6 +167,7 @@ def test_yadg_preset_externaldate(datadir):
         ("eclab.mpr", "cp.mpr"),
         ("marda:biologic-mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
+        #        ("marda:biologic-mpt", "cp.mpt")
     ],
 )
 def test_yadg_extract(filetype, infile, datadir):
@@ -178,4 +179,4 @@ def test_yadg_extract(filetype, infile, datadir):
         ret = json.load(inf)
     with open(f"ref.{infile}.json") as inf:
         ref = json.load(inf)
-    assert ret == ref
+    assert ret["content"] == ref["content"]

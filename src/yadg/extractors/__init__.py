@@ -1,8 +1,8 @@
 import importlib
 import logging
-from dgbowl_schemas.yadg import FileType
+from dgbowl_schemas.yadg import ExtractorFactory
+from pydantic import ValidationError
 from pathlib import Path
-from typing import Callable
 from importlib import metadata as importmeta
 
 logger = logging.getLogger(__name__)
@@ -21,37 +21,42 @@ for modname in {"eclabmpr", "eclabmpt"}:
         raise e
 
 
-def as_dict(
-    func: Callable,
-    path: Path,
-    filetype: FileType,
-    orient: str = "tight",
+def extract(
+    filetype: str, path: Path, as_dict: bool = True, orient: str = "tight"
 ) -> dict:
 
-    metadata, nominal, sigma, units = func(path, filetype)
+    for k in {filetype, f"marda:{filetype}"}:
+        try:
+            ftype = ExtractorFactory(extractor={"filetype": k}).extractor
+            break
+        except ValidationError:
+            pass
+    else:
+        raise RuntimeError(f"Filetype '{filetype}' could not be understood.")
 
-    ret = {
-        "yadg_metadata": {
-            "version": importmeta.version("yadg"),
-            "with_orient": orient,
-            "filename": str(path),
-            "filetype": filetype.filetype,
-        },
-        "content": {
-            "metadata": metadata,
-            "values": nominal.to_dict(orient=orient),
-            "sigmas": sigma.to_dict(orient=orient),
-            "units": units,
-        },
-    }
+    if ftype.filetype in extractors:
+        metadata, nominal, sigma, units = extractors[ftype.filetype](path, ftype)
+        ret = {
+            "yadg_metadata": {
+                "version": importmeta.version("yadg"),
+                "with_orient": orient,
+                "filename": str(path),
+                "filetype": ftype.filetype,
+            },
+            "content": {
+                "metadata": metadata,
+                "units": units,
+            },
+        }
 
-    return ret
+        if as_dict:
+            ret["content"]["values"] = nominal.to_dict(orient=orient)
+            ret["content"]["sigmas"] = sigma.to_dict(orient=orient)
+        else:
+            ret["content"]["values"] = nominal
+            ret["content"]["sigmas"] = sigma
 
-
-def extract(filetype: FileType, path: Path):
-    if filetype.filetype in extractors:
-        f = extractors[filetype.filetype]
-        return as_dict(func=f, path=path, filetype=filetype)
+        return ret
 
 
 __all__ = ["extract"]

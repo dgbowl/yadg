@@ -36,7 +36,7 @@ from zoneinfo import ZoneInfo
 from pathlib import Path
 from dgbowl_schemas.yadg import FileType
 import logging
-
+import pandas as pd
 from .extractor import process
 
 logger = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ supports = {
 def extract(
     path: Path,
     filetype: FileType,
-) -> tuple[list, dict, bool]:
+) -> tuple[dict, pd.DataFrame, pd.DataFrame, dict]:
 
     metadata, nominal, sigma, units = process(
         fn=str(path),

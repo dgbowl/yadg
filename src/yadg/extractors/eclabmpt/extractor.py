@@ -2,13 +2,12 @@ import re
 import logging
 import locale
 import pandas as pd
-from collections import defaultdict
+from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 from ..eclabcommon.techniques import get_resolution, technique_params, param_from_key
+from .mpt_columns import column_units
 
 logger = logging.getLogger(__name__)
-
-from .mpt_columns import column_units
 
 
 def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
@@ -177,8 +176,8 @@ def process_data(
 
 def process(
     fn: str,
-    encoding: str = "windows-1252",
-    timezone: str = "UTC",
+    encoding: str,
+    timezone: ZoneInfo,
 ) -> tuple[list, dict, bool]:
     """Processes EC-Lab human-readable text export files.
 

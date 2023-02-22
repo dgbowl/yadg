@@ -27,7 +27,7 @@ def as_dict(
     filetype: FileType,
     orient: str = "tight",
 ) -> dict:
-    
+
     metadata, nominal, sigma, units = func(path, filetype)
 
     ret = {
@@ -41,8 +41,8 @@ def as_dict(
             "metadata": metadata,
             "values": nominal.to_dict(orient=orient),
             "sigmas": sigma.to_dict(orient=orient),
-            "units": units
-        }
+            "units": units,
+        },
     }
 
     return ret

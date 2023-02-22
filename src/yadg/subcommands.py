@@ -207,6 +207,6 @@ def extract(args: argparse.Namespace) -> None:
         raise RuntimeError(f"Filetype '{args.filetype}' could not be understood.")
 
     ret = extractors.extract(filetype, path)
-    
+
     with outpath.open(mode="w") as out:
         json.dump(ret, out)

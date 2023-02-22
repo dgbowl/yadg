@@ -96,9 +96,7 @@ def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
 
 
 def process_data(
-        lines: list[str], 
-        Eranges: list[float], 
-        Iranges: list[float]
+    lines: list[str], Eranges: list[float], Iranges: list[float]
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     """Processes the data lines.
 
@@ -158,7 +156,7 @@ def process_data(
         if "I Range" in columns:
             Irstr = values[columns.index("I Range")]
         Irange = param_from_key("I_range", Irstr, to_str=False)
-        
+
         sigmas = {}
         for col, val in list(zip(columns, values)):
             unit = units.get(col)
@@ -167,7 +165,7 @@ def process_data(
             assert isinstance(val, float), "`n` should not be string"
             sigmas[col] = get_resolution(col, val, unit, Erange, Irange)
         records["sigma"].append(sigmas)
-    
+
     nominal = pd.DataFrame.from_records(records["nominal"], columns=columns)
     sigma = pd.DataFrame.from_records(records["sigma"])
 
@@ -208,7 +206,7 @@ def process(
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
     settings, params = {}, []
-    
+
     # Store current LC_NUMERIC before we do anything:
     old_loc = locale.getlocale(category=locale.LC_NUMERIC)
     if nb_header_lines <= 3:

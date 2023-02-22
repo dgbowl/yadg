@@ -59,5 +59,3 @@ def extract(
     )
 
     return metadata, nominal, sigma, units
-
-

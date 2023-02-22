@@ -4,7 +4,11 @@ from typing import Any
 from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
-from ..eclabcommon.techniques import technique_params_dtypes, param_from_key, get_resolution
+from ..eclabcommon.techniques import (
+    technique_params_dtypes,
+    param_from_key,
+    get_resolution,
+)
 
 from .mpr_columns import (
     module_header_dtype,
@@ -296,10 +300,10 @@ def process_data(
                 continue
             sigmas[name] = get_resolution(name, value, unit, Erange, Irange)
         records["sigma"].append(sigmas)
-    
+
     nominal = pd.DataFrame.from_records(records["nominal"])
     sigma = pd.DataFrame.from_records(records["sigma"])
-    
+
     return nominal, sigma, units
 
 

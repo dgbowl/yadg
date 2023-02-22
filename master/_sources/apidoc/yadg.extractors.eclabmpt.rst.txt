@@ -5,3 +5,18 @@ yadg.extractors.eclabmpt package
    :members:
    :undoc-members:
    :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.eclabmpt.extractor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.eclabmpt.mpt_columns
+   :members:
+   :undoc-members:
+   :show-inheritance:

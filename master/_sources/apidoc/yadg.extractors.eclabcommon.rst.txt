@@ -1,0 +1,16 @@
+yadg.extractors.eclabcommon package
+===================================
+
+.. automodule:: yadg.extractors.eclabcommon
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.eclabcommon.techniques
+   :members:
+   :undoc-members:
+   :show-inheritance:

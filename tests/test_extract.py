@@ -1,7 +1,6 @@
 import pytest
 import os
 from pathlib import Path
-import pandas as pd
 from yadg.extractors import extract, load_json
 
 

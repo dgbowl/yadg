@@ -44,6 +44,7 @@ setuptools.setup(
         "python-dateutil",
         "openpyxl>=3.0.0",
         "requests",
+        "pandas>=1.5",
         # "dgbowl-schemas>=114",
         "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
     ],

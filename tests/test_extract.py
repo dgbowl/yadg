@@ -15,7 +15,6 @@ from yadg.extractors import extract, load_json
 def test_extract_marda(filetype, infile, outfile, datadir):
     os.chdir(datadir)
     ret = extract(filetype=filetype, path=infile, as_dict=False)
-
     ref = load_json(Path(outfile))
 
     assert ret["content"]["units"] == ref["content"]["units"]

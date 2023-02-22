@@ -3,6 +3,8 @@ import logging
 from dgbowl_schemas.yadg import ExtractorFactory
 from pydantic import ValidationError
 from pathlib import Path
+import pandas as pd
+import json
 from importlib import metadata as importmeta
 
 logger = logging.getLogger(__name__)
@@ -19,6 +21,17 @@ for modname in {"eclabmpr", "eclabmpt"}:
     except ImportError as e:
         logger.critical(f"could not import module '{modname}'")
         raise e
+
+
+def load_json(path: Path) -> dict:
+    with path.open("r") as inf:
+        js = json.load(inf)
+    orient = js["yadg_metadata"]["with_orient"]
+    for table in {"values", "sigmas"}:
+        js["content"][table] = pd.DataFrame.from_dict(
+            js["content"][table], orient=orient
+        )
+    return js
 
 
 def extract(
@@ -59,4 +72,4 @@ def extract(
         return ret
 
 
-__all__ = ["extract"]
+__all__ = ["extract", "load_json"]

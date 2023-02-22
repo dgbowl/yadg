@@ -1,8 +1,8 @@
 import pytest
 import os
-import json
+from pathlib import Path
 import pandas as pd
-from yadg.extractors import extract
+from yadg.extractors import extract, load_json
 
 
 @pytest.mark.parametrize(
@@ -16,10 +16,8 @@ def test_extract_marda(filetype, infile, outfile, datadir):
     os.chdir(datadir)
     ret = extract(filetype=filetype, path=infile, as_dict=False)
 
-    with open(outfile, "r") as inf:
-        ref = json.load(inf)
+    ref = load_json(Path(outfile))
 
     assert ret["content"]["units"] == ref["content"]["units"]
     for table in {"values", "sigmas"}:
-        rtab = pd.DataFrame.from_dict(ref["content"][table], orient="tight")
-        assert rtab.equals(ret["content"][table])
+        assert ref["content"][table].equals(ret["content"][table])

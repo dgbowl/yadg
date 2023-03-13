@@ -3,6 +3,7 @@ import os
 import json
 import yaml
 import yadg.core
+from typing import Sequence
 from dgbowl_schemas import to_dataschema
 
 
@@ -131,34 +132,26 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
 
 
 def standard_datagram_test(datagram, testspec):
-    assert yadg.core.validators.validate_datagram(datagram), "datagram is invalid"
-    assert len(datagram["steps"]) == testspec["nsteps"], "wrong number of steps"
-    steps = datagram["steps"][testspec["step"]]["data"]
-    assert len(steps) == testspec["nrows"], (
+    assert len(datagram.children) == testspec["nsteps"], "wrong number of steps"
+    step = datagram[f"{testspec['step']}"]
+    assert len(step["uts"]) == testspec["nrows"], (
         "wrong number of timesteps in a step: "
-        f"ret: {len(steps)}, ref: {testspec['nrows']}"
+        f"ret: {len(step)}, ref: {testspec['nrows']}"
     )
-    json.dumps(datagram)
 
 
 def pars_datagram_test(datagram, testspec):
-    steps = datagram["steps"][testspec["step"]]["data"]
-    tstep = steps[testspec["point"]]
+    step = datagram[f"{testspec['step']}"]
+    #tstep = step[testspec["point"]]
     for tk, tv in testspec["pars"].items():
-        if tk != "uts":
-            rd = "raw" if tv.get("raw", True) else "derived"
-            if tk not in tstep[rd]:
-                assert tv["value"] is None
-            else:
-                assert (
-                    len(tstep[rd][tk].keys()) == 3
-                ), "value not in [val, dev, unit] format"
-                compare_result_dicts(
-                    tstep[rd][tk],
-                    {"n": tv["value"], "s": tv["sigma"], "u": tv["unit"]},
-                )
+        assert step[tk][testspec["point"]] == tv["value"]
+        assert step[tk].attrs.get("units", None) == tv.get("unit", None)
+        sigma = step[tk].attrs.get("sigma", None)
+        print(sigma)
+        if isinstance(sigma, Sequence):
+            assert sigma[testspec["point"]] == tv["sigma"]
         else:
-            assert tstep[tk] == tv["value"], "wrong uts"
+            assert sigma == tv.get("sigma", None)
 
 
 def compare_result_dicts(result, reference, atol=1e-6):

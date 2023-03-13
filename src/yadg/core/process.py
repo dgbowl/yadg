@@ -3,6 +3,7 @@ import importlib
 from typing import Callable
 from zoneinfo import ZoneInfo
 from dgbowl_schemas.yadg import DataSchema
+from .datatree_shim import to_datatree
 from .. import dgutils, core
 
 logger = logging.getLogger(__name__)
@@ -57,16 +58,15 @@ def process_schema(dataschema: DataSchema) -> dict:
     """
     datagram = {
         "metadata": {
-            "provenance": {
-                "yadg": dgutils.get_yadg_metadata(),
-            },
+            "provenance": "yadg",
             "date": dgutils.now(asstr=True),
-            "input_schema": dataschema.dict(),
+            "input_schema": dataschema.json(),
             "datagram_version": core.spec_datagram.datagram_version,
         },
         "steps": [],
     }
 
+    datagram["metadata"].update(dgutils.get_yadg_metadata())
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
 
@@ -126,4 +126,4 @@ def process_schema(dataschema: DataSchema) -> dict:
                 metadata.update(meta)
 
         datagram["steps"].append({"metadata": metadata, "data": timesteps})
-    return datagram
+    return to_datatree(datagram)

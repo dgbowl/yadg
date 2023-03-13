@@ -7,7 +7,10 @@ def get_yadg_metadata() -> dict:
     """
     Returns current **yadg** metadata.
     """
-    metadata = {"version": ilmd.version("yadg"), "command": " ".join(sys.argv)}
+    metadata = {
+        "yadg_version": ilmd.version("yadg"), 
+        "yadg_command": " ".join(sys.argv),
+    }
     return metadata
 
 

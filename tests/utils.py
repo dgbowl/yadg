@@ -4,6 +4,7 @@ import json
 import yaml
 import yadg.core
 from typing import Sequence
+import numpy as np
 from dgbowl_schemas import to_dataschema
 
 
@@ -142,17 +143,16 @@ def standard_datagram_test(datagram, testspec):
 
 def pars_datagram_test(datagram, testspec):
     step = datagram[f"{testspec['step']}"]
-    #tstep = step[testspec["point"]]
     for tk, tv in testspec["pars"].items():
-        assert step[tk][testspec["point"]] == tv["value"]
-        assert step[tk].attrs.get("units", None) == tv.get("unit", None)
-        sigma = step[tk].attrs.get("sigma", None)
-        print(sigma)
-        if isinstance(sigma, Sequence):
-            assert sigma[testspec["point"]] == tv["sigma"]
-        else:
-            assert sigma == tv.get("sigma", None)
-
+        assert np.array_equal(step[tk][testspec["point"]], tv["value"], equal_nan=True)
+        if "unit" in tv:
+            assert step[tk].attrs.get("units", None) == tv["unit"]
+        if "sigma" in tv:
+            sigma = step[tk].attrs.get("sigma", None)
+            if isinstance(sigma, Sequence):
+                sigma = sigma[testspec["point"]]
+            assert np.array_equal(sigma, tv["sigma"], equal_nan=True)
+            
 
 def compare_result_dicts(result, reference, atol=1e-6):
     assert result["n"] == pytest.approx(reference["n"], abs=atol)

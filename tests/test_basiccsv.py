@@ -4,6 +4,7 @@ from tests.utils import (
     standard_datagram_test,
     pars_datagram_test,
 )
+import numpy as np
 
 
 @pytest.mark.parametrize(
@@ -224,7 +225,6 @@ from tests.utils import (
                         "sigma": 0.01,
                         "value": 26.14,
                         "unit": "degC",
-                        "raw": True,
                     }
                 },
             },
@@ -263,11 +263,11 @@ from tests.utils import (
                         "sigma": 0.01,
                         "value": 25.97,
                         "unit": "degC",
-                        "raw": True,
                     },
                     "Inside_Nafion_TCK02 Max. (C)": {
-                        "value": None,
-                        "raw": True,
+                        "value": np.nan,
+                        "sigma": np.nan,
+                        "unit": "degC"
                     },
                 },
             },

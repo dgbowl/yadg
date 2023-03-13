@@ -37,7 +37,6 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     assert ref == ret
 
 
-
 @pytest.mark.parametrize(
     "inp_fn, ts",
     [
@@ -64,9 +63,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     ret = yadg.core.process_schema(ds)
     assert len(ret.children) == ts["nsteps"], "wrong number of steps"
     for k, v in ts["kwargs"].items():
-        assert (
-            ret[ts["step"]][k][ts["item"]] == v
-        ), "kwargs not passed correctly"
+        assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"
     ret.to_netcdf("test.nc")
     ref = datatree.open_datatree("test.nc")
     print(ref)

@@ -134,7 +134,11 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
 
 def standard_datagram_test(datagram, testspec):
     assert len(datagram.children) == testspec["nsteps"], "wrong number of steps"
-    step = datagram[f"{testspec['step']}"]
+    if isinstance(testspec["step"], str):
+        step = datagram[f"{testspec['step']}"]
+    else:
+        name = list(datagram.children.keys())[testspec['step']]
+        step = datagram[name]
     assert len(step["uts"]) == testspec["nrows"], (
         "wrong number of timesteps in a step: "
         f"ret: {len(step)}, ref: {testspec['nrows']}"
@@ -142,16 +146,22 @@ def standard_datagram_test(datagram, testspec):
 
 
 def pars_datagram_test(datagram, testspec):
-    step = datagram[f"{testspec['step']}"]
+    if isinstance(testspec["step"], str):
+        step = datagram[f"{testspec['step']}"]
+    else:
+        name = list(datagram.children.keys())[testspec['step']]
+        step = datagram[name]
     for tk, tv in testspec["pars"].items():
         assert np.array_equal(step[tk][testspec["point"]], tv["value"], equal_nan=True)
         if "unit" in tv:
             assert step[tk].attrs.get("units", None) == tv["unit"]
         if "sigma" in tv:
-            sigma = step[tk].attrs.get("sigma", None)
-            if isinstance(sigma, Sequence):
-                sigma = sigma[testspec["point"]]
-            assert np.array_equal(sigma, tv["sigma"], equal_nan=True)
+            sigmas = step["_devs"][tk]
+            if sigmas.size == step[tk].size:
+                sig = sigmas[testspec["point"]]
+            else:
+                sig = sigmas
+            assert np.array_equal(sig, tv["sigma"], equal_nan=True)
             
 
 def compare_result_dicts(result, reference, atol=1e-6):

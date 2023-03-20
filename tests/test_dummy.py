@@ -61,7 +61,10 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
         schema = json.load(infile)
     ds = to_dataschema(**schema)
     ret = yadg.core.process_schema(ds)
-    assert len(ret.children) == ts["nsteps"], "wrong number of steps"
+    assert len(ret.children) == ts["nsteps"], (
+        "wrong number of steps: "
+        f"got: {len(ret.children)}, expected: {ts['nsteps']}"
+    )
     for k, v in ts["kwargs"].items():
         assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"
     ret.to_netcdf("test.nc")

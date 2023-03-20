@@ -72,8 +72,7 @@ def process_schema(dataschema: DataSchema) -> dict:
 
     print(dataschema.step_defaults)
 
-    si = 0
-    for step in dataschema.steps:
+    for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)
 
         print(step.extractor)
@@ -94,11 +93,15 @@ def process_schema(dataschema: DataSchema) -> dict:
         metadata = dict()
         timesteps = list()
         handler = _infer_datagram_handler(step.parser)
-        metadata["tag"] = f"{si:02d}" if step.tag is None else step.tag
+        if step.tag is not None:
+            metadata["tag"] = step.tag
         metadata["parser"] = step.parser
         todofiles = step.input.paths()
         if len(todofiles) == 0:
-            logger.warning("No files processed by step '%s'.", metadata["tag"])
+            logger.warning(
+                "No files processed by step '%s'.", 
+                metadata.get("tag",f"{si}")
+            )
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
             ts, meta, fulldate = handler(

@@ -1,6 +1,6 @@
 import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from typing import Callable
+from typing import Callable, Any
 from pydantic import BaseModel
 from ... import dgutils
 
@@ -74,6 +74,32 @@ def process_row(
     return vals, devs
 
 
+def append_dicts(
+    vals: dict[str, Any],
+    devs: dict[str, Any],
+    data: dict[str, list[Any]],
+    meta: dict[str, list[Any]],
+    fn: str = None,
+    li: int = 0,
+) -> None:
+    if "_fn" in meta and fn is not None:
+        meta["_fn"].append(str(fn))
+    for k, v in vals.items():
+        if k not in data:
+            data[k] = [None if isinstance(v, str) else np.nan] * li
+        data[k].append(v)
+    for k, v in devs.items():
+        if k not in meta:
+            meta[k] = [np.nan] * li
+        meta[k].append(v)
+
+    for k in set(data) - set(vals):
+        data[k].append(np.nan)
+    for k in set(meta) - set(devs):
+        if k != "_fn":
+            meta[k].append(np.nan)
+
+
 def process(
     *,
     fn: str,
@@ -82,7 +108,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> DataTree:
     """
     A basic csv parser.
 
@@ -161,21 +187,7 @@ def process(
             datefunc,
             datecolumns,
         )
-        meta_vals["_fn"].append(str(fn))
-        for k, v in vals.items():
-            if k not in data_vals:
-                data_vals[k] = [None if isinstance(v, str) else np.nan] * li
-            data_vals[k].append(v)
-        for k, v in devs.items():
-            if k not in meta_vals:
-                meta_vals[k] = [np.nan] * li
-            meta_vals[k].append(v)
-
-        for k in set(data_vals) - set(vals):
-            data_vals[k].append(np.nan)
-        for k in set(meta_vals) - set(devs):
-            if k != "_fn":
-                meta_vals[k].append(np.nan)
+        append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
     for k, v in data_vals.items():
         attrs = {}
@@ -196,5 +208,4 @@ def process(
             "/_yadg.meta": Dataset(data_vars=meta_vals, coords=coords),
         }
     )
-    print(f"{dt=}")
     return dt

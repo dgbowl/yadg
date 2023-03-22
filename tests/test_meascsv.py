@@ -23,10 +23,10 @@ def dg_get_quantity(
 
     n = step[col][row]
     u = step[col].attrs.get("units", None)
-    if step["_devs"][col].size > 1:
-        d = step["_devs"][col][row]
+    if step["_yadg.meta"][col].size > 1:
+        d = step["_yadg.meta"][col][row]
     else:
-        d = step["_devs"][col]
+        d = step["_yadg.meta"][col]
     return pint.Quantity(ufloat(n, d), u)
 
 

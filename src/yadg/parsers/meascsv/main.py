@@ -1,8 +1,10 @@
 import logging
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
-from ..basiccsv.main import process_row
+from ..basiccsv.main import process_row, append_dicts
 from ... import dgutils
+from xarray import DataArray, Dataset
+from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
@@ -64,10 +66,36 @@ def process(
         spec=parameters.timestamp,
         timezone=timezone,
     )
-    timesteps = []
-    for line in lines:
-        ts = process_row(headers, line.split(";"), units, datefunc, datecolumns)
-        ts["fn"] = str(fn)
 
-        timesteps.append(ts)
-    return timesteps, None, fulldate
+    # Process rows
+    data_vals = {}
+    meta_vals = {"_fn": []}
+    for li, line in enumerate(lines):
+        vals, devs = process_row(
+            headers,
+            line.split(";"),
+            datefunc,
+            datecolumns,
+        )
+        append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+
+    for k, v in data_vals.items():
+        attrs = {}
+        u = units.get(k, None)
+        if u is not None:
+            attrs["units"] = u
+        if k == "uts":
+            attrs["fulldate"] = fulldate
+        data_vals[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+
+    for k, v in meta_vals.items():
+        meta_vals[k] = DataArray(data=v, dims=["uts"])
+
+    coords = {"uts": data_vals.pop("uts")}
+    dt = DataTree.from_dict(
+        {
+            "/": Dataset(data_vars=data_vals, coords=coords),
+            "/_yadg.meta": Dataset(data_vars=meta_vals, coords=coords),
+        }
+    )
+    return dt

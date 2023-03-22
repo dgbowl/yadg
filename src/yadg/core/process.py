@@ -120,9 +120,17 @@ def process_schema(dataschema: DataSchema) -> dict:
             vals.append(dt.ds)
             devs.append(dt["_yadg.meta"].ds)
 
-        vals = xr.concat(vals, dim="uts")
-        devs = xr.concat(devs, dim="uts")
+        if len(vals) > 0:
+            vals = xr.concat(vals, dim="uts")
+        else:
+            vals = None
+        if len(devs) > 0:
+            devs = xr.concat(devs, dim="uts")
+        else:
+            devs = None
 
+        print(f"{vals=}")
+        print(f"{devs=}")
         stepdt = DataTree.from_dict({"/": vals, "/_yadg.meta": devs})
         stepdt.name = step.tag
         stepdt.attrs = dict(parser=step.parser)

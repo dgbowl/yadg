@@ -2,6 +2,8 @@ from pydantic import BaseModel
 import json
 from zoneinfo import ZoneInfo
 from ... import dgutils
+from ..basiccsv.main import append_dicts, dicts_to_datatree
+from datatree import DataTree
 
 
 def process(
@@ -12,7 +14,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> DataTree:
     """
     A dummy parser.
 
@@ -44,22 +46,26 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
+    print("top of main")
     if filetype == "tomato.json":
         with open(fn, "r") as inf:
             jsdata = json.load(inf)
-        ret = []
-        for p in jsdata["data"]:
-            ts = {
-                "uts": p["time"],
-                "fn": fn,
-                "raw": {"value": {"n": p["value"], "s": 0.0, "u": " "}},
-            }
-            ret.append(ts)
-        return ret, None, False
+
+        data_vals = {}
+        meta_vals = {"_fn": []}
+        for vi, vals in enumerate(jsdata["data"]):
+            devs = {k: 0.0 for k, v in vals.items() if k != "time"}
+            vals["uts"] = vals.pop("time")
+            append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
     else:
+        print("Here!")
         kwargs = {} if parameters is None else parameters.dict()
         if "parser" in kwargs:
             del kwargs["parser"]
-        result = {"uts": dgutils.now(), "fn": str(fn), "raw": kwargs}
+        data_vals = {k: [v] for k, v in kwargs.items()}
+        data_vals["uts"] = [dgutils.now()]
+        meta_vals = {"_fn": [str(fn)]}
 
-        return [result], None, True
+    dt = dicts_to_datatree(data_vals, meta_vals, fulldate=False)
+    print(f"{dt=}")
+    return dt

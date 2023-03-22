@@ -340,7 +340,8 @@ def complete_timestamps(
         timesteps = timesteps + delta
 
     if hasattr(timesteps, "attrs"):
-        timesteps.attrs["fulldate"] = fulldate
+        # cast to int to get netcdf export working.
+        timesteps.attrs["fulldate"] = int(fulldate)
     print(f"{timesteps=}")
     return timesteps
 

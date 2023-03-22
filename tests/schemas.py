@@ -4,7 +4,7 @@ ts0 = {
 }
 ts1 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
-    "steps": [{"parser": "dummy", "import": {"files": ["ts1.json"]}}],
+    "steps": [{"parser": "dummy", "import": {"files": ["ts1.dummy.json"]}}],
 }
 ts2 = {
     "metadata": {"provenance": "manual", "schema_version": "4.0.1"},
@@ -15,7 +15,7 @@ ts3 = {
     "steps": [
         {
             "parser": "dummy",
-            "import": {"files": ["dummy_schema_1.json", "dummy_schema_2.json"]},
+            "import": {"files": ["ts0.dummy.json", "ts1.dummy.json"]},
         }
     ],
 }

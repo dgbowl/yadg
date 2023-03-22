@@ -100,6 +100,34 @@ def append_dicts(
             meta[k].append(np.nan)
 
 
+def dicts_to_datatree(
+    data: dict[str, list[Any]],
+    meta: dict[str, list[Any]],
+    units: dict[str, str] = dict(),
+    fulldate: bool = True,
+) -> DataTree:
+    for k, v in data.items():
+        attrs = {}
+        u = units.get(k, None)
+        if u is not None:
+            attrs["units"] = u
+        if k == "uts":
+            attrs["fulldate"] = fulldate
+        data[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+
+    for k, v in meta.items():
+        meta[k] = DataArray(data=v, dims=["uts"])
+
+    coords = {"uts": data.pop("uts")}
+    dt = DataTree.from_dict(
+        {
+            "/": Dataset(data_vars=data, coords=coords),
+            "/_yadg.meta": Dataset(data_vars=meta, coords=coords),
+        }
+    )
+    return dt
+
+
 def process(
     *,
     fn: str,
@@ -189,23 +217,5 @@ def process(
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    for k, v in data_vals.items():
-        attrs = {}
-        u = units.get(k, None)
-        if u is not None:
-            attrs["units"] = u
-        if k == "uts":
-            attrs["fulldate"] = fulldate
-        data_vals[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
-
-    for k, v in meta_vals.items():
-        meta_vals[k] = DataArray(data=v, dims=["uts"])
-
-    coords = {"uts": data_vals.pop("uts")}
-    dt = DataTree.from_dict(
-        {
-            "/": Dataset(data_vars=data_vals, coords=coords),
-            "/_yadg.meta": Dataset(data_vars=meta_vals, coords=coords),
-        }
-    )
+    dt = dicts_to_datatree(data_vals, meta_vals, units, fulldate)
     return dt

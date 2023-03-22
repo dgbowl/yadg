@@ -2,6 +2,8 @@ import logging
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
 from . import drycal
+from xarray import DataArray
+from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
@@ -45,29 +47,27 @@ def process(
     metadata = {}
 
     if filetype.startswith("drycal"):
-        fulldate = False
 
         if filetype.endswith(".rtf") or fn.endswith("rtf"):
-            ts, meta = drycal.rtf(fn, encoding, timezone)
+            dt = drycal.rtf(fn, encoding, timezone)
         elif filetype.endswith(".csv") or fn.endswith("csv"):
-            ts, meta = drycal.sep(fn, ",", encoding, timezone)
+            dt = drycal.sep(fn, ",", encoding, timezone)
         elif filetype.endswith(".txt") or fn.endswith("txt"):
-            ts, meta = drycal.sep(fn, "\t", encoding, timezone)
+            dt = drycal.sep(fn, "\t", encoding, timezone)
 
         # check timestamps are increasing:
         warn = True
         ndays = 0
-        for i in range(1, len(ts)):
-            if ts[i]["uts"] < ts[i - 1]["uts"]:
+        utslist = dt.uts.values
+        for i in range(1, dt.uts.size):
+            if utslist[i] < utslist[i - 1]:
                 if warn:
                     logger.warning("DryCal log crossing day boundary. Adding offset.")
                     warn = False
-                uts = ts[i]["uts"] + ndays * 86400
-                while uts < ts[i - 1]["uts"]:
+                uts = utslist[i] + ndays * 86400
+                while uts < utslist[i - 1]:
                     ndays += 1
-                    uts = ts[i]["uts"] + ndays * 86400
-                ts[i]["uts"] = uts
-
-    metadata.update(meta)
-
-    return ts, metadata, fulldate
+                    uts = utslist[i] + ndays * 86400
+                utslist[i] = uts
+        dt["uts"] = DataArray(data=utslist, attrs=dict(fulldate=False), dims=["uts"])
+    return dt

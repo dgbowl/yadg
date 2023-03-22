@@ -1,9 +1,8 @@
 import logging
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
-from ..basiccsv.main import process_row, append_dicts
+from ..basiccsv.main import process_row, append_dicts, dicts_to_datatree
 from ... import dgutils
-from xarray import DataArray, Dataset
 from datatree import DataTree
 
 logger = logging.getLogger(__name__)
@@ -17,7 +16,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> DataTree:
     """
     Legacy MCPT measurement log parser.
 
@@ -79,23 +78,5 @@ def process(
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    for k, v in data_vals.items():
-        attrs = {}
-        u = units.get(k, None)
-        if u is not None:
-            attrs["units"] = u
-        if k == "uts":
-            attrs["fulldate"] = fulldate
-        data_vals[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
-
-    for k, v in meta_vals.items():
-        meta_vals[k] = DataArray(data=v, dims=["uts"])
-
-    coords = {"uts": data_vals.pop("uts")}
-    dt = DataTree.from_dict(
-        {
-            "/": Dataset(data_vars=data_vals, coords=coords),
-            "/_yadg.meta": Dataset(data_vars=meta_vals, coords=coords),
-        }
-    )
+    dt = dicts_to_datatree(data_vals, meta_vals, units, fulldate)
     return dt

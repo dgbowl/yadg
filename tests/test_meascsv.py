@@ -1,14 +1,13 @@
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
-    compare_result_dicts,
 )
 
 from uncertainties import ufloat
 import pint
 import datatree
 from typing import Union
-import numpy as np
+
 
 def dg_get_quantity(
     dt: datatree.DataTree,
@@ -21,7 +20,7 @@ def dg_get_quantity(
     else:
         name = list(dt.children.keys())[step]
         step = dt[name]
-    
+
     n = step[col][row]
     u = step[col].attrs.get("units", None)
     if step["_devs"][col].size > 1:
@@ -29,7 +28,7 @@ def dg_get_quantity(
     else:
         d = step["_devs"][col]
     return pint.Quantity(ufloat(n, d), u)
-    
+
 
 def test_datagram_from_meascsv(datadir):
     input = {
@@ -43,9 +42,8 @@ def test_datagram_from_meascsv(datadir):
     assert val.m.n == 20.9
     assert val.m.s == 0.1
     assert val.u == pint.Unit("degC")
-    
+
     val = dg_get_quantity(ret, step=0, col="T_f", row=100)
     assert val.m.n == 455.1
     assert val.m.s == 0.1
     assert val.u == pint.Unit("degC")
-

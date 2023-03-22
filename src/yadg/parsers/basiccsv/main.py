@@ -4,13 +4,16 @@ from typing import Callable
 from pydantic import BaseModel
 from ... import dgutils
 
+import numpy as np
+from datatree import DataTree
+from xarray import DataArray, Dataset
+
 logger = logging.getLogger(__name__)
 
 
 def process_row(
     headers: list,
     items: list,
-    units: dict,
     datefunc: Callable,
     datecolumns: list,
 ) -> dict:
@@ -50,31 +53,25 @@ def process_row(
         f"{headers} and  provided items: {items}."
     )
 
-    assert all([key in units for key in headers]), (
-        f"process_row: Not all entries in provided 'headers' are present "
-        f"in provided 'units': {headers} vs {units.keys()}"
-    )
-
-    raw = dict()
-    element = {"raw": dict()}
+    vals = {}
+    devs = {}
     columns = [column.strip() for column in items]
 
     # Process raw data, assign sigma and units
-    element["uts"] = datefunc(*[columns[i] for i in datecolumns])
+    vals["uts"] = datefunc(*[columns[i] for i in datecolumns])
     for ci, header in enumerate(headers):
         if ci in datecolumns:
             continue
         elif columns[ci] == "":
             continue
         try:
-            val, sig = tuple_fromstr(columns[ci])
-            unit = units[header]
-            element["raw"][header] = {"n": val, "s": sig, "u": unit}
-            raw[header] = (val, sig)
+            val, dev = tuple_fromstr(columns[ci])
+            vals[header] = val
+            devs[header] = dev
         except ValueError:
-            element["raw"][header] = columns[ci]
+            vals[header] = columns[ci]
 
-    return element
+    return vals, devs
 
 
 def process(
@@ -110,7 +107,7 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate): tuple[list, dict, bool]
+    dt: datatree.DataTree
         Tuple containing the timesteps, metadata, and full date tag. No metadata is
         returned by the basiccsv parser. The full date might not be returned, eg.
         when only time is specified in columns.
@@ -155,15 +152,49 @@ def process(
     units = dgutils.sanitize_units(units)
 
     # Process rows
-    data = []
-    for line in lines[si:]:
-        element = process_row(
+    data_vals = {}
+    meta_vals = {"_fn": []}
+    for li, line in enumerate(lines[si:]):
+        vals, devs = process_row(
             headers,
             [i.strip().strip(strip) for i in line.split(parameters.sep)],
-            units,
             datefunc,
             datecolumns,
         )
-        element["fn"] = str(fn)
-        data.append(element)
-    return data, None, fulldate
+        meta_vals["_fn"].append(str(fn))
+        for k, v in vals.items():
+            if k not in data_vals:
+                data_vals[k] = [None if isinstance(v, str) else np.nan] * li
+            data_vals[k].append(v)
+        for k, v in devs.items():
+            if k not in meta_vals:
+                meta_vals[k] = [np.nan] * li
+            meta_vals[k].append(v)
+
+        for k in set(data_vals) - set(vals):
+            data_vals[k].append(np.nan)
+        for k in set(meta_vals) - set(devs):
+            if k != "_fn":
+                meta_vals[k].append(np.nan)
+
+    for k, v in data_vals.items():
+        attrs = {}
+        u = units.get(k, None)
+        if u is not None:
+            attrs["units"] = u
+        if k == "uts":
+            attrs["fulldate"] = fulldate
+        data_vals[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+
+    for k, v in meta_vals.items():
+        meta_vals[k] = DataArray(data=v, dims=["uts"])
+
+    coords = {"uts": data_vals.pop("uts")}
+    dt = DataTree.from_dict(
+        {
+            "/": Dataset(data_vars=data_vals, coords=coords),
+            "/_yadg.meta": Dataset(data_vars=meta_vals, coords=coords),
+        }
+    )
+    print(f"{dt=}")
+    return dt

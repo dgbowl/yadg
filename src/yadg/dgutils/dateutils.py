@@ -238,7 +238,7 @@ def complete_timestamps(
     fn: str,
     spec: ExternalDate,
     timezone: ZoneInfo,
-) -> None:
+) -> list[float]:
     """
     Timestamp completing function.
 
@@ -294,6 +294,8 @@ def complete_timestamps(
     """
     delta = None
 
+    fulldate = True
+
     if spec is not None:
         replace = spec.mode == "replace"
         method = spec.using
@@ -325,17 +327,22 @@ def complete_timestamps(
     if delta is None:
         logger.warning("Timestamp completion failed. Using 'mtime'.")
         delta = os.path.getmtime(fn)
+        fulldate = False
 
     if isinstance(delta, float):
         delta = [delta] * len(timesteps)
 
     assert len(delta) == len(timesteps)
 
-    for ts in timesteps:
-        if replace:
-            ts["uts"] = delta.pop(0)
-        else:
-            ts["uts"] = ts.get("uts", 0.0) + delta.pop(0)
+    if replace:
+        timesteps = delta
+    else:
+        timesteps = timesteps + delta
+
+    if hasattr(timesteps, "attrs"):
+        timesteps.attrs["fulldate"] = fulldate
+    print(f"{timesteps=}")
+    return timesteps
 
 
 def timestamps_from_file(

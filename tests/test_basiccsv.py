@@ -267,7 +267,7 @@ import numpy as np
                     "Inside_Nafion_TCK02 Max. (C)": {
                         "value": np.nan,
                         "sigma": np.nan,
-                        "unit": "degC"
+                        "unit": "degC",
                     },
                 },
             },

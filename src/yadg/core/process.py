@@ -3,8 +3,12 @@ import importlib
 from typing import Callable
 from zoneinfo import ZoneInfo
 from dgbowl_schemas.yadg import DataSchema
-from .datatree_shim import to_datatree
+
+# from .datatree_shim import to_datatree
 from .. import dgutils, core
+
+from datatree import DataTree
+import xarray as xr
 
 logger = logging.getLogger(__name__)
 
@@ -56,26 +60,22 @@ def process_schema(dataschema: DataSchema) -> dict:
         a valid `datagram`; any custom `parser`\\ s might not do so. Use the function
         :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
     """
-    datagram = {
-        "metadata": {
-            "provenance": "yadg",
-            "date": dgutils.now(asstr=True),
-            "input_schema": dataschema.json(),
-            "datagram_version": core.spec_datagram.datagram_version,
-        },
-        "steps": [],
-    }
 
-    datagram["metadata"].update(dgutils.get_yadg_metadata())
+    root = DataTree()
+    root.attrs = {
+        "provenance": "yadg",
+        "date": dgutils.now(asstr=True),
+        "input_schema": dataschema.json(),
+        "datagram_version": core.spec_datagram.datagram_version,
+    }
+    root.attrs.update(dgutils.get_yadg_metadata())
+
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
-
-    print(dataschema.step_defaults)
 
     for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)
 
-        print(step.extractor)
         # Backfill default timezone, locale, encoding.
         if step.extractor.timezone is None:
             tz = ZoneInfo(dataschema.step_defaults.timezone)
@@ -90,21 +90,18 @@ def process_schema(dataschema: DataSchema) -> dict:
         else:
             enc = step.extractor.encoding
 
-        metadata = dict()
-        timesteps = list()
+        if step.tag is None:
+            step.tag = f"{si}"
+
         handler = _infer_datagram_handler(step.parser)
-        if step.tag is not None:
-            metadata["tag"] = step.tag
-        metadata["parser"] = step.parser
         todofiles = step.input.paths()
         if len(todofiles) == 0:
-            logger.warning(
-                "No files processed by step '%s'.", 
-                metadata.get("tag",f"{si}")
-            )
+            logger.warning("No files processed by step '%s'.", step.tag)
+        vals = []
+        devs = []
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
-            ts, meta, fulldate = handler(
+            dt = handler(
                 fn=tf,
                 encoding=enc,
                 timezone=tz,
@@ -112,21 +109,23 @@ def process_schema(dataschema: DataSchema) -> dict:
                 filetype=step.extractor.filetype,
                 parameters=step.parameters,
             )
-            if not fulldate or step.externaldate is not None:
-                dgutils.complete_timestamps(
-                    timesteps=ts, fn=tf, spec=step.externaldate, timezone=tz
+            if not dt["uts"].attrs["fulldate"] or step.externaldate is not None:
+                ts = dgutils.complete_timestamps(
+                    timesteps=dt["uts"], fn=tf, spec=step.externaldate, timezone=tz
                 )
-            assert isinstance(ts, list), (
-                f"Handler for '{step.parser}' yields timesteps "
-                "that are not a enclosed in a 'list'."
-            )
-            timesteps += ts
-            assert isinstance(meta, dict) or meta is None, (
-                f"Handler for '{step.parser}' yields metadata "
-                "that are not a enclosed in a 'dict'."
-            )
-            if meta is not None:
-                metadata.update(meta)
+                dt["uts"] = ts
+                dt["_yadg.meta"]["uts"] = ts
+                print(f"{ts=}")
 
-        datagram["steps"].append({"metadata": metadata, "data": timesteps})
-    return to_datatree(datagram)
+            vals.append(dt.ds)
+            devs.append(dt["_yadg.meta"].ds)
+
+        vals = xr.concat(vals, dim="uts")
+        devs = xr.concat(devs, dim="uts")
+
+        stepdt = DataTree.from_dict({"/": vals, "/_yadg.meta": devs})
+        stepdt.name = step.tag
+        stepdt.attrs = dict(parser=step.parser)
+        stepdt.parent = root
+
+    return root

@@ -54,9 +54,9 @@ def to_datatree(dg: dict) -> DataTree:
             for k, v in data.items():
                 attrs = {}
                 if k in sigma and all([s == sigma[k][0] for s in sigma[k]]):
-                    devs[k] = DataArray(data = sigma[k][0])
+                    devs[k] = DataArray(data=sigma[k][0])
                 elif k in sigma:
-                    devs[k] = DataArray(data = sigma[k])
+                    devs[k] = DataArray(data=sigma[k])
                 if k in units:
                     stru = [u for u in units[k] if isinstance(u, str)]
                     if len(stru) > 0 and all([u == stru[0] for u in stru]):
@@ -69,8 +69,8 @@ def to_datatree(dg: dict) -> DataTree:
                     attrs["fn"] = fn[0]
                 else:
                     attrs["fn"] = fn
-                darrs[k] = DataArray(data = v, dims = ["uts"], attrs = attrs)
-            
+                darrs[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+
             name = step["metadata"].pop("tag", f"{si}")
             print(f"{name=}")
             print(f"{si=}")
@@ -81,10 +81,6 @@ def to_datatree(dg: dict) -> DataTree:
             )
             dt.attrs = step["metadata"]
             if len(devs) > 0:
-                dts = DataTree(
-                    name="_devs",
-                    data=Dataset(data_vars=devs),
-                    parent = dt
-                )
+                dts = DataTree(name="_devs", data=Dataset(data_vars=devs), parent=dt)
     print(root)
     return root

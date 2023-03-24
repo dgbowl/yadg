@@ -3,8 +3,10 @@ import os
 import json
 import yaml
 import yadg.core
-from typing import Sequence
 import numpy as np
+import pint
+from typing import Union
+from datatree import DataTree
 from dgbowl_schemas import to_dataschema
 
 
@@ -165,6 +167,30 @@ def pars_datagram_test(datagram, testspec):
 
 
 def compare_result_dicts(result, reference, atol=1e-6):
-    assert result["n"] == pytest.approx(reference["n"], abs=atol)
-    assert result["s"] == pytest.approx(reference["s"], abs=atol)
+    np.testing.assert_allclose(result["n"], reference["n"], atol=atol, equal_nan=True)
+    np.testing.assert_allclose(result["s"], reference["s"], atol=atol, equal_nan=True)
     assert result["u"] == reference["u"]
+
+
+def dg_get_quantity(
+    dt: DataTree,
+    step: Union[str, int],
+    col: str,
+    utsrow: int = None,
+) -> pint.Quantity:
+    if isinstance(step, str):
+        name = step
+    else:
+        name = list(dt.children.keys())[step]
+    vals = dt[name].ds
+    devs = dt[name]["_yadg.meta"].ds
+
+    if utsrow is None:
+        n = vals[col]
+        d = devs[col]
+    else:
+        n = vals.isel(uts=utsrow)[col]
+        d = devs.isel(_uts=utsrow)[col]
+    u = vals[col].attrs.get("units", None)
+
+    return {"n": n, "s": d, "u": u}

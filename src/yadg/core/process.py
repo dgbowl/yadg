@@ -9,6 +9,7 @@ from .. import dgutils, core
 
 from datatree import DataTree
 import xarray as xr
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ def process_schema(dataschema: DataSchema) -> dict:
         devs = []
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
-            dt = handler(
+            fvals, fdevs = handler(
                 fn=tf,
                 encoding=enc,
                 timezone=tz,
@@ -109,31 +110,29 @@ def process_schema(dataschema: DataSchema) -> dict:
                 filetype=step.extractor.filetype,
                 parameters=step.parameters,
             )
-            if not dt["uts"].attrs["fulldate"] or step.externaldate is not None:
-                ts = dgutils.complete_timestamps(
-                    timesteps=dt["uts"], fn=tf, spec=step.externaldate, timezone=tz
+            if len(fvals.uts.coords) == 0:
+                fvals["uts"] = np.zeros(fvals.uts.size)
+            if not fvals.attrs["fulldate"] or step.externaldate is not None:
+                ts, fulldate = dgutils.complete_timestamps(
+                    timesteps=fvals.uts.values,
+                    fn=tf,
+                    spec=step.externaldate,
+                    timezone=tz,
                 )
-                dt["uts"] = ts
-                dt["_yadg.meta"]["uts"] = ts
-                print(f"{ts=}")
-
-            vals.append(dt.ds)
-            devs.append(dt["_yadg.meta"].ds)
-
-        if len(vals) > 0:
-            vals = xr.concat(vals, dim="uts")
-        else:
-            vals = None
-        if len(devs) > 0:
-            devs = xr.concat(devs, dim="uts")
-        else:
-            devs = None
-
-        print(f"{vals=}")
-        print(f"{devs=}")
+                fvals["uts"] = ts
+                fdevs["_uts"] = ts
+                if fulldate:
+                    fvals.attrs.pop("fulldate", None)
+                    fdevs.attrs.pop("fulldate", None)
+                else:
+                    fvals.attrs["fulldate"] = fulldate
+                    fdevs.attrs["fulldate"] = fulldate
+            vals.append(fvals)
+            devs.append(fdevs)
+        vals = xr.combine_by_coords(vals, compat="no_conflicts", coords="all")
+        devs = xr.combine_by_coords(devs, compat="no_conflicts", coords="all")
         stepdt = DataTree.from_dict({"/": vals, "/_yadg.meta": devs})
         stepdt.name = step.tag
         stepdt.attrs = dict(parser=step.parser)
         stepdt.parent = root
-
     return root

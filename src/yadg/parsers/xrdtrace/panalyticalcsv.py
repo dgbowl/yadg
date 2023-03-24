@@ -8,33 +8,40 @@ File Structure
 These files are split into a ``[Measurement conditions]`` and a ``[Scan points]``
 section. The former stores the metadata and the latter all the datapoints.
 
-.. warning::
 
-    This parser is fairly new and untested. As a result, the returned metadata
-    contain all the entries in the ``[Measurement conditions]`` section, without
-    any additional filtering.
+DataTree structure
+``````````````````
+.. code-block::
 
+    /:
+        Dimensions:    (uts: 1, angle: n)
+        Coordinates:
+            uts:       (uts)            float64     Timestamp.
+            angle:     (angle)          float64     Diffraction angle, degrees.
+        Data variables:
+            intensity  (uts, angle)     float64     Detector intensity, counts.
+        Attributes:    
+            ...                                     Metadata from file header.
+    /_yadg.meta:
+        Dimensions:    (uts: 1, _angle: n)
+        Coordinates:
+            uts:       (uts)            float64 
+            _angle:    (_angle)         float64
+        Data variables:
+            intensity  (uts, _angle)    float64     Dev. of intensity, counts.
+            angle      (uts, _angle)    float64     Dev. of angle, degrees.
+            _fn        (uts)            str         Filename of the datapoint
 
-Structure of Parsed Timesteps
-`````````````````````````````
-
-.. code-block:: yaml
-
-    - fn:  !!str
-    - uts: !!float
-    - raw:
-        traces:
-          "{{ trace_number }}":  # Number of the trace.
-            angle:               # Diffraction angle.
-              {n: [!!float, ...], s: [!!float, ...], u: "deg"}
-            intensity:           # Detector counts.
-              {n: [!!float, ...], s: [!!float, ...], u: "counts"}
-
-.. codeauthor:: Nicolas Vetsch
+.. codeauthors:: 
+    Nicolas Vetsch,
+    Peter Kraus
 """
 
 from ...dgutils import dateutils
 from .common import panalytical_comment, snake_case
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+import xarray as xr
+import numpy as np
 
 # Converting camelCase xrdml keys to snake_case.
 
@@ -72,7 +79,7 @@ def _process_header(header: str) -> dict:
     # Renaming the keys.
     for key in list(header.keys()):
         header[snake_case(key)] = header.pop(key)
-    header["comments"] = comments
+    header.update(comments)
     return header
 
 
@@ -97,9 +104,9 @@ def _process_data(data: str) -> tuple[list, list]:
     assert columns == ["Angle", "Intensity"], "Unexpected columns."
     datapoints = [line.split(",") for line in data_lines[1:]]
     angle, intensity = [list(d) for d in zip(*datapoints)]
-    angle = [float(a) for a in angle]
-    intensity = [float(i) for i in intensity]
-    return angle, intensity
+    avals, adevs = list(zip(*[tuple_fromstr(a) for a in angle]))
+    ivals, idevs = list(zip(*[tuple_fromstr(i) for i in intensity]))
+    return avals, adevs, ivals, idevs
 
 
 def process(
@@ -136,23 +143,49 @@ def process(
     assert data.startswith("Scan points"), "Unexpected section."
     header = _process_header(header)
     # Process the data trace.
-    angle, intensity = _process_data(data)
-    angle = {
-        "n": angle,
-        "s": [float(header["scan_step_size"])] * len(angle),
-        "u": "deg",
-    }
-    intensity = {
-        "n": intensity,
-        "s": [1.0] * len(intensity),
-        "u": "counts",
-    }
+    angle, _, insty, _ = _process_data(data)
+    adiff = np.abs(np.diff(angle)) * 0.5
+    adiff = np.append(adiff, adiff[-1])
+    idevs = np.ones(len(insty))
     # Process the metadata.
     uts = dateutils.str_to_uts(
         timestamp=header["file_date_and_time"],
         format="%d/%B/%Y %H:%M",
         timezone=timezone,
     )
-    traces = {"0": {"angle": angle, "intensity": intensity}}
-    data = [{"fn": fn, "uts": uts, "raw": {"traces": traces}}]
-    return data, header, True
+    header["fulldate"] = True
+    # Build Datasets
+    vals = xr.Dataset(
+        data_vars=dict(
+            intensity=(
+                ["uts", "angle"],
+                np.reshape(insty, (1, -1)),
+                {"units": "counts"},
+            )
+        ),
+        coords=dict(
+            uts=(["uts"], [uts]),
+            angle=(["angle"], list(angle), {"units": "deg"}),
+        ),
+        attrs=header,
+    )
+    devs = xr.Dataset(
+        data_vars=dict(
+            intensity=(
+                ["_uts", "_angle"],
+                np.reshape(idevs, (1, -1)),
+                {"units": "counts"},
+            ),
+            angle=(
+                ["_uts", "_angle"],
+                np.reshape(adiff, (1, -1)),
+                {"units": "deg"},
+            ),
+            _fn=(["_uts"], [str(fn)]),
+        ),
+        coords=dict(
+            _uts=(["_uts"], [uts]),
+            _angle=(["_angle"], list(angle), {"units": "deg"}),
+        ),
+    )
+    return vals, devs

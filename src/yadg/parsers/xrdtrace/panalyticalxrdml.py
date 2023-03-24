@@ -44,7 +44,10 @@ from collections import defaultdict
 from typing import Union
 from xml.etree import ElementTree
 import numpy as np
+import xarray as xr
+from zoneinfo import ZoneInfo
 
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from .common import panalytical_comment
 from ...dgutils import dateutils
 
@@ -123,29 +126,31 @@ def _process_scan(scan: dict) -> dict:
 
     """
     header = scan.pop("header")
-    datapoints = scan.pop("dataPoints")
-    counting_time = _process_values(datapoints.pop("commonCountingTime"))
-    raw_intensities = [float(c) for c in datapoints["intensities"].pop("#text").split()]
-    intensities = {
-        "n": raw_intensities,
-        "s": [1.0] * len(raw_intensities),
-        "u": datapoints["intensities"].pop("@unit"),
-    }
+    dpts = scan.pop("dataPoints")
+    counting_time = _process_values(dpts.pop("commonCountingTime"))
+    ivals, idevs = list(
+        zip(*[tuple_fromstr(c) for c in dpts["intensities"].pop("#text").split()])
+    )
+    iunit = dpts["intensities"].pop("@unit")
+    timestamp = header.pop("startTimeStamp")
+
     dp = {
-        "timestamp": header.pop("startTimeStamp"),
-        "intensities": intensities,
+        "intensity": {"vals": ivals, "devs": idevs, "unit": iunit},
+        "timestamp": timestamp,
         "counting_time": counting_time,
     }
 
-    positions = _process_values(datapoints.pop("positions"))
+    positions = _process_values(dpts.pop("positions"))
     for v in positions:
         pos = np.linspace(
-            float(v["startPosition"]), float(v["endPosition"]), num=len(raw_intensities)
+            float(v["startPosition"]), float(v["endPosition"]), num=len(ivals)
         )
+        adiff = np.abs(np.diff(pos)) * 0.5
+        adiff = np.append(adiff, adiff[-1])
         dp[v["@axis"]] = {
-            "n": list(pos),
-            "s": [pos[1] - pos[0]] * len(pos),
-            "u": v["@unit"],
+            "vals": pos,
+            "devs": adiff,
+            "unit": v["@unit"],
         }
     return dp
 
@@ -180,18 +185,19 @@ def _process_measurement(measurement: dict, timezone: str):
     diffracted_beam_path = _process_values(measurement.pop("diffractedBeamPath"))
     measurement["diffracted_beam_path"] = diffracted_beam_path
     scan = _process_scan(measurement.pop("scan"))
-    trace = {"angle": scan.pop("2Theta"), "intensity": scan.pop("intensities")}
+    trace = {"angle": scan.pop("2Theta"), "intensity": scan.pop("intensity")}
     meta = measurement
     meta["counting_time"] = scan.pop("counting_time")
-    data = {
-        "uts": dateutils.str_to_uts(timestamp=scan.pop("timestamp"), timezone=timezone),
-        "raw": {"traces": {"0": trace}},
-    }
-    return data, meta
+    trace["uts"] = dateutils.str_to_uts(
+        timestamp=scan.pop("timestamp"), timezone=timezone
+    )
+    return trace, meta
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
+    fn: str,
+    encoding: str,
+    timezone: ZoneInfo,
 ) -> tuple[list, dict, bool]:
     """Processes a PANalytical xrdml file.
 
@@ -236,4 +242,43 @@ def process(
     # Shove unused data into meta
     meta["sample"] = sample
     meta["comment"] = comment
-    return [data], meta, True
+    meta["fulldate"] = True
+    # Build Datasets
+    vals = xr.Dataset(
+        data_vars=dict(
+            intensity=(
+                ["uts", "angle"],
+                np.reshape(data["intensity"]["vals"], (1, -1)),
+                {"units": data["intensity"]["unit"]},
+            )
+        ),
+        coords=dict(
+            uts=(["uts"], [data["uts"]]),
+            angle=(["angle"], data["angle"]["vals"], {"units": data["angle"]["unit"]}),
+        ),
+        attrs=meta,
+    )
+    devs = xr.Dataset(
+        data_vars=dict(
+            intensity=(
+                ["_uts", "_angle"],
+                np.reshape(data["intensity"]["devs"], (1, -1)),
+                {"units": data["intensity"]["unit"]},
+            ),
+            angle=(
+                ["_uts", "_angle"],
+                np.reshape(data["angle"]["devs"], (1, -1)),
+                {"units": data["angle"]["unit"]},
+            ),
+            _fn=(["_uts"], [str(fn)]),
+        ),
+        coords=dict(
+            _uts=(["_uts"], [data["uts"]]),
+            _angle=(
+                ["_angle"],
+                list(data["angle"]["vals"]),
+                {"units": data["angle"]["unit"]},
+            ),
+        ),
+    )
+    return vals, devs

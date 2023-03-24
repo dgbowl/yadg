@@ -16,7 +16,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> DataTree:
     """
     Flow meter data processor
 
@@ -43,8 +43,6 @@ def process(
         is returned depends on the file parser.
 
     """
-
-    metadata = {}
 
     if filetype.startswith("drycal"):
 

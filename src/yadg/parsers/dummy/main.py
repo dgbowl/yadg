@@ -2,7 +2,7 @@ from pydantic import BaseModel
 import json
 from zoneinfo import ZoneInfo
 from ... import dgutils
-from ..basiccsv.main import append_dicts, dicts_to_datatree
+from ..basiccsv.main import append_dicts, dicts_to_datasets
 from datatree import DataTree
 
 
@@ -46,7 +46,6 @@ def process(
         returned by the dummy parser. The full date is always returned.
 
     """
-    print("top of main")
     if filetype == "tomato.json":
         with open(fn, "r") as inf:
             jsdata = json.load(inf)
@@ -58,7 +57,6 @@ def process(
             vals["uts"] = vals.pop("time")
             append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
     else:
-        print("Here!")
         kwargs = {} if parameters is None else parameters.dict()
         if "parser" in kwargs:
             del kwargs["parser"]
@@ -66,6 +64,4 @@ def process(
         data_vals["uts"] = [dgutils.now()]
         meta_vals = {"_fn": [str(fn)]}
 
-    dt = dicts_to_datatree(data_vals, meta_vals, fulldate=False)
-    print(f"{dt=}")
-    return dt
+    return dicts_to_datasets(data_vals, meta_vals, fulldate=False)

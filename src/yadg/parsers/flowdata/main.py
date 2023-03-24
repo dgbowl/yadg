@@ -47,17 +47,17 @@ def process(
     if filetype.startswith("drycal"):
 
         if filetype.endswith(".rtf") or fn.endswith("rtf"):
-            dt = drycal.rtf(fn, encoding, timezone)
+            vals, devs = drycal.rtf(fn, encoding, timezone)
         elif filetype.endswith(".csv") or fn.endswith("csv"):
-            dt = drycal.sep(fn, ",", encoding, timezone)
+            vals, devs = drycal.sep(fn, ",", encoding, timezone)
         elif filetype.endswith(".txt") or fn.endswith("txt"):
-            dt = drycal.sep(fn, "\t", encoding, timezone)
+            vals, devs = drycal.sep(fn, "\t", encoding, timezone)
 
         # check timestamps are increasing:
         warn = True
         ndays = 0
-        utslist = dt.uts.values
-        for i in range(1, dt.uts.size):
+        utslist = vals.uts.values
+        for i in range(1, vals.uts.size):
             if utslist[i] < utslist[i - 1]:
                 if warn:
                     logger.warning("DryCal log crossing day boundary. Adding offset.")
@@ -67,5 +67,7 @@ def process(
                     ndays += 1
                     uts = utslist[i] + ndays * 86400
                 utslist[i] = uts
-        dt["uts"] = DataArray(data=utslist, attrs=dict(fulldate=False), dims=["uts"])
-    return dt
+        vals["uts"] = DataArray(data=utslist, dims=["uts"])
+        vals.attrs["fulldate"] = False
+        devs["_uts"] = DataArray(data=utslist, dims=["_uts"])
+    return vals, devs

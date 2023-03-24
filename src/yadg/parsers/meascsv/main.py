@@ -1,7 +1,7 @@
 import logging
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
-from ..basiccsv.main import process_row, append_dicts, dicts_to_datatree
+from ..basiccsv.main import process_row, append_dicts, dicts_to_datasets
 from ... import dgutils
 from datatree import DataTree
 
@@ -78,5 +78,4 @@ def process(
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    dt = dicts_to_datatree(data_vals, meta_vals, units, fulldate)
-    return dt
+    return dicts_to_datasets(data_vals, meta_vals, units, fulldate)

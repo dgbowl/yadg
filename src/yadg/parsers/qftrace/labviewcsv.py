@@ -15,6 +15,7 @@ is hard-coded to this value.
 
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+import xarray as xr
 
 
 def process(
@@ -60,33 +61,45 @@ def process(
     fsbw = bw[0] / avg
 
     # calculate precision of trace
-    data["raw"] = {"traces": {}, "bw": {"n": bw[0], "s": bw[1], "u": "Hz"}, "avg": avg}
-    freq = []
-    gamma = []
-    real = []
-    imag = []
-    absgamma = []
+    vals = {}
+    devs = {}
+    # data["raw"] = {"traces": {}, "bw": {"n": bw[0], "s": bw[1], "u": "Hz"}, "avg": avg}
+    freq = {"vals": [], "devs": []}
+    real = {"vals": [], "devs": []}
+    imag = {"vals": [], "devs": []}
     for line in lines:
         f, re, im = line.strip().split()
         fn, fs = tuple_fromstr(f)
         fs = max(fs, fsbw)
         ren, res = tuple_fromstr(re)
         imn, ims = tuple_fromstr(im)
-        freq.append([fn, fs])
-        real.append([ren, res])
-        imag.append([imn, ims])
-        c = complex(ren, imn)
-        gamma.append(c)
-        absgamma.append(abs(c))
-    temp = {"f": {}, "Re(G)": {}, "Im(G)": {}}
-    freq = [np.array(i) for i in zip(*freq)]
-    temp["f"]["n"], temp["f"]["s"] = [i.tolist() for i in freq]
-    temp["f"]["u"] = "Hz"
-    real = [np.array(i) for i in zip(*real)]
-    temp["Re(G)"]["n"], temp["Re(G)"]["s"] = [i.tolist() for i in real]
-    temp["Re(G)"]["u"] = " "
-    imag = [np.array(i) for i in zip(*imag)]
-    temp["Im(G)"]["n"], temp["Im(G)"]["s"] = [i.tolist() for i in imag]
-    temp["Im(G)"]["u"] = " "
-    data["raw"]["traces"]["S11"] = temp
-    return [data], None
+        freq["vals"].append(fn)
+        freq["devs"].append(fs)
+        real["vals"].append(ren)
+        real["devs"].append(res)
+        imag["vals"].append(imn)
+        imag["devs"].append(ims)
+
+    vals = xr.Dataset(
+        data_vars={
+            "Re(G)": (["uts", "freq"], np.reshape(real["vals"], (1, -1))),
+            "Im(G)": (["uts", "freq"], np.reshape(imag["vals"], (1, -1))),
+            "average": (["uts"], [avg]),
+            "bandwith": (["uts"], [bw[0]], {"units": "Hz"}),
+        },
+        coords={"freq": (["freq"], freq["vals"], {"units": "Hz"})},
+        attrs={"fulldate": False},
+    )
+
+    devs = xr.Dataset(
+        data_vars={
+            "Re(G)": (["_uts", "_freq"], np.reshape(real["devs"], (1, -1))),
+            "Im(G)": (["_uts", "_freq"], np.reshape(imag["devs"], (1, -1))),
+            "bandwith": (["_uts"], [bw[1]], {"units": "Hz"}),
+            "freq": (["_freq"], freq["devs"], {"units": "Hz"}),
+        },
+        coords={"_freq": (["_freq"], freq["vals"], {"units": "Hz"})},
+        attrs={"fulldate": False},
+    )
+
+    return vals, devs

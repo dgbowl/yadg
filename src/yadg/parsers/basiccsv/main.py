@@ -100,7 +100,7 @@ def append_dicts(
             meta[k].append(np.nan)
 
 
-def dicts_to_datatree(
+def dicts_to_datasets(
     data: dict[str, list[Any]],
     meta: dict[str, list[Any]],
     units: dict[str, str] = dict(),
@@ -112,20 +112,17 @@ def dicts_to_datatree(
         if u is not None:
             attrs["units"] = u
         if k == "uts":
-            attrs["fulldate"] = fulldate
+            continue
         data[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
 
     for k, v in meta.items():
-        meta[k] = DataArray(data=v, dims=["uts"])
+        meta[k] = DataArray(data=v, dims=["_uts"])
 
-    coords = {"uts": data.pop("uts")}
-    dt = DataTree.from_dict(
-        {
-            "/": Dataset(data_vars=data, coords=coords),
-            "/_yadg.meta": Dataset(data_vars=meta, coords=coords),
-        }
-    )
-    return dt
+    uts = data.pop("uts")
+
+    vals = Dataset(data_vars=data, coords=dict(uts=uts), attrs=dict(fulldate=fulldate))
+    devs = Dataset(data_vars=meta, coords=dict(_uts=uts))
+    return vals, devs
 
 
 def process(
@@ -217,5 +214,4 @@ def process(
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    dt = dicts_to_datatree(data_vals, meta_vals, units, fulldate)
-    return dt
+    return dicts_to_datasets(data_vals, meta_vals, units, fulldate)

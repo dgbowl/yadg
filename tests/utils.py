@@ -169,7 +169,7 @@ def pars_datagram_test(datagram, testspec):
 def compare_result_dicts(result, reference, atol=1e-6):
     np.testing.assert_allclose(result["n"], reference["n"], atol=atol, equal_nan=True)
     np.testing.assert_allclose(result["s"], reference["s"], atol=atol, equal_nan=True)
-    assert result["u"] == reference["u"]
+    assert result["u"] == reference.get("u", None)
 
 
 def dg_get_quantity(

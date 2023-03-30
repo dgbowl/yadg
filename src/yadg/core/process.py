@@ -98,11 +98,10 @@ def process_schema(dataschema: DataSchema) -> dict:
         todofiles = step.input.paths()
         if len(todofiles) == 0:
             logger.warning("No files processed by step '%s'.", step.tag)
-        vals = []
-        devs = []
+        vals = None
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
-            fvals, fdevs = handler(
+            fvals = handler(
                 fn=tf,
                 encoding=enc,
                 timezone=tz,
@@ -110,28 +109,60 @@ def process_schema(dataschema: DataSchema) -> dict:
                 filetype=step.extractor.filetype,
                 parameters=step.parameters,
             )
-            if len(fvals.uts.coords) == 0:
-                fvals["uts"] = np.zeros(fvals.uts.size)
-            if not fvals.attrs["fulldate"] or step.externaldate is not None:
-                ts, fulldate = dgutils.complete_timestamps(
-                    timesteps=fvals.uts.values,
-                    fn=tf,
-                    spec=step.externaldate,
-                    timezone=tz,
-                )
-                fvals["uts"] = ts
-                fdevs["_uts"] = ts
-                if fulldate:
-                    fvals.attrs.pop("fulldate", None)
-                    fdevs.attrs.pop("fulldate", None)
+            if isinstance(fvals, DataTree):
+                tasks = [(k, v.to_dataset()) for k, v in fvals.items()]
+            else:
+                tasks = [(None, fvals)]
+            for task in tasks:
+                name, dset = task
+                if "uts" not in dset:
+                    dset = dset.expand_dims("uts")
+                if len(dset.uts.coords) == 0:
+                    dset["uts"] = np.zeros(dset.uts.size)
+                    dset.attrs["fulldate"] = False
+                if (
+                    not dset.attrs.get("fulldate", True)
+                    or step.externaldate is not None
+                ):
+                    ts, fulldate = dgutils.complete_timestamps(
+                        timesteps=dset.uts.values,
+                        fn=tf,
+                        spec=step.externaldate,
+                        timezone=tz,
+                    )
+                    dset["uts"] = ts
+                    if fulldate:
+                        dset.attrs.pop("fulldate", None)
+                    else:
+                        dset.attrs["fulldate"] = fulldate
+                if name is None:
+                    fvals = dset
                 else:
-                    fvals.attrs["fulldate"] = fulldate
-                    fdevs.attrs["fulldate"] = fulldate
-            vals.append(fvals)
-            devs.append(fdevs)
-        vals = xr.combine_by_coords(vals, compat="no_conflicts", coords="all")
-        devs = xr.combine_by_coords(devs, compat="no_conflicts", coords="all")
-        stepdt = DataTree.from_dict({"/": vals, "/_yadg.meta": devs})
+                    fvals[name] = DataTree(dset)
+            if vals is None:
+                vals = fvals
+            elif isinstance(vals, xr.Dataset):
+                vals = xr.concat([vals, fvals], dim="uts", combine_attrs="identical")
+            elif isinstance(vals, DataTree):
+                for k, v in fvals.items():
+                    if k in vals:
+                        # print(f"{k=}")
+                        # print(f"{vals[k].ds=}")
+                        # print(f"{v.ds=}")
+                        newv = xr.concat(
+                            [vals[k].ds, v.ds], dim="uts", combine_attrs="identical"
+                        )
+                        # print(f"{newv=}")
+                    else:
+                        newv = fvals[k].ds
+                    vals[k] = DataTree(newv)
+            print(f"{vals=}")
+        if isinstance(vals, xr.Dataset):
+            stepdt = DataTree.from_dict({"/": vals})
+        elif isinstance(vals, DataTree):
+            stepdt = vals
+        else:
+            stepdt = DataTree()
         stepdt.name = step.tag
         stepdt.attrs = dict(parser=step.parser)
         stepdt.parent = root

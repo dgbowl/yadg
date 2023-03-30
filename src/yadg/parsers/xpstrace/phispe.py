@@ -98,6 +98,9 @@ Structure of Parsed Data
 import re
 from typing import Any
 import numpy as np
+from zoneinfo import ZoneInfo
+import xarray as xr
+from datatree import DataTree
 
 data_header_dtype = np.dtype(
     [
@@ -366,7 +369,6 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
             endpoint=True,
             retstep=True,
         )
-        E = {"n": energies.tolist(), "s": [abs(dE)] * len(energies), "u": "eV"}
         # Construct data from trace_header
         data_dtype = np.dtype(f'{trace_header["data_dtype"].decode()}')
         data_offset = trace_header["end_of_data"] - trace_header["num_data_bytes"]
@@ -379,25 +381,26 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
         # somehow be a Poisson distribution, i.e. the error should be
         # something like s ~ sqrt(n). The counts per second only seem to
         # be taking values in steps of 12.5cps, so taking this as error.
-        y = {
-            "n": datapoints,
-            "s": [12.5] * len(datapoints),
-            "u": "cps",
-        }
         traces[str(trace_def["trace_number"])] = {
             "name": trace_def["name"],
             "atomic_number": trace_def["atomic_number"],
             "dwell_time": trace_def["dwell_time"],
             "e_pass": trace_def["e_pass"],
             "description": trace_def["description"],
-            "E": E,
-            "y": y,
+            "yvals": datapoints,
+            "ydevs": np.ones(len(datapoints)) * 12.5,
+            "yunit": "counts / s",
+            "Evals": energies,
+            "Edevs": np.ones(len(energies)) * abs(dE),
+            "Eunit": "eV",
         }
     return traces
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
+    fn: str,
+    encoding: str,
+    timezone: ZoneInfo,
 ) -> tuple[list, dict, bool]:
     """Processes ULVAC-PHI Multipak XPS data.
 
@@ -433,5 +436,35 @@ def process(
     }
     trace_defs = _process_trace_defs(header)
     traces = _process_traces(spe, trace_defs)
-    timesteps = [{"fn": fn, "raw": {"traces": traces}}]
-    return timesteps, meta, False
+    vals = {}
+    for v in traces.values():
+        fvals = xr.Dataset(
+            data_vars={
+                "y": (
+                    ["E"],
+                    v["yvals"],
+                    {"units": v["yunit"], "ancillary_variables": "y_std_err"},
+                ),
+                "y_std_err": (
+                    ["E"],
+                    v["ydevs"],
+                    {"units": v["yunit"], "standard_name": "y standard_error"},
+                ),
+                "E_std_err": (
+                    ["E"],
+                    v["Edevs"],
+                    {"units": v["Eunit"], "standard_name": "E standard_error"},
+                ),
+            },
+            coords={
+                "E": (
+                    ["E"],
+                    v["Evals"],
+                    {"units": v["Eunit"], "ancillary_variables": "E_std_err"},
+                ),
+            },
+        )
+        vals[v["name"]] = fvals
+
+    dt = DataTree.from_dict(vals)
+    return dt

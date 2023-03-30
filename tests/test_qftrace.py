@@ -47,6 +47,7 @@ def test_datagram_from_qftrace(input, ts, datadir):
         "Im(G)": {"n": 0.9448405, "s": 1e-7, "u": None},
     }.items():
         ret = dg_get_quantity(dg, 0, col=k, utsrow=0)
+        print(f"{ret=}")
         point = {"n": ret["n"][0], "s": ret["s"][0], "u": ret["u"]}
         compare_result_dicts(point, v)
 

@@ -4,7 +4,12 @@ import os
 import numpy as np
 import pytest
 
-from tests.utils import datagram_from_input, standard_datagram_test
+from tests.utils import (
+    datagram_from_input,
+    standard_datagram_test,
+    compare_result_dicts,
+    dg_get_quantity,
+)
 
 
 @pytest.mark.parametrize(
@@ -18,10 +23,18 @@ from tests.utils import datagram_from_input, standard_datagram_test
             {"case": "test1.spe", "parameters": {"tracetype": "phi.spe"}},
             {"nsteps": 1, "step": 0, "nrows": 1, "point": 0},
         ),
+        (  # ts2 - check concatenation
+            {
+                "files": ["test0.spe", "test0b.spe"],
+                "parameters": {"tracetype": "phi.spe"},
+            },
+            {"nsteps": 1, "step": 0, "nrows": 2, "point": 0},
+        ),
     ],
 )
 def test_datagram_from_xpstrace(input, ts, datadir):
     ret = datagram_from_input(input, "xpstrace", datadir)
+    print(f"{ret=}")
     standard_datagram_test(ret, ts)
 
 
@@ -36,13 +49,13 @@ def test_datagram_from_xpstrace(input, ts, datadir):
         ),
     ],
 )
-def test_compare_raw_values(input, datadir):
+def test_xpstrace_compare_raw_values(input, datadir):
     os.chdir(datadir)
     with open("test0.json", "r") as infile:
         ref = json.load(infile)["traces"]
-    ret = datagram_from_input(input, "xpstrace", datadir)
-    ret = ret["steps"][0]["data"][0]["raw"]["traces"]
-    for key in ret.keys():
-        for ax in ["E", "y"]:
-            for i in ["n", "s"]:
-                assert np.allclose(ref[key][ax][i], ret[key][ax][i], equal_nan=True)
+    dg = datagram_from_input(input, "xpstrace", datadir)
+    step = dg["0"]
+    for k in {"1su", "F1s"}:
+        for kk in {"y", "E"}:
+            ret = dg_get_quantity(step, k, col=kk, utsrow=0)
+            compare_result_dicts(ret, ref[k][kk])

@@ -2,7 +2,7 @@ from pydantic import BaseModel
 import json
 from zoneinfo import ZoneInfo
 from ... import dgutils
-from ..basiccsv.main import append_dicts, dicts_to_datasets
+from ..basiccsv.main import append_dicts, dicts_to_dataset
 from datatree import DataTree
 
 
@@ -51,7 +51,7 @@ def process(
             jsdata = json.load(inf)
 
         data_vals = {}
-        meta_vals = {"_fn": []}
+        meta_vals = {}
         for vi, vals in enumerate(jsdata["data"]):
             devs = {k: 0.0 for k, v in vals.items() if k != "time"}
             vals["uts"] = vals.pop("time")
@@ -62,6 +62,6 @@ def process(
             del kwargs["parser"]
         data_vals = {k: [v] for k, v in kwargs.items()}
         data_vals["uts"] = [dgutils.now()]
-        meta_vals = {"_fn": [str(fn)]}
+        meta_vals = {}
 
-    return dicts_to_datasets(data_vals, meta_vals, fulldate=False)
+    return dicts_to_dataset(data_vals, meta_vals, fulldate=False)

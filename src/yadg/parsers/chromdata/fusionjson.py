@@ -34,11 +34,13 @@ import json
 import logging
 from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
+import xarray as xr
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> xr.Dataset:
     """
     Fusion json format.
 
@@ -66,24 +68,27 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
     metadata = {
-        "filetype": "fusion.json",
-        "params": {
-            "method": jsdata.get("methodName", "n/a"),
-            "version": jsdata.get("softwareVersion", {}).get("version", None),
-            "datafile": jsdata.get("sequence", {}).get("location", None),
-            "username": None,
-        },
+        "method": jsdata.get("methodName", "n/a"),
+        "version": jsdata.get("softwareVersion", {}).get("version", None),
+        "datafile": jsdata.get("sequence", {}).get("location", None),
     }
-    chrom = {"fn": str(fn), "raw": {}}
-    chrom["uts"] = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
+    uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)
     if valve is not None:
-        chrom["raw"]["valve"] = valve
+        metadata["valve"] = valve
 
     sampleid = jsdata.get("annotations", {}).get("name", None)
     if sampleid is not None:
-        chrom["raw"]["sampleid"] = sampleid
+        metadata["sampleid"] = sampleid
+
+    units = {
+        "height": None,
+        "area": None,
+        "concentration": "%",
+        "xout": "%",
+        "retention time": "s",
+    }
 
     raw = {
         "height": {},
@@ -93,6 +98,8 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
         "retention time": {},
     }
 
+    species = set()
+
     # sort detector keys to ensure alphabetic order for ID matching
     for detname in sorted(jsdata["detectors"].keys()):
         detdict = jsdata["detectors"][detname]
@@ -100,39 +107,45 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
             for peak in detdict["analysis"]["peaks"]:
                 if "label" not in peak:
                     continue
+                else:
+                    species.add(peak["label"])
                 if "height" in peak:
-                    h = {"n": float(peak["height"]), "s": 1.0, "u": " "}
-                    raw["height"][peak["label"]] = h
+                    raw["height"][peak["label"]] = (float(peak["height"]), 1.0)
                 if "area" in peak:
-                    A = {"n": float(peak["area"]), "s": 0.01, "u": " "}
-                    raw["area"][peak["label"]] = A
+                    raw["area"][peak["label"]] = (float(peak["area"]), 0.01)
                 if "concentration" in peak:
-                    c = {
-                        "n": float(peak["concentration"]),
-                        "s": float(peak["concentration"]) * 1e-3,
-                        "u": "%",
-                    }
-                    raw["concentration"][peak["label"]] = c
+                    raw["concentration"][peak["label"]] = (
+                        float(peak["concentration"]),
+                        float(peak["concentration"]) * 1e-3,
+                    )
                 if "normalizedConcentration" in peak:
-                    x = {
-                        "n": float(peak["normalizedConcentration"]),
-                        "s": float(peak["normalizedConcentration"]) * 1e-3,
-                        "u": "%",
-                    }
-                    raw["xout"][peak["label"]] = x
+                    raw["xout"][peak["label"]] = (
+                        float(peak["normalizedConcentration"]),
+                        float(peak["normalizedConcentration"]) * 1e-3,
+                    )
                 if "top" in peak:
-                    rt = {
-                        "n": float(peak["top"]),
-                        "s": 0.01,
-                        "u": "s",
-                    }
-                    raw["retention time"][peak["label"]] = rt
+                    raw["retention time"][peak["label"]] = (float(peak["top"]), 0.01)
         else:
             logger.warning("'analysis' of chromatogram not present in file '%s'", fn)
 
-    for k in {"height", "area", "concentration", "xout", "retention time"}:
-        if raw[k] == 0:
-            del raw[k]
+    species = sorted(species)
+    data_vars = {}
+    for k, v in units.items():
+        vals, devs = zip(*[raw[k].get(s, (np.nan, np.nan)) for s in species])
+        data_vars[k] = (
+            ["uts", "species"],
+            [vals],
+            {"units": v, "ancillary_variables": f"{k}_std_err"},
+        )
+        data_vars[f"{k}_std_err"] = (
+            ["uts", "species"],
+            [devs],
+            {"units": v, "standard_name": f"{k} stdandard_error"},
+        )
 
-    chrom["raw"].update(raw)
-    return [chrom], metadata, True
+    ds = xr.Dataset(
+        data_vars=data_vars,
+        coords={"species": (["species"], species), "uts": (["uts"], [uts])},
+        attrs=metadata,
+    )
+    return ds

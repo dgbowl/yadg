@@ -37,5 +37,4 @@ def process(
 
     """
     if filetype == "quadstar.sac":
-        _data, _meta = quadstarsac.process(fn, encoding, timezone)
-    return _data, _meta, True
+        return quadstarsac.process(fn, encoding, timezone)

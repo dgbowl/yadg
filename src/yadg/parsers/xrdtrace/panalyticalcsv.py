@@ -156,36 +156,31 @@ def process(
     header["fulldate"] = True
     # Build Datasets
     vals = xr.Dataset(
-        data_vars=dict(
-            intensity=(
+        data_vars={
+            "intensity": (
                 ["uts", "angle"],
                 np.reshape(insty, (1, -1)),
-                {"units": "counts"},
-            )
-        ),
-        coords=dict(
-            uts=(["uts"], [uts]),
-            angle=(["angle"], list(angle), {"units": "deg"}),
-        ),
+                {"units": "counts", "ancillary_variables": "intensity_std_err"},
+            ),
+            "intensity_std_err": (
+                ["uts", "angle"],
+                np.reshape(idevs, (1, -1)),
+                {"units": "counts", "standard_name": "intensity standard_error"},
+            ),
+            "angle_std_err": (
+                ["uts", "angle"],
+                np.reshape(adiff, (1, -1)),
+                {"units": "deg", "standard_name": "angle standard_error"},
+            ),
+        },
+        coords={
+            "uts": (["uts"], [uts]),
+            "angle": (
+                ["angle"],
+                list(angle),
+                {"units": "deg", "ancillary_variables": "angle_std_err"},
+            ),
+        },
         attrs=header,
     )
-    devs = xr.Dataset(
-        data_vars=dict(
-            intensity=(
-                ["_uts", "_angle"],
-                np.reshape(idevs, (1, -1)),
-                {"units": "counts"},
-            ),
-            angle=(
-                ["_uts", "_angle"],
-                np.reshape(adiff, (1, -1)),
-                {"units": "deg"},
-            ),
-            _fn=(["_uts"], [str(fn)]),
-        ),
-        coords=dict(
-            _uts=(["_uts"], [uts]),
-            _angle=(["_angle"], list(angle), {"units": "deg"}),
-        ),
-    )
-    return vals, devs
+    return vals

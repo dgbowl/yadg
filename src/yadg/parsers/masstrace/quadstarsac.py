@@ -85,6 +85,8 @@ Structure of Parsed Timesteps
 """
 from typing import Any, Union
 import numpy as np
+from datatree import DataTree
+import xarray as xr
 
 # The general header at the top of .sac files.
 general_header_dtype = np.dtype(
@@ -171,44 +173,6 @@ def _read_value(
     return item.decode(encoding) if isinstance(item, bytes) else item
 
 
-def _read_values(
-    data: bytes, offset: int, dtype: np.dtype, count: int
-) -> Union[list, list[dict]]:
-    """Reads in multiple values from a buffer starting at offset.
-
-    Just a handy wrapper for np.frombuffer() with count >= 1.
-
-    The read values are converted to a list of built-in datatypes using
-    np.ndarray.tolist().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    count
-        Number of items to read. -1 means all data in the buffer.
-
-    Returns
-    -------
-    Any
-        The values read from the buffer as specified by the arguments.
-
-    """
-    values = np.frombuffer(data, offset=offset, dtype=dtype, count=count)
-    if values.dtype.names:
-        return [dict(zip(value.dtype.names, value.item())) for value in values]
-    # The ndarray.tolist() method converts numpy scalars in ndarrays to
-    # built-in python scalars. Thus not just list(values).
-    return values.tolist()
-
-
 def _find_first_data_position(scan_headers: list[dict]) -> int:
     """Finds the data position of the first scan containing any data."""
     for header in scan_headers:
@@ -247,30 +211,34 @@ def process(
     # multiplying this by 0.1 here.
     uts_base_ms = _read_value(sac, 0x00C6, "<u2") * 1e-1
     uts_base = uts_base_s + uts_base_ms * 1e-3
-    trace_headers = _read_values(sac, 0x00C8, trace_header_dtype, meta["n_traces"])
+    trace_headers = np.frombuffer(
+        sac,
+        offset=0x00C8,
+        dtype=trace_header_dtype,
+        count=meta["n_traces"],
+    )
     # Find the data position of the first data-containing timestep.
     data_pos_0 = _find_first_data_position(trace_headers)
-    timesteps = []
+    traces = {}
     for n in range(meta["n_timesteps"]):
         ts_offset = n * meta["timestep_length"]
         uts_offset_s = _read_value(sac, data_pos_0 - 0x0006 + ts_offset, "<u4")
         uts_offset_ms = _read_value(sac, data_pos_0 - 0x0002 + ts_offset, "<u2") * 1e-1
         uts_timestamp = uts_base + (uts_offset_s + uts_offset_ms * 1e-3)
-        traces = {}
-        for trace_number, header in enumerate(trace_headers):
+        for ti, header in enumerate(trace_headers):
             if header["type"] != 0x11:
                 continue
             info = _read_value(sac, header["info_position"], trace_info_dtype)
             # Construct the mass data.
             ndm = info["values_per_mass"]
-            m_values, dm = np.linspace(
+            mvals, dm = np.linspace(
                 info["first_mass"],
                 info["first_mass"] + info["scan_width"],
                 info["scan_width"] * ndm,
                 endpoint=False,
                 retstep=True,
             )
-            m = {"n": m_values.tolist(), "s": [dm] * len(m_values), "u": info["x_unit"]}
+            mdevs = np.ones(len(mvals)) * dm
             # Read and construct the y data.
             ts_data_pos = header["data_position"] + ts_offset
             # Determine the detector's full scale range.
@@ -278,42 +246,64 @@ def process(
             # The n_datapoints value at timestep_data_position is
             # sometimes wrong. Calculating this here works, however.
             n_datapoints = info["scan_width"] * info["values_per_mass"]
-            y_values = _read_values(sac, ts_data_pos + 0x0006, "<f4", n_datapoints)
+            yvals = np.frombuffer(
+                sac, offset=ts_data_pos + 0x0006, dtype="<f4", count=n_datapoints
+            ).copy()
             # Once a y_value leaves the FSR it jumps to the maximum
             # of a float32. These values should be NaNs instead.
-            y_values = [y if y <= fsr else float("NaN") for y in y_values]
+            yvals[yvals > fsr] = np.nan
             # TODO: Determine the correct accuracy from fsr. The 32bit
             # ADC is a guess that seems to put the error in the correct
             # order of magnitude.
-            sigma_adc = fsr / 2**32
-            sigma = []
-            # Contributions to neighboring masses.
-            for i in range(len(y_values)):
-                prev_neighbor = 0 if i < ndm else y_values[i - ndm]
-                next_neighbor = 0 if i > len(y_values) - ndm - 1 else y_values[i + ndm]
-                # The upper limit on contribution from peak at next
-                # integer mass is 50ppm.
-                sigma_neighbor = 50e-6 * max(prev_neighbor, next_neighbor)
-                sigma.append(max(sigma_adc, sigma_neighbor))
-            y = {
-                "n": y_values,
-                "s": sigma,
-                "u": info["y_unit"],
-            }
-            traces[str(trace_number)] = {
-                "y_title": info["y_title"],
-                "comment": info["comment"],
-                "fsr": f"{fsr:.0e}",
-                "m/z": m,
-                "y": y,
-            }
-        timesteps.append({"uts": uts_timestamp, "raw": {"traces": traces}, "fn": fn})
-    version = str(meta["version_major"]) + "." + str(meta["version_minor"])
-    metadata = {
-        "params": {
-            "software_id": meta["software_id"],
-            "version": version,
-            "username": meta["username"],
-        }
-    }
-    return timesteps, metadata
+            sigma_adc = np.ones(len(yvals)) * fsr / 2**32
+            # Determine error based on contributions of neighboring masses.
+            # The upper limit on contribution from peak at next integer mass is 50ppm.
+            prev_neighbor = np.roll(yvals, ndm)
+            prev_neighbor[:ndm] = np.nan
+            next_neighbor = np.roll(yvals, -ndm)
+            next_neighbor[-ndm:] = np.nan
+            sigma_neighbor = np.fmax(prev_neighbor, next_neighbor) * 50e-6
+            # Pick the maximum error here
+            ydevs = np.fmax(sigma_adc, sigma_neighbor)
+            ds = xr.Dataset(
+                data_vars={
+                    "fsr": fsr,
+                    "m/z_std_err": (
+                        ["m/z"],
+                        mdevs,
+                        {
+                            "units": info["x_unit"],
+                            "standard_name": "m/z standard_error",
+                        },
+                    ),
+                    "y": (
+                        ["uts", "m/z"],
+                        [yvals],
+                        {"units": info["y_unit"], "ancilliary_variables": "y_std_err"},
+                    ),
+                    "y_std_err": (
+                        ["uts", "m/z"],
+                        [ydevs],
+                        {"units": info["y_unit"], "standard_name": "y standard_error"},
+                    ),
+                },
+                coords={
+                    "m/z": (
+                        ["m/z"],
+                        mvals,
+                        {"units": info["x_unit"], "ancillary_variables": "m/z_std_err"},
+                    ),
+                    "uts": (["uts"], [uts_timestamp]),
+                },
+                attrs=info,
+            )
+            if f"{ti}" not in traces:
+                traces[f"{ti}"] = ds
+            else:
+                traces[f"{ti}"] = xr.concat(
+                    [traces[f"{ti}"], ds], dim="uts", combine_attrs="identical"
+                )
+
+    ret = DataTree.from_dict(traces)
+    ret.attrs = meta
+    return ret

@@ -47,11 +47,11 @@ def process(
     if filetype.startswith("drycal"):
 
         if filetype.endswith(".rtf") or fn.endswith("rtf"):
-            vals, devs = drycal.rtf(fn, encoding, timezone)
+            vals = drycal.rtf(fn, encoding, timezone)
         elif filetype.endswith(".csv") or fn.endswith("csv"):
-            vals, devs = drycal.sep(fn, ",", encoding, timezone)
+            vals = drycal.sep(fn, ",", encoding, timezone)
         elif filetype.endswith(".txt") or fn.endswith("txt"):
-            vals, devs = drycal.sep(fn, "\t", encoding, timezone)
+            vals = drycal.sep(fn, "\t", encoding, timezone)
 
         # check timestamps are increasing:
         warn = True
@@ -69,5 +69,4 @@ def process(
                 utslist[i] = uts
         vals["uts"] = DataArray(data=utslist, dims=["uts"])
         vals.attrs["fulldate"] = False
-        devs["_uts"] = DataArray(data=utslist, dims=["_uts"])
-    return vals, devs
+    return vals

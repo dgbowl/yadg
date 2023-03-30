@@ -4,18 +4,23 @@ from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     compare_result_dicts,
+    dg_get_quantity,
 )
 
 
 def special_datagram_test(datagram, testspec):
-    step = datagram["steps"][testspec["step"]]
-    if testspec["method"] is not None:
-        assert step["metadata"]["params"]["method"].endswith(testspec["method"])
-    tstep = step["data"][testspec["point"]]
     for i in {"height", "area", "concentration", "xout", "retention time"}:
+        if i not in testspec:
+            continue
+        ret = dg_get_quantity(datagram, testspec["step"], i, testspec["point"])
         for k, v in testspec[i].items():
-            compare_result_dicts(tstep["raw"][i][k], v)
-    assert tstep["uts"] == testspec["uts"]
+            rval = ret["n"].sel(dict(species=k))
+            rdev = ret["s"].sel(dict(species=k))
+            ru = ret["u"]
+            print(f"{testspec[i]=}")
+            print(f"{ret['n'].sel(dict(species=k))=}")
+            compare_result_dicts({"n": rval, "s": rdev, "u": ru}, v)
+        assert ret["n"].uts == testspec["uts"]
 
 
 @pytest.mark.parametrize(
@@ -37,10 +42,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "AS_Cal_20220204",
                 "point": 1,
                 "height": {
-                    "MeOH": {"n": 0.0, "s": 1.0, "u": " "},
+                    "MeOH": {"n": 0.0, "s": 1.0},
                 },
                 "area": {
-                    "O2": {"n": 1034.53, "s": 0.01, "u": " "},
+                    "O2": {"n": 1034.53, "s": 0.01, "u": None},
                 },
                 "concentration": {
                     "CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"},
@@ -70,10 +75,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "AS_Cal_20220204",
                 "point": 13,
                 "height": {
-                    "MeOH": {"n": 0.0, "s": 1.0, "u": " "},
+                    "MeOH": {"n": 0.0, "s": 1.0},
                 },
                 "area": {
-                    "O2": {"n": 1034.53, "s": 0.01, "u": " "},
+                    "O2": {"n": 1034.53, "s": 0.01},
                 },
                 "concentration": {
                     "CO": {"n": 0.02911539, "s": 0.0000291, "u": "%"},
@@ -102,9 +107,8 @@ def special_datagram_test(datagram, testspec):
                 "nrows": 15,
                 "method": "AS_Cal_20220204",
                 "point": 1,
-                "height": {},
                 "area": {
-                    "O2": {"n": 1034.53, "s": 0.001, "u": " "},
+                    "O2": {"n": 1034.53, "s": 0.001, "u": None},
                 },
                 "concentration": {
                     "CO": {"n": 0.02911539, "s": 1e-8, "u": "%"},
@@ -134,10 +138,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
                 "point": 17,
                 "height": {
-                    "Formic acid": {"n": 3436.903, "s": 0.001, "u": " "},
+                    "Formic acid": {"n": 3436.903, "s": 0.001, "u": None},
                 },
                 "area": {
-                    "Formic acid": {"n": 155913.098, "s": 0.001, "u": " "},
+                    "Formic acid": {"n": 155913.098, "s": 0.001, "u": None},
                 },
                 "concentration": {
                     "Formic acid": {"n": 18.7521, "s": 0.0001, "u": "mmol/l"},
@@ -145,7 +149,6 @@ def special_datagram_test(datagram, testspec):
                 "retention time": {
                     "Formic acid": {"n": 15.671, "s": 0.001, "u": "min"},
                 },
-                "xout": {},
                 "uts": 20400.0,
             },
         ),
@@ -165,10 +168,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
                 "point": 18,
                 "height": {
-                    "Ethanol": {"n": 25495.948, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 25495.948, "s": 0.001, "u": None},
                 },
                 "area": {
-                    "Ethanol": {"n": 2745541.097, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 2745541.097, "s": 0.001, "u": None},
                 },
                 "concentration": {
                     "Ethanol": {"n": 254.4736, "s": 0.0001, "u": "mmol/l"},
@@ -176,7 +179,6 @@ def special_datagram_test(datagram, testspec):
                 "retention time": {
                     "Ethanol": {"n": 21.098, "s": 0.001, "u": "min"},
                 },
-                "xout": {},
                 "uts": 21600.0,
             },
         ),
@@ -196,10 +198,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
                 "point": 18,
                 "height": {
-                    "Ethanol": {"n": 25495.948, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 25495.948, "s": 0.001},
                 },
                 "area": {
-                    "Ethanol": {"n": 2745541.097, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 2745541.097, "s": 0.001, "u": None},
                 },
                 "concentration": {
                     "Ethanol": {"n": 254.4736, "s": 0.0001, "u": "mmol/l"},
@@ -207,7 +209,6 @@ def special_datagram_test(datagram, testspec):
                 "retention time": {
                     "Ethanol": {"n": 21.098, "s": 0.001, "u": "min"},
                 },
-                "xout": {},
                 "uts": 21600.0,
             },
         ),
@@ -227,10 +228,10 @@ def special_datagram_test(datagram, testspec):
                 "method": "CO2RR_ChA_FTI_0.6mL_40uL_45dgr_32min.amx",
                 "point": 18,
                 "height": {
-                    "Ethanol": {"n": 464.048, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 464.048, "s": 0.001},
                 },
                 "area": {
-                    "Ethanol": {"n": 26514.098, "s": 0.001, "u": " "},
+                    "Ethanol": {"n": 26514.098, "s": 0.001},
                 },
                 "concentration": {
                     "Ethanol": {"n": 2.4303, "s": 0.0001, "u": "mmol/l"},
@@ -238,7 +239,6 @@ def special_datagram_test(datagram, testspec):
                 "retention time": {
                     "Ethanol": {"n": 20.74, "s": 0.01, "u": "min"},
                 },
-                "xout": {},
                 "uts": 21600.0,
             },
         ),

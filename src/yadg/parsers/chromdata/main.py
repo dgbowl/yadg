@@ -46,14 +46,12 @@ def process(
         supported file formats return full date.
     """
     if filetype == "fusion.json":
-        data, meta, fulldate = fusionjson.process(fn, encoding, timezone)
+        return fusionjson.process(fn, encoding, timezone)
     elif filetype == "fusion.zip":
-        data, meta, fulldate = fusionzip.process(fn, encoding, timezone)
+        return fusionzip.process(fn, encoding, timezone)
     elif filetype == "fusion.csv":
-        data, meta, fulldate = fusioncsv.process(fn, encoding, timezone)
+        return fusioncsv.process(fn, encoding, timezone)
     elif filetype == "empalc.csv":
-        data, meta, fulldate = empalccsv.process(fn, encoding, timezone)
+        return empalccsv.process(fn, encoding, timezone)
     elif filetype == "empalc.xlsx":
-        data, meta, fulldate = empalcxlsx.process(fn, encoding, timezone)
-
-    return data, meta, fulldate
+        return empalcxlsx.process(fn, encoding, timezone)

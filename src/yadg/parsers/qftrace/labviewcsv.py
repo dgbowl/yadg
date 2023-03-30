@@ -82,24 +82,50 @@ def process(
 
     vals = xr.Dataset(
         data_vars={
-            "Re(G)": (["uts", "freq"], np.reshape(real["vals"], (1, -1))),
-            "Im(G)": (["uts", "freq"], np.reshape(imag["vals"], (1, -1))),
-            "average": (["uts"], [avg]),
-            "bandwith": (["uts"], [bw[0]], {"units": "Hz"}),
+            "Re(G)": (
+                ["freq"],
+                real["vals"],
+                {"ancillary_variables": "Re(G)_std_err"},
+            ),
+            "Re(G)_std_err": (
+                ["freq"],
+                real["devs"],
+                {"standard_name": "Re(G) standard_error"},
+            ),
+            "Im(G)": (
+                ["freq"],
+                imag["vals"],
+                {"ancillary_variables": "Im(G)_std_err"},
+            ),
+            "Im(G)_std_err": (
+                ["freq"],
+                imag["devs"],
+                {"standard_name": "Im(G) standard_error"},
+            ),
+            "average": avg,
+            "bandwith": (
+                [],
+                bw[0],
+                {"units": "Hz", "ancillary_variables": "bandwidth_std_err"},
+            ),
+            "bandwith_std_err": (
+                [],
+                bw[1],
+                {"units": "Hz", "standard_name": "bandwidth standard_error"},
+            ),
         },
-        coords={"freq": (["freq"], freq["vals"], {"units": "Hz"})},
-        attrs={"fulldate": False},
+        coords={
+            "freq": (
+                ["freq"],
+                freq["vals"],
+                {"units": "Hz", "ancillary_variables": "freq_std_err"},
+            ),
+            "freq_std_err": (
+                ["freq"],
+                freq["devs"],
+                {"units": "Hz", "standard_name": "freq standard_error"},
+            ),
+        },
     )
 
-    devs = xr.Dataset(
-        data_vars={
-            "Re(G)": (["_uts", "_freq"], np.reshape(real["devs"], (1, -1))),
-            "Im(G)": (["_uts", "_freq"], np.reshape(imag["devs"], (1, -1))),
-            "bandwith": (["_uts"], [bw[1]], {"units": "Hz"}),
-            "freq": (["_freq"], freq["devs"], {"units": "Hz"}),
-        },
-        coords={"_freq": (["_freq"], freq["vals"], {"units": "Hz"})},
-        attrs={"fulldate": False},
-    )
-
-    return vals, devs
+    return vals

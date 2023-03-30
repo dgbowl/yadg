@@ -22,6 +22,7 @@ Exposed metadata:
 import zipfile
 import tempfile
 import os
+import xarray as xr
 
 from .fusionjson import process as processjson
 
@@ -54,18 +55,13 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
-        chroms = []
-        meta = {}
-        fd = True
+        ds = None
         for ffn in sorted(os.listdir(tempdir)):
             ffn = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                _chrom, _meta, _fd = processjson(ffn, encoding, timezone)
-                for ts in _chrom:
-                    ts["fn"] = str(fn)
-                    chroms.append(ts)
-                if _meta is not None:
-                    meta.update(_meta)
-                meta["params"]["datafile"] = str(ffn)
-                fd = fd and _fd
-    return chroms, meta, fd
+                ids = processjson(ffn, encoding, timezone)
+                if ds is None:
+                    ds = ids
+                else:
+                    ds = xr.concat([ds, ids], dim="uts", combine_attrs="identical")
+    return ds

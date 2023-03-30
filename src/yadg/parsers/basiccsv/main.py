@@ -100,12 +100,13 @@ def append_dicts(
             meta[k].append(np.nan)
 
 
-def dicts_to_datasets(
+def dicts_to_dataset(
     data: dict[str, list[Any]],
     meta: dict[str, list[Any]],
     units: dict[str, str] = dict(),
     fulldate: bool = True,
 ) -> DataTree:
+    darrs = {}
     for k, v in data.items():
         attrs = {}
         u = units.get(k, None)
@@ -113,16 +114,14 @@ def dicts_to_datasets(
             attrs["units"] = u
         if k == "uts":
             continue
-        data[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
-
-    for k, v in meta.items():
-        meta[k] = DataArray(data=v, dims=["_uts"])
-
+        darrs[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+        if k in meta:
+            err = f"{k}_std_err"
+            darrs[k].attrs["ancillary_variables"] = err
+            attrs["standard_name"] = f"{k} standard error"
+            darrs[err] = DataArray(data=meta[k], dims=["uts"], attrs=attrs)
     uts = data.pop("uts")
-
-    vals = Dataset(data_vars=data, coords=dict(uts=uts), attrs=dict(fulldate=fulldate))
-    devs = Dataset(data_vars=meta, coords=dict(_uts=uts))
-    return vals, devs
+    return Dataset(data_vars=darrs, coords=dict(uts=uts), attrs=dict(fulldate=fulldate))
 
 
 def process(
@@ -214,4 +213,4 @@ def process(
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    return dicts_to_datasets(data_vals, meta_vals, units, fulldate)
+    return dicts_to_dataset(data_vals, meta_vals, units, fulldate)

@@ -7,6 +7,7 @@ import numpy as np
 import pint
 from typing import Union
 from datatree import DataTree
+import xarray as xr
 from dgbowl_schemas import to_dataschema
 
 
@@ -141,10 +142,17 @@ def standard_datagram_test(datagram, testspec):
     else:
         name = list(datagram.children.keys())[testspec["step"]]
         step = datagram[name]
-    assert len(step["uts"]) == testspec["nrows"], (
-        "wrong number of timesteps in a step: "
-        f"ret: {len(step)}, ref: {testspec['nrows']}"
-    )
+    if len(step.children) > 0:
+        for k, v in step.items():
+            assert len(v["uts"]) == testspec["nrows"], (
+                f"wrong number of timesteps in a child Dataset {k}: "
+                f"ret: {len(v['uts'])}, ref: {testspec['nrows']}"
+            )
+    if "uts" in step:
+        assert len(step["uts"]) == testspec["nrows"], (
+            "wrong number of timesteps in a step: "
+            f"ret: {len(v['uts'])}, ref: {testspec['nrows']}"
+        )
 
 
 def pars_datagram_test(datagram, testspec):
@@ -158,7 +166,7 @@ def pars_datagram_test(datagram, testspec):
         if "unit" in tv:
             assert step[tk].attrs.get("units", None) == tv["unit"]
         if "sigma" in tv:
-            sigmas = step["_yadg.meta"][tk]
+            sigmas = step[f"{tk}_std_err"]
             if sigmas.size == step[tk].size:
                 sig = sigmas[testspec["point"]]
             else:
@@ -183,14 +191,13 @@ def dg_get_quantity(
     else:
         name = list(dt.children.keys())[step]
     vals = dt[name].ds
-    devs = dt[name]["_yadg.meta"].ds
 
     if utsrow is None:
         n = vals[col]
-        d = devs[col]
+        d = vals[f"{col}_std_err"]
     else:
         n = vals.isel(uts=utsrow)[col]
-        d = devs.isel(_uts=utsrow)[col]
+        d = vals.isel(uts=utsrow)[f"{col}_std_err"]
     u = vals[col].attrs.get("units", None)
 
     return {"n": n, "s": d, "u": u}

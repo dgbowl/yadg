@@ -245,40 +245,43 @@ def process(
     meta["fulldate"] = True
     # Build Datasets
     vals = xr.Dataset(
-        data_vars=dict(
-            intensity=(
+        data_vars={
+            "intensity": (
                 ["uts", "angle"],
                 np.reshape(data["intensity"]["vals"], (1, -1)),
-                {"units": data["intensity"]["unit"]},
-            )
-        ),
-        coords=dict(
-            uts=(["uts"], [data["uts"]]),
-            angle=(["angle"], data["angle"]["vals"], {"units": data["angle"]["unit"]}),
-        ),
+                {
+                    "units": data["intensity"]["unit"],
+                    "ancillary_variables": "intensity_std_err",
+                },
+            ),
+            "intensity_std_err": (
+                ["uts", "angle"],
+                np.reshape(data["intensity"]["devs"], (1, -1)),
+                {
+                    "units": data["intensity"]["unit"],
+                    "standard_name": "intensity standard_error",
+                },
+            ),
+            "angle_std_err": (
+                ["uts", "angle"],
+                np.reshape(data["angle"]["devs"], (1, -1)),
+                {
+                    "units": data["angle"]["unit"],
+                    "standard_name": "angle standard_error",
+                },
+            ),
+        },
+        coords={
+            "uts": (["uts"], [data["uts"]]),
+            "angle": (
+                ["angle"],
+                data["angle"]["vals"],
+                {
+                    "units": data["angle"]["unit"],
+                    "ancillary_variables": "angle_std_err",
+                },
+            ),
+        },
         attrs=meta,
     )
-    devs = xr.Dataset(
-        data_vars=dict(
-            intensity=(
-                ["_uts", "_angle"],
-                np.reshape(data["intensity"]["devs"], (1, -1)),
-                {"units": data["intensity"]["unit"]},
-            ),
-            angle=(
-                ["_uts", "_angle"],
-                np.reshape(data["angle"]["devs"], (1, -1)),
-                {"units": data["angle"]["unit"]},
-            ),
-            _fn=(["_uts"], [str(fn)]),
-        ),
-        coords=dict(
-            _uts=(["_uts"], [data["uts"]]),
-            _angle=(
-                ["_angle"],
-                list(data["angle"]["vals"]),
-                {"units": data["angle"]["unit"]},
-            ),
-        ),
-    )
-    return vals, devs
+    return vals

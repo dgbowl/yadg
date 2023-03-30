@@ -12,7 +12,7 @@ parsed from the prefix of the filename.
 .. codeauthor:: Peter Kraus
 """
 from striprtf.striprtf import rtf_to_text
-from ..basiccsv.main import process_row, append_dicts, dicts_to_datasets
+from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils
 from pydantic import BaseModel, Extra
 from typing import Optional
@@ -96,7 +96,7 @@ def rtf(
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
         append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return dicts_to_datasets(data_vals, meta_vals, units, False)
+    return dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def sep(
@@ -172,7 +172,7 @@ def sep(
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
         append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return dicts_to_datasets(data_vals, meta_vals, units, False)
+    return dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:

@@ -4,7 +4,12 @@ import os
 import numpy as np
 import pytest
 
-from tests.utils import datagram_from_input, standard_datagram_test
+from tests.utils import (
+    datagram_from_input,
+    standard_datagram_test,
+    dg_get_quantity,
+    compare_result_dicts,
+)
 
 # Tests for the quadstar parser:
 # TODO: Implement more thorough tests.
@@ -36,7 +41,6 @@ from tests.utils import datagram_from_input, standard_datagram_test
 def test_datagram_from_quadstar(input, ts, datadir):
     ret = datagram_from_input(input, "masstrace", datadir)
     standard_datagram_test(ret, ts)
-    # pars_datagram_test(ret, ts)
 
 
 @pytest.mark.parametrize(
@@ -50,13 +54,14 @@ def test_datagram_from_quadstar(input, ts, datadir):
         ),
     ],
 )
-def test_compare_raw_values(input, datadir):
+def test_masstrace_compare_raw_values(input, datadir):
     os.chdir(datadir)
     with open("test_traces.json", "r") as infile:
         ref = json.load(infile)["traces"]
-    ret = datagram_from_input(input, "masstrace", datadir)
-    ret = ret["steps"][0]["data"][0]["raw"]["traces"]
-    for key in ret.keys():
-        for ax in ["m/z", "y"]:
-            for i in ["n", "s"]:
-                assert np.allclose(ref[key][ax][i], ret[key][ax][i], equal_nan=True)
+    dg = datagram_from_input(input, "masstrace", datadir)
+    step = dg["0"]
+    for k in ["1", "2"]:
+        for kk in ["m/z", "y"]:
+            print(f"{k=}, {kk=}")
+            ret = dg_get_quantity(step, k, col=kk, utsrow=0)
+            compare_result_dicts(ret, ref[k][kk])

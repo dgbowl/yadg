@@ -1,6 +1,7 @@
 import logging
 from pydantic import BaseModel
 from zoneinfo import ZoneInfo
+import xarray as xr
 
 from . import (
     fusionjson,
@@ -21,7 +22,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> xr.Dataset:
     """
     Unified chromatographic data parser.
 

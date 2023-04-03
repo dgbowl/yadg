@@ -1,6 +1,8 @@
 import logging
 from zoneinfo import ZoneInfo
 from pydantic import BaseModel
+import xarray as xr
+
 from . import (
     ezchromasc,
     agilentcsv,
@@ -21,7 +23,7 @@ def process(
     locale: str,
     filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+) -> xr.Dataset:
     """
     Unified raw chromatogram parser.
 
@@ -50,26 +52,14 @@ def process(
         supported file formats return full date.
     """
     if filetype == "ezchrom.asc":
-        _data, _meta = ezchromasc.process(fn, encoding, timezone)
+        return ezchromasc.process(fn, encoding, timezone)
     elif filetype == "agilent.csv":
-        _data, _meta = agilentcsv.process(fn, encoding, timezone)
+        return agilentcsv.process(fn, encoding, timezone)
     elif filetype == "agilent.dx":
-        _data, _meta = agilentdx.process(fn, encoding, timezone)
+        return agilentdx.process(fn, encoding, timezone)
     elif filetype == "agilent.ch":
-        _data, _meta = agilentch.process(fn, encoding, timezone)
+        return agilentch.process(fn, encoding, timezone)
     elif filetype == "fusion.json":
-        _data, _meta = fusionjson.process(fn, encoding, timezone)
+        return fusionjson.process(fn, encoding, timezone)
     elif filetype == "fusion.zip":
-        _data, _meta = fusionzip.process(fn, encoding, timezone)
-
-    results = []
-    for chrom in _data:
-        result = {}
-        result["uts"] = chrom.pop("uts")
-        result["fn"] = chrom.pop("fn")
-        result["raw"] = {}
-        result["raw"].update(chrom.pop("raw", {}))
-        result["raw"].update(chrom)
-        results.append(result)
-
-    return results, _meta, True
+        return fusionzip.process(fn, encoding, timezone)

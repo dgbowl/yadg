@@ -6,21 +6,15 @@ This is a fairly detailed data format, including the traces, the calibration app
 and also the integrated peak areas. If the peak areas are present, this is returned
 in the list of timesteps as a ``"peaks"`` entry.
 
-.. note ::
-    The detectors in the trace data are not necessarily in a consistent order, which
-    may change between different files. Hence, the keys are sorted.
-
 Exposed metadata:
 `````````````````
 
 .. code-block:: yaml
 
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: None
-      version:  !!str
-      datafile: !!str
+    method:   !!str
+    sampleid: !!str
+    version:  !!str
+    datafile: !!str
 
 .. codeauthor:: Peter Kraus
 """
@@ -28,9 +22,11 @@ import json
 from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import str_to_uts
+import xarray as xr
+from datatree import DataTree
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
+def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
     """
     Fusion json format.
 
@@ -57,54 +53,59 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
 
     Returns
     -------
-    ([chrom], metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    dt: DataTree
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
     metadata = {
-        "filetype": "fusion.json",
-        "params": {
-            "method": jsdata.get("methodName", "n/a"),
-            "sampleid": jsdata.get("annotations", {}).get("name", None),
-            "version": jsdata.get("softwareVersion", {}).get("version", None),
-            "datafile": jsdata.get("sequence", {}).get("location", None),
-            "username": None,
-        },
+        "method": jsdata.get("methodName", "n/a"),
+        "sampleid": jsdata.get("annotations", {}).get("name", None),
+        "version": jsdata.get("softwareVersion", {}).get("version", None),
+        "datafile": jsdata.get("sequence", {}).get("location", None),
     }
-    chrom = {"fn": str(fn), "traces": {}, "raw": {}}
-    chrom["uts"] = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
-    detid = 0
+    uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)
     if valve is not None:
-        chrom["raw"]["valve"] = valve
+        metadata["valve"] = valve
 
     # sort detector keys to ensure alphabetic order for ID matching
-    for detname in sorted(jsdata["detectors"].keys()):
+    traces = sorted(jsdata["detectors"].keys())
+    vals = {}
+    for detname in traces:
         detdict = jsdata["detectors"][detname]
-        trace = {"id": detid}
-        detid += 1
-        xmul = detdict["nValuesPerSecond"]
-        npoints = detdict["nValuesExpected"]
-        assert (
-            len(detdict["values"]) == npoints
-        ), f"fusion: Inconsistent trace length in file {fn}."
-        xsn = np.arange(npoints) / xmul
-        xss = np.ones(npoints) / xmul
-        ysn = np.array(detdict["values"])
-        yss = np.ones(npoints)
-        trace["t"] = {
-            "n": xsn.tolist(),
-            "s": xss.tolist(),
-            "u": "s",
-        }
-        trace["y"] = {
-            "n": ysn.tolist(),
-            "s": yss.tolist(),
-            "u": " ",
-        }
-        chrom["traces"][detname] = trace
+        fvals = xr.Dataset(
+            data_vars={
+                "signal": (
+                    ["uts", "elution_time"],
+                    [detdict["values"]],
+                    {"units": None, "ancillary_variables": "signal_std_err"},
+                ),
+                "signal_std_err": (
+                    ["uts", "elution_time"],
+                    [np.ones(detdict["nValuesExpected"])],
+                    {"units": None, "standard_name": "signal standard_error"},
+                ),
+                "elution_time_std_err": (
+                    ["elution_time"],
+                    np.ones(detdict["nValuesExpected"]) / detdict["nValuesPerSecond"],
+                    {"units": "s", "standard_name": "elution_time standard_error"},
+                ),
+            },
+            coords={
+                "elution_time": (
+                    ["elution_time"],
+                    np.arange(detdict["nValuesExpected"]) / detdict["nValuesPerSecond"],
+                    {"units": "s", "ancillary_variables": "elution_time_std_err"},
+                ),
+                "uts": (["uts"], [uts]),
+            },
+            attrs={},
+        )
+        vals[detname] = fvals
 
-    return [chrom], metadata
+    dt = DataTree.from_dict(vals)
+    dt.attrs = metadata
+    return dt

@@ -146,17 +146,12 @@ def process_schema(dataschema: DataSchema) -> dict:
             elif isinstance(vals, DataTree):
                 for k, v in fvals.items():
                     if k in vals:
-                        # print(f"{k=}")
-                        # print(f"{vals[k].ds=}")
-                        # print(f"{v.ds=}")
                         newv = xr.concat(
                             [vals[k].ds, v.ds], dim="uts", combine_attrs="identical"
                         )
-                        # print(f"{newv=}")
                     else:
-                        newv = fvals[k].ds
+                        newv = v.ds
                     vals[k] = DataTree(newv)
-            print(f"{vals=}")
         if isinstance(vals, xr.Dataset):
             stepdt = DataTree.from_dict({"/": vals})
         elif isinstance(vals, DataTree):

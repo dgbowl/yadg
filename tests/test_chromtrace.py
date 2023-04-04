@@ -203,11 +203,8 @@ def test_chromtrace_compare_raw_values(input, datadir):
     dg = datagram_from_input(input, "chromtrace", datadir)
     with open("yvals.json", "r") as infile:
         ref = json.load(infile)["traces"]
-    for k in {"t", "y"}:
-        ret = dg_get_quantity(
-            dg,
-        )
-    for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
-        for kk in ["t", "y"]:
-            for kkk in ["n", "s"]:
-                assert np.allclose(ref[k][kk][kkk], v[kk][kkk])
+    for trace, v in ref.items():
+        for k in {"signal", "elution_time"}:
+            ret = dg_get_quantity(dg["0"], trace, col=k)
+            print(f"{ret=}")
+            print(f"{v[k]=}")

@@ -40,7 +40,7 @@ settings_dtypes = {
 # Maps the flag column ID bytes to the corresponding bitmask and name.
 flag_columns = {
     0x0001: (0b00000011, "mode"),
-    0x0002: (0b00000100, "ox/red"),
+    0x0002: (0b00000100, "ox or red"),
     0x0003: (0b00001000, "error"),
     0x0015: (0b00010000, "control changes"),
     0x001F: (0b00100000, "Ns changes"),
@@ -122,7 +122,7 @@ data_columns = {
     0x01B3: ("<f4", "dQ", "C"),
     0x01B9: ("<f4", "<Ece>", "V"),
     0x01CE: ("<f4", "Temperature", "°C"),
-    0x01D3: ("<f8", "Q charge/discharge", "mA·h"),
+    0x01D3: ("<f8", "Q charge or discharge", "mA·h"),
     0x01D4: ("<u4", "half cycle", None),
     0x01D5: ("<u4", "z cycle", None),
     0x01D7: ("<f4", "<Ece>", "V"),

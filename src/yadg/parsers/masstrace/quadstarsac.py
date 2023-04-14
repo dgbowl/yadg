@@ -268,30 +268,33 @@ def process(
             ds = xr.Dataset(
                 data_vars={
                     "fsr": fsr,
-                    "m/z_std_err": (
-                        ["m/z"],
+                    "mass_to_charge_std_err": (
+                        ["mass_to_charge"],
                         mdevs,
                         {
                             "units": info["x_unit"],
-                            "standard_name": "m/z standard_error",
+                            "standard_name": "mass_to_charge standard_error",
                         },
                     ),
                     "y": (
-                        ["uts", "m/z"],
+                        ["uts", "mass_to_charge"],
                         [yvals],
                         {"units": info["y_unit"], "ancilliary_variables": "y_std_err"},
                     ),
                     "y_std_err": (
-                        ["uts", "m/z"],
+                        ["uts", "mass_to_charge"],
                         [ydevs],
                         {"units": info["y_unit"], "standard_name": "y standard_error"},
                     ),
                 },
                 coords={
-                    "m/z": (
-                        ["m/z"],
+                    "mass_to_charge": (
+                        ["mass_to_charge"],
                         mvals,
-                        {"units": info["x_unit"], "ancillary_variables": "m/z_std_err"},
+                        {
+                            "units": info["x_unit"],
+                            "ancillary_variables": "mass_to_charge_std_err",
+                        },
                     ),
                     "uts": (["uts"], [uts_timestamp]),
                 },

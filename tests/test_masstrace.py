@@ -61,7 +61,7 @@ def test_masstrace_compare_raw_values(input, datadir):
     dg = datagram_from_input(input, "masstrace", datadir)
     step = dg["0"]
     for k in ["1", "2"]:
-        for kk in ["m/z", "y"]:
+        for kk in ["mass_to_charge", "y"]:
             print(f"{k=}, {kk=}")
             ret = dg_get_quantity(step, k, col=kk, utsrow=0)
             compare_result_dicts(ret, ref[k][kk])

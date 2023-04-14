@@ -3,13 +3,11 @@ import importlib
 from typing import Callable
 from zoneinfo import ZoneInfo
 from dgbowl_schemas.yadg import DataSchema
-
-# from .datatree_shim import to_datatree
-from .. import dgutils, core
-
 from datatree import DataTree
 import xarray as xr
 import numpy as np
+from .. import dgutils, core
+
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +39,7 @@ def _infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         raise e
 
 
-def process_schema(dataschema: DataSchema) -> dict:
+def process_schema(dataschema: DataSchema) -> DataTree:
     """
     Main worker function of **yadg**.
 
@@ -56,7 +54,7 @@ def process_schema(dataschema: DataSchema) -> dict:
 
     Returns
     -------
-    datagram: dict
+    datagram: DataTree
         An unvalidated `datagram`. The `parser`\\ s included in **yadg** should return
         a valid `datagram`; any custom `parser`\\ s might not do so. Use the function
         :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
@@ -115,6 +113,10 @@ def process_schema(dataschema: DataSchema) -> dict:
                 tasks = [(None, fvals)]
             for task in tasks:
                 name, dset = task
+                for k in dset:
+                    assert (
+                        "/" not in k
+                    ), f"The character '/' cannot be used in variable names: '{k}'."
                 if not hasattr(dset, "uts"):
                     dset = dset.expand_dims("uts")
                 if len(dset.uts.coords) == 0:
@@ -130,7 +132,6 @@ def process_schema(dataschema: DataSchema) -> dict:
                         spec=step.externaldate,
                         timezone=tz,
                     )
-                    print(f"{ts=}")
                     dset["uts"] = ts
                     if fulldate:
                         dset.attrs.pop("fulldate", None)

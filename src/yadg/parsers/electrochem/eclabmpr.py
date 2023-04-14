@@ -707,5 +707,4 @@ def process(
     if fulldate:
         del ds.attrs["fulldate"]
     ds.attrs.update(metadata)
-    print(ds.attrs)
     return ds

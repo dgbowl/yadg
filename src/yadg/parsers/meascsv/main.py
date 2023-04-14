@@ -54,6 +54,12 @@ def process(
         lines = [i.strip() for i in infile.readlines()]
 
     headers = [i.strip() for i in lines.pop(0).split(";")]
+
+    for hi, header in enumerate(headers):
+        if "/" in header:
+            logger.warning("Replacing '/' for '_' in header '%s'.", header)
+            headers[hi] = header.replace("/", "_")
+
     _units = [i.strip() for i in lines.pop(0).split(";")]
     units = {}
     for h in headers:

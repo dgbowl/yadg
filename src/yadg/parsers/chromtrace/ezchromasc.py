@@ -175,5 +175,4 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
         vals[ti] = fvals
     dt = DataTree.from_dict(vals)
     dt.attrs = metadata
-    print(f"{dt=}")
     return dt

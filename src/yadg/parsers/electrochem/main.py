@@ -30,31 +30,13 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and full date tag. The currently
-        implemented parsers all return full date.
+    ds: xr.Dataset
+
 
     """
-    transpose = parameters.transpose if hasattr(parameters, "transpose") else True
     if filetype == "eclab.mpr":
-        data, meta, fulldate = eclabmpr.process(
-            fn,
-            encoding,
-            timezone,
-            transpose,
-        )
+        return eclabmpr.process(fn, timezone)
     elif filetype == "eclab.mpt":
-        data, meta, fulldate = eclabmpt.process(
-            fn,
-            encoding,
-            timezone,
-            transpose,
-        )
+        return eclabmpt.process(fn, encoding, locale, timezone)
     elif filetype == "tomato.json":
-        data, meta, fulldate = tomatojson.process(
-            fn,
-            encoding,
-            timezone,
-            transpose,
-        )
-    return data, meta, fulldate
+        return tomatojson.process(fn)

@@ -120,8 +120,15 @@ def dicts_to_dataset(
             darrs[k].attrs["ancillary_variables"] = err
             attrs["standard_name"] = f"{k} standard error"
             darrs[err] = DataArray(data=meta[k], dims=["uts"], attrs=attrs)
-    uts = data.pop("uts")
-    return Dataset(data_vars=darrs, coords=dict(uts=uts), attrs=dict(fulldate=fulldate))
+    if "uts" in data:
+        coords = dict(uts=data.pop("uts"))
+    else:
+        coords = dict()
+    if fulldate:
+        attrs = dict()
+    else:
+        attrs = dict(fulldate=False)
+    return Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process(

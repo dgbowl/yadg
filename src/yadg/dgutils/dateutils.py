@@ -295,7 +295,7 @@ def complete_timestamps(
     delta = None
 
     fulldate = True
-
+    print(f"{spec=}")
     if spec is not None:
         replace = spec.mode == "replace"
         method = spec.using

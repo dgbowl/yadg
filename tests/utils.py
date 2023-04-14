@@ -112,6 +112,43 @@ def _schema_4_2(input, parser, version):
     return schema
 
 
+def _schema_5_0(input, parser, version):
+    if "files" in input:
+        files = input["files"]
+    elif "case" in input:
+        files = [input["case"]]
+    elif "folders" in input:
+        files = input["folders"]
+    else:
+        raise ValueError()
+    schema = {
+        "metadata": {
+            "provenance": {"type": "datagram_from_input"},
+            "version": version,
+        },
+        "steps": [
+            {
+                "parser": parser,
+                "input": {
+                    "prefix": input.get("prefix", None),
+                    "suffix": input.get("suffix", None),
+                    "contains": input.get("contains", None),
+                    "files": files,
+                },
+                "extractor": {
+                    "filetype": input["parameters"].pop("filetype"),
+                    "timezone": input.get("timezone", "UTC"),
+                    "locale": input.get("locale", "en_GB.UTF-8"),
+                    "encoding": input.get("encoding", "UTF-8"),
+                },
+                "parameters": input.get("parameters", None),
+                "externaldate": input.get("externaldate", None),
+            }
+        ],
+    }
+    return schema
+
+
 def datagram_from_file(infile, datadir):
     os.chdir(datadir)
     with open(infile, "r") as f:
@@ -130,8 +167,11 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
         schema = _schema_4_1(input, parser, version)
     elif version in {"4.2"}:
         schema = _schema_4_2(input, parser, version)
+    elif version in {"5.0"}:
+        schema = _schema_5_0(input, parser, version)
     os.chdir(datadir)
     ds = to_dataschema(**schema)
+    print(f"{ds=}")
     return yadg.core.process_schema(ds)
 
 
@@ -151,18 +191,21 @@ def standard_datagram_test(datagram, testspec):
     if "uts" in step:
         assert len(step["uts"]) == testspec["nrows"], (
             "wrong number of timesteps in a step: "
-            f"ret: {len(v['uts'])}, ref: {testspec['nrows']}"
+            f"ret: {len(step['uts'])}, ref: {testspec['nrows']}"
         )
 
 
-def pars_datagram_test(datagram, testspec):
+def pars_datagram_test(datagram, testspec, atol=0):
     if isinstance(testspec["step"], str):
-        step = datagram[f"{testspec['step']}"]
+        name = step
     else:
         name = list(datagram.children.keys())[testspec["step"]]
-        step = datagram[name]
+    step = datagram[name]
+    print(f"{step=}")
     for tk, tv in testspec["pars"].items():
-        assert np.array_equal(step[tk][testspec["point"]], tv["value"], equal_nan=True)
+        np.testing.assert_allclose(
+            step[tk][testspec["point"]], tv["value"], equal_nan=True, atol=atol
+        )
         if "unit" in tv:
             assert step[tk].attrs.get("units", None) == tv["unit"]
         if "sigma" in tv:
@@ -171,7 +214,8 @@ def pars_datagram_test(datagram, testspec):
                 sig = sigmas[testspec["point"]]
             else:
                 sig = sigmas
-            assert np.array_equal(sig, tv["sigma"], equal_nan=True)
+            np.testing.assert_allclose(sig, tv["sigma"], equal_nan=True, atol=atol)
+            # assert np.array_equal(sig, tv["sigma"], equal_nan=True)
 
 
 def compare_result_dicts(result, reference, atol=1e-6):
@@ -194,10 +238,16 @@ def dg_get_quantity(
 
     if utsrow is None:
         n = vals[col]
-        d = vals[f"{col}_std_err"]
     else:
         n = vals.isel(uts=utsrow)[col]
+
+    if f"{col}_std_err" not in vals:
+        return n
+    elif utsrow is None:
+        d = vals[f"{col}_std_err"]
+    else:
         d = vals.isel(uts=utsrow)[f"{col}_std_err"]
+
     u = vals[col].attrs.get("units", None)
 
     return {"n": n, "s": d, "u": u}

@@ -9,6 +9,8 @@ from tests.utils import (
     datagram_from_input,
     pars_datagram_test,
     standard_datagram_test,
+    dg_get_quantity,
+    compare_result_dicts,
 )
 
 
@@ -149,10 +151,10 @@ from tests.utils import (
                 "nrows": 12057,
                 "point": 0,
                 "pars": {
-                    "control_V/I": {
+                    "control_I": {
                         "value": -1.1000001e-002,
-                        "sigma": 3.0518e-4,
-                        "unit": "V/mA",
+                        "sigma": 760e-12,
+                        "unit": "mA",
                     }
                 },
             },
@@ -169,10 +171,10 @@ from tests.utils import (
                 "nrows": 12057,
                 "point": 0,
                 "pars": {
-                    "control_V/I": {
+                    "control_I": {
                         "value": -1.1000001e-002,
-                        "sigma": 3.0518e-4,
-                        "unit": "V/mA",
+                        "sigma": 760e-12,
+                        "unit": "mA",
                     }
                 },
             },
@@ -186,7 +188,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 61,
+                "nrows": 2528,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },
@@ -200,7 +202,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 61,
+                "nrows": 2528,
                 "point": 0,
                 "pars": {"uts": {"value": 1614849363.9204996}},
             },
@@ -257,10 +259,10 @@ from tests.utils import (
                 "nrows": 1588,
                 "point": 0,
                 "pars": {
-                    "control_V/I": {
+                    "control_I": {
                         "value": 1.0857184e-004,
-                        "sigma": 3.0518e-4,
-                        "unit": "V/mA",
+                        "sigma": 4e-9,
+                        "unit": "mA",
                     }
                 },
             },
@@ -277,10 +279,10 @@ from tests.utils import (
                 "nrows": 1588,
                 "point": 0,
                 "pars": {
-                    "control_V/I": {
+                    "control_I": {
                         "value": 1.0857184e-004,
-                        "sigma": 3.0518e-4,
-                        "unit": "V/mA",
+                        "sigma": 4e-9,
+                        "unit": "mA",
                     }
                 },
             },
@@ -322,7 +324,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 32,
                 "point": 0,
                 "pars": {"uts": {"value": 1614702327.1567264}},
             },
@@ -336,7 +338,7 @@ from tests.utils import (
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 1,
+                "nrows": 32,
                 "point": 0,
                 "pars": {"uts": {"value": 1614702327.1567264}},
             },
@@ -390,6 +392,7 @@ from tests.utils import (
             {
                 "case": "mb_67.mpt",
                 "encoding": "windows-1252",
+                "locale": "de_DE.UTF-8",
                 "parameters": {"filetype": "eclab.mpt"},
             },
             {
@@ -405,36 +408,30 @@ from tests.utils import (
         ),
     ],
 )
-def test_datagram_from_eclab(input, ts, datadir):
-    ret = datagram_from_input(input, "electrochem", datadir)
+def test_electrochem_from_eclab(input, ts, datadir):
+    ret = datagram_from_input(input, "electrochem", datadir, version="5.0")
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
 
 
 @pytest.mark.parametrize(
-    "input, ts",
+    "input",
     [
-        (
-            {  # ts0 - wait.mpr
-                "case": "wait.mpr",
-                "encoding": "windows-1252",
-                "parameters": {"filetype": "eclab.mpr"},
-            },
-            "ca_data.json",
-        ),
-        (
-            {  # ts1 - wait.mpt
-                "case": "wait.mpt",
-                "encoding": "windows-1252",
-                "parameters": {"filetype": "eclab.mpt"},
-            },
-            "ca_data.json",
-        ),
+        {  # ts0 - wait.mpr
+            "case": "wait.mpr",
+            "encoding": "windows-1252",
+            "parameters": {"filetype": "eclab.mpr"},
+        },
+        {  # ts1 - wait.mpt
+            "case": "wait.mpt",
+            "encoding": "windows-1252",
+            "parameters": {"filetype": "eclab.mpt"},
+        },
     ],
 )
-def test_datagram_wait_technique(input, ts, datadir):
-    ret = datagram_from_input(input, "electrochem", datadir)
-    assert not ret["steps"][0]["data"], "No data should be present."
+def test_electrochem_wait_technique(input, datadir):
+    dg = datagram_from_input(input, "electrochem", datadir)
+    assert not dg["0"].data_vars, "No data should be present."
 
 
 @pytest.mark.parametrize(
@@ -446,7 +443,7 @@ def test_datagram_wait_technique(input, ts, datadir):
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            "ca_data.json",
+            "ca.dg.json",
         ),
         (
             {  # ts1 - ca.mpt
@@ -454,65 +451,48 @@ def test_datagram_wait_technique(input, ts, datadir):
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            "ca_data.json",
+            "ca.dg.json",
         ),
-    ],
-)
-def test_compare_raw_values_time_series(input, refpath, datadir):
-    os.chdir(datadir)
-    with open(refpath, "r") as infile:
-        ref = json.load(infile)
-    ret = datagram_from_input(input, "electrochem", datadir)
-    ret = ret["steps"][0]["data"]
-    with open(refpath, "w") as of:
-        json.dump(ret, of)
-    for ts_ret, ts_ref in zip(ret, ref):
-        for key in ts_ret["raw"].keys():
-            if isinstance(ts_ref["raw"][key], dict):
-                for i in ["n", "s"]:
-                    assert np.allclose(
-                        ts_ref["raw"][key][i], ts_ret["raw"][key][i], equal_nan=True
-                    )
-            else:
-                assert ts_ref["raw"][key] == ts_ret["raw"][key]
-
-
-@pytest.mark.parametrize(
-    "input, refpath",
-    [
         (
-            {  # ts0 - geis.mpr
+            {  # ts2 - geis.mpr
                 "case": "geis.mpr",
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpr"},
             },
-            "geis_data.json",
+            "geis.dg.json",
         ),
         (
-            {  # ts1 - geis.mpt
+            {  # ts3 - geis.mpt
                 "case": "geis.mpt",
                 "encoding": "windows-1252",
                 "parameters": {"filetype": "eclab.mpt"},
             },
-            "geis_data.json",
+            "geis.dg.json",
         ),
     ],
 )
-def test_compare_raw_values_eis_traces(input, refpath, datadir):
+def test_electrochem_compare_raw_values(input, refpath, datadir):
     os.chdir(datadir)
+    dg = datagram_from_input(input, "electrochem", datadir)
+    step = dg["0"]
     with open(refpath, "r") as infile:
-        ref = json.load(infile)
-    ret = datagram_from_input(input, "electrochem", datadir)
-    ret = ret["steps"][0]["data"][0]["raw"]["traces"]
-    with open(refpath, "w") as of:
-        json.dump(ret, of)
-    for n, trace in ret.items():
-        for ax in trace:
-            if isinstance(ref[n][ax], dict):
-                for i in ["n", "s"]:
-                    assert np.allclose(ref[n][ax][i], ret[n][ax][i], equal_nan=True)
+        ref = json.load(infile)["steps"][0]["data"]
+    for k in step:
+        if k == "uts":
+            uts = [ts["uts"] for ts in ref]
+            np.testing.assert_allclose(step["uts"], uts)
+        elif k.endswith("_std_err"):
+            continue
+        else:
+            res = dg_get_quantity(dg, 0, k)
+            if isinstance(res, dict):
+                n = [ts["raw"][k]["n"] for ts in ref]
+                s = [ts["raw"][k]["s"] for ts in ref]
+                u = ref[0]["raw"][k]["u"]
+                compare_result_dicts(res, {"n": n, "s": s, "u": u})
             else:
-                assert ref[n][ax] == ret[n][ax]
+                tv = [ts["raw"][k] for ts in ref]
+                assert (res == tv).all()
 
 
 @pytest.mark.parametrize(
@@ -531,7 +511,7 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
                 "point": 0,
                 "pars": {
                     "Ewe": {
-                        "value": 0.0329145,
+                        "value": 0.03291448,
                         "sigma": 0.00015,
                         "unit": "V",
                     },
@@ -553,7 +533,7 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
                 "point": 12,
                 "pars": {
                     "Ewe": {
-                        "value": 0.0001060,
+                        "value": 0.000106005,
                         "sigma": 0.00015,
                         "unit": "V",
                     },
@@ -581,8 +561,8 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
             {
                 "nsteps": 1,
                 "step": 0,
-                "nrows": 32,
-                "point": 12,
+                "nrows": 2240,
+                "point": 840,
                 "pars": {
                     "uts": {"value": 527655.5950297173},
                 },
@@ -590,10 +570,10 @@ def test_compare_raw_values_eis_traces(input, refpath, datadir):
         ),
     ],
 )
-def test_vsp_3e(input, ts, datadir):
+def test_electrochem_vsp_3e(input, ts, datadir):
     ret = datagram_from_input(input, "electrochem", datadir)
     standard_datagram_test(ret, ts)
-    pars_datagram_test(ret, ts)
+    pars_datagram_test(ret, ts, atol=1e-8)
 
 
 @pytest.mark.parametrize(
@@ -619,40 +599,3 @@ def test_electrochem_tomato(infile, ts, datadir):
     ret = datagram_from_file(infile, datadir)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
-
-
-@pytest.mark.parametrize(
-    "input",
-    [
-        {"case": "peis.mpr", "parameters": {"filetype": "eclab.mpr"}},
-        {
-            "case": "peis.mpt",
-            "encoding": "windows-1252",
-            "parameters": {"filetype": "eclab.mpt"},
-        },
-        {"case": "geis.mpr", "parameters": {"filetype": "eclab.mpr"}},
-        {
-            "case": "geis.mpt",
-            "encoding": "windows-1252",
-            "parameters": {"filetype": "eclab.mpt"},
-        },
-    ],
-)
-@pytest.mark.parametrize("transpose", [True, False])
-def test_electrochem_transpose(input, transpose, datadir):
-    input["parameters"]["transpose"] = transpose
-    ret = datagram_from_input(input, "electrochem", datadir, version="4.2")
-    if transpose and input["case"].startswith("p"):
-        nrows = 1
-    elif input["case"].startswith("p"):
-        nrows = 32
-    if transpose and input["case"].startswith("g"):
-        nrows = 61
-    elif input["case"].startswith("g"):
-        nrows = 2528
-    ts = {"nsteps": 1, "step": 0, "nrows": nrows}
-    standard_datagram_test(ret, ts)
-    if transpose:
-        assert all(["traces" in ts["raw"] for ts in ret["steps"][0]["data"]])
-    else:
-        assert all(["traces" not in ts["raw"] for ts in ret["steps"][0]["data"]])

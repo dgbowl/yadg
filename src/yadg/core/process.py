@@ -115,7 +115,7 @@ def process_schema(dataschema: DataSchema) -> dict:
                 tasks = [(None, fvals)]
             for task in tasks:
                 name, dset = task
-                if "uts" not in dset:
+                if not hasattr(dset, "uts"):
                     dset = dset.expand_dims("uts")
                 if len(dset.uts.coords) == 0:
                     dset["uts"] = np.zeros(dset.uts.size)
@@ -130,6 +130,7 @@ def process_schema(dataschema: DataSchema) -> dict:
                         spec=step.externaldate,
                         timezone=tz,
                     )
+                    print(f"{ts=}")
                     dset["uts"] = ts
                     if fulldate:
                         dset.attrs.pop("fulldate", None)

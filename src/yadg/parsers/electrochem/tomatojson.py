@@ -32,6 +32,7 @@ I-range with a maximum of 0.76 uA.
 
 import json
 import logging
+import xarray as xr
 
 logger = logging.getLogger(__name__)
 
@@ -47,12 +48,7 @@ I_ranges = {
 }
 
 
-def process(
-    fn: str,
-    encoding: str = "UTF-8",
-    timezone: str = "UTC",
-    transpose: bool = True,
-) -> tuple[list, dict, bool]:
+def process(fn: str) -> xr.Dataset:
     with open(fn, "r") as infile:
         jsdata = json.load(infile)
 
@@ -67,6 +63,8 @@ def process(
         uts = 0
         fulldate = False
 
+    uts += technique["start_time"]
+
     if previous is None:
         meta = current
     elif current["status"] == "STOP":
@@ -79,25 +77,64 @@ def process(
     I_range = I_ranges[meta["I_range"]]
     E_range = meta["E_range"]["max"] - meta["E_range"]["min"]
 
-    timesteps = []
+    data_vars = {
+        "loop number": [],
+        "technique": [],
+        "index": [],
+        "time": [],
+        "Ewe": [],
+        "Ewe_std_err": [],
+        "Ece": [],
+        "Ece_std_err": [],
+        "I": [],
+        "I_std_err": [],
+        "cycle": [],
+    }
+
     for point in jsdata["data"]:
-        p = {"fn": fn, "uts": uts + technique["start_time"], "raw": {}}
         for k, v in point.items():
             if k == "time":
-                p["uts"] += v
+                data_vars[k].append(uts + v)
             elif k in {"Ewe", "Ece"}:
-                s = max(E_range * 0.0015 / 100, 75e-6)
-                p["raw"][k] = {"n": v, "s": s, "u": "V"}
+                data_vars[k].append(v)
+                data_vars[f"{k}_std_err"].append(max(E_range * 0.0015 / 100, 75e-6))
             elif k in {"I"}:
-                s = max(I_range * 0.004 / 100, 760e-12)
-                p["raw"][k] = {"n": v, "s": s, "u": "A"}
+                data_vars[k].append(v)
+                data_vars[f"{k}_std_err"].append(max(I_range * 0.004 / 100, 760e-12))
             elif k in {"cycle"}:
-                p["raw"]["cycle number"] = v
+                data_vars[k].append(v)
             else:
                 logger.cricital(f"parameter {k}: {v} not understood.")
-        p["raw"]["loop number"] = technique["loop_number"]
-        p["raw"]["technique"] = technique["name"]
-        p["raw"]["index"] = technique["index"]
-        timesteps.append(p)
+        data_vars["loop number"].append(technique["loop_number"])
+        data_vars["technique"].append(technique["name"])
+        data_vars["index"].append(technique["index"])
 
-    return timesteps, None, fulldate
+    data_vars["cycle number"] = data_vars.pop("cycle")
+    uts = data_vars.pop("time")
+
+    data_vars = {k: v for k, v in data_vars.items() if len(v) > 0}
+
+    for k in data_vars:
+        if k in {"Ewe", "Ece", "I"}:
+            data_vars[k] = (
+                ["uts"],
+                data_vars[k],
+                {
+                    "units": "A" if k == "I" else "V",
+                    "ancillary_variables": f"{k}_std_err",
+                },
+            )
+        elif k.endswith("_std_err"):
+            data_vars[k] = (
+                ["uts"],
+                data_vars[k],
+                {
+                    "units": "A" if k == "I" else "V",
+                    "standard_name": f"{k.replace('_std_err', '')} standard_error",
+                },
+            )
+        else:
+            data_vars[k] = (["uts"], data_vars[k])
+
+    ds = xr.Dataset(data_vars, coords=dict(uts=uts))
+    return ds

@@ -205,6 +205,5 @@ def test_chromtrace_compare_raw_values(input, datadir):
         ref = json.load(infile)["traces"]
     for trace, v in ref.items():
         for k in {"signal", "elution_time"}:
-            ret = dg_get_quantity(dg["0"], trace, col=k)
-            print(f"{ret=}")
-            print(f"{v[k]=}")
+            ret = dg_get_quantity(dg["0"], trace, col=k, utsrow=0)
+            compare_result_dicts(ret, v[k])

@@ -32,7 +32,7 @@ DataTree structure
             angle      (uts, _angle)    float64     Dev. of angle, degrees.
             _fn        (uts)            str         Filename of the datapoint
 
-.. codeauthors:: 
+.. codeauthor:: 
     Nicolas Vetsch,
     Peter Kraus
 """

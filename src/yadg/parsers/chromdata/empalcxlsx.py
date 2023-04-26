@@ -10,17 +10,6 @@ at Empa. It contains three sections:
   - table containing analysed chromatography data.
 
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: !!str
-      version:  !!int
-      datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import logging
@@ -33,7 +22,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> xr.Dataset:
+def process(*, fn: str, **kwargs: dict) -> xr.Dataset:
     """
     Fusion xlsx export format.
 
@@ -44,16 +33,10 @@ def process(fn: str, encoding: str, timezone: str) -> xr.Dataset:
     fn
         Filename to process.
 
-    encoding
-        Encoding used to open the file.
-
-    timezone
-        Timezone information. This should be ``"localtime"``.
-
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
     try:
         wb = openpyxl.load_workbook(

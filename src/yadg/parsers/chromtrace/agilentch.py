@@ -8,17 +8,6 @@ the `magic_values` (parameters & metadata) and `data_dtypes` (data) dictionaries
 Adapted from `ImportAgilent.m <https://bit.ly/3HSelIR>`_ and
 `aston <https://github.com/bovee/Aston>`_.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: !!str
-      version:  !!str
-
 File Structure of ``.ch`` files
 ```````````````````````````````
 .. code ::
@@ -73,7 +62,7 @@ data_dtypes = {}
 data_dtypes["179"] = (8, "<f8")
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
+def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     """
     Agilent OpenLAB signal trace parser
 
@@ -92,10 +81,11 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
 
     Returns
     -------
-    dt: DataTree
+    class:`datatree.DataTree`
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
         there is only one detector data in each CH file, this nesting is only for
         consistency with other filetypes.
+        
     """
 
     with open(fn, "rb") as infile:

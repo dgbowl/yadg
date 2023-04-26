@@ -40,7 +40,9 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> xr.Dataset:
+def process(
+    *, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict
+) -> xr.Dataset:
     """
     Fusion json format.
 
@@ -61,8 +63,8 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> xr.Dataset:
 
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

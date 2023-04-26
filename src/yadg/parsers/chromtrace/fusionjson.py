@@ -26,7 +26,7 @@ import xarray as xr
 from datatree import DataTree
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     """
     Fusion json format.
 
@@ -53,8 +53,9 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
 
     Returns
     -------
-    dt: DataTree
+    class:`datatree.DataTree`
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+        
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

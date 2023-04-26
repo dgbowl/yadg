@@ -1,7 +1,7 @@
 """
-This module handles the parsing of raw traces present in chromatography files,
-whether the source is a liquid chromatograph (LC) or a gas chromatograph (GC).
-The basic function of the parser is to:
+Handles the parsing of raw traces present in chromatography files, whether the source is
+a liquid chromatograph (LC) or a gas chromatograph (GC). The basic function of the
+parser is to:
 
 #. read in the raw data and create timestamped `traces`
 #. collect `metadata` such as the method information, sample ID, etc.
@@ -39,29 +39,75 @@ The ``filetypes`` currently supported by the parser are:
 
 .. _yadg.parsers.chromtrace.provides:
 
-Provides
-````````
-The raw data is stored, for each timestep, using the following format:
+Schema
+``````
+The data is returned as a :class:`datatree.Datatree`, containing a :class:`xr.Dataset`
+for each trace / detector name:
 
 .. code-block:: yaml
 
-  - uts: !!float
-    fn:  !!str
-    raw:
-      traces:
-        "{{ trace_name }}":        # detector name from the raw data file
-          id:               !!int  # detector id for matching with calibration data
-          t:                       # time-axis units are always seconds
-            {n: [!!float, ...], s: [!!float, ...], u: "s"}
-          y:                       # y-axis units are determined from raw file
-            {n: [!!float, ...], s: [!!float, ...], u: !!str}
+  datatree.Datatree:
+    {{ detector_name }}  !!xr.Dataset
+      coords:
+        uts:             !!float               # Timestamp of the chromatogram
+        elution_time:    !!float               # The time axis of the chromatogram (s)
+      data_vars:
+        signal:          (uts, elution_time)   # The ordinate axis of the chromatogram
 
+When multiple chromatograms are parsed, they are concatenated separately per detector
+name. An error might occur during this concatenation if the ``elution_time`` axis changes
+dimensions or coordinates between different timesteps.
+        
 .. note::
 
   To parse processed data in the raw data files, such as integrated peak areas or
   concentrations, use the :mod:`~yadg.parsers.chromdata` parser instead.
 
 """
-from .main import process
 
-__all__ = ["process"]
+import logging
+import datatree
+
+from . import (
+    ezchromasc,
+    agilentcsv,
+    agilentch,
+    agilentdx,
+    fusionjson,
+    fusionzip,
+)
+
+logger = logging.getLogger(__name__)
+
+
+def process(
+    *,
+    filetype: str,
+    **kwargs: dict,
+) -> datatree.DataTree:
+    """
+    Unified raw chromatogram parser. Forwards ``kwargs`` to the worker functions
+    based on the supplied ``filetype``.
+
+    Parameters
+    ----------
+    filetype
+        Discriminator used to select the appropriate worker function.
+
+    Returns
+    -------
+    :class:`datatree.DataTree`
+
+    """
+    if filetype == "ezchrom.asc":
+        return ezchromasc.process(**kwargs)
+    elif filetype == "agilent.csv":
+        return agilentcsv.process(**kwargs)
+    elif filetype == "agilent.dx":
+        return agilentdx.process(**kwargs)
+    elif filetype == "agilent.ch":
+        return agilentch.process(**kwargs)
+    elif filetype == "fusion.json":
+        return fusionjson.process(**kwargs)
+    elif filetype == "fusion.zip":
+        return fusionzip.process(**kwargs)

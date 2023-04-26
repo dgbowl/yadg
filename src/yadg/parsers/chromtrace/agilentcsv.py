@@ -13,20 +13,11 @@ name, and a sequence of "X, Y" datapoints, which are stored as ``elution_time`` 
     consistent between the timesteps of the same trace. The traces are expanded to the
     length of the longest trace, and the shorter traces are padded with ``NaNs``.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    method:   None
-    sampleid: !!str
-    datafile: !!str
-
 .. warning ::
     
     Unfortunately, the chromatographic ``method`` is not exposed in this file format.
 
-.. codeauthor:: Peter Kraus <peter.kraus.empa.ch>
+.. codeauthor:: Peter Kraus
 """
 import numpy as np
 from zoneinfo import ZoneInfo
@@ -70,7 +61,7 @@ def _to_trace(tx, ty):
     return trace
 
 
-def process(fn: str, encoding: str, timezone: str) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Agilent Chemstation CSV (Chromtab) file parser
 
@@ -91,8 +82,8 @@ def process(fn: str, encoding: str, timezone: str) -> DataTree:
 
     Returns
     -------
-    dt: DataTree
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
         When multiple timesteps are present in the file, the traces of each detector are
         expanded to match the longest trace, and collated along the ``uts``-dimension.
     """

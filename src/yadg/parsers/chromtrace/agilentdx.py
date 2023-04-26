@@ -6,18 +6,6 @@ This is a wrapper parser which unzips the provided DX file, and then uses the
 :mod:`yadg.parsers.chromtrace.agilentch` parser to parse every CH file present in
 the archive. The IT files in the archive are currently ignored.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: !!str
-      version:  !!str
-      datafile: !!str
-
 In addition to the metadata exposed by the CH parser, the ``datafile`` entry
 is populated with the corresponding name of the CH file. The ``fn`` entry in each
 timestep contains the parent DX file.
@@ -37,7 +25,7 @@ from datatree import DataTree
 import xarray as xr
 
 
-def process(fn: str, encoding: str, timezone: str) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Agilent OpenLab DX archive parser.
 
@@ -59,10 +47,11 @@ def process(fn: str, encoding: str, timezone: str) -> DataTree:
 
     Returns
     -------
-    dt: DataTree
+    class:`datatree.DataTree`
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
         multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
         are collated along the ``uts`` dimension.
+        
     """
 
     zf = zipfile.ZipFile(fn)
@@ -72,7 +61,7 @@ def process(fn: str, encoding: str, timezone: str) -> DataTree:
         for ffn in os.listdir(tempdir):
             if ffn.endswith("CH"):
                 path = os.path.join(tempdir, ffn)
-                fdt = processch(path, encoding, timezone)
+                fdt = processch(fn=path, encoding=encoding, timezone=timezone)
                 if dt is None:
                     dt = fdt
                 else:

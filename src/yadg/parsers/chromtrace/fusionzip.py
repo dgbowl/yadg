@@ -27,7 +27,7 @@ from datatree import DataTree
 from .fusionjson import process as processjson
 
 
-def process(fn: str, encoding: str, timezone: str) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Fusion zip file format.
 
@@ -48,10 +48,11 @@ def process(fn: str, encoding: str, timezone: str) -> DataTree:
 
     Returns
     -------
-    dt: DataTree
+    class:`datatree.DataTree`
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
         multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
         are collated along the ``uts`` dimension.
+        
     """
 
     zf = zipfile.ZipFile(fn)
@@ -61,7 +62,7 @@ def process(fn: str, encoding: str, timezone: str) -> DataTree:
         for ffn in sorted(os.listdir(tempdir)):
             path = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                fdt = processjson(path, encoding, timezone)
+                fdt = processjson(fn=path, encoding=encoding, timezone=timezone)
                 if dt is None:
                     dt = fdt
                 else:

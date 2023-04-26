@@ -11,18 +11,6 @@ areas, and retention times. The latter is ignored by this parser.
     is discouraged, and the ``json`` files (or a zipped archive of them) should
     be parsed instead.
 
-
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: None
-      version:  None
-      datafile: None
-
 .. codeauthor:: Peter Kraus
 """
 import logging
@@ -49,7 +37,9 @@ data_units = {
 }
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> xr.Dataset:
+def process(
+    *, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict
+) -> xr.Dataset:
     """
     Fusion csv export format.
 
@@ -68,8 +58,8 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> xr.Dataset:
 
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

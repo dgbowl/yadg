@@ -5,8 +5,7 @@ from pydantic import BaseModel
 from ... import dgutils
 
 import numpy as np
-from datatree import DataTree
-from xarray import DataArray, Dataset
+import xarray as xr
 
 logger = logging.getLogger(__name__)
 
@@ -16,12 +15,12 @@ def process_row(
     items: list,
     datefunc: Callable,
     datecolumns: list,
-) -> dict:
+) -> tuple[dict, dict]:
     """
     A function that processes a row of a table.
 
-    This is the main worker function of ``basiccsv``, but can be re-used by any other
-    parser that needs to process tabular data.
+    This is the main worker function of :mod:`~yadg.parsers.basiccsv`, but is often
+    re-used by any other parser that needs to process tabular data.
 
     Parameters
     ----------
@@ -42,10 +41,9 @@ def process_row(
 
     Returns
     -------
-    element: dict
-        A result dictionary, containing the keys ``"uts"`` with a timestamp,
-        ``"raw"`` for all raw data present in the headers, and ``"derived"``
-        for any data processes via ``calib``.
+    vals, devs
+        A tuple of result dictionaries, with the first element containing the values
+        and the second element containing the deviations of the values.
 
     """
     assert len(headers) == len(items), (
@@ -105,7 +103,7 @@ def dicts_to_dataset(
     meta: dict[str, list[Any]],
     units: dict[str, str] = dict(),
     fulldate: bool = True,
-) -> DataTree:
+) -> xr.Dataset:
     darrs = {}
     for k, v in data.items():
         attrs = {}
@@ -114,12 +112,12 @@ def dicts_to_dataset(
             attrs["units"] = u
         if k == "uts":
             continue
-        darrs[k] = DataArray(data=v, dims=["uts"], attrs=attrs)
+        darrs[k] = xr.DataArray(data=v, dims=["uts"], attrs=attrs)
         if k in meta:
             err = f"{k}_std_err"
             darrs[k].attrs["ancillary_variables"] = err
             attrs["standard_name"] = f"{k} standard error"
-            darrs[err] = DataArray(data=meta[k], dims=["uts"], attrs=attrs)
+            darrs[err] = xr.DataArray(data=meta[k], dims=["uts"], attrs=attrs)
     if "uts" in data:
         coords = dict(uts=data.pop("uts"))
     else:
@@ -128,7 +126,7 @@ def dicts_to_dataset(
         attrs = dict()
     else:
         attrs = dict(fulldate=False)
-    return Dataset(data_vars=darrs, coords=coords, attrs=attrs)
+    return xr.Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process(
@@ -136,10 +134,9 @@ def process(
     fn: str,
     encoding: str,
     timezone: str,
-    locale: str,
-    filetype: str,
     parameters: BaseModel,
-) -> DataTree:
+    **kwargs: dict,
+) -> xr.Dataset:
     """
     A basic csv parser.
 
@@ -164,10 +161,9 @@ def process(
 
     Returns
     -------
-    dt: datatree.DataTree
-        Tuple containing the timesteps, metadata, and full date tag. No metadata is
-        returned by the basiccsv parser. The full date might not be returned, eg.
-        when only time is specified in columns.
+    :class:`xr.Dataset`
+        No metadata is returned by the :mod:`~yadg.parsers.basiccsv` parser. The full
+        date might not be returned, eg. when only time is specified in columns.
 
     """
 

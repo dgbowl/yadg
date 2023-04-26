@@ -7,17 +7,6 @@ contains a header section, and a sequence of Y datapoints (``signal``) for each 
 The X-axis (``elution_time``) is assumed to be uniform between traces, and its units have
 to be deduced from the header.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    method:   !!str
-    sampleid: !!str
-    username: !!str
-    version:  !!str
-    datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import numpy as np
@@ -31,7 +20,7 @@ from datatree import DataTree
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     """
     EZ-Chrome ASCII export file parser.
 
@@ -51,10 +40,12 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> DataTree:
     timezone
         Timezone information. This should be ``"localtime"``.
 
+    
     Returns
     -------
-    dt: DataTree
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. 
+        
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

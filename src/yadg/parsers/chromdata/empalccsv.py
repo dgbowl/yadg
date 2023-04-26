@@ -9,18 +9,6 @@ at Empa. It contains three sections:
   - table containing sampling information,
   - table containing analysed chromatography data.
 
-
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: !!str
-      version:  !!int
-      datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import logging
@@ -32,7 +20,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> xr.Dataset:
+def process(*, fn: str, encoding: str, **kwargs: dict) -> xr.Dataset:
     """
     Custom Agilent Online LC csv export format.
 
@@ -46,13 +34,10 @@ def process(fn: str, encoding: str, timezone: str) -> xr.Dataset:
     encoding
         Encoding used to open the file.
 
-    timezone
-        Timezone information. This should be ``"localtime"``.
-
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

@@ -6,17 +6,6 @@ This is a wrapper parser which unzips the provided zip file, and then uses
 the :mod:`yadg.parsers.chromdata.fusionjson` parser to parse every data
 file present in the archive.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: None
-      version:  !!str
-      datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import zipfile
@@ -27,7 +16,7 @@ import xarray as xr
 from .fusionjson import process as processjson
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Dataset:
     """
     Fusion zip file format.
 
@@ -48,8 +37,11 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     Returns
     -------
-    (chroms, metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    :class:`xr.Dataset`
+        The data from the inidividual json files contained in the zip archive are
+        concatenated into a single :class:`xr.Dataset`. This might fail if the metadata
+        in the json files differs, or if the dimensions are not easily concatenable.
+
     """
 
     zf = zipfile.ZipFile(fn)
@@ -59,7 +51,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
         for ffn in sorted(os.listdir(tempdir)):
             ffn = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                ids = processjson(ffn, encoding, timezone)
+                ids = processjson(fn=ffn, encoding=encoding, timezone=timezone)
                 if ds is None:
                     ds = ids
                 else:

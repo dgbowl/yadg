@@ -63,6 +63,9 @@ dimensions or coordinates between different timesteps.
   To parse processed data in the raw data files, such as integrated peak areas or
   concentrations, use the :mod:`~yadg.parsers.chromdata` parser instead.
 
+Module Functions
+````````````````
+
 """
 
 import logging

@@ -136,7 +136,7 @@ def process(
             "species": (["species"], species),
             "uts": (["uts"], [i["uts"] for i in data]),
         },
-        attrs=dict(method = method),
+        attrs=dict(method=method),
     )
 
     return ds

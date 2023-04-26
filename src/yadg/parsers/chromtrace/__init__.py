@@ -57,7 +57,7 @@ for each trace / detector name:
 When multiple chromatograms are parsed, they are concatenated separately per detector
 name. An error might occur during this concatenation if the ``elution_time`` axis changes
 dimensions or coordinates between different timesteps.
-        
+
 .. note::
 
   To parse processed data in the raw data files, such as integrated peak areas or

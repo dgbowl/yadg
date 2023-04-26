@@ -13,7 +13,6 @@ is hard-coded to this value.
 .. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
 """
 
-import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 
@@ -41,7 +40,6 @@ def process(
         Tuple containing the timesteps, metadata, and common data.
     """
 
-    data = {"fn": str(fn)}
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     assert (
@@ -61,9 +59,6 @@ def process(
     fsbw = bw[0] / avg
 
     # calculate precision of trace
-    vals = {}
-    devs = {}
-    # data["raw"] = {"traces": {}, "bw": {"n": bw[0], "s": bw[1], "u": "Hz"}, "avg": avg}
     freq = {"vals": [], "devs": []}
     real = {"vals": [], "devs": []}
     imag = {"vals": [], "devs": []}

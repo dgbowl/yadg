@@ -167,7 +167,7 @@ def process_data(
                     fval = lc.atof(value)
                     vals[name] = fval
                 except ValueError:
-                    sval = val.strip()
+                    sval = value.strip()
                     vals[name] = sval
         if "Ns" in vals:
             Erange = Eranges[vals["Ns"]]

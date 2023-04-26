@@ -1,4 +1,3 @@
-import pytest
 import os
 import json
 import yaml
@@ -7,7 +6,6 @@ import numpy as np
 import pint
 from typing import Union
 from datatree import DataTree
-import xarray as xr
 from dgbowl_schemas import to_dataschema
 
 
@@ -197,7 +195,7 @@ def standard_datagram_test(datagram, testspec):
 
 def pars_datagram_test(datagram, testspec, atol=0):
     if isinstance(testspec["step"], str):
-        name = step
+        name = testspec["step"]
     else:
         name = list(datagram.children.keys())[testspec["step"]]
     step = datagram[name]

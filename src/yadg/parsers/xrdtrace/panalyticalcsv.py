@@ -20,19 +20,19 @@ DataTree structure
             angle:     (angle)          float64     Diffraction angle, degrees.
         Data variables:
             intensity  (uts, angle)     float64     Detector intensity, counts.
-        Attributes:    
+        Attributes:
             ...                                     Metadata from file header.
     /_yadg.meta:
         Dimensions:    (uts: 1, _angle: n)
         Coordinates:
-            uts:       (uts)            float64 
+            uts:       (uts)            float64
             _angle:    (_angle)         float64
         Data variables:
             intensity  (uts, _angle)    float64     Dev. of intensity, counts.
             angle      (uts, _angle)    float64     Dev. of angle, degrees.
             _fn        (uts)            str         Filename of the datapoint
 
-.. codeauthor:: 
+.. codeauthor::
     Nicolas Vetsch,
     Peter Kraus
 """

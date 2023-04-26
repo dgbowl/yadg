@@ -1,7 +1,5 @@
 import json
 import os
-
-import numpy as np
 import pytest
 
 from tests.utils import (

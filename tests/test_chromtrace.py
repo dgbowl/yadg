@@ -1,6 +1,5 @@
 import pytest
 import os
-import numpy as np
 import json
 from tests.utils import (
     datagram_from_input,

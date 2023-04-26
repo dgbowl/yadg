@@ -591,7 +591,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
     """
     modules = contents.split(b"MODULE")[1:]
-    settings = data = log = loop = ext = None
+    settings = log = loop = ext = None
     for module in modules:
         header = _read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()

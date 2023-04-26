@@ -3,7 +3,7 @@
 -----------------------------------------------------------------
 
 This file format includes one timestep with multiple traces in each ASCII file. It
-contains a header section, and a sequence of Y datapoints (``signal``) for each detector. 
+contains a header section, and a sequence of Y datapoints (``signal``) for each detector.
 The X-axis (``elution_time``) is assumed to be uniform between traces, and its units have
 to be deduced from the header.
 
@@ -40,12 +40,12 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
     timezone
         Timezone information. This should be ``"localtime"``.
 
-    
+
     Returns
     -------
     class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. 
-        
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

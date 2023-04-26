@@ -467,4 +467,5 @@ def process(
         vals[v["name"]] = fvals
 
     dt = DataTree.from_dict(vals)
+    dt.attrs = meta
     return dt

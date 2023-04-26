@@ -51,7 +51,7 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
         multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
         are collated along the ``uts`` dimension.
-        
+
     """
 
     zf = zipfile.ZipFile(fn)

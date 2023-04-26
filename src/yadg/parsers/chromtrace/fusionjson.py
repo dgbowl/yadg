@@ -55,7 +55,7 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
     -------
     class:`datatree.DataTree`
         A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
-        
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:

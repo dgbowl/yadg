@@ -14,7 +14,7 @@ name, and a sequence of "X, Y" datapoints, which are stored as ``elution_time`` 
     length of the longest trace, and the shorter traces are padded with ``NaNs``.
 
 .. warning ::
-    
+
     Unfortunately, the chromatographic ``method`` is not exposed in this file format.
 
 .. codeauthor:: Peter Kraus

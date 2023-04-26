@@ -83,7 +83,7 @@ Structure of Parsed Timesteps
 
 .. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
 """
-from typing import Any, Union
+from typing import Any
 import numpy as np
 from datatree import DataTree
 import xarray as xr

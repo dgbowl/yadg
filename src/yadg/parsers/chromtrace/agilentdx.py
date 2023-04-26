@@ -64,7 +64,7 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                 fdt = processch(fn=path, encoding=encoding, timezone=timezone)
                 if dt is None:
                     dt = fdt
-                else:
+                elif isinstance(dt, DataTree):
                     for k, v in fdt.items():
                         if k in dt:
                             newv = xr.concat(
@@ -73,4 +73,6 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                         else:
                             newv = v.ds
                         dt[k] = DataTree(newv)
+                else:
+                    raise RuntimeError("We should not get here.")
     return dt

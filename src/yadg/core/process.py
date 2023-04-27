@@ -149,8 +149,10 @@ def process_schema(dataschema: DataSchema) -> DataTree:
                 for k, v in fvals.items():
                     if k in vals:  # pylint: disable=E1135
                         newv = xr.concat(
-                            [vals[k].ds, v.ds], dim="uts", combine_attrs="identical"
-                        )  # pylint: disable=E1136
+                            [vals[k].ds, v.ds],  # pylint: disable=E1136
+                            dim="uts",
+                            combine_attrs="identical",
+                        )
                     else:
                         newv = v.ds
                     vals[k] = DataTree(newv)  # pylint: disable=E1137

@@ -68,8 +68,10 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                     for k, v in fdt.items():
                         if k in dt:  # pylint: disable=E1135
                             newv = xr.concat(
-                                [dt[k].ds, v.ds], dim="uts", combine_attrs="identical"
-                            )  # pylint: disable=E1136
+                                [dt[k].ds, v.ds],  # pylint: disable=E1136
+                                dim="uts",
+                                combine_attrs="identical",
+                            )
                         else:
                             newv = v.ds
                         dt[k] = DataTree(newv)  # pylint: disable=E1137

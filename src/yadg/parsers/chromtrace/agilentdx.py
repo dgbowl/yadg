@@ -69,10 +69,10 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                         if k in dt:  # pylint: disable=E1135
                             newv = xr.concat(
                                 [dt[k].ds, v.ds], dim="uts", combine_attrs="identical"
-                            ) # pylint: disable=E1136
+                            )  # pylint: disable=E1136
                         else:
                             newv = v.ds
-                        dt[k] = DataTree(newv) # pylint: disable=E1137
+                        dt[k] = DataTree(newv)  # pylint: disable=E1137
                 else:
                     raise RuntimeError("We should not get here.")
     return dt

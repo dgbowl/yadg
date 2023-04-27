@@ -147,13 +147,13 @@ def process_schema(dataschema: DataSchema) -> DataTree:
                 vals = xr.concat([vals, fvals], dim="uts", combine_attrs="identical")
             elif isinstance(vals, DataTree):
                 for k, v in fvals.items():
-                    if k in vals: # pylint: disable=E1135
+                    if k in vals:  # pylint: disable=E1135
                         newv = xr.concat(
                             [vals[k].ds, v.ds], dim="uts", combine_attrs="identical"
-                        ) # pylint: disable=E1136
+                        )  # pylint: disable=E1136
                     else:
                         newv = v.ds
-                    vals[k] = DataTree(newv) # pylint: disable=E1137
+                    vals[k] = DataTree(newv)  # pylint: disable=E1137
         if isinstance(vals, xr.Dataset):
             stepdt = DataTree.from_dict({"/": vals})
         elif isinstance(vals, DataTree):

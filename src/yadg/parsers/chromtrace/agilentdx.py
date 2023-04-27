@@ -66,13 +66,13 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                     dt = fdt
                 elif isinstance(dt, DataTree):
                     for k, v in fdt.items():
-                        if k in dt:
+                        if k in dt:  # pylint: disable=E1135
                             newv = xr.concat(
                                 [dt[k].ds, v.ds], dim="uts", combine_attrs="identical"
-                            )
+                            ) # pylint: disable=E1136
                         else:
                             newv = v.ds
-                        dt[k] = DataTree(newv)
+                        dt[k] = DataTree(newv) # pylint: disable=E1137
                 else:
                     raise RuntimeError("We should not get here.")
     return dt

@@ -28,56 +28,60 @@ The ``filetypes`` currently supported by the parser are:
  - tomato's structured json output (``tomato.json``),
    see :mod:`~yadg.parsers.electrochem.tomatojson`
 
-Provides
-````````
-Most standard techniques write data that can be understood as a series of
-timesteps, with a measurement of the potential of the working electrode ``Ewe``,
-the current applied by the potentiostat ``I``, and if present, also the potential
-of the counter electrode ``Ece``. Depending on the technique, these quantitites
-may be recorded as averages, i.e. ``<Ewe>``, ``<Ece>``, and ``<I>``. Technique
-metadata, such as the ``cycle number`` and the name of the ``technique`` are also
-stored in each timestep:
+Schema
+``````
+Depending on the filetype, the output :class:`xr.Dataset` may contain multiple
+derived values. However, all filetypes will report at least the following:
 
 .. code-block:: yaml
 
-    - fn   !!str
-      uts  !!float
-      raw:
-        Ewe:                 # potential of the working electrode, might be <Ewe>
-          {n: !!float, s: !!float, u: !!str}
-        Ece:                 # potential of the counter electrode, might be <Ece>
-          {n: !!float, s: !!float, u: !!str}
-        I:                   # current, might be <I>
-          {n: !!float, s: !!float, u: !!str}
-        cycle number: !!int
-        technique:    !!str
+  xr.Dataset:
+    coords:
+      uts:      !!float
+    data_vars:
+      Ewe:      (uts)    # Potential of the working electrode (V)
+      Ece:      (uts)    # Potential of the counter electrode (V)
+      I:        (uts)    # Applied current (A)
 
-For impedance spectroscopy techniques (PEIS, GEIS), the data is by default
-transposed to be made of spectroscopy traces. The data is split into traces using
-the ``cycle number`` column, and each trace is cast into a single timestep. Each
-trace now corresponds to a spectroscopy scan, indexed by the technique name (PEIS
-or GEIS). The timestep takes the following format:
+In some cases, average values (i.e. ``<Ewe>`` or ``<I>``) may be reported instead
+of the instantaneous data.
 
-.. code-block:: yaml
+.. warning::
 
-    - fn   !!str
-    - uts  !!float
-    - raw:
-        traces:
-          "{{ technique }}":
-            "{{ col1 }}":
-                [!!int, ...]
-            "{{ col2 }}":
-                {n: [!!float, ...], s: [!!float, ...], u: !!str}
+  In previous versions of :mod:`yadg`, the :mod:`~yadg.parsers.electrochem` parser
+  optionally transposed data from impedance spectroscopy, grouping the datapoints
+  in each scan into a single "trace". This behaviour has been removed in ``yadg-5.0``.
 
-.. note::
-
-  This transposing behaviour can be toggled off by setting the ``transpose``
-  parameter to ``False``, see documentation of the
-  :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.ElectroChem.Params` class.
-
+Module Functions
+````````````````
 
 """
-from .main import process
+import xarray as xr
+from . import eclabmpr, eclabmpt, tomatojson
 
-__all__ = ["process"]
+
+def process(
+    *,
+    filetype: str,
+    **kwargs: dict,
+) -> xr.Dataset:
+    """
+    Unified parser for electrochemistry data. Forwards ``kwargs`` to the worker functions
+    based on the supplied ``filetype``.
+
+    Parameters
+    ----------
+    filetype
+        Discriminator used to select the appropriate worker function.
+
+    Returns
+    -------
+    :class:`xr.Dataset`
+
+    """
+    if filetype == "eclab.mpr":
+        return eclabmpr.process(**kwargs)
+    elif filetype == "eclab.mpt":
+        return eclabmpt.process(**kwargs)
+    elif filetype == "tomato.json":
+        return tomatojson.process(**kwargs)

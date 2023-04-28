@@ -29,11 +29,12 @@ The metadata will contain the information from the header of the file.
     The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
     is not yet complete.
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 import re
 import logging
 import locale as lc
+import xarray as xr
 from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 from .eclabcommon.techniques import get_resolution, technique_params, param_from_key
@@ -198,11 +199,13 @@ def process_data(
 
 
 def process(
+    *,
     fn: str,
     encoding: str,
     locale: str,
     timezone: ZoneInfo,
-) -> tuple[list, dict, bool]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes EC-Lab human-readable text export files.
 
     Parameters
@@ -218,9 +221,8 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag. For mpt files,
-        the full date might not be specified if header is not present.
+    :class:`xr.Dataset`
+        The full date may not be specified if header is not present.
 
     """
     file_magic = "EC-Lab ASCII FILE\n"

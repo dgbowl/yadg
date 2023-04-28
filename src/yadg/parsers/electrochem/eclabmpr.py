@@ -192,11 +192,12 @@ host address and an acquisition start timestamp in Microsoft OLE format.
     of any external sensors plugged into the device), the ``log`` is usually
     not present and therefore the full timestamp cannot be calculated.
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 import logging
 from typing import Any
 from zoneinfo import ZoneInfo
+import xarray as xr
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
 from .eclabcommon.techniques import (
@@ -645,23 +646,16 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                     "standard_name": f"{n} standard_error",
                 }
                 del ds[f"{k}_std_err"]
-
-        #            for i in range(len(data)):
-        #                if k in data[i]:
-        #                    data[i][n] = data[i].pop(k)
-        #                    data[i][n]["u"] = u
-        #                    ds = ext[k + " max x"] - ext[k + " min x"]
-        #                    ds = ds / (ext[k + " max V"] - ext[k + " min V"])
-        #                    data[i][n]["s"] = data[i][n]["s"] * ds
-        # shove the whole ext into settings
         settings.update(ext)
     return settings, params, ds, log, loop
 
 
 def process(
+    *,
     fn: str,
     timezone: ZoneInfo,
-) -> tuple[list, dict, bool]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes EC-Lab raw data binary files.
 
     Parameters
@@ -677,9 +671,8 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag. For mpr files,
-        the full date is specified if the "LOG" module is present.
+    :class:`xr.Dataset`
+        The full date is specified only if the "LOG" module is present.
 
     """
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"

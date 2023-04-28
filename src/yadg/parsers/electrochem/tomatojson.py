@@ -48,7 +48,7 @@ I_ranges = {
 }
 
 
-def process(fn: str) -> xr.Dataset:
+def process(*, fn: str, **kwargs: dict) -> xr.Dataset:
     with open(fn, "r") as infile:
         jsdata = json.load(infile)
 

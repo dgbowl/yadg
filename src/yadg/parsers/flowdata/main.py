@@ -1,9 +1,7 @@
 import logging
-from pydantic import BaseModel
+import xarray as xr
 from zoneinfo import ZoneInfo
 from . import drycal
-from xarray import DataArray
-from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
@@ -11,12 +9,11 @@ logger = logging.getLogger(__name__)
 def process(
     *,
     fn: str,
+    filetype: str,
     encoding: str,
     timezone: ZoneInfo,
-    locale: str,
-    filetype: str,
-    parameters: BaseModel,
-) -> DataTree:
+    **kwargs: dict,
+) -> xr.Dataset:
     """
     Flow meter data processor
 
@@ -38,9 +35,7 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and full date tag. Whether full date
-        is returned depends on the file parser.
+    :class:`xr.Dataset`
 
     """
 
@@ -67,6 +62,6 @@ def process(
                     ndays += 1
                     uts = utslist[i] + ndays * 86400
                 utslist[i] = uts
-        vals["uts"] = DataArray(data=utslist, dims=["uts"])
+        vals["uts"] = xr.DataArray(data=utslist, dims=["uts"])
         vals.attrs["fulldate"] = False
     return vals

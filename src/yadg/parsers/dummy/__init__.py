@@ -18,7 +18,7 @@ The output schema is only defined for the ``tomato.json`` filetype.
 
 .. code-block:: yaml
 
-  xr.Dataset
+  xr.Dataset:
     coords:
       uts:           !!float
     data_vars:

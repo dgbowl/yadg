@@ -62,26 +62,7 @@ File Structure of `.sac` Files
     data_position + (n * timestep_length) + 0x06 "datapoints"
     ...
 
-
-Structure of Parsed Timesteps
-`````````````````````````````
-
-.. code-block:: yaml
-
-    - fn:  !!str
-    - uts: !!float
-    - raw:
-        traces:
-          "{{ trace_number }}":  # number of the trace
-            y_title:  !!str      # y-axis label from file
-            comment:  !!str      # comment
-            fsr:      !!str      # full scale range of detector
-            m/z:                 # masses are always in amu
-              {n: [!!float, ...], s: [!!float, ...], u: "amu"}
-            y:                   # y-axis units from file
-              {n: [!!float, ...], s: [!!float, ...], u: !!str}
-
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 from typing import Any
 import numpy as np
@@ -182,8 +163,10 @@ def _find_first_data_position(scan_headers: list[dict]) -> int:
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "localtime"
-) -> tuple[list, dict, None]:
+    *,
+    fn: str,
+    **kwargs: dict,
+) -> DataTree:
     """Processes a Quadstar 32-bit analog data .sac file.
 
     Parameters
@@ -191,16 +174,12 @@ def process(
     fn
         The file containing the trace(s) to parse.
 
-    encoding
-        Encoding of ``fn``, by default "utf-8".
-
-    timezone
-        A string description of the timezone. Default is "localtime".
-
     Returns
     -------
-    (data, metadata, common) : tuple[list, dict, None]
-        Tuple containing the timesteps, metadata, and common data.
+    :class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per mass trace.
+        The traces in the Quadstar ``.sac`` files are not named, therefore their index
+        is used as the :class:`xr.Dataset` name.
 
     """
     with open(fn, "rb") as sac_file:

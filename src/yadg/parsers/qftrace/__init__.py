@@ -22,26 +22,49 @@ Available since ``yadg-3.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.qftrace.provides:
 
-Provides
-````````
-This raw data is stored, for each timestep, using the following format:
+Schema
+``````
+For filetypes containing the reflection trace data, the schema is as follows:
 
 .. code-block:: yaml
 
-  - raw:
-      avg:             !!int  # number of scans that are averaged for each trace
-      bw:                     # filter bandwith used to measure the trace
-        {n: !!float, s: !!float, u: "Hz"}
-      traces:
-        "{{ trace_name }}":   # detector name, currently hard-coded to S11
-          f:                  # frequency-axis units are always Hz
-            {n: [!!float, ...], s: [!!float, ...], u: "Hz"}
-          Re(G):              # real part of the reflection coefficient
-            {n: [!!float, ...], s: [!!float, ...], u: !!str}
-          Im(G):              # imaginary part of the reflection coefficient
-            {n: [!!float, ...], s: [!!float, ...], u: !!str}
+  datatree.DataTree:
+    S11:
+      coords:
+        uts:        !!float
+        freq:       !!float       # Field frequency (Hz)
+      data_vars:
+        Re(G):      (uts, freq)   # Imaginary part of the reflection coefficient
+        Im(G)       (uts, freq)   # Real part of the reflection coefficient
+        average:    (uts)         # Number of scans averaged to form a single trace
+        bandwidth:  (uts)         # Filter bandwidth (Hz)
+
+Module Functions
+````````````````
 
 """
-from .main import process
+from . import labviewcsv
+import datatree
 
-__all__ = ["process"]
+
+def process(
+    *,
+    filetype: str,
+    **kwargs: dict,
+) -> datatree.DataTree:
+    """
+    VNA reflection trace parser. Forwards ``kwargs`` to the worker functions
+    based on the supplied ``filetype``.
+
+    Parameters
+    ----------
+    filetype
+        Discriminator used to select the appropriate worker function.
+
+    Returns
+    -------
+    :class:`datatree.DataTree`
+
+    """
+    if filetype == "labview.csv":
+        return labviewcsv.process(**kwargs)

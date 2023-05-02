@@ -1,8 +1,9 @@
 """
-**labviewcsv**: Processing LabView CSV files generated using Agilent PNA-L N5320C.
-----------------------------------------------------------------------------------
+**labviewcsv**: Processing Agilent LabVIEW CSV files
+----------------------------------------------------
 
-This file format includes a header, with the values of bandwith and averaging,
+Used to process files generated using Agilent PNA-L N5320C via its LabVIEW driver.
+This file format includes a header, with the values of bandwidth and averaging,
 and three tab-separated columns containing the frequency :math:`f`, and the real
 and imaginary parts of the complex reflection coefficient :math:`\\Gamma(f)`.
 
@@ -10,18 +11,22 @@ Timestamps are determined from file name. One trace per file. As the set-up for
 which this format was designed always uses the ``S11`` port, the name of the trace
 is hard-coded to this value.
 
-.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+.. codeauthor:: Peter Kraus
 """
 
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
+import datatree
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "timezone"
-) -> tuple[list, dict]:
+    *,
+    fn: str,
+    encoding: str = "utf-8",
+    **kwargs: dict,
+) -> datatree.DataTree:
     """
-    VNA reflection trace parser.
+    VNA reflection trace parser for Agilent's LabVIEW driver.
 
     Parameters
     ----------
@@ -31,13 +36,12 @@ def process(
     encoding
         Encoding of ``fn``, by default "utf-8".
 
-    timezone
-        A string description of the timezone. Default is "localtime".
-
     Returns
     -------
-    (data, metadata) : tuple[list, None]
-        Tuple containing the timesteps, metadata, and common data.
+    :class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing a single :class:`xr.Dataset` with the
+        ``S11`` (reflection) trace.
+
     """
 
     with open(fn, "r", encoding=encoding) as infile:
@@ -98,12 +102,12 @@ def process(
                 {"standard_name": "Im(G) standard_error"},
             ),
             "average": avg,
-            "bandwith": (
+            "bandwidth": (
                 [],
                 bw[0],
                 {"units": "Hz", "ancillary_variables": "bandwidth_std_err"},
             ),
-            "bandwith_std_err": (
+            "bandwidth_std_err": (
                 [],
                 bw[1],
                 {"units": "Hz", "standard_name": "bandwidth standard_error"},
@@ -123,4 +127,4 @@ def process(
         },
     )
 
-    return vals
+    return datatree.DataTree.from_dict(dict(S11=vals))

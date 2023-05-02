@@ -46,7 +46,7 @@ for each trace / detector name:
 
 .. code-block:: yaml
 
-  datatree.Datatree:
+  datatree.DataTree:
     {{ detector_name }}  !!xr.Dataset
       coords:
         uts:             !!float               # Timestamp of the chromatogram

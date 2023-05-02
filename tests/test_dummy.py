@@ -31,7 +31,7 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     assert len(ret.children) == l_dg, "wrong number of steps"
     if l_dg > 0:
         assert len(ret["0"].get("uts", [])) == l_res, "wrong number of timesteps"
-    ret.to_netcdf("test.nc")
+    ret.to_netcdf("test.nc", engine="h5netcdf")
     ref = datatree.open_datatree("test.nc")
     print(ref)
     assert ref == ret
@@ -66,7 +66,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     )
     for k, v in ts["kwargs"].items():
         assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"
-    ret.to_netcdf("test.nc")
+    ret.to_netcdf("test.nc", engine="h5netcdf")
     ref = datatree.open_datatree("test.nc")
     print(ref)
     assert ref == ret

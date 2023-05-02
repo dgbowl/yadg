@@ -158,7 +158,7 @@ def preset(args: argparse.Namespace) -> None:
             datagram.attrs["data_archive_sha-1"] = hash
             datagram.attrs["data_archive_path"] = fn
         logger.info("Saving datagram to '%s'.", args.outfile)
-        datagram.to_netcdf(args.outfile)
+        datagram.to_netcdf(args.outfile, engine="h5netcdf")
     else:
         if args.archive:
             logger.warning(

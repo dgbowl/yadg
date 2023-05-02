@@ -46,8 +46,8 @@ setuptools.setup(
         "requests",
         "netcdf4",
         "xarray-datatree>=0.0.12",
-        # "dgbowl-schemas>=114",
-        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
+        "dgbowl-schemas>=114",
+        #"dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
     ],
     extras_require={
         "testing": ["pytest"],

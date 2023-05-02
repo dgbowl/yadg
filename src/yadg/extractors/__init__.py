@@ -3,9 +3,14 @@ import logging
 from dgbowl_schemas.yadg import ExtractorFactory
 from pydantic import ValidationError
 from pathlib import Path
+from zoneinfo import ZoneInfo
 import pandas as pd
+import xarray as xr
+import datatree
+from typing import Union
 import json
-from importlib import metadata as importmeta
+from yadg.core import datagram_version
+from yadg import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -23,24 +28,7 @@ for modname in {"eclabmpr", "eclabmpt"}:
         raise e
 
 
-def load_json(path: Path) -> dict:
-    """
-    Utility function for loading outputs of :func:`extract` stored as ``json`` files
-    into ``dicts`` containing data (nominal and sigma) in :class:`pd.DataFrame` objects.
-    """
-    with path.open("r") as inf:
-        js = json.load(inf)
-    orient = js["yadg_metadata"]["with_orient"]
-    for table in {"values", "sigmas"}:
-        js["content"][table] = pd.DataFrame.from_dict(
-            js["content"][table], orient=orient
-        )
-    return js
-
-
-def extract(
-    filetype: str, path: Path, as_dict: bool = True, orient: str = "tight"
-) -> dict:
+def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
     """
     Extract worker function.
 
@@ -63,15 +51,6 @@ def extract(
     path:
         A :class:`pathlib.Path` object pointing to the file to be extracted.
 
-    as_dict:
-        A :class:`bool` flag (default is ``True``) for toggling ``dict``-like export of
-        extracted data (which can be written using :mod:`json`) instead of returning
-        :class:`pd.DataFrames`.
-
-    orient:
-        A :class:`str` argument with which the :class:`pd.DataFrames` will be exported
-        into :class:`dicts`.
-
     Returns
     -------
 
@@ -93,28 +72,21 @@ def extract(
         raise RuntimeError(f"Filetype '{filetype}' could not be understood.")
 
     if ftype.filetype in extractors:
-        metadata, nominal, sigma, units = extractors[ftype.filetype](path, ftype)
-        ret = {
-            "yadg_metadata": {
-                "version": importmeta.version("yadg"),
-                "filename": str(path),
-                "filetype": ftype.filetype,
-            },
-            "content": {
-                "metadata": metadata,
-                "units": units,
-            },
+        ret = extractors[ftype.filetype](
+            fn=str(path),
+            encoding=ftype.encoding,
+            timezone=ZoneInfo(ftype.timezone),
+            locale=ftype.locale,
+        )
+        ret.attrs = {
+            "provenance": "yadg extract",
+            "date": dgutils.now(asstr=True),
+            "datagram_version": datagram_version,
+            "yadg_extract_filename": str(path),
+            "yadg_extract_filetype": str(ftype),
         }
-
-        if as_dict:
-            ret["yadg_metadata"]["with_orient"] = orient
-            ret["content"]["values"] = nominal.to_dict(orient=orient)
-            ret["content"]["sigmas"] = sigma.to_dict(orient=orient)
-        else:
-            ret["content"]["values"] = nominal
-            ret["content"]["sigmas"] = sigma
 
         return ret
 
 
-__all__ = ["extract", "load_json"]
+__all__ = ["extract"]

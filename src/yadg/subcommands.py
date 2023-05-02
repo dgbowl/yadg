@@ -6,6 +6,7 @@ import yaml
 import shutil
 import hashlib
 from pathlib import Path
+import datatree
 
 # from dgbowl_schemas import to_dataschema
 from dgbowl_schemas.yadg import to_dataschema
@@ -72,7 +73,7 @@ def process(args: argparse.Namespace) -> None:
     datagram = core.process_schema(ds)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
-    datagram.to_netcdf(args.outfile)
+    datagram.to_netcdf(args.outfile, engine="h5netcdf")
     # with open(args.outfile, "w") as ofile:
     #    json.dump(datagram, ofile, indent=1)
 
@@ -198,6 +199,4 @@ def extract(args: argparse.Namespace) -> None:
         outpath = Path(args.outfile)
 
     ret = extractors.extract(args.filetype, path)
-
-    with outpath.open(mode="w") as out:
-        json.dump(ret, out)
+    ret.to_netcdf(outpath, engine="h5netcdf")

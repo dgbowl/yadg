@@ -1,7 +1,7 @@
 import pytest
 import subprocess
 import os
-import json
+import numpy as np
 from datatree import open_datatree
 
 from .utils import pars_datagram_test, standard_datagram_test
@@ -167,16 +167,19 @@ def test_yadg_preset_roundtrip_uts(datadir):
         ("eclab.mpr", "cp.mpr"),
         ("marda:biologic-mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
-        #        ("marda:biologic-mpt", "cp.mpt")
     ],
 )
 def test_yadg_extract(filetype, infile, datadir):
     os.chdir(datadir)
-    command = ["yadg", "extract", filetype, infile, "test.json"]
+    command = ["yadg", "extract", filetype, infile, "test.nc"]
     subprocess.run(command, check=True)
-    assert os.path.exists("test.json")
-    with open("test.json", "r") as inf:
-        ret = json.load(inf)
-    with open(f"ref.{infile}.json") as inf:
-        ref = json.load(inf)
-    assert ret["content"] == ref["content"]
+    assert os.path.exists("test.nc")
+    ret = open_datatree("test.nc")
+    ref = open_datatree(f"ref.{infile}.nc")
+    for k in ret:
+        if "units" in ret[k].attrs:
+            np.testing.assert_allclose(ret[k], ref[k])
+        else:
+            np.testing.assert_array_equal(ret[k], ref[k])
+    for k in ref:
+        assert k in ret

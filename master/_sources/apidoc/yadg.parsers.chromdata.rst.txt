@@ -38,9 +38,3 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
-
-
-.. automodule:: yadg.parsers.chromdata.main
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -5,12 +5,3 @@
    :members:
    :undoc-members:
    :show-inheritance:
-
-Submodules
-----------
-
-
-.. automodule:: yadg.parsers.meascsv.main
-   :members:
-   :undoc-members:
-   :show-inheritance:

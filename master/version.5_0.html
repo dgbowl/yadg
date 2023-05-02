@@ -109,6 +109,8 @@
 <blockquote>
 <div><ul class="simple">
 <li><p>Support for <code class="docutils literal notranslate"><span class="pre">DataSchema-5.0</span></code>.</p></li>
+<li><p>The output format of <code class="docutils literal notranslate"><span class="pre">yadg</span></code> is now a <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> file (<code class="docutils literal notranslate"><span class="pre">.nc</span></code>), as written by the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> module.</p></li>
 <li><p>Automatic update of read <cite>dataschemas</cite> from version <code class="docutils literal notranslate"><span class="pre">DataSchema-4.0</span></code> and above,
 yielding the latest verison of <cite>dataschema</cite> prior to parsing.</p></li>
 </ul>
@@ -121,6 +123,8 @@ in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span><
 in <code class="docutils literal notranslate"><span class="pre">dgpost-2.0</span></code>.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code> functionality is now only for updating <cite>dataschema</cite>; the ability
 to update <cite>datagrams</cite> has been removed.</p></li>
+<li><p>The parameter <code class="docutils literal notranslate"><span class="pre">transpose</span></code> from <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser is no longer
+available; all electrochemistry data is returned as plain timesteps.</p></li>
 </ul>
 </div></blockquote>
 <p>Bug fixes include:</p>

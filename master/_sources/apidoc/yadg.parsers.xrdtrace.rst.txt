@@ -16,12 +16,6 @@ Submodules
    :show-inheritance:
 
 
-.. automodule:: yadg.parsers.xrdtrace.main
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 .. automodule:: yadg.parsers.xrdtrace.panalyticalcsv
    :members:
    :undoc-members:

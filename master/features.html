@@ -58,7 +58,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timestamping">Timestamping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#object-validation">Object validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dataschema-validation">DataSchema validation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
@@ -155,18 +155,13 @@ file formats may not define both date and time of each datapoint, or may define
 neither. That is why yadg includes a powerful “external date” interface, see
 <a class="reference internal" href="apidoc/yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.dateutils.complete_timestamps()</span></code></a>.</p>
 </section>
-<section id="object-validation">
-<h2>Object validation<a class="headerlink" href="#object-validation" title="Permalink to this headline"></a></h2>
-<p>Additionally, yadg provides <cite>dataschema</cite> and <cite>datagram</cite> validation functionality.
-The validation of <cite>dataschema</cite> is handled using a
-<a class="reference external" href="https://pydantic-docs.helpmanual.io/">Pydantic</a> model implemented in the
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg_dataschema</span></code> package, developed in lockstep with yadg.
-This Pydantic-based validator class should be used to ensure that the incoming
+<section id="dataschema-validation">
+<h2>DataSchema validation<a class="headerlink" href="#dataschema-validation" title="Permalink to this headline"></a></h2>
+<p>Additionally, yadg provides <cite>dataschema</cite> validation functionality, by using the schema
+models from the <code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg_dataschema</span></code> package, implemented in
+<a class="reference external" href="https://pydantic-docs.helpmanual.io/">Pydantic</a>. The schemas are developed in lockstep
+with yadg. This Pydantic-based validator class should be used to ensure that the incoming
 <cite>dataschema</cite> is valid.</p>
-<p>The validation of the created <cite>datagram</cite> is handled by <a class="reference internal" href="apidoc/yadg.core.html#module-yadg.core.validators" title="yadg.core.validators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.core.validators</span></code></a>.
-By default, yadg checks that the <cite>datagram</cite> conforms to the specification. Among
-others, the validator ensures that provenance data is included for every operation,
-and that uncertainties and units are specified for each measurement.</p>
 </section>
 </section>
 

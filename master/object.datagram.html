@@ -122,24 +122,11 @@ while referring to them as “raw data”, since they are present in the parsed 
 <li><p>uniform data timestamping within and between all <cite>datagrams</cite>.</p></li>
 </ul>
 </div></blockquote>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The datagram does not guarantee that the data in the <cite>timesteps</cite> is normalized.
-This means entries may or may not be present in all timesteps within a step. An
-example of this would be if an analyte appears in chromatographic traces after the
-first timesteps - the entry corresponding to the concentration of that analyte is
-<strong>not</strong> back-filled by yadg.</p>
-</div>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<p><a class="reference external" href="https://github.com/dgbowl/yadg/issues/4">https://github.com/dgbowl/yadg/issues/4</a></p>
-<p>The specification of the <cite>datagram</cite> schema should be moved to a Pydantic-based
-model. This feature is expected to be included in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-</div>
-<p>As of <cite>yadg-4.0</cite>, the <cite>datagram</cite> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> which always contains two top-level
-entries:</p>
-<ol class="arabic">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">metadata</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> with information about:</p>
+<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is exported as a <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> file. In memory, it is
+represented by a <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code>, with individual <cite>steps</cite> as nodes of that
+<code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.Datatree</span></code> containing a <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<p>The top level <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> contains the following metadata stored in its
+attributes:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>the version of yadg and the execution command used to generate the <cite>datagram</cite>;</p></li>
@@ -148,55 +135,27 @@ entries:</p>
 <li><p>the <cite>datagram</cite> creation timestamp formatted according to ISO8601.</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">steps</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">list[dict]</span></code> containing the data. The length of this
-array matches the length of the <code class="docutils literal notranslate"><span class="pre">steps</span></code> in the <cite>dataschema</cite> used to generate the
-<cite>datagram</cite>. Each element within the <code class="docutils literal notranslate"><span class="pre">steps</span></code> has further mandatory entries:</p>
+<p>The contents of the attribute fields for each <cite>step</cite> will vary depending on the parser
+used to create the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code>. The following conventions are used:</p>
 <blockquote>
 <div><ul>
-<li><p>The <cite>step</cite> specific <code class="docutils literal notranslate"><span class="pre">metadata</span></code> formatted as a <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">list[dict]</span></code>, containing the actual data, organised as
-a time series. Each entry in <code class="docutils literal notranslate"><span class="pre">&quot;data&quot;</span></code> has:</p>
+<li><p>a <cite>coord</cite> field <code class="docutils literal notranslate"><span class="pre">uts</span></code> contains a Unix timestamp (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>),</p></li>
+<li><p>uncertainties for entries are stored using separate entries with names composed as
+<code class="docutils literal notranslate"><span class="pre">f&quot;{entry}_std_err</span></code></p>
 <blockquote>
 <div><ul class="simple">
-<li><p>a Unix timestamp in its <code class="docutils literal notranslate"><span class="pre">uts</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> entry,</p></li>
-<li><p>a filename of the raw data in its <code class="docutils literal notranslate"><span class="pre">fn</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> entry,</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">raw</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> entry containing any data directly from <code class="docutils literal notranslate"><span class="pre">fn</span></code>.</p></li>
+<li><p>the parent <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}&quot;</span></code> is pointing to its uncertainty by annotation using
+the <code class="docutils literal notranslate"><span class="pre">ancillary_variables</span></code> field,</p></li>
+<li><p>the uncertainty links back to the <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}&quot;</span></code> by annotation using the
+<code class="docutils literal notranslate"><span class="pre">standard_name</span></code> field.</p></li>
 </ul>
 </div></blockquote>
 </li>
+<li><p>the use of spaces (and other whitespace characters) in the names of entries is to
+be avoided,</p></li>
+<li><p>the use of forward slashes (<code class="docutils literal notranslate"><span class="pre">/</span></code>) in the names of entries is not allowed.</p></li>
 </ul>
 </div></blockquote>
-</li>
-</ol>
-<p>All measurement (floating-point) data has to be provided using the <code class="docutils literal notranslate"><span class="pre">&quot;property&quot;:</span> <span class="pre">{&quot;n&quot;:</span>
-<span class="pre">value,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">error,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">&quot;unit&quot;}</span></code> syntax, where both <code class="docutils literal notranslate"><span class="pre">&quot;n&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> are
-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;u&quot;</span></code> is <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. The data can be organised in nested data
-structures, however it is recursively validated.</p>
-<p>In most cases, the data in will consist of a single value per <cite>timestep</cite>. However, it
-is also possible to store lists of data in each <cite>timestep</cite>. Generally, yadg will store
-such data under a <code class="docutils literal notranslate"><span class="pre">traces</span></code> key in the appropriate <code class="docutils literal notranslate"><span class="pre">raw</span></code> or <code class="docutils literal notranslate"><span class="pre">derived</span></code> entry:</p>
-<blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;traces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;FID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;t&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;s&quot;</span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;s&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;u&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">},</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>The above example shows how a chromatographic trace might be stored. At each <cite>timestep</cite>,
-multiple values of <code class="docutils literal notranslate"><span class="pre">&quot;t&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are recorded and stored in a <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, along
-with their uncertainties; the unit applies to each element in the array.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Futher information about the <cite>datagram</cite> can be found in the documentation of
-the <cite>datagram</cite> validator function: <a class="reference internal" href="apidoc/yadg.core.html#yadg.core.validators.validate_datagram" title="yadg.core.validators.validate_datagram"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code></a>,
-as well as in the documentation of each parser.</p>
-</div>
 </section>
 
 

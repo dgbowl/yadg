@@ -33,9 +33,9 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
     Extract worker function.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
-    data is either returned as a ``dict``, where the data tables are dumped by :mod:`pandas`
-    using the appropriate ``orient`` keyword, or they are returned with the data tables
-    intact as :class:`pd.DataFrames`.
+    data is either returned as a :class:`datatree.DataTree` or a :class:`xr.Dataset`,
+    however in either case the returned object has a :func:`ret.to_netcdf(...)` method,
+    which can be used to write the file.
 
     .. warning::
 
@@ -53,12 +53,9 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
 
     Returns
     -------
-
-    ret: dict
-        A dictionary containing the ``yadg_metadata`` and extracted ``content``. Within
-        the content, the ``metadata`` contain any metadata present in the file, the
-        ``values`` and ``sigmas`` contain the nominal values and sigmas of the extracted
-        data, and ``units`` contain the units of columns of dimensional quantities.
+    Union[xr.Dataset, datatree.DataTree]
+        The extracted data and metadata, which can be written to ``NetCDF`` format using
+        :func:`ret.to_netcdf(...)`
 
     """
 

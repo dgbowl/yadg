@@ -1,8 +1,11 @@
 import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from typing import Callable
+from typing import Callable, Any
 from pydantic import BaseModel
 from ... import dgutils
+
+import numpy as np
+import xarray as xr
 
 logger = logging.getLogger(__name__)
 
@@ -10,15 +13,14 @@ logger = logging.getLogger(__name__)
 def process_row(
     headers: list,
     items: list,
-    units: dict,
     datefunc: Callable,
     datecolumns: list,
-) -> dict:
+) -> tuple[dict, dict]:
     """
     A function that processes a row of a table.
 
-    This is the main worker function of ``basiccsv``, but can be re-used by any other
-    parser that needs to process tabular data.
+    This is the main worker function of :mod:`~yadg.parsers.basiccsv`, but is often
+    re-used by any other parser that needs to process tabular data.
 
     Parameters
     ----------
@@ -39,10 +41,9 @@ def process_row(
 
     Returns
     -------
-    element: dict
-        A result dictionary, containing the keys ``"uts"`` with a timestamp,
-        ``"raw"`` for all raw data present in the headers, and ``"derived"``
-        for any data processes via ``calib``.
+    vals, devs
+        A tuple of result dictionaries, with the first element containing the values
+        and the second element containing the deviations of the values.
 
     """
     assert len(headers) == len(items), (
@@ -50,31 +51,82 @@ def process_row(
         f"{headers} and  provided items: {items}."
     )
 
-    assert all([key in units for key in headers]), (
-        f"process_row: Not all entries in provided 'headers' are present "
-        f"in provided 'units': {headers} vs {units.keys()}"
-    )
-
-    raw = dict()
-    element = {"raw": dict()}
+    vals = {}
+    devs = {}
     columns = [column.strip() for column in items]
 
     # Process raw data, assign sigma and units
-    element["uts"] = datefunc(*[columns[i] for i in datecolumns])
+    vals["uts"] = datefunc(*[columns[i] for i in datecolumns])
     for ci, header in enumerate(headers):
         if ci in datecolumns:
             continue
         elif columns[ci] == "":
             continue
         try:
-            val, sig = tuple_fromstr(columns[ci])
-            unit = units[header]
-            element["raw"][header] = {"n": val, "s": sig, "u": unit}
-            raw[header] = (val, sig)
+            val, dev = tuple_fromstr(columns[ci])
+            vals[header] = val
+            devs[header] = dev
         except ValueError:
-            element["raw"][header] = columns[ci]
+            vals[header] = columns[ci]
 
-    return element
+    return vals, devs
+
+
+def append_dicts(
+    vals: dict[str, Any],
+    devs: dict[str, Any],
+    data: dict[str, list[Any]],
+    meta: dict[str, list[Any]],
+    fn: str = None,
+    li: int = 0,
+) -> None:
+    if "_fn" in meta and fn is not None:
+        meta["_fn"].append(str(fn))
+    for k, v in vals.items():
+        if k not in data:
+            data[k] = [None if isinstance(v, str) else np.nan] * li
+        data[k].append(v)
+    for k, v in devs.items():
+        if k not in meta:
+            meta[k] = [np.nan] * li
+        meta[k].append(v)
+
+    for k in set(data) - set(vals):
+        data[k].append(np.nan)
+    for k in set(meta) - set(devs):
+        if k != "_fn":
+            meta[k].append(np.nan)
+
+
+def dicts_to_dataset(
+    data: dict[str, list[Any]],
+    meta: dict[str, list[Any]],
+    units: dict[str, str] = dict(),
+    fulldate: bool = True,
+) -> xr.Dataset:
+    darrs = {}
+    for k, v in data.items():
+        attrs = {}
+        u = units.get(k, None)
+        if u is not None:
+            attrs["units"] = u
+        if k == "uts":
+            continue
+        darrs[k] = xr.DataArray(data=v, dims=["uts"], attrs=attrs)
+        if k in meta:
+            err = f"{k}_std_err"
+            darrs[k].attrs["ancillary_variables"] = err
+            attrs["standard_name"] = f"{k} standard error"
+            darrs[err] = xr.DataArray(data=meta[k], dims=["uts"], attrs=attrs)
+    if "uts" in data:
+        coords = dict(uts=data.pop("uts"))
+    else:
+        coords = dict()
+    if fulldate:
+        attrs = dict()
+    else:
+        attrs = dict(fulldate=False)
+    return xr.Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process(
@@ -82,10 +134,9 @@ def process(
     fn: str,
     encoding: str,
     timezone: str,
-    locale: str,
-    filetype: str,
     parameters: BaseModel,
-) -> tuple[list, dict, bool]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """
     A basic csv parser.
 
@@ -106,14 +157,13 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.BasicCSV`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV`.
 
     Returns
     -------
-    (data, metadata, fulldate): tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and full date tag. No metadata is
-        returned by the basiccsv parser. The full date might not be returned, eg.
-        when only time is specified in columns.
+    :class:`xr.Dataset`
+        No metadata is returned by the :mod:`~yadg.parsers.basiccsv` parser. The full
+        date might not be returned, eg. when only time is specified in columns.
 
     """
 
@@ -129,6 +179,12 @@ def process(
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [h.strip().strip(strip) for h in lines[0].split(parameters.sep)]
+
+    for hi, header in enumerate(headers):
+        if "/" in header:
+            logger.warning("Replacing '/' for '_' in header '%s'.", header)
+            headers[hi] = header.replace("/", "_")
+
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone
     )
@@ -155,15 +211,15 @@ def process(
     units = dgutils.sanitize_units(units)
 
     # Process rows
-    data = []
-    for line in lines[si:]:
-        element = process_row(
+    data_vals = {}
+    meta_vals = {"_fn": []}
+    for li, line in enumerate(lines[si:]):
+        vals, devs = process_row(
             headers,
             [i.strip().strip(strip) for i in line.split(parameters.sep)],
-            units,
             datefunc,
             datecolumns,
         )
-        element["fn"] = str(fn)
-        data.append(element)
-    return data, None, fulldate
+        append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+
+    return dicts_to_dataset(data_vals, meta_vals, units, fulldate)

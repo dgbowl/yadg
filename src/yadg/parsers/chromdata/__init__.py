@@ -1,10 +1,6 @@
 """
-This module handles the reading of post-processed chromatography data, i.e.
-files containing peak areas, concentrations, or mole fractions.
-
-:mod:`~yadg.parsers.chromdata` loads the processed chromatographic data from the
-specified file, including the peak heights, areas, retention times, as well as the
-concentrations and mole fractions (normalised, unitless concentrations).
+Handles the reading of post-processed chromatography data, i.e. files containing peak
+areas, concentrations, or mole fractions.
 
 .. note::
 
@@ -17,7 +13,7 @@ Available since ``yadg-4.2``. The parser supports the following parameters:
 
 .. _yadg.parsers.chromdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.ChromData
 
 .. _yadg.parsers.chromdata.formats:
 
@@ -36,41 +32,61 @@ The ``filetypes`` currently supported by the parser are:
  - Empa's Agilent LC excel export (``empalc.xlsx``):
    see :mod:`~yadg.parsers.chromdata.empalcxlsx`
 
-.. _yadg.parsers.chromdata.provides:
-
-Provides
-````````
-This raw data is stored, for each timestep, using the following format:
+Schema
+``````
+Each file is processed into a single :class:`xr.Dataset`, containing the following
+``coords`` and ``data_vars`` (if present in the file):
 
 .. code-block:: yaml
 
-  - uts: !!float
-    fn:  !!str
-    raw:
-      sampleid: !!str             # sample name or valve ID
-      height:                     # heights of the peak maxima
-        "{{ species_name }}":
-            {n: !!float, s: !!float, u: !!str}
-      area:                       # integrated areas of the peaks
-        "{{ species_name }}":
-            {n: !!float, s: !!float, u: !!str}
-      concentration:
-        "{{ species_name }}":
-            {n: !!float, s: !!float, u: !!str}
-      xout:                       # mole fractions (normalised concentrations)
-        "{{ species_name }}":
-            {n: !!float, s: !!float, u: " "}
-      retention time:
-        "{{ species_name }}":
-            {n: !!float, s: !!float, u: " "}
+  xr.Dataset:
+    coords:
+      uts:            !!float               # Unix timestamp
+      species:        !!str                 # Species names
+    data_vars:
+      height:         (uts, species)        # Peak height maximum
+      area:           (uts, species)        # Integrated peak area
+      retention time: (uts, species)        # Peak retention time
+      concentration:  (uts, species)        # Species concentration (mol/l)
+      xout:           (uts, species)        # Species mole fraction (-)
 
-.. note::
-
-    The mole fractions in ``xout`` always sum up to unity. If there is more than
-    one outlet stream, or if some analytes remain unidentified, the values in
-    ``xout`` will not be accurate.
+Module Functions
+````````````````
 
 """
-from .main import process
+import xarray as xr
 
-__all__ = ["process"]
+from . import (
+    fusionjson,
+    fusionzip,
+    fusioncsv,
+    empalccsv,
+    empalcxlsx,
+)
+
+
+def process(*, filetype: str, **kwargs: dict) -> xr.Dataset:
+    """
+    Unified chromatographic data parser. Forwards ``kwargs`` to the worker functions
+    based on the supplied ``filetype``.
+
+    Parameters
+    ----------
+    filetype
+        Discriminator used to select the appropriate worker function.
+
+    Returns
+    -------
+    :class:`xr.Dataset`
+
+    """
+    if filetype == "fusion.json":
+        return fusionjson.process(**kwargs)
+    elif filetype == "fusion.zip":
+        return fusionzip.process(**kwargs)
+    elif filetype == "fusion.csv":
+        return fusioncsv.process(**kwargs)
+    elif filetype == "empalc.csv":
+        return empalccsv.process(**kwargs)
+    elif filetype == "empalc.xlsx":
+        return empalcxlsx.process(**kwargs)

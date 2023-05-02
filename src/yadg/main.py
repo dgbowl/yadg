@@ -88,7 +88,7 @@ def run_with_arguments():
         "outfile",
         nargs="?",
         help="Output file to save the created datagram to.",
-        default="datagram.json",
+        default="datagram.nc",
     )
     process.add_argument(
         "--ignore-file-errors",
@@ -148,7 +148,7 @@ def run_with_arguments():
         help=(
             "Output file to save the created schema file. Default is 'schema.json'. "
             "If '--process' is specified, the created datagram file will be saved "
-            "instead. Default in that case is 'datagram.json'."
+            "instead. Default in that case is 'datagram.nc'."
         ),
         default=None,
     )

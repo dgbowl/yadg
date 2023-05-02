@@ -1,8 +1,9 @@
 """
-**labviewcsv**: Processing LabView CSV files generated using Agilent PNA-L N5320C.
-----------------------------------------------------------------------------------
+**labviewcsv**: Processing Agilent LabVIEW CSV files
+----------------------------------------------------
 
-This file format includes a header, with the values of bandwith and averaging,
+Used to process files generated using Agilent PNA-L N5320C via its LabVIEW driver.
+This file format includes a header, with the values of bandwidth and averaging,
 and three tab-separated columns containing the frequency :math:`f`, and the real
 and imaginary parts of the complex reflection coefficient :math:`\\Gamma(f)`.
 
@@ -10,18 +11,22 @@ Timestamps are determined from file name. One trace per file. As the set-up for
 which this format was designed always uses the ``S11`` port, the name of the trace
 is hard-coded to this value.
 
-.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+.. codeauthor:: Peter Kraus
 """
 
-import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+import xarray as xr
+import datatree
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "timezone"
-) -> tuple[list, dict]:
+    *,
+    fn: str,
+    encoding: str = "utf-8",
+    **kwargs: dict,
+) -> datatree.DataTree:
     """
-    VNA reflection trace parser.
+    VNA reflection trace parser for Agilent's LabVIEW driver.
 
     Parameters
     ----------
@@ -31,16 +36,14 @@ def process(
     encoding
         Encoding of ``fn``, by default "utf-8".
 
-    timezone
-        A string description of the timezone. Default is "localtime".
-
     Returns
     -------
-    (data, metadata) : tuple[list, None]
-        Tuple containing the timesteps, metadata, and common data.
+    :class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing a single :class:`xr.Dataset` with the
+        ``S11`` (reflection) trace.
+
     """
 
-    data = {"fn": str(fn)}
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     assert (
@@ -60,33 +63,68 @@ def process(
     fsbw = bw[0] / avg
 
     # calculate precision of trace
-    data["raw"] = {"traces": {}, "bw": {"n": bw[0], "s": bw[1], "u": "Hz"}, "avg": avg}
-    freq = []
-    gamma = []
-    real = []
-    imag = []
-    absgamma = []
+    freq = {"vals": [], "devs": []}
+    real = {"vals": [], "devs": []}
+    imag = {"vals": [], "devs": []}
     for line in lines:
         f, re, im = line.strip().split()
         fn, fs = tuple_fromstr(f)
         fs = max(fs, fsbw)
         ren, res = tuple_fromstr(re)
         imn, ims = tuple_fromstr(im)
-        freq.append([fn, fs])
-        real.append([ren, res])
-        imag.append([imn, ims])
-        c = complex(ren, imn)
-        gamma.append(c)
-        absgamma.append(abs(c))
-    temp = {"f": {}, "Re(G)": {}, "Im(G)": {}}
-    freq = [np.array(i) for i in zip(*freq)]
-    temp["f"]["n"], temp["f"]["s"] = [i.tolist() for i in freq]
-    temp["f"]["u"] = "Hz"
-    real = [np.array(i) for i in zip(*real)]
-    temp["Re(G)"]["n"], temp["Re(G)"]["s"] = [i.tolist() for i in real]
-    temp["Re(G)"]["u"] = " "
-    imag = [np.array(i) for i in zip(*imag)]
-    temp["Im(G)"]["n"], temp["Im(G)"]["s"] = [i.tolist() for i in imag]
-    temp["Im(G)"]["u"] = " "
-    data["raw"]["traces"]["S11"] = temp
-    return [data], None
+        freq["vals"].append(fn)
+        freq["devs"].append(fs)
+        real["vals"].append(ren)
+        real["devs"].append(res)
+        imag["vals"].append(imn)
+        imag["devs"].append(ims)
+
+    vals = xr.Dataset(
+        data_vars={
+            "Re(G)": (
+                ["freq"],
+                real["vals"],
+                {"ancillary_variables": "Re(G)_std_err"},
+            ),
+            "Re(G)_std_err": (
+                ["freq"],
+                real["devs"],
+                {"standard_name": "Re(G) standard_error"},
+            ),
+            "Im(G)": (
+                ["freq"],
+                imag["vals"],
+                {"ancillary_variables": "Im(G)_std_err"},
+            ),
+            "Im(G)_std_err": (
+                ["freq"],
+                imag["devs"],
+                {"standard_name": "Im(G) standard_error"},
+            ),
+            "average": avg,
+            "bandwidth": (
+                [],
+                bw[0],
+                {"units": "Hz", "ancillary_variables": "bandwidth_std_err"},
+            ),
+            "bandwidth_std_err": (
+                [],
+                bw[1],
+                {"units": "Hz", "standard_name": "bandwidth standard_error"},
+            ),
+        },
+        coords={
+            "freq": (
+                ["freq"],
+                freq["vals"],
+                {"units": "Hz", "ancillary_variables": "freq_std_err"},
+            ),
+            "freq_std_err": (
+                ["freq"],
+                freq["devs"],
+                {"units": "Hz", "standard_name": "freq standard_error"},
+            ),
+        },
+    )
+
+    return datatree.DataTree.from_dict(dict(S11=vals))

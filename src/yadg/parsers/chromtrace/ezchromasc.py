@@ -3,33 +3,24 @@
 -----------------------------------------------------------------
 
 This file format includes one timestep with multiple traces in each ASCII file. It
-contains a header section, and a sequence of Y datapoints for each detector. The X
-axis is uniform between traces, and its units have to be deduced from the header.
+contains a header section, and a sequence of Y datapoints (``signal``) for each detector.
+The X-axis (``elution_time``) is assumed to be uniform between traces, and its units have
+to be deduced from the header.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: !!str
-      version:  !!str
-      datafile: !!str
-
-.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+.. codeauthor:: Peter Kraus
 """
 import numpy as np
 import logging
 from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from ...dgutils.dateutils import str_to_uts
+import xarray as xr
+from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     """
     EZ-Chrome ASCII export file parser.
 
@@ -49,28 +40,30 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     timezone
         Timezone information. This should be ``"localtime"``.
 
+
     Returns
     -------
-    ([chrom], metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-    metadata = {"filetype": "ezchrom.datasc", "params": {"valve": None}}
-    chrom = {"fn": str(fn), "traces": {}}
+    metadata = {}
+    data = {}
 
     for line in lines:
         for key in ["Version", "Method", "User Name"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata["params"][k] = line.split(f"{key}:")[1].strip()
-        for key in ["Sample ID", "Data File"]:
+                metadata[k] = line.split(f"{key}:")[1].strip()
+        for key in ["Sample ID"]:  # , "Data File"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                chrom[k] = line.split(f"{key}:")[1].strip()
+                metadata[k] = line.split(f"{key}:")[1].strip()
         if line.startswith("Acquisition Date and Time:"):
-            chrom["uts"] = str_to_uts(
+            uts = str_to_uts(
                 timestamp=line.split("Time:")[1].strip(),
                 format="%m/%d/%Y %I:%M:%S %p",
                 timezone=timezone,
@@ -114,28 +107,63 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
         == len(ymuls)
     ), f"datasc: Inconsistent number of traces in {fn}."
 
-    for ti in range(len(samplerates)):
+    data = {}
+    units = {}
+    for ti, npts in enumerate(npoints):
         assert (
             xunits[ti] == "Minutes"
         ), f"datasc: X units label of trace {ti} in {fn} was not understood."
         dt = 60
         xmul = xmuls[ti] * dt / samplerates[ti]
         ymul = ymuls[ti]
-        xsn = np.arange(npoints[ti]) * xmul
-        xss = np.ones(npoints[ti]) * xmul
-        ytup = [tuple_fromstr(li) for li in lines[si : si + npoints[ti]]]
-        ysn, yss = [np.array(p) * ymul for p in zip(*ytup)]
-        chrom["traces"][f"{ti}"] = {"id": ti}
-        chrom["traces"][f"{ti}"]["t"] = {
-            "n": xsn.tolist(),
-            "s": xss.tolist(),
-            "u": "s",
+        xsn = np.arange(npts) * xmul
+        xss = np.ones(npts) * xmul
+        ysn, yss = zip(*[tuple_fromstr(li) for li in lines[si : si + npts]])
+        si += npts
+        data[f"{ti}"] = {
+            "t": (xsn, xss),
+            "y": (np.array(ysn) * ymul, np.array(yss) * ymul),
         }
-        chrom["traces"][f"{ti}"]["y"] = {
-            "n": ysn.tolist(),
-            "s": yss.tolist(),
-            "u": yunits[ti],
-        }
+        units[f"{ti}"] = {"t": "s", "y": yunits[ti]}
 
-        si += npoints[ti]
-    return [chrom], metadata
+    traces = sorted(data.keys())
+    vals = {}
+    for ti in traces:
+        fvals = xr.Dataset(
+            data_vars={
+                "signal": (
+                    ["uts", "elution_time"],
+                    [data[ti]["y"][0]],
+                    {"units": units[ti]["y"], "ancillary_variables": "signal_std_err"},
+                ),
+                "signal_std_err": (
+                    ["uts", "elution_time"],
+                    [data[ti]["y"][1]],
+                    {"units": units[ti]["y"], "standard_name": "signal standard_error"},
+                ),
+                "elution_time_std_err": (
+                    ["elution_time"],
+                    data[ti]["t"][1],
+                    {
+                        "units": units[ti]["t"],
+                        "standard_name": "elution_time standard_error",
+                    },
+                ),
+            },
+            coords={
+                "elution_time": (
+                    ["elution_time"],
+                    data[ti]["t"][0],
+                    {
+                        "units": units[ti]["t"],
+                        "ancillary_variables": "elution_time_std_err",
+                    },
+                ),
+                "uts": (["uts"], [uts]),
+            },
+            attrs={},
+        )
+        vals[ti] = fvals
+    dt = DataTree.from_dict(vals)
+    dt.attrs = metadata
+    return dt

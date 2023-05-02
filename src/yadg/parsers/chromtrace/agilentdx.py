@@ -6,18 +6,6 @@ This is a wrapper parser which unzips the provided DX file, and then uses the
 :mod:`yadg.parsers.chromtrace.agilentch` parser to parse every CH file present in
 the archive. The IT files in the archive are currently ignored.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: !!str
-      version:  !!str
-      datafile: !!str
-
 In addition to the metadata exposed by the CH parser, the ``datafile`` entry
 is populated with the corresponding name of the CH file. The ``fn`` entry in each
 timestep contains the parent DX file.
@@ -33,9 +21,11 @@ import zipfile
 import tempfile
 import os
 from .agilentch import process as processch
+from datatree import DataTree
+import xarray as xr
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Agilent OpenLab DX archive parser.
 
@@ -57,23 +47,34 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     Returns
     -------
-    (chroms, metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
+        multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
+        are collated along the ``uts`` dimension.
+
     """
 
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
-        chroms = []
-        meta = {}
+        dt = None
         for ffn in os.listdir(tempdir):
             if ffn.endswith("CH"):
                 path = os.path.join(tempdir, ffn)
-                _chrom, _meta = processch(path, encoding, timezone)
-                for ts in _chrom:
-                    ts["fn"] = str(fn)
-                    chroms.append(ts)
-                if _meta is not None:
-                    meta.update(_meta)
-                meta["params"]["datafile"] = str(ffn)
-    return chroms, meta
+                fdt = processch(fn=path, encoding=encoding, timezone=timezone)
+                if dt is None:
+                    dt = fdt
+                elif isinstance(dt, DataTree):
+                    for k, v in fdt.items():
+                        if k in dt:  # pylint: disable=E1135
+                            newv = xr.concat(
+                                [dt[k].ds, v.ds],  # pylint: disable=E1136
+                                dim="uts",
+                                combine_attrs="identical",
+                            )
+                        else:
+                            newv = v.ds
+                        dt[k] = DataTree(newv)  # pylint: disable=E1137
+                else:
+                    raise RuntimeError("We should not get here.")
+    return dt

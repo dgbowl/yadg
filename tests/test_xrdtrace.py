@@ -1,7 +1,12 @@
 import json
 import pytest
 
-from .utils import datagram_from_input, standard_datagram_test, compare_result_dicts
+from .utils import (
+    datagram_from_input,
+    standard_datagram_test,
+    compare_result_dicts,
+    dg_get_quantity,
+)
 
 
 @pytest.mark.parametrize(
@@ -36,5 +41,5 @@ def test_datagram_from_xrdtrace(input, ts, datadir):
     with open("xrd_data.json", "r") as inf:
         ref = json.load(inf)
     for k in {"intensity", "angle"}:
-        ret = dg["steps"][ts["step"]]["data"][ts["point"]]["raw"]["traces"]["0"][k]
+        ret = dg_get_quantity(dg, ts["step"], col=k, utsrow=ts["point"])
         compare_result_dicts(ret, ref[k])

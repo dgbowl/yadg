@@ -11,23 +11,23 @@ Exposed metadata:
 
 .. code-block:: yaml
 
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: None
-      version:  !!str
-      datafile: !!str
+    method:   !!str
+    sampleid: !!str
+    version:  !!str
+    datafile: !!str
 
 .. codeauthor:: Peter Kraus
 """
 import zipfile
 import tempfile
 import os
+import xarray as xr
+from datatree import DataTree
 
 from .fusionjson import process as processjson
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Fusion zip file format.
 
@@ -48,23 +48,34 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     Returns
     -------
-    (chroms, metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
+        multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
+        are collated along the ``uts`` dimension.
+
     """
 
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
-        chroms = []
-        meta = {}
+        dt = None
         for ffn in sorted(os.listdir(tempdir)):
             path = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                _chrom, _meta = processjson(path, encoding, timezone)
-                for ts in _chrom:
-                    ts["fn"] = str(fn)
-                    chroms.append(ts)
-                if _meta is not None:
-                    meta.update(_meta)
-                meta["params"]["datafile"] = str(ffn)
-    return chroms, meta
+                fdt = processjson(fn=path, encoding=encoding, timezone=timezone)
+                if dt is None:
+                    dt = fdt
+                elif isinstance(dt, DataTree):
+                    for k, v in fdt.items():
+                        if k in dt:  # pylint: disable=E1135
+                            newv = xr.concat(
+                                [dt[k].ds, v.ds],  # pylint: disable=E1136
+                                dim="uts",
+                                combine_attrs="identical",
+                            )
+                        else:
+                            newv = v.ds
+                        dt[k] = DataTree(newv)  # pylint: disable=E1137
+                else:
+                    raise RuntimeError("We should not get here.")
+    return dt

@@ -15,7 +15,7 @@ steps:
   - parser: chromtrace
     input:
         folders: ["."]
-        suffix: "csv"
+        suffix: "asc"
     parameters:
         filetype: "ezchrom.asc"
         calfile: calib/fhi_gccal.json

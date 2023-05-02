@@ -1,14 +1,13 @@
 """
-This parser handles the reading and processing of any tabular files, as long as
-the first line contains the column headers. By default, the second should contain
-the units. The columns of the table must be separated using a separator such as
-``,``, ``;``, or ``\\t``.
+Handles the reading and processing of any tabular files, as long as the first line
+contains the column headers. By default, the second should contain the units. The
+columns of the table must be separated using a separator such as ``,``, ``;``,
+or ``\\t``.
 
 .. warning::
 
-  Since ``yadg-4.2``, the parser handles sparse tables (i.e. tables with missing
-  data) by creating sparse `datagrams`, which means that the each element of the
-  header might not be present in each timestep.
+  Since ``yadg-5.0``, the parser handles sparse tables (i.e. tables with missing
+  data) by back-filling empty cells with ``np.NaNs``.
 
 .. note::
 
@@ -23,22 +22,25 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.basiccsv.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.BasicCSV.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV
 
-Provides
-````````
+Schema
+``````
 The primary functionality of :mod:`~yadg.parsers.basiccsv` is to load the tabular
 data, and determine the Unix timestamp. The headers of the tabular data are taken
-`verbatim` from the file, and appear as ``raw`` data keys:
+`verbatim` from the file, and appear as ``data_vars`` of the :class:`xr.Dataset`.
+The single ``coord`` for the ``data_vars`` is the deduced Unix timestamp, ``uts``.
 
 .. code-block:: yaml
 
-  - uts: !!float
-    fn:  !!str
-    raw:
-        "{{ column_name }}":
-            {n: !!float, s: !!float, u: !!str}
+  xr.Dataset:
+    coords:
+      uts:            !!float               # Unix timestamp
+    data_vars:
+      {{ headers }}:  (uts)                 # Populated from file headers
 
+Module Functions
+````````````````
 
 """
 

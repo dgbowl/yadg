@@ -8,18 +8,6 @@ the `magic_values` (parameters & metadata) and `data_dtypes` (data) dictionaries
 Adapted from `ImportAgilent.m <https://bit.ly/3HSelIR>`_ and
 `aston <https://github.com/bovee/Aston>`_.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      sampleid: !!str
-      username: !!str
-      version:  !!str
-      datafile: None
-
 File Structure of ``.ch`` files
 ```````````````````````````````
 .. code ::
@@ -43,12 +31,14 @@ File Structure of ``.ch`` files
 Data is stored in a consecutive set of ``<f8``, starting at the offset (calculated
 as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 
-.. codeauthor:: Peter Kraus <peter.kraus@empa.ch>
+.. codeauthor:: Peter Kraus
 """
 import numpy as np
 from zoneinfo import ZoneInfo
 from ... import dgutils
 from ...dgutils.dateutils import str_to_uts
+import xarray as xr
+from datatree import DataTree
 
 magic_values = {}
 magic_values["179"] = {
@@ -72,7 +62,7 @@ data_dtypes = {}
 data_dtypes["179"] = (8, "<f8")
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
+def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     """
     Agilent OpenLAB signal trace parser
 
@@ -91,8 +81,11 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
 
     Returns
     -------
-    ([chrom], metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
+        there is only one detector data in each CH file, this nesting is only for
+        consistency with other filetypes.
+
     """
 
     with open(fn, "rb") as infile:
@@ -109,6 +102,11 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
     assert nbytes % dsize == 0
     npoints = nbytes // dsize
 
+    metadata = dict()
+    for k in ["sampleid", "username", "method"]:
+        metadata[k] = pars[k]
+    metadata["version"] = str(magic)
+
     xsn = np.linspace(pars["xmin"] / 1000, pars["xmax"] / 1000, num=npoints)
     xss = np.ones(npoints) * xsn[0]
     with open(fn, "rb") as infile:
@@ -117,25 +115,38 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
 
     detector, title = pars["tracetitle"].split(",")
 
-    chrom = {
-        "fn": str(fn),
-        "uts": str_to_uts(
-            timestamp=pars["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
-        ),
-        "traces": {
-            detector: {
-                "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
-                "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": pars["yunit"]},
-                "id": 0,
-            }
+    uts = str_to_uts(
+        timestamp=pars["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
+    )
+
+    ds = xr.Dataset(
+        data_vars={
+            "signal": (
+                ["uts", "elution_time"],
+                [ysn],
+                {"units": pars["yunit"], "ancillary_variables": "signal_std_err"},
+            ),
+            "signal_std_err": (
+                ["uts", "elution_time"],
+                [yss],
+                {"units": pars["yunit"], "standard_name": "signal standard_error"},
+            ),
+            "elution_time_std_err": (
+                ["elution_time"],
+                xss,
+                {"units": "s", "standard_name": "elution_time standard_error"},
+            ),
         },
-    }
-    metadata = {"type": "agilent.ch", "params": {}}
-
-    for k in ["sampleid", "username", "method"]:
-        metadata["params"][k] = pars[k]
-    metadata["params"]["valve"] = None
-    metadata["params"]["version"] = str(magic)
-    metadata["params"]["datafile"] = None
-
-    return [chrom], metadata
+        coords={
+            "elution_time": (
+                ["elution_time"],
+                xsn,
+                {"units": "s", "ancillary_variables": "elution_time_std_err"},
+            ),
+            "uts": (["uts"], [uts]),
+        },
+        attrs={"title": title},
+    )
+    dt = DataTree.from_dict({detector: ds})
+    dt.attrs = metadata
+    return dt

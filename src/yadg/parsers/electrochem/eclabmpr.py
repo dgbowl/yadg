@@ -192,209 +192,30 @@ host address and an acquisition start timestamp in Microsoft OLE format.
     of any external sensors plugged into the device), the ``log`` is usually
     not present and therefore the full timestamp cannot be calculated.
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 import logging
-from collections import defaultdict
 from typing import Any
 from zoneinfo import ZoneInfo
+import xarray as xr
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
-from .eclabtechniques import technique_params_dtypes, param_from_key, get_resolution
+from .eclabcommon.techniques import (
+    technique_params_dtypes,
+    param_from_key,
+    get_resolution,
+)
+from .eclabcommon.mpr_columns import (
+    module_header_dtype,
+    settings_dtypes,
+    flag_columns,
+    data_columns,
+    log_dtypes,
+    extdev_dtypes,
+)
+from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
-
-# Module header starting after each MODULE keyword.
-module_header_dtype = np.dtype(
-    [
-        ("short_name", "|S10"),
-        ("long_name", "|S25"),
-        ("length", "<u4"),
-        ("version", "<u4"),
-        ("date", "|S8"),
-    ]
-)
-
-
-# Relates the offset in the settings data to the corresponding dtype and
-# name. Maybe watch out for very long pascal strings as they may span
-# over the entire zero padding and shift the offsets.
-settings_dtypes = {
-    0x0007: ("pascal", "comments"),
-    0x0107: ("<f4", "active_material_mass"),
-    0x010B: ("<f4", "at_x"),
-    0x010F: ("<f4", "molecular_weight"),
-    0x0113: ("<f4", "atomic_weight"),
-    0x0117: ("<f4", "acquisition_start"),
-    0x011B: ("<u2", "e_transferred"),
-    0x011E: ("pascal", "electrode_material"),
-    0x01C0: ("pascal", "electrolyte"),
-    0x0211: ("<f4", "electrode_area"),
-    0x0215: ("pascal", "reference_electrode"),
-    0x024C: ("<f4", "characteristic_mass"),
-    0x025C: ("<f4", "battery_capacity"),
-    0x0260: ("|u1", "battery_capacity_unit"),
-    # NOTE: The compliance limits are apparently not always at this
-    # offset, hence commented out...
-    # 0x19d2: ("<f4", "compliance_min"),
-    # 0x19d6: ("<f4", "compliance_max"),
-}
-
-
-# Maps the flag column ID bytes to the corresponding bitmask and name.
-flag_columns = {
-    0x0001: (0b00000011, "mode"),
-    0x0002: (0b00000100, "ox/red"),
-    0x0003: (0b00001000, "error"),
-    0x0015: (0b00010000, "control changes"),
-    0x001F: (0b00100000, "Ns changes"),
-    # NOTE: I think the missing bitmask (0b01000000) is a stop bit. It
-    # sometimes appears in the flag byte of the very last data point.
-    0x0041: (0b10000000, "counter inc."),
-}
-
-
-# Maps the data column ID bytes to the corresponding dtype, name and
-# unit.
-data_columns = {
-    0x0004: ("<f8", "time", "s"),
-    0x0005: ("<f4", "control_V/I", "V/mA"),
-    0x0006: ("<f4", "Ewe", "V"),
-    0x0007: ("<f8", "dq", "mA·h"),
-    0x0008: ("<f4", "I", "mA"),
-    0x0009: ("<f4", "Ece", "V"),
-    0x000B: ("<f8", "<I>", "mA"),
-    0x000D: ("<f8", "(Q-Qo)", "mA·h"),
-    0x0010: ("<f4", "Analog IN 1", "V"),
-    0x0011: ("<f4", "Analog IN 2", "V"),
-    0x0013: ("<f4", "control_V", "V"),
-    0x0014: ("<f4", "control_I", "mA"),
-    0x0017: ("<f8", "dQ", "mA·h"),
-    0x0018: ("<f8", "cycle number", None),
-    0x0020: ("<f4", "freq", "Hz"),
-    0x0021: ("<f4", "|Ewe|", "V"),
-    0x0022: ("<f4", "|I|", "A"),
-    0x0023: ("<f4", "Phase(Z)", "deg"),
-    0x0024: ("<f4", "|Z|", "Ω"),
-    0x0025: ("<f4", "Re(Z)", "Ω"),
-    0x0026: ("<f4", "-Im(Z)", "Ω"),
-    0x0027: ("<u2", "I Range", None),
-    0x0046: ("<f4", "P", "W"),
-    0x004A: ("<f8", "Energy", "W·h"),
-    0x004B: ("<f4", "Analog OUT", "V"),
-    0x004C: ("<f4", "<I>", "mA"),
-    0x004D: ("<f4", "<Ewe>", "V"),
-    0x004E: ("<f4", "Cs⁻²", "µF⁻²"),
-    0x0060: ("<f4", "|Ece|", "V"),
-    0x0062: ("<f4", "Phase(Zce)", "deg"),
-    0x0063: ("<f4", "|Zce|", "Ω"),
-    0x0064: ("<f4", "Re(Zce)", "Ω"),
-    0x0065: ("<f4", "-Im(Zce)", "Ω"),
-    0x007B: ("<f8", "Energy charge", "W·h"),
-    0x007C: ("<f8", "Energy discharge", "W·h"),
-    0x007D: ("<f8", "Capacitance charge", "µF"),
-    0x007E: ("<f8", "Capacitance discharge", "µF"),
-    0x0083: ("<u2", "Ns", None),
-    0x00A3: ("<f4", "|Estack|", "V"),
-    0x00A8: ("<f4", "Rcmp", "Ω"),
-    0x00A9: ("<f4", "Cs", "µF"),
-    0x00AC: ("<f4", "Cp", "µF"),
-    0x00AD: ("<f4", "Cp⁻²", "µF⁻²"),
-    0x00AE: ("<f4", "<Ewe>", "V"),
-    0x00F1: ("<f4", "|E1|", "V"),
-    0x00F2: ("<f4", "|E2|", "V"),
-    0x010F: ("<f4", "Phase(Z1)", "deg"),
-    0x0110: ("<f4", "Phase(Z2)", "deg"),
-    0x012D: ("<f4", "|Z1|", "Ω"),
-    0x012E: ("<f4", "|Z2|", "Ω"),
-    0x014B: ("<f4", "Re(Z1)", "Ω"),
-    0x014C: ("<f4", "Re(Z2)", "Ω"),
-    0x0169: ("<f4", "-Im(Z1)", "Ω"),
-    0x016A: ("<f4", "-Im(Z2)", "Ω"),
-    0x0187: ("<f4", "<E1>", "V"),
-    0x0188: ("<f4", "<E2>", "V"),
-    0x01A6: ("<f4", "Phase(Zstack)", "deg"),
-    0x01A7: ("<f4", "|Zstack|", "Ω"),
-    0x01A8: ("<f4", "Re(Zstack)", "Ω"),
-    0x01A9: ("<f4", "-Im(Zstack)", "Ω"),
-    0x01AA: ("<f4", "<Estack>", "V"),
-    0x01AE: ("<f4", "Phase(Zwe-ce)", "deg"),
-    0x01AF: ("<f4", "|Zwe-ce|", "Ω"),
-    0x01B0: ("<f4", "Re(Zwe-ce)", "Ω"),
-    0x01B1: ("<f4", "-Im(Zwe-ce)", "Ω"),
-    0x01B2: ("<f4", "(Q-Qo)", "C"),
-    0x01B3: ("<f4", "dQ", "C"),
-    0x01B9: ("<f4", "<Ece>", "V"),
-    0x01CE: ("<f4", "Temperature", "°C"),
-    0x01D3: ("<f8", "Q charge/discharge", "mA·h"),
-    0x01D4: ("<u4", "half cycle", None),
-    0x01D5: ("<u4", "z cycle", None),
-    0x01D7: ("<f4", "<Ece>", "V"),
-    0x01D9: ("<f4", "THD Ewe", "%"),
-    0x01DA: ("<f4", "THD I", "%"),
-    0x01DB: ("<f4", "THD Ece", "%"),
-    0x01DC: ("<f4", "NSD Ewe", "%"),
-    0x01DD: ("<f4", "NSD I", "%"),
-    0x01DE: ("<f4", "NSD Ece", "%"),
-    0x01DF: ("<f4", "NSR Ewe", "%"),
-    0x01E0: ("<f4", "NSR I", "%"),
-    0x01E1: ("<f4", "NSR Ece", "%"),
-    0x01E6: ("<f4", "|Ewe h2|", "V"),
-    0x01E7: ("<f4", "|Ewe h3|", "V"),
-    0x01E8: ("<f4", "|Ewe h4|", "V"),
-    0x01E9: ("<f4", "|Ewe h5|", "V"),
-    0x01EA: ("<f4", "|Ewe h6|", "V"),
-    0x01EB: ("<f4", "|Ewe h7|", "V"),
-    0x01EC: ("<f4", "|I h2|", "A"),
-    0x01ED: ("<f4", "|I h3|", "A"),
-    0x01EE: ("<f4", "|I h4|", "A"),
-    0x01EF: ("<f4", "|I h5|", "A"),
-    0x01F0: ("<f4", "|I h6|", "A"),
-    0x01F1: ("<f4", "|I h7|", "A"),
-    0x01F2: ("<f4", "|Ece h2|", "V"),
-    0x01F3: ("<f4", "|Ece h3|", "V"),
-    0x01F4: ("<f4", "|Ece h4|", "V"),
-    0x01F5: ("<f4", "|Ece h5|", "V"),
-    0x01F6: ("<f4", "|Ece h6|", "V"),
-    0x01F7: ("<f4", "|Ece h7|", "V"),
-}
-
-
-# Relates the offset in log data to the corresponding dtype and name.
-# NOTE: The safety limits are maybe at 0x200?
-# NOTE: The log also seems to contain the settings again. These are left
-# away for now.
-# NOTE: Looking at .mpl files, the log module appears to consist of
-# multiple 'modify on' sections, each starting with an OLE timestamp.
-log_dtypes = {
-    0x0009: ("|u1", "channel_number"),
-    0x00AB: ("<u2", "channel_sn"),
-    0x01F8: ("<f4", "Ewe_ctrl_min"),
-    0x01FC: ("<f4", "Ewe_ctrl_max"),
-    0x0249: ("<f8", "ole_timestamp"),
-    0x0251: ("pascal", "filename"),
-    0x0351: ("pascal", "host"),
-    0x0384: ("pascal", "address"),
-    0x03B7: ("pascal", "ec_lab_version"),
-    0x03BE: ("pascal", "server_version"),
-    0x03C5: ("pascal", "interpreter_version"),
-    0x03CF: ("pascal", "device_sn"),
-    0x0922: ("|u1", "averaging_points"),
-}
-
-
-extdev_dtypes = {
-    0x0036: ("pascal", "Analog IN 1"),
-    0x0052: ("<f4", "Analog IN 1 max V"),
-    0x0056: ("<f4", "Analog IN 1 min V"),
-    0x005A: ("<f4", "Analog IN 1 max x"),
-    0x005E: ("<f4", "Analog IN 1 min x"),
-    0x0063: ("pascal", "Analog IN 2"),
-    0x007F: ("<f4", "Analog IN 2 max V"),
-    0x0083: ("<f4", "Analog IN 2 min V"),
-    0x0087: ("<f4", "Analog IN 2 max x"),
-    0x008B: ("<f4", "Analog IN 2 min x"),
-}
 
 
 def _read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> str:
@@ -499,7 +320,7 @@ def _read_values(data: bytes, offset: int, dtype, count) -> list:
     return values.tolist()
 
 
-def _process_settings(data: bytes) -> tuple[dict, list]:
+def process_settings(data: bytes) -> tuple[dict, list]:
     """Processes the contents of settings modules.
 
     Parameters
@@ -553,7 +374,7 @@ def _process_settings(data: bytes) -> tuple[dict, list]:
     return settings, params
 
 
-def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
+def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     """Puts together column info from a list of data column IDs.
 
     Note
@@ -581,6 +402,7 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     for id in column_ids:
         if id in flag_columns:
             bitmask, name = flag_columns[id]
+            print(f"{bitmask=} {name=}")
             flags[name] = bitmask
             # Flags column only needs to be added once.
             if "flags" not in names:
@@ -589,10 +411,12 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 units.append(None)
         elif id in data_columns:
             dtype, name, unit = data_columns[id]
+            print(f"{dtype=} {name=} {unit=}")
             names.append(name)
             dtypes.append(dtype)
             units.append(unit)
         else:
+            print(f"{id=}")
             name = f"unknown_{len(names)}"
             logger.warning("Unknown column ID '%d' was assigned into '%s'.", id, name)
             names.append(name)
@@ -601,9 +425,13 @@ def _parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     return names, dtypes, units, flags
 
 
-def _process_data(
-    data: bytes, version: int, Eranges: list[float], Iranges: list[float]
-) -> list[dict]:
+def process_data(
+    data: bytes,
+    version: int,
+    Eranges: list[float],
+    Iranges: list[float],
+    controls: list[str],
+):
     """Processes the contents of data modules.
 
     Parameters
@@ -625,10 +453,14 @@ def _process_data(
     """
     n_datapoints = _read_value(data, 0x0000, "<u4")
     n_columns = _read_value(data, 0x0004, "|u1")
+    print(f"{n_columns=}")
+    # column_ids = _read_values(data, 0x0005, "<u2", n_columns)
     column_ids = _read_values(data, 0x0005, "<u2", n_columns)
+    print(f"{column_ids=}")
     # Length of each datapoint depends on number and IDs of columns.
-    names, dtypes, units, flags = _parse_columns(column_ids)
-    data_dtype = np.dtype(list(zip(names, dtypes)))
+    namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
+    units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
+    data_dtype = np.dtype(list(zip(namelist, dtypelist)))
     # Depending on module version, datapoints start at 0x0195 or 0x0196.
     if version == 2:
         offset = 0x0195
@@ -636,51 +468,55 @@ def _process_data(
         offset = 0x0196
     else:
         raise NotImplementedError(f"Unknown data module version: {version}")
-    datapoints = _read_values(data, offset, data_dtype, n_datapoints)
-    for datapoint in datapoints:
+    allvals = dict()
+    allmeta = dict()
+    for vi, vals in enumerate(_read_values(data, offset, data_dtype, n_datapoints)):
         # Lets split this into two loops: get the indices first, then the data
-        for (name, value), unit in list(zip(datapoint.items(), units)):
+        for (name, value), unit in list(zip(vals.items(), unitlist)):
             if unit is None:
                 intv = int(value)
                 if name == "I Range":
-                    datapoint[name] = param_from_key("I_range", intv)
-                    Irange = param_from_key("I_range", intv, to_str=False)
+                    vals[name] = param_from_key("I_range", intv)
                 else:
-                    datapoint[name] = intv
-        if "Ns" in datapoint:
-            Erange = Eranges[datapoint["Ns"]]
-        else:
-            logger.info(
-                "'Ns' is not in data table, using the first E range from 'params'."
-            )
-            Erange = Eranges[0]
-        if "I Range" not in datapoint:
-            logger.info(
-                "'I Range' is not in data table, using the I range from 'params'."
-            )
-            if "Ns" in datapoint:
-                Irstr = Iranges[datapoint["Ns"]]
-            else:
-                Irstr = Iranges[0]
-            Irange = param_from_key("I_range", Irstr, to_str=False)
-        for (name, value), unit in list(zip(datapoint.items(), units)):
-            if unit is None:
-                continue
-            s = get_resolution(name, value, unit, Erange, Irange)
-            datapoint[name] = {"n": value, "s": s, "u": unit}
-        if flags:
+                    vals[name] = intv
+        if flaglist:
             # logger.debug("Extracting flag values.")
-            flag_bits = datapoint.pop("flags")
-            for name, bitmask in flags.items():
+            flag_bits = vals.pop("flags")
+            for name, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                datapoint[name] = (flag_bits & bitmask) >> shift
-    return datapoints
+                vals[name] = (flag_bits & bitmask) >> shift
+
+        if "Ns" in vals:
+            Erange = Eranges[vals["Ns"]]
+            Irstr = Iranges[vals["Ns"]]
+        else:
+            Erange = Eranges[0]
+            Irstr = Iranges[0]
+        if "I Range" in vals:
+            Irstr = vals["I Range"]
+        Irange = param_from_key("I_range", Irstr, to_str=False)
+        devs = {}
+        if "control_V_I" in vals:
+            icv = controls[vals["Ns"]]
+            name = f"control_{icv}"
+            vals[name] = vals.pop("control_V_I")
+            units[name] = "mA" if icv in {"I", "C"} else "V"
+        for name, value in vals.items():
+            unit = units.get(name)
+            if unit is None:
+                continue
+            devs[name] = get_resolution(name, value, unit, Erange, Irange)
+
+        append_dicts(vals, devs, allvals, allmeta, li=vi)
+
+    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    return ds
 
 
-def _process_log(data: bytes) -> dict:
+def process_log(data: bytes) -> dict:
     """Processes the contents of log modules.
 
     Parameters
@@ -700,7 +536,7 @@ def _process_log(data: bytes) -> dict:
     return log
 
 
-def _process_loop(data: bytes) -> dict:
+def process_loop(data: bytes) -> dict:
     """Processes the contents of loop modules.
 
     Parameters
@@ -719,7 +555,7 @@ def _process_loop(data: bytes) -> dict:
     return {"n_indexes": n_indexes, "indexes": indexes}
 
 
-def _process_ext(data: bytes) -> dict:
+def process_ext(data: bytes) -> dict:
     """Processes the contents of external device modules.
 
     Parameters
@@ -740,7 +576,7 @@ def _process_ext(data: bytes) -> dict:
     return ext
 
 
-def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
+def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     """Handles the processing of all modules.
 
     Parameters
@@ -756,29 +592,36 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
     """
     modules = contents.split(b"MODULE")[1:]
-    settings = data = log = loop = ext = None
+    settings = log = loop = ext = None
     for module in modules:
         header = _read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()
         logger.debug("Read '%s' module.", name)
         module_data = module[module_header_dtype.itemsize :]
         if name == "VMP Set":
-            settings, params = _process_settings(module_data)
+            settings, params = process_settings(module_data)
             Eranges = []
             Iranges = []
+            ctrls = []
             for el in params:
                 E_range_max = el.get("E_range_max", float("inf"))
                 E_range_min = el.get("E_range_min", float("-inf"))
                 Eranges.append(E_range_max - E_range_min)
                 Iranges.append(el.get("I_range", "Auto"))
+                if "set_I/C" in el:
+                    ctrls.append(el["set_I/C"])
+                elif "apply_I/C" in el:
+                    ctrls.append(el["apply_I/C"])
+                else:
+                    ctrls.append(None)
         elif name == "VMP data":
-            data = _process_data(module_data, header["version"], Eranges, Iranges)
+            ds = process_data(module_data, header["version"], Eranges, Iranges, ctrls)
         elif name == "VMP LOG":
-            log = _process_log(module_data)
+            log = process_log(module_data)
         elif name == "VMP loop":
-            loop = _process_loop(module_data)
+            loop = process_loop(module_data)
         elif name == "VMP ExtDev":
-            ext = _process_ext(module_data)
+            ext = process_ext(module_data)
         else:
             raise NotImplementedError(f"Unknown module: {name}.")
     if ext is not None:
@@ -790,24 +633,29 @@ def _process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                 u = " "
             else:
                 n, u = parts
-            for i in range(len(data)):
-                if k in data[i]:
-                    data[i][n] = data[i].pop(k)
-                    data[i][n]["u"] = u
-                    ds = ext[k + " max x"] - ext[k + " min x"]
-                    ds = ds / (ext[k + " max V"] - ext[k + " min V"])
-                    data[i][n]["s"] = data[i][n]["s"] * ds
-        # shove the whole ext into settings
+            if k in ds:
+                ds[n] = ds[k]
+                ds[n].attrs = {"units": u, "ancillary_variables": f"{n}_std_err"}
+                del ds[k]
+                devs = ds[f"{k}_std_err"]
+                fac = ext[k + " max x"] - ext[k + " min x"]
+                fac = fac / (ext[k + " max V"] - ext[k + " min V"])
+                ds[f"{n}_std_err"] = devs * fac
+                ds[f"{n}_std_err"].attrs = {
+                    "units": u,
+                    "standard_name": f"{n} standard_error",
+                }
+                del ds[f"{k}_std_err"]
         settings.update(ext)
-    return settings, params, data, log, loop
+    return settings, params, ds, log, loop
 
 
 def process(
+    *,
     fn: str,
-    encoding: str,
     timezone: ZoneInfo,
-    transpose: bool = True,
-) -> tuple[list, dict, bool]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes EC-Lab raw data binary files.
 
     Parameters
@@ -823,18 +671,17 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag. For mpr files,
-        the full date is specified if the "LOG" module is present.
+    :class:`xr.Dataset`
+        The full date is specified only if the "LOG" module is present.
 
     """
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     with open(fn, "rb") as mpr_file:
         assert mpr_file.read(len(file_magic)) == file_magic, "invalid file magic"
         mpr = mpr_file.read()
-    settings, params, data, log, loop = _process_modules(mpr)
+    settings, params, ds, log, loop = process_modules(mpr)
     assert settings is not None, "no settings module"
-    assert data is not None, "no data module"
+    assert ds is not None, "no data module"
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
@@ -846,36 +693,11 @@ def process(
         metadata["log"] = log
         start_time = ole_to_uts(log["ole_timestamp"], timezone=timezone)
         fulldate = True
-    timesteps = []
-    # If the technique is an impedance spectroscopy, split it into
-    # traces at different cycle numbers and put each trace into its own timestep
-    if settings["technique"] in {"PEIS", "GEIS"} and transpose:
-        # Grouping by cycle.
-        cycles = defaultdict(list)
-        for d in data:
-            cycles[d["cycle number"]].append(d)
-        # Casting cycles into traces.
-        for ti, td in cycles.items():
-            trace = {col: [d[col] for d in td] for col in td[0].keys()}
-            for key, val in trace.items():
-                if not isinstance(val[0], dict):
-                    continue
-                trace[key] = {k: [i[k] for i in val] for k in val[0]}
-                # Reducing unit list to just a string.
-                trace[key]["u"] = set(trace[key]["u"]).pop()
-            uts = start_time + trace["time"]["n"][0]
-            trace["time"]["n"] = [i - trace["time"]["n"][0] for i in trace["time"]["n"]]
-            timesteps.append(
-                {
-                    "uts": uts,
-                    "fn": fn,
-                    "raw": {"traces": {settings["technique"]: trace}},
-                }
-            )
-        return timesteps, metadata, True
-    # All other techniques have multiple timesteps.
-    for d in data:
-        uts = start_time + d["time"]["n"]
-        d["technique"] = settings["technique"]
-        timesteps.append({"fn": fn, "uts": uts, "raw": d})
-    return timesteps, metadata, fulldate
+    if "time" in ds:
+        ds["uts"] = ds["time"] + start_time
+    else:
+        ds["uts"] = [start_time]
+    if fulldate:
+        del ds.attrs["fulldate"]
+    ds.attrs.update(metadata)
+    return ds

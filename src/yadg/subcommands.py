@@ -72,8 +72,9 @@ def process(args: argparse.Namespace) -> None:
     datagram = core.process_schema(ds)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
-    with open(args.outfile, "w") as ofile:
-        json.dump(datagram, ofile, indent=1)
+    datagram.to_netcdf(args.outfile)
+    # with open(args.outfile, "w") as ofile:
+    #    json.dump(datagram, ofile, indent=1)
 
 
 def update(args: argparse.Namespace) -> None:
@@ -149,15 +150,15 @@ def preset(args: argparse.Namespace) -> None:
     if args.process:
         logger.info("Processing created schema.")
         datagram = core.process_schema(ds)
-        args.outfile = "datagram.json" if args.outfile is None else args.outfile
+        args.outfile = "datagram.nc" if args.outfile is None else args.outfile
         if args.archive:
-            zipfile = args.outfile.replace(".json", "")
+            zipfile = args.outfile.replace(".nc", "")
             logger.info("Zipping input folder into '%s'", zipfile)
             fn, hash = _zip_file(args.folder, zipfile, method=args.packwith)
-            datagram["metadata"]["provenance"]["data"] = {"sha-1": hash, "archive": fn}
+            datagram.attrs["data_archive_sha-1"] = hash
+            datagram.attrs["data_archive_path"] = fn
         logger.info("Saving datagram to '%s'.", args.outfile)
-        with open(args.outfile, "w") as ofile:
-            json.dump(datagram, ofile, indent=1)
+        datagram.to_netcdf(args.outfile)
     else:
         if args.archive:
             logger.warning(

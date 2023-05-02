@@ -6,27 +6,17 @@ This is a wrapper parser which unzips the provided zip file, and then uses
 the :mod:`yadg.parsers.chromdata.fusionjson` parser to parse every data
 file present in the archive.
 
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: None
-      version:  !!str
-      datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import zipfile
 import tempfile
 import os
+import xarray as xr
 
 from .fusionjson import process as processjson
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Dataset:
     """
     Fusion zip file format.
 
@@ -47,25 +37,23 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     Returns
     -------
-    (chroms, metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    :class:`xr.Dataset`
+        The data from the inidividual json files contained in the zip archive are
+        concatenated into a single :class:`xr.Dataset`. This might fail if the metadata
+        in the json files differs, or if the dimensions are not easily concatenable.
+
     """
 
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
-        chroms = []
-        meta = {}
-        fd = True
+        ds = None
         for ffn in sorted(os.listdir(tempdir)):
             ffn = os.path.join(tempdir, ffn)
             if ffn.endswith("fusion-data"):
-                _chrom, _meta, _fd = processjson(ffn, encoding, timezone)
-                for ts in _chrom:
-                    ts["fn"] = str(fn)
-                    chroms.append(ts)
-                if _meta is not None:
-                    meta.update(_meta)
-                meta["params"]["datafile"] = str(ffn)
-                fd = fd and _fd
-    return chroms, meta, fd
+                ids = processjson(fn=ffn, encoding=encoding, timezone=timezone)
+                if ds is None:
+                    ds = ids
+                else:
+                    ds = xr.concat([ds, ids], dim="uts", combine_attrs="identical")
+    return ds

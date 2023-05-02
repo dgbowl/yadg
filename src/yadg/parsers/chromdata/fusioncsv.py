@@ -11,36 +11,35 @@ areas, and retention times. The latter is ignored by this parser.
     is discouraged, and the ``json`` files (or a zipped archive of them) should
     be parsed instead.
 
-
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: None
-      version:  None
-      datafile: None
-
 .. codeauthor:: Peter Kraus
 """
 import logging
 from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+import xarray as xr
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
-_headers = {
-    "Concentration": ["concentration", "%"],
-    "NormalizedConcentration": ["xout", "%"],
-    "Area": ["area", " "],
-    "RT(s)": ["retention time", "s"],
+data_names = {
+    "Concentration": "concentration",
+    "NormalizedConcentration": "xout",
+    "Area": "area",
+    "RT(s)": "retention time",
+}
+
+data_units = {
+    "concentration": "%",
+    "xout": "%",
+    "area": None,
+    "retention time": "s",
 }
 
 
-def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
+def process(
+    *, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict
+) -> xr.Dataset:
     """
     Fusion csv export format.
 
@@ -59,14 +58,15 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
 
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
     data = []
+    species = set()
     for line in lines[3:]:
         if "SampleName" in line:
             header = [i.strip() for i in line.split(",")]
@@ -100,19 +100,43 @@ def process(fn: str, encoding: str, timezone: ZoneInfo) -> tuple[list, dict]:
                 "area": {},
                 "retention time": {},
                 "sampleid": items[sni],
+                "uts": str_to_uts(timestamp=f"{items[0]}{offset}", timezone=timezone),
             }
-            uts = str_to_uts(timestamp=f"{items[0]}{offset}", timezone=timezone)
             for ii, i in enumerate(items[2:]):
                 ii += 2
-                h = _headers.get(header[ii], None)
-                chem = samples[ii]
-                if h is None:
-                    continue
-                n, s = tuple_fromstr(i)
-                point[h[0]][chem] = {
-                    "n": n,
-                    "s": s,
-                    "u": h[1],
-                }
-            data.append({"uts": uts, "raw": point, "fn": fn})
-    return data, {"params": {"method": method}}, True
+                species.add(samples[ii])
+                point[data_names[header[ii]]][samples[ii]] = tuple_fromstr(i)
+            data.append(point)
+
+    species = sorted(species)
+    data_vars = {}
+    for kk in {"concentration", "xout", "area", "retention time"}:
+        vals = []
+        devs = []
+        for i in range(len(data)):
+            ivals, idevs = zip(
+                *[data[i][kk].get(cn, (np.nan, np.nan)) for cn in species]
+            )
+            vals.append(ivals)
+            devs.append(idevs)
+        data_vars[kk] = (
+            ["uts", "species"],
+            vals,
+            {"units": data_units[kk], "anciliary_variables": f"{kk}_std_err"},
+        )
+        data_vars[f"{kk}_std_err"] = (
+            ["uts", "species"],
+            devs,
+            {"units": data_units[kk], "standard_name": f"{kk} standard_error"},
+        )
+
+    ds = xr.Dataset(
+        data_vars=data_vars,
+        coords={
+            "species": (["species"], species),
+            "uts": (["uts"], [i["uts"] for i in data]),
+        },
+        attrs=dict(method=method),
+    )
+
+    return ds

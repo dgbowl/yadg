@@ -1,6 +1,5 @@
 """
-This parser handles the reading and processing of flow controller or flow meter
-data.
+Handles the reading and processing of flow controller or flow meter data.
 
 Usage
 `````
@@ -8,7 +7,7 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.flowdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.FlowData
 
 .. _yadg.parsers.flowdata.formats:
 
@@ -25,10 +24,13 @@ The ``filetypes`` currently supported by the parser are:
 
 .. _yadg.parsers.flowdata.provides:
 
-Provides
-````````
+Schema
+``````
 The parser is used to extract all tabular data in the input file. This parser processes
 additional calibration information analogously to :mod:`~yadg.parsers.basiccsv`.
+
+Module Functions
+````````````````
 
 """
 from .main import process

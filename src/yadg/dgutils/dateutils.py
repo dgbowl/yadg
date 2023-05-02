@@ -7,8 +7,8 @@ import logging
 from zoneinfo import ZoneInfo
 import numpy as np
 from typing import Callable, Union, Mapping, Iterable
-from dgbowl_schemas.yadg.dataschema_4_1.externaldate import ExternalDate
-from dgbowl_schemas.yadg.dataschema_4_1.timestamp import TimestampSpec
+from dgbowl_schemas.yadg.dataschema_5_0.externaldate import ExternalDate
+from dgbowl_schemas.yadg.dataschema_5_0.timestamp import TimestampSpec
 
 
 logger = logging.getLogger(__name__)
@@ -238,7 +238,7 @@ def complete_timestamps(
     fn: str,
     spec: ExternalDate,
     timezone: ZoneInfo,
-) -> None:
+) -> list[float]:
     """
     Timestamp completing function.
 
@@ -249,7 +249,7 @@ def complete_timestamps(
 
     The ``externaldate`` specification is as follows:
 
-    .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate
+    .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.externaldate.ExternalDate
        :noindex:
 
     The ``using`` key specifies how an external timestamp is created. Only one entry in
@@ -294,6 +294,7 @@ def complete_timestamps(
     """
     delta = None
 
+    fulldate = True
     if spec is not None:
         replace = spec.mode == "replace"
         method = spec.using
@@ -325,17 +326,19 @@ def complete_timestamps(
     if delta is None:
         logger.warning("Timestamp completion failed. Using 'mtime'.")
         delta = os.path.getmtime(fn)
+        fulldate = False
 
     if isinstance(delta, float):
         delta = [delta] * len(timesteps)
 
     assert len(delta) == len(timesteps)
 
-    for ts in timesteps:
-        if replace:
-            ts["uts"] = delta.pop(0)
-        else:
-            ts["uts"] = ts.get("uts", 0.0) + delta.pop(0)
+    if replace:
+        timesteps = delta
+    else:
+        timesteps = timesteps + delta
+
+    return timesteps, fulldate
 
 
 def timestamps_from_file(

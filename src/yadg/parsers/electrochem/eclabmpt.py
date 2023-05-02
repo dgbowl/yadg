@@ -29,108 +29,22 @@ The metadata will contain the information from the header of the file.
     The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
     is not yet complete.
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+.. codeauthor:: Nicolas Vetsch
 """
 import re
 import logging
-import locale
-from collections import defaultdict
+import locale as lc
+import xarray as xr
+from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
-from .eclabtechniques import get_resolution, technique_params, param_from_key
+from .eclabcommon.techniques import get_resolution, technique_params, param_from_key
+from .eclabcommon.mpt_columns import column_units
+from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 
-# Maps EC-Lab's "canonical" column names to yadg name and unit.
-column_units = {
-    '"Ri"/Ohm': ("'Ri'", "Ω"),
-    "-Im(Z)/Ohm": ("-Im(Z)", "Ω"),
-    "-Im(Zce)/Ohm": ("-Im(Zce)", "Ω"),
-    "-Im(Zwe-ce)/Ohm": ("-Im(Zwe-ce)", "Ω"),
-    "(Q-Qo)/C": ("(Q-Qo)", "C"),
-    "(Q-Qo)/mA.h": ("(Q-Qo)", "mA·h"),
-    "<Ece>/V": ("<Ece>", "V"),
-    "<Ewe>/V": ("<Ewe>", "V"),
-    "<I>/mA": ("<I>", "mA"),
-    "|Ece|/V": ("|Ece|", "V"),
-    "|Energy|/W.h": ("|Energy|", "W·h"),
-    "|Ewe|/V": ("|Ewe|", "V"),
-    "|I|/A": ("|I|", "A"),
-    "|Y|/Ohm-1": ("|Y|", "S"),
-    "|Z|/Ohm": ("|Z|", "Ω"),
-    "|Zce|/Ohm": ("|Zce|", "Ω"),
-    "|Zwe-ce|/Ohm": ("|Zwe-ce|", "Ω"),
-    "Analog IN 1/V": ("Analog IN 1", "V"),
-    "Analog IN 2/V": ("Analog IN 2", "V"),
-    "Capacitance charge/µF": ("Capacitance charge", "µF"),
-    "Capacitance discharge/µF": ("Capacitance discharge", "µF"),
-    "Capacity/mA.h": ("Capacity", "mA·h"),
-    "charge time/s": ("charge time", "s"),
-    "Conductivity/S.cm-1": ("Conductivity", "S/cm"),
-    "control changes": ("control changes", None),
-    "control/mA": ("control_I", "mA"),
-    "control/V": ("control_V", "V"),
-    "control/V/mA": ("control_V/I", "V/mA"),
-    "counter inc.": ("counter inc.", None),
-    "Cp-2/µF-2": ("Cp⁻²", "µF⁻²"),
-    "Cp/µF": ("Cp", "µF"),
-    "Cs-2/µF-2": ("Cs⁻²", "µF⁻²"),
-    "Cs/µF": ("Cs", "µF"),
-    "cycle number": ("cycle number", None),
-    "cycle time/s": ("cycle time", "s"),
-    "d(Q-Qo)/dE/mA.h/V": ("d(Q-Qo)/dE", "mA·h/V"),
-    "dI/dt/mA/s": ("dI/dt", "mA/s"),
-    "discharge time/s": ("discharge time", "s"),
-    "dQ/C": ("dQ", "C"),
-    "dq/mA.h": ("dq", "mA·h"),
-    "dQ/mA.h": ("dQ", "mA·h"),
-    "Ece/V": ("Ece", "V"),
-    "Ecell/V": ("Ecell", "V"),
-    "Efficiency/%": ("Efficiency", "%"),
-    "Energy charge/W.h": ("Energy charge", "W·h"),
-    "Energy discharge/W.h": ("Energy discharge", "W·h"),
-    "Energy/W.h": ("Energy", "W·h"),
-    "error": ("error", None),
-    "Ewe-Ece/V": ("Ewe-Ece", "V"),
-    "Ewe/V": ("Ewe", "V"),
-    "freq/Hz": ("freq", "Hz"),
-    "half cycle": ("half cycle", None),
-    "I Range": ("I Range", None),
-    "I/mA": ("I", "mA"),
-    "Im(Y)/Ohm-1": ("Im(Y)", "S"),
-    "mode": ("mode", None),
-    "Ns changes": ("Ns changes", None),
-    "Ns": ("Ns", None),
-    "NSD Ewe/%": ("NSD Ewe", "%"),
-    "NSD I/%": ("NSD I", "%"),
-    "NSR Ewe/%": ("NSR Ewe", "%"),
-    "NSR I/%": ("NSR I", "%"),
-    "ox/red": ("ox/red", None),
-    "P/W": ("P", "W"),
-    "Phase(Y)/deg": ("Phase(Y)", "deg"),
-    "Phase(Z)/deg": ("Phase(Z)", "deg"),
-    "Phase(Zce)/deg": ("Phase(Zce)", "deg"),
-    "Phase(Zwe-ce)/deg": ("Phase(Zwe-ce)", "deg"),
-    "Q charge/discharge/mA.h": ("Q charge/discharge", "mA·h"),
-    "Q charge/mA.h": ("Q charge", "mA·h"),
-    "Q charge/mA.h/g": ("Q charge", "mA·h/g"),
-    "Q discharge/mA.h": ("Q discharge", "mA·h"),
-    "Q discharge/mA.h/g": ("Q discharge", "mA·h/g"),
-    "R/Ohm": ("R", "Ω"),
-    "Rcmp/Ohm": ("Rcmp", "Ω"),
-    "Re(Y)/Ohm-1": ("Re(Y)", "S"),
-    "Re(Z)/Ohm": ("Re(Z)", "Ω"),
-    "Re(Zce)/Ohm": ("Re(Zce)", "Ω"),
-    "Re(Zwe-ce)/Ohm": ("Re(Zwe-ce)", "Ω"),
-    "step time/s": ("step time", "s"),
-    "THD Ewe/%": ("THD Ewe", "%"),
-    "THD I/%": ("THD I", "%"),
-    "time/s": ("time", "s"),
-    "x": ("x", None),
-    "z cycle": ("z cycle", None),
-}
 
-
-def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
+def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     """Processes the header lines.
 
     Parameters
@@ -156,20 +70,6 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     technique, params_keys = technique_params(technique, settings_lines)
     params = settings_lines[-len(params_keys) :]
 
-    # Get the locale
-    old_loc = locale.getlocale(category=locale.LC_NUMERIC)
-    ewe_ctrl_re = re.compile(r"Ewe ctrl range : min = (?P<min>.+), max = (?P<max>.+)")
-    ewe_ctrl_match = ewe_ctrl_re.search("\n".join(settings_lines))
-    for loc in [old_loc, "de_DE.UTF-8", "en_GB.UTF-8", "en_US.UTF-8"]:
-        try:
-            locale.setlocale(locale.LC_NUMERIC, locale=loc)
-            locale.atof(ewe_ctrl_match["min"].split()[0])
-            locale.atof(ewe_ctrl_match["max"].split()[0])
-            logging.debug(f"The locale of the current file is '{loc}'.")
-            break
-        except ValueError:
-            logging.debug(f"Could not parse Ewe ctrl using locale '{loc}'.")
-
     # The sequence param columns are always allocated 20 characters.
     n_sequences = int(len(params[0]) / 20)
     params_values = []
@@ -177,7 +77,7 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
         values = []
         for param in params:
             try:
-                val = locale.atof(param[seq * 20 : (seq + 1) * 20])
+                val = lc.atof(param[seq * 20 : (seq + 1) * 20])
             except ValueError:
                 val = param[seq * 20 : (seq + 1) * 20].strip()
             values.append(val)
@@ -210,14 +110,18 @@ def _process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
         loops = {"n_loops": n_loops, "indexes": indexes}
     settings = {
         "posix_timestamp": uts,
-        "locale": loc,
         "technique": technique,
         "raw": "\n".join(lines),
     }
     return settings, params, loops
 
 
-def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) -> dict:
+def process_data(
+    lines: list[str],
+    Eranges: list[float],
+    Iranges: list[float],
+    controls: list[str],
+):
     """Processes the data lines.
 
     Parameters
@@ -239,56 +143,69 @@ def _process_data(lines: list[str], Eranges: list[float], Iranges: list[float]) 
     # At this point the first two lines have already been read.
     # Remove extra column due to an extra tab in .mpt file column names.
     names = lines[1].split("\t")[:-1]
-    columns, units = zip(*[column_units[n] for n in names])
+    units = dict()
+    columns = list()
+    for n in names:
+        c, u = column_units[n]
+        columns.append(c)
+        if u is not None:
+            units[c] = u
     data_lines = lines[2:]
-    datapoints = []
-    for line in data_lines:
+    allvals = dict()
+    allmeta = dict()
+    for li, line in enumerate(data_lines):
         values = line.split("\t")
-        datapoint = {}
-        for col, val, unit in list(zip(columns, values, units)):
-            if unit is None:
-                ival = int(locale.atof(val))
-                if col == "I Range":
-                    datapoint[col] = param_from_key("I_range", ival)
-                    Irange = param_from_key("I_range", ival, to_str=False)
+        vals = dict()
+        for name, value in list(zip(columns, values)):
+            if units.get(name) is None:
+                ival = int(lc.atof(value))
+                if name == "I Range":
+                    vals[name] = param_from_key("I_range", ival)
                 else:
-                    datapoint[col] = ival
-        if "Ns" in datapoint:
-            Erange = Eranges[datapoint["Ns"]]
-        else:
-            logger.info(
-                "'Ns' is not in data table, using the first E range from 'params'."
-            )
-            Erange = Eranges[0]
-        if "I Range" not in datapoint:
-            logger.info(
-                "'I Range' is not in data table, using the I range from 'params'."
-            )
-            if "Ns" in datapoint:
-                Irstr = Iranges[datapoint["Ns"]]
+                    vals[name] = ival
             else:
-                Irstr = Iranges[0]
-            Irange = param_from_key("I_range", Irstr, to_str=False)
-        for col, val, unit in list(zip(columns, values, units)):
-            try:
-                val = locale.atof(val)
-            except ValueError:
-                val = val.strip()
+                try:
+                    fval = lc.atof(value)
+                    vals[name] = fval
+                except ValueError:
+                    sval = value.strip()
+                    vals[name] = sval
+        if "Ns" in vals:
+            Erange = Eranges[vals["Ns"]]
+            Irstr = Iranges[vals["Ns"]]
+        else:
+            Erange = Eranges[0]
+            Irstr = Iranges[0]
+        if "I Range" in vals:
+            Irstr = vals["I Range"]
+        Irange = param_from_key("I_range", Irstr, to_str=False)
+        devs = {}
+        if "control_V_I" in vals:
+            icv = controls[vals["Ns"]]
+            name = f"control_{icv}"
+            vals[name] = vals.pop("control_V_I")
+            units[name] = "mA" if icv in {"I", "C"} else "V"
+        for col, val in vals.items():
+            unit = units.get(col)
             if unit is None:
                 continue
             assert isinstance(val, float), "`n` should not be string"
-            s = get_resolution(col, val, unit, Erange, Irange)
-            datapoint[col] = {"n": val, "s": s, "u": unit}
-        datapoints.append(datapoint)
-    return datapoints
+            devs[col] = get_resolution(col, val, unit, Erange, Irange)
+
+        append_dicts(vals, devs, allvals, allmeta, li=li)
+
+    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    return ds
 
 
 def process(
+    *,
     fn: str,
-    encoding: str = "windows-1252",
-    timezone: str = "UTC",
-    transpose: bool = True,
-) -> tuple[list, dict, bool]:
+    encoding: str,
+    locale: str,
+    timezone: ZoneInfo,
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes EC-Lab human-readable text export files.
 
     Parameters
@@ -304,9 +221,8 @@ def process(
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag. For mpt files,
-        the full date might not be specified if header is not present.
+    :class:`xr.Dataset`
+        The full date may not be specified if header is not present.
 
     """
     file_magic = "EC-Lab ASCII FILE\n"
@@ -317,62 +233,48 @@ def process(
     nb_header_lines = int(lines[0].split()[-1])
     header_lines = lines[: nb_header_lines - 3]
     data_lines = lines[nb_header_lines - 3 :]
-    settings, params, loops = {}, [], {}
+    settings, params = {}, []
+
     # Store current LC_NUMERIC before we do anything:
-    old_loc = locale.getlocale(category=locale.LC_NUMERIC)
+    old_loc = lc.getlocale(category=lc.LC_NUMERIC)
+    lc.setlocale(lc.LC_NUMERIC, locale=locale)
     if nb_header_lines <= 3:
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
         Eranges = [20.0]
         Iranges = ["Auto"]
+        ctrls = [None]
     else:
-        settings, params, loops = _process_header(header_lines, timezone)
+        settings, params, _ = process_header(header_lines, timezone)
         start_time = settings.get("posix_timestamp")
         fulldate = True
         Eranges = []
         Iranges = []
+        ctrls = []
         for el in params:
             E_range_max = el.get("E_range_max", float("inf"))
             E_range_min = el.get("E_range_min", float("-inf"))
             Eranges.append(E_range_max - E_range_min)
             Iranges.append(el.get("I_range", "Auto"))
-    data = _process_data(data_lines, Eranges, Iranges)
+            if "set_I/C" in el:
+                ctrls.append(el["set_I/C"])
+            elif "apply_I/C" in el:
+                ctrls.append(el["apply_I/C"])
+            else:
+                ctrls.append(None)
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
-    timesteps = []
-    # If the technique is an impedance spectroscopy, split it into
-    # traces at different cycle numbers and put each trace into its own timestep
-    if settings["technique"] in {"PEIS", "GEIS"} and transpose:
-        # Grouping by cycle.
-        cycles = defaultdict(list)
-        for d in data:
-            cycles[d["cycle number"]].append(d)
-        # Casting cycles into traces.
-        for ti, td in cycles.items():
-            trace = {col: [d[col] for d in td] for col in td[0].keys()}
-            for key, val in trace.items():
-                if not isinstance(val[0], dict):
-                    continue
-                trace[key] = {k: [i[k] for i in val] for k in val[0]}
-                # Reducing unit list to just a string.
-                trace[key]["u"] = set(trace[key]["u"]).pop()
-            uts = start_time + trace["time"]["n"][0]
-            trace["time"]["n"] = [i - trace["time"]["n"][0] for i in trace["time"]["n"]]
-            timesteps.append(
-                {
-                    "uts": uts,
-                    "fn": fn,
-                    "raw": {"traces": {settings["technique"]: trace}},
-                }
-            )
-        return timesteps, metadata, fulldate
-    # All other techniques have multiple timesteps.
-    for d in data:
-        uts = start_time + d["time"]["n"]
-        d["technique"] = settings["technique"]
-        timesteps.append({"fn": fn, "uts": uts, "raw": d})
+
+    ds = process_data(data_lines, Eranges, Iranges, ctrls)
+    if "time" in ds:
+        ds["uts"] = ds["time"] + start_time
+    else:
+        ds["uts"] = [start_time]
+    if fulldate:
+        del ds.attrs["fulldate"]
+    ds.attrs.update(metadata)
     # reset to original LC_NUMERIC
-    locale.setlocale(category=locale.LC_NUMERIC, locale=old_loc)
-    return timesteps, metadata, fulldate
+    lc.setlocale(category=lc.LC_NUMERIC, locale=old_loc)
+    return ds

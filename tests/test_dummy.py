@@ -1,6 +1,7 @@
 import pytest
 import os
 import json
+import datatree
 import yadg.core
 from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_0, DataSchema_4_1
 from pydantic import ValidationError
@@ -27,11 +28,13 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     ds = to_dataschema(**inp_dict)
     ret = yadg.core.process_schema(ds)
     print(ret)
-    assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
-    assert len(ret["steps"]) == l_dg, "wrong number of steps"
+    assert len(ret.children) == l_dg, "wrong number of steps"
     if l_dg > 0:
-        assert len(ret["steps"][0]["data"]) == l_res, "wrong number of timesteps"
-    json.dumps(ret)
+        assert len(ret["0"].get("uts", [])) == l_res, "wrong number of timesteps"
+    ret.to_netcdf("test.nc")
+    ref = datatree.open_datatree("test.nc")
+    print(ref)
+    assert ref == ret
 
 
 @pytest.mark.parametrize(
@@ -39,15 +42,15 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     [
         (
             "ts0.dummy.json",
-            {"nsteps": 1, "step": 0, "item": 0, "kwargs": {}},
+            {"nsteps": 1, "step": "0", "item": 0, "kwargs": {}},
         ),
         (
             "ts1.dummy.json",
-            {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}},
+            {"nsteps": 2, "step": "1", "item": 0, "kwargs": {"k": "v"}},
         ),
         (
             "ts2.json",
-            {"nsteps": 2, "step": 1, "item": 0, "kwargs": {"k": "v"}},
+            {"nsteps": 2, "step": "1", "item": 0, "kwargs": {"k": "v"}},
         ),
     ],
 )
@@ -58,12 +61,15 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
         schema = json.load(infile)
     ds = to_dataschema(**schema)
     ret = yadg.core.process_schema(ds)
-    assert yadg.core.validators.validate_datagram(ret), "invalid datagram format"
-    assert len(ret["steps"]) == ts["nsteps"], "wrong number of steps"
-    assert (
-        ret["steps"][ts["step"]]["data"][ts["item"]]["raw"] == ts["kwargs"]
-    ), "kwargs not passed correctly"
-    json.dumps(ret)
+    assert len(ret.children) == ts["nsteps"], (
+        "wrong number of steps: " f"got: {len(ret.children)}, expected: {ts['nsteps']}"
+    )
+    for k, v in ts["kwargs"].items():
+        assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"
+    ret.to_netcdf("test.nc")
+    ref = datatree.open_datatree("test.nc")
+    print(ref)
+    assert ref == ret
 
 
 @pytest.mark.parametrize(
@@ -109,7 +115,7 @@ def test_schema_validator_4_1(inp_dict, expr, datadir):
                 "point": 9,
                 "pars": {
                     "uts": {"value": 100000000.905299},
-                    "value": {"value": 0.485624320335729, "sigma": 0.0, "unit": " "},
+                    "value": {"value": 0.485624320335729, "sigma": 0.0, "unit": None},
                 },
             },
         ),

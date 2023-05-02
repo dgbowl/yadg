@@ -1,42 +1,12 @@
 import pytest
 import os
 import json
-import numpy as np
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     compare_result_dicts,
+    dg_get_quantity,
 )
-
-
-def special_datagram_test(datagram, testspec):
-    step = datagram["steps"][testspec["step"]]
-    tstep = step["data"][testspec["point"]]
-    assert (
-        len(tstep["raw"]["traces"]["S11"]["f"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Re(G)"]["n"]) == testspec["tracelen"]
-        and len(tstep["raw"]["traces"]["S11"]["Im(G)"]["n"]) == testspec["tracelen"]
-    ), "length of 'f', 'Re(Γ)', 'Im(Γ)' not as prescribed."
-    print(tstep["raw"]["traces"].keys())
-    for k, v in testspec["test"].items():
-        t = {
-            "n": tstep["raw"]["traces"][k]["f"]["n"][v["i"]],
-            "s": tstep["raw"]["traces"][k]["f"]["s"][v["i"]],
-            "u": tstep["raw"]["traces"][k]["f"]["u"],
-        }
-        compare_result_dicts(t, v["f"])
-        re = {
-            "n": tstep["raw"]["traces"][k]["Re(G)"]["n"][v["i"]],
-            "s": tstep["raw"]["traces"][k]["Re(G)"]["s"][v["i"]],
-            "u": tstep["raw"]["traces"][k]["Re(G)"]["u"],
-        }
-        compare_result_dicts(re, v["re"])
-        im = {
-            "n": tstep["raw"]["traces"][k]["Im(G)"]["n"][v["i"]],
-            "s": tstep["raw"]["traces"][k]["Im(G)"]["s"][v["i"]],
-            "u": tstep["raw"]["traces"][k]["Im(G)"]["u"],
-        }
-        compare_result_dicts(im, v["im"])
 
 
 @pytest.mark.parametrize(
@@ -69,9 +39,18 @@ def special_datagram_test(datagram, testspec):
 )
 def test_datagram_from_qftrace(input, ts, datadir):
     os.chdir(datadir)
-    ret = datagram_from_input(input, "qftrace", datadir)
-    standard_datagram_test(ret, ts)
-    special_datagram_test(ret, ts)
+    dg = datagram_from_input(input, "qftrace", datadir)
+    step = dg["0"]
+    standard_datagram_test(step, ts)
+    for k, v in {
+        "freq": {"n": 7.1e9, "s": 1e3, "u": "Hz"},
+        "Re(G)": {"n": -0.0192804, "s": 1e-8, "u": None},
+        "Im(G)": {"n": 0.9448405, "s": 1e-7, "u": None},
+    }.items():
+        ret = dg_get_quantity(step, "S11", col=k, utsrow=0)
+        print(f"{ret=}")
+        point = {"n": ret["n"][0], "s": ret["s"][0], "u": ret["u"]}
+        compare_result_dicts(point, v)
 
 
 def test_qftrace_compare_raw_values(datadir):
@@ -80,10 +59,11 @@ def test_qftrace_compare_raw_values(datadir):
         "parameters": {},
     }
     os.chdir(datadir)
-    ret = datagram_from_input(input, "qftrace", datadir)
+    dg = datagram_from_input(input, "qftrace", datadir)
+    step = dg["0"]
     with open("yvals.json", "r") as infile:
-        ref = json.load(infile)["traces"]
-    for k, v in ret["steps"][0]["data"][0]["raw"]["traces"].items():
-        for kk in ["f", "Re(G)", "Im(G)"]:
-            for kkk in ["n", "s"]:
-                assert np.allclose(ref[k][kk][kkk], v[kk][kkk])
+        ref = json.load(infile)["traces"]["S11"]
+    for k in {"freq", "Re(G)", "Im(G)"}:
+        ret = dg_get_quantity(step, "S11", col=k, utsrow=0)
+        print(f"{ret=}")
+        compare_result_dicts(ret, ref[k])

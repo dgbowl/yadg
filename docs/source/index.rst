@@ -15,13 +15,14 @@
    :width: 600
    :alt: yadg is used to process raw data files using a DataSchema into a datagram.
 
-Given an experiment represented by a `dataschema`, yadg will process the files 
+Given an experiment represented by a `dataschema`, yadg will process the files
 and folders specified in each experimental `step` of the `dataschema`, and produce a
-`datagram` -- a unified data structure containing all measured ("raw") data in a 
-given experiment. 
+`datagram` -- a unified data structure containing all measured ("raw") data in a
+given experiment.
 
-The produced `datagram` is associated with full provenance info, and the data within
-the `datagram` contains instrumental error estimates and is annotated with units.
+As of ``yadg-5.0``, the `datagram` is stored as a ``NetCDF`` file. The produced `datagram`
+is associated with full provenance info, and the data within the `datagram` contain
+instrumental error estimates and are annotated with units.
 
 You can read more about yadg in our paper: [Kraus2022b]_. Please note that the post-processing
 features within ``yadg`` have been deprecated in ``yadg-4.2`` and removed in ``yadg-5.0``.

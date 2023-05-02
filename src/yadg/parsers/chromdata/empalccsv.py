@@ -9,30 +9,20 @@ at Empa. It contains three sections:
   - table containing sampling information,
   - table containing analysed chromatography data.
 
-
-Exposed metadata:
-`````````````````
-
-.. code-block:: yaml
-
-    params:
-      method:   !!str
-      username: !!str
-      version:  !!int
-      datafile: !!str
-
 .. codeauthor:: Peter Kraus
 """
 import logging
 import datetime
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+import xarray as xr
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, **kwargs: dict) -> xr.Dataset:
     """
-    Fusion csv export format.
+    Custom Agilent Online LC csv export format.
 
     Multiple chromatograms per file, with multiple detectors.
 
@@ -44,13 +34,10 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
     encoding
         Encoding used to open the file.
 
-    timezone
-        Timezone information. This should be ``"localtime"``.
-
     Returns
     -------
-    ([chrom], metadata, fulldate): tuple[list, dict, bool]
-        Standard timesteps, metadata, and date tuple.
+    :class:`xr.Dataset`
+
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
@@ -122,6 +109,7 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     metadata["method"] = r["acquisition"]["method"]
 
+    species = set()
     while len(lines) > 0:
         line = lines.pop(0)
         if len(lines) == 0:
@@ -134,24 +122,22 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
             data = [i.strip() for i in line.split(",")]
             sn = data[headers.index("Sample Name")]
             cn = data[headers.index("Compound")]
+            species.add(cn)
 
             h = data[headers.index("Peak Height")]
             if h != "":
                 if "height" not in samples[sn]:
                     samples[sn]["height"] = {}
-                n, s = tuple_fromstr(h)
-                samples[sn]["height"][cn] = {"n": n, "s": s, "u": " "}
+                samples[sn]["height"][cn] = tuple_fromstr(h)
 
             A = data[headers.index("Area")]
             if A != "":
                 if "area" not in samples[sn]:
                     samples[sn]["area"] = {}
-                n, s = tuple_fromstr(A)
-                samples[sn]["area"][cn] = {"n": n, "s": s, "u": " "}
+                samples[sn]["area"][cn] = tuple_fromstr(A)
 
             if metadata["version"] == 2:
                 c = data[headers.index("Concentration")]
-                u = "mmol/l"
             else:
                 logger.warning(
                     "Report version '%d' in file '%s' not understood.",
@@ -159,20 +145,23 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                     fn,
                 )
                 c = data[headers.index("Concentration")]
-                u = "mmol/l"
             if c != "":
                 if "concentration" not in samples[sn]:
                     samples[sn]["concentration"] = {}
-                n, s = tuple_fromstr(c)
-                samples[sn]["concentration"][cn] = {"n": n, "s": s, "u": u}
+                samples[sn]["concentration"][cn] = tuple_fromstr(c)
 
             rt = data[headers.index("RT [min]")]
             if rt != "":
                 if "retention time" not in samples[sn]:
                     samples[sn]["retention time"] = {}
-                n, s = tuple_fromstr(rt)
-                samples[sn]["retention time"][cn] = {"n": n, "s": s, "u": "min"}
-
+                samples[sn]["retention time"][cn] = tuple_fromstr(rt)
+    units = {
+        "height": None,
+        "area": None,
+        "concentration": "mmol/l",
+        "retention time": "min",
+    }
+    species = sorted(species)
     data = []
     for k, v in samples.items():
         # Remove unnecessary parameters
@@ -197,11 +186,37 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
                 )
         else:
             td = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
-        uts = td.total_seconds()
-        point = {
-            "uts": uts,
-            "fn": fn,
-            "raw": v,
-        }
+        point = {"uts": td.total_seconds()}
+        vals = {}
+        devs = {}
+        for kk in {"height", "area", "concentration", "retention time"}:
+            vals[kk], devs[kk] = zip(
+                *[v[kk].get(cn, (np.nan, np.nan)) for cn in species]
+            )
+        point["vals"] = vals
+        point["devs"] = devs
         data.append(point)
-    return data, {"params": metadata}, False
+
+    data_vars = {}
+    for kk in {"height", "area", "concentration", "retention time"}:
+        data_vars[kk] = (
+            ["uts", "species"],
+            [i["vals"][kk] for i in data],
+            {"units": units[kk], "anciliary_variables": f"{kk}_std_err"},
+        )
+        data_vars[f"{kk}_std_err"] = (
+            ["uts", "species"],
+            [i["devs"][kk] for i in data],
+            {"units": units[kk], "standard_name": f"{kk} standard_error"},
+        )
+
+    ds = xr.Dataset(
+        data_vars=data_vars,
+        coords={
+            "species": (["species"], species),
+            "uts": (["uts"], [i["uts"] for i in data]),
+        },
+        attrs=metadata,
+    )
+
+    return ds

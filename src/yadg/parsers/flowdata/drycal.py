@@ -12,10 +12,12 @@ parsed from the prefix of the filename.
 .. codeauthor:: Peter Kraus
 """
 from striprtf.striprtf import rtf_to_text
-from ..basiccsv.main import process_row
+from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils
 from pydantic import BaseModel, Extra
 from typing import Optional
+from datatree import DataTree
+from zoneinfo import ZoneInfo
 
 
 class TimeDate(BaseModel):
@@ -29,9 +31,9 @@ class TimeDate(BaseModel):
 
 def rtf(
     fn: str,
-    encoding: str = "utf-8",
-    timezone: str = "UTC",
-) -> tuple[list, dict]:
+    encoding: str,
+    timezone: ZoneInfo,
+) -> DataTree:
     """
     RTF version of the drycal parser.
 
@@ -87,22 +89,22 @@ def rtf(
         spec=TimeDate(time={"index": 4, "format": "%I:%M:%S %p"}), timezone=timezone
     )
 
-    # Correct each ts by provided date
-    timesteps = []
-    for r in data:
-        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns)
-        ts["fn"] = fn
-        timesteps.append(ts)
+    # Process rows
+    data_vals = {}
+    meta_vals = {"_fn": []}
+    for pi, point in enumerate(data):
+        vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
+        append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return timesteps, metadata
+    return dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def sep(
     fn: str,
     sep: str,
-    encoding: str = "utf-8",
-    timezone: str = "UTC",
-) -> tuple[list, dict]:
+    encoding: str,
+    timezone: ZoneInfo,
+) -> DataTree:
     """
     Generic drycal parser, using ``sep`` as separator string.
 
@@ -163,14 +165,14 @@ def sep(
         spec=TimeDate(time={"index": 4, "format": fmt}), timezone=timezone
     )
 
-    # Correct each ts by provided date
-    timesteps = list()
-    for r in data:
-        ts = process_row(headers[1:], r[1:], units, datefunc, datecolumns)
-        ts["fn"] = str(fn)
-        timesteps.append(ts)
+    # Process rows
+    data_vals = {}
+    meta_vals = {"_fn": []}
+    for pi, point in enumerate(data):
+        vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
+        append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return timesteps, metadata
+    return dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:

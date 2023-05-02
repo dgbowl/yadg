@@ -2,31 +2,29 @@
 **agilentcsv**: Processing Agilent Chemstation Chromtab tabulated data files (csv).
 -----------------------------------------------------------------------------------
 
-This file format may include more than one timestep in each CSV file. It contains
-a header section for each timestep, followed by a detector name, and a sequence of
-``[X, Y]`` datapoints.
+This file format may include multiple timesteps consisting of several traces each in a
+single CSV file. It contains a header section for each timestep, followed by a detector
+name, and a sequence of "X, Y" datapoints, which are stored as ``elution_time`` and
+``signal``.
 
-Exposed metadata:
-`````````````````
+.. warning ::
 
-.. code-block:: yaml
+    It is not guaranteed that the X-axis of the chromatogram (i.e. ``elution_time``) is
+    consistent between the timesteps of the same trace. The traces are expanded to the
+    length of the longest trace, and the shorter traces are padded with ``NaNs``.
 
-    params:
-      method:   None
-      sampleid: !!str
-      username: None
-      version:  None
-      datafile: !!str
+.. warning ::
 
-Unfortunately, neither ``method`` nor ``version`` are exposed, which is a big weakness
-of this file format.
+    Unfortunately, the chromatographic ``method`` is not exposed in this file format.
 
-.. codeauthor:: Peter Kraus <peter.kraus.empa.ch>
+.. codeauthor:: Peter Kraus
 """
 import numpy as np
 from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from ...dgutils.dateutils import str_to_uts
+import xarray as xr
+from datatree import DataTree
 
 
 def _process_headers(headers: list, columns: list, timezone: ZoneInfo) -> dict:
@@ -52,16 +50,18 @@ def _process_headers(headers: list, columns: list, timezone: ZoneInfo) -> dict:
 
 
 def _to_trace(tx, ty):
-    xsn, xss = [np.array(x) * 60 for x in zip(*tx)]
-    ysn, yss = [np.array(y) for y in zip(*ty)]
+    tvals, tders = [x for x in zip(*tx)]
+    yvals, yders = [x for x in zip(*ty)]
     trace = {
-        "t": {"n": xsn.tolist(), "s": xss.tolist(), "u": "s"},
-        "y": {"n": ysn.tolist(), "s": yss.tolist(), "u": " "},
+        "tvals": np.array(tvals) * 60,
+        "tdevs": np.array(tders) * 60,
+        "yvals": list(yvals),
+        "ydevs": list(yders),
     }
     return trace
 
 
-def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Agilent Chemstation CSV (Chromtab) file parser
 
@@ -82,60 +82,99 @@ def process(fn: str, encoding: str, timezone: str) -> tuple[list, dict]:
 
     Returns
     -------
-    (chroms, metadata): tuple[list, dict]
-        Standard timesteps & metadata tuple.
+    class:`datatree.DataTree`
+        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
+        When multiple timesteps are present in the file, the traces of each detector are
+        expanded to match the longest trace, and collated along the ``uts``-dimension.
     """
 
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-    metadata = {
-        "filetype": "chromtab",
-        "params": {
-            "method": None,
-            "valve": None,
-            "username": None,
-            "version": None,
-        },
-    }
-    chroms = []
-    chrom = {"fn": str(fn), "traces": {}}
+    metadata = {}
+    uts = []
     tx = []
     ty = []
     detname = None
-    for li in range(len(lines)):
-        line = lines[li].strip()
+    tstep = dict()
+    data = []
+    traces = set()
+    maxlen = dict()
+    for line in lines:
         parts = line.strip().split(",")
         if len(parts) > 2:
             if '"Date Acquired"' in parts:
                 if tx != [] and ty != [] and detname is not None:
                     trace = _to_trace(tx, ty)
-                    trace["id"] = len(chrom["traces"])
-                    chrom["traces"][detname] = trace
+                    tstep[detname] = trace
+                    maxlen[detname] = max(maxlen.get(detname, 0), len(trace["tvals"]))
                     tx = []
                     ty = []
-                if chrom != {"fn": fn, "traces": {}}:
-                    chroms.append(chrom)
-                    chrom = {"fn": fn, "traces": {}}
+                if len(tstep) > 0:
+                    data.append(tstep)
+                    tstep = dict()
                 headers = [p.replace('"', "") for p in parts]
             else:
                 columns = [p.replace('"', "") for p in parts]
                 ret = _process_headers(headers, columns, timezone)
-                chrom["uts"] = ret.pop("uts")
-                metadata["params"].update(ret)
+                uts.append(ret.pop("uts"))
+                metadata.update(ret)
         elif len(parts) == 1:
             if tx != [] and ty != [] and detname is not None:
                 trace = _to_trace(tx, ty)
-                trace["id"] = len(chrom["traces"])
-                chrom["traces"][detname] = trace
+                tstep[detname] = trace
+                maxlen[detname] = max(maxlen.get(detname, 0), len(trace["tvals"]))
                 tx = []
                 ty = []
             detname = parts[0].replace('"', "").split("\\")[-1]
+            traces.add(detname)
         elif len(parts) == 2:
             x, y = [tuple_fromstr(i) for i in parts]
             tx.append(x)
             ty.append(y)
     trace = _to_trace(tx, ty)
-    trace["id"] = len(chrom["traces"])
-    chrom["traces"][detname] = trace
-    chroms.append(chrom)
-    return chroms, metadata
+    tstep[detname] = trace
+    maxlen[detname] = max(maxlen.get(detname, 0), len(trace["tvals"]))
+    data.append(tstep)
+
+    traces = sorted(traces)
+    vals = {}
+    for tr in traces:
+        dsets = []
+        for ti, ts in enumerate(data):
+            thislen = len(ts[tr]["tvals"])
+            fvals = {}
+            for k in {"yvals", "ydevs", "tvals", "tdevs"}:
+                fvals[k] = np.ones(maxlen[tr]) * np.nan
+                fvals[k][:thislen] = ts[tr][k]
+            ds = xr.Dataset(
+                data_vars={
+                    "signal": (
+                        ["elution_time"],
+                        fvals["yvals"],
+                        {"units": None, "ancillary_variables": "signal_std_err"},
+                    ),
+                    "signal_std_err": (
+                        ["elution_time"],
+                        fvals["ydevs"],
+                        {"units": None, "standard_name": "signal standard_error"},
+                    ),
+                    "elution_time": (
+                        ["_"],
+                        fvals["tvals"],
+                        {"units": "s", "ancillary_variables": "elution_time_std_err"},
+                    ),
+                    "elution_time_std_err": (
+                        ["elution_time"],
+                        fvals["tdevs"],
+                        {"units": "s", "standard_name": "elution_time standard_error"},
+                    ),
+                },
+                coords={},
+                attrs={},
+            )
+            ds["uts"] = [uts[ti]]
+            dsets.append(ds)
+        vals[tr] = xr.concat(dsets, dim="uts")
+    dt = DataTree.from_dict(vals)
+    dt.attrs = metadata
+    return dt

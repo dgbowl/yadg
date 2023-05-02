@@ -2,6 +2,7 @@ import pytest
 import subprocess
 import os
 import json
+from datatree import open_datatree
 
 from .utils import pars_datagram_test, standard_datagram_test
 
@@ -33,14 +34,14 @@ def test_yadg_process_with_one_positional_arg(datadir):
     os.chdir(datadir)
     command = ["yadg", "process", "test_schema.json"]
     subprocess.run(command, check=True)
-    assert os.path.exists("datagram.json")
+    assert os.path.exists("datagram.nc")
 
 
 def test_yadg_process_with_two_positional_args(datadir):
     os.chdir(datadir)
-    command = ["yadg", "process", "test_schema.json", "test.datagram.json"]
+    command = ["yadg", "process", "test_schema.json", "test.datagram.nc"]
     subprocess.run(command, check=True)
-    assert os.path.exists("test.datagram.json")
+    assert os.path.exists("test.datagram.nc")
 
 
 def test_yadg_update_without_subcommand(datadir):
@@ -95,35 +96,35 @@ def test_yadg_preset_with_preset_folder_p1(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "data_2.preset.json", "data_2", "-p"]
     subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("datagram.json")
+    assert os.path.exists("datagram.nc")
 
 
 def test_yadg_preset_with_preset_folder_p2(datadir):
     os.chdir(datadir)
-    command = ["yadg", "preset", "data_2.preset.json", "data_2", "data_2.dg.json", "-p"]
+    command = ["yadg", "preset", "data_2.preset.json", "data_2", "data_2.dg.nc", "-p"]
     subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("data_2.dg.json")
+    assert os.path.exists("data_2.dg.nc")
 
 
 def test_yadg_preset_with_preset_folder_p3(datadir):
     os.chdir(datadir)
-    command = ["yadg", "preset", "data_2.preset.json", "data_2", "-p", "data_2.dg.json"]
+    command = ["yadg", "preset", "data_2.preset.json", "data_2", "-p", "data_2.dg.nc"]
     subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("data_2.dg.json")
+    assert os.path.exists("data_2.dg.nc")
 
 
 def test_yadg_process_with_yml(datadir):
     os.chdir(datadir)
     command = ["yadg", "process", "test_schema.yml"]
     subprocess.run(command, check=True)
-    assert os.path.exists("datagram.json")
+    assert os.path.exists("datagram.nc")
 
 
 def test_yadg_preset_with_yml(datadir):
     os.chdir(datadir)
-    command = ["yadg", "preset", "-p", "data_2.preset.yaml", "data_2", "data_2.dg.json"]
+    command = ["yadg", "preset", "-p", "data_2.preset.yaml", "data_2", "data_2.nc"]
     subprocess.run(command, check=True)
-    assert os.path.exists("data_2.dg.json")
+    assert os.path.exists("data_2.nc")
 
 
 @pytest.mark.parametrize(
@@ -139,24 +140,23 @@ def test_yadg_preset_with_yml(datadir):
 )
 def test_yadg_preset_archive(packwith, suffix, datadir):
     os.chdir(datadir)
-    command = ["yadg", "preset", "-pa", "data_2.preset.yaml", "data_2", "dg.json"]
+    command = ["yadg", "preset", "-pa", "data_2.preset.yaml", "data_2", "dg.nc"]
     if packwith is not None:
         command.append("--packwith")
         command.append(packwith)
     subprocess.run(command, check=True)
-    assert os.path.exists("dg.json")
+    assert os.path.exists("dg.nc")
     assert os.path.exists(f"dg.{suffix}")
 
 
-def test_yadg_preset_externaldate(datadir):
+def test_yadg_preset_roundtrip_uts(datadir):
     ts = {"nsteps": 1, "step": 0, "nrows": 20, "point": 19}
     ts["pars"] = {"uts": {"value": 1652254017.1712718}}
     os.chdir(datadir)
-    command = ["yadg", "preset", "-p", "data_4.preset.json", "data_4", "data_4.dg.json"]
+    command = ["yadg", "preset", "-p", "data_4.preset.json", "data_4", "data_4.nc"]
     subprocess.run(command, check=True)
-    assert os.path.exists("data_4.dg.json")
-    with open("data_4.dg.json", "r") as inf:
-        dg = json.load(inf)
+    assert os.path.exists("data_4.nc")
+    dg = open_datatree("data_4.nc")
     standard_datagram_test(dg, ts)
     pars_datagram_test(dg, ts)
 

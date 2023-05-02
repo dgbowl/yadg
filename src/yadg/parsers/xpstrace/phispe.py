@@ -2,11 +2,11 @@
 **phispe**: Processing of ULVAC PHI Multipak XPS traces.
 --------------------------------------------------------
 
-The [IGOR `.spe` import script by jjweimer](https://www.wavemetrics.com/project/phispefileloader)
+The `IGOR .spe import script by jjweimer <https://www.wavemetrics.com/project/phispefileloader>`_
 was pretty helpful for writing this parser.
 
-File Structure of `.spe` Files
-``````````````````````````````
+File Structure of ``.spe`` Files
+````````````````````````````````
 
 These binary files actually contain an ASCII file header, delimited by
 `"SOFH\n"` and `"EOFH\n"`.
@@ -47,7 +47,7 @@ After the file header, the binary part starts with a short data header
     0x0008 trace_header_size    # Combined lengths of all trace headers.
     0x000c data_header_size     # Length of this data header.
 
-After this follow `num_traces` trace headers that are each structured
+After this follow ``num_traces`` trace headers that are each structured
 something like this:
 
 .. code-block::
@@ -70,7 +70,7 @@ something like this:
     0x003c int_05                # ???
     0x0040 int_06                # ???
     0x0044 int_07                # ???
-    0x0048 data_dtype            # Data type for datapoints (`f4`/`f8`).
+    0x0048 data_dtype            # Data type for datapoints (f4 / f8).
     0x004c num_data_bytes        # Unsure about this one.
     0x0050 num_datapoints_tot    # This one as well.
     0x0054 int_10                # ???
@@ -81,23 +81,30 @@ After the trace headers follow the datapoints. After the number of
 datapoints there is a single 32bit float with the trace's dwelling time
 again.
 
-Structure of Parsed Data
-````````````````````````
+Uncertainties
+`````````````
+The uncertainties of ``"E"`` are taken as the step-width of
+the linearly spaced energy values.
 
-.. code-block:: yaml
+The uncertainties ``"s"`` of ``"y"`` are currently set to a constant
+value of ``12.5`` counts per second as all the signals in the files seen so
+far only seem to take on values in those steps.
 
-    - fn   !!str
-    - uts  !!float
-    - raw:
-        "{{ trace_number }}":
-          {n: [!!float, ...], s: [!!float, ...], u: !!str}
+.. admonition:: TODO
 
-.. codeauthor:: Nicolas Vetsch <vetschnicolas@gmail.com>
+    https://github.com/dgbowl/yadg/issues/13
+
+    Determining the uncertainty of the counts per second signal in XPS
+    traces from the phispe parser should be done in a better way.
+
+.. codeauthor:: Nicolas Vetsch
 """
 
 import re
 from typing import Any
 import numpy as np
+import xarray as xr
+import datatree
 
 data_header_dtype = np.dtype(
     [
@@ -141,7 +148,7 @@ trace_header_dtype = np.dtype(
 def camel_to_snake(s: str) -> str:
     """Converts CamelCase strings to snake_case.
 
-    # From https://stackoverflow.com/a/1176023
+    From https://stackoverflow.com/a/1176023
 
     Parameters
     ----------
@@ -366,7 +373,6 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
             endpoint=True,
             retstep=True,
         )
-        E = {"n": energies.tolist(), "s": [abs(dE)] * len(energies), "u": "eV"}
         # Construct data from trace_header
         data_dtype = np.dtype(f'{trace_header["data_dtype"].decode()}')
         data_offset = trace_header["end_of_data"] - trace_header["num_data_bytes"]
@@ -379,26 +385,27 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
         # somehow be a Poisson distribution, i.e. the error should be
         # something like s ~ sqrt(n). The counts per second only seem to
         # be taking values in steps of 12.5cps, so taking this as error.
-        y = {
-            "n": datapoints,
-            "s": [12.5] * len(datapoints),
-            "u": "cps",
-        }
         traces[str(trace_def["trace_number"])] = {
             "name": trace_def["name"],
             "atomic_number": trace_def["atomic_number"],
             "dwell_time": trace_def["dwell_time"],
             "e_pass": trace_def["e_pass"],
             "description": trace_def["description"],
-            "E": E,
-            "y": y,
+            "yvals": datapoints,
+            "ydevs": np.ones(len(datapoints)) * 12.5,
+            "yunit": "counts / s",
+            "Evals": energies,
+            "Edevs": np.ones(len(energies)) * abs(dE),
+            "Eunit": "eV",
         }
     return traces
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
-) -> tuple[list, dict, bool]:
+    *,
+    fn: str,
+    **kwargs: dict,
+) -> datatree.DataTree:
     """Processes ULVAC-PHI Multipak XPS data.
 
     Parameters
@@ -406,17 +413,11 @@ def process(
     fn
         The file containing the data to parse.
 
-    encoding
-        Encoding of ``fn``, by default "utf-8".
-
-    timezone
-        A string description of the timezone. Default is "UTC".
-
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag.
-        Multipak .spe files seemingly have no timestamp.
+    :class:`datatree.DataTree`
+        Returns a :class:`datatree.DataTree` containing a :class:`xr.Dataset` for each
+        XPS trace present in the input file.
 
     """
     with open(fn, "rb") as spe_file:
@@ -433,5 +434,36 @@ def process(
     }
     trace_defs = _process_trace_defs(header)
     traces = _process_traces(spe, trace_defs)
-    timesteps = [{"fn": fn, "raw": {"traces": traces}}]
-    return timesteps, meta, False
+    vals = {}
+    for v in traces.values():
+        fvals = xr.Dataset(
+            data_vars={
+                "y": (
+                    ["E"],
+                    v["yvals"],
+                    {"units": v["yunit"], "ancillary_variables": "y_std_err"},
+                ),
+                "y_std_err": (
+                    ["E"],
+                    v["ydevs"],
+                    {"units": v["yunit"], "standard_name": "y standard_error"},
+                ),
+                "E_std_err": (
+                    ["E"],
+                    v["Edevs"],
+                    {"units": v["Eunit"], "standard_name": "E standard_error"},
+                ),
+            },
+            coords={
+                "E": (
+                    ["E"],
+                    v["Evals"],
+                    {"units": v["Eunit"], "ancillary_variables": "E_std_err"},
+                ),
+            },
+        )
+        vals[v["name"]] = fvals
+
+    dt = datatree.DataTree.from_dict(vals)
+    dt.attrs = meta
+    return dt

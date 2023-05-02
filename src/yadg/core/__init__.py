@@ -16,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 def infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     """
-    Helper function to distribute work to `parser`s.
-
-    Add your `parser` here.
+    Helper function to distribute work to parsers.
 
     Parameters
     ----------
@@ -28,8 +26,8 @@ def infer_datagram_handler(parser: str) -> tuple[Callable, str]:
     Returns
     -------
     (process, version): tuple[Callable, str]
-        A tuple containing the handler function as :class:`(Callable)` and the handler
-        version as :class:`(str)`.
+        A tuple containing the handler function as :class:`Callable` and the handler
+        version as :class:`str`.
     """
     modname = f"yadg.parsers.{parser}"
     try:

@@ -11,11 +11,13 @@
 
   Please note that ``yadg-5.0`` has not yet been released.
 
-Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf, CH). 
+Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf, CH).
 
 New features since ``yadg-4.2`` are:
 
   - Support for ``DataSchema-5.0``.
+  - The output format of ``yadg`` is now a ``NetCDF`` file (``.nc``), as written by the
+    :class:`datatree.DataTree` module.
   - Automatic update of read `dataschemas` from version ``DataSchema-4.0`` and above,
     yielding the latest verison of `dataschema` prior to parsing.
 
@@ -26,12 +28,14 @@ Backwards-incompatible changes include:
     in ``dgpost-2.0``.
   - The ``yadg update`` functionality is now only for updating `dataschema`; the ability
     to update `datagrams` has been removed.
-  
+  - The parameter ``transpose`` from :mod:`~yadg.parsers.electrochem` parser is no longer
+    available; all electrochemistry data is returned as plain timesteps.
+
 Bug fixes include:
 
-  - the :mod:`~yadg.parsers.electrochem` parser now properly parses files with ``WAIT`` 
+  - the :mod:`~yadg.parsers.electrochem` parser now properly parses files with ``WAIT``
     technique;
-  - the :mod:`~yadg.parsers.electrochem` parser understands more versions of the ``MB`` 
+  - the :mod:`~yadg.parsers.electrochem` parser understands more versions of the ``MB``
     technique versions in the ``biologic.mpr`` filetype;
   - the :mod:`~yadg.parsers.electrochem` parser can handle localized versions of data
     in the ``biologic.mpt`` filetype;
@@ -42,4 +46,4 @@ This project has received funding from the European Union’s Horizon 2020 resea
 and innovation programme under grant agreement No 957189. The project is part of
 BATTERY 2030+, the large-scale European research initiative for inventing the
 sustainable batteries of the future.
-    
+

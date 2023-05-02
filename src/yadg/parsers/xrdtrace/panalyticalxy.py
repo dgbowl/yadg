@@ -5,33 +5,15 @@ panalyticalxy: Processing of PANalytical XRD ``xy`` files
 File Structure
 ``````````````
 
-These files basically just contain the ``[Scan points]`` part of PANalytical csv
-files :mod:`yadg.parsers.xrdtrace.panalyticalcsv`. As a consequence, no metadata
+These files basically just contain the ``[Scan points]`` part of
+:mod:`~yadg.parsers.xrdtrace.panalyticalcsv` files. As a consequence, no metadata
 is recorded, and the format does not have an associated timestamp.
 
+Uncertainties
+`````````````
+The uncertainties of ``"angle"`` are taken from the number of significant figures.
 
-DataTree structure
-``````````````````
-
-.. code-block::
-
-    /:
-        Dimensions:    (uts: 1, angle: n)
-        Coordinates:
-            uts:       (uts)            float64     Timestamp, set to 0.0.
-            angle:     (angle)          float64     Diffraction angle, degrees.
-        Data variables:
-            intensity  (uts, angle)     float64     Detector intensity, counts.
-        Attributes:
-    /_yadg.meta:
-        Dimensions:    (uts: 1, _angle: n)
-        Coordinates:
-            uts:       (uts)            float64
-            _angle:    (_angle)         float64
-        Data variables:
-            intensity  (uts, _angle)    float64     Dev. of intensity, counts.
-            angle      (uts, _angle)    float64     Dev. of angle, degrees.
-            _fn        (uts)            str         Filename of the datapoint
+The uncertainties of ``"intensity"`` are taken from the number of significant figures.
 
 .. codeauthor::
     Nicolas Vetsch,
@@ -41,14 +23,14 @@ DataTree structure
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import numpy as np
 import xarray as xr
-from zoneinfo import ZoneInfo
 
 
 def process(
+    *,
     fn: str,
     encoding: str,
-    timezone: ZoneInfo,
-) -> tuple[xr.Dataset, xr.Dataset]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes a PANalytical XRD xy file.
 
     Parameters
@@ -59,14 +41,12 @@ def process(
     encoding
         Encoding of ``fn``, by default "utf-8".
 
-    timezone
-        A string description of the timezone. Default is "UTC".
 
     Returns
     -------
-    DataTree : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag.
-        For .xy files tag is never specified.
+    :class:`xr.Dataset`
+        Tuple containing the timesteps and metadata. A full timestamp is not available
+        in ``.xy`` files.
 
     """
     with open(fn, "r", encoding=encoding) as xy_file:

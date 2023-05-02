@@ -8,29 +8,11 @@ File Structure
 These files are split into a ``[Measurement conditions]`` and a ``[Scan points]``
 section. The former stores the metadata and the latter all the datapoints.
 
+Uncertainties
+`````````````
+The uncertainties of ``"angle"`` are taken from the number of significant figures.
 
-DataTree structure
-``````````````````
-.. code-block::
-
-    /:
-        Dimensions:    (uts: 1, angle: n)
-        Coordinates:
-            uts:       (uts)            float64     Timestamp.
-            angle:     (angle)          float64     Diffraction angle, degrees.
-        Data variables:
-            intensity  (uts, angle)     float64     Detector intensity, counts.
-        Attributes:
-            ...                                     Metadata from file header.
-    /_yadg.meta:
-        Dimensions:    (uts: 1, _angle: n)
-        Coordinates:
-            uts:       (uts)            float64
-            _angle:    (_angle)         float64
-        Data variables:
-            intensity  (uts, _angle)    float64     Dev. of intensity, counts.
-            angle      (uts, _angle)    float64     Dev. of angle, degrees.
-            _fn        (uts)            str         Filename of the datapoint
+The uncertainties of ``"intensity"`` are taken from the number of significant figures.
 
 .. codeauthor::
     Nicolas Vetsch,
@@ -94,9 +76,8 @@ def _process_data(data: str) -> tuple[list, list]:
 
     Returns
     -------
-    (angle, intensity) : tuple[list, list]
-        A list containing the angle data and one containing the
-        intensity counts.
+    avals, adevs, ivals, idevs
+        The values and uncertainties in angle and intensity.
 
     """
     data_lines = data.split("\n")[1:-1]
@@ -110,8 +91,12 @@ def _process_data(data: str) -> tuple[list, list]:
 
 
 def process(
-    fn: str, encoding: str = "utf-8", timezone: str = "UTC"
-) -> tuple[list, dict, bool]:
+    *,
+    fn: str,
+    encoding: str = "utf-8",
+    timezone: str = "UTC",
+    **kwargs: dict,
+) -> xr.Dataset:
     """
     Processes a PANalytical XRD csv file. All information contained in the header
     of the csv file is stored in the metadata.
@@ -129,10 +114,9 @@ def process(
 
     Returns
     -------
-    (data, meta) : tuple[list, dict]
-        (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag.
-        For .csv files tag is specified.
+    :class:`xr.Dataset`
+        Data containing the timesteps and metadata. This filetype contains the full
+        date specification.
 
     """
     with open(fn, "r", encoding=encoding) as csv_file:

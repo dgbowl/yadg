@@ -1,9 +1,7 @@
 """
-This module handles the reading and processing of X-ray diffraction data.
-
-:mod:`~yadg.parsers.xrdtrace` loads X-ray diffraction data, determines reasonable
-uncertainties of the signal intensity (y-axis), and explicitly populates the angle
-axis (:math:`2\\theta`), if necessary.
+This module handles the reading and processing of X-ray diffraction data. It loads X-ray
+diffraction data, determines reasonable uncertainties of the signal intensity (y-axis),
+and explicitly populates the angle axis (:math:`2\\theta`), if necessary.
 
 Usage
 `````
@@ -34,21 +32,43 @@ The raw data is stored, for each timestep, using the following format:
 
 .. code-block:: yaml
 
-    - raw:
-        traces:
-          "{{ trace_number }}":   # number of the trace
-            angle:
-              {n: [!!float, ...], s: [!!float, ...], u: "deg"}
-            intensity:
-              {n: [!!float, ...], s: [!!float, ...], u: "counts"}
-
-The uncertainties ``"s"`` in ``"angle"`` are taken as the step-width of
-the linearly spaced :math:`2\\theta` values.
-
-The uncertainties ``"s"`` of ``"intensity"`` are currently set to a constant
-value of 1.0 count as all the supported files seem to produce integer values.
+  xr.Dataset:
+    coords:
+      uts:         !!float
+      angle:       !!float            # Diffraction angle (deg)
+    data_vals:
+      intensity:   (uts, angle)       # Detector intensity (counts)
 
 """
-from .main import process
+import xarray as xr
+from . import panalyticalxrdml, panalyticalcsv, panalyticalxy
 
-__all__ = ["process"]
+
+def process(
+    *,
+    filetype: str,
+    **kwargs: dict,
+) -> xr.Dataset:
+    """
+    Unified X-ray diffractogram data parser. Forwards ``kwargs`` to the worker
+    functions based on the supplied ``filetype``.
+
+    This parser processes XPS scans in signal(energy) format.
+
+    Parameters
+    ----------
+    filetype
+        Discriminator used to select the appropriate worker function.
+
+    Returns
+    -------
+    :class:`xr.Dataset`
+
+
+    """
+    if filetype == "panalytical.xrdml":
+        return panalyticalxrdml.process(**kwargs)
+    elif filetype == "panalytical.csv":
+        return panalyticalcsv.process(**kwargs)
+    elif filetype == "panalytical.xy":
+        return panalyticalxy.process(**kwargs)

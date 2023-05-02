@@ -20,20 +20,13 @@ library into a Python :class:`dict`.
     contain only a subset of the available metadata in the XML file. If something
     important is missing, please contact us!
 
-Structure of Parsed Timesteps
-`````````````````````````````
+Uncertainties
+`````````````
+The uncertainties of in ``"angle"`` are taken as the step-width of
+the linearly spaced :math:`2\\theta` values.
 
-.. code-block:: yaml
-
-    - fn:  !!str
-    - uts: !!float
-    - raw:
-        traces:
-          "{{ trace_number }}":  # Number of the trace.
-            angle:               # Diffraction angle.
-              {n: [!!float, ...], s: [!!float, ...], u: "deg"}
-            intensity:           # Detector counts.
-              {n: [!!float, ...], s: [!!float, ...], u: "counts"}
+The uncertainties of of ``"intensity"`` are currently set to a constant
+value of 1.0 count as all the supported files seem to produce integer values.
 
 .. codeauthor::
     Nicolas Vetsch,
@@ -195,10 +188,11 @@ def _process_measurement(measurement: dict, timezone: str):
 
 
 def process(
+    *,
     fn: str,
-    encoding: str,
     timezone: ZoneInfo,
-) -> tuple[list, dict, bool]:
+    **kwargs: dict,
+) -> xr.Dataset:
     """Processes a PANalytical xrdml file.
 
     Parameters
@@ -206,17 +200,14 @@ def process(
     fn
         The file containing the trace(s) to parse.
 
-    encoding
-        Encoding of ``fn``, by default "utf-8".
-
     timezone
         A string description of the timezone. Default is "UTC".
 
     Returns
     -------
-    (data, metadata, fulldate) : tuple[list, dict, bool]
-        Tuple containing the timesteps, metadata, and the full date tag.
-        For .xrdml tag is always specified
+    :class:`xr.Dataset`
+        Data containing the timesteps, and metadata. This filetype contains the full
+        date specification.
 
     """
     it = ElementTree.iterparse(fn)

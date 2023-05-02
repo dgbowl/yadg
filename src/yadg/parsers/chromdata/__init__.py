@@ -13,7 +13,7 @@ Available since ``yadg-4.2``. The parser supports the following parameters:
 
 .. _yadg.parsers.chromdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.ChromData.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.ChromData
 
 .. _yadg.parsers.chromdata.formats:
 

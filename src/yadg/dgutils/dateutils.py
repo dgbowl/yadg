@@ -7,8 +7,8 @@ import logging
 from zoneinfo import ZoneInfo
 import numpy as np
 from typing import Callable, Union, Mapping, Iterable
-from dgbowl_schemas.yadg.dataschema_4_1.externaldate import ExternalDate
-from dgbowl_schemas.yadg.dataschema_4_1.timestamp import TimestampSpec
+from dgbowl_schemas.yadg.dataschema_5_0.externaldate import ExternalDate
+from dgbowl_schemas.yadg.dataschema_5_0.timestamp import TimestampSpec
 
 
 logger = logging.getLogger(__name__)
@@ -249,7 +249,7 @@ def complete_timestamps(
 
     The ``externaldate`` specification is as follows:
 
-    .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_1.externaldate.ExternalDate
+    .. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.externaldate.ExternalDate
        :noindex:
 
     The ``using`` key specifies how an external timestamp is created. Only one entry in

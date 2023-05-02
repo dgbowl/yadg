@@ -12,7 +12,7 @@ in the `dataschema`. The parser supports the following parameters:
 
 .. _yadg.parsers.masstrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.MassTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.MassTrace
 
 .. _yadg.parsers.masstrace.formats:
 

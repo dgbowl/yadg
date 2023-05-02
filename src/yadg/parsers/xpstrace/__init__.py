@@ -9,7 +9,7 @@ Available since ``yadg-4.1``. The parser supports the following parameters:
 
 .. _yadg.parsers.xpstrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.XPSTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.XPSTrace
 
 .. _yadg.parsers.xpstrace.formats:
 

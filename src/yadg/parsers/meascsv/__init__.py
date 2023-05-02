@@ -15,7 +15,7 @@ following parameters:
 
 .. _yadg.parsers.meascsv.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.MeasCSV
 
 .. _parsers_meascsv_provides:
 
@@ -67,7 +67,7 @@ def process(
         A string description of the timezone. Default is "localtime".
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.MeasCSV`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_5_0.step.MeasCSV`.
 
     Returns
     -------

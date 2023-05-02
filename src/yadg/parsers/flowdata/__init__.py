@@ -7,7 +7,7 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.flowdata.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.FlowData.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.FlowData
 
 .. _yadg.parsers.flowdata.formats:
 

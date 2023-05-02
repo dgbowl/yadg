@@ -16,7 +16,7 @@ Available since ``yadg-4.0``. The parser supports the following parameters:
 
 .. _yadg.parsers.chromtrace.model:
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_4_2.step.ChromTrace.Params
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.ChromTrace
 
 .. _yadg.parsers.chromtrace.formats:
 

@@ -4,7 +4,9 @@ packages. It provides no real functionality.
 
 Usage
 `````
-Available since ``yadg-4.0``.
+Available since ``yadg-4.0``. The parser supports the following parameters:
+
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_0.step.Dummy
 
 Formats
 ```````
@@ -64,7 +66,7 @@ def process(
         :mod:`tomato`.
 
     parameters
-        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_4_2.step.Dummy`.
+        Parameters for :class:`~dgbowl_schemas.yadg.dataschema_5_0.step.Dummy`.
 
     Returns
     -------

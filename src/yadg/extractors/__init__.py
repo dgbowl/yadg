@@ -4,13 +4,10 @@ from dgbowl_schemas.yadg import ExtractorFactory
 from pydantic import ValidationError
 from pathlib import Path
 from zoneinfo import ZoneInfo
-import pandas as pd
 import xarray as xr
 import datatree
 from typing import Union
-import json
-from yadg.core import datagram_version
-from yadg import dgutils
+from yadg import dgutils, core
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +75,7 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
         ret.attrs = {
             "provenance": "yadg extract",
             "date": dgutils.now(asstr=True),
-            "datagram_version": datagram_version,
+            "datagram_version": core.datagram_version,
             "yadg_extract_filename": str(path),
             "yadg_extract_filetype": str(ftype),
         }

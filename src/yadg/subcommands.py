@@ -6,7 +6,6 @@ import yaml
 import shutil
 import hashlib
 from pathlib import Path
-import datatree
 
 # from dgbowl_schemas import to_dataschema
 from dgbowl_schemas.yadg import to_dataschema

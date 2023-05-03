@@ -25,5 +25,3 @@ Major features are:
     - fitting of quality factor using Kajfez's circle fitting method [Kajfez1994]_
 
   - ``meascsv``: support for in-house MCPT logger for flow and temperature data
-
-  .. [Kajfez1994] Kajfez, D. *Linear fractional curve fitting for measurement of high Q factors*, IEEE Transactions on Microwave Theory and Techniques **1994**, *42*, 1149, DOI: https://doi.org/10.1109/22.299749

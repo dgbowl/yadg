@@ -8,3 +8,9 @@ Papers related to yadg
 .. [Kraus2022b] Kraus, P.; Vetsch, N.; Battaglia, C. *yadg: yet another datagram*, Journal of Open Source Software **2022**, *7*, 4166, DOI: https://doi.org/10.21105/joss.04166
 
 .. [Kraus2022a] Kraus, P.; Wolf, E.H.; Prinz, C.; Bellini, G.; Trunschke, A.; Schlögl, R. *Towards automation of operando experiments: a case study in contactless conductivity measurements*, Digital Discovery **2022**, *1*, 241, DOI: https://doi.org/10.1039/D1DD00029B
+
+
+Other bibliography
+``````````````````
+
+.. [Kajfez1994] Kajfez, D. *Linear fractional curve fitting for measurement of high Q factors*, IEEE Transactions on Microwave Theory and Techniques **1994**, *42*, 1149, DOI: https://doi.org/10.1109/22.299749

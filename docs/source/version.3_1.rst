@@ -6,7 +6,7 @@
     :target: https://pypi.org/project/yadg/3.1.0/
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=2021-09-11&color=red&logo=pypi
 
-First released version of **yadg**, containing functionality developed at the 
+First released version of **yadg**, containing functionality developed at the
 Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
 [Kraus2022a]_.
 
@@ -25,3 +25,5 @@ Major features are:
     - fitting of quality factor using Kajfez's circle fitting method [Kajfez1994]_
 
   - ``meascsv``: support for in-house MCPT logger for flow and temperature data
+
+  .. [Kajfez1994] Kajfez, D. *Linear fractional curve fitting for measurement of high Q factors*, IEEE Transactions on Microwave Theory and Techniques **1994**, *42*, 1149, DOI: https://doi.org/10.1109/22.299749

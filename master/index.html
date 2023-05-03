@@ -67,6 +67,15 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
@@ -106,42 +115,18 @@
 <a class="reference external image-reference" href="https://github.com/dgbowl/yadg"><img alt="https://badgen.net/github/tag/dgbowl/yadg/?icon=github" src="https://badgen.net/github/tag/dgbowl/yadg/?icon=github" /></a>
 <a class="reference external image-reference" href="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml"><img alt="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master" src="https://github.com/dgbowl/yadg/actions/workflows/codeql.yml/badge.svg?branch=master" /></a>
 <p><strong>yadg</strong> is a set of tools and parsers aimed to process raw instrument data.</p>
-<a class="reference internal image-reference" href="_images/schema_yadg_datagram.png"><img alt="yadg is used to process raw data files using a DataSchema into a datagram." src="_images/schema_yadg_datagram.png" style="width: 600px;" /></a>
-<p>Given an experiment represented by a <cite>dataschema</cite>, yadg will process the files
-and folders specified in each experimental <cite>step</cite> of the <cite>dataschema</cite>, and produce a
-<cite>datagram</cite> – a unified data structure containing all measured (“raw”) data in a
-given experiment.</p>
-<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is stored as a <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> file. The produced <cite>datagram</cite>
-is associated with full provenance info, and the data within the <cite>datagram</cite> contain
-instrumental error estimates and are annotated with units.</p>
-<p>You can read more about yadg in our paper: <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>. Please note that the post-processing
-features within <code class="docutils literal notranslate"><span class="pre">yadg</span></code> have been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and removed in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
-</ul>
+<a class="reference internal image-reference" href="_images/schema_yadg_datagram.png"><img alt="yadg is used to process raw data files using a datadchema into a NetCDF datagram." src="_images/schema_yadg_datagram.png" style="width: 600px;" /></a>
+<p>Given an experiment represented by a <cite>dataschema</cite>, <strong>yadg</strong> will process the files and folders specified in each experimental <cite>step</cite> of the <cite>dataschema</cite>, and produce a <cite>datagram</cite> – a unified data structure containing all measured (“raw”) data in a given experiment. As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is stored as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file. The produced <cite>datagram</cite> is associated with full provenance info, and the data within the <cite>datagram</cite> contain instrumental error estimates and are annotated with units.</p>
+<p>You can read more about <strong>yadg</strong> in our paper: <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The post-processing features within <strong>yadg</strong> have been deprecated in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and removed in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>. If you are looking for a post-processing library, have a look at <a class="reference external" href="https://dgbowl.github.io/dgpost"><strong>dgpost</strong></a> instead.</p>
 </div>
-<p><strong>yadg</strong> offloads the responsibility of processing the raw data files to its
-modules, called parsers. The currently implemented parsers are documented in the
-following links:</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
-</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 </div>

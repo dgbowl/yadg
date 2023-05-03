@@ -51,9 +51,12 @@
               <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How to use <strong>yadg</strong></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#dataschema-processing"><cite>Dataschema</cite> processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dataschema-from-presets"><cite>Dataschema</cite> from presets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dataschema-version-updater"><cite>Dataschema</cite> version updater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extractor-mode"><cite>Extractor</cite> mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parser-mode"><cite>Parser</cite> mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataschema-from-presets"><cite>Dataschema</cite> from presets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dataschema-version-updater"><cite>Dataschema</cite> version updater</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
@@ -72,6 +75,15 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -107,58 +119,72 @@
              
   <section id="how-to-use-yadg">
 <h1>How to use <strong>yadg</strong><a class="headerlink" href="#how-to-use-yadg" title="Permalink to this headline"></a></h1>
-<p>We have prepared an interactive, Binder-compatible Jupyter notebook, showing the
-installation and example usage of yadg. The latest version of the notebook and
-the direct link to Binder are:</p>
+<p>We have prepared an interactive, Binder-compatible Jupyter notebook, showing the installation and example usage of yadg. The latest version of the notebook and the direct link to Binder are:</p>
 <a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.6351210"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg" /></a>
 <a class="reference external image-reference" href="https://mybinder.org/v2/zenodo/10.5281/zenodo.6351210/?labpath=index.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" /></a>
-<section id="dataschema-processing">
-<h2><cite>Dataschema</cite> processing<a class="headerlink" href="#dataschema-processing" title="Permalink to this headline"></a></h2>
-<p>The basic purpose of yadg is to process a bunch of raw data files according to a
-provided <cite>dataschema</cite> into a well-defined, annotated, FAIR-data file called <cite>datagram</cite>.
-To use yadg like this, it should be invoked as follows:</p>
+<p>There are two main ways of using <strong>yadg</strong>:</p>
+<ol class="arabic simple">
+<li><p>A limited <cite>extractor</cite> mode, useful to extract (meta)-data from single, separate files.</p></li>
+<li><p>A fully featured <cite>parser</cite> mode, requiring a <cite>dataschema</cite>, intended to process all files semantically related to a single “experiment”.</p></li>
+</ol>
+<section id="extractor-mode">
+<h2><cite>Extractor</cite> mode<a class="headerlink" href="#extractor-mode" title="Permalink to this headline"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <cite>extractor</cite> mode has been introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code> and its API is not yet stable.</p>
+</div>
+<p>The option to use <strong>yadg</strong> as an <cite>extractor</cite> comes as a consequence of the <a class="reference external" href="https://github.com/marda-alliance/metadata_extractors">MaRDA Metadata Extractors WG</a>. In this mode, <strong>yadg</strong> can be invoked by providing just the <cite>FileType</cite> and the path to the input file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>extract<span class="w"> </span>filetype<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">infile</span></code> will be then parsed using <strong>yadg</strong> and, if successful, saved as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file, optionally using the specified <code class="docutils literal notranslate"><span class="pre">outfile</span></code> location.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In <cite>extractor</cite> mode, <strong>yadg</strong> assumes the following defaults:</p>
+<ul class="simple">
+<li><p><cite>timezone</cite> is set to the <code class="docutils literal notranslate"><span class="pre">localtime</span></code> of the <cite>localhost</cite>,</p></li>
+<li><p><cite>locale</cite> is set to the default <code class="docutils literal notranslate"><span class="pre">LC.NUMERIC</span></code> locale of the <cite>localhost</cite>,</p></li>
+<li><p><cite>encoding</cite> of the input files is set to <code class="docutils literal notranslate"><span class="pre">UTF-8</span></code> or the <cite>extractor</cite> default.</p></li>
+</ul>
+<p>All of the above options might lead to improper parsing of the input files. Errors due to improper <cite>locale</cite> might be obvious (e.g. data parsed using wrong decimal separators); incorrect <cite>timezone</cite> information may lead to errors that are more subtle.</p>
+</div>
+<p>The resulting NetCDF files will contain annotation of provenance (i.e. <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code>), <cite>filetype</cite> information, and the resolved defaults of <cite>timezone</cite>, <cite>locale</cite>, and <cite>encoding</cite> used to create the NetCDF file.</p>
+<p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar.</p>
+</section>
+<section id="parser-mode">
+<h2><cite>Parser</cite> mode<a class="headerlink" href="#parser-mode" title="Permalink to this headline"></a></h2>
+<p>The main purpose of yadg is to process a bunch of raw data files according to a provided <cite>dataschema</cite> into a well-defined, annotated, FAIR-data file called <cite>datagram</cite>. As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is stored in <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> files. To use <strong>yadg</strong> like this, it should be invoked as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>process<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <cite>dataschema</cite> json file, and the optional
-<code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <cite>datagram</cite> should be saved
-(defaults to <code class="docutils literal notranslate"><span class="pre">datagram.json</span></code>).</p>
-</section>
+<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file containing the <cite>dataschema</cite>, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <cite>datagram</cite> should be saved (it defaults to <code class="docutils literal notranslate"><span class="pre">datagram.nc</span></code>).</p>
+<p>In this fully-featured usage pattern via <cite>dataschema</cite>, <strong>yadg</strong> offloads the responsibility of data extraction and normalisation to its modules, called <cite>parsers</cite>. The currently implemented <cite>parsers</cite> are documented in the sidebar.</p>
 <section id="dataschema-from-presets">
-<h2><cite>Dataschema</cite> from presets<a class="headerlink" href="#dataschema-from-presets" title="Permalink to this headline"></a></h2>
-<p>This alternative form of using yadg is especially useful when processing data organised
-in a consistent folder structure between several experimental runs. The user should
-prepare a <cite>preset</cite> file, which then gets patched to a <cite>dataschema</cite> file using the
-provided folder path:</p>
+<h3><cite>Dataschema</cite> from presets<a class="headerlink" href="#dataschema-from-presets" title="Permalink to this headline"></a></h3>
+<p>This alternative form of using <strong>yadg</strong> in <cite>parser</cite> mode is especially useful when processing data organised in a consistent folder structure between several experimental runs. The user should prepare a <cite>preset</cite> file, which then gets patched to a <cite>dataschema</cite> file using the provided folder path:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> is the <cite>preset</cite>, <code class="docutils literal notranslate"><span class="pre">folder</span></code> is the folder path for which the <cite>preset</cite>
-should be modified, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created
-<cite>dataschema</cite> should be saved.</p>
-<p>Alternatively, if the <cite>dataschema</cite> should be processed immediately, the <code class="docutils literal notranslate"><span class="pre">--process</span></code>
-(or <code class="docutils literal notranslate"><span class="pre">-p</span></code>) switch can be used with the following usage pattern:</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> is the <cite>preset</cite>, <code class="docutils literal notranslate"><span class="pre">folder</span></code> is the folder path for which the <cite>preset</cite> should be modified, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <cite>dataschema</cite> should be saved.</p>
+<p>Alternatively, if the <cite>dataschema</cite> should be processed immediately, the <code class="docutils literal notranslate"><span class="pre">--process</span></code> (or <code class="docutils literal notranslate"><span class="pre">-p</span></code>) switch can be used with the following usage pattern:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.json<span class="o">]</span>
 </pre></div>
 </div>
-<p>This syntax will process the created <cite>dataschema</cite> immediately, and the <cite>datagram</cite> will
-be saved to <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> instead.</p>
-<p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed,
-and referenced in the <cite>datagram</cite>, by using the following pattern:</p>
+<p>This syntax will process the created <cite>dataschema</cite> immediately, and the <cite>datagram</cite> will be saved to <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> instead.</p>
+<p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed, and referenced in the <cite>datagram</cite>, by using the following pattern:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>-a<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.json<span class="o">]</span>
 </pre></div>
 </div>
-<p>This will create a <cite>datagram</cite> in <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> as well as a <code class="docutils literal notranslate"><span class="pre">outfile.zip</span></code> archive
-from the whole contents of the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code>.</p>
+<p>This will create a <cite>datagram</cite> in <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> as well as a <code class="docutils literal notranslate"><span class="pre">outfile.zip</span></code> archive from the whole contents of the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code>.</p>
 </section>
 <section id="dataschema-version-updater">
-<h2><cite>Dataschema</cite> version updater<a class="headerlink" href="#dataschema-version-updater" title="Permalink to this headline"></a></h2>
-<p>If you’d like to update a <cite>dataschema</cite> from a previous version of yadg to the current
-latest one, use the following syntax:</p>
+<h3><cite>Dataschema</cite> version updater<a class="headerlink" href="#dataschema-version-updater" title="Permalink to this headline"></a></h3>
+<p>If you’d like to update a <cite>dataschema</cite> from a previous version of yadg to the current latest one, use the following syntax:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>update<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>This will update the <cite>dataschema</cite> specified in <code class="docutils literal notranslate"><span class="pre">infile</span></code>.</p>
+<p>This will update the <cite>dataschema</cite> specified in <code class="docutils literal notranslate"><span class="pre">infile</span></code> and save it to <code class="docutils literal notranslate"><span class="pre">outfile</span></code>, if provided.</p>
+</section>
 </section>
 </section>
 

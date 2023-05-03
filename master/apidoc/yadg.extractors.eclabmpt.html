@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.extractors.eclabmpt package &mdash; yadg master documentation</title>
+  <title>eclab-mpr: BioLogic ECLab export .mpt &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="yadg.parsers package" href="yadg.parsers.html" />
-    <link rel="prev" title="yadg.extractors.eclabmpr package" href="yadg.extractors.eclabmpr.html" /> 
+    <link rel="next" title="panalytical-xrdml: PANalytical XRDML .xrdml" href="yadg.extractors.panalyticalxrdml.html" />
+    <link rel="prev" title="eclab-mpr: BioLogic ECLab binary .mpr" href="yadg.extractors.eclabmpr.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -68,34 +68,21 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="yadg.extractors.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l5"><a class="reference internal" href="yadg.extractors.eclabcommon.html">yadg.extractors.eclabcommon package</a></li>
-<li class="toctree-l5"><a class="reference internal" href="yadg.extractors.eclabmpr.html">yadg.extractors.eclabmpr package</a></li>
-<li class="toctree-l5 current"><a class="current reference internal" href="#">yadg.extractors.eclabmpt package</a><ul>
-<li class="toctree-l6"><a class="reference internal" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files"><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#module-yadg.extractors.eclabmpt.extractor">Submodules</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -112,9 +99,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="yadg.html">yadg package</a></li>
-          <li class="breadcrumb-item"><a href="yadg.extractors.html">yadg.extractors package</a></li>
-      <li class="breadcrumb-item active">yadg.extractors.eclabmpt package</li>
+      <li class="breadcrumb-item active"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/yadg.extractors.eclabmpt.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -125,88 +110,10 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.extractors.eclabmpt">
-<span id="yadg-extractors-eclabmpt-package"></span><h1>yadg.extractors.eclabmpt package<a class="headerlink" href="#module-yadg.extractors.eclabmpt" title="Permalink to this headline"></a></h1>
-<section id="eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files">
-<h2><strong>eclabmpt</strong>: Processing of BioLogic’s EC-Lab ASCII export files.<a class="headerlink" href="#eclabmpt-processing-of-biologic-s-ec-lab-ascii-export-files" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files are made up of a header portion (with the technique
-parameter sequences and an optional loops section) and a tab-separated
-data table.</p>
-<p>A list of techniques supported by this parser is shown in <a class="reference external" href="yadg.parsers.electrochem.eclabmpr.techniques">the techniques table</a>.</p>
-<section id="file-structure-of-mpt-files">
-<h3>File Structure of <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> Files<a class="headerlink" href="#file-structure-of-mpt-files" title="Permalink to this headline"></a></h3>
-<p>These human-readable files are sectioned into headerlines and datalines.
-The header part of the <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files is made up of information that can be found
-in the settings, log and loop modules of the binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> file.</p>
-<p>If no header is present, the timestamps will instead be calculated from
-the file’s <code class="docutils literal notranslate"><span class="pre">mtime()</span></code>.</p>
-</section>
-<section id="metadata">
-<h3>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline"></a></h3>
-<p>The metadata will contain the information from the header of the file.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The mapping between metadata parameters between <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files
-is not yet complete.</p>
-</div>
-<p><em>Code author: Nicolas Vetsch</em></p>
+<span id="eclab-mpr-biologic-eclab-export-mpt"></span><h1><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code><a class="headerlink" href="#module-yadg.extractors.eclabmpt" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclabmpt.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclabmpt.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclabmpt.extract" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-</section>
-<section id="module-yadg.extractors.eclabmpt.extractor">
-<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.extractors.eclabmpt.extractor" title="Permalink to this headline"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.eclabmpt.extractor.process_header">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclabmpt.extractor.</span></span><span class="sig-name descname"><span class="pre">process_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclabmpt.extractor.process_header" title="Permalink to this definition"></a></dt>
-<dd><p>Processes the header lines.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The header lines, starting at line 3 (which is an empty line),
-right after the <cite>“Nb header lines : “</cite> line.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary containing the settings (and the technique
-parameters) and a dictionary containing the loop indexes.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[dict, dict]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.eclabmpt.extractor.process_data">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclabmpt.extractor.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eranges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iranges</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclabmpt.extractor.process_data" title="Permalink to this definition"></a></dt>
-<dd><p>Processes the data lines.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The data lines, starting right after the last header section.
-The first line is an empty line, the column names can be found
-on the second line.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary containing the datapoints in the format
-([{column -&gt; value}, …, {column -&gt; value}]). If the column
-unit is set to None, the value is an int. Otherwise, the value
-is a dict with value (“n”), sigma (“s”), and unit (“u”).</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.eclabmpt.extractor.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclabmpt.extractor.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclabmpt.extractor.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclabmpt.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclabmpt.extract" title="Permalink to this definition"></a></dt>
 <dd><p>Processes EC-Lab human-readable text export files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -217,24 +124,22 @@ is a dict with value (“n”), sigma (“s”), and unit (“u”).</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>(data, metadata, fulldate)</strong> – Tuple containing the timesteps, metadata, and the full date tag. For mpt files,
-the full date might not be specified if header is not present.</p>
+<dd class="field-even"><p>The full date may not be specified if header is not present.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[list, dict, bool]</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
-<span class="target" id="module-yadg.extractors.eclabmpt.mpt_columns"></span></section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.extractors.eclabmpr.html" class="btn btn-neutral float-left" title="yadg.extractors.eclabmpr package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.html" class="btn btn-neutral float-right" title="yadg.parsers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.extractors.eclabmpr.html" class="btn btn-neutral float-left" title="eclab-mpr: BioLogic ECLab binary .mpr" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.panalyticalxrdml.html" class="btn btn-neutral float-right" title="panalytical-xrdml: PANalytical XRDML .xrdml" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

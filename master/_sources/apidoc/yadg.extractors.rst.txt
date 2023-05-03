@@ -12,6 +12,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   yadg.extractors.eclabcommon
+   yadg.extractors.agilentch
+   yadg.extractors.agilentdx
    yadg.extractors.eclabmpr
    yadg.extractors.eclabmpt
+   yadg.extractors.panalyticalxrdml
+   yadg.extractors.phispe

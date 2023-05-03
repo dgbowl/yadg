@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.core package &mdash; yadg master documentation</title>
+  <title>agilent-dx: Agilent OpenLab raw data .dx &mdash; yadg master documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="yadg.dgutils package" href="yadg.dgutils.html" />
-    <link rel="prev" title="yadg package" href="yadg.html" /> 
+    <link rel="next" title="eclab-mpr: BioLogic ECLab binary .mpr" href="yadg.extractors.eclabmpr.html" />
+    <link rel="prev" title="agilent-ch: Agilent ChemStation export .CH" href="yadg.extractors.agilentch.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -69,30 +69,20 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">yadg.core package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">Submodules</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
 </ul>
 
         </div>
@@ -109,10 +99,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="yadg.html">yadg package</a></li>
-      <li class="breadcrumb-item active">yadg.core package</li>
+      <li class="breadcrumb-item active"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/apidoc/yadg.core.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/apidoc/yadg.extractors.agilentdx.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -120,44 +109,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-yadg.core">
-<span id="yadg-core-package"></span><h1>yadg.core package<a class="headerlink" href="#module-yadg.core" title="Permalink to this headline"></a></h1>
+  <section id="module-yadg.extractors.agilentdx">
+<span id="agilent-dx-agilent-openlab-raw-data-dx"></span><h1><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code><a class="headerlink" href="#module-yadg.extractors.agilentdx" title="Permalink to this headline"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.core.infer_datagram_handler">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">infer_datagram_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.infer_datagram_handler" title="Permalink to this definition"></a></dt>
-<dd><p>Helper function to distribute work to parsers.</p>
+<dt class="sig sig-object py" id="yadg.extractors.agilentdx.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilentdx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.agilentdx.extract" title="Permalink to this definition"></a></dt>
+<dd><p>Agilent OpenLab DX archive parser.</p>
+<p>This is a simple wrapper around the Agilent OpenLab signal trace parser in
+<a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentch" title="yadg.parsers.chromtrace.agilentch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.agilentch</span></code></a>. This wrapper first un-zips the DX
+file into a temporary directory, and then processess all CH files found
+within the archive, concatenating timesteps from multiple files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>parser</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the parser from schema.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
+<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used as the file is binary.</p></li>
+<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>(process, version)</strong> – A tuple containing the handler function as <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code> and the handler
-version as <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</p>
+<dd class="field-even"><p><strong>class</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> containing one <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code> per detector. If
+multiple timesteps are found in the zip archive, the <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTrees</span></code>
+are collated along the <code class="docutils literal notranslate"><span class="pre">uts</span></code> dimension.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple[Callable, str]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="yadg.core.process_schema">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process_schema" title="Permalink to this definition"></a></dt>
-<dd><p>Main worker function of <strong>yadg</strong>.</p>
-<p>Takes in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> object and returns a single annotated
-<cite>datagram</cite> created from the <cite>dataschema</cite>. It is the job of the user to supply a
-validated <cite>schema</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dataschema</strong> (<em>DataSchema</em>) – A fully validated <cite>dataschema</cite> object.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>datagram</strong> – An unvalidated <cite>datagram</cite>. The <cite>parser</cite>s included in <strong>yadg</strong> should return
-a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. Use the function
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">yadg.core.validators.validate_datagram()</span></code> to validate the resulting <cite>datagram</cite>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>DataTree</p>
+<dd class="field-odd"><p><cite>datatree.DataTree</cite></p>
 </dd>
 </dl>
 </dd></dl>
@@ -168,8 +144,8 @@ a valid <cite>datagram</cite>; any custom <cite>parser</cite>s might not do so. 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.html" class="btn btn-neutral float-left" title="yadg package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.dgutils.html" class="btn btn-neutral float-right" title="yadg.dgutils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.extractors.agilentch.html" class="btn btn-neutral float-left" title="agilent-ch: Agilent ChemStation export .CH" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.eclabmpr.html" class="btn btn-neutral float-right" title="eclab-mpr: BioLogic ECLab binary .mpr" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

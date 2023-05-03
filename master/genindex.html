@@ -65,6 +65,15 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
@@ -107,7 +116,6 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -170,9 +178,17 @@
       <li><a href="apidoc/yadg.extractors.html#yadg.extractors.extract">extract() (in module yadg.extractors)</a>
 
       <ul>
+        <li><a href="apidoc/yadg.extractors.agilentch.html#yadg.extractors.agilentch.extract">(in module yadg.extractors.agilentch)</a>
+</li>
+        <li><a href="apidoc/yadg.extractors.agilentdx.html#yadg.extractors.agilentdx.extract">(in module yadg.extractors.agilentdx)</a>
+</li>
         <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extract">(in module yadg.extractors.eclabmpr)</a>
 </li>
         <li><a href="apidoc/yadg.extractors.eclabmpt.html#yadg.extractors.eclabmpt.extract">(in module yadg.extractors.eclabmpt)</a>
+</li>
+        <li><a href="apidoc/yadg.extractors.panalyticalxrdml.html#yadg.extractors.panalyticalxrdml.extract">(in module yadg.extractors.panalyticalxrdml)</a>
+</li>
+        <li><a href="apidoc/yadg.extractors.phispe.html#yadg.extractors.phispe.extract">(in module yadg.extractors.phispe)</a>
 </li>
         <li><a href="apidoc/yadg.html#yadg.subcommands.extract">(in module yadg.subcommands)</a>
 </li>
@@ -215,12 +231,8 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.eclabcommon.html#yadg.extractors.eclabcommon.techniques.get_resolution">get_resolution() (in module yadg.extractors.eclabcommon.techniques)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution">(in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution">get_resolution() (in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.get_yadg_metadata">get_yadg_metadata() (in module yadg.dgutils)</a>
@@ -250,14 +262,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.html#yadg.extractors.load_json">load_json() (in module yadg.extractors)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -283,21 +287,17 @@
 </li>
         <li><a href="apidoc/yadg.extractors.html#module-yadg.extractors">yadg.extractors</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclabcommon.html#module-yadg.extractors.eclabcommon">yadg.extractors.eclabcommon</a>
+        <li><a href="apidoc/yadg.extractors.agilentch.html#module-yadg.extractors.agilentch">yadg.extractors.agilentch</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclabcommon.html#module-yadg.extractors.eclabcommon.techniques">yadg.extractors.eclabcommon.techniques</a>
+        <li><a href="apidoc/yadg.extractors.agilentdx.html#module-yadg.extractors.agilentdx">yadg.extractors.agilentdx</a>
 </li>
         <li><a href="apidoc/yadg.extractors.eclabmpr.html#module-yadg.extractors.eclabmpr">yadg.extractors.eclabmpr</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclabmpr.html#module-yadg.extractors.eclabmpr.extractor">yadg.extractors.eclabmpr.extractor</a>
-</li>
-        <li><a href="apidoc/yadg.extractors.eclabmpr.html#module-yadg.extractors.eclabmpr.mpr_columns">yadg.extractors.eclabmpr.mpr_columns</a>
-</li>
         <li><a href="apidoc/yadg.extractors.eclabmpt.html#module-yadg.extractors.eclabmpt">yadg.extractors.eclabmpt</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#module-yadg.extractors.eclabmpt.extractor">yadg.extractors.eclabmpt.extractor</a>
+        <li><a href="apidoc/yadg.extractors.panalyticalxrdml.html#module-yadg.extractors.panalyticalxrdml">yadg.extractors.panalyticalxrdml</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#module-yadg.extractors.eclabmpt.mpt_columns">yadg.extractors.eclabmpt.mpt_columns</a>
+        <li><a href="apidoc/yadg.extractors.phispe.html#module-yadg.extractors.phispe">yadg.extractors.phispe</a>
 </li>
         <li><a href="apidoc/yadg.html#module-yadg.main">yadg.main</a>
 </li>
@@ -416,12 +416,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.parsers.xrdtrace.html#yadg.parsers.xrdtrace.common.panalytical_comment">panalytical_comment() (in module yadg.parsers.xrdtrace.common)</a>
 </li>
-      <li><a href="apidoc/yadg.extractors.eclabcommon.html#yadg.extractors.eclabcommon.techniques.param_from_key">param_from_key() (in module yadg.extractors.eclabcommon.techniques)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.param_from_key">(in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.param_from_key">param_from_key() (in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
 </li>
-      </ul></li>
       <li><a href="apidoc/yadg.parsers.basiccsv.html#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.parameters">parameters (dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV attribute)</a>
 
       <ul>
@@ -430,12 +426,8 @@
         <li><a href="apidoc/yadg.parsers.meascsv.html#dgbowl_schemas.yadg.dataschema_5_0.step.MeasCSV.parameters">(dgbowl_schemas.yadg.dataschema_5_0.step.MeasCSV attribute)</a>
 </li>
       </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.parse_columns">parse_columns() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.parse_columns">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.parse_columns">parse_columns() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
       <li><a href="apidoc/yadg.parsers.basiccsv.html#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.parser">parser (dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV attribute)</a>
 
       <ul>
@@ -462,13 +454,9 @@
       </ul></li>
       <li><a href="apidoc/yadg.html#yadg.subcommands.preset">preset() (in module yadg.subcommands)</a>
 </li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process">process() (in module yadg.extractors.eclabmpr.extractor)</a>
+      <li><a href="apidoc/yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.process">process() (in module yadg.parsers.basiccsv)</a>
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#yadg.extractors.eclabmpt.extractor.process">(in module yadg.extractors.eclabmpt.extractor)</a>
-</li>
-        <li><a href="apidoc/yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.process">(in module yadg.parsers.basiccsv)</a>
-</li>
         <li><a href="apidoc/yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.main.process">(in module yadg.parsers.basiccsv.main)</a>
 </li>
         <li><a href="apidoc/yadg.parsers.chromdata.html#yadg.parsers.chromdata.process">(in module yadg.parsers.chromdata)</a>
@@ -538,56 +526,28 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_data">process_data() (in module yadg.extractors.eclabmpr.extractor)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_data">process_data() (in module yadg.parsers.electrochem.eclabmpr)</a>
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#yadg.extractors.eclabmpt.extractor.process_data">(in module yadg.extractors.eclabmpt.extractor)</a>
-</li>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_data">(in module yadg.parsers.electrochem.eclabmpr)</a>
-</li>
         <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpt.process_data">(in module yadg.parsers.electrochem.eclabmpt)</a>
 </li>
       </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_ext">process_ext() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_ext">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_ext">process_ext() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpt.html#yadg.extractors.eclabmpt.extractor.process_header">process_header() (in module yadg.extractors.eclabmpt.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpt.process_header">(in module yadg.parsers.electrochem.eclabmpt)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpt.process_header">process_header() (in module yadg.parsers.electrochem.eclabmpt)</a>
 </li>
-      </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_log">process_log() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_log">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_log">process_log() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_loop">process_loop() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_loop">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_loop">process_loop() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_modules">process_modules() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_modules">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_modules">process_modules() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
       <li><a href="apidoc/yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.main.process_row">process_row() (in module yadg.parsers.basiccsv.main)</a>
 </li>
       <li><a href="apidoc/yadg.core.html#yadg.core.process_schema">process_schema() (in module yadg.core)</a>
 </li>
-      <li><a href="apidoc/yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extractor.process_settings">process_settings() (in module yadg.extractors.eclabmpr.extractor)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_settings">(in module yadg.parsers.electrochem.eclabmpr)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.html#yadg.parsers.electrochem.eclabmpr.process_settings">process_settings() (in module yadg.parsers.electrochem.eclabmpr)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -654,12 +614,8 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.eclabcommon.html#yadg.extractors.eclabcommon.techniques.technique_params">technique_params() (in module yadg.extractors.eclabcommon.techniques)</a>
-
-      <ul>
-        <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.technique_params">(in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
+      <li><a href="apidoc/yadg.parsers.electrochem.eclabcommon.html#yadg.parsers.electrochem.eclabcommon.techniques.technique_params">technique_params() (in module yadg.parsers.electrochem.eclabcommon.techniques)</a>
 </li>
-      </ul></li>
       <li><a href="apidoc/yadg.parsers.flowdata.html#yadg.parsers.flowdata.drycal.TimeDate.time">time (yadg.parsers.flowdata.drycal.TimeDate attribute)</a>
 </li>
   </ul></td>
@@ -768,17 +724,17 @@
 </li>
       </ul></li>
       <li>
-    yadg.extractors.eclabcommon
+    yadg.extractors.agilentch
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabcommon.html#module-yadg.extractors.eclabcommon">module</a>
+        <li><a href="apidoc/yadg.extractors.agilentch.html#module-yadg.extractors.agilentch">module</a>
 </li>
       </ul></li>
       <li>
-    yadg.extractors.eclabcommon.techniques
+    yadg.extractors.agilentdx
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabcommon.html#module-yadg.extractors.eclabcommon.techniques">module</a>
+        <li><a href="apidoc/yadg.extractors.agilentdx.html#module-yadg.extractors.agilentdx">module</a>
 </li>
       </ul></li>
       <li>
@@ -789,20 +745,6 @@
 </li>
       </ul></li>
       <li>
-    yadg.extractors.eclabmpr.extractor
-
-      <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpr.html#module-yadg.extractors.eclabmpr.extractor">module</a>
-</li>
-      </ul></li>
-      <li>
-    yadg.extractors.eclabmpr.mpr_columns
-
-      <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpr.html#module-yadg.extractors.eclabmpr.mpr_columns">module</a>
-</li>
-      </ul></li>
-      <li>
     yadg.extractors.eclabmpt
 
       <ul>
@@ -810,17 +752,17 @@
 </li>
       </ul></li>
       <li>
-    yadg.extractors.eclabmpt.extractor
+    yadg.extractors.panalyticalxrdml
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#module-yadg.extractors.eclabmpt.extractor">module</a>
+        <li><a href="apidoc/yadg.extractors.panalyticalxrdml.html#module-yadg.extractors.panalyticalxrdml">module</a>
 </li>
       </ul></li>
       <li>
-    yadg.extractors.eclabmpt.mpt_columns
+    yadg.extractors.phispe
 
       <ul>
-        <li><a href="apidoc/yadg.extractors.eclabmpt.html#module-yadg.extractors.eclabmpt.mpt_columns">module</a>
+        <li><a href="apidoc/yadg.extractors.phispe.html#module-yadg.extractors.phispe">module</a>
 </li>
       </ul></li>
       <li>
@@ -914,8 +856,6 @@
         <li><a href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentcsv">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     yadg.parsers.chromtrace.agilentdx
 
@@ -923,6 +863,8 @@
         <li><a href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentdx">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     yadg.parsers.chromtrace.ezchromasc
 

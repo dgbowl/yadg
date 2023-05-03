@@ -92,6 +92,15 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
@@ -177,7 +186,9 @@ populates the points in the time axis (x-axis), when required.</p>
 <span class="w">               </span><span class="nt">&quot;fusion.json&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Fusion_json&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;fusion.zip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Fusion_zip&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;agilent.ch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Agilent_ch&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;marda:agilent-ch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Agilent_ch&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;agilent.dx&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Agilent_dx&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;marda:agilent-dx&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Agilent_dx&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;agilent.csv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Agilent_csv&quot;</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">         </span><span class="p">},</span>
@@ -348,7 +359,8 @@ populates the points in the time axis (x-axis), when required.</p>
 <span class="w">            </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                  </span><span class="s2">&quot;agilent.ch&quot;</span>
+<span class="w">                  </span><span class="s2">&quot;agilent.ch&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;marda:agilent-ch&quot;</span>
 <span class="w">               </span><span class="p">],</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
@@ -378,7 +390,8 @@ populates the points in the time axis (x-axis), when required.</p>
 <span class="w">            </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                  </span><span class="s2">&quot;agilent.dx&quot;</span>
+<span class="w">                  </span><span class="s2">&quot;agilent.dx&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;marda:agilent-dx&quot;</span>
 <span class="w">               </span><span class="p">],</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>

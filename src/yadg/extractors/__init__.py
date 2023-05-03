@@ -13,7 +13,14 @@ logger = logging.getLogger(__name__)
 
 extractors = {}
 
-for modname in {"eclabmpr", "eclabmpt"}:
+for modname in {
+    "eclabmpr",
+    "eclabmpt",
+    "agilentch",
+    "agilentdx",
+    "phispe",
+    "panalyticalxrdml",
+}:
     try:
         m = importlib.import_module(f"yadg.extractors.{modname}")
         supp = getattr(m, "supports")
@@ -55,12 +62,12 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
         :func:`ret.to_netcdf(...)`
 
     """
-
     for k in {filetype, f"marda:{filetype}"}:
         try:
             ftype = ExtractorFactory(extractor={"filetype": k}).extractor
             break
-        except ValidationError:
+        except ValidationError as e:
+            print(e)
             pass
     else:
         raise RuntimeError(f"Filetype '{filetype}' could not be understood.")

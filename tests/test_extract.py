@@ -2,7 +2,7 @@ import pytest
 import os
 from yadg.extractors import extract
 import datatree
-import numpy as np
+from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -10,19 +10,16 @@ import numpy as np
     [
         ("marda:biologic-mpr", "cp.mpr", "ref.cp.mpr.nc"),
         ("marda:biologic-mpt", "cp.mpt", "ref.cp.mpt.nc"),
+        ("marda:agilent-ch", "hplc.CH", "ref.hplc.ch.nc"),
+        ("marda:agilent-dx", "hplc.dx", "ref.hplc.dx.nc"),
+        ("marda:phi-spe", "xps.spe", "ref.xps.spe.nc"),
+        ("marda:panalytical-xrdml", "xrd.xrdml", "ref.xrd.xrdml.nc"),
     ],
 )
 def test_extract_marda(filetype, infile, outfile, datadir):
     os.chdir(datadir)
     ret = extract(filetype=filetype, path=infile)
-    print(f"{ret=}")
+    # ret.to_netcdf(outfile, engine="h5netcdf")
     ref = datatree.open_datatree(outfile)
-    # ret.to_netcdf("test.nc", engine="h5netcdf")
-    print(f"{ref=}")
-    for k in ret:
-        if "units" in ret[k].attrs:
-            np.testing.assert_allclose(ret[k], ref[k])
-        else:
-            np.testing.assert_array_equal(ret[k], ref[k])
-    for k in ref:
-        assert k in ret
+    print(f"{ret=}")
+    compare_datatrees(ret, ref)

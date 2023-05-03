@@ -1,10 +1,9 @@
 import pytest
 import subprocess
 import os
-import numpy as np
 from datatree import open_datatree
 
-from .utils import pars_datagram_test, standard_datagram_test
+from .utils import pars_datagram_test, standard_datagram_test, compare_datatrees
 
 
 def test_yadg_version():
@@ -176,10 +175,4 @@ def test_yadg_extract(filetype, infile, datadir):
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc")
     ref = open_datatree(f"ref.{infile}.nc")
-    for k in ret:
-        if "units" in ret[k].attrs:
-            np.testing.assert_allclose(ret[k], ref[k])
-        else:
-            np.testing.assert_array_equal(ret[k], ref[k])
-    for k in ref:
-        assert k in ret
+    compare_datatrees(ret, ref)

@@ -1,10 +1,7 @@
-**yadg** offloads the responsibility of processing the raw data files to its 
-modules, called parsers. The currently implemented parsers are documented in the 
-following links:
-
 .. toctree::
    :maxdepth: 1
    :caption: yadg parsers
+   :hidden:
 
    apidoc/yadg.parsers.dummy
    apidoc/yadg.parsers.basiccsv
@@ -17,4 +14,3 @@ following links:
    apidoc/yadg.parsers.xpstrace
    apidoc/yadg.parsers.xrdtrace
    apidoc/yadg.parsers.masstrace
-   

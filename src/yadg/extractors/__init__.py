@@ -34,12 +34,12 @@ for modname in {
 
 def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
     """
-    Extract worker function.
+    Worker function of the ``extract`` subcommand.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
     data is either returned as a :class:`datatree.DataTree` or a :class:`xr.Dataset`,
-    however in either case the returned object has a :func:`ret.to_netcdf(...)` method,
-    which can be used to write the file.
+    however in either case the returned objects have a :func:`ret.to_netcdf()` as well
+    as a :func:`ret.to_dict()` method, which can be used to write the file.
 
     .. warning::
 
@@ -59,7 +59,7 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
     -------
     Union[xr.Dataset, datatree.DataTree]
         The extracted data and metadata, which can be written to ``NetCDF`` format using
-        :func:`ret.to_netcdf(...)`
+        :func:`ret.to_netcdf()`.
 
     """
     for k in {filetype, f"marda:{filetype}"}:

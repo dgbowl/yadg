@@ -6,7 +6,7 @@
     :target: https://pypi.org/project/yadg/3.1.0/
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=2021-09-11&color=red&logo=pypi
 
-First released version of **yadg**, containing functionality developed at the 
+First released version of **yadg**, containing functionality developed at the
 Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
 [Kraus2022a]_.
 

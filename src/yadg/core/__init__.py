@@ -62,7 +62,7 @@ def process_schema(dataschema: DataSchema) -> DataTree:
 
     root = DataTree()
     root.attrs = {
-        "provenance": "yadg",
+        "provenance": "yadg process",
         "date": dgutils.now(asstr=True),
         "input_schema": dataschema.json(),
         "datagram_version": core.datagram_version,

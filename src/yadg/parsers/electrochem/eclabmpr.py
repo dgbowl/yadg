@@ -402,7 +402,6 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     for id in column_ids:
         if id in flag_columns:
             bitmask, name = flag_columns[id]
-            print(f"{bitmask=} {name=}")
             flags[name] = bitmask
             # Flags column only needs to be added once.
             if "flags" not in names:
@@ -411,12 +410,10 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 units.append(None)
         elif id in data_columns:
             dtype, name, unit = data_columns[id]
-            print(f"{dtype=} {name=} {unit=}")
             names.append(name)
             dtypes.append(dtype)
             units.append(unit)
         else:
-            print(f"{id=}")
             name = f"unknown_{len(names)}"
             logger.warning("Unknown column ID '%d' was assigned into '%s'.", id, name)
             names.append(name)
@@ -453,10 +450,8 @@ def process_data(
     """
     n_datapoints = _read_value(data, 0x0000, "<u4")
     n_columns = _read_value(data, 0x0004, "|u1")
-    print(f"{n_columns=}")
     # column_ids = _read_values(data, 0x0005, "<u2", n_columns)
     column_ids = _read_values(data, 0x0005, "<u2", n_columns)
-    print(f"{column_ids=}")
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}

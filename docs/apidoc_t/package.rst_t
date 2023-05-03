@@ -37,6 +37,18 @@
 {{- "**xpstrace**: XPS trace file parser" | heading }}
 {% elif 'yadg.parsers.xrdtrace' == pkgname %}
 {{- "**xrdtrace**: X-ray diffractogram trace file parser" | heading }}
+{% elif 'yadg.extractors.agilentch' == pkgname %}
+{{- "**agilent-ch**: Agilent ChemStation export ``.CH``" | heading }}
+{% elif 'yadg.extractors.agilentdx' == pkgname %}
+{{- "**agilent-dx**: Agilent OpenLab raw data ``.dx``" | heading }}
+{% elif 'yadg.extractors.eclabmpr' == pkgname %}
+{{- "**eclab-mpr**: BioLogic ECLab binary ``.mpr``" | heading }}
+{% elif 'yadg.extractors.eclabmpt' == pkgname %}
+{{- "**eclab-mpr**: BioLogic ECLab export ``.mpt``" | heading }}
+{% elif 'yadg.extractors.panalyticalxrdml' == pkgname %}
+{{- "**panalytical-xrdml**: PANalytical XRDML ``.xrdml``" | heading }}
+{% elif 'yadg.extractors.phispe' == pkgname %}
+{{- "**phi-spe**: ULVAC-PHI Multipak ``.spe``" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}

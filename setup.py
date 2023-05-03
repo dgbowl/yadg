@@ -44,7 +44,7 @@ setuptools.setup(
         "python-dateutil",
         "openpyxl>=3.0.0",
         "requests",
-        "netcdf4",
+        "h5netcdf",
         "xarray-datatree>=0.0.12",
         # "dgbowl-schemas>=114",
         "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",

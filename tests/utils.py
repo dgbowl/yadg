@@ -6,6 +6,7 @@ import numpy as np
 import pint
 from typing import Union
 from datatree import DataTree
+import xarray as xr
 from dgbowl_schemas import to_dataschema
 
 
@@ -249,3 +250,18 @@ def dg_get_quantity(
     u = vals[col].attrs.get("units", None)
 
     return {"n": n, "s": d, "u": u}
+
+
+def compare_datatrees(ret: DataTree, ref: DataTree, atol: float = 1e-6):
+    for k in ret:
+        assert k in ref, f"Entry {k} not present in reference DataTree."
+    for k in ref:
+        assert k in ret, f"Entry {k} not present in result DataTree."
+
+    for k in ret:
+        if isinstance(ret[k], DataTree):
+            compare_datatrees(ret[k], ref[k])
+        elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
+            assert ret[k].to_dict() == ref[k].to_dict()
+        else:
+            raise RuntimeError(f"Unknown entry '{k}' of type '{type(k)}'.")

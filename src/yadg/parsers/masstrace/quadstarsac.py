@@ -153,8 +153,8 @@ def _read_value(
     item = value.item()
     if value.dtype.names:
         item = [i.decode(encoding) if isinstance(i, bytes) else i for i in item]
-        #if isinstance(item, str):
-            #item = item.rstrip("\x00")
+        # if isinstance(item, str):
+        # item = item.rstrip("\x00")
         return dict(zip(value.dtype.names, item))
     return item.decode(encoding) if isinstance(item, bytes) else item
 
@@ -213,7 +213,6 @@ def process(
             if header["type"] != 0x11:
                 continue
             info = _read_value(sac, header["info_position"], trace_info_dtype)
-            print(f"{info=}")
             # Construct the mass data.
             ndm = info["values_per_mass"]
             mvals, dm = np.linspace(

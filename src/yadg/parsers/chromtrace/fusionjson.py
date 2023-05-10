@@ -82,12 +82,12 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
                 "signal": (
                     ["uts", "elution_time"],
                     [detdict["values"]],
-                    {"units": None, "ancillary_variables": "signal_std_err"},
+                    {"ancillary_variables": "signal_std_err"},
                 ),
                 "signal_std_err": (
                     ["uts", "elution_time"],
                     [np.ones(detdict["nValuesExpected"])],
-                    {"units": None, "standard_name": "signal standard_error"},
+                    {"standard_name": "signal standard_error"},
                 ),
                 "elution_time_std_err": (
                     ["elution_time"],

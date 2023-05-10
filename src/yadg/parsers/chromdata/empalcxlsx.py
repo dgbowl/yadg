@@ -197,13 +197,16 @@ def process(*, fn: str, **kwargs: dict) -> xr.Dataset:
         data_vars[kk] = (
             ["uts", "species"],
             [i["vals"][kk] for i in data],
-            {"units": units[kk], "anciliary_variables": f"{kk}_std_err"},
+            {"anciliary_variables": f"{kk}_std_err"},
         )
         data_vars[f"{kk}_std_err"] = (
             ["uts", "species"],
             [i["devs"][kk] for i in data],
-            {"units": units[kk], "standard_name": f"{kk} standard_error"},
+            {"standard_name": f"{kk} standard_error"},
         )
+        if units[kk] is not None:
+            data_vars[kk][2]["units"] = units[kk]
+            data_vars[f"{kk}_std_err"][2]["units"] = units[kk]
 
     ds = xr.Dataset(
         data_vars=data_vars,

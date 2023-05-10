@@ -103,10 +103,13 @@ trace_info_dtype = np.dtype(
     [
         ("data_format", "<u2"),
         ("y_title", "|S13"),
-        ("y_unit", "|S14"),
+        ("y_unit", "|S13"),
+        ("unknown_a", "|u1"),
         ("x_title", "|S13"),
-        ("x_unit", "|S14"),
-        ("comment", "|S66"),
+        ("x_unit", "|S13"),
+        ("comment", "|S59"),
+        ("unknown_b", "|u4"),
+        ("unknown_c", "|u4"),
         ("first_mass", "<f4"),
         ("scan_width", "<u2"),
         ("values_per_mass", "|u1"),
@@ -150,6 +153,8 @@ def _read_value(
     item = value.item()
     if value.dtype.names:
         item = [i.decode(encoding) if isinstance(i, bytes) else i for i in item]
+        #if isinstance(item, str):
+            #item = item.rstrip("\x00")
         return dict(zip(value.dtype.names, item))
     return item.decode(encoding) if isinstance(item, bytes) else item
 
@@ -208,6 +213,7 @@ def process(
             if header["type"] != 0x11:
                 continue
             info = _read_value(sac, header["info_position"], trace_info_dtype)
+            print(f"{info=}")
             # Construct the mass data.
             ndm = info["values_per_mass"]
             mvals, dm = np.linspace(

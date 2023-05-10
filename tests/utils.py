@@ -192,6 +192,7 @@ def standard_datagram_test(datagram, testspec):
             "wrong number of timesteps in a step: "
             f"ret: {len(step['uts'])}, ref: {testspec['nrows']}"
         )
+    datagram.to_netcdf(".test.nc", engine="h5netcdf")
 
 
 def pars_datagram_test(datagram, testspec, atol=0):

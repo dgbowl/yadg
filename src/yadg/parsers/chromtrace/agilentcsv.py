@@ -151,12 +151,12 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                     "signal": (
                         ["elution_time"],
                         fvals["yvals"],
-                        {"units": None, "ancillary_variables": "signal_std_err"},
+                        {"ancillary_variables": "signal_std_err"},
                     ),
                     "signal_std_err": (
                         ["elution_time"],
                         fvals["ydevs"],
-                        {"units": None, "standard_name": "signal standard_error"},
+                        {"standard_name": "signal standard_error"},
                     ),
                     "elution_time": (
                         ["_"],

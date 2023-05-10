@@ -122,13 +122,16 @@ def process(
         data_vars[kk] = (
             ["uts", "species"],
             vals,
-            {"units": data_units[kk], "anciliary_variables": f"{kk}_std_err"},
+            {"anciliary_variables": f"{kk}_std_err"},
         )
         data_vars[f"{kk}_std_err"] = (
             ["uts", "species"],
             devs,
-            {"units": data_units[kk], "standard_name": f"{kk} standard_error"},
+            {"standard_name": f"{kk} standard_error"},
         )
+        if data_units[kk] is not None:
+            data_vars[kk][2]["units"] = data_units[kk]
+            data_vars[f"{kk}_std_err"][2]["units"] = data_units[kk]
 
     ds = xr.Dataset(
         data_vars=data_vars,

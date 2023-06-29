@@ -1,6 +1,6 @@
 import importlib
 import logging
-from dgbowl_schemas.yadg import ExtractorFactory
+from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 from pydantic import ValidationError
 from pathlib import Path
 from zoneinfo import ZoneInfo

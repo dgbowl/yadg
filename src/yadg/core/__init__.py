@@ -3,7 +3,7 @@ import logging
 import importlib
 from typing import Callable
 from zoneinfo import ZoneInfo
-from dgbowl_schemas.yadg import DataSchema
+from dgbowl_schemas.yadg.dataschema import DataSchema
 from datatree import DataTree
 import xarray as xr
 import numpy as np

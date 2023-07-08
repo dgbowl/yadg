@@ -46,8 +46,7 @@ setuptools.setup(
         "requests",
         "h5netcdf",
         "xarray-datatree>=0.0.12",
-        # "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
-        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git@116rc2",
+        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas",
     ],
     extras_require={
         "testing": ["pytest"],
@@ -55,7 +54,7 @@ setuptools.setup(
             "sphinx==4.5.0",
             "sphinx-rtd-theme",
             "sphinx-autodoc-typehints",
-            "autodoc-pydantic",
+            "autodoc-pydantic @ git+https://github.com/Extrality/autodoc_pydantic@aw/pydantic-v2",
         ],
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},

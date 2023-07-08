@@ -153,9 +153,11 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                     vals = xr.concat([vals, fvals], dim="uts", combine_attrs=concatmode)
                 except xr.MergeError:
                     raise RuntimeError(
-                        "Merging metadata from multiple files has failed, as the values"
-                        " differ between files. Try re-running the yadg command with "
-                        "--ignore-merge-errors."
+                        "Merging metadata from multiple files has failed, as some of the "
+                        "values differ between files. This might be caused by trying to "
+                        "parse data obtained using different techniques/protocols in a "
+                        "single step. If you are certain this is what you want, try using "
+                        "yadg with the '--ignore-merge-errors' option."
                     )
             elif isinstance(vals, DataTree):
                 for k, v in fvals.items():
@@ -168,9 +170,11 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                             )
                         except xr.MergeError:
                             raise RuntimeError(
-                                "Merging metadata from multiple files has failed, as the values"
-                                " differ between files. Try re-running the yadg command with "
-                                "--ignore-merge-errors."
+                                "Merging metadata from multiple files has failed, as some of the "
+                                "values differ between files. This might be caused by trying to "
+                                "parse data obtained using different techniques/protocols in a "
+                                "single step. If you are certain this is what you want, try using "
+                                "yadg with the '--ignore-merge-errors' option."
                             )
                     else:
                         newv = v.ds

@@ -76,9 +76,9 @@ def process(
     }
     uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
-    valve = jsdata.get("annotations", {}).get("valcoPosition", None)
-    if valve is not None:
-        metadata["valve"] = valve
+    # valve = jsdata.get("annotations", {}).get("valcoPosition", None)
+    # if valve is not None:
+    #    metadata["valve"] = valve
 
     sampleid = jsdata.get("annotations", {}).get("name", None)
     if sampleid is not None:

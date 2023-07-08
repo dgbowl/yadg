@@ -67,11 +67,17 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
                 elif isinstance(dt, DataTree):
                     for k, v in fdt.items():
                         if k in dt:  # pylint: disable=E1135
-                            newv = xr.concat(
-                                [dt[k].ds, v.ds],  # pylint: disable=E1136
-                                dim="uts",
-                                combine_attrs="identical",
-                            )
+                            try:
+                                newv = xr.concat(
+                                    [dt[k].ds, v.ds],  # pylint: disable=E1136
+                                    dim="uts",
+                                    combine_attrs="identical",
+                                )
+                            except xr.MergeError:
+                                raise RuntimeError(
+                                    "Merging metadata from the unzipped agilent-ch files has failed. "
+                                    "This is a bug. Please open an issue on GitHub."
+                                )
                         else:
                             newv = v.ds
                         dt[k] = DataTree(newv)  # pylint: disable=E1137

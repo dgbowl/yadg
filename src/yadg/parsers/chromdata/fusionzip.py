@@ -55,5 +55,13 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Data
                 if ds is None:
                     ds = ids
                 else:
-                    ds = xr.concat([ds, ids], dim="uts", combine_attrs="identical")
+                    try:
+                        ds = xr.concat([ds, ids], dim="uts", combine_attrs="identical")
+                    except xr.MergeError:
+                        raise RuntimeError(
+                            "Merging metadata from the unzipped fusion-json files has failed. "
+                            "This might be caused by trying to parse data obtained using "
+                            "different chromatographic methods. Please check the contents "
+                            "of the unzipped files."
+                        )
     return ds

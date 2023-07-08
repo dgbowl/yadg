@@ -287,9 +287,15 @@ def process(
             if f"{ti}" not in traces:
                 traces[f"{ti}"] = ds
             else:
-                traces[f"{ti}"] = xr.concat(
-                    [traces[f"{ti}"], ds], dim="uts", combine_attrs="identical"
-                )
+                try:
+                    traces[f"{ti}"] = xr.concat(
+                        [traces[f"{ti}"], ds], dim="uts", combine_attrs="identical"
+                    )
+                except xr.MergeError:
+                    raise RuntimeError(
+                        "Merging metadata from the individual traces has failed. "
+                        "This is a bug. Please open an issue on GitHub."
+                    )
 
     ret = DataTree.from_dict(traces)
     ret.attrs = meta

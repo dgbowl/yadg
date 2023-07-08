@@ -30,6 +30,8 @@ Backwards-incompatible changes include:
     to update `datagrams` has been removed.
   - The parameter ``transpose`` from :mod:`~yadg.parsers.electrochem` parser is no longer
     available; all electrochemistry data is returned as plain timesteps.
+  - The ``valve`` number in the ``fusion-json`` extractor of :mod:`~yadg.parsers.chromtrace`
+    is now stored as ``data`` instead of ``metadata``.
 
 Bug fixes include:
 

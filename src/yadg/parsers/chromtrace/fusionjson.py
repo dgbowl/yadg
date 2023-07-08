@@ -68,10 +68,6 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
     }
     uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
-    valve = jsdata.get("annotations", {}).get("valcoPosition", None)
-    if valve is not None:
-        metadata["valve"] = valve
-
     # sort detector keys to ensure alphabetic order for ID matching
     traces = sorted(jsdata["detectors"].keys())
     vals = {}
@@ -105,6 +101,9 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
             },
             attrs={},
         )
+        valve = jsdata.get("annotations", {}).get("valcoPosition", None)
+        if valve is not None:
+            fvals["valve"] = valve
         vals[detname] = fvals
 
     dt = DataTree.from_dict(vals)

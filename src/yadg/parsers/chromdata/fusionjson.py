@@ -76,10 +76,6 @@ def process(
     }
     uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
 
-    # valve = jsdata.get("annotations", {}).get("valcoPosition", None)
-    # if valve is not None:
-    #    metadata["valve"] = valve
-
     sampleid = jsdata.get("annotations", {}).get("name", None)
     if sampleid is not None:
         metadata["sampleid"] = sampleid
@@ -129,6 +125,10 @@ def process(
                     raw["retention time"][peak["label"]] = (float(peak["top"]), 0.01)
         else:
             logger.warning("'analysis' of chromatogram not present in file '%s'", fn)
+
+    valve = jsdata.get("annotations", {}).get("valcoPosition", None)
+    if valve is not None:
+        raw["valve"] = valve
 
     species = sorted(species)
     data_vars = {}

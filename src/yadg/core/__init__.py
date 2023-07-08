@@ -39,7 +39,7 @@ def infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         raise e
 
 
-def process_schema(dataschema: DataSchema) -> DataTree:
+def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTree:
     """
     Main worker function of **yadg**.
 
@@ -59,6 +59,11 @@ def process_schema(dataschema: DataSchema) -> DataTree:
         a valid `datagram`; any custom `parser`\\ s might not do so. Use the function
         :meth:`yadg.core.validators.validate_datagram` to validate the resulting `datagram`.
     """
+
+    if strict_merge:
+        concatmode = "identical"
+    else:
+        concatmode = "drop_conflicts"
 
     root = DataTree()
     root.attrs = {
@@ -144,15 +149,29 @@ def process_schema(dataschema: DataSchema) -> DataTree:
             if vals is None:
                 vals = fvals
             elif isinstance(vals, xr.Dataset):
-                vals = xr.concat([vals, fvals], dim="uts", combine_attrs="identical")
+                try:
+                    vals = xr.concat([vals, fvals], dim="uts", combine_attrs=concatmode)
+                except xr.MergeError:
+                    raise RuntimeError(
+                        "Merging metadata from multiple files has failed, as the values"
+                        " differ between files. Try re-running the yadg command with "
+                        "--ignore-merge-errors."
+                    )
             elif isinstance(vals, DataTree):
                 for k, v in fvals.items():
                     if k in vals:  # pylint: disable=E1135
-                        newv = xr.concat(
-                            [vals[k].ds, v.ds],  # pylint: disable=E1136
-                            dim="uts",
-                            combine_attrs="identical",
-                        )
+                        try:
+                            newv = xr.concat(
+                                [vals[k].ds, v.ds],  # pylint: disable=E1136
+                                dim="uts",
+                                combine_attrs=concatmode,
+                            )
+                        except xr.MergeError:
+                            raise RuntimeError(
+                                "Merging metadata from multiple files has failed, as the values"
+                                " differ between files. Try re-running the yadg command with "
+                                "--ignore-merge-errors."
+                            )
                     else:
                         newv = v.ds
                     vals[k] = DataTree(newv)  # pylint: disable=E1137

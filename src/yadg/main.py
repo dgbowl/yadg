@@ -92,9 +92,16 @@ def run_with_arguments():
     )
     process.add_argument(
         "--ignore-file-errors",
-        dest="permissive",
+        dest="ignore_file_errors",
         action="store_true",
         help="Ignore file opening errors while processing schemafile",
+        default=False,
+    )
+    process.add_argument(
+        "--ignore-merge-errors",
+        dest="ignore_merge_errors",
+        action="store_true",
+        help="Ignore metadata merge errors while processing multiple files in a step.",
         default=False,
     )
     process.set_defaults(func=subcommands.process)
@@ -151,6 +158,20 @@ def run_with_arguments():
             "instead. Default in that case is 'datagram.nc'."
         ),
         default=None,
+    )
+    preset.add_argument(
+        "--ignore-file-errors",
+        dest="ignore_file_errors",
+        action="store_true",
+        help="Ignore file opening errors while processing schemafile",
+        default=False,
+    )
+    preset.add_argument(
+        "--ignore-merge-errors",
+        dest="ignore_merge_errors",
+        action="store_true",
+        help="Ignore metadata merge errors while processing multiple files in a step.",
+        default=False,
     )
     preset.set_defaults(func=subcommands.preset)
 

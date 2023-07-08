@@ -69,7 +69,7 @@ def process(args: argparse.Namespace) -> None:
         ds = ds.update()
 
     logger.debug("Processing schema")
-    datagram = core.process_schema(ds)
+    datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)
 
     logger.info("Saving datagram to '%s'.", args.outfile)
     datagram.to_netcdf(args.outfile, engine="h5netcdf")
@@ -149,7 +149,7 @@ def preset(args: argparse.Namespace) -> None:
 
     if args.process:
         logger.info("Processing created schema.")
-        datagram = core.process_schema(ds)
+        datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)
         args.outfile = "datagram.nc" if args.outfile is None else args.outfile
         if args.archive:
             zipfile = args.outfile.replace(".nc", "")

@@ -47,7 +47,7 @@ setuptools.setup(
         "h5netcdf",
         "xarray-datatree>=0.0.12",
         "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
-        #"dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git@116rc1",
+        # "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git@116rc1",
     ],
     extras_require={
         "testing": ["pytest"],

@@ -14,19 +14,19 @@ parsed from the prefix of the filename.
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 from typing import Optional
 from datatree import DataTree
 from zoneinfo import ZoneInfo
 
 
 class TimeDate(BaseModel):
-    class TimestampSpec(BaseModel, extra=Extra.forbid):
-        index: Optional[int]
-        format: Optional[str]
+    class TimestampSpec(BaseModel, extra="forbid"):
+        index: Optional[int] = None
+        format: Optional[str] = None
 
-    date: Optional[TimestampSpec]
-    time: Optional[TimestampSpec]
+    date: Optional[TimestampSpec] = None
+    time: Optional[TimestampSpec] = None
 
 
 def rtf(

@@ -2,6 +2,7 @@ import importlib
 import logging
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 from pydantic import ValidationError
+from pydantic.v1 import ValidationError as ValidationError_v1
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import xarray as xr
@@ -66,7 +67,7 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
         try:
             ftype = ExtractorFactory(extractor={"filetype": k}).extractor
             break
-        except ValidationError as e:
+        except (ValidationError, ValidationError_v1) as e:
             print(e)
             pass
     else:

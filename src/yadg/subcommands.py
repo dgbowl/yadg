@@ -140,13 +140,13 @@ def preset(args: argparse.Namespace) -> None:
     logger.info("Reading input file from '%s'.", args.preset)
     preset = _load_file(args.preset)
 
+    logger.info("Processing preset as schema.")
+    schema = to_dataschema(**preset)
+
     logger.info("Creating a schema from preset for '%s'.", args.folder)
-    schema = dgutils.schema_from_preset(preset, args.folder)
+    ds = dgutils.schema_from_preset(schema, args.folder)
 
-    logger.info("Validating created schema.")
-    ds = to_dataschema(**schema)
     logger.info("Loaded dataschema version '%s'", ds.metadata.version)
-
     if args.process:
         logger.info("Processing created schema.")
         datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)

@@ -21,9 +21,10 @@ def test_preset(input, ts, datadir):
     with open(f"{input}.preset.json") as infile:
         preset = json.load(infile)
 
-    schema = yadg.dgutils.schema_from_preset(preset, input)
-    print(schema)
-    ds = to_dataschema(**schema)
+    schema = to_dataschema(**preset)
+    while hasattr(schema, "update"):
+        schema = schema.update()
+    ds = yadg.dgutils.schema_from_preset(schema, input)
 
     ret = yadg.core.process_schema(ds)
     standard_datagram_test(ret, ts)

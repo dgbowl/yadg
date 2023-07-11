@@ -2,6 +2,7 @@ import logging
 import os
 from typing import Union
 from dgbowl_schemas.yadg import to_dataschema
+from dgbowl_schemas.yadg.dataschema import DataSchema
 
 from .. import dgutils
 
@@ -142,55 +143,27 @@ def update_schema(object: Union[list, dict]) -> dict:
     return newobj
 
 
-def schema_from_preset(preset: dict, folder: str) -> dict:
-    if isinstance(preset["metadata"]["provenance"], str):
-        preset["metadata"]["provenance"] = "yadg preset"
-    elif isinstance(preset["metadata"]["provenance"], dict):
-        preset["metadata"]["provenance"] = {
-            "type": "yadg preset",
-            "metadata": {"preset_provenance": preset["metadata"]["provenance"]},
-        }
-    for step in preset["steps"]:
-        inpk = "import" if "import" in step else "input"
-        filk = "files" if "files" in step[inpk] else "folders"
-        newf = []
-        for oldf in step[inpk][filk]:
-            if os.path.isabs(oldf):
+def schema_from_preset(preset: DataSchema, folder: str) -> DataSchema:
+    preset.metadata.provenance.type = "yadg preset"
+    for step in preset.steps:
+        for fi, fn in enumerate(step.input.files):
+            if os.path.isabs(fn):
                 logger.warning(
                     "Item '%s' in '%s' is an absolute path and will not be patched.",
-                    oldf,
-                    filk,
+                    fn,
+                    step,
                 )
             else:
-                assert not oldf.startswith("." + os.path.sep), (
-                    f"Item '{oldf}' in '{filk}' does start with '.{os.path.sep}' and "
-                    f"therefore should not be patched using '{folder}'."
-                )
-                newp = os.path.abspath(os.path.join(folder, oldf))
-                newf.append(newp)
-        step[inpk][filk] = newf
-        if "calfile" in step["parameters"]:
-            oldf = step["parameters"]["calfile"]
+                step.input.files[fi] = os.path.abspath(os.path.join(folder, fn))
+        if step.externaldate is not None and step.externaldate.using.file is not None:
+            oldf = step.externaldate.using.file.path
             if os.path.isabs(oldf):
                 logger.warning(
-                    "Specified calfile '%s' is an absolute path "
+                    "Specified externaldate file '%s' is an absolute path "
                     "and will not be patched.",
                     oldf,
                 )
             else:
-                newp = os.path.abspath(os.path.join(folder, oldf))
-                step["parameters"]["calfile"] = newp
-        if "externaldate" in step:
-            using = "from" if "from" in step["externaldate"] else "using"
-            if "file" in step["externaldate"][using]:
-                oldf = step["externaldate"][using]["file"]["path"]
-                if os.path.isabs(oldf):
-                    logger.warning(
-                        "Specified externaldate file '%s' is an absolute path "
-                        "and will not be patched.",
-                        oldf,
-                    )
-                else:
-                    newp = os.path.abspath(os.path.join(folder, oldf))
-                    step["externaldate"][using]["file"]["path"] = newp
+                newf = os.path.abspath(os.path.join(folder, oldf))
+                step.externaldate.using.file.path = newf
     return preset

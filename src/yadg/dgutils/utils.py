@@ -155,7 +155,11 @@ def schema_from_preset(preset: DataSchema, folder: str) -> DataSchema:
                 )
             else:
                 step.input.files[fi] = os.path.abspath(os.path.join(folder, fn))
-        if step.externaldate is not None and step.externaldate.using.file is not None:
+        if (
+            step.externaldate is not None
+            and hasattr(step.externaldate.using, "file")
+            and step.externaldate.using.file is not None
+        ):
             oldf = step.externaldate.using.file.path
             if os.path.isabs(oldf):
                 logger.warning(

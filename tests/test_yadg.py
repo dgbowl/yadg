@@ -176,3 +176,18 @@ def test_yadg_extract(filetype, infile, datadir):
     ret = open_datatree("test.nc")
     ref = open_datatree(f"ref.{infile}.nc")
     compare_datatrees(ret, ref)
+
+
+def test_yadg_preset_dataschema_compat(datadir):
+    os.chdir(datadir)
+    sfns = [fn for fn in os.listdir() if fn.endswith("yml") and fn.startswith("ds")]
+    ncs = []
+    for fn in sfns:
+        command = ["yadg", "preset", "-p", fn, "ds_compat", fn.replace("yml", "nc")]
+        subprocess.run(command, check=True)
+        ncs.append((fn, open_datatree(fn.replace("yml", "nc"))))
+    refname, ref = ncs[0]
+    for tup in ncs[1:]:
+        retname, ret = tup
+        print(f"comparing {refname} with {retname}")
+        compare_datatrees(ret, ref)

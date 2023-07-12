@@ -1,0 +1,28 @@
+metadata:
+    provenance:
+        type: manual
+    version: "5.0"
+step_defaults:
+    timezone: Europe/Berlin
+steps:
+  - parser: electrochem
+    input:
+        folders: ["."]
+        suffix: "mpr"
+    extractor:
+      filetype: "eclab.mpr"
+    tag: electro
+  - parser: flowdata
+    input:
+        folders: ["."]
+        suffix: "csv"
+        contains: "flow"
+    extractor:
+      filetype: "drycal.csv"
+    externaldate:
+        using:
+            filename:
+                format: "%Y%m%d"
+                len: 8
+        mode: "add"
+    tag: outlet

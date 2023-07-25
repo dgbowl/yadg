@@ -33,29 +33,28 @@ setuptools.setup(
     packages=setuptools.find_packages(where=packagedir),
     python_requires=">=3.9",
     install_requires=[
-        "numpy",
-        "scipy",
-        "pint",
-        "pyyaml",
-        "uncertainties",
-        "striprtf",
-        "tzlocal",
-        "packaging",
-        "python-dateutil",
-        "openpyxl>=3.0.0",
-        "requests",
+        "numpy~=1.23",
+        "scipy~=1.9",
+        "pint~=0.20",
+        "pyyaml~=6.0",
+        "uncertainties~=3.1",
+        "striprtf~=0.0.22",
+        "tzlocal~=4.2",
+        "packaging~=21.3",
+        "python-dateutil~=2.8.2",
+        "openpyxl~=3.0.10",
+        "requests~=2.28",
         "dgbowl-schemas==111",
+        "pydantic~=1.0",
     ],
     extras_require={
-        "testing": [
-            "pytest"
-        ],
+        "testing": ["pytest"],
         "docs": [
             "sphinx==4.5.0",
             "sphinx-rtd-theme",
             "sphinx-autodoc-typehints",
-            "autodoc-pydantic"
-        ]
+            "autodoc-pydantic",
+        ],
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},
 )

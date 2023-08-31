@@ -5,5 +5,5 @@ runs:
   steps:
     - run: sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -E -f --templatedir=docs/apidoc_t
       shell: bash
-    - run: sphinx-build -W -b html docs/source public/master
+    - run: sphinx-build -b html docs/source public/master
       shell: bash

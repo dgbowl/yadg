@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>agilent-dx: Agilent OpenLab raw data .dx &mdash; yadg master documentation</title>
@@ -14,10 +14,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=30d551ce"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -71,7 +72,10 @@
 <p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.agilentdx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
@@ -110,29 +114,29 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.extractors.agilentdx">
-<span id="agilent-dx-agilent-openlab-raw-data-dx"></span><h1><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code><a class="headerlink" href="#module-yadg.extractors.agilentdx" title="Permalink to this headline"></a></h1>
+<span id="agilent-dx-agilent-openlab-raw-data-dx"></span><h1><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code><a class="headerlink" href="#module-yadg.extractors.agilentdx" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.agilentdx.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilentdx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.agilentdx.extract" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilentdx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.agilentdx.extract" title="Link to this definition"></a></dt>
 <dd><p>Agilent OpenLab DX archive parser.</p>
 <p>This is a simple wrapper around the Agilent OpenLab signal trace parser in
 <a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentch" title="yadg.parsers.chromtrace.agilentch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace.agilentch</span></code></a>. This wrapper first un-zips the DX
 file into a temporary directory, and then processess all CH files found
 within the archive, concatenating timesteps from multiple files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Filename to process.</p></li>
 <li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Not used as the file is binary.</p></li>
 <li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Timezone information. This should be <code class="docutils literal notranslate"><span class="pre">&quot;localtime&quot;</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>class</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> containing one <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code> per detector. If
 multiple timesteps are found in the zip archive, the <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTrees</span></code>
 are collated along the <code class="docutils literal notranslate"><span class="pre">uts</span></code> dimension.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><cite>datatree.DataTree</cite></p>
 </dd>
 </dl>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Key features of yadg &mdash; yadg master documentation</title>
@@ -14,10 +14,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=30d551ce"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -119,18 +120,18 @@
            <div itemprop="articleBody">
              
   <section id="key-features-of-yadg">
-<h1>Key features of <strong>yadg</strong><a class="headerlink" href="#key-features-of-yadg" title="Permalink to this headline"></a></h1>
+<h1>Key features of <strong>yadg</strong><a class="headerlink" href="#key-features-of-yadg" title="Link to this heading"></a></h1>
 <section id="units-and-uncertainties">
-<h2>Units and uncertainties<a class="headerlink" href="#units-and-uncertainties" title="Permalink to this headline"></a></h2>
+<h2>Units and uncertainties<a class="headerlink" href="#units-and-uncertainties" title="Link to this heading"></a></h2>
 <p>One of the key features of <strong>yadg</strong> is the enforced association of units and uncertainties with measured properties. This means that all experimental quantities are accompanied by an uncertainty estimate, derived either from the (<code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code>) representation of the data, or from instrumental resolution, if known.</p>
 <section id="units">
-<h3>Units<a class="headerlink" href="#units" title="Permalink to this headline"></a></h3>
+<h3>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h3>
 <p><strong>yadg</strong> relies on the <a class="reference external" href="https://pint.readthedocs.io/en/stable/"><strong>pint</strong></a> package for storing units in the created <cite>datagrams</cite>. For this, an extended <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is exposed in <strong>yadg</strong>, containing definitions of some quantities present in the raw data files in addition to <strong>pint</strong>’s standard unit registry. This <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> should be used in downstream packages
 which depend on <strong>yadg</strong>.</p>
 <p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the unit annotations are stored in <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code> on each <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.DataArray</span></code>, that is within each “column” of each “node” of the <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code>. If an entry does not contain <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code>, the quantity is dimensionless. See <a class="reference internal" href="apidoc/yadg.dgutils.html#module-yadg.dgutils.pintutils" title="yadg.dgutils.pintutils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.dgutils.pintutils</span></code></a> for more info.</p>
 </section>
 <section id="uncertainties">
-<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Permalink to this headline"></a></h3>
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
 <p>In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in <strong>yadg</strong> is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint. The accuracy of the measurement (which is normally a higher value than that of the resoution)
 can be obtained using post-processing, e.g. as a <code class="docutils literal notranslate"><span class="pre">mean()</span></code> and <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> of a series of data.</p>
 <p>Unless more information is available, when converting <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> data to <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, the uncertainty is determined from the last significant digit specified in the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. For this, the functionality from within the <a class="reference external" href="https://pythonhosted.org/uncertainties/"><strong>uncertainties</strong></a> package is used.</p>
@@ -138,12 +139,12 @@ can be obtained using post-processing, e.g. as a <code class="docutils literal n
 </section>
 </section>
 <section id="timestamping">
-<h2>Timestamping<a class="headerlink" href="#timestamping" title="Permalink to this headline"></a></h2>
+<h2>Timestamping<a class="headerlink" href="#timestamping" title="Link to this heading"></a></h2>
 <p>Another key feature in <strong>yadg</strong> is the timestamping of all datapoints. The Unix timestamp is used, as it’s the natural timestamp for Python, and with its resolution in seconds it can be easily converted to minutes or hours.</p>
 <p>Most of the supported file formats contain a timestamp of some kind. However, several file formats may not define both date and time of each datapoint, or may define neither. That is why <strong>yadg</strong> includes a powerful “external date” interface, see <a class="reference internal" href="apidoc/yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">complete_timestamps()</span></code></a>.</p>
 </section>
 <section id="dataschema-validation">
-<h2><cite>Dataschema</cite> validation<a class="headerlink" href="#dataschema-validation" title="Permalink to this headline"></a></h2>
+<h2><cite>Dataschema</cite> validation<a class="headerlink" href="#dataschema-validation" title="Link to this heading"></a></h2>
 <p>Additionally, <strong>yadg</strong> provides <cite>dataschema</cite> validation functionality, by using the schema models from the <code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg_dataschema</span></code> package, implemented in <a class="reference external" href="https://pydantic-docs.helpmanual.io/"><strong>Pydantic</strong></a>. The schemas are developed in lockstep with <strong>yadg</strong>. This <strong>Pydantic</strong>-based validator class should be used to ensure that the incoming <cite>dataschema</cite> is valid.</p>
 </section>
 </section>

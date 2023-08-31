@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>yadg package &mdash; yadg master documentation</title>
@@ -14,10 +14,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=30d551ce"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -83,6 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">yadg package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
@@ -90,7 +92,16 @@
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-yadg.main">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.main">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.main.version_check"><code class="docutils literal notranslate"><span class="pre">version_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.main.set_loglevel"><code class="docutils literal notranslate"><span class="pre">set_loglevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.main.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.subcommands.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.subcommands.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.subcommands.preset"><code class="docutils literal notranslate"><span class="pre">preset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.subcommands.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,10 +131,10 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg">
-<span id="yadg-package"></span><h1>yadg package<a class="headerlink" href="#module-yadg" title="Permalink to this headline"></a></h1>
+<span id="yadg-package"></span><h1>yadg package<a class="headerlink" href="#module-yadg" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.run_with_arguments">
-<span class="sig-prename descclassname"><span class="pre">yadg.</span></span><span class="sig-name descname"><span class="pre">run_with_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.run_with_arguments" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.</span></span><span class="sig-name descname"><span class="pre">run_with_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.run_with_arguments" title="Link to this definition"></a></dt>
 <dd><p>Main execution function.</p>
 <p>This is the function executed when <strong>yadg</strong> is launched using the executable.
 The function has three subcommands:</p>
@@ -135,22 +146,72 @@ The function has three subcommands:</p>
 </dd></dl>
 
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="yadg.core.html">yadg.core package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.core.html">yadg.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.core.html#yadg.core.infer_datagram_handler"><code class="docutils literal notranslate"><span class="pre">infer_datagram_handler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.core.html#yadg.core.process_schema"><code class="docutils literal notranslate"><span class="pre">process_schema()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#module-yadg.dgutils.btools">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.get_yadg_metadata"><code class="docutils literal notranslate"><span class="pre">get_yadg_metadata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.infer_timestamp_from"><code class="docutils literal notranslate"><span class="pre">infer_timestamp_from()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.ole_to_uts"><code class="docutils literal notranslate"><span class="pre">ole_to_uts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.complete_timestamps"><code class="docutils literal notranslate"><span class="pre">complete_timestamps()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.update_schema"><code class="docutils literal notranslate"><span class="pre">update_schema()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.schema_from_preset"><code class="docutils literal notranslate"><span class="pre">schema_from_preset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.read_value"><code class="docutils literal notranslate"><span class="pre">read_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.sanitize_units"><code class="docutils literal notranslate"><span class="pre">sanitize_units()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.dgutils.html#module-yadg.dgutils.btools">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.btools.read_from_file"><code class="docutils literal notranslate"><span class="pre">read_from_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.btools.read_from_buffer"><code class="docutils literal notranslate"><span class="pre">read_from_buffer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.btools.read_value"><code class="docutils literal notranslate"><span class="pre">read_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.ole_to_uts"><code class="docutils literal notranslate"><span class="pre">ole_to_uts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.str_to_uts"><code class="docutils literal notranslate"><span class="pre">str_to_uts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.infer_timestamp_from"><code class="docutils literal notranslate"><span class="pre">infer_timestamp_from()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps"><code class="docutils literal notranslate"><span class="pre">complete_timestamps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.dateutils.timestamps_from_file"><code class="docutils literal notranslate"><span class="pre">timestamps_from_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.helpers.get_yadg_metadata"><code class="docutils literal notranslate"><span class="pre">get_yadg_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.helpers.deprecated"><code class="docutils literal notranslate"><span class="pre">deprecated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.pintutils.sanitize_units"><code class="docutils literal notranslate"><span class="pre">sanitize_units()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.utils.calib_3to4"><code class="docutils literal notranslate"><span class="pre">calib_3to4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.utils.schema_3to4"><code class="docutils literal notranslate"><span class="pre">schema_3to4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.utils.update_schema"><code class="docutils literal notranslate"><span class="pre">update_schema()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html#yadg.dgutils.utils.schema_from_preset"><code class="docutils literal notranslate"><span class="pre">schema_from_preset()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.html#yadg.extractors.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilentch.html#yadg.extractors.agilentch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilentdx.html#yadg.extractors.agilentdx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclabmpr.html#yadg.extractors.eclabmpr.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclabmpt.html#yadg.extractors.eclabmpt.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html#yadg.extractors.panalyticalxrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.phispe.html#yadg.extractors.phispe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -161,6 +222,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html#yadg.parsers.basiccsv.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv.main">Submodules</a></li>
 </ul>
 </li>
@@ -169,6 +231,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#yadg.parsers.chromdata.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromdata.html#module-yadg.parsers.chromdata.empalccsv">Submodules</a></li>
 </ul>
 </li>
@@ -177,6 +240,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#yadg.parsers.chromtrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace.agilentch">Submodules</a></li>
 </ul>
 </li>
@@ -185,6 +249,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.dummy.html#yadg.parsers.dummy.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a><ul>
@@ -192,6 +257,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#yadg.parsers.electrochem.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.electrochem.html#module-yadg.parsers.electrochem.eclabmpr">Submodules</a></li>
 </ul>
@@ -201,6 +267,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#yadg.parsers.flowdata.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.flowdata.html#module-yadg.parsers.flowdata.drycal">Submodules</a></li>
 </ul>
 </li>
@@ -209,18 +276,21 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#yadg.parsers.masstrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.masstrace.html#module-yadg.parsers.masstrace.quadstarsac">Submodules</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html#schema">Schema</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.meascsv.html#yadg.parsers.meascsv.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#schema">Schema</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#yadg.parsers.qftrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.qftrace.html#module-yadg.parsers.qftrace.labviewcsv">Submodules</a></li>
 </ul>
 </li>
@@ -229,6 +299,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#provides">Provides</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#module-functions">Module Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#yadg.parsers.xpstrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace.phispe">Submodules</a></li>
 </ul>
 </li>
@@ -236,6 +307,7 @@ The function has three subcommands:</p>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#usage">Usage</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#formats">Formats</a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#provides">Provides</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#yadg.parsers.xrdtrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="yadg.parsers.xrdtrace.html#module-yadg.parsers.xrdtrace.common">Submodules</a></li>
 </ul>
 </li>
@@ -247,20 +319,20 @@ The function has three subcommands:</p>
 </div>
 </section>
 <section id="module-yadg.main">
-<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.main" title="Permalink to this headline"></a></h2>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.main" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.main.version_check">
-<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">version_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yadg'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.version_check" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">version_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yadg'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.version_check" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.main.set_loglevel">
-<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">set_loglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.set_loglevel" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">set_loglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.set_loglevel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.main.run_with_arguments">
-<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">run_with_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.run_with_arguments" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">run_with_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.run_with_arguments" title="Link to this definition"></a></dt>
 <dd><p>Main execution function.</p>
 <p>This is the function executed when <strong>yadg</strong> is launched using the executable.
 The function has three subcommands:</p>
@@ -271,16 +343,16 @@ The function has three subcommands:</p>
 </ul>
 </dd></dl>
 
-<span class="target" id="module-yadg.subcommands"></span><dl class="py function">
+<dl class="py function" id="module-yadg.subcommands">
 <dt class="sig sig-object py" id="yadg.subcommands.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.process" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.process" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">process</span></code> subcommand of <strong>yadg</strong>.</p>
 <p>This function first checks that the supplied <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> exists, is a valid
 <cite>schema</cite>, and if yes, proceeds to process the <cite>schema</cite> into a <cite>datagram</cite>. If
 this is successful, the <cite>datagram</cite> is checked for validity and written out
 into <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code> (which is <cite>“datagram.json”</cite> by default).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -288,14 +360,14 @@ into <code class="docutils literal notranslate"><span class="pre">args.outfile</
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.update">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.update" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.update" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">update</span></code> subcommand of <strong>yadg</strong>.</p>
 <p>This function updates the <cite>DataSchema</cite> present in the <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> argument to
 comply with the newest version of <cite>DataSchema</cite>, and saves the resulting object into
 <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code> (which is the <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> with  a <cite>“.new.json”</cite> suffix
 by default).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -303,7 +375,7 @@ by default).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.preset">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.preset" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.preset" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">preset</span></code> subcommand of <strong>yadg</strong>.</p>
 <p>This function requires the <code class="docutils literal notranslate"><span class="pre">args.preset</span></code> and <code class="docutils literal notranslate"><span class="pre">args.folder</span></code> arguments.
 If <code class="docutils literal notranslate"><span class="pre">args.folder</span></code> is an existing folder and <code class="docutils literal notranslate"><span class="pre">args.preset</span></code> a valid <cite>schema</cite>
@@ -314,7 +386,7 @@ in the supplied <code class="docutils literal notranslate"><span class="pre">arg
 <p>Alternatively, if <code class="docutils literal notranslate"><span class="pre">args.process</span></code> is specified, the created <cite>schema</cite> will be
 directly processed into a <cite>datagram</cite>, which is then saved in <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -322,7 +394,7 @@ directly processed into a <cite>datagram</cite>, which is then saved in <code cl
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.extract" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.extract" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">extract</span></code> subcommand of <strong>yadg</strong>.</p>
 <p>This function requires the <code class="docutils literal notranslate"><span class="pre">args.filetype</span></code> and <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> positional arguments.
 If <code class="docutils literal notranslate"><span class="pre">args.filetype</span></code> (or it’s namespaced version, such as <code class="docutils literal notranslate"><span class="pre">marda:{args.filetype}</span></code>)
@@ -332,7 +404,7 @@ the provided <code class="docutils literal notranslate"><span class="pre">args.i
 <code class="docutils literal notranslate"><span class="pre">args.outfile</span></code> parameter, by default this is set to the stem of <code class="docutils literal notranslate"><span class="pre">args.infile</span></code> with
 a <code class="docutils literal notranslate"><span class="pre">.json</span></code> suffix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>

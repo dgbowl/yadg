@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How to use yadg &mdash; yadg master documentation</title>
@@ -14,10 +14,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=30d551ce"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -118,7 +119,7 @@
            <div itemprop="articleBody">
              
   <section id="how-to-use-yadg">
-<h1>How to use <strong>yadg</strong><a class="headerlink" href="#how-to-use-yadg" title="Permalink to this headline"></a></h1>
+<h1>How to use <strong>yadg</strong><a class="headerlink" href="#how-to-use-yadg" title="Link to this heading"></a></h1>
 <p>We have prepared an interactive, Binder-compatible Jupyter notebook, showing the installation and example usage of yadg. The latest version of the notebook and the direct link to Binder are:</p>
 <a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.6351210"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg" /></a>
 <a class="reference external image-reference" href="https://mybinder.org/v2/zenodo/10.5281/zenodo.6351210/?labpath=index.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" /></a>
@@ -128,7 +129,7 @@
 <li><p>A fully featured <cite>parser</cite> mode, requiring a <cite>dataschema</cite>, intended to process all files semantically related to a single “experiment”.</p></li>
 </ol>
 <section id="extractor-mode">
-<h2><cite>Extractor</cite> mode<a class="headerlink" href="#extractor-mode" title="Permalink to this headline"></a></h2>
+<h2><cite>Extractor</cite> mode<a class="headerlink" href="#extractor-mode" title="Link to this heading"></a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <cite>extractor</cite> mode has been introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code> and its API is not yet stable.</p>
@@ -152,7 +153,7 @@
 <p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar.</p>
 </section>
 <section id="parser-mode">
-<h2><cite>Parser</cite> mode<a class="headerlink" href="#parser-mode" title="Permalink to this headline"></a></h2>
+<h2><cite>Parser</cite> mode<a class="headerlink" href="#parser-mode" title="Link to this heading"></a></h2>
 <p>The main purpose of yadg is to process a bunch of raw data files according to a provided <cite>dataschema</cite> into a well-defined, annotated, FAIR-data file called <cite>datagram</cite>. As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is stored in <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> files. To use <strong>yadg</strong> like this, it should be invoked as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>process<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
@@ -160,7 +161,7 @@
 <p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file containing the <cite>dataschema</cite>, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <cite>datagram</cite> should be saved (it defaults to <code class="docutils literal notranslate"><span class="pre">datagram.nc</span></code>).</p>
 <p>In this fully-featured usage pattern via <cite>dataschema</cite>, <strong>yadg</strong> offloads the responsibility of data extraction and normalisation to its modules, called <cite>parsers</cite>. The currently implemented <cite>parsers</cite> are documented in the sidebar.</p>
 <section id="dataschema-from-presets">
-<h3><cite>Dataschema</cite> from presets<a class="headerlink" href="#dataschema-from-presets" title="Permalink to this headline"></a></h3>
+<h3><cite>Dataschema</cite> from presets<a class="headerlink" href="#dataschema-from-presets" title="Link to this heading"></a></h3>
 <p>This alternative form of using <strong>yadg</strong> in <cite>parser</cite> mode is especially useful when processing data organised in a consistent folder structure between several experimental runs. The user should prepare a <cite>preset</cite> file, which then gets patched to a <cite>dataschema</cite> file using the provided folder path:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
@@ -178,7 +179,7 @@
 <p>This will create a <cite>datagram</cite> in <code class="docutils literal notranslate"><span class="pre">outfile.json</span></code> as well as a <code class="docutils literal notranslate"><span class="pre">outfile.zip</span></code> archive from the whole contents of the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code>.</p>
 </section>
 <section id="dataschema-version-updater">
-<h3><cite>Dataschema</cite> version updater<a class="headerlink" href="#dataschema-version-updater" title="Permalink to this headline"></a></h3>
+<h3><cite>Dataschema</cite> version updater<a class="headerlink" href="#dataschema-version-updater" title="Link to this heading"></a></h3>
 <p>If you’d like to update a <cite>dataschema</cite> from a previous version of yadg to the current latest one, use the following syntax:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>update<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>

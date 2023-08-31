@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>yadg.parsers.electrochem.eclabcommon package &mdash; yadg master documentation</title>
@@ -14,10 +14,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=30d551ce"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -65,10 +66,14 @@
 <li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#formats">Formats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#schema">Schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#module-functions">Module Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.parsers.electrochem.html#yadg.parsers.electrochem.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.parsers.electrochem.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">yadg.parsers.electrochem.eclabcommon package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module-yadg.parsers.electrochem.eclabcommon.mpr_columns">Submodules</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#yadg.parsers.electrochem.eclabcommon.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#yadg.parsers.electrochem.eclabcommon.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -128,11 +133,11 @@
            <div itemprop="articleBody">
              
   <section id="module-yadg.parsers.electrochem.eclabcommon">
-<span id="yadg-parsers-electrochem-eclabcommon-package"></span><h1>yadg.parsers.electrochem.eclabcommon package<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabcommon" title="Permalink to this headline"></a></h1>
+<span id="yadg-parsers-electrochem-eclabcommon-package"></span><h1>yadg.parsers.electrochem.eclabcommon package<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabcommon" title="Link to this heading"></a></h1>
 <section id="module-yadg.parsers.electrochem.eclabcommon.mpr_columns">
-<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabcommon.mpr_columns" title="Permalink to this headline"></a></h2>
-<span class="target" id="module-yadg.parsers.electrochem.eclabcommon.mpt_columns"></span><span class="target" id="module-yadg.parsers.electrochem.eclabcommon.techniques"></span><section id="eclabtechniques-parameters-for-implemented-techniques">
-<h3><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Permalink to this headline"></a></h3>
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-yadg.parsers.electrochem.eclabcommon.mpr_columns" title="Link to this heading"></a></h2>
+<section id="eclabtechniques-parameters-for-implemented-techniques">
+<span id="module-yadg.parsers.electrochem.eclabcommon.techniques"></span><span id="module-yadg.parsers.electrochem.eclabcommon.mpt_columns"></span><h3><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Link to this heading"></a></h3>
 <p>Implemented techniques:</p>
 <blockquote>
 <div><ul class="simple">
@@ -152,22 +157,23 @@
 </div></blockquote>
 <p>The module also implements resolution determination for parameters of techniques,
 in <a class="reference internal" href="#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution" title="yadg.parsers.electrochem.eclabcommon.techniques.get_resolution"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_resolution()</span></code></a>.</p>
+</section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabcommon.techniques.technique_params">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">technique_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">technique</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.technique_params" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">technique_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">technique</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.technique_params" title="Link to this definition"></a></dt>
 <dd><p>Constructs the parameter names for different techniques.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>technique</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The full name of the technique.</p></li>
 <li><p><strong>settings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The list of settings from the start of an .mpt or .mps file.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The short technique name and a full list of technique parameter
 names depending on what is present in the file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple[str, list]</p>
 </dd>
 </dl>
@@ -175,14 +181,14 @@ names depending on what is present in the file.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabcommon.techniques.param_from_key">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">param_from_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.param_from_key" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">param_from_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.param_from_key" title="Link to this definition"></a></dt>
 <dd><p>Convert a supplied key of a certain parameter to its string or float value.</p>
 <p>The function uses the map defined in <code class="docutils literal notranslate"><span class="pre">param_map</span></code> to convert between the
 entries in the tuples, which contain the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> value of the parameter
 (present in <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files), the <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> value of the parameter (present
 in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files), and the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> value in SI units.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>param</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the parameter, a key within the <code class="docutils literal notranslate"><span class="pre">param_map</span></code>. If <code class="docutils literal notranslate"><span class="pre">param</span></code>
 is not present in <code class="docutils literal notranslate"><span class="pre">param_map</span></code>, the supplied key is returned back.</p></li>
@@ -190,10 +196,10 @@ is not present in <code class="docutils literal notranslate"><span class="pre">p
 <li><p><strong>to_str</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – A switch between <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> output.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>key</strong> – The key converted to the requested format.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Union[str, float, int]</p>
 </dd>
 </dl>
@@ -201,20 +207,19 @@ is not present in <code class="docutils literal notranslate"><span class="pre">p
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.parsers.electrochem.eclabcommon.techniques.get_resolution">
-<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.parsers.electrochem.eclabcommon.techniques.</span></span><span class="sig-name descname"><span class="pre">get_resolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Erange</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Irange</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.electrochem.eclabcommon.techniques.get_resolution" title="Link to this definition"></a></dt>
 <dd><p>Function that returns the resolution of a property based on its name, value,
 E-range and I-range.</p>
 <p>The values used here are hard-coded from VMP-3 potentiostats. Generally, the
 resolution is returned, however in some cases only the accuracy is specified
 (currently <code class="docutils literal notranslate"><span class="pre">freq</span></code> and <code class="docutils literal notranslate"><span class="pre">Phase</span></code>).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
 </section>
 </section>
 

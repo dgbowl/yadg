@@ -180,9 +180,9 @@ def extract(args: argparse.Namespace) -> None:
     is a known :class:`FileType`, ``yadg`` will attempt to extract metadata and data from
     the provided ``args.infile``.
 
-    The data is returned as a ``json`` file. The location can be configured using the
+    The data is returned as a NetCDF file. The location can be configured using the
     ``args.outfile`` parameter, by default this is set to the stem of ``args.infile`` with
-    a ``.json`` suffix.
+    a ``.nc`` suffix.
     """
 
     path = Path(args.infile)
@@ -193,7 +193,7 @@ def extract(args: argparse.Namespace) -> None:
     )
 
     if args.outfile is None:
-        outpath = path.with_suffix(".json")
+        outpath = path.with_suffix(".nc")
     else:
         outpath = Path(args.outfile)
 

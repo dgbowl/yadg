@@ -193,9 +193,13 @@ def extract(args: argparse.Namespace) -> None:
     )
 
     if args.outfile is None:
-        outpath = path.with_suffix(".nc")
+        outpath = path.with_suffix(".json" if args.meta_only else ".nc")
     else:
         outpath = Path(args.outfile)
 
     ret = extractors.extract(args.filetype, path)
-    ret.to_netcdf(outpath, engine="h5netcdf")
+    if args.meta_only:
+        with outpath.open("w", encoding="UTF-8") as target:
+            json.dump(ret.to_dict(data=False), target)
+    else:
+        ret.to_netcdf(outpath, engine="h5netcdf")

@@ -49,7 +49,7 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
     Returns
     -------
     class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. If
+        A :class:`datatree.DataTree` containing one :class:`xarray.Dataset` per detector. If
         multiple timesteps are found in the zip archive, the :class:`datatree.DataTrees`
         are collated along the ``uts`` dimension.
 

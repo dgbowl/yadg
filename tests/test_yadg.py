@@ -1,6 +1,7 @@
 import pytest
 import subprocess
 import os
+import json
 from datatree import open_datatree
 
 from .utils import pars_datagram_test, standard_datagram_test, compare_datatrees
@@ -176,6 +177,25 @@ def test_yadg_extract(filetype, infile, datadir):
     ret = open_datatree("test.nc")
     ref = open_datatree(f"ref.{infile}.nc")
     compare_datatrees(ret, ref)
+
+
+@pytest.mark.parametrize(
+    "filetype, infile, flag",
+    [
+        ("eclab.mpr", "cp.mpr", "-m"),
+        ("marda:biologic-mpr", "cp.mpr", "--meta-only"),
+        ("biologic-mpr", "cp.mpr", "-m"),
+    ],
+)
+def test_yadg_extract_meta_only(filetype, infile, flag, datadir):
+    os.chdir(datadir)
+    command = ["yadg", "extract", filetype, infile, flag]
+    subprocess.run(command, check=True)
+    assert os.path.exists("cp.json")
+    with open("cp.json", "r") as inp:
+        ret = json.load(inp)
+    for key in {"attrs", "coords", "dims", "data_vars"}:
+        assert key in ret.keys()
 
 
 def test_yadg_preset_dataschema_compat(datadir):

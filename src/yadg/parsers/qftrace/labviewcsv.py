@@ -39,7 +39,7 @@ def process(
     Returns
     -------
     :class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing a single :class:`xr.Dataset` with the
+        A :class:`datatree.DataTree` containing a single :class:`xarray.Dataset` with the
         ``S11`` (reflection) trace.
 
     """

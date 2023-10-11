@@ -176,6 +176,13 @@ def run_with_arguments():
         help=("Optionally specify the output file name."),
         default=None,
     )
+    extract.add_argument(
+        "--meta-only",
+        "-m",
+        action="store_true",
+        help="Extract and return file metadata only in a JSON format.",
+        default=False,
+    )
     extract.set_defaults(func=subcommands.extract)
 
     # parse subparser args

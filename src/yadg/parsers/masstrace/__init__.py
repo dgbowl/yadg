@@ -2,7 +2,7 @@
 Handles the reading and processing of mass spectrometry files. The basic function of the
 parser is to:
 
-#. read in the raw data and create timestamped traces with one :class:`xr.Dataset` per trace
+#. read in the raw data and create timestamped traces with one :class:`xarray.Dataset` per trace
 #. collect `metadata` such as the software version, author, etc.
 
 Usage

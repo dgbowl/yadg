@@ -35,7 +35,7 @@ def process(*, fn: str, **kwargs: dict) -> xr.Dataset:
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
 
     """
     try:

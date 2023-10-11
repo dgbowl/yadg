@@ -44,7 +44,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         Tuple containing the timesteps and metadata. A full timestamp is not available
         in ``.xy`` files.
 

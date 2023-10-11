@@ -41,7 +41,7 @@ The ``filetypes`` currently supported by the parser are:
 
 Schema
 ``````
-The data is returned as a :class:`datatree.Datatree`, containing a :class:`xr.Dataset`
+The data is returned as a :class:`datatree.Datatree`, containing a :class:`xarray.Dataset`
 for each trace / detector name:
 
 .. code-block:: yaml

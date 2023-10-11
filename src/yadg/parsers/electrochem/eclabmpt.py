@@ -221,7 +221,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         The full date may not be specified if header is not present.
 
     """

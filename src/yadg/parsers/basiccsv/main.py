@@ -161,7 +161,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         No metadata is returned by the :mod:`~yadg.parsers.basiccsv` parser. The full
         date might not be returned, eg. when only time is specified in columns.
 

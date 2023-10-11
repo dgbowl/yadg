@@ -182,9 +182,9 @@ def process(
     Returns
     -------
     :class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per mass trace.
+        A :class:`datatree.DataTree` containing one :class:`xarray.Dataset` per mass trace.
         The traces in the Quadstar ``.sac`` files are not named, therefore their index
-        is used as the :class:`xr.Dataset` name.
+        is used as the :class:`xarray.Dataset` name.
 
     """
     with open(fn, "rb") as sac_file:

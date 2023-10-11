@@ -21,7 +21,7 @@ Additionally, the `datagram` is annotated by relevant metadata, including:
 
 As of ``yadg-5.0``, the `datagram` is exported as a ``NetCDF`` file. In memory, it is
 represented by a :class:`datatree.DataTree`, with individual `steps` as nodes of that
-:class:`datatree.Datatree` containing a :class:`xr.Dataset`.
+:class:`datatree.Datatree` containing a :class:`xarray.Dataset`.
 
 The top level :class:`datatree.DataTree` contains the following metadata stored in its
 attributes:
@@ -32,7 +32,7 @@ attributes:
     - the `datagram` creation timestamp formatted according to ISO8601.
 
 The contents of the attribute fields for each `step` will vary depending on the parser
-used to create the corresponding :class:`xr.Dataset`. The following conventions are used:
+used to create the corresponding :class:`xarray.Dataset`. The following conventions are used:
 
     - a `coord` field ``uts`` contains a Unix timestamp (:class:`float`),
     - uncertainties for entries are stored using separate entries with names composed as

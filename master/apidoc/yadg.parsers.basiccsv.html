@@ -840,7 +840,7 @@ each table row.</p>
 <h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
 <p>The primary functionality of <a class="reference internal" href="#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> is to load the tabular
 data, and determine the Unix timestamp. The headers of the tabular data are taken
-<cite>verbatim</cite> from the file, and appear as <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> of the <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.
+<cite>verbatim</cite> from the file, and appear as <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.
 The single <code class="docutils literal notranslate"><span class="pre">coord</span></code> for the <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> is the deduced Unix timestamp, <code class="docutils literal notranslate"><span class="pre">uts</span></code>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xr.Dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
@@ -875,7 +875,7 @@ columns as floats or strings.</p>
 date might not be returned, eg. when only time is specified in columns.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -923,7 +923,7 @@ and the second element containing the deviations of the values.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.basiccsv.main.</span></span><span class="sig-name descname"><span class="pre">dicts_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fulldate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.basiccsv.main.dicts_to_dataset" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -950,7 +950,7 @@ columns as floats or strings.</p>
 date might not be returned, eg. when only time is specified in columns.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

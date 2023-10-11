@@ -196,7 +196,7 @@ while referring to them as “raw data”, since they are present in the parsed 
 </div></blockquote>
 <p>As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is exported as a <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> file. In memory, it is
 represented by a <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code>, with individual <cite>steps</cite> as nodes of that
-<code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.Datatree</span></code> containing a <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.Datatree</span></code> containing a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
 <p>The top level <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> contains the following metadata stored in its
 attributes:</p>
 <blockquote>
@@ -208,7 +208,7 @@ attributes:</p>
 </ul>
 </div></blockquote>
 <p>The contents of the attribute fields for each <cite>step</cite> will vary depending on the parser
-used to create the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">xr.Dataset</span></code>. The following conventions are used:</p>
+used to create the corresponding <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. The following conventions are used:</p>
 <blockquote>
 <div><ul>
 <li><p>a <cite>coord</cite> field <code class="docutils literal notranslate"><span class="pre">uts</span></code> contains a Unix timestamp (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>),</p></li>

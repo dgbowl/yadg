@@ -10,7 +10,7 @@ Units
 **yadg** relies on the |pint|_ package for storing units in the created `datagrams`. For this, an extended :class:`pint.UnitRegistry` is exposed in **yadg**, containing definitions of some quantities present in the raw data files in addition to |pint|'s standard unit registry. This :class:`pint.UnitRegistry` should be used in downstream packages
 which depend on **yadg**.
 
-In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xr.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless. See :mod:`yadg.dgutils.pintutils` for more info.
+In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless. See :mod:`yadg.dgutils.pintutils` for more info.
 
 Uncertainties
 +++++++++++++

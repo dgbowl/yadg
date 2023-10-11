@@ -71,8 +71,8 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
-        A :class:`xr.Dataset` containing the timesteps, metadata, and full date tag. No
+    :class:`xarray.Dataset`
+        A :class:`xarray.Dataset` containing the timesteps, metadata, and full date tag. No
         metadata is returned. The full date is always provided in :mod:`~yadg.parsers.meascsv`
         compatible files.
 

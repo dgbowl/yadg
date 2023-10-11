@@ -83,7 +83,7 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTre
     Returns
     -------
     class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
+        A :class:`datatree.DataTree` containing one :class:`xarray.Dataset` per detector. As
         When multiple timesteps are present in the file, the traces of each detector are
         expanded to match the longest trace, and collated along the ``uts``-dimension.
     """

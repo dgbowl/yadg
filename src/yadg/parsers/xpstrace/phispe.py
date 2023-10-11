@@ -416,7 +416,7 @@ def process(
     Returns
     -------
     :class:`datatree.DataTree`
-        Returns a :class:`datatree.DataTree` containing a :class:`xr.Dataset` for each
+        Returns a :class:`datatree.DataTree` containing a :class:`xarray.Dataset` for each
         XPS trace present in the input file.
 
     """

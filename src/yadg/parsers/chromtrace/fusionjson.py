@@ -54,7 +54,7 @@ def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> Da
     Returns
     -------
     class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector.
+        A :class:`datatree.DataTree` containing one :class:`xarray.Dataset` per detector.
 
     """
 

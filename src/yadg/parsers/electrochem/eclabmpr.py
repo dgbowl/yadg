@@ -666,7 +666,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         The full date is specified only if the "LOG" module is present.
 
     """

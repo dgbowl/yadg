@@ -38,7 +38,7 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
     Worker function of the ``extract`` subcommand.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
-    data is either returned as a :class:`datatree.DataTree` or a :class:`xr.Dataset`,
+    data is either returned as a :class:`datatree.DataTree` or a :class:`xarray.Dataset`,
     however in either case the returned objects have a :func:`ret.to_netcdf()` as well
     as a :func:`ret.to_dict()` method, which can be used to write the file.
 

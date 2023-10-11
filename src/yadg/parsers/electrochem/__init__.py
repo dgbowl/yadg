@@ -30,7 +30,7 @@ The ``filetypes`` currently supported by the parser are:
 
 Schema
 ``````
-Depending on the filetype, the output :class:`xr.Dataset` may contain multiple
+Depending on the filetype, the output :class:`xarray.Dataset` may contain multiple
 derived values. However, all filetypes will report at least the following:
 
 .. code-block:: yaml
@@ -76,7 +76,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
 
     """
     if filetype == "eclab.mpr":

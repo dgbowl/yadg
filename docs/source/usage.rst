@@ -39,6 +39,16 @@ The ``infile`` will be then parsed using **yadg** and, if successful, saved as a
 
 The resulting NetCDF files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the NetCDF file.
 
+Metadata-only extraction
+````````````````````````
+To use **yadg** to extract and retrieve just the metadata contained in the input file, pass the ``-m / --meta-only`` argument:
+
+.. code-block:: bash
+
+    yadg extract -m filetype infile
+
+The metadata are returned as a ``.json`` file, and are generated using the :func:`~xarray.Dataset.to_dict` function of :class:`xarray.Dataset`. They contain a description of the data coordinates (``coords``), dimensions (``dims``), and variables (``data_vars``), and include their names, attributes, dtypes, and shapes.
+
 The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar.
 
 `Parser` mode

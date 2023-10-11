@@ -82,7 +82,7 @@ def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
     Returns
     -------
     class:`datatree.DataTree`
-        A :class:`datatree.DataTree` containing one :class:`xr.Dataset` per detector. As
+        A :class:`datatree.DataTree` containing one :class:`xarray.Dataset` per detector. As
         there is only one detector data in each CH file, this nesting is only for
         consistency with other filetypes.
 

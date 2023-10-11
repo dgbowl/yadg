@@ -34,7 +34,7 @@ The ``filetypes`` currently supported by the parser are:
 
 Schema
 ``````
-Each file is processed into a single :class:`xr.Dataset`, containing the following
+Each file is processed into a single :class:`xarray.Dataset`, containing the following
 ``coords`` and ``data_vars`` (if present in the file):
 
 .. code-block:: yaml
@@ -77,7 +77,7 @@ def process(*, filetype: str, **kwargs: dict) -> xr.Dataset:
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
 
     """
     if filetype == "fusion.json":

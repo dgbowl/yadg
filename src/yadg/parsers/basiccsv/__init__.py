@@ -28,7 +28,7 @@ Schema
 ``````
 The primary functionality of :mod:`~yadg.parsers.basiccsv` is to load the tabular
 data, and determine the Unix timestamp. The headers of the tabular data are taken
-`verbatim` from the file, and appear as ``data_vars`` of the :class:`xr.Dataset`.
+`verbatim` from the file, and appear as ``data_vars`` of the :class:`xarray.Dataset`.
 The single ``coord`` for the ``data_vars`` is the deduced Unix timestamp, ``uts``.
 
 .. code-block:: yaml

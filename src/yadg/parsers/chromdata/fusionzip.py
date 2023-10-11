@@ -37,9 +37,9 @@ def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Data
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         The data from the inidividual json files contained in the zip archive are
-        concatenated into a single :class:`xr.Dataset`. This might fail if the metadata
+        concatenated into a single :class:`xarray.Dataset`. This might fail if the metadata
         in the json files differs, or if the dimensions are not easily concatenable.
 
     """

@@ -114,7 +114,7 @@ def process(
 
     Returns
     -------
-    :class:`xr.Dataset`
+    :class:`xarray.Dataset`
         Data containing the timesteps and metadata. This filetype contains the full
         date specification.
 

@@ -200,6 +200,6 @@ def extract(args: argparse.Namespace) -> None:
     ret = extractors.extract(args.filetype, path)
     if args.meta_only:
         with outpath.open("w", encoding="UTF-8") as target:
-            json.dump(ret.to_dict(data = False), target)
+            json.dump(ret.to_dict(data=False), target)
     else:
         ret.to_netcdf(outpath, engine="h5netcdf")

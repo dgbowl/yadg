@@ -68,7 +68,7 @@ def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:
             ftype = ExtractorFactory(extractor={"filetype": k}).extractor
             break
         except (ValidationError, ValidationError_v1) as e:
-            #print(e)
+            logging.debug(e)
             pass
     else:
         raise RuntimeError(f"Filetype '{filetype}' could not be understood.")

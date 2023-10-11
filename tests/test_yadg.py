@@ -178,6 +178,24 @@ def test_yadg_extract(filetype, infile, datadir):
     compare_datatrees(ret, ref)
 
 
+@pytest.mark.parametrize(
+    "filetype, infile, flag",
+    [
+        ("eclab.mpr", "cp.mpr", "-m"),
+        ("marda:biologic-mpr", "cp.mpr", "--meta-only"),
+        ("biologic-mpr", "cp.mpr", "-m"),
+    ],
+)
+def test_yadg_extract_meta_only(filetype, infile, flag, datadir):
+    os.chdir(datadir)
+    command = ["yadg", "extract", filetype, infile, flag]
+    subprocess.run(command, check=True)
+    assert os.path.exists("cp.json")
+    # ret = open_datatree("test.nc")
+    # ref = open_datatree(f"ref.{infile}.nc")
+    # compare_datatrees(ret, ref)
+
+
 def test_yadg_preset_dataschema_compat(datadir):
     os.chdir(datadir)
     sfns = [fn for fn in os.listdir() if fn.endswith("yml") and fn.startswith("ds")]

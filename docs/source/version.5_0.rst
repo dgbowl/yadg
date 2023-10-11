@@ -20,6 +20,8 @@ New features since ``yadg-4.2`` are:
     :class:`datatree.DataTree` module.
   - Automatic update of read `dataschemas` from version ``DataSchema-4.0`` and above,
     yielding the latest verison of `dataschema` prior to parsing.
+  - Added ``yadg extract`` usage, with optional ``--meta-only`` switch, for a quick data
+    or meta data extraction from individual files.
 
 Backwards-incompatible changes include:
 

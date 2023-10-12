@@ -2,6 +2,8 @@ import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable, Any
 from pydantic import BaseModel
+import locale as lc
+from decimal import Decimal
 from ... import dgutils
 
 import numpy as np
@@ -113,7 +115,7 @@ def dicts_to_dataset(
         if k == "uts":
             continue
         darrs[k] = xr.DataArray(data=v, dims=["uts"], attrs=attrs)
-        if k in meta:
+        if k in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
             err = f"{k}_std_err"
             darrs[k].attrs["ancillary_variables"] = err
             attrs["standard_name"] = f"{k} standard error"
@@ -133,6 +135,7 @@ def process(
     *,
     fn: str,
     encoding: str,
+    locale: str,
     timezone: str,
     parameters: BaseModel,
     **kwargs: dict,
@@ -211,6 +214,8 @@ def process(
     units = dgutils.sanitize_units(units)
 
     # Process rows
+    old_loc = lc.getlocale(category=lc.LC_NUMERIC)
+    lc.setlocale(lc.LC_NUMERIC, locale=locale)
     data_vals = {}
     meta_vals = {"_fn": []}
     for li, line in enumerate(lines[si:]):
@@ -221,5 +226,6 @@ def process(
             datecolumns,
         )
         append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+    lc.setlocale(category=lc.LC_NUMERIC, locale=old_loc)
 
     return dicts_to_dataset(data_vals, meta_vals, units, fulldate)

@@ -5,6 +5,7 @@ from tests.utils import (
 )
 from datatree import open_datatree
 
+
 @pytest.mark.parametrize(
     "input",
     [
@@ -17,8 +18,8 @@ from datatree import open_datatree
                 "timestamp": {
                     "date": {"index": 0, "format": "%d/%m/%Y"},
                     "time": {"index": 1, "format": "%H:%M:%S"},
-                }
-            }
+                },
+            },
         },
         {  # ts1
             "case": "sheet.DE.tsv",
@@ -29,8 +30,8 @@ from datatree import open_datatree
                 "timestamp": {
                     "date": {"index": 0, "format": "%d.%m.%Y"},
                     "time": {"index": 1, "format": "%H:%M:%S"},
-                }
-            }
+                },
+            },
         },
         {  # ts2
             "case": "sheet.US.tsv",
@@ -41,16 +42,15 @@ from datatree import open_datatree
                 "timestamp": {
                     "date": {"index": 0, "format": "%m/%d/%Y"},
                     "time": {"index": 1, "format": "%H:%M:%S %p"},
-                }
-            }
+                },
+            },
         },
     ],
 )
 def test_locale_from_basiccsv(input, datadir):
     print(f"{input=}")
     ret = datagram_from_input(input, "basiccsv", datadir, version="5.0")
-    #ret.to_netcdf("ref.sheet.nc")
+    # ret.to_netcdf("ref.sheet.nc")
     print(f"{ret=}")
     ref = open_datatree("ref.sheet.nc")
     compare_datatrees(ret, ref)
-

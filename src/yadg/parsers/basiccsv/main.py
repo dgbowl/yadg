@@ -65,7 +65,7 @@ def process_row(
         elif columns[ci] == "":
             continue
         try:
-            val, dev = tuple_fromstr(columns[ci])
+            val, dev = tuple_fromstr(lc.delocalize(columns[ci]))
             vals[header] = val
             devs[header] = dev
         except ValueError:

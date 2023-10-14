@@ -176,10 +176,8 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
         schema = _schema_4_2(input, parser, version)
     elif version in {"5.0"}:
         schema = _schema_5_0(input, parser, version)
-    print(f"{schema=}")
     os.chdir(datadir)
     ds = to_dataschema(**schema)
-    print(f"{ds=}")
     return yadg.core.process_schema(ds)
 
 
@@ -210,7 +208,6 @@ def pars_datagram_test(datagram, testspec, atol=0):
     else:
         name = list(datagram.children.keys())[testspec["step"]]
     step = datagram[name]
-    print(f"{step=}")
     for tk, tv in testspec["pars"].items():
         np.testing.assert_allclose(
             step[tk][testspec["point"]], tv["value"], equal_nan=True, atol=atol

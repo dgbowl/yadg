@@ -11,7 +11,7 @@ from datatree import open_datatree
     [
         {  # ts0
             "case": "sheet.UK.tsv",
-            "locale": "en_GB",
+            "locale": "en_GB.UTF-8",
             "filetype": "None",
             "parameters": {
                 "sep": "\t",
@@ -23,7 +23,7 @@ from datatree import open_datatree
         },
         {  # ts1
             "case": "sheet.DE.tsv",
-            "locale": "de_DE",
+            "locale": "de_DE.UTF-8",
             "filetype": "None",
             "parameters": {
                 "sep": "\t",
@@ -48,7 +48,6 @@ from datatree import open_datatree
     ],
 )
 def test_locale_from_basiccsv(input, datadir):
-    print(f"{input=}")
     ret = datagram_from_input(input, "basiccsv", datadir, version="5.0")
     # ret.to_netcdf("ref.sheet.nc")
     print(f"{ret=}")

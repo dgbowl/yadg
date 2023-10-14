@@ -11,7 +11,7 @@ from datatree import open_datatree
     [
         {  # ts0
             "case": "sheet.UK.tsv",
-            "locale": "English_United Kingdom.1252",
+            "locale": "en_GB",
             "filetype": "None",
             "parameters": {
                 "sep": "\t",

@@ -3,7 +3,6 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable, Any
 from pydantic import BaseModel
 import locale as lc
-from decimal import Decimal
 from ... import dgutils
 
 import numpy as np

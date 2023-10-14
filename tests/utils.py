@@ -120,6 +120,14 @@ def _schema_5_0(input, parser, version):
         files = input["folders"]
     else:
         raise ValueError()
+
+    if "filetype" in input:
+        filetype = input.pop("filetype")
+    elif "parameters" in input:
+        filetype = input["parameters"].pop("filetype", None)
+    else:
+        filetype = None
+
     schema = {
         "metadata": {
             "provenance": {"type": "datagram_from_input"},
@@ -135,7 +143,7 @@ def _schema_5_0(input, parser, version):
                     "files": files,
                 },
                 "extractor": {
-                    "filetype": input["parameters"].pop("filetype"),
+                    "filetype": filetype,
                     "timezone": input.get("timezone", "UTC"),
                     "locale": input.get("locale", "en_GB.UTF-8"),
                     "encoding": input.get("encoding", "UTF-8"),
@@ -170,7 +178,6 @@ def datagram_from_input(input, parser, datadir, version="4.0"):
         schema = _schema_5_0(input, parser, version)
     os.chdir(datadir)
     ds = to_dataschema(**schema)
-    print(f"{ds=}")
     return yadg.core.process_schema(ds)
 
 
@@ -201,7 +208,6 @@ def pars_datagram_test(datagram, testspec, atol=0):
     else:
         name = list(datagram.children.keys())[testspec["step"]]
     step = datagram[name]
-    print(f"{step=}")
     for tk, tv in testspec["pars"].items():
         np.testing.assert_allclose(
             step[tk][testspec["point"]], tv["value"], equal_nan=True, atol=atol

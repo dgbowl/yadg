@@ -51,4 +51,9 @@ Additional targets `yadg[testing]` and `yadg[docs]` are available and can be spe
 
 ### Acknowledgements
 
-This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 957189. The project is part of BATTERY 2030+, the large-scale European research initiative for inventing the sustainable batteries of the future.
+This project has received funding from the following sources:
+
+- European Union’s Horizon 2020 programme under grant agreement No 957189.
+- DFG's Emmy Noether Programme under grant number 490703766.
+
+The project is also part of BATTERY 2030+, the large-scale European research initiative for inventing the sustainable batteries of the future.

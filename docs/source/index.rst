@@ -20,6 +20,23 @@ Several of the **yadg** parsers are exposed via an `extractor` interface, allowi
    All of the post-processing features within **yadg** have been removed in ``yadg-5.0``, following their deprecation in ``yadg-4.2``. If you are looking for a post-processing library, have a look at |dgpost|_ instead.
 
 
+Contributors
+````````````
+
+- Peter Kraus
+- Nicolas Vetsch
+
+Acknowledgements
+````````````````
+
+This project has received funding from the following sources:
+
+- European Union’s Horizon 2020 programme under grant agreement ID `957189 <https://cordis.europa.eu/project/id/957189>`_.
+- DFG's Emmy Noether Programme under grant number `490703766 <https://gepris.dfg.de/gepris/projekt/490703766?language=en>`_.
+
+The project is also part of BATTERY 2030+, the large-scale European research initiative for inventing the sustainable batteries of the future.
+
+
 .. toctree::
    :maxdepth: 1
    :caption: yadg user manual

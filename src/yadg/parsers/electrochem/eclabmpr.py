@@ -195,7 +195,6 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 .. codeauthor:: Nicolas Vetsch
 """
 import logging
-from typing import Any
 from zoneinfo import ZoneInfo
 import xarray as xr
 import numpy as np

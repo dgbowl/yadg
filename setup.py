@@ -45,7 +45,7 @@ setuptools.setup(
         "openpyxl>=3.0.0",
         "h5netcdf~=1.0",
         "xarray-datatree>=0.0.12",
-        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas",
+        "dgbowl-schemas>=116",
         "requests",
     ],
     extras_require={

@@ -195,11 +195,11 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 .. codeauthor:: Nicolas Vetsch
 """
 import logging
-from typing import Any
 from zoneinfo import ZoneInfo
 import xarray as xr
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
+from ...dgutils.btools import read_value
 from .eclabcommon.techniques import (
     technique_params_dtypes,
     param_from_key,
@@ -216,108 +216,6 @@ from .eclabcommon.mpr_columns import (
 from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
-
-
-def _read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> str:
-    """Parses a length-prefixed string given some encoding.
-
-    Parameters
-    ----------
-    bytes
-        The bytes of the string starting at the length-prefix byte.
-
-    encoding
-        The encoding of the string to be converted.
-
-    Returns
-    -------
-    str
-        The string decoded from the input bytes.
-
-    """
-    if len(pascal_bytes) < pascal_bytes[0] + 1:
-        raise ValueError("Insufficient number of bytes.")
-    string_bytes = pascal_bytes[1 : pascal_bytes[0] + 1]
-    return string_bytes.decode(encoding)
-
-
-def _read_value(
-    data: bytes, offset: int, dtype: np.dtype, encoding: str = "windows-1252"
-) -> Any:
-    """Reads a single value from a buffer at a certain offset.
-
-    Just a handy wrapper for np.frombuffer() With the added benefit of
-    allowing the 'pascal' keyword as an indicator for a length-prefixed
-    string.
-
-    The read value is converted to a built-in datatype using
-    np.dtype.item().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    encoding
-        The encoding of the bytes to be converted.
-
-    Returns
-    -------
-    Any
-        The unpacked and converted value from the buffer.
-
-    """
-    if dtype == "pascal":
-        # Allow the use of 'pascal' in all of the dtype maps.
-        return _read_pascal_string(data[offset:])
-    value = np.frombuffer(data, offset=offset, dtype=dtype, count=1)
-    item = value.item()
-    if value.dtype.names:
-        item = [i.decode(encoding) if isinstance(i, bytes) else i for i in item]
-        return dict(zip(value.dtype.names, item))
-    return item.decode(encoding) if isinstance(item, bytes) else item
-
-
-def _read_values(data: bytes, offset: int, dtype, count) -> list:
-    """Reads in multiple values from a buffer starting at offset.
-
-    Just a handy wrapper for np.frombuffer() with count >= 1.
-
-    The read values are converted to a list of built-in datatypes using
-    np.ndarray.tolist().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    count
-        Number of items to read. -1 means all data in the buffer.
-
-    Returns
-    -------
-    Any
-        The values read from the buffer as specified by the arguments.
-
-    """
-    values = np.frombuffer(data, offset=offset, dtype=dtype, count=count)
-    if values.dtype.names:
-        return [dict(zip(value.dtype.names, value.item())) for value in values]
-    # The ndarray.tolist() method converts numpy scalars to built-in
-    # scalars, hence not just list(values).
-    return values.tolist()
 
 
 def process_settings(data: bytes) -> tuple[dict, list]:
@@ -339,14 +237,14 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     technique, params_dtypes = technique_params_dtypes[data[0x0000]]
     settings["technique"] = technique
     for offset, (dtype, name) in settings_dtypes.items():
-        settings[name] = _read_value(data, offset, dtype)
+        settings[name] = read_value(data, offset, dtype)
     # Then determine the technique parameters. The parameters' offset
     # changes depending on the technique present and apparently on some
     # other factor that is unclear to me.
     params_offset = None
     for offset in (0x0572, 0x1845, 0x1846):
         logger.debug("Trying to find the technique parameters at 0x%x.", offset)
-        n_params = _read_value(data, offset + 0x0002, "<u2")
+        n_params = read_value(data, offset + 0x0002, "<u2")
         for dtype in params_dtypes:
             if len(dtype) == n_params:
                 params_dtype, params_offset = dtype, offset
@@ -357,11 +255,17 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     if params_offset is None:
         raise NotImplementedError("Unknown parameter offset or technique dtype.")
     logger.debug("Reading number of parameter sequences at 0x%x.", params_offset)
-    ns = _read_value(data, params_offset, "<u2")
+    ns = read_value(data, params_offset, "<u2")
     logger.debug("Reading %d parameter sequences of %d parameters.", ns, n_params)
-    rawparams = _read_values(data, params_offset + 0x0004, params_dtype, ns)
+    rawparams = np.frombuffer(
+        data,
+        offset=params_offset + 0x0004,
+        dtype=params_dtype,
+        count=ns,
+    )
+    pardicts = [dict(zip(value.dtype.names, value.item())) for value in rawparams]
     params = []
-    for pardict in rawparams:
+    for pardict in pardicts:
         for k, v in pardict.items():
             # MPR quirk: I_range off by one
             if k == "I_range":
@@ -448,10 +352,9 @@ def process_data(
         ("u").
 
     """
-    n_datapoints = _read_value(data, 0x0000, "<u4")
-    n_columns = _read_value(data, 0x0004, "|u1")
-    # column_ids = _read_values(data, 0x0005, "<u2", n_columns)
-    column_ids = _read_values(data, 0x0005, "<u2", n_columns)
+    n_datapoints = read_value(data, 0x0000, "<u4")
+    n_columns = read_value(data, 0x0004, "|u1")
+    column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
@@ -465,7 +368,9 @@ def process_data(
         raise NotImplementedError(f"Unknown data module version: {version}")
     allvals = dict()
     allmeta = dict()
-    for vi, vals in enumerate(_read_values(data, offset, data_dtype, n_datapoints)):
+    values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
+    values = [dict(zip(value.dtype.names, value.item())) for value in values]
+    for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
             if unit is None:
@@ -527,7 +432,7 @@ def process_log(data: bytes) -> dict:
     """
     log = {}
     for offset, (dtype, name) in log_dtypes.items():
-        log[name] = _read_value(data, offset, dtype)
+        log[name] = read_value(data, offset, dtype)
     return log
 
 
@@ -545,8 +450,8 @@ def process_loop(data: bytes) -> dict:
         The parsed loops.
 
     """
-    n_indexes = _read_value(data, 0x0000, "<u4")
-    indexes = _read_values(data, 0x0004, "<u4", n_indexes)
+    n_indexes = read_value(data, 0x0000, "<u4")
+    indexes = np.frombuffer(data, offset=0x0004, dtype="<u4", count=n_indexes)
     return {"n_indexes": n_indexes, "indexes": indexes}
 
 
@@ -566,7 +471,7 @@ def process_ext(data: bytes) -> dict:
     """
     ext = {}
     for offset, (dtype, name) in extdev_dtypes.items():
-        ext[name] = _read_value(data, offset, dtype)
+        ext[name] = read_value(data, offset, dtype)
 
     return ext
 
@@ -589,7 +494,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     for module in modules:
-        header = _read_value(module, 0x0000, module_header_dtype)
+        header = read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()
         logger.debug("Read '%s' module.", name)
         module_data = module[module_header_dtype.itemsize :]

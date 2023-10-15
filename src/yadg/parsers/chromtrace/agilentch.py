@@ -88,14 +88,16 @@ def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
 
     """
 
-    with open(fn, "rb") as infile:
-        magic = dgutils.read_value(infile, 0, "utf-8", 1)
-        pars = {}
-        if magic in magic_values.keys():
-            for offset, (tag, dtype) in magic_values[magic].items():
-                v = dgutils.read_value(infile, offset, dtype, 1)
-                pars[tag] = v
-        pars["end"] = infile.seek(0, 2)
+    with open(fn, "rb") as inf:
+        ch = inf.read()
+
+    magic = dgutils.read_value(ch, 0, "utf-8")
+    pars = {}
+    if magic in magic_values.keys():
+        for offset, (tag, dtype) in magic_values[magic].items():
+            v = dgutils.read_value(ch, offset, dtype)
+            pars[tag] = v
+    pars["end"] = len(ch)
     dsize, ddtype = data_dtypes[magic]
     pars["start"] = (pars["offset"] - 1) * 512
     nbytes = pars["end"] - pars["start"]
@@ -109,8 +111,15 @@ def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
 
     xsn = np.linspace(pars["xmin"] / 1000, pars["xmax"] / 1000, num=npoints)
     xss = np.ones(npoints) * xsn[0]
-    with open(fn, "rb") as infile:
-        ysn = dgutils.read_value(infile, pars["start"], ddtype, npoints) * pars["slope"]
+    ysn = (
+        np.frombuffer(
+            ch,
+            offset=pars["start"],
+            dtype=ddtype,
+            count=npoints,
+        )
+        * pars["slope"]
+    )
     yss = np.ones(npoints) * pars["slope"]
 
     detector, title = pars["tracetitle"].split(",")

@@ -101,10 +101,10 @@ far only seem to take on values in those steps.
 """
 
 import re
-from typing import Any
 import numpy as np
 import xarray as xr
 import datatree
+import yadg.dgutils as dgutils
 
 data_header_dtype = np.dtype(
     [
@@ -163,108 +163,6 @@ def camel_to_snake(s: str) -> str:
     """
     s = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", s)
     return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s).lower()
-
-
-def _read_pascal_string(pascal_bytes: bytes, encoding: str = "utf-8") -> str:
-    """Parses a length-prefixed string given some encoding.
-
-    Parameters
-    ----------
-    bytes
-        The bytes of the string starting at the length-prefix byte.
-
-    encoding
-        The encoding of the string to be converted.
-
-    Returns
-    -------
-    str
-        The string decoded from the input bytes.
-
-    """
-    if len(pascal_bytes) < pascal_bytes[0] + 1:
-        raise ValueError("Insufficient number of bytes.")
-    string_bytes = pascal_bytes[1 : pascal_bytes[0] + 1]
-    return string_bytes.decode(encoding)
-
-
-def _read_value(
-    data: bytes, offset: int, dtype: np.dtype, encoding: str = "utf-8"
-) -> Any:
-    """Reads a single value from a buffer at a certain offset.
-
-    Just a handy wrapper for np.frombuffer() With the added benefit of
-    allowing the 'pascal' keyword as an indicator for a length-prefixed
-    string.
-
-    The read value is converted to a built-in datatype using
-    np.dtype.item().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    encoding
-        The encoding of the bytes to be converted.
-
-    Returns
-    -------
-    Any
-        The unpacked and converted value from the buffer.
-
-    """
-    if dtype == "pascal":
-        # Allow the use of 'pascal' in all of the dtype maps.
-        return _read_pascal_string(data[offset:])
-    value = np.frombuffer(data, offset=offset, dtype=dtype, count=1)
-    item = value.item()
-    if value.dtype.names:
-        item = [i.decode(encoding) if isinstance(i, bytes) else i for i in item]
-        return dict(zip(value.dtype.names, item))
-    return item.decode(encoding) if isinstance(item, bytes) else item
-
-
-def _read_values(data: bytes, offset: int, dtype, count) -> list:
-    """Reads in multiple values from a buffer starting at offset.
-
-    Just a handy wrapper for np.frombuffer() with count >= 1.
-
-    The read values are converted to a list of built-in datatypes using
-    np.ndarray.tolist().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    count
-        Number of items to read. -1 means all data in the buffer.
-
-    Returns
-    -------
-    Any
-        The values read from the buffer as specified by the arguments.
-
-    """
-    values = np.frombuffer(data, offset=offset, dtype=dtype, count=count)
-    if values.dtype.names:
-        return [dict(zip(value.dtype.names, value.item())) for value in values]
-    # The ndarray.tolist() method converts numpy scalars to built-in
-    # scalars, hence not just list(values).
-    return values.tolist()
 
 
 def _process_header(spe: list[bytes]) -> dict:
@@ -353,14 +251,19 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
 
     """
     data = b"".join(spe[spe.index(b"EOFH\n") + 1 :])
-    data_header = _read_value(data, 0x0000, data_header_dtype)
+    data_header = dgutils.read_value(data, 0x0000, data_header_dtype)
     assert data_header["num_traces"] == len(trace_defs)
     # All trace headers I have seen are 192 (0xc0) bytes long.
     assert data_header["trace_header_size"] / trace_header_dtype.itemsize == len(
         trace_defs
     )
     assert data_header["data_header_size"] == data_header_dtype.itemsize
-    trace_headers = _read_values(data, 0x0010, trace_header_dtype, len(trace_defs))
+    trace_headers = np.frombuffer(
+        data,
+        offset=0x0010,
+        dtype=trace_header_dtype,
+        count=len(trace_defs),
+    )
     traces = {}
     for trace_header, trace_def in zip(trace_headers, trace_defs):
         assert trace_header["trace_number"] == trace_def["trace_number"]
@@ -376,10 +279,13 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
         # Construct data from trace_header
         data_dtype = np.dtype(f'{trace_header["data_dtype"].decode()}')
         data_offset = trace_header["end_of_data"] - trace_header["num_data_bytes"]
-        datapoints = _read_values(
-            data, data_offset, data_dtype, trace_header["num_datapoints"]
+        datapoints = np.frombuffer(
+            data,
+            offset=data_offset,
+            dtype=data_dtype,
+            count=trace_header["num_datapoints"],
         )
-        dwell_time = _read_value(data, trace_header["end_of_data"], "<f4")
+        dwell_time = dgutils.read_value(data, trace_header["end_of_data"], "<f4")
         np.testing.assert_almost_equal(dwell_time, float(trace_def["dwell_time"]))
         # TODO: Figure out the correct error. This signal count should
         # somehow be a Poisson distribution, i.e. the error should be

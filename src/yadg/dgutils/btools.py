@@ -20,10 +20,10 @@ def read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> s
 
     """
     mul = 2 if encoding in {"utf-16"} else 1
-    l = int.from_bytes(pascal_bytes[0:1], byteorder="big") * mul
-    if len(pascal_bytes) < l + 1:
+    lstr = int.from_bytes(pascal_bytes[0:1], byteorder="big") * mul
+    if len(pascal_bytes) < lstr + 1:
         raise ValueError("Insufficient number of bytes.")
-    string_bytes = pascal_bytes[1 : l + 1]
+    string_bytes = pascal_bytes[1 : lstr + 1]
     return string_bytes.decode(encoding)
 
 

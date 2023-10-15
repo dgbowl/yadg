@@ -111,7 +111,15 @@ def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
 
     xsn = np.linspace(pars["xmin"] / 1000, pars["xmax"] / 1000, num=npoints)
     xss = np.ones(npoints) * xsn[0]
-    ysn = dgutils.read_values(ch, pars["start"], ddtype, npoints) * pars["slope"]
+    ysn = (
+        np.frombuffer(
+            ch,
+            offset=pars["start"],
+            dtype=ddtype,
+            count=npoints,
+        )
+        * pars["slope"]
+    )
     yss = np.ones(npoints) * pars["slope"]
 
     detector, title = pars["tracetitle"].split(",")

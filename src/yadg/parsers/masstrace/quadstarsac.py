@@ -64,10 +64,10 @@ File Structure of `.sac` Files
 
 .. codeauthor:: Nicolas Vetsch
 """
-from typing import Any
 import numpy as np
 from datatree import DataTree
 import xarray as xr
+import yadg.dgutils as dgutils
 
 # The general header at the top of .sac files.
 general_header_dtype = np.dtype(
@@ -119,46 +119,6 @@ trace_info_dtype = np.dtype(
 )
 
 
-def _read_value(
-    data: bytes, offset: int, dtype: np.dtype, encoding: str = "utf-8"
-) -> Any:
-    """Reads a single value from a buffer at a certain offset.
-
-    Just a handy wrapper for np.frombuffer().
-
-    The read value is converted to a built-in datatype using
-    np.dtype.item().
-
-    Parameters
-    ----------
-    data
-        An object that exposes the buffer interface. Here always bytes.
-
-    offset
-        Start reading the buffer from this offset (in bytes).
-
-    dtype
-        Data-type to read in.
-
-    encoding
-        The encoding of the bytes to be converted.
-
-    Returns
-    -------
-    Any
-        The unpacked and converted value from the buffer.
-
-    """
-    value = np.frombuffer(data, offset=offset, dtype=dtype, count=1)
-    item = value.item()
-    if value.dtype.names:
-        item = [i.decode(encoding) if isinstance(i, bytes) else i for i in item]
-        # if isinstance(item, str):
-        # item = item.rstrip("\x00")
-        return dict(zip(value.dtype.names, item))
-    return item.decode(encoding) if isinstance(item, bytes) else item
-
-
 def _find_first_data_position(scan_headers: list[dict]) -> int:
     """Finds the data position of the first scan containing any data."""
     for header in scan_headers:
@@ -189,11 +149,11 @@ def process(
     """
     with open(fn, "rb") as sac_file:
         sac = sac_file.read()
-    meta = _read_value(sac, 0x0000, general_header_dtype)
-    uts_base_s = _read_value(sac, 0x00C2, "<u4")
+    meta = dgutils.read_value(sac, 0x0000, general_header_dtype)
+    uts_base_s = dgutils.read_value(sac, 0x00C2, "<u4")
     # The ms part of the timestamps is actually saved as tenths of ms so
     # multiplying this by 0.1 here.
-    uts_base_ms = _read_value(sac, 0x00C6, "<u2") * 1e-1
+    uts_base_ms = dgutils.read_value(sac, 0x00C6, "<u2") * 1e-1
     uts_base = uts_base_s + uts_base_ms * 1e-3
     trace_headers = np.frombuffer(
         sac,
@@ -206,13 +166,15 @@ def process(
     traces = {}
     for n in range(meta["n_timesteps"]):
         ts_offset = n * meta["timestep_length"]
-        uts_offset_s = _read_value(sac, data_pos_0 - 0x0006 + ts_offset, "<u4")
-        uts_offset_ms = _read_value(sac, data_pos_0 - 0x0002 + ts_offset, "<u2") * 1e-1
+        uts_offset_s = dgutils.read_value(sac, data_pos_0 - 0x0006 + ts_offset, "<u4")
+        uts_offset_ms = (
+            dgutils.read_value(sac, data_pos_0 - 0x0002 + ts_offset, "<u2") * 1e-1
+        )
         uts_timestamp = uts_base + (uts_offset_s + uts_offset_ms * 1e-3)
         for ti, header in enumerate(trace_headers):
             if header["type"] != 0x11:
                 continue
-            info = _read_value(sac, header["info_position"], trace_info_dtype)
+            info = dgutils.read_value(sac, header["info_position"], trace_info_dtype)
             # Construct the mass data.
             ndm = info["values_per_mass"]
             mvals, dm = np.linspace(
@@ -226,7 +188,7 @@ def process(
             # Read and construct the y data.
             ts_data_pos = header["data_position"] + ts_offset
             # Determine the detector's full scale range.
-            fsr = 10 ** _read_value(sac, ts_data_pos + 0x0004, "<i2")
+            fsr = 10 ** dgutils.read_value(sac, ts_data_pos + 0x0004, "<i2")
             # The n_datapoints value at timestep_data_position is
             # sometimes wrong. Calculating this here works, however.
             n_datapoints = info["scan_width"] * info["values_per_mass"]

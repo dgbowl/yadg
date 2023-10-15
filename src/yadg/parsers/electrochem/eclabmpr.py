@@ -199,7 +199,7 @@ from zoneinfo import ZoneInfo
 import xarray as xr
 import numpy as np
 from ...dgutils.dateutils import ole_to_uts
-from ...dgutils.btools import read_value, read_values
+from ...dgutils.btools import read_value
 from .eclabcommon.techniques import (
     technique_params_dtypes,
     param_from_key,
@@ -257,9 +257,15 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     logger.debug("Reading number of parameter sequences at 0x%x.", params_offset)
     ns = read_value(data, params_offset, "<u2")
     logger.debug("Reading %d parameter sequences of %d parameters.", ns, n_params)
-    rawparams = read_values(data, params_offset + 0x0004, params_dtype, ns)
+    rawparams = np.frombuffer(
+        data,
+        offset=params_offset + 0x0004,
+        dtype=params_dtype,
+        count=ns,
+    )
+    pardicts = [dict(zip(value.dtype.names, value.item())) for value in rawparams]
     params = []
-    for pardict in rawparams:
+    for pardict in pardicts:
         for k, v in pardict.items():
             # MPR quirk: I_range off by one
             if k == "I_range":
@@ -348,7 +354,7 @@ def process_data(
     """
     n_datapoints = read_value(data, 0x0000, "<u4")
     n_columns = read_value(data, 0x0004, "|u1")
-    column_ids = read_values(data, 0x0005, "<u2", n_columns)
+    column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
@@ -362,7 +368,9 @@ def process_data(
         raise NotImplementedError(f"Unknown data module version: {version}")
     allvals = dict()
     allmeta = dict()
-    for vi, vals in enumerate(read_values(data, offset, data_dtype, n_datapoints)):
+    values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
+    values = [dict(zip(value.dtype.names, value.item())) for value in values]
+    for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
             if unit is None:
@@ -443,7 +451,7 @@ def process_loop(data: bytes) -> dict:
 
     """
     n_indexes = read_value(data, 0x0000, "<u4")
-    indexes = read_values(data, 0x0004, "<u4", n_indexes)
+    indexes = np.frombuffer(data, offset=0x0004, dtype="<u4", count=n_indexes)
     return {"n_indexes": n_indexes, "indexes": indexes}
 
 

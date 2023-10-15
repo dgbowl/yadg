@@ -1,50 +1,5 @@
 import numpy as np
-from io import BufferedIOBase
 from typing import Union, Any
-
-
-def old_read_from_file(
-    f: BufferedIOBase, offset: int, dtype: str, count: int = 1
-) -> Union[str, np.ndarray]:
-    f.seek(offset)
-    if dtype == "utf-8":
-        len = int.from_bytes(f.read(1), byteorder="big")
-        chars = f.read(len)
-        return chars.decode("utf-8")
-    elif dtype == "utf-16":
-        len = int.from_bytes(f.read(1), byteorder="big") * 2
-        chars = f.read(len)
-        return chars.decode("utf-16")
-    elif count == 1:
-        return np.fromfile(f, offset=0, dtype=dtype, count=1)[0]
-    else:
-        return np.fromfile(f, offset=0, dtype=dtype, count=count)
-
-
-def old_read_from_buffer(
-    buf: bytes, offset: int, dtype: str, count: int = 1
-) -> Union[str, np.ndarray]:
-    if dtype == "utf-8":
-        len = int.from_bytes(buf[offset:offset], byteorder="big")
-        chars = buf[offset + 1 : offset + 1 + len]
-        return chars.decode("utf-8")
-    elif dtype == "utf-16":
-        len = int.from_bytes(buf[offset:offset], byteorder="big") * 2
-        chars = buf[offset + 1 : offset + 1 + len]
-        return chars.decode("utf-16")
-    elif count == 1:
-        return np.frombuffer(buf, offset=offset, dtype=dtype, count=1)[0]
-    else:
-        return np.frombuffer(buf, offset=offset, dtype=dtype, count=count)
-
-
-def old_read_value(
-    object: Union[BufferedIOBase, bytes], offset: int, dtype: str, count: int = 1
-) -> Union[str, np.ndarray, int, float]:
-    if isinstance(object, bytes):
-        return read_from_buffer(object, offset, dtype, count)
-    else:
-        return read_from_file(object, offset, dtype, count)
 
 
 def read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> str:
@@ -64,9 +19,11 @@ def read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> s
         The string decoded from the input bytes.
 
     """
-    if len(pascal_bytes) < pascal_bytes[0] + 1:
+    mul = 2 if encoding in {"utf-16"} else 1
+    l = int.from_bytes(pascal_bytes[0:1], byteorder="big") * mul
+    if len(pascal_bytes) < l + 1:
         raise ValueError("Insufficient number of bytes.")
-    string_bytes = pascal_bytes[1 : pascal_bytes[0] + 1]
+    string_bytes = pascal_bytes[1 : l + 1]
     return string_bytes.decode(encoding)
 
 
@@ -107,7 +64,9 @@ def read_value(
     """
     if dtype == "pascal":
         # Allow the use of 'pascal' in all of the dtype maps.
-        return read_pascal_string(data[offset:])
+        return read_pascal_string(data[offset:], encoding="windows-1252")
+    elif dtype in {"utf-8", "utf-16"}:
+        return read_pascal_string(data[offset:], encoding=dtype)
     value = np.frombuffer(data, offset=offset, dtype=dtype, count=1)
     item = value.item()
     if value.dtype.names:
@@ -117,8 +76,11 @@ def read_value(
 
 
 def read_values(
-    data: bytes, offset: int, dtype: Union[np.dtype, str], count: int
-) -> list:
+    data: bytes,
+    offset: int,
+    dtype: Union[np.dtype, str],
+    count: int,
+) -> Union[list, np.ndarray]:
     """Reads in multiple values or sets of values from a buffer starting at offset.
 
     Just a handy wrapper for np.frombuffer() with count >= 1.
@@ -149,6 +111,5 @@ def read_values(
     values = np.frombuffer(data, offset=offset, dtype=dtype, count=count)
     if values.dtype.names:
         return [dict(zip(value.dtype.names, value.item())) for value in values]
-    # The ndarray.tolist() method converts numpy scalars to built-in
-    # scalars, hence not just list(values).
-    return values.tolist()
+    else:
+        return values

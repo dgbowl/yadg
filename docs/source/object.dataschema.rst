@@ -18,28 +18,8 @@ An example is a simple catalytic test with a temperature ramp. The goal of such 
 
 Despite these three devices measuring concurrently, we would have to specify three separate `steps` in the schema to process all relevant output files:
 
-.. code-block:: json
-
-    {
-        "metadata": {
-            "provenance": {
-                "type": "manual"
-            },
-            "version": "4.1"
-        },
-        "steps": [{
-            "parser": "basiccsv",
-            "input": {"files": ["foo.csv"]},
-            "tag": "flow",
-        },{
-            "parser": "basiccsv",
-            "input": {"files": ["bar.csv"]}
-        },{
-            "parser": "chromtrace",
-            "input": {"folders": ["./GC/"]},
-            "parameters": {"filetype": "fusion.json"}
-        }]
-    }
+.. literalinclude:: dataschema.json
+  :language: json
 
 .. note::
 

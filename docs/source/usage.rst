@@ -16,16 +16,13 @@ There are two main ways of using **yadg**:
 
 `Extractor` mode
 ----------------
-
-
-
-The option to use **yadg** as an `extractor` comes as a consequence of the `MaRDA Metadata Extractors WG <https://github.com/marda-alliance/metadata_extractors>`_. In this mode, **yadg** can be invoked by providing just the `FileType` and the path to the input file:
+In this mode, **yadg** can be invoked by providing just the `FileType` and the path to the input file:
 
 .. code-block:: bash
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting |NetCDF|_ files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the NetCDF file.
+The ``infile`` will be then parsed using **yadg** and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting |NetCDF|_ files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the file.
 
 .. warning::
 
@@ -44,19 +41,21 @@ The ``infile`` will be then parsed using **yadg** and, if successful, saved as a
 
 Metadata-only extraction
 ````````````````````````
-To use **yadg** to extract and retrieve just the metadata contained in the input file, pass the ``-m / --meta-only`` argument:
+To use **yadg** to extract and retrieve just the metadata contained in the input file, pass the ``--meta-only`` argument:
 
 .. code-block:: bash
 
-    yadg extract -m filetype infile
+    yadg extract --meta-only filetype infile
 
 The metadata are returned as a ``.json`` file, and are generated using the :func:`~xarray.Dataset.to_dict` function of :class:`xarray.Dataset`. They contain a description of the data coordinates (``coords``), dimensions (``dims``), and variables (``data_vars``), and include their names, attributes, dtypes, and shapes.
 
-The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar.
+The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see |marda_extractors|_.
+
+.. _parser mode:
 
 `Parser` mode
 -------------
-The main purpose of yadg is to process a bunch of raw data files according to a provided `dataschema` into a well-defined, annotated, FAIR-data file called `datagram`. As of ``yadg-5.0``, the `datagram` is stored in |NetCDF|_ files. To use **yadg** like this, it should be invoked as follows:
+The main purpose of **yadg** is to process a bunch of raw data files according to a provided `dataschema` into a well-defined, annotated, FAIR-data file called `datagram`. As of ``yadg-5.0``, the `datagram` is a |NetCDF|_ file. To use **yadg** like this, it should be invoked as follows:
 
 .. code-block:: bash
 
@@ -67,7 +66,7 @@ Where ``infile`` corresponds to the ``json`` or ``yaml`` file containing the `da
 In this fully-featured usage pattern via `dataschema`, **yadg** offloads the responsibility of data extraction and normalisation to its modules, called `parsers`. The currently implemented `parsers` are documented in the sidebar.
 
 `Dataschema` from presets
-+++++++++++++++++++++++++
+`````````````````````````
 This alternative form of using **yadg** in `parser` mode is especially useful when processing data organised in a consistent folder structure between several experimental runs. The user should prepare a `preset` file, which then gets patched to a `dataschema` file using the provided folder path:
 
 .. code-block:: bash
@@ -93,8 +92,8 @@ Finally, the raw data files in the processed ``folder`` can be archived, checksu
 This will create a `datagram` in ``outfile.json`` as well as a ``outfile.zip`` archive from the whole contents of the specified ``folder``.
 
 `Dataschema` version updater
-++++++++++++++++++++++++++++
-If you'd like to update a `dataschema` from a previous version of yadg to the current latest one, use the following syntax:
+````````````````````````````
+If you'd like to update a `dataschema` from a previous version of **yadg** to the current latest one, use the following syntax:
 
 .. code-block:: bash
 
@@ -105,4 +104,8 @@ This will update the `dataschema` specified in ``infile`` and save it to ``outfi
 
 .. _NetCDF: https://www.unidata.ucar.edu/software/netcdf/
 
+.. _marda_extractors: https://github.com/marda-alliance/metadata_extractors
+
 .. |NetCDF| replace:: ``NetCDF``
+
+.. |marda_extractors| replace:: MaRDA Metadata Extractors WG

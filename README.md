@@ -7,15 +7,16 @@
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-Set of tools to process raw instrument data according to a *dataschema* into a standardised form called *datagram*, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH) and by the [Centre for Advanced Ceramic Materials](https://www.tu.berlin/ceramics) at Technische Universität Berlin (Berlin, DE).
+Set of tools to process raw instrument data according to a *dataschema* into a standardised form called *datagram*, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH) and by the [ConCat lab](https://www.tu.berlin/en/concat) at Technische Universität Berlin (Berlin, DE).
 
 ![schema to datagram with yadg](./docs/source/images/schema_yadg_datagram.png)
 
 ### Capabilities:
-- Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats. 
+- Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats.
 - Parsing **chromatography data** from gas and liquid chromatography, including several Agilent, Masshunter, and Fusion formats.
-- Parsing **reflection coefficient** traces from network analysers. 
+- Parsing **reflection coefficient** traces from network analysers.
 - Parsing **potentiostat files** for electrochemistry applications. Supports BioLogic file formats.
+- Parsing **spectroscopy files** including common XPS, XRD and MS formats.
 
 ### Features:
 - timezone-aware timestamping using Unix timestamps

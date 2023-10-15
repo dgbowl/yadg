@@ -1,6 +1,6 @@
 How to use **yadg**
 ===================
-We have prepared an interactive, Binder-compatible Jupyter notebook, showing the installation and example usage of yadg. The latest version of the notebook and the direct link to Binder are:
+We have prepared an interactive, Binder-compatible Jupyter notebook, showing the installation and example usage of **yadg**. The latest version of the notebook and the direct link to Binder are:
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.6351210.svg
     :target: https://doi.org/10.5281/zenodo.6351210
@@ -12,12 +12,12 @@ There are two main ways of using **yadg**:
 #. A limited `extractor` mode, useful to extract (meta)-data from single, separate files.
 #. A fully featured `parser` mode, requiring a `dataschema`, intended to process all files semantically related to a single "experiment".
 
+.. _extractor mode:
+
 `Extractor` mode
 ----------------
 
-.. warning::
 
-    The `extractor` mode has been introduced in ``yadg-5.0`` and its API is not yet stable.
 
 The option to use **yadg** as an `extractor` comes as a consequence of the `MaRDA Metadata Extractors WG <https://github.com/marda-alliance/metadata_extractors>`_. In this mode, **yadg** can be invoked by providing just the `FileType` and the path to the input file:
 
@@ -25,19 +25,22 @@ The option to use **yadg** as an `extractor` comes as a consequence of the `MaRD
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location.
+The ``infile`` will be then parsed using **yadg** and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting |NetCDF|_ files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the NetCDF file.
+
+.. warning::
+
+    The `extractor` mode has been introduced in ``yadg-5.0`` and its API is not yet stable.
 
 .. warning::
 
     In `extractor` mode, **yadg** assumes the following defaults:
 
-    - `timezone` is set to the ``localtime`` of the `localhost`,
-    - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
-    - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
+        - `timezone` is set to the ``localtime`` of the `localhost`,
+        - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
+        - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
 
     All of the above options might lead to improper parsing of the input files. Errors due to improper `locale` might be obvious (e.g. data parsed using wrong decimal separators); incorrect `timezone` information may lead to errors that are more subtle.
 
-The resulting NetCDF files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the NetCDF file.
 
 Metadata-only extraction
 ````````````````````````

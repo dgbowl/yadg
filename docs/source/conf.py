@@ -20,7 +20,7 @@ version = "master"
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
-copyright = "2021 - 2022, yadg authors"
+copyright = "2021 - 2023, yadg authors"
 author = "Peter Kraus"
 release = version
 

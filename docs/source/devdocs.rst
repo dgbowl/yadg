@@ -28,6 +28,6 @@ Each `parser` should be documented by adding a structured docstring into the ``_
 **New extractors** can be registered using a shim in the :mod:`yadg.extractors` module, referring to the `filetype`. The ``__init__.py`` of each `extractor` should expose:
 
 - an :func:`extract` function which returns an :class:`xarray.Dataset`,
-- a :class:`set` named :class:`supports`, enumerating all `filetypes` that can be extracted by the new `extractor.`
+- a :class:`set` named :obj:`supports`, enumerating all `filetypes` that can be extracted by the new `extractor.`
 
 Note that a new `extractor` requires its `filetype` to be added in the :mod:`~dgbowl_schemas.yadg.dataschema.filetype` module as well.

@@ -7,7 +7,7 @@ One of the key features of **yadg** is the enforced association of units and unc
 
 Units
 +++++
-In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.Datatree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
+In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
 
 .. warning::
 

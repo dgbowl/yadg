@@ -20,7 +20,7 @@ version = "master"
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
-copyright = "2021 - 2022, yadg authors"
+copyright = "2021 - 2023, yadg authors"
 author = "Peter Kraus"
 release = version
 
@@ -86,4 +86,5 @@ autodoc_pydantic_model_member_order = "bysource"
 intersphinx_mapping = {
     "dgbowl_schemas": ("https://dgbowl.github.io/dgbowl-schemas/master", None),
     "xarray": ("https://docs.xarray.dev/en/stable", None),
+    "datatree": ("https://xarray-datatree.readthedocs.io/en/latest/", None),
 }

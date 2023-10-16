@@ -7,15 +7,16 @@ One of the key features of **yadg** is the enforced association of units and unc
 
 Units
 +++++
-**yadg** relies on the |pint|_ package for storing units in the created `datagrams`. For this, an extended :class:`pint.UnitRegistry` is exposed in **yadg**, containing definitions of some quantities present in the raw data files in addition to |pint|'s standard unit registry. This :class:`pint.UnitRegistry` should be used in downstream packages
-which depend on **yadg**.
+In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
 
-In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless. See :mod:`yadg.dgutils.pintutils` for more info.
+.. warning::
+
+    A special :class:`pint.UnitRegistry` was exposed in ``yadg-4.x`` under :class:`yadg.dgutils.ureg`. Use of this :class:`pint.UnitRegistry` is deprecated as of ``yadg-5.0``, and it will be removed in ``yadg-6.0``.
+
 
 Uncertainties
 +++++++++++++
-In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in **yadg** is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint. The accuracy of the measurement (which is normally a higher value than that of the resoution)
-can be obtained using post-processing, e.g. as a ``mean()`` and ``stdev()`` of a series of data.
+In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in **yadg** is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint, i.e. the resolution. The precision of the measurement (which is normally a higher value than that of the resolution) can be obtained using post-processing, e.g. as a ``mean()`` and ``stdev()`` of a series of data.
 
 Unless more information is available, when converting :class:`str` data to :class:`float`, the uncertainty is determined from the last significant digit specified in the :class:`str`. For this, the functionality from within the |uncertainties|_ package is used.
 
@@ -31,7 +32,7 @@ Most of the supported file formats contain a timestamp of some kind. However, se
 
 `Dataschema` validation
 ```````````````````````
-Additionally, **yadg** provides `dataschema` validation functionality, by using the schema models from the :mod:`dgbowl_schemas.yadg_dataschema` package, implemented in |Pydantic|_. The schemas are developed in lockstep with **yadg**. This |Pydantic|-based validator class should be used to ensure that the incoming `dataschema` is valid.
+Additionally, **yadg** provides `dataschema` validation functionality, by using the schema models from the :mod:`dgbowl_schemas.yadg.dataschema` package, implemented in |Pydantic|_. The schemas are developed in lockstep with **yadg**. This |Pydantic|-based validator class should be used to ensure that the incoming `dataschema` is valid.
 
 
 .. _pint: https://pint.readthedocs.io/en/stable/

@@ -1,0 +1,20 @@
+yadg.extractors package
+=======================
+
+.. automodule:: yadg.extractors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   yadg.extractors.agilentch
+   yadg.extractors.agilentdx
+   yadg.extractors.eclabmpr
+   yadg.extractors.eclabmpt
+   yadg.extractors.panalyticalxrdml
+   yadg.extractors.phispe

@@ -1,0 +1,16 @@
+**xpstrace**: XPS trace file parser
+===================================
+
+.. automodule:: yadg.parsers.xpstrace
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.parsers.xpstrace.phispe
+   :members:
+   :undoc-members:
+   :show-inheritance:

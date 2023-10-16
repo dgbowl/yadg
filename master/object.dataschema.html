@@ -110,49 +110,46 @@
              
   <section id="yadg-dataschema">
 <h1><strong>yadg</strong> <cite>dataschema</cite><a class="headerlink" href="#yadg-dataschema" title="Link to this heading"></a></h1>
-<p>A <cite>dataschema</cite> is an object defining the files and folders to be processed by
-yadg, as well as the types of parsers and the parser options to be applied.
-One can think of a <cite>dataschema</cite> as a representation of a single experiment,
-containing measurements from multiple sources (or devices) and following a
-succession of experimental <cite>steps</cite>.</p>
-<p>The current version of the <cite>dataschema</cite> is implemented as a Pydantic model in the
-class <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema_5_0.html#dgbowl_schemas.yadg.dataschema_5_0.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSchema</span></code></a> of the <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.html#module-dgbowl_schemas.yadg" title="(in dgbowl-schemas vmaster)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg</span></code></a>
-module. Previous versions of the <cite>dataschema</cite> are available in the same repository:</p>
+<p>A <cite>dataschema</cite> is an object defining the files and folders to be processed by <strong>yadg</strong>, as well as the types of parsers and the parser options to be applied. One can think of a <cite>dataschema</cite> as a representation of a single experiment, containing measurements from multiple sources (or devices) and following a succession of experimental <cite>steps</cite>.</p>
+<p>The current version of the <cite>dataschema</cite> is implemented as a Pydantic model in the class <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#dgbowl_schemas.yadg.dataschema.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSchema</span></code></a> of the <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.html#module-dgbowl_schemas.yadg" title="(in dgbowl-schemas vmaster)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg</span></code></a> module. The following (previous) versions of the <cite>dataschema</cite> are available in the same repository:</p>
 <ul class="simple">
+<li><p><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema_5_0.html#dgbowl_schemas.yadg.dataschema_5_0.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema_5_0.DataSchema</span></code></a></p></li>
 <li><p><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema_4_2.html#dgbowl_schemas.yadg.dataschema_4_2.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema_4_2.DataSchema</span></code></a></p></li>
 <li><p><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema_4_1.html#dgbowl_schemas.yadg.dataschema_4_1.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema_4_1.DataSchema</span></code></a></p></li>
 <li><p><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema_4_0.html#dgbowl_schemas.yadg.dataschema_4_0.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema_4_0.DataSchema</span></code></a></p></li>
 </ul>
-<p>An example is a simple catalytic test with a temperature ramp. The goal of such
-an experiment may be to measure the catalytic conversion as a function of
-temperature, and then calculate the activation energy of the catalytic reaction.
-The monitored devices and their filetypes are:</p>
+<p>An example is a simple catalytic test with a temperature ramp. The goal of such an experiment may be to measure the catalytic conversion as a function of temperature, and then calculate the activation energy of the catalytic reaction. The monitored devices and their filetypes are:</p>
 <ul class="simple">
 <li><p>the inlet flow and pressure meters -&gt; <code class="docutils literal notranslate"><span class="pre">csv</span></code> data in <code class="docutils literal notranslate"><span class="pre">foo.csv</span></code></p></li>
 <li><p>the temperature controller -&gt; <code class="docutils literal notranslate"><span class="pre">csv</span></code> data in <code class="docutils literal notranslate"><span class="pre">bar.csv</span></code></p></li>
 <li><p>the gas chromatograph -&gt; Fusion <code class="docutils literal notranslate"><span class="pre">json</span></code> data in <code class="docutils literal notranslate"><span class="pre">./GC/</span></code> folder</p></li>
 </ul>
-<p>Despite these three devices measuring concurrently, we would have to specify
-three separate <cite>steps</cite> in the schema to process all relevant output files:</p>
+<p>Despite these three devices measuring concurrently, we would have to specify three separate <cite>steps</cite> in the schema to process all relevant output files:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;provenance&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual&quot;</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4.1&quot;</span>
+<span class="w">        </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5.0&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;provenance&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manual&quot;</span><span class="p">}</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
-<span class="w">        </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;basiccsv&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;foo.csv&quot;</span><span class="p">]},</span>
-<span class="w">        </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;flow&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="p">},{</span>
-<span class="w">        </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;basiccsv&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;bar.csv&quot;</span><span class="p">]}</span>
-<span class="w">    </span><span class="p">},{</span>
-<span class="w">        </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;chromtrace&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;folders&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;./GC/&quot;</span><span class="p">]},</span>
-<span class="w">        </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fusion.json&quot;</span><span class="p">}</span>
-<span class="w">    </span><span class="p">}]</span>
+<span class="w">    </span><span class="nt">&quot;steps&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;flow&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;basiccsv&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;foo.csv&quot;</span><span class="p">]},</span>
+<span class="w">            </span><span class="nt">&quot;extractor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;None&quot;</span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;sep&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;basiccsv&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;bar.csv&quot;</span><span class="p">]},</span>
+<span class="w">            </span><span class="nt">&quot;extractor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;None&quot;</span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;sep&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;parser&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;chromtrace&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;input&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;./GC/&quot;</span><span class="p">]},</span>
+<span class="w">            </span><span class="nt">&quot;extractor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fusion.json&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -171,7 +168,7 @@ the <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

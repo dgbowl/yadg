@@ -83,8 +83,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#formatting">Formatting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#implementing-new-parsers">Implementing new parsers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementing-new-features">Implementing new features</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="version.html"><strong>yadg</strong> version history</a></li>
@@ -118,56 +117,31 @@
              
   <section id="developer-documentation">
 <h1>Developer documentation<a class="headerlink" href="#developer-documentation" title="Link to this heading"></a></h1>
-<p>The project follows fairly standard developer practices. Every new feature should be
-associated with a test, and every PR should be formatted using automated formatter.</p>
+<p>The project follows fairly standard developer practices. Every new feature should be associated with a test, and every PR requires linting using <code class="docutils literal notranslate"><span class="pre">flake8</span></code> and formatting using <code class="docutils literal notranslate"><span class="pre">black</span></code>.</p>
 <section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
-<p>Tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder of the repository, and are executed using
-<code class="docutils literal notranslate"><span class="pre">pytest</span></code> for every commit in every PR.</p>
-<p>If a new test requires additional data (input files, schemas, etc.), they can be
-placed in a folder using the name of the test module (that is, <code class="docutils literal notranslate"><span class="pre">test_drycal.py</span></code> has
-its test files in <code class="docutils literal notranslate"><span class="pre">test_drycal</span></code> folder), or in the <code class="docutils literal notranslate"><span class="pre">common</span></code> folder for files
-that may be reused multiple times.</p>
-<p>Several convenience functions are provided in the <code class="docutils literal notranslate"><span class="pre">utils.py</span></code> module:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">datadir</span></code>, implementing the above mentioned external test data functionality,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">datagram_from_input</span></code>, wrapping a simple <code class="xref py py-class docutils literal notranslate"><span class="pre">(dict)</span></code>-based input for tests
-into a <cite>schema</cite>, that is then parsed into a <cite>datagram</cite></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">standard_datagram_test</span></code>, which checks the validity of the returned <cite>datagram</cite></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">compare_result_dicts</span></code>, which compares a reference dictionary in the
-<code class="docutils literal notranslate"><span class="pre">{&quot;n&quot;:</span> <span class="pre">float,</span> <span class="pre">&quot;s&quot;:</span> <span class="pre">float,</span> <span class="pre">&quot;u&quot;:</span> <span class="pre">str}</span></code> format with that in a <cite>datagram</cite></p></li>
-</ul>
-</div></blockquote>
+<p>Tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder of the repository, and are executed using <code class="docutils literal notranslate"><span class="pre">pytest</span></code> for every commit in every PR.</p>
+<p>If a new test requires additional data (input files, schemas, etc.), they can be placed in a folder using the name of the test module (that is, <code class="docutils literal notranslate"><span class="pre">test_drycal.py</span></code> has its test files in <code class="docutils literal notranslate"><span class="pre">test_drycal</span></code> folder), or in the <code class="docutils literal notranslate"><span class="pre">common</span></code> folder for files that may be reused multiple times.</p>
 </section>
 <section id="formatting">
 <h2>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h2>
-<p>All files should be formatted by <code class="docutils literal notranslate"><span class="pre">black</span></code>. Lines containing text fields, including
-docstrings, should be between 80-88 characters in length. Imports of functions should
-be absolute, that is including the <code class="docutils literal notranslate"><span class="pre">yadg.</span></code> prefix.</p>
+<p>All files should be formatted by <code class="docutils literal notranslate"><span class="pre">black</span></code>. Lines containing text fields, including docstrings, should be between 80-88 characters in length. Imports of functions should be absolute, that is including the <code class="docutils literal notranslate"><span class="pre">yadg.</span></code> prefix.</p>
 </section>
-<section id="implementing-new-parsers">
-<h2>Implementing new parsers<a class="headerlink" href="#implementing-new-parsers" title="Link to this heading"></a></h2>
-<p>New parsers should be implemented by:</p>
+<section id="implementing-new-features">
+<h2>Implementing new features<a class="headerlink" href="#implementing-new-features" title="Link to this heading"></a></h2>
+<p><strong>New parsers</strong> should be implemented by:</p>
 <ul class="simple">
-<li><p>adding their schema into <code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.DataSchema</span></code></p></li>
+<li><p>adding their schema into <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#dgbowl_schemas.yadg.dataschema.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema.DataSchema</span></code></a></p></li>
 <li><p>adding their implementation in a separate Python package under <a class="reference internal" href="apidoc/yadg.parsers.html#module-yadg.parsers" title="yadg.parsers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers</span></code></a></p></li>
 </ul>
-<p>Generally, specific filetype parsers should be kept separate from the main parser
-function in the module.</p>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
-<p>Each parser should be documented by adding a structured docstring into the
-<code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file of each parser module. This documentation should describe the
-application and usage of the parser, and refer to the Pydantic audotocs via
-<code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> to discuss the features exposed via the
-parameters dictionary. Finally, a short summary of the quantities provided in the
-<code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> entries should be included, and whether any
-<code class="docutils literal notranslate"><span class="pre">&quot;metadata&quot;</span></code> are exposed.</p>
-<p>Each file type of each parser should be documented as a top-level docstring in the
-relevant module. If the file is binary, a description of the file structure should
-be provided in the docstring.</p>
+<p>Each <cite>parser</cite> should be documented by adding a structured docstring into the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file of each new sub-module of <a class="reference internal" href="apidoc/yadg.parsers.html#module-yadg.parsers" title="yadg.parsers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers</span></code></a>. This documentation should describe the application and usage of the <cite>parser</cite>, and refer to the Pydantic audotocs via <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#dgbowl_schemas.yadg.dataschema.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code></a> to discuss the features exposed via the parameters dictionary. Generally, code implementing the parsing of specific <cite>filetypes</cite> should be kept separate from the main <cite>parser</cite> function in the module.</p>
+<p><strong>New filetypes</strong> should be implemented as sub-modules of their <cite>parser</cite>. They should be documented using a top-level docstring in the relevant sub-module. If the <cite>filetype</cite> is binary, a description of the file structure should be provided in the docstring. Every new <cite>filetype</cite> will have to be added into the <code class="xref py py-mod docutils literal notranslate"><span class="pre">filetype</span></code> module as well.</p>
+<p><strong>New extractors</strong> can be registered using a shim in the <a class="reference internal" href="apidoc/yadg.extractors.html#module-yadg.extractors" title="yadg.extractors"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors</span></code></a> module, referring to the <cite>filetype</cite>. The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of each <cite>extractor</cite> should expose:</p>
+<ul class="simple">
+<li><p>an <code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code> function which returns an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>,</p></li>
+<li><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code> named <code class="xref py py-obj docutils literal notranslate"><span class="pre">supports</span></code>, enumerating all <cite>filetypes</cite> that can be extracted by the new <cite>extractor.</cite></p></li>
+</ul>
+<p>Note that a new <cite>extractor</cite> requires its <cite>filetype</cite> to be added in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">filetype</span></code> module as well.</p>
 </section>
 </section>
 
@@ -182,7 +156,7 @@ be provided in the docstring.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 - 2022, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -22,6 +22,6 @@ Major features are:
   - ``qftrace``: support for reflection trace measurements, including:
 
     - fitting of quality factor using Lorentzian and naive methods
-    - fitting of quality factor using Kajfez's circle fitting method [Kajfez1994]_
+    - fitting of quality factor using Kajfez's circle fitting method
 
   - ``meascsv``: support for in-house MCPT logger for flow and temperature data

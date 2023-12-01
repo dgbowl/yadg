@@ -1,11 +1,14 @@
 import pytest
 import os
+import yaml
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     compare_result_dicts,
     dg_get_quantity,
 )
+from yadg.core import process_schema
+from dgbowl_schemas.yadg import to_dataschema
 
 
 def special_datagram_test(datagram, testspec):
@@ -249,3 +252,13 @@ def test_datagram_from_chromdata(input, ts, datadir):
     ret = datagram_from_input(input, "chromdata", datadir, version="4.2")
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
+
+
+def test_lock_stock(datadir):
+    os.chdir(datadir)
+    with open("lock_stock_dataschema.yml", "r") as inf:
+        schema = yaml.safe_load(inf)
+    ret = process_schema(to_dataschema(**schema))
+    print(f"{ret=}")
+    for k in {"height", "concentration", "retention time", "area"}:
+        assert ret["LC"][k].shape == (7, 2)

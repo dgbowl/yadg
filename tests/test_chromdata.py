@@ -254,7 +254,7 @@ def test_datagram_from_chromdata(input, ts, datadir):
     special_datagram_test(ret, ts)
 
 
-def test_lock_stock(datadir):
+def test_lock_stock_chromdata(datadir):
     os.chdir(datadir)
     with open("lock_stock_dataschema.yml", "r") as inf:
         schema = yaml.safe_load(inf)

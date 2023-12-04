@@ -141,7 +141,7 @@
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.extract" title="Link to this definition"></a></dt>
 <dd><p>Worker function of the <code class="docutils literal notranslate"><span class="pre">extract</span></code> subcommand.</p>
 <p>Extracts data from provided <code class="docutils literal notranslate"><span class="pre">path</span></code>, assuming it is the specified <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. The
-data is either returned as a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.13.dev6+gcdce310.d20231004)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> or a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.9.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>,
+data is either returned as a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> or a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>,
 however in either case the returned objects have a <code class="xref py py-func docutils literal notranslate"><span class="pre">ret.to_netcdf()</span></code> as well
 as a <code class="xref py py-func docutils literal notranslate"><span class="pre">ret.to_dict()</span></code> method, which can be used to write the file.</p>
 <div class="admonition warning">
@@ -161,7 +161,7 @@ as a <code class="xref py py-func docutils literal notranslate"><span class="pre
 <code class="xref py py-func docutils literal notranslate"><span class="pre">ret.to_netcdf()</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[xr.Dataset, <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.13.dev6+gcdce310.d20231004)">datatree.DataTree</a>]</p>
+<dd class="field-odd"><p>Union[xr.Dataset, <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)">datatree.DataTree</a>]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -202,6 +202,7 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
     headers = []
     units = {}
     data = []
+    trim = False
     for item in items:
         for rs in [". ", " "]:
             parts = item.split(rs)

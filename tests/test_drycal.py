@@ -9,6 +9,7 @@ from tests.utils import (
 from yadg.core import process_schema
 from dgbowl_schemas.yadg import to_dataschema
 
+
 @pytest.mark.parametrize(
     "input, ts",
     [
@@ -115,4 +116,4 @@ def test_lock_stock_drycal(datadir):
         schema = yaml.safe_load(inf)
     ret = process_schema(to_dataschema(**schema))
     print(f"{ret=}")
-    assert ret['outlet']['DryCal'].shape == (187,)
+    assert ret["outlet"]["DryCal"].shape == (187,)

@@ -190,9 +190,8 @@ def process(*, fn: str, encoding: str, **kwargs: dict) -> xr.Dataset:
         vals = {}
         devs = {}
         for kk in {"height", "area", "concentration", "retention time"}:
-            vals[kk], devs[kk] = zip(
-                *[v[kk].get(cn, (np.nan, np.nan)) for cn in species]
-            )
+            val = v.get(kk, {})
+            vals[kk], devs[kk] = zip(*[val.get(cn, (np.nan, np.nan)) for cn in species])
         point["vals"] = vals
         point["devs"] = devs
         data.append(point)

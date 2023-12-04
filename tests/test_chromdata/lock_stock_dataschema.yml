@@ -1,0 +1,18 @@
+metadata:
+    provenance:
+        type: manual
+    version: "4.2"
+    timezone: Europe/Berlin
+steps:
+  - parser: chromdata
+    input:
+        folders: ["."]
+        suffix: "LC-data.xlsx"
+    externaldate:
+        using:
+            filename:
+                format: "%Y-%m-%d-%H-%M-%S%z"
+                len: 24
+    parameters:
+        filetype: "empalc.xlsx"
+    tag: LC

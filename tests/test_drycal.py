@@ -1,9 +1,13 @@
 import pytest
+import os
+import yaml
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,
     pars_datagram_test,
 )
+from yadg.core import process_schema
+from dgbowl_schemas.yadg import to_dataschema
 
 
 @pytest.mark.parametrize(
@@ -104,3 +108,12 @@ def test_datagram_from_drycal(input, ts, datadir):
     ret = datagram_from_input(input, "flowdata", datadir)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
+
+
+def test_lock_stock_drycal(datadir):
+    os.chdir(datadir)
+    with open("lock_stock_dataschema.yml", "r") as inf:
+        schema = yaml.safe_load(inf)
+    ret = process_schema(to_dataschema(**schema))
+    print(f"{ret=}")
+    assert ret["outlet"]["DryCal"].shape == (187,)

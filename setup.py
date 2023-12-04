@@ -44,7 +44,7 @@ setuptools.setup(
         "python-dateutil",
         "openpyxl>=3.0.0",
         "h5netcdf~=1.0",
-        "xarray-datatree>=0.0.12",
+        "xarray-datatree==0.0.12",
         "dgbowl-schemas>=116",
         "requests",
     ],

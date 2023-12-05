@@ -1,0 +1,25 @@
+yadg.parsers package
+====================
+
+.. automodule:: yadg.parsers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   yadg.parsers.basiccsv
+   yadg.parsers.chromdata
+   yadg.parsers.chromtrace
+   yadg.parsers.dummy
+   yadg.parsers.electrochem
+   yadg.parsers.flowdata
+   yadg.parsers.masstrace
+   yadg.parsers.meascsv
+   yadg.parsers.qftrace
+   yadg.parsers.xpstrace
+   yadg.parsers.xrdtrace

@@ -1,0 +1,7 @@
+**agilent-ch**: Agilent ChemStation export ``.CH``
+==================================================
+
+.. automodule:: yadg.extractors.agilentch
+   :members:
+   :undoc-members:
+   :show-inheritance:

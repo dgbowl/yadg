@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yadg version history &mdash; yadg master documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=30d551ce"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yadg objects" href="objects.html" />
+    <link rel="prev" title="Developer documentation" href="devdocs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            yadg
+              <img src="_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                master
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-5-0"><strong>yadg</strong> version 5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-2"><strong>yadg</strong> version 4.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-1-0"><strong>yadg</strong> version 4.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-4-0-1"><strong>yadg</strong> version 4.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-3-1-0"><strong>yadg</strong> version 3.1.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>yadg</strong> version history</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/version.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yadg-version-history">
+<h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Link to this heading"></a></h1>
+<section id="yadg-version-5-0">
+<h2><strong>yadg</strong> version 5.0<a class="headerlink" href="#yadg-version-5-0" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/5.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v5.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v5.0&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/5.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v5.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v5.0&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2023-10-15&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2023-10-15&amp;color=red&amp;logo=pypi" />
+<p>Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf, CH).</p>
+<p>New features since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Support for <code class="docutils literal notranslate"><span class="pre">DataSchema-5.0</span></code>.</p></li>
+<li><p>The output format of <code class="docutils literal notranslate"><span class="pre">yadg</span></code> is now a <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> file (<code class="docutils literal notranslate"><span class="pre">.nc</span></code>), as written by the <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> class.</p></li>
+<li><p>The supplied <cite>dataschemas</cite> are now automatically updated, yielding the latest verison of <cite>dataschema</cite> prior to parsing.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> usage, with optional <code class="docutils literal notranslate"><span class="pre">--meta-only</span></code> switch, for a quick data or meta data extraction from individual files. This implements the <a class="reference external" href="https://github.com/marda-alliance/metadata_extractors">MaRDA Metadata Extractors WG</a> inteface.</p></li>
+</ul>
+</div></blockquote>
+<p>Backwards-incompatible changes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Data post-processing within <a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a> has been removed, following its deprecation in <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>. All previously included post-processing functionality should be available in <code class="docutils literal notranslate"><span class="pre">dgpost-2.0</span></code>. If you find functionality that has been broken since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code> and which cannot be implemented in <strong>dgpost</strong>, please file an issue on GitHub with example files.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code> functionality is now only for updating <cite>dataschema</cite>; the ability to update <cite>datagrams</cite> has been removed.</p></li>
+<li><p>The parameter <code class="docutils literal notranslate"><span class="pre">transpose</span></code> from <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser is no longer available; all electrochemistry data is returned as plain timesteps.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">valve</span></code> number in the <code class="docutils literal notranslate"><span class="pre">fusion-json</span></code> extractor of <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> is now stored as <code class="docutils literal notranslate"><span class="pre">data</span></code> instead of <code class="docutils literal notranslate"><span class="pre">metadata</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser now properly parses files with <code class="docutils literal notranslate"><span class="pre">WAIT</span></code> technique;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser understands more versions of the <code class="docutils literal notranslate"><span class="pre">MB</span></code> technique versions in the <code class="docutils literal notranslate"><span class="pre">biologic.mpr</span></code> filetype;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser can handle localized versions of data in the <code class="docutils literal notranslate"><span class="pre">biologic.mpt</span></code> filetype;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser now properly unzips data when using the <code class="docutils literal notranslate"><span class="pre">agilent.dx</span></code> filetype.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="yadg-version-4-2">
+<h2><strong>yadg</strong> version 4.2<a class="headerlink" href="#yadg-version-4-2" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.2"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.2/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.2&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-08-29&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-08-29&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.1 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a new <a class="reference internal" href="apidoc/yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> parser for parsing post-processed chromatography data,</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> parser has an additional parameter <code class="docutils literal notranslate"><span class="pre">strip</span></code>, allowing
+the user to strip extra characters (such as <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">'</span></code>) from column headers and data,</p></li>
+<li><p><a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a> will now warn you if a newer version is available on PyPI.</p></li>
+</ul>
+</div></blockquote>
+<p>Backwards-incompatible changes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser now focuses on parsing chromatography
+traces only, use <a class="reference internal" href="apidoc/yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> for parsing post-processed chromatographic
+data;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> parser now no longer creates a default <code class="docutils literal notranslate"><span class="pre">&quot;flow&quot;</span></code>
+entry in derived data;</p></li>
+<li><p>data post-processing within <a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a>, including chromatographic trace integration,
+reflection coefficient processing, and calibration functionality is deprecated in favour
+of <code class="docutils literal notranslate"><span class="pre">dgpost</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="xref py py-func docutils literal notranslate"><span class="pre">process_row()</span></code> from the <a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a>
+parser now handles empty cells by creating sparse <cite>datagrams</cite>;</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">drycal</span></code> filetypes in <a class="reference internal" href="apidoc/yadg.parsers.flowdata.html#module-yadg.parsers.flowdata" title="yadg.parsers.flowdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">flowdata</span></code></a> should now work for
+overnight experiments;</p></li>
+<li><p>the metadata in <a class="reference internal" href="apidoc/yadg.parsers.chromdata.html#module-yadg.parsers.chromdata" title="yadg.parsers.chromdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromdata</span></code></a> and <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a>
+was modified to only include true metadata as opposed to sample data;</p></li>
+<li><p>the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a> parser now allows for toggling the transposing
+of PEIS/GEIS traces.</p></li>
+</ul>
+</div></blockquote>
+<p>This project has received funding from the European Union’s Horizon 2020 research
+and innovation programme under grant agreement No 957189. The project is part of
+BATTERY 2030+, the large-scale European research initiative for inventing the
+sustainable batteries of the future.</p>
+</section>
+<section id="yadg-version-4-1-0">
+<h2><strong>yadg</strong> version 4.1.0<a class="headerlink" href="#yadg-version-4-1-0" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.1.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.1.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.1.0&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-05-13&amp;color=red&amp;logo=pypi" />
+<p>Developed at Empa - Materials Science and Technology, in Dübendorf.</p>
+<p>New features since v4.0.0 are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>ability to archive raw data and reference the archive from within the <cite>datagram</cite>,
+by using <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">preset</span> <span class="pre">--process</span> <span class="pre">--archive</span></code></p></li>
+<li><p>migrated <cite>dataschema</cite> validation from an in-house validation routine to a
+Pydantic-based model, see <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.html#module-dgbowl_schemas.yadg" title="(in dgbowl-schemas vmaster)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg</span></code></a></p></li>
+<li><p>added the <a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html#module-yadg.parsers.xpstrace" title="yadg.parsers.xpstrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xpstrace</span></code></a> parser with support for Panalytical files</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">tomato.json</span></code> filetypes to the <a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">electrochem</span></code></a>
+and <a class="reference internal" href="apidoc/yadg.parsers.dummy.html#module-yadg.parsers.dummy" title="yadg.parsers.dummy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dummy</span></code></a> parsers</p></li>
+<li><p>added support for <code class="docutils literal notranslate"><span class="pre">fusion.zip</span></code> filetypes to the <a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chromtrace</span></code></a> parser</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes and other modifications include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html#module-yadg.parsers.chromtrace" title="yadg.parsers.chromtrace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.chromtrace</span></code></a> format modified:</p>
+<ul>
+<li><p>if peak integration data is present in the raw data file, this is now included
+in the <code class="docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code> key directly. The included quantities are <code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>,
+<code class="docutils literal notranslate"><span class="pre">concentration</span></code>, and <code class="docutils literal notranslate"><span class="pre">xout</span></code> for every detected species.</p></li>
+<li><p>if peak integration is to be carried out by yadg, the resulting data is now
+available in the <code class="docutils literal notranslate"><span class="pre">&quot;derived&quot;</span></code> key directly. The included quantities are
+<code class="docutils literal notranslate"><span class="pre">height</span></code>, <code class="docutils literal notranslate"><span class="pre">area</span></code>, <code class="docutils literal notranslate"><span class="pre">concentration</span></code>, in addition to <code class="docutils literal notranslate"><span class="pre">xout</span></code> which was
+already part of the spec in v4.0.0.</p></li>
+<li><p>peak integration is now more reliable by applying a threshold around zero
+for inflection point detection</p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html#module-yadg.parsers.electrochem" title="yadg.parsers.electrochem"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers.electrochem</span></code></a> format fixes:</p>
+<ul>
+<li><p>the PEIS/GEIS data is split into timesteps, not cycles.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> in the metadata of some input formats should now be handled
+properly, without producing a non-compliant json file.</p></li>
+<li><p>added partial support for <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files including the <code class="docutils literal notranslate"><span class="pre">ExtDev</span></code> module</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>This project has received funding from the European Union’s Horizon 2020 research
+and innovation programme under grant agreement No 957189. The project is part of
+BATTERY 2030+, the large-scale European research initiative for inventing the
+sustainable batteries of the future.</p>
+</section>
+<section id="yadg-version-4-0-1">
+<h2><strong>yadg</strong> version 4.0.1<a class="headerlink" href="#yadg-version-4-0-1" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/4.0.1"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/4.0.1/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v4.0.1&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" />
+<p>A major rewrite of <strong>yadg</strong>. Developed at Empa - Materials Science and Technology, in
+Dübendorf. The code includes documentation, test suite, and is tested using CI. This
+version has been published in JOSS <a class="reference internal" href="citing.html#kraus2022b" id="id1"><span>[Kraus2022b]</span></a>.</p>
+<p>Major features are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>validation of <cite>schemas</cite> and <cite>datagrams</cite></p></li>
+<li><p>uncertainties and units for all measured quantities stored by default and enforced
+by the validators</p></li>
+<li><p>raw data is now retained by default and separated from derived data</p></li>
+<li><p>several new parsers, including:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">electrochemistry</span></code>: a parser for electrochemistry data, currently supporting
+BioLogic cyclers via binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> and text <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files generated in EC-Lab.
+Supports standard methods as well as impedance spectroscopy traces (PEIS, GEIS)
+and complex methods (MB).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">masstrace</span></code>: a parser for mass spectroscopy data, supporting binary Quadstar
+<code class="docutils literal notranslate"><span class="pre">.sac</span></code> files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">basiccsv</span></code>: a tabulated data parser, with row processing written for modular
+use in other parsers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xpstrace</span></code>: a parser for x-ray photoelectron spectroscopy data, supporting
+ULVAC PHI Multipak XPS traces (.spe)</p></li>
+</ul>
+</li>
+<li><p>large updates to older parsers:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">chromtrace</span></code>: an updated, unified chromatography trace parser. The trace
+integration routine has been completely re-written. The parser now supports
+multiple formats, including binary Agilent <code class="docutils literal notranslate"><span class="pre">.ch</span></code> and <code class="docutils literal notranslate"><span class="pre">.dx</span></code>, and Fusion
+<code class="docutils literal notranslate"><span class="pre">.json</span></code> format in addition to the formats previously supported by <code class="docutils literal notranslate"><span class="pre">gctrace</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: updated with several bug fixes and performance improvements,
+no longer using <code class="xref py py-class docutils literal notranslate"><span class="pre">(np.matrix)</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>Other, minor features include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a consistent interface for supplying calibration data</p></li>
+<li><p>versioning of <cite>datagrams</cite> as well as update pathways from older <cite>schema</cite> files</p></li>
+<li><p><cite>schema</cite> preset functionality, for routine applications of <strong>yadg</strong> to structured
+raw data archives</p></li>
+<li><p><cite>externaldate</cite> functionality for completing and/or replacing deduced timestamps
+using external sources in a unified fashion</p></li>
+<li><p>validation of units present in the <cite>datagrams</cite></p></li>
+</ul>
+</div></blockquote>
+<p>New in version 4.0.1:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>fixed accuracy of phase in electrochemistry files to 1°.</p></li>
+<li><p>fixed splitting of GEIS/PEIS traces in a single file into multiple timesteps</p></li>
+</ul>
+</div></blockquote>
+<p>This project has received funding from the European Union’s Horizon 2020 research
+and innovation programme under grant agreement No 957189. The project is part of
+BATTERY 2030+, the large-scale European research initiative for inventing the
+sustainable batteries of the future.</p>
+</section>
+<section id="yadg-version-3-1-0">
+<h2><strong>yadg</strong> version 3.1.0<a class="headerlink" href="#yadg-version-3-1-0" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/3.1.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/3.1.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" />
+<p>First released version of <strong>yadg</strong>, containing functionality developed at the
+Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
+<a class="reference internal" href="citing.html#kraus2022a" id="id2"><span>[Kraus2022a]</span></a>.</p>
+<p>Major features are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>yadg</strong> is now a python package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gctrace</span></code>: support for gas-phase chromatrography, including:</p>
+<ul>
+<li><p>trace integration,</p></li>
+<li><p>EZChrom ASCII export format,</p></li>
+<li><p>CHROMTAB ASCII export format,</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: support for reflection trace measurements, including:</p>
+<ul>
+<li><p>fitting of quality factor using Lorentzian and naive methods</p></li>
+<li><p>fitting of quality factor using Kajfez’s circle fitting method</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: support for in-house MCPT logger for flow and temperature data</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="devdocs.html" class="btn btn-neutral float-left" title="Developer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="objects.html" class="btn btn-neutral float-right" title="yadg objects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: master
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

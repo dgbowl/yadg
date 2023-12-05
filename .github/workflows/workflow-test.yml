@@ -2,13 +2,13 @@
 name: Test yadg
 on:
     workflow_call:
-      inputs:
-        os:
-          required: true
-          type: str
-        pyver:
-          required: true
-          type: str
+        inputs:
+            os:
+                required: true
+                type: string
+            pyver:
+                required: true
+                type: string
 
 jobs:
     test:
@@ -24,10 +24,10 @@ jobs:
           - uses: jannekem/run-python-script-action@v1
             with:
                 script: |
-                  import os
-                  import subprocess
-                  fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-                  subprocess.run(["pip", "install", f"{fn}[testing]"])
+                    import os
+                    import subprocess
+                    fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+                    subprocess.run(["pip", "install", f"{fn}[testing]"])
           - name: Prepare locales
             shell: bash
             run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows

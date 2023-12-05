@@ -7,12 +7,12 @@ jobs:
   build:
       uses: ./.github/workflows/workflow-build.yml
       strategy:
-            matrix:
-                pyver: ['3.9', '3.10']
-                os: ['ubuntu-latest', 'windows-latest']
+          matrix:
+              pyver: ['3.9', '3.10']
+              os: ['ubuntu-latest', 'windows-latest']
       with:
-        pyver: ${{ matrix.pyver }}
-        os: ${{ matrix.os }}
+          pyver: ${{ matrix.pyver }}
+          os: ${{ matrix.os }}
   test:
       uses: ./.github/workflows/workflow-test.yml
       needs: [build]
@@ -21,8 +21,8 @@ jobs:
               pyver: ['3.9', '3.10']
               os: ['ubuntu-latest', 'windows-latest']
       with:
-        pyver: ${{ matrix.pyver }}
-        os: ${{ matrix.os }}
+          pyver: ${{ matrix.pyver }}
+          os: ${{ matrix.os }}
   pages:
       uses: ./.github/workflows/workflow-pages.yml
       needs: [build]
@@ -31,5 +31,5 @@ jobs:
               pyver: ['3.9']
               os: ['ubuntu-latest']
       with:
-        pyver: ${{ matrix.pyver }}
-        os: ${{ matrix.os }}
+          pyver: ${{ matrix.pyver }}
+          os: ${{ matrix.os }}

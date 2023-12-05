@@ -12,15 +12,15 @@ on:
 
 jobs:
     pages:
-        runs-on: ${{ os }}
+        runs-on: ${{ inputs.os }}
         steps:
           - uses: actions/checkout@v3
           - uses: actions/setup-python@v2
             with:
-                python-version: ${{ pyver }}
+                python-version: ${{ inputs.pyver }}
           - uses: actions/download-artifact@v3
             with:
-                name: dist-${{ os }}-${{ pyver }}
+                name: dist-${{ inputs.os }}-${{ inputs.pyver }}
           - uses: jannekem/run-python-script-action@v1
             with:
                 script: |
@@ -35,5 +35,5 @@ jobs:
                 sphinx-build -b html docs/source public/master
           - uses: actions/upload-artifact@v3
             with:
-              name: public-${{ os }}-${{ pyver }}
+              name: public-${{ inputs.os }}-${{ inputs.pyver }}
               path: public

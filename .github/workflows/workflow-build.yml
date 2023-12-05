@@ -12,14 +12,14 @@ on:
 
 jobs:
     build:
-        runs-on: ${{ os }}
+        runs-on: ${{ inputs.os }}
         steps:
           - uses: actions/checkout@v3
             with:
                 fetch-depth: 0
           - uses: actions/setup-python@v2
             with:
-                python-version: ${{ pyver }}
+                python-version: ${{ inputs.pyver }}
           - name: Install dependencies
             shell: bash
             run: |
@@ -31,5 +31,5 @@ jobs:
                 python setup.py bdist_wheel
           - uses: actions/upload-artifact@v3
             with:
-                name: dist-${{ os }}-${{ pyver }}
+                name: dist-${{ inputs.os }}-${{ inputs.pyver }}
                 path: dist

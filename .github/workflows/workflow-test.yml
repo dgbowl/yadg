@@ -14,10 +14,11 @@ jobs:
     test:
         runs-on: ${{ inputs.os }}
         steps:
-          - uses: actions/checkout@v3
-          - uses: actions/setup-python@v2
+          - uses: actions/checkout@v4
+          - uses: actions/setup-python@v4
             with:
                 python-version: ${{ inputs.pyver }}
+                cache: pip
           - uses: actions/download-artifact@v3
             with:
                 name: dist-${{ inputs.os }}-${{ inputs.pyver }}
@@ -32,7 +33,7 @@ jobs:
             shell: bash
             run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows
           - name: Prepare timezone
-            uses: szenius/set-timezone@v1.0
+            uses: szenius/set-timezone@v1.2
             with:
                 timezoneLinux: Europe/Berlin
                 timezoneMacos: Europe/Berlin

@@ -3,30 +3,31 @@ name: Build yadg docs
 on:
     workflow_call:
 
-pages:
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-            python-version: ${{ matrix.pyver }}
-      - uses: actions/download-artifact@v3
-        with:
-            name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - uses: jannekem/run-python-script-action@v1
-        with:
-            script: |
-              import os
-              import subprocess
-              fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-              subprocess.run(["pip", "install", f"{fn}[docs]"])
-      - name: Build the docs
-        shell: bash
-        run: |
-            sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -E -f --templatedir=docs/apidoc_t
-            sphinx-build -b html docs/source public/master
-      - uses: actions/upload-artifact@v3
-        with:
-          name: public-${{ matrix.os }}-${{ matrix.pyver }}
-          path: public
+jobs:
+    pages:
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v2
+            with:
+                python-version: ${{ matrix.pyver }}
+          - uses: actions/download-artifact@v3
+            with:
+                name: dist-${{ matrix.os }}-${{ matrix.pyver }}
+          - uses: jannekem/run-python-script-action@v1
+            with:
+                script: |
+                  import os
+                  import subprocess
+                  fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+                  subprocess.run(["pip", "install", f"{fn}[docs]"])
+          - name: Build the docs
+            shell: bash
+            run: |
+                sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -E -f --templatedir=docs/apidoc_t
+                sphinx-build -b html docs/source public/master
+          - uses: actions/upload-artifact@v3
+            with:
+              name: public-${{ matrix.os }}-${{ matrix.pyver }}
+              path: public
 
-          name: "Docs build job"
+              name: "Docs build job"

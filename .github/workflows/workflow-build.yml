@@ -2,6 +2,13 @@
 name: Build yadg
 on:
     workflow_call:
+      inputs:
+        os:
+          required: true
+          type: str
+        pyver:
+          required: true
+          type: str
 
 jobs:
     build:

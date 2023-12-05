@@ -5,15 +5,15 @@ on:
 
 jobs:
     test:
-        runs-on: ${{ matrix.os }}
+        runs-on: ${{ os }}
         steps:
           - uses: actions/checkout@v3
           - uses: actions/setup-python@v2
             with:
-                python-version: ${{ matrix.pyver }}
+                python-version: ${{ pyver }}
           - uses: actions/download-artifact@v3
             with:
-                name: dist-${{ matrix.os }}-${{ matrix.pyver }}
+                name: dist-${{ os }}-${{ pyver }}
           - uses: jannekem/run-python-script-action@v1
             with:
                 script: |
@@ -21,4 +21,18 @@ jobs:
                   import subprocess
                   fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
                   subprocess.run(["pip", "install", f"{fn}[testing]"])
-          - uses: ./.github/workflows/test-job
+          - name: Prepare locales
+            shell: bash
+            run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows
+          - name: Prepare timezone
+            uses: szenius/set-timezone@v1.0
+            with:
+                timezoneLinux: Europe/Berlin
+                timezoneMacos: Europe/Berlin
+                timezoneWindows: W. Europe Standard Time
+          - name: Print yadg version
+            shell: bash
+            run: yadg --vresion
+          - name: Run pytest
+            shell: bash
+            run: pytest -vv

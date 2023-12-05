@@ -30,5 +30,3 @@ jobs:
             with:
               name: public-${{ matrix.os }}-${{ matrix.pyver }}
               path: public
-
-              name: "Docs build job"

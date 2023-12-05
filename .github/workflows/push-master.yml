@@ -3,79 +3,37 @@ on:
   push:
     branches: ['master']
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    build:
+        uses: ./.github/workflows/workflow-build.yml
         with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v2
+            pyver: '3.9'
+            os: 'ubuntu-latest'
+    test:
+        needs: [build]
+        uses: ./.github/workflows/workflow-test.yml
         with:
-          python-version: '3.9'
-      - uses: ./.github/workflows/before-job
-      - uses: ./.github/workflows/build-job
-      - uses: actions/upload-artifact@v3
-        with: 
-          name: dist-master
-          path: dist
-  test:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
+            pyver: '3.9'
+            os: 'ubuntu-latest'
+    pages:
+        needs: [build]
+        uses: ./.github/workflows/workflow-pages.yml
         with:
-          python-version: '3.9'
-      - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-master
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import os
-            import subprocess
-            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-            subprocess.run(["pip", "install", f"{fn}[testing]"])
-      - uses: ./.github/workflows/test-job
-  pages:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-master
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import os
-            import subprocess
-            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-            subprocess.run(["pip", "install", f"{fn}[docs]"])
-      - uses: ./.github/workflows/docs-job
-      - uses: actions/upload-artifact@v3
-        with: 
-          name: public-master
-          path: public/master
-  deploy:
-    needs: [pages]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
-      - uses: actions/download-artifact@v3
-        with:
-          name: public-master
-          path: public/master
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          keep_files: true
+            pyver: '3.9'
+            os: ubuntu-latest
+    deploy:
+        needs: [pages]
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v2
+            with:
+                python-version: '3.9'
+          - uses: actions/download-artifact@v3
+            with:
+                name: public-master
+                path: public/master
+          - uses: peaceiris/actions-gh-pages@v3
+            with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: ./public
+                keep_files: true

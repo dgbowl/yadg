@@ -1,0 +1,45 @@
+---
+name: Test yadg
+on:
+    workflow_call:
+        inputs:
+            os:
+                required: true
+                type: string
+            pyver:
+                required: true
+                type: string
+
+jobs:
+    test:
+        runs-on: ${{ inputs.os }}
+        steps:
+          - uses: actions/checkout@v4
+          - uses: actions/setup-python@v4
+            with:
+                python-version: ${{ inputs.pyver }}
+          - uses: actions/download-artifact@v3
+            with:
+                name: dist-${{ inputs.os }}-${{ inputs.pyver }}
+          - uses: jannekem/run-python-script-action@v1
+            with:
+                script: |
+                    import os
+                    import subprocess
+                    fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+                    subprocess.run(["pip", "install", f"{fn}[testing]"])
+          - name: Prepare locales
+            shell: bash
+            run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows
+          - name: Prepare timezone
+            uses: szenius/set-timezone@v1.2
+            with:
+                timezoneLinux: Europe/Berlin
+                timezoneMacos: Europe/Berlin
+                timezoneWindows: W. Europe Standard Time
+          - name: Print yadg version
+            shell: bash
+            run: yadg --version
+          - name: Run pytest
+            shell: bash
+            run: pytest -vv

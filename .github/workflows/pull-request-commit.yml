@@ -5,31 +5,27 @@ on:
       - master
 jobs:
   build:
-      uses: ./.github/workflows/workflow-build.yml
       strategy:
           matrix:
               pyver: ['3.9', '3.10']
               os: ['ubuntu-latest', 'windows-latest']
+      uses: ./.github/workflows/workflow-build.yml
       with:
           pyver: ${{ matrix.pyver }}
           os: ${{ matrix.os }}
   test:
-      uses: ./.github/workflows/workflow-test.yml
       needs: [build]
       strategy:
           matrix:
               pyver: ['3.9', '3.10']
               os: ['ubuntu-latest', 'windows-latest']
+      uses: ./.github/workflows/workflow-test.yml
       with:
           pyver: ${{ matrix.pyver }}
           os: ${{ matrix.os }}
   pages:
-      uses: ./.github/workflows/workflow-pages.yml
       needs: [build]
-      strategy:
-          matrix:
-              pyver: ['3.9']
-              os: ['ubuntu-latest']
+      uses: ./.github/workflows/workflow-pages.yml
       with:
-          pyver: ${{ matrix.pyver }}
-          os: ${{ matrix.os }}
+          pyver: '3.9'
+          os: ubuntu-latest

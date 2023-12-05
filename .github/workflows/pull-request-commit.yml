@@ -5,73 +5,26 @@ on:
       - master
 jobs:
   build:
-    strategy:
-      matrix:
-        pyver: ['3.9', '3.10']
-        os: ['ubuntu-latest', 'windows-latest']
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.pyver }}
-      - uses: ./.github/workflows/before-job
-      - uses: ./.github/workflows/build-job
-      - uses: actions/upload-artifact@v3
-        with: 
-          name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-          path: dist
+      uses: ./.github/workflows/workflow-build.yml
+      strategy:
+            matrix:
+                pyver: ['3.9', '3.10']
+                os: ['ubuntu-latest', 'windows-latest']
+      runs-on: ${{ matrix.os }}
   test:
-    needs: [build]
-    strategy:
-      matrix:
-        pyver: ['3.9', '3.10']
-        os: ['ubuntu-latest', 'windows-latest']
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.pyver }}
-      - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import os
-            import subprocess
-            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-            subprocess.run(["pip", "install", f"{fn}[testing]"])
-      - uses: ./.github/workflows/test-job
+      uses: ./.github/workflows/workflow-test.yml
+      needs: [build]
+      strategy:
+          matrix:
+              pyver: ['3.9', '3.10']
+              os: ['ubuntu-latest', 'windows-latest']
+      runs-on: ${{ matrix.os }}
+
   pages:
-    needs: [build]
-    strategy:
-      matrix:
-        pyver: ['3.9']
-        os: ['ubuntu-latest']
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.pyver }}
-      - uses: ./.github/workflows/before-job
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-${{ matrix.os }}-${{ matrix.pyver }}
-      - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import os
-            import subprocess
-            fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
-            subprocess.run(["pip", "install", f"{fn}[docs]"])
-      - uses: ./.github/workflows/docs-job
-      - uses: actions/upload-artifact@v3
-        with: 
-          name: public-${{ matrix.os }}-${{ matrix.pyver }}
-          path: public
+      uses: ./.github/workflows/workflow-pages.yml
+      needs: [build]
+      strategy:
+          matrix:
+              pyver: ['3.9']
+              os: ['ubuntu-latest']
+      runs-on: ${{ matrix.os }}

@@ -1,0 +1,23 @@
+---
+name: Test yadg
+on:
+    workflow_call:
+
+jobs:
+    test:
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v2
+            with:
+                python-version: ${{ matrix.pyver }}
+          - uses: actions/download-artifact@v3
+            with:
+                name: dist-${{ matrix.os }}-${{ matrix.pyver }}
+          - uses: jannekem/run-python-script-action@v1
+            with:
+                script: |
+                  import os
+                  import subprocess
+                  fn = [f for f in os.listdir() if f.endswith('whl') and f.startswith('yadg')][0]
+                  subprocess.run(["pip", "install", f"{fn}[testing]"])
+          - uses: ./.github/workflows/test-job

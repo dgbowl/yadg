@@ -661,6 +661,7 @@ def test_electrochem_transpose(input, transpose, datadir):
     else:
         assert all(["traces" not in ts["raw"] for ts in ret["steps"][0]["data"]])
 
+
 @pytest.mark.parametrize(
     "infile, outfile",
     [
@@ -671,19 +672,11 @@ def test_electrochem_transpose(input, transpose, datadir):
 def test_electrochem_bugs(infile, outfile, datadir):
     os.chdir(datadir)
     if infile.endswith("mpr"):
-        filetype = "biologic-mpr"
+        par = {"filetype": "eclab.mpr"}
     elif infile.endswith("mpt"):
-        filetype = "biologic-mpt"
+        par = {"filetype": "eclab.mpt"}
     else:
         assert False, "unknown filetype"
-    ret = yadg.extractors.extract(filetype=filetype, path=Path(infile))
-    ref = xarray.open_dataset(outfile, engine="h5netcdf")
-    # ret.to_netcdf(outfile, engine="h5netcdf")
-    assert ret["uts"].equals(ref["uts"])
-    for k in ret.data_vars:
-        if k.endswith("_std_err"):
-            continue
-        elif ret[k].dtype.kind in {"O", "S", "U"}:
-            assert ret[k].equals(ref[k])
-        else:
-            np.testing.assert_allclose(ret[k], ref[k], equal_nan=True)
+    input = {"case": infile, "encoding": "windows-1252", "parameters": par}
+    ret = datagram_from_input(input, "electrochem", datadir)
+    

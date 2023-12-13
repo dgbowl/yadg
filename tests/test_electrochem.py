@@ -618,7 +618,7 @@ def test_electrochem_bugs(infile, outfile, datadir):
     elif infile.endswith("mpt"):
         filetype = "biologic-mpt"
     else:
-        raise
+        assert False, "unknown filetype"
     ret = yadg.extractors.extract(filetype=filetype, path=Path(infile))
     ref = xarray.open_dataset(outfile, engine="h5netcdf")
     # ret.to_netcdf(outfile, engine="h5netcdf")

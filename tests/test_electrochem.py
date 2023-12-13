@@ -3,7 +3,10 @@ import os
 
 import numpy as np
 import pytest
+import xarray
+from pathlib import Path
 
+import yadg.extractors
 from tests.utils import (
     datagram_from_file,
     datagram_from_input,
@@ -599,3 +602,24 @@ def test_electrochem_tomato(infile, ts, datadir):
     ret = datagram_from_file(infile, datadir)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
+
+
+
+@pytest.mark.parametrize(
+    "infile, outfile",
+    [
+        ("issue_61_Irange_65.mpr", "issue_61.nc"),
+        ("issue_61_Irange_65.mpt", "issue_61.nc"),
+    ],
+)
+def test_electrochem_bugs(infile, outfile, datadir):
+    os.chdir(datadir)
+    if infile.endswith("mpr"):
+        filetype = "biologic-mpr"
+    elif infile.endswith("mpt"):
+        filetype = "biologic-mpt"
+    else:
+        raise
+    ret = yadg.extractors.extract(filetype=filetype, path=Path(infile))
+    #ref = xarray.open_dataset(outfile)
+    ret.to_netcdf(outfile)

@@ -137,7 +137,7 @@
 <p>Handles the reading and processing of mass spectrometry files. The basic function of the
 parser is to:</p>
 <ol class="arabic simple">
-<li><p>read in the raw data and create timestamped traces with one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> per trace</p></li>
+<li><p>read in the raw data and create timestamped traces with one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> per trace</p></li>
 <li><p>collect <cite>metadata</cite> such as the software version, author, etc.</p></li>
 </ol>
 <section id="usage">
@@ -629,9 +629,9 @@ are still one or two unknown fields.</p>
 <dd class="field-odd"><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the trace(s) to parse.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> per mass trace.
+<dd class="field-even"><p>A <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> per mass trace.
 The traces in the Quadstar <code class="docutils literal notranslate"><span class="pre">.sac</span></code> files are not named, therefore their index
-is used as the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.11.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> name.</p>
+is used as the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> name.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a></p>

@@ -604,7 +604,6 @@ def test_electrochem_tomato(infile, ts, datadir):
     pars_datagram_test(ret, ts)
 
 
-
 @pytest.mark.parametrize(
     "infile, outfile",
     [
@@ -621,5 +620,13 @@ def test_electrochem_bugs(infile, outfile, datadir):
     else:
         raise
     ret = yadg.extractors.extract(filetype=filetype, path=Path(infile))
-    #ref = xarray.open_dataset(outfile)
-    ret.to_netcdf(outfile)
+    ref = xarray.open_dataset(outfile, engine="h5netcdf")
+    # ret.to_netcdf(outfile, engine="h5netcdf")
+    assert ret["uts"].equals(ref["uts"])
+    for k in ret.data_vars:
+        if k.endswith("_std_err"):
+            continue
+        elif ret[k].dtype.kind in {"O", "S", "U"}:
+            assert ret[k].equals(ref[k])
+        else:
+            np.testing.assert_allclose(ret[k], ref[k], equal_nan=True)

@@ -44,8 +44,8 @@ setuptools.setup(
         "python-dateutil~=2.8.2",
         "openpyxl~=3.0.10",
         "requests~=2.28",
-        "dgbowl-schemas==111",
-        "pydantic~=1.0",
+        "dgbowl-schemas==116",
+        "pydantic~=2.0",
     ],
     extras_require={
         "testing": ["pytest"],

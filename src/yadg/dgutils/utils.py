@@ -3,10 +3,13 @@ import json
 import os
 from typing import Union
 from packaging import version
-from dgbowl_schemas.yadg import to_dataschema, latest_version
+from dgbowl_schemas.yadg import to_dataschema
 
 from .. import dgutils
 from .. import core
+
+# Hardcoded here in 4.2.x because I made a dependency hell here.
+latest_version = "4.2"
 
 logger = logging.getLogger(__name__)
 

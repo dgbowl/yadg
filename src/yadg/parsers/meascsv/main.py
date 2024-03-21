@@ -1,6 +1,6 @@
 import json
 import logging
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from uncertainties import ufloat
 from ..basiccsv.main import process_row
 from ... import dgutils

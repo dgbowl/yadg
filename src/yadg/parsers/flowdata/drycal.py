@@ -2,7 +2,7 @@
 **drycal**: File parser for DryCal log files.
 ---------------------------------------------
 
-This module includes functions for parsing converted documents (``rtf``) and 
+This module includes functions for parsing converted documents (``rtf``) and
 tabulated exports (``txt``, ``csv``).
 
 The DryCal files only contain the timestamps of the datapoints, not the date. Therefore,
@@ -14,7 +14,7 @@ parsed from the prefix of the filename.
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv.main import process_row
 from ... import dgutils
-from pydantic import BaseModel, Extra
+from pydantic.v1 import BaseModel, Extra
 from typing import Optional
 
 

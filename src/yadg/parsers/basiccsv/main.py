@@ -3,7 +3,7 @@ import json
 import uncertainties as uc
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from ... import dgutils
 
 logger = logging.getLogger(__name__)

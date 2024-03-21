@@ -3,7 +3,7 @@ import os
 import json
 import yadg.core
 from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_0, DataSchema_4_1
-from pydantic import ValidationError
+from pydantic.v1 import ValidationError
 
 from .schemas import ts0, ts1, ts2, ts3, ts4, ts5
 from .schemas import fts0, fts1, fts2, fts3, fts4, fts5, fts6, fts7, fts8
@@ -70,7 +70,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     "inp_dict, expr",
     [
         (fts0, r"parser"),
-        (fts1, r"given=dumm"),
+        (fts1, r"discriminator_value=dumm"),
         (fts2, r"Both 'files' and 'folders'"),
         (fts3, r"Neither 'files' nor 'folders'"),
         (fts4, r"extra fields not permitted"),
@@ -87,8 +87,8 @@ def test_schema_validator_4_0(inp_dict, expr, datadir):
     [
         (fts5, r"metadata -> provenance"),
         (fts6, r"metadata -> version"),
-        (fts7, r"steps -> 0 -> input"),
-        (fts8, r"steps -> 0 -> parser"),
+        (fts7, r"steps -> 0 -> Dummy -> input"),
+        (fts8, r"'parser' is missing in value"),
     ],
 )
 def test_schema_validator_4_1(inp_dict, expr, datadir):

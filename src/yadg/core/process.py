@@ -3,8 +3,11 @@ import logging
 import importlib
 from typing import Callable
 from packaging import version
-from dgbowl_schemas.yadg import latest_version, DataSchema_4_0
+from dgbowl_schemas.yadg import DataSchema_4_0
 from .. import dgutils, core
+
+# Hardcoded here in 4.2.x because I made a dependency hell here.
+latest_version = "4.2"
 
 logger = logging.getLogger(__name__)
 

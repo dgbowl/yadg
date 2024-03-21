@@ -3,7 +3,7 @@ import os
 import json
 import yaml
 import yadg.core
-from dgbowl_schemas import to_dataschema
+from dgbowl_schemas.yadg import to_dataschema
 
 
 def _schema_4_0(input, parser, version):

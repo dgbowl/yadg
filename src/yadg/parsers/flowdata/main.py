@@ -1,6 +1,6 @@
 import logging
 import json
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 from . import drycal
 from ... import dgutils
 

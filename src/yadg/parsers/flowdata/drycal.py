@@ -11,6 +11,7 @@ parsed from the prefix of the filename.
 
 .. codeauthor:: Peter Kraus
 """
+
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils

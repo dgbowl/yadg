@@ -30,6 +30,7 @@ Exposed metadata:
 
 .. codeauthor:: Peter Kraus
 """
+
 import json
 import logging
 from zoneinfo import ZoneInfo

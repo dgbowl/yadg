@@ -19,6 +19,7 @@ name, and a sequence of "X, Y" datapoints, which are stored as ``elution_time`` 
 
 .. codeauthor:: Peter Kraus
 """
+
 import numpy as np
 from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr

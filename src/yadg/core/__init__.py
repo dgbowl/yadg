@@ -3,20 +3,21 @@ import logging
 import importlib
 from typing import Callable
 from zoneinfo import ZoneInfo
-from dgbowl_schemas.yadg.dataschema import DataSchema
 from datatree import DataTree
 import xarray as xr
 import numpy as np
-from .. import dgutils, core
+
+from dgbowl_schemas.yadg.dataschema import DataSchema
+from yadg import dgutils
 
 
 datagram_version = metadata.version("yadg")
 logger = logging.getLogger(__name__)
 
 
-def infer_datagram_handler(parser: str) -> tuple[Callable, str]:
+def infer_extractor(extractor: str) -> tuple[Callable, str]:
     """
-    Helper function to distribute work to parsers.
+    Helper function to distribute work to extractors.
 
     Parameters
     ----------
@@ -29,10 +30,10 @@ def infer_datagram_handler(parser: str) -> tuple[Callable, str]:
         A tuple containing the handler function as :class:`Callable` and the handler
         version as :class:`str`.
     """
-    modname = f"yadg.parsers.{parser}"
+    modname = f"yadg.extractors.{extractor.replace('.','')}"
     try:
         m = importlib.import_module(modname)
-        func = getattr(m, "process")
+        func = getattr(m, "extract")
         return func
     except ImportError as e:
         logger.critical(f"could not import module '{modname}'")
@@ -70,7 +71,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         "provenance": "yadg process",
         "date": dgutils.now(asstr=True),
         "input_schema": dataschema.json(),
-        "datagram_version": core.datagram_version,
+        "datagram_version": datagram_version,
     }
     root.attrs.update(dgutils.get_yadg_metadata())
 
@@ -82,22 +83,19 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
         # Backfill default timezone, locale, encoding.
         if step.extractor.timezone is None:
-            tz = ZoneInfo(dataschema.step_defaults.timezone)
-        else:
-            tz = ZoneInfo(step.extractor.timezone)
+            step.extractor.timezone = dataschema.step_defaults.timezone
         if step.extractor.locale is None:
-            loc = dataschema.step_defaults.locale
-        else:
-            loc = step.extractor.locale
+            step.extractor.locale = dataschema.step_defaults.locale
         if step.extractor.encoding is None:
-            enc = dataschema.step_defaults.encoding
-        else:
-            enc = step.extractor.encoding
+            step.extractor.encoding = dataschema.step_defaults.encoding
+        print(f"{step.extractor=}")
+        print(f"{step.externaldate=}")
+        print(f"{ZoneInfo(step.extractor.timezone)=}")
 
         if step.tag is None:
             step.tag = f"{si}"
 
-        handler = infer_datagram_handler(step.parser)
+        handler = infer_extractor(step.extractor.filetype)
         todofiles = step.input.paths()
         if len(todofiles) == 0:
             logger.warning("No files processed by step '%s'.", step.tag)
@@ -106,11 +104,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             logger.info("Processing file '%s'.", tf)
             fvals = handler(
                 fn=tf,
-                encoding=enc,
-                timezone=tz,
-                locale=loc,
-                filetype=step.extractor.filetype,
-                parameters=step.parameters,
+                encoding=step.extractor.encoding,
+                locale=step.extractor.locale,
+                timezone=ZoneInfo(step.extractor.timezone),
+                parameters=step.extractor.parameters,
             )
             if isinstance(fvals, DataTree):
                 tasks = [(k, v.to_dataset()) for k, v in fvals.items()]
@@ -135,8 +132,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                         timesteps=dset.uts.values,
                         fn=tf,
                         spec=step.externaldate,
-                        timezone=tz,
+                        timezone=ZoneInfo(step.extractor.timezone),
                     )
+                    print(f"{ts=}")
+                    print(f"{fulldate=}")
                     dset["uts"] = ts
                     if fulldate:
                         dset.attrs.pop("fulldate", None)
@@ -186,6 +185,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         else:
             stepdt = DataTree()
         stepdt.name = step.tag
-        stepdt.attrs = dict(parser=step.parser)
+        stepdt.attrs = dict()  # filetype=step.extractor.filetype)
         stepdt.parent = root
     return root

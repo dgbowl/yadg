@@ -33,6 +33,7 @@ as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 
 .. codeauthor:: Peter Kraus
 """
+
 import numpy as np
 from zoneinfo import ZoneInfo
 from ... import dgutils

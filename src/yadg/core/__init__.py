@@ -76,8 +76,9 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
     root.attrs.update(dgutils.get_yadg_metadata())
 
     while hasattr(dataschema, "update"):
+        print(f"{dataschema=}")
         dataschema = dataschema.update()
-
+    print(f"{dataschema=}")
     for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)
 
@@ -88,9 +89,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             step.extractor.locale = dataschema.step_defaults.locale
         if step.extractor.encoding is None:
             step.extractor.encoding = dataschema.step_defaults.encoding
-        print(f"{step.extractor=}")
-        print(f"{step.externaldate=}")
-        print(f"{ZoneInfo(step.extractor.timezone)=}")
 
         if step.tag is None:
             step.tag = f"{si}"

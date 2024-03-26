@@ -614,9 +614,9 @@ def test_electrochem_tomato(infile, ts, datadir):
 def test_electrochem_bugs(infile, outfile, datadir):
     os.chdir(datadir)
     if infile.endswith("mpr"):
-        filetype = "biologic-mpr"
+        filetype = "eclab.mpr"
     elif infile.endswith("mpt"):
-        filetype = "biologic-mpt"
+        filetype = "eclab.mpt"
     else:
         assert False, "unknown filetype"
     ret = yadg.extractors.extract(filetype=filetype, path=Path(infile))

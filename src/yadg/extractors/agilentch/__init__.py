@@ -1,7 +1,7 @@
-from yadg.parsers.chromtrace.ezchromasc import process as extract
+from yadg.parsers.chromtrace.agilentch import process as extract
 
 supports = {
-    "ezchrom.asc",
+    "agilent.ch",
 }
 
 __all__ = ["supports", "extract"]

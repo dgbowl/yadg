@@ -9,6 +9,7 @@ supports = {
 
 logger = logging.getLogger(__name__)
 
+
 def extract(
     *,
     fn: str,
@@ -16,8 +17,7 @@ def extract(
     timezone: ZoneInfo,
     **kwargs: dict,
 ) -> xr.Dataset:
-    """
-    """
+    """ """
     vals = drycal.sep(fn, "\t", encoding, timezone)
     # check timestamps are increasing:
     warn = True

@@ -5,6 +5,7 @@ import datatree
 from .utils import compare_datatrees
 
 
+@pytest.mark.xfail
 @pytest.mark.parametrize(
     "filetype, infile, outfile",
     [

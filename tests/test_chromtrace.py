@@ -162,6 +162,7 @@ from tests.utils import (
 def test_datagram_from_chromtrace(input, ts, datadir):
     os.chdir(datadir)
     dg = datagram_from_input(input, "chromtrace", datadir)
+    print(f"{dg=}")
     standard_datagram_test(dg, ts)
     if isinstance(ts["step"], str):
         step = dg[ts["step"]]

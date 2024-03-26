@@ -6,6 +6,7 @@ supports = {
     "drycal.rtf",
 }
 
+
 def extract(
     *,
     fn: str,
@@ -13,8 +14,7 @@ def extract(
     timezone: ZoneInfo,
     **kwargs: dict,
 ) -> xr.Dataset:
-    """
-    """
+    """ """
     vals = drycal.rtf(fn, encoding, timezone)
     # check timestamps are increasing:
     warn = True

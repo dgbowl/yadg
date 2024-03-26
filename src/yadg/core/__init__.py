@@ -76,9 +76,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
     root.attrs.update(dgutils.get_yadg_metadata())
 
     while hasattr(dataschema, "update"):
-        print(f"{dataschema=}")
         dataschema = dataschema.update()
-    print(f"{dataschema=}")
     for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)
 
@@ -100,23 +98,26 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         vals = None
         for tf in todofiles:
             logger.info("Processing file '%s'.", tf)
-            fvals = handler(
+            ret = handler(
                 fn=tf,
                 encoding=step.extractor.encoding,
                 locale=step.extractor.locale,
                 timezone=ZoneInfo(step.extractor.timezone),
                 parameters=step.extractor.parameters,
             )
-            if isinstance(fvals, DataTree):
-                tasks = [(k, v.to_dataset()) for k, v in fvals.items()]
+            if isinstance(ret, DataTree):
+                tasks = ret.to_dict()
+            elif isinstance(ret, xr.Dataset):
+                tasks = {"/": ret}
             else:
-                tasks = [(None, fvals)]
-            for task in tasks:
-                name, dset = task
-                for k in dset:
-                    assert (
-                        "/" not in k
-                    ), f"The character '/' cannot be used in variable names: '{k}'."
+                raise RuntimeError(type(fvals))
+            print(f"{tasks=}")
+            fvals = {}
+            for name, dset in tasks.items():
+                if name == "/" and len(dset.variables) == 0:
+                    print(f"{dset=}")
+                    fvals[name] = dset
+                    continue
                 if not hasattr(dset, "uts"):
                     dset = dset.expand_dims("uts")
                 if len(dset.uts.coords) == 0:
@@ -132,57 +133,31 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                         spec=step.externaldate,
                         timezone=ZoneInfo(step.extractor.timezone),
                     )
-                    print(f"{ts=}")
-                    print(f"{fulldate=}")
                     dset["uts"] = ts
                     if fulldate:
                         dset.attrs.pop("fulldate", None)
                     else:
                         dset.attrs["fulldate"] = int(fulldate)
-                if name is None:
-                    fvals = dset
-                else:
-                    fvals[name] = DataTree(dset)
+                fvals[name] = dset
             if vals is None:
                 vals = fvals
-            elif isinstance(vals, xr.Dataset):
-                try:
-                    vals = xr.concat([vals, fvals], dim="uts", combine_attrs=concatmode)
-                except xr.MergeError:
-                    raise RuntimeError(
-                        "Merging metadata from multiple files has failed, as some of the "
-                        "values differ between files. This might be caused by trying to "
-                        "parse data obtained using different techniques/protocols in a "
-                        "single step. If you are certain this is what you want, try using "
-                        "yadg with the '--ignore-merge-errors' option."
-                    )
-            elif isinstance(vals, DataTree):
-                for k, v in fvals.items():
-                    if k in vals:  # pylint: disable=E1135
-                        try:
-                            newv = xr.concat(
-                                [vals[k].ds, v.ds],  # pylint: disable=E1136
-                                dim="uts",
-                                combine_attrs=concatmode,
-                            )
-                        except xr.MergeError:
-                            raise RuntimeError(
-                                "Merging metadata from multiple files has failed, as some of the "
-                                "values differ between files. This might be caused by trying to "
-                                "parse data obtained using different techniques/protocols in a "
-                                "single step. If you are certain this is what you want, try using "
-                                "yadg with the '--ignore-merge-errors' option."
-                            )
-                    else:
-                        newv = v.ds
-                    vals[k] = DataTree(newv)  # pylint: disable=E1137
-        if isinstance(vals, xr.Dataset):
-            stepdt = DataTree.from_dict({"/": vals})
-        elif isinstance(vals, DataTree):
-            stepdt = vals
-        else:
-            stepdt = DataTree()
+            else:
+                for k in fvals.keys():
+                    try:
+                        vals[k] = xr.concat(
+                            [vals[k], fvals[k]], dim="uts", combine_attrs=concatmode
+                        )
+                    except xr.MergeError:
+                        raise RuntimeError(
+                            "Merging metadata from multiple files has failed, as some of the "
+                            "values differ between files. This might be caused by trying to "
+                            "parse data obtained using different techniques/protocols in a "
+                            "single step. If you are certain this is what you want, try using "
+                            "yadg with the '--ignore-merge-errors' option."
+                        )
+        stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
         stepdt.attrs = dict()  # filetype=step.extractor.filetype)
+        print(f"{stepdt=}")
         stepdt.parent = root
     return root

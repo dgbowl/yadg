@@ -144,7 +144,7 @@ def update_schema(object: Union[list, dict]) -> dict:
 
 
 def schema_from_preset(preset: DataSchema, folder: str) -> DataSchema:
-    #preset.metadata["provenance"] = "yadg preset"
+    # preset.metadata["provenance"] = "yadg preset"
     for step in preset.steps:
         for fi, fn in enumerate(step.input.files):
             if os.path.isabs(fn):

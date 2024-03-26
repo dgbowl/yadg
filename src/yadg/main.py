@@ -2,35 +2,10 @@
 import argparse
 import logging
 from importlib import metadata
-import requests
-import json
-from packaging import version
-from . import subcommands
+
+from yadg import subcommands
 
 logger = logging.getLogger(__name__)
-
-
-def version_check(project="yadg"):
-    url = f"https://pypi.org/pypi/{project}/json"
-    try:
-        res = requests.get(url, timeout=1)
-    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-        logger.debug(f"Version check could not proceed due to Exception={e}.")
-        return
-    jsdata = json.loads(res.text)
-    versions = sorted([version.parse(i) for i in jsdata["releases"].keys()])
-    latest = versions[-1]
-    current = version.parse(metadata.version(project))
-    if latest > current:
-        logger.warning("You are using an out-of-date version of '%s'. ", project)
-        logger.info(
-            "The latest version is '%s', the current version is '%s'.", latest, current
-        )
-        logger.info(
-            "Consider updating using: pip install --upgrade %s==%s", project, latest
-        )
-    else:
-        logger.debug("Your version of '%s' is up-to-date.", project)
 
 
 def set_loglevel(delta: int):
@@ -43,12 +18,13 @@ def run_with_arguments():
     """
     Main execution function.
 
-    This is the function executed when **yadg** is launched using the executable.
-    The function has three subcommands:
+    This is the function executed when yadg is launched via its executable.
+    The function has the following subcommands:
 
-    - ``process``: processes a given schema into a datagram.
-    - ``update``: updates a given schema or datagram to the current version.
-    - ``preset``: creates a schema from a preset file and a target folder.
+    - ``extract``: extracts (meta)data from a given file.
+    - ``process``: processes a given dataschema, extracting data into a NetCDF file.
+    - ``update``: updates a given dataschema to the current version.
+    - ``preset``: creates a dataschema from a preset file and a target folder.
 
     """
     parser = argparse.ArgumentParser(add_help=False)
@@ -81,13 +57,13 @@ def run_with_arguments():
     process = subparsers.add_parser("process")
     process.add_argument(
         "infile",
-        help="File containing the schema to be processed by yadg.",
+        help="File containing the dataschema to be processed by yadg.",
         default=None,
     )
     process.add_argument(
         "outfile",
         nargs="?",
-        help="Output file to save the created datagram to.",
+        help="Output NetCDF file to save the created datatree to.",
         default="datagram.nc",
     )
     process.add_argument(
@@ -102,12 +78,12 @@ def run_with_arguments():
     update = subparsers.add_parser("update")
     update.add_argument(
         "infile",
-        help="The file containing the schema in the old format.",
+        help="The file containing the dataschema in the old format.",
     )
     update.add_argument(
         "outfile",
         nargs="?",
-        help="Output file to save the updated object to.",
+        help="Output file to save the updated dataschema to.",
         default=None,
     )
     update.set_defaults(func=subcommands.update)
@@ -117,7 +93,7 @@ def run_with_arguments():
         "-p",
         "--process",
         action="store_true",
-        help="Immediately process the schema created from the preset.",
+        help="Immediately process the dataschema created from the preset.",
         default=False,
     )
     preset.add_argument(
@@ -136,19 +112,19 @@ def run_with_arguments():
     )
     preset.add_argument(
         "preset",
-        help="Specify a schema template from a 'preset'.",
+        help="Specify a preset, i.e. a dataschema template.",
     )
     preset.add_argument(
         "folder",
-        help="Specify the 'folder' on which to apply the 'preset'.",
+        help="Specify the folder on which to apply the preset.",
     )
     preset.add_argument(
         "outfile",
         nargs="?",
         help=(
-            "Output file to save the created schema file. Default is 'schema.json'. "
-            "If '--process' is specified, the created datagram file will be saved "
-            "instead. Default in that case is 'datagram.nc'."
+            "Output file for the created dataschema file. Default is 'schema.json'. "
+            "If '--process' is specified, the created datatree will be saved instead. "
+            "Default in that case is 'datagram.nc'."
         ),
         default=None,
     )
@@ -164,16 +140,16 @@ def run_with_arguments():
     extract = subparsers.add_parser("extract")
     extract.add_argument(
         "filetype",
-        help="Specify the filetype to select the appropriate extractor.",
+        help="Specify the filetype of the infile, selecting an appropriate extractor.",
     )
     extract.add_argument(
         "infile",
-        help="Specify the 'infile' which should be extracted.",
+        help="Specify the input file which should be extracted.",
     )
     extract.add_argument(
         "outfile",
         nargs="?",
-        help=("Optionally specify the output file name."),
+        help="Specify the output file name.",
         default=None,
     )
     extract.add_argument(
@@ -195,7 +171,5 @@ def run_with_arguments():
 
     set_loglevel(args.verbose - args.quiet)
 
-    version_check()
-
     if "func" in args:
-        args.func(args)
+        args.func(**vars(args))

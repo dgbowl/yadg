@@ -23,7 +23,7 @@ def test_yadg_process_without_schema(datadir):
 
 def test_yadg_process_with_bad_schema(datadir):
     command = ["yadg", "process", "somefile.json"]
-    with pytest.raises(AssertionError, match="Supplied schema file"):
+    with pytest.raises(AssertionError, match="Supplied dataschema filename"):
         try:
             subprocess.run(command, check=True, capture_output=True)
         except subprocess.CalledProcessError as err:

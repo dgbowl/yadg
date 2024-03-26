@@ -9,28 +9,27 @@ import xarray as xr
 import datatree
 from typing import Union
 from yadg import dgutils, core
+from dgbowl_schemas.yadg.dataschema import FileTypes
 
 logger = logging.getLogger(__name__)
 
 extractors = {}
 
-for modname in {
-    "eclabmpr",
-    "eclabmpt",
-    "agilentch",
-    "agilentdx",
-    "phispe",
-    "panalyticalxrdml",
-}:
-    try:
-        m = importlib.import_module(f"yadg.extractors.{modname}")
-        supp = getattr(m, "supports")
-        func = getattr(m, "extract")
-        for k in supp:
-            extractors[k] = func
-    except ImportError as e:
-        logger.critical(f"could not import module '{modname}'")
-        raise e
+for ftclass in FileTypes:
+    filetype = ftclass.schema()["properties"]["filetype"]["const"]
+    for modname in [
+        f"yadg.extractors.public.{filetype}",
+    ]:
+        try:
+            m = importlib.import_module(modname)
+            if hasattr(m, "extract"):
+                func = getattr(m, "extract")
+                extractors[filetype] = func
+                if hasattr(m, "supports"):
+                    for k in getattr(m, "supports"):
+                        extractors[k] = func
+        except ImportError:
+            continue
 
 
 def extract(filetype: str, path: Path) -> Union[xr.Dataset, datatree.DataTree]:

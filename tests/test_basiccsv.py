@@ -11,7 +11,7 @@ import numpy as np
     "input, ts",
     [
         (
-            {  # ts0 - units on 2nd line, correct number of rows, correct value, sigma from d.p.
+            {  # ts0 - units on 2nd line, correct number of rows, correct value
                 "case": "case_uts_units.csv"
             },
             {
@@ -277,5 +277,6 @@ import numpy as np
 def test_datagram_from_basiccsv(input, ts, datadir):
     ver = input.pop("version", "4.0")
     ret = datagram_from_input(input, "basiccsv", datadir, version=ver)
+    print(f"{ret=}")
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)

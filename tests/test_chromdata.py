@@ -250,6 +250,7 @@ def special_datagram_test(datagram, testspec):
 def test_datagram_from_chromdata(input, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_input(input, "chromdata", datadir, version="4.2")
+    print(f"{ret=}")
     standard_datagram_test(ret, ts)
     special_datagram_test(ret, ts)
 

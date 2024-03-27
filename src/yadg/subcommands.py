@@ -1,5 +1,4 @@
 import os
-import argparse
 import logging
 import json
 import yaml
@@ -7,9 +6,9 @@ import shutil
 import hashlib
 from pathlib import Path
 
-# from dgbowl_schemas import to_dataschema
+
 from dgbowl_schemas.yadg import to_dataschema
-from . import core, dgutils, extractors
+from yadg import core, dgutils, extractors
 
 
 logger = logging.getLogger(__name__)
@@ -44,22 +43,29 @@ def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
     return fn, m.hexdigest()
 
 
-def process(args: argparse.Namespace) -> None:
+def process(
+    *,
+    infile: str,
+    outfile: str,
+    ignore_merge_errors: bool,
+    **kwargs: dict,
+) -> None:
     """
-    The ``process`` subcommand of **yadg**.
+    The ``process`` subcommand of yadg.
 
-    This function first checks that the supplied ``args.infile`` exists, is a valid
-    `schema`, and if yes, proceeds to process the `schema` into a `datagram`. If
-    this is successful, the `datagram` is checked for validity and written out
-    into ``args.outfile`` (which is `"datagram.json"` by default).
+    This function first checks that the supplied ``infile`` exists, is a valid
+    dataschema, and if yes, proceeds to process the dataschema into a datatree. If
+    this is successful, the datatree is written out into ``outfile`` (which is
+    ``"datagram.nc"`` by default).
+
     """
-    assert os.path.exists(args.infile) and os.path.isfile(args.infile), (
-        f"Supplied schema filename '{args.infile}' does not exist "
+    assert os.path.exists(infile) and os.path.isfile(infile), (
+        f"Supplied dataschema filename '{infile}' does not exist "
         "or is not a valid file."
     )
 
-    logger.info("Reading input file from '%s'.", args.infile)
-    schema = _load_file(args.infile)
+    logger.info(f"Reading input file from '{infile}'.")
+    schema = _load_file(infile)
 
     logger.info("Loading dataschema.")
     ds = to_dataschema(**schema)
@@ -68,137 +74,156 @@ def process(args: argparse.Namespace) -> None:
     while hasattr(ds, "update"):
         ds = ds.update()
 
-    logger.debug("Processing schema")
-    datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)
+    logger.debug("Processing dataschema")
+    datagram = core.process_schema(ds, strict_merge=not ignore_merge_errors)
 
-    logger.info("Saving datagram to '%s'.", args.outfile)
-    datagram.to_netcdf(args.outfile, engine="h5netcdf")
-    # with open(args.outfile, "w") as ofile:
-    #    json.dump(datagram, ofile, indent=1)
+    logger.info("Saving datatree to '%s'.", outfile)
+    datagram.to_netcdf(outfile, engine="h5netcdf")
 
 
-def update(args: argparse.Namespace) -> None:
+def update(
+    *,
+    infile: str,
+    outfile: str,
+    **kwargs: dict,
+) -> None:
     """
-    The ``update`` subcommand of **yadg**.
+    The ``update`` subcommand of yadg.
 
-    This function updates the `DataSchema` present in the ``args.infile`` argument to
-    comply with the newest version of `DataSchema`, and saves the resulting object into
-    ``args.outfile`` (which is the ``args.infile`` with  a `".new.json"` suffix
-    by default).
+    This function updates the dataschema present in the ``infile`` to comply with the
+    newest version of dataschema, and saves the resulting object into ``outfile`` (which
+    is the ``infile`` with  a `".new.json"` suffix by default).
+
     """
-
-    assert os.path.exists(args.infile) and os.path.isfile(args.infile), (
-        f"Supplied object filename '{args.infile}' does not exist "
+    assert os.path.exists(infile) and os.path.isfile(infile), (
+        f"Supplied dataschema filename '{infile}' does not exist "
         "or is not a valid file."
     )
 
-    logger.info("Reading input file from '%s'.", args.infile)
-    inobj = _load_file(args.infile)
+    logger.info("Reading input file from '%s'.", infile)
+    inobj = _load_file(infile)
 
-    if args.outfile is None:
-        name, ext = os.path.splitext(args.infile)
-        args.outfile = f"{name}.new.json"
+    if outfile is None:
+        name, ext = os.path.splitext(infile)
+        outfile = f"{name}.new.json"
 
     outobj = dgutils.update_schema(inobj)
 
-    logger.info("Writing new object into '%s'.", args.outfile)
-    with open(args.outfile, "w") as outfile:
-        json.dump(outobj.dict(), outfile, indent=1)
+    logger.info("Writing new dataschema into '%s'.", outfile)
+    with open(outfile, "w") as out:
+        json.dump(outobj.dict(), out, indent=1)
 
 
-def preset(args: argparse.Namespace) -> None:
+def preset(
+    *,
+    preset: str,
+    folder: str,
+    outfile: str,
+    process: bool,
+    archive: bool,
+    packwith: str,
+    ignore_merge_errors: bool,
+    **kwargs: dict,
+) -> None:
     """
-    The ``preset`` subcommand of **yadg**.
+    The ``preset`` subcommand of yadg.
 
-    This function requires the ``args.preset`` and ``args.folder`` arguments.
-    If ``args.folder`` is an existing folder and ``args.preset`` a valid `schema`
-    file (with appropriately formated ``"import"`` and ``"calfile"`` entries),
-    this function will prepend the specified ``args.folder`` to all paths in the
-    ``args.preset``, convert them to absolute paths, and save the resulting `schema`
-    in the supplied ``args.outfile``.
+    If ``folder`` is an existing folder and ``preset`` a valid dataschema template file,
+    this function will prepend the specified ``folder`` to all relative paths in the
+    ``preset``, converting them to absolute paths.
 
-    Alternatively, if ``args.process`` is specified, the created `schema` will be
-    directly processed into a `datagram`, which is then saved in ``args.outfile``.
+    The resulting dataschema will be saved in the supplied ``outfile``.
+
+    Alternatively, if ``process`` is specified, the created dataschema will be
+    directly processed into a datatree, which is then saved in ``outfile``.
+
+    Additionally, the contents of the ``folder`` can be archived (if ``archive`` is
+    set), using a compression algorithm of your choice.
+
     """
-    assert os.path.exists(args.folder) and os.path.isdir(args.folder), (
-        f"Supplied folder path '{args.folder}' does not exist "
-        "or is not a valid folder."
+    assert os.path.exists(folder) and os.path.isdir(folder), (
+        f"Supplied folder path '{folder}' does not exist " "or is not a valid folder."
     )
 
-    if not os.path.isabs(args.folder) and not args.process:
+    if not os.path.isabs(folder) and not process:
         logger.warning(
-            "The provided path '%s' is a relative path. The generated schema "
-            "likely will not work outside current working directory.",
-            args.folder,
+            f"The provided path '{folder}' is a relative path. The generated schema "
+            "likely will not work outside current working directory."
         )
 
-    assert os.path.exists(args.preset) and os.path.isfile(args.preset), (
-        f"Supplied preset path '{args.preset}' does not exist "
-        "or is not a valid file."
+    assert os.path.exists(preset) and os.path.isfile(preset), (
+        f"Supplied preset path '{preset}' does not exist " "or is not a valid file."
     )
 
-    logger.info("Reading input file from '%s'.", args.preset)
-    preset = _load_file(args.preset)
+    logger.info("Reading input file from '%s'.", preset)
+    preset = _load_file(preset)
 
     logger.info("Processing preset as schema.")
     schema = to_dataschema(**preset)
 
-    logger.info("Creating a schema from preset for '%s'.", args.folder)
-    ds = dgutils.schema_from_preset(schema, args.folder)
+    logger.info("Creating a schema from preset for '%s'.", folder)
+    ds = dgutils.schema_from_preset(schema, folder)
 
     logger.info("Loaded dataschema version '%s'", ds.metadata.version)
-    if args.process:
+    if process:
         logger.info("Processing created schema.")
-        datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)
-        args.outfile = "datagram.nc" if args.outfile is None else args.outfile
-        if args.archive:
-            zipfile = args.outfile.replace(".nc", "")
+        datagram = core.process_schema(ds, strict_merge=not ignore_merge_errors)
+        outfile = "datagram.nc" if outfile is None else outfile
+        if archive:
+            zipfile = outfile.replace(".nc", "")
             logger.info("Zipping input folder into '%s'", zipfile)
-            fn, hash = _zip_file(args.folder, zipfile, method=args.packwith)
+            fn, hash = _zip_file(folder, zipfile, method=packwith)
             datagram.attrs["data_archive_sha-1"] = hash
             datagram.attrs["data_archive_path"] = fn
-        logger.info("Saving datagram to '%s'.", args.outfile)
-        datagram.to_netcdf(args.outfile, engine="h5netcdf")
+        logger.info("Saving datagram to '%s'.", outfile)
+        datagram.to_netcdf(outfile, engine="h5netcdf")
     else:
-        if args.archive:
+        if archive:
             logger.warning(
                 "The --archive option must be supplied along with --process. "
                 "Continuing without archiving."
             )
-        args.outfile = "schema.json" if args.outfile is None else args.outfile
-        logger.info("Saving schema to '%s'.", args.outfile)
-        with open(args.outfile, "w") as ofile:
+        outfile = "schema.json" if outfile is None else outfile
+        logger.info("Saving schema to '%s'.", outfile)
+        with open(outfile, "w") as ofile:
             json.dump(ds.dict(), ofile, indent=1)
 
 
-def extract(args: argparse.Namespace) -> None:
+def extract(
+    *,
+    filetype: str,
+    infile: str,
+    outfile: str,
+    meta_only: bool,
+    **kwargs: dict,
+) -> None:
     """
-    The ``extract`` subcommand of **yadg**.
+    The ``extract`` subcommand of yadg.
 
-    This function requires the ``args.filetype`` and ``args.infile`` positional arguments.
-    If ``args.filetype`` (or it's namespaced version, such as ``marda:{args.filetype}``)
-    is a known :class:`FileType`, ``yadg`` will attempt to extract metadata and data from
-    the provided ``args.infile``.
+    If ``filetype`` is known to yadg, it will attempt to extract all data from the
+    provided ``infile``.
 
-    The data is returned as a NetCDF file. The location can be configured using the
-    ``args.outfile`` parameter, by default this is set to the stem of ``args.infile`` with
-    a ``.nc`` suffix.
+    The data is returned as a :class:`xarray.Dataset` or a datatree, and is stored in
+    a NetCDF file. The output location can be configured using the ``outfile``
+    argument, by default this is set to the stem of ``infile`` with a ``.nc`` suffix.
+
+    Optionally, an export of just the metadata can be requested by setting the
+    ``meta_only`` argument, in this case the output is a json file.
+
     """
-
-    path = Path(args.infile)
+    path = Path(infile)
 
     assert path.is_file(), (
-        f"Supplied object filename '{args.infile}' does not exist "
-        "or is not a valid file."
+        f"Supplied object filename '{infile}' does not exist " "or is not a valid file."
     )
 
-    if args.outfile is None:
-        outpath = path.with_suffix(".json" if args.meta_only else ".nc")
+    if outfile is None:
+        outpath = path.with_suffix(".json" if meta_only else ".nc")
     else:
-        outpath = Path(args.outfile)
+        outpath = Path(outfile)
 
-    ret = extractors.extract(args.filetype, path)
-    if args.meta_only:
+    ret = extractors.extract(filetype, path)
+    if meta_only:
         with outpath.open("w", encoding="UTF-8") as target:
             json.dump(ret.to_dict(data=False), target)
     else:

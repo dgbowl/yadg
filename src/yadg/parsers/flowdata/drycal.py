@@ -11,13 +11,13 @@ parsed from the prefix of the filename.
 
 .. codeauthor:: Peter Kraus
 """
+
 from striprtf.striprtf import rtf_to_text
 from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils
 from pydantic import BaseModel
 from typing import Optional
 from datatree import DataTree
-from zoneinfo import ZoneInfo
 
 
 class TimeDate(BaseModel):
@@ -32,7 +32,7 @@ class TimeDate(BaseModel):
 def rtf(
     fn: str,
     encoding: str,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> DataTree:
     """
     RTF version of the drycal parser.
@@ -103,7 +103,7 @@ def sep(
     fn: str,
     sep: str,
     encoding: str,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> DataTree:
     """
     Generic drycal parser, using ``sep`` as separator string.

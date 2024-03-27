@@ -1,6 +1,5 @@
 import logging
 import xarray as xr
-from zoneinfo import ZoneInfo
 from . import drycal
 
 logger = logging.getLogger(__name__)
@@ -11,7 +10,7 @@ def process(
     fn: str,
     filetype: str,
     encoding: str,
-    timezone: ZoneInfo,
+    timezone: str,
     **kwargs: dict,
 ) -> xr.Dataset:
     """

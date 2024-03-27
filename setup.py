@@ -45,7 +45,7 @@ setuptools.setup(
         "openpyxl>=3.0.0",
         "h5netcdf~=1.0",
         "xarray-datatree==0.0.12",
-        "dgbowl-schemas>=116",
+        "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git@dataschema_5.1",
         "requests",
     ],
     extras_require={
@@ -55,6 +55,7 @@ setuptools.setup(
             "sphinx-rtd-theme~=1.3.0",
             "sphinx-autodoc-typehints < 1.20.0",
             "autodoc-pydantic>=2.0.0",
+            "sphinxcontrib-mermaid~=0.9.2",
         ],
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},

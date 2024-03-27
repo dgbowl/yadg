@@ -64,6 +64,7 @@ File Structure of `.sac` Files
 
 .. codeauthor:: Nicolas Vetsch
 """
+
 import numpy as np
 from datatree import DataTree
 import xarray as xr

@@ -29,7 +29,6 @@ as keys.
 
 import logging
 from pydantic import BaseModel
-from zoneinfo import ZoneInfo
 from ..basiccsv.main import process_row, append_dicts, dicts_to_dataset
 from ... import dgutils
 import xarray as xr
@@ -41,7 +40,7 @@ def process(
     *,
     fn: str,
     encoding: str,
-    timezone: ZoneInfo,
+    timezone: str,
     parameters: BaseModel,
     **kwargs: dict,
 ) -> xr.Dataset:

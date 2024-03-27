@@ -19,15 +19,15 @@ name, and a sequence of "X, Y" datapoints, which are stored as ``elution_time`` 
 
 .. codeauthor:: Peter Kraus
 """
+
 import numpy as np
-from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from ...dgutils.dateutils import str_to_uts
+from yadg.dgutils.dateutils import str_to_uts
 import xarray as xr
 from datatree import DataTree
 
 
-def _process_headers(headers: list, columns: list, timezone: ZoneInfo) -> dict:
+def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     res = {}
     assert len(headers) == len(
         columns

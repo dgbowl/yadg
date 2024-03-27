@@ -8,12 +8,12 @@ from .utils import compare_datatrees
 @pytest.mark.parametrize(
     "filetype, infile, outfile",
     [
-        ("marda:biologic-mpr", "cp.mpr", "ref.cp.mpr.nc"),
-        ("marda:biologic-mpt", "cp.mpt", "ref.cp.mpt.nc"),
-        ("marda:agilent-ch", "hplc.CH", "ref.hplc.ch.nc"),
-        ("marda:agilent-dx", "hplc.dx", "ref.hplc.dx.nc"),
-        ("marda:phi-spe", "xps.spe", "ref.xps.spe.nc"),
-        ("marda:panalytical-xrdml", "xrd.xrdml", "ref.xrd.xrdml.nc"),
+        ("biologic-mpr", "cp.mpr", "ref.cp.mpr.nc"),
+        ("biologic-mpt", "cp.mpt", "ref.cp.mpt.nc"),
+        ("agilent-ch", "hplc.CH", "ref.hplc.ch.nc"),
+        ("agilent-dx", "hplc.dx", "ref.hplc.dx.nc"),
+        ("phi-spe", "xps.spe", "ref.xps.spe.nc"),
+        ("panalytical-xrdml", "xrd.xrdml", "ref.xrd.xrdml.nc"),
     ],
 )
 def test_extract_marda(filetype, infile, outfile, datadir):

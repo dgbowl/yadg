@@ -20,7 +20,7 @@ version = "master"
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
-copyright = "2021 - 2023, yadg authors"
+copyright = "2021 - 2024, yadg authors"
 author = "Peter Kraus"
 release = version
 
@@ -39,6 +39,7 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
     "sphinxcontrib.autodoc_pydantic",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

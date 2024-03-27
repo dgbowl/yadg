@@ -1,3 +1,5 @@
+.. _usage:
+
 How to use **yadg**
 ===================
 We have prepared an interactive, Binder-compatible Jupyter notebook, showing the installation and example usage of **yadg**. The latest version of the notebook and the direct link to Binder are:

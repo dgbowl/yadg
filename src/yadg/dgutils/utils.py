@@ -106,16 +106,16 @@ def schema_3to4(oldschema: list) -> dict:
 
 def update_schema(object: Union[list, dict]) -> dict:
     """
-    Yadg's update worker function.
+    The ``yadg update`` worker function.
 
-    This is the main function called when **yadg** is executed as ``yadg update``.
-    The main idea is to allow a simple update pathway from older versions of `schema` and
-    ``datagram`` files to the current latest and greatest.
+    The main purpose is to allow a simple update pathway from older versions of
+    dataschema files to the current latest and greatest.
 
     Currently supports:
 
-     - updating ``DataSchema`` version 3.1 to 4.0 using routines in ``yadg``
-     - updating ``DataSchema`` version 4.0 and above to the latest ``DataSchema``
+     - updating dataschema version 3.1 to 4.0 using routines in ``yadg``,
+     - updating dataschema version 4.0 and above to the latest dataschema using the
+       in-built ``.update()`` mechanism.
 
     Parameters
     ----------
@@ -144,7 +144,7 @@ def update_schema(object: Union[list, dict]) -> dict:
 
 
 def schema_from_preset(preset: DataSchema, folder: str) -> DataSchema:
-    preset.metadata.provenance.type = "yadg preset"
+    # preset.metadata["provenance"] = "yadg preset"
     for step in preset.steps:
         for fi, fn in enumerate(step.input.files):
             if os.path.isabs(fn):

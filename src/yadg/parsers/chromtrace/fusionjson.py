@@ -18,15 +18,15 @@ Exposed metadata:
 
 .. codeauthor:: Peter Kraus
 """
+
 import json
-from zoneinfo import ZoneInfo
 import numpy as np
 from ...dgutils.dateutils import str_to_uts
 import xarray as xr
 from datatree import DataTree
 
 
-def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Fusion json format.
 

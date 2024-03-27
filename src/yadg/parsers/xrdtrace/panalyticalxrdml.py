@@ -38,7 +38,6 @@ from typing import Union
 from xml.etree import ElementTree
 import numpy as np
 import xarray as xr
-from zoneinfo import ZoneInfo
 
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from .common import panalytical_comment
@@ -190,7 +189,7 @@ def _process_measurement(measurement: dict, timezone: str):
 def process(
     *,
     fn: str,
-    timezone: ZoneInfo,
+    timezone: str,
     **kwargs: dict,
 ) -> xr.Dataset:
     """Processes a PANalytical xrdml file.

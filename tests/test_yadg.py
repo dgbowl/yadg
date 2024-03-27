@@ -23,7 +23,7 @@ def test_yadg_process_without_schema(datadir):
 
 def test_yadg_process_with_bad_schema(datadir):
     command = ["yadg", "process", "somefile.json"]
-    with pytest.raises(AssertionError, match="Supplied schema file"):
+    with pytest.raises(AssertionError, match="Supplied dataschema filename"):
         try:
             subprocess.run(command, check=True, capture_output=True)
         except subprocess.CalledProcessError as err:
@@ -165,7 +165,6 @@ def test_yadg_preset_roundtrip_uts(datadir):
     "filetype, infile",
     [
         ("eclab.mpr", "cp.mpr"),
-        ("marda:biologic-mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
     ],
 )
@@ -183,8 +182,7 @@ def test_yadg_extract(filetype, infile, datadir):
     "filetype, infile, flag",
     [
         ("eclab.mpr", "cp.mpr", "-m"),
-        ("marda:biologic-mpr", "cp.mpr", "--meta-only"),
-        ("biologic-mpr", "cp.mpr", "-m"),
+        ("biologic-mpr", "cp.mpr", "--meta-only"),
     ],
 )
 def test_yadg_extract_meta_only(filetype, infile, flag, datadir):

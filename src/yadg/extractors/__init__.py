@@ -6,27 +6,8 @@ from datatree import DataTree
 from xarray import Dataset
 from typing import Union
 from yadg import dgutils, core
-from dgbowl_schemas.yadg.dataschema import FileTypes
 
 logger = logging.getLogger(__name__)
-
-extractors = {}
-
-for ftclass in FileTypes:
-    filetype = ftclass.schema()["properties"]["filetype"]["const"]
-    for modname in [
-        f"yadg.extractors.public.{filetype}",
-    ]:
-        try:
-            m = importlib.import_module(modname)
-            if hasattr(m, "extract"):
-                func = getattr(m, "extract")
-                extractors[filetype] = func
-                if hasattr(m, "supports"):
-                    for k in getattr(m, "supports"):
-                        extractors[k] = func
-        except ImportError:
-            continue
 
 
 def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
@@ -55,7 +36,7 @@ def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
     """
     extractor = ExtractorFactory(extractor={"filetype": filetype}).extractor
 
-    m = importlib.import_module(f"yadg.extractors.public.{extractor}")
+    m = importlib.import_module(f"yadg.extractors.public.{extractor.filetype}")
     func = getattr(m, "extract")
 
     ret = func(fn=str(path), **vars(extractor))

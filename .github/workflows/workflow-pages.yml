@@ -15,10 +15,10 @@ jobs:
         runs-on: ${{ inputs.os }}
         steps:
           - uses: actions/checkout@v4
-          - uses: actions/setup-python@v4
+          - uses: actions/setup-python@v5
             with:
                 python-version: ${{ inputs.pyver }}
-          - uses: actions/download-artifact@v3
+          - uses: actions/download-artifact@v4
             with:
                 name: dist-${{ inputs.os }}-${{ inputs.pyver }}
           - uses: jannekem/run-python-script-action@v1
@@ -33,7 +33,7 @@ jobs:
             run: |
                 sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -E -f --templatedir=docs/apidoc_t
                 sphinx-build -b html docs/source public/master
-          - uses: actions/upload-artifact@v3
+          - uses: actions/upload-artifact@v4
             with:
               name: public-${{ inputs.os }}-${{ inputs.pyver }}
-              path: public
+              path: public/master

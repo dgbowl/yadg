@@ -33,7 +33,6 @@ Exposed metadata:
 
 import json
 import logging
-from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 import xarray as xr
 import numpy as np
@@ -42,7 +41,7 @@ logger = logging.getLogger(__name__)
 
 
 def process(
-    *, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict
+    *, fn: str, encoding: str, timezone: str, **kwargs: dict
 ) -> xr.Dataset:
     """
     Fusion json format.

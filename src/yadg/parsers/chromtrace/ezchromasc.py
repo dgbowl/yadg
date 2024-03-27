@@ -12,16 +12,15 @@ to be deduced from the header.
 
 import numpy as np
 import logging
-from zoneinfo import ZoneInfo
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from ...dgutils.dateutils import str_to_uts
+from yadg.dgutils.dateutils import str_to_uts
 import xarray as xr
 from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
 
-def process(*, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     EZ-Chrome ASCII export file parser.
 

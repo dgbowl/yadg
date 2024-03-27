@@ -36,7 +36,6 @@ import re
 import logging
 import locale as lc
 import xarray as xr
-from zoneinfo import ZoneInfo
 from ...dgutils.dateutils import str_to_uts
 from .eclabcommon.techniques import get_resolution, technique_params, param_from_key
 from .eclabcommon.mpt_columns import column_units
@@ -204,7 +203,7 @@ def process(
     fn: str,
     encoding: str,
     locale: str,
-    timezone: ZoneInfo,
+    timezone: str,
     **kwargs: dict,
 ) -> xr.Dataset:
     """Processes EC-Lab human-readable text export files.

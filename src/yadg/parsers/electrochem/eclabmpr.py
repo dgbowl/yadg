@@ -196,11 +196,10 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 
 import logging
-from zoneinfo import ZoneInfo
 import xarray as xr
 import numpy as np
-from ...dgutils.dateutils import ole_to_uts
-from ...dgutils.btools import read_value
+from yadg.dgutils.dateutils import ole_to_uts
+from yadg.dgutils.btools import read_value
 from .eclabcommon.techniques import (
     technique_params_dtypes,
     param_from_key,
@@ -554,7 +553,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 def process(
     *,
     fn: str,
-    timezone: ZoneInfo,
+    timezone: str,
     **kwargs: dict,
 ) -> xr.Dataset:
     """Processes EC-Lab raw data binary files.

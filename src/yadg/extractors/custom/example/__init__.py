@@ -34,9 +34,8 @@ Module Functions
 """
 
 from pydantic import BaseModel
-import json
-from ... import dgutils
-from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
+from yadg import dgutils
+from yadg.parsers.basiccsv.main import dicts_to_dataset
 from datatree import DataTree
 
 
@@ -83,4 +82,4 @@ def extract(
     return dicts_to_dataset(data_vals, meta_vals, fulldate=False)
 
 
-__all__ = ["supports", "extract"]
+__all__ = ["extract"]

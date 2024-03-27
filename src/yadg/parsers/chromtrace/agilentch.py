@@ -35,7 +35,6 @@ as ``offset =  ("data offset" - 1) * 512``) until the end of the file.
 """
 
 import numpy as np
-from zoneinfo import ZoneInfo
 from ... import dgutils
 from ...dgutils.dateutils import str_to_uts
 import xarray as xr
@@ -63,7 +62,7 @@ data_dtypes = {}
 data_dtypes["179"] = (8, "<f8")
 
 
-def process(*, fn: str, timezone: ZoneInfo, **kwargs: dict) -> DataTree:
+def process(*, fn: str, timezone: str, **kwargs: dict) -> DataTree:
     """
     Agilent OpenLAB signal trace parser
 

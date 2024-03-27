@@ -1,5 +1,4 @@
 import xarray as xr
-from zoneinfo import ZoneInfo
 from yadg.parsers.flowdata import drycal
 
 supports = {
@@ -11,7 +10,7 @@ def extract(
     *,
     fn: str,
     encoding: str,
-    timezone: ZoneInfo,
+    timezone: str,
     **kwargs: dict,
 ) -> xr.Dataset:
     """ """

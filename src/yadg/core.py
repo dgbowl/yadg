@@ -4,7 +4,6 @@ import importlib
 import xarray as xr
 import numpy as np
 from typing import Callable
-from zoneinfo import ZoneInfo
 from datatree import DataTree
 from xarray import Dataset
 from pydantic import BaseModel
@@ -24,7 +23,7 @@ def infer_extractor(extractor: str) -> Callable:
     modnames = [
         f"yadg.extractors.public.{extractor}",
         f"yadg.extractors.custom.{extractor}",
-        f"yadg.extractors.{extractor.replace('.','')}"
+        f"yadg.extractors.{extractor.replace('.','')}",
     ]
     for modname in modnames:
         try:
@@ -74,7 +73,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             step.extractor.encoding = dataschema.step_defaults.encoding
 
         sattrs = {"extractor_schema": step.extractor.model_dump_json(exclude_none=True)}
-        step.extractor.timezone = ZoneInfo(step.extractor.timezone)
 
         if step.tag is None:
             step.tag = f"{si}"
@@ -117,7 +115,7 @@ def complete_uts(
     ds: Dataset,
     filename: str,
     externaldate: BaseModel,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> Dataset:
     """
     A helper function ensuring that the Dataset ``ds`` contains a dimension ``"uts"``,

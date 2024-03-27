@@ -29,7 +29,7 @@ def now(
         return dt.timestamp()
 
 
-def ole_to_uts(ole_timestamp: float, timezone: ZoneInfo) -> float:
+def ole_to_uts(ole_timestamp: float, timezone: str) -> float:
     """
     Converts a Microsoft OLE timestamp into a POSIX timestamp.
 
@@ -52,14 +52,19 @@ def ole_to_uts(ole_timestamp: float, timezone: ZoneInfo) -> float:
         The corresponding Unix timestamp.
 
     """
-    ole_base = datetime.datetime(year=1899, month=12, day=30, tzinfo=timezone)
+    tzinfo = ZoneInfo(timezone)
+    ole_base = datetime.datetime(year=1899, month=12, day=30, tzinfo=tzinfo)
     ole_delta = datetime.timedelta(days=ole_timestamp)
     time = ole_base + ole_delta
     return time.timestamp()
 
 
 def str_to_uts(
-    *, timestamp: str, timezone: ZoneInfo, format: str = None, strict: bool = True
+    *,
+    timestamp: str,
+    timezone: str,
+    format: str = None,
+    strict: bool = True,
 ) -> Union[float, None]:
     """
     Converts a string to POSIX timestamp.
@@ -96,7 +101,7 @@ def str_to_uts(
         else:
             dt = datetime.datetime.strptime(timestamp, format)
 
-        local_tz = timezone if dt.tzinfo is None else dt.tzinfo
+        local_tz = ZoneInfo(timezone) if dt.tzinfo is None else dt.tzinfo
         local_dt = dt.replace(tzinfo=local_tz)
         utc_dt = local_dt.astimezone(datetime.timezone.utc)
         return utc_dt.timestamp()
@@ -116,7 +121,7 @@ def infer_timestamp_from(
     *,
     headers: list = None,
     spec: TimestampSpec = None,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> tuple[list, Callable, bool]:
     """
     Convenience function for timestamping
@@ -237,7 +242,7 @@ def complete_timestamps(
     timesteps: list,
     fn: str,
     spec: ExternalDate,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> list[float]:
     """
     Timestamp completing function.
@@ -345,7 +350,7 @@ def timestamps_from_file(
     path: str,
     type: str,
     match: str,
-    timezone: ZoneInfo,
+    timezone: str,
 ) -> Union[float, list[float]]:
     """
     Load timestamps from file.

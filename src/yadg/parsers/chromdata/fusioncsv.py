@@ -15,8 +15,7 @@ areas, and retention times. The latter is ignored by this parser.
 """
 
 import logging
-from zoneinfo import ZoneInfo
-from ...dgutils.dateutils import str_to_uts
+from yadg.dgutils.dateutils import str_to_uts
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 import numpy as np
@@ -39,7 +38,7 @@ data_units = {
 
 
 def process(
-    *, fn: str, encoding: str, timezone: ZoneInfo, **kwargs: dict
+    *, fn: str, encoding: str, timezone: str, **kwargs: dict
 ) -> xr.Dataset:
     """
     Fusion csv export format.

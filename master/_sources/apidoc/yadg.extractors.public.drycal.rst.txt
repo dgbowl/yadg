@@ -1,0 +1,28 @@
+yadg.extractors.public.drycal package
+=====================================
+
+.. automodule:: yadg.extractors.public.drycal
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.drycal.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.drycal.rtf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.drycal.txt
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -19,6 +19,8 @@
         <script src="_static/documentation_options.js?v=30d551ce"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="_static/js/theme.js"></script>
     <script src="_static/searchtools.js"></script>
     <script src="_static/language_data.js"></script>
@@ -55,28 +57,24 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.agilent.html">yadg.extractors.public.agilent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.drycal.html">yadg.extractors.public.drycal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.eclab.html">yadg.extractors.public.eclab package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.ezchrom.html">yadg.extractors.public.ezchrom package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.fusion.html">yadg.extractors.public.fusion package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.panalytical.html">yadg.extractors.public.panalytical package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.phi.html">yadg.extractors.public.phi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.quadstar.html">yadg.extractors.public.quadstar package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.public.tomato.html">yadg.extractors.public.tomato package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg custom extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.custom.basic.html">yadg.extractors.custom.basic package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.custom.empalc.html">yadg.extractors.custom.empalc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.custom.example.html">yadg.extractors.custom.example package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.custom.fhimcpt.html">yadg.extractors.custom.fhimcpt package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -129,7 +127,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

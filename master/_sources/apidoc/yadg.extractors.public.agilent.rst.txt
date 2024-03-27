@@ -1,0 +1,28 @@
+yadg.extractors.public.agilent package
+======================================
+
+.. automodule:: yadg.extractors.public.agilent
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.agilent.ch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.agilent.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.agilent.dx
+   :members:
+   :undoc-members:
+   :show-inheritance:

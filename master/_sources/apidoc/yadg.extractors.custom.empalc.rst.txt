@@ -1,0 +1,22 @@
+yadg.extractors.custom.empalc package
+=====================================
+
+.. automodule:: yadg.extractors.custom.empalc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.custom.empalc.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.custom.empalc.xlsx
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+yadg.extractors.custom.example package
+======================================
+
+.. automodule:: yadg.extractors.custom.example
+   :members:
+   :undoc-members:
+   :show-inheritance:

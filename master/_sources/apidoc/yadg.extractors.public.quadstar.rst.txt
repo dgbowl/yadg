@@ -1,0 +1,16 @@
+yadg.extractors.public.quadstar package
+=======================================
+
+.. automodule:: yadg.extractors.public.quadstar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.quadstar.sac
+   :members:
+   :undoc-members:
+   :show-inheritance:

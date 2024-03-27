@@ -1,0 +1,28 @@
+yadg.extractors.public.fusion package
+=====================================
+
+.. automodule:: yadg.extractors.public.fusion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.fusion.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.fusion.json
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.fusion.zip
+   :members:
+   :undoc-members:
+   :show-inheritance:

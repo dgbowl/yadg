@@ -1,0 +1,16 @@
+yadg.extractors.public.phi package
+==================================
+
+.. automodule:: yadg.extractors.public.phi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.phi.spe
+   :members:
+   :undoc-members:
+   :show-inheritance:

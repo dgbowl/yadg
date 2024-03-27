@@ -12,13 +12,18 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   yadg.core
    yadg.dgutils
    yadg.extractors
    yadg.parsers
 
 Submodules
 ----------
+
+
+.. automodule:: yadg.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 .. automodule:: yadg.main

@@ -1,0 +1,28 @@
+yadg.extractors.public.panalytical package
+==========================================
+
+.. automodule:: yadg.extractors.public.panalytical
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+
+.. automodule:: yadg.extractors.public.panalytical.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.panalytical.xrdml
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.public.panalytical.xy
+   :members:
+   :undoc-members:
+   :show-inheritance:

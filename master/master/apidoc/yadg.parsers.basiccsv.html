@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="meascsv: Legacy MCPT log file parser" href="yadg.parsers.meascsv.html" />
-    <link rel="prev" title="dummy: A dummy parser" href="yadg.parsers.dummy.html" /> 
+    <link rel="next" title="chromdata: Post-processed chromatography data parser" href="yadg.parsers.chromdata.html" />
+    <link rel="prev" title="yadg.parsers package" href="yadg.parsers.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,63 +55,64 @@
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>basiccsv</strong>: Common tabular file parser</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV"><code class="docutils literal notranslate"><span class="pre">BasicCSV</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.Parameters"><code class="docutils literal notranslate"><span class="pre">BasicCSV.Parameters</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.Parameters.sep"><code class="docutils literal notranslate"><span class="pre">BasicCSV.Parameters.sep</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.Parameters.strip"><code class="docutils literal notranslate"><span class="pre">BasicCSV.Parameters.strip</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.Parameters.units"><code class="docutils literal notranslate"><span class="pre">BasicCSV.Parameters.units</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.Parameters.timestamp"><code class="docutils literal notranslate"><span class="pre">BasicCSV.Parameters.timestamp</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.parser"><code class="docutils literal notranslate"><span class="pre">BasicCSV.parser</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.parameters"><code class="docutils literal notranslate"><span class="pre">BasicCSV.parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.BasicCSV.extractor"><code class="docutils literal notranslate"><span class="pre">BasicCSV.extractor</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-functions">Module Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.parsers.basiccsv.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-yadg.parsers.basiccsv.main">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.parsers.basiccsv.main.process_row"><code class="docutils literal notranslate"><span class="pre">process_row()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.parsers.basiccsv.main.append_dicts"><code class="docutils literal notranslate"><span class="pre">append_dicts()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.parsers.basiccsv.main.dicts_to_dataset"><code class="docutils literal notranslate"><span class="pre">dicts_to_dataset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.parsers.basiccsv.main.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.agilent.html">yadg.extractors.public.agilent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.drycal.html">yadg.extractors.public.drycal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.eclab.html">yadg.extractors.public.eclab package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.ezchrom.html">yadg.extractors.public.ezchrom package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.fusion.html">yadg.extractors.public.fusion package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.panalytical.html">yadg.extractors.public.panalytical package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.phi.html">yadg.extractors.public.phi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.quadstar.html">yadg.extractors.public.quadstar package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.tomato.html">yadg.extractors.public.tomato package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg custom extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.basic.html">yadg.extractors.custom.basic package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.empalc.html">yadg.extractors.custom.empalc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.example.html">yadg.extractors.custom.example package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.fhimcpt.html">yadg.extractors.custom.fhimcpt package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#yadg.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>basiccsv</strong>: Common tabular file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-functions">Module Functions</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#yadg.parsers.basiccsv.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.basiccsv.main">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.qftrace.html"><strong>qftrace</strong>: Network analyser trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.core">Submodules</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -128,6 +129,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="yadg.html">yadg package</a></li>
+          <li class="breadcrumb-item"><a href="yadg.parsers.html">yadg.parsers package</a></li>
       <li class="breadcrumb-item active"><strong>basiccsv</strong>: Common tabular file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/yadg.parsers.basiccsv.rst.txt" rel="nofollow"> View page source</a>
@@ -840,7 +843,7 @@ each table row.</p>
 <h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
 <p>The primary functionality of <a class="reference internal" href="#module-yadg.parsers.basiccsv" title="yadg.parsers.basiccsv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">basiccsv</span></code></a> is to load the tabular
 data, and determine the Unix timestamp. The headers of the tabular data are taken
-<cite>verbatim</cite> from the file, and appear as <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.
+<cite>verbatim</cite> from the file, and appear as <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.2.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.
 The single <code class="docutils literal notranslate"><span class="pre">coord</span></code> for the <code class="docutils literal notranslate"><span class="pre">data_vars</span></code> is the deduced Unix timestamp, <code class="docutils literal notranslate"><span class="pre">uts</span></code>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xr.Dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
@@ -875,7 +878,7 @@ columns as floats or strings.</p>
 date might not be returned, eg. when only time is specified in columns.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.2.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -923,7 +926,7 @@ and the second element containing the deviations of the values.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.parsers.basiccsv.main.</span></span><span class="sig-name descname"><span class="pre">dicts_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fulldate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.parsers.basiccsv.main.dicts_to_dataset" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.2.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -950,7 +953,7 @@ columns as floats or strings.</p>
 date might not be returned, eg. when only time is specified in columns.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.2.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -962,14 +965,14 @@ date might not be returned, eg. when only time is specified in columns.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.dummy.html" class="btn btn-neutral float-left" title="dummy: A dummy parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="yadg.parsers.meascsv.html" class="btn btn-neutral float-right" title="meascsv: Legacy MCPT log file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="yadg.parsers.html" class="btn btn-neutral float-left" title="yadg.parsers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-right" title="chromdata: Post-processed chromatography data parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

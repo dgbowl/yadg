@@ -2,10 +2,14 @@
    :maxdepth: 1
    :caption: yadg extractors
    :hidden:
+   :glob:
 
-   apidoc/yadg.extractors.agilentch
-   apidoc/yadg.extractors.agilentdx
-   apidoc/yadg.extractors.eclabmpr
-   apidoc/yadg.extractors.eclabmpt
-   apidoc/yadg.extractors.panalyticalxrdml
-   apidoc/yadg.extractors.phispe
+   apidoc/yadg.extractors.public.*
+
+.. toctree::
+   :maxdepth: 1
+   :caption: yadg custom extractors
+   :hidden:
+   :glob:
+
+   apidoc/yadg.extractors.custom.*

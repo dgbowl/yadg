@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="xpstrace: XPS trace file parser" href="yadg.parsers.xpstrace.html" />
-    <link rel="prev" title="chromdata: Post-processed chromatography data parser" href="yadg.parsers.chromdata.html" /> 
+    <link rel="prev" title="meascsv: Legacy MCPT log file parser" href="yadg.parsers.meascsv.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,53 +56,64 @@
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">yadg parsers</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>qftrace</strong>: Network analyser trace file parser</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.QFTrace"><code class="docutils literal notranslate"><span class="pre">QFTrace</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.QFTrace.parser"><code class="docutils literal notranslate"><span class="pre">QFTrace.parser</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_0.step.QFTrace.extractor"><code class="docutils literal notranslate"><span class="pre">QFTrace.extractor</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-functions">Module Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.parsers.qftrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-yadg.parsers.qftrace.labviewcsv">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#labviewcsv-processing-agilent-labview-csv-files"><strong>labviewcsv</strong>: Processing Agilent LabVIEW CSV files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.parsers.qftrace.labviewcsv.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentch.html"><strong>agilent-ch</strong>: Agilent ChemStation export <code class="docutils literal notranslate"><span class="pre">.CH</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilentdx.html"><strong>agilent-dx</strong>: Agilent OpenLab raw data <code class="docutils literal notranslate"><span class="pre">.dx</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpr.html"><strong>eclab-mpr</strong>: BioLogic ECLab binary <code class="docutils literal notranslate"><span class="pre">.mpr</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclabmpt.html"><strong>eclab-mpr</strong>: BioLogic ECLab export <code class="docutils literal notranslate"><span class="pre">.mpt</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalyticalxrdml.html"><strong>panalytical-xrdml</strong>: PANalytical XRDML <code class="docutils literal notranslate"><span class="pre">.xrdml</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phispe.html"><strong>phi-spe</strong>: ULVAC-PHI Multipak <code class="docutils literal notranslate"><span class="pre">.spe</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.agilent.html">yadg.extractors.public.agilent package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.drycal.html">yadg.extractors.public.drycal package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.eclab.html">yadg.extractors.public.eclab package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.ezchrom.html">yadg.extractors.public.ezchrom package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.fusion.html">yadg.extractors.public.fusion package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.panalytical.html">yadg.extractors.public.panalytical package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.phi.html">yadg.extractors.public.phi package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.quadstar.html">yadg.extractors.public.quadstar package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.public.tomato.html">yadg.extractors.public.tomato package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg custom extractors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.basic.html">yadg.extractors.custom.basic package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.empalc.html">yadg.extractors.custom.empalc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.example.html">yadg.extractors.custom.example package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.custom.fhimcpt.html">yadg.extractors.custom.fhimcpt package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="yadg.html">yadg package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#yadg.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="yadg.dgutils.html">yadg.dgutils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="yadg.parsers.html">yadg.parsers package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="yadg.parsers.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.basiccsv.html"><strong>basiccsv</strong>: Common tabular file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromdata.html"><strong>chromdata</strong>: Post-processed chromatography data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.chromtrace.html"><strong>chromtrace</strong>: Raw chromatogram trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.dummy.html"><strong>dummy</strong>: A dummy parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.electrochem.html"><strong>electrochem</strong>: Electrochemistry data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.flowdata.html"><strong>flowdata</strong>: Flow data parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.masstrace.html"><strong>masstrace</strong>: Mass spectroscopy trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.meascsv.html"><strong>meascsv</strong>: Legacy MCPT log file parser</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#"><strong>qftrace</strong>: Network analyser trace file parser</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-functions">Module Functions</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#yadg.parsers.qftrace.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="#module-yadg.parsers.qftrace.labviewcsv">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xpstrace.html"><strong>xpstrace</strong>: XPS trace file parser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="yadg.parsers.xrdtrace.html"><strong>xrdtrace</strong>: X-ray diffractogram trace file parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.core">Submodules</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -119,6 +130,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="yadg.html">yadg package</a></li>
+          <li class="breadcrumb-item"><a href="yadg.parsers.html">yadg.parsers package</a></li>
       <li class="breadcrumb-item active"><strong>qftrace</strong>: Network analyser trace file parser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/apidoc/yadg.parsers.qftrace.rst.txt" rel="nofollow"> View page source</a>
@@ -529,7 +542,7 @@ based on the supplied <code class="docutils literal notranslate"><span class="pr
 <dd class="field-odd"><p><strong>filetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Discriminator used to select the appropriate worker function.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -559,11 +572,11 @@ is hard-coded to this value.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing a single <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2023.12.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> with the
+<dd class="field-even"><p>A <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing a single <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.2.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> with the
 <code class="docutils literal notranslate"><span class="pre">S11</span></code> (reflection) trace.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.14.dev5+g433f78d.d20231110)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -575,14 +588,14 @@ is hard-coded to this value.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="yadg.parsers.chromdata.html" class="btn btn-neutral float-left" title="chromdata: Post-processed chromatography data parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.parsers.meascsv.html" class="btn btn-neutral float-left" title="meascsv: Legacy MCPT log file parser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="yadg.parsers.xpstrace.html" class="btn btn-neutral float-right" title="xpstrace: XPS trace file parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021 - 2023, yadg authors.</p>
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

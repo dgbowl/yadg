@@ -1,7 +1,0 @@
-**eclab-mpr**: BioLogic ECLab binary ``.mpr``
-=============================================
-
-.. automodule:: yadg.extractors.eclabmpr
-   :members:
-   :undoc-members:
-   :show-inheritance:

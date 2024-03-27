@@ -1,7 +1,0 @@
-**panalytical-xrdml**: PANalytical XRDML ``.xrdml``
-===================================================
-
-.. automodule:: yadg.extractors.panalyticalxrdml
-   :members:
-   :undoc-members:
-   :show-inheritance:

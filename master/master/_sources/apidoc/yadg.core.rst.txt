@@ -1,7 +1,0 @@
-yadg.core package
-=================
-
-.. automodule:: yadg.core
-   :members:
-   :undoc-members:
-   :show-inheritance:

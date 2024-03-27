@@ -1,7 +1,0 @@
-**agilent-dx**: Agilent OpenLab raw data ``.dx``
-================================================
-
-.. automodule:: yadg.extractors.agilentdx
-   :members:
-   :undoc-members:
-   :show-inheritance:

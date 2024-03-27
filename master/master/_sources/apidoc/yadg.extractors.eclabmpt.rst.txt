@@ -1,7 +1,0 @@
-**eclab-mpr**: BioLogic ECLab export ``.mpt``
-=============================================
-
-.. automodule:: yadg.extractors.eclabmpt
-   :members:
-   :undoc-members:
-   :show-inheritance:

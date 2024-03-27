@@ -1,7 +1,0 @@
-**phi-spe**: ULVAC-PHI Multipak ``.spe``
-========================================
-
-.. automodule:: yadg.extractors.phispe
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,7 +1,0 @@
-**meascsv**: Legacy MCPT log file parser
-========================================
-
-.. automodule:: yadg.parsers.meascsv
-   :members:
-   :undoc-members:
-   :show-inheritance:

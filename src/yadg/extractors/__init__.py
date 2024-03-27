@@ -1,18 +1,19 @@
 import importlib
 import logging
-from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 from pathlib import Path
 from datatree import DataTree
 from xarray import Dataset
 from typing import Union
 from yadg import dgutils, core
+from dgbowl_schemas.yadg.dataschema import ExtractorFactory
+
 
 logger = logging.getLogger(__name__)
 
 
 def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
     """
-    The extract functionality of yadg is implemented here.
+    The individual extractor functionality of yadg is called from here.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
     data is either returned as a :class:`DataTree` or a :class:`Dataset`. In either case
@@ -27,11 +28,6 @@ def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
 
     path:
         A :class:`pathlib.Path` object pointing to the file to be extracted.
-
-    Returns
-    -------
-    Union[Dataset, DataTree]
-        The extracted data and metadata.
 
     """
     extractor = ExtractorFactory(extractor={"filetype": filetype}).extractor

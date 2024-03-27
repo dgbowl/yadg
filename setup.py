@@ -55,6 +55,7 @@ setuptools.setup(
             "sphinx-rtd-theme~=1.3.0",
             "sphinx-autodoc-typehints < 1.20.0",
             "autodoc-pydantic>=2.0.0",
+            "sphinxcontrib-mermaid~=0.9.2",
         ],
     },
     entry_points={"console_scripts": ["yadg=yadg:run_with_arguments"]},

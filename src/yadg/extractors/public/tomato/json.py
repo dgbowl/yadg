@@ -1,17 +1,11 @@
-from pydantic import BaseModel
 import json
-import xarray as xr
-from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
-from datatree import DataTree
+from xarray import Dataset
 
+from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
 from yadg.parsers.electrochem.tomatojson import process
 
-supports = {
-    "tomato.json",
-}
 
-
-def dummy_tomato_json(*, fn: str, **kwargs: dict) -> xr.Dataset:
+def dummy_tomato_json(*, fn: str, **kwargs: dict) -> Dataset:
     with open(fn, "r") as inf:
         jsdata = json.load(inf)
 
@@ -27,7 +21,7 @@ def dummy_tomato_json(*, fn: str, **kwargs: dict) -> xr.Dataset:
     return dicts_to_dataset(data_vals, meta_vals, fulldate=False)
 
 
-def extract(*, fn: str, **kwargs: dict) -> xr.Dataset:
+def extract(*, fn: str, **kwargs: dict) -> Dataset:
 
     with open(fn, "r") as inf:
         jsdata = json.load(inf)
@@ -38,4 +32,4 @@ def extract(*, fn: str, **kwargs: dict) -> xr.Dataset:
         return dummy_tomato_json(fn=fn, **kwargs)
 
 
-__all__ = ["supports", "extract"]
+__all__ = ["extract"]

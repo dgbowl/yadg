@@ -1,9 +1,9 @@
+import logging
+from xarray import Dataset
 import xarray as xr
 from yadg.parsers.flowdata import drycal
 
-supports = {
-    "drycal.rtf",
-}
+logger = logging.getLogger(__name__)
 
 
 def extract(
@@ -12,7 +12,7 @@ def extract(
     encoding: str,
     timezone: str,
     **kwargs: dict,
-) -> xr.Dataset:
+) -> Dataset:
     """ """
     vals = drycal.rtf(fn, encoding, timezone)
     # check timestamps are increasing:
@@ -34,4 +34,4 @@ def extract(
     return vals
 
 
-__all__ = ["supports", "extract"]
+__all__ = ["extract"]

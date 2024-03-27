@@ -15,10 +15,10 @@ jobs:
         runs-on: ${{ inputs.os }}
         steps:
           - uses: actions/checkout@v4
-          - uses: actions/setup-python@v4
+          - uses: actions/setup-python@v5
             with:
                 python-version: ${{ inputs.pyver }}
-          - uses: actions/download-artifact@v3
+          - uses: actions/download-artifact@v4
             with:
                 name: dist-${{ inputs.os }}-${{ inputs.pyver }}
           - uses: jannekem/run-python-script-action@v1

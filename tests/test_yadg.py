@@ -161,12 +161,10 @@ def test_yadg_preset_roundtrip_uts(datadir):
     pars_datagram_test(dg, ts)
 
 
-@pytest.mark.xfail
 @pytest.mark.parametrize(
     "filetype, infile",
     [
         ("eclab.mpr", "cp.mpr"),
-        ("marda:biologic-mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
     ],
 )
@@ -180,13 +178,11 @@ def test_yadg_extract(filetype, infile, datadir):
     compare_datatrees(ret, ref)
 
 
-@pytest.mark.xfail
 @pytest.mark.parametrize(
     "filetype, infile, flag",
     [
         ("eclab.mpr", "cp.mpr", "-m"),
-        ("marda:biologic-mpr", "cp.mpr", "--meta-only"),
-        ("biologic-mpr", "cp.mpr", "-m"),
+        ("biologic-mpr", "cp.mpr", "--meta-only"),
     ],
 )
 def test_yadg_extract_meta_only(filetype, infile, flag, datadir):

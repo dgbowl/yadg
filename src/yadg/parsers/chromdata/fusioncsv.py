@@ -37,9 +37,7 @@ data_units = {
 }
 
 
-def process(
-    *, fn: str, encoding: str, timezone: str, **kwargs: dict
-) -> xr.Dataset:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Dataset:
     """
     Fusion csv export format.
 

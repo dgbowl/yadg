@@ -40,9 +40,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-def process(
-    *, fn: str, encoding: str, timezone: str, **kwargs: dict
-) -> xr.Dataset:
+def process(*, fn: str, encoding: str, timezone: str, **kwargs: dict) -> xr.Dataset:
     """
     Fusion json format.
 

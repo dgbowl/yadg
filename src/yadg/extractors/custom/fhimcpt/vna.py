@@ -22,7 +22,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    DataTree:
+    datatree.DataTree:
       S11:              !!xarray.Dataset
         coords:
             freq:       !!float     # An array of measurement frequencies

@@ -23,40 +23,24 @@
 {{- "**example**: An example extractor" | heading }}
 {% elif 'yadg.extractors.custom.fhimcpt' == pkgname %}
 {{- "**fhimcpt**: Extractors for MCPT at FHI" | heading }}
-{% elif 'yadg.parsers.basiccsv' == pkgname %}
-{{- "**basiccsv**: Common tabular file parser" | heading }}
-{% elif 'yadg.parsers.chromdata' == pkgname %}
-{{- "**chromdata**: Post-processed chromatography data parser" | heading }}
-{% elif 'yadg.parsers.chromtrace' == pkgname %}
-{{- "**chromtrace**: Raw chromatogram trace file parser" | heading }}
-{% elif 'yadg.parsers.dummy' == pkgname %}
-{{- "**dummy**: A dummy parser" | heading }}
-{% elif 'yadg.parsers.electrochem' == pkgname %}
-{{- "**electrochem**: Electrochemistry data parser" | heading }}
-{% elif 'yadg.parsers.flowdata' == pkgname %}
-{{- "**flowdata**: Flow data parser" | heading }}
-{% elif 'yadg.parsers.masstrace' == pkgname %}
-{{- "**masstrace**: Mass spectroscopy trace file parser" | heading }}
-{% elif 'yadg.parsers.meascsv' == pkgname %}
-{{- "**meascsv**: Legacy MCPT log file parser" | heading }}
-{% elif 'yadg.parsers.qftrace' == pkgname %}
-{{- "**qftrace**: Network analyser trace file parser" | heading }}
-{% elif 'yadg.parsers.xpstrace' == pkgname %}
-{{- "**xpstrace**: XPS trace file parser" | heading }}
-{% elif 'yadg.parsers.xrdtrace' == pkgname %}
-{{- "**xrdtrace**: X-ray diffractogram trace file parser" | heading }}
-{% elif 'yadg.extractors.agilentch' == pkgname %}
-{{- "**agilent-ch**: Agilent ChemStation export ``.CH``" | heading }}
-{% elif 'yadg.extractors.agilentdx' == pkgname %}
-{{- "**agilent-dx**: Agilent OpenLab raw data ``.dx``" | heading }}
-{% elif 'yadg.extractors.eclabmpr' == pkgname %}
-{{- "**eclab-mpr**: BioLogic ECLab binary ``.mpr``" | heading }}
-{% elif 'yadg.extractors.eclabmpt' == pkgname %}
-{{- "**eclab-mpr**: BioLogic ECLab export ``.mpt``" | heading }}
-{% elif 'yadg.extractors.panalyticalxrdml' == pkgname %}
-{{- "**panalytical-xrdml**: PANalytical XRDML ``.xrdml``" | heading }}
-{% elif 'yadg.extractors.phispe' == pkgname %}
-{{- "**phi-spe**: ULVAC-PHI Multipak ``.spe``" | heading }}
+{% elif 'yadg.extractors.public.agilent' == pkgname %}
+{{- "**agilent**: Extract Agilent chromatograms" | heading }}
+{% elif 'yadg.extractors.public.drycal' == pkgname %}
+{{- "**drycal**: Extract Drycal flow meter data" | heading }}
+{% elif 'yadg.extractors.public.eclab' == pkgname %}
+{{- "**eclab**: Extract BioLogic potentiostat data" | heading }}
+{% elif 'yadg.extractors.public.ezchrom' == pkgname %}
+{{- "**ezchrom**: Extract EZChrom chromatograms" | heading }}
+{% elif 'yadg.extractors.public.fusion' == pkgname %}
+{{- "**fusion**: Extract Fusion chromatograms" | heading }}
+{% elif 'yadg.extractors.public.panalytical' == pkgname %}
+{{- "**panalytical**: Extract Panalytical X-ray diffraction data" | heading }}
+{% elif 'yadg.extractors.public.phi' == pkgname %}
+{{- "**phi**: Extract Phi XPS data" | heading }}
+{% elif 'yadg.extractors.public.quadstar' == pkgname %}
+{{- "**quadstar**: Extract Quadstar mass spectra" | heading }}
+{% elif 'yadg.extractors.public.tomato' == pkgname %}
+{{- "**tomato**: Extract data from tomato outputs" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}

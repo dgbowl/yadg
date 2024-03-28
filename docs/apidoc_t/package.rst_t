@@ -15,6 +15,14 @@
 
 {%- if is_namespace %}
 {{- [pkgname, "namespace"] | join(" ") | e | heading }}
+{% elif 'yadg.extractors.custom.basic' == pkgname %}
+{{- "**basic**: Extractor for tabulated data" | heading }}
+{% elif 'yadg.extractors.custom.empalc' == pkgname %}
+{{- "**empalc**: Extractor for Empa's LC data" | heading }}
+{% elif 'yadg.extractors.custom.example' == pkgname %}
+{{- "**example**: An example extractor" | heading }}
+{% elif 'yadg.extractors.custom.fhimcpt' == pkgname %}
+{{- "**fhimcpt**: Extractors for MCPT at FHI" | heading }}
 {% elif 'yadg.parsers.basiccsv' == pkgname %}
 {{- "**basiccsv**: Common tabular file parser" | heading }}
 {% elif 'yadg.parsers.chromdata' == pkgname %}
@@ -69,8 +77,6 @@ Subpackages
 {% endif %}
 
 {%- if submodules %}
-Submodules
-----------
 {% if separatemodules %}
 {{ toctree(submodules) }}
 {% else %}

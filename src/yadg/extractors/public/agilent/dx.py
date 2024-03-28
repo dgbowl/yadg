@@ -55,6 +55,7 @@ from datatree import DataTree
 def extract(
     *,
     fn: str,
+    timezone: str,
     **kwargs: dict,
 ) -> DataTree:
     zf = zipfile.ZipFile(fn)
@@ -64,6 +65,6 @@ def extract(
         for ffn in os.listdir(tempdir):
             if ffn.endswith("CH"):
                 path = os.path.join(tempdir, ffn)
-                fdt = extract_ch(fn=path, **kwargs).to_dict()
+                fdt = extract_ch(fn=path, timezone=timezone, **kwargs).to_dict()
                 dt = merge_dicttrees(dt, fdt, "identical")
     return DataTree.from_dict(dt)

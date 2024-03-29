@@ -213,7 +213,7 @@ from .eclabcommon.mpr_columns import (
     log_dtypes,
     extdev_dtypes,
 )
-from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
+from yadg.extractors.custom.basic.csv import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 

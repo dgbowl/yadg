@@ -39,7 +39,7 @@ import xarray as xr
 from ...dgutils.dateutils import str_to_uts
 from .eclabcommon.techniques import get_resolution, technique_params, param_from_key
 from .eclabcommon.mpt_columns import column_units
-from yadg.parsers.basiccsv.main import append_dicts, dicts_to_dataset
+from yadg.extractors.custom.basic.csv import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 

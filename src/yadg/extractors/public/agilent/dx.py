@@ -59,7 +59,7 @@ def extract(
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None
-        for ffn in os.listdir(tempdir):
+        for ffn in sorted(os.listdir(tempdir)):
             if ffn.endswith("CH"):
                 path = os.path.join(tempdir, ffn)
                 fdt = extract_ch(fn=path, timezone=timezone, **kwargs).to_dict()

@@ -1,7 +1,4 @@
 """
-**agilent.csv**
----------------
-
 Extractor of Agilent Chemstation Chromtab tabulated data files. This file format may
 include multiple timesteps consisting of several traces each in a single CSV file. It
 contains a header section for each timestep, followed by a detector name, and a sequence

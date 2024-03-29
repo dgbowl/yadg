@@ -1,7 +1,4 @@
 """
-**empalc.csv**
---------------
-
 Handles processing of the csv version of the structured format produced by Agilent's
 Online LC device at Empa. It contains three sections:
 

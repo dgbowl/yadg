@@ -1,7 +1,4 @@
 """
-**example**
------------
-
 This is an example extractor, used mainly for testing of the :mod:`yadg` package.
 It provides no real functionality.
 

@@ -35,7 +35,7 @@ extensions = [
     # "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
-    # "sphinx.ext.autosummary",
+    "sphinx.ext.autosummary",
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
     "sphinxcontrib.autodoc_pydantic",
@@ -63,7 +63,6 @@ html_css_files = [
 html_theme_options = {
     "body_max_width": "none",
     "sticky_navigation": True,
-    "navigation_depth": 6,
 }
 html_logo = "./images/yadg.png"
 html_favicon = "./images/yadg_ico.png"

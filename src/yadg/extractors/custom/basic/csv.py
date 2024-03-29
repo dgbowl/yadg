@@ -1,7 +1,4 @@
 """
-**basic.csv**
--------------
-
 Handles the reading and processing of any tabular files, as long as the first line
 contains the column headers. The columns of the table must be separated using a
 separator such as ``,``, ``;``, or ``\\t``.

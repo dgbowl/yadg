@@ -1,7 +1,4 @@
 """
-**agilent.dx**
---------------
-
 Extractor of Agilent OpenLab DX archives. This is a wrapper parser which unzips the
 provided DX file, and then uses the :mod:`yadg.extractors.public.agilent.ch` extractor
 to parse every CH file present in the archive. The IT files in the archive are currently

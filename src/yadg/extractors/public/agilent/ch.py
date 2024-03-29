@@ -1,7 +1,4 @@
 """
-**agilent.ch**
---------------
-
 Extractor of Agilent OpenLab binary signal trace files (``.ch`` and ``.it``).
 Currently supports version "179" of the files. Version information is defined in
 the ``magic_values`` (parameters & metadata) and `data_dtypes` (data) dictionaries.

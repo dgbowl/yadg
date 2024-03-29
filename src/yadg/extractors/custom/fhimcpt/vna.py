@@ -1,7 +1,4 @@
 """
-**fhimcpt.vna**
----------------
-
 Used to process files generated using Agilent PNA-L N5320C via its LabVIEW driver.
 This file format includes a header, with the values of bandwidth and averaging,
 and three tab-separated columns containing the frequency :math:`f`, and the real

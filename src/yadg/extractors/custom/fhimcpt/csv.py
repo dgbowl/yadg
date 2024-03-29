@@ -1,7 +1,4 @@
 """
-**fhimcpt.csv**
----------------
-
 This parser handles the reading and processing of the legacy log files created by
 the LabView interface for the MCPT instrument at FHI, now FU Berlin. These files contain
 information about the timestamp, temperatures, and inlet / process flows.

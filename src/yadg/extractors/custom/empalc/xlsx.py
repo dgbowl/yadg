@@ -1,7 +1,4 @@
 """
-**empalc.xlsx**
----------------
-
 Handles processing of the xlsx version of the structured format produced by Agilent's
 Online LC device at Empa. It contains three sections:
 

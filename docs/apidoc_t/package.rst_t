@@ -16,31 +16,31 @@
 {%- if is_namespace %}
 {{- [pkgname, "namespace"] | join(" ") | e | heading }}
 {% elif 'yadg.extractors.custom.basic' == pkgname %}
-{{- "**basic**: Extractor for tabulated data" | heading }}
+{{- "**basic**: For tabulated data" | heading }}
 {% elif 'yadg.extractors.custom.empalc' == pkgname %}
-{{- "**empalc**: Extractor for Empa's LC data" | heading }}
+{{- "**empalc**: For Empa's LC data" | heading }}
 {% elif 'yadg.extractors.custom.example' == pkgname %}
-{{- "**example**: An example extractor" | heading }}
+{{- "**example**: For yadg testing" | heading }}
 {% elif 'yadg.extractors.custom.fhimcpt' == pkgname %}
-{{- "**fhimcpt**: Extractors for MCPT at FHI" | heading }}
+{{- "**fhimcpt**: For MCPT set-up at FHI" | heading }}
 {% elif 'yadg.extractors.public.agilent' == pkgname %}
-{{- "**agilent**: Extract Agilent chromatograms" | heading }}
+{{- "**agilent**: For Agilent chromatograms" | heading }}
 {% elif 'yadg.extractors.public.drycal' == pkgname %}
-{{- "**drycal**: Extract Drycal flow meter data" | heading }}
+{{- "**drycal**: For MesaLabs Drycal Pro data" | heading }}
 {% elif 'yadg.extractors.public.eclab' == pkgname %}
-{{- "**eclab**: Extract BioLogic potentiostat data" | heading }}
+{{- "**eclab**: For BioLogic data files" | heading }}
 {% elif 'yadg.extractors.public.ezchrom' == pkgname %}
-{{- "**ezchrom**: Extract EZChrom chromatograms" | heading }}
+{{- "**ezchrom**: For EZChrom chromatograms" | heading }}
 {% elif 'yadg.extractors.public.fusion' == pkgname %}
-{{- "**fusion**: Extract Fusion chromatograms" | heading }}
+{{- "**fusion**: For Fusion chromatograms" | heading }}
 {% elif 'yadg.extractors.public.panalytical' == pkgname %}
-{{- "**panalytical**: Extract Panalytical X-ray diffraction data" | heading }}
+{{- "**panalytical**: For Panalytical XRD data" | heading }}
 {% elif 'yadg.extractors.public.phi' == pkgname %}
-{{- "**phi**: Extract Phi XPS data" | heading }}
+{{- "**phi**: For Phi XPS data" | heading }}
 {% elif 'yadg.extractors.public.quadstar' == pkgname %}
-{{- "**quadstar**: Extract Quadstar mass spectra" | heading }}
+{{- "**quadstar**: For Quadstar MS data" | heading }}
 {% elif 'yadg.extractors.public.tomato' == pkgname %}
-{{- "**tomato**: Extract data from tomato outputs" | heading }}
+{{- "**tomato**: For tomato outputs" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}

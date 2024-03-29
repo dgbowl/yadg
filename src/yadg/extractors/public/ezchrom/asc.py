@@ -32,6 +32,13 @@ The following metadata is extracted:
     - ``method``: Name of the chromatographic method.
     - ``version``: Version of the CH file (only "179" is currently supported.)
 
+Uncertainties
+`````````````
+The uncertainties in ``signal`` are derived from the string representation of the float.
+
+For ``elution_time``, an uncertainty of one X-axis multiplier is used.
+
+
 .. codeauthor::
     Peter Kraus
 

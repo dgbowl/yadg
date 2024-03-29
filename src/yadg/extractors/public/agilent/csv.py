@@ -35,6 +35,10 @@ The following metadata is extracted:
     - ``sampleid``: Sample name.
     - ``datafile``: Original path of the data file.
 
+Uncertainties
+`````````````
+All uncertainties are derived from the string representation of the floats.
+
 .. codeauthor::
     Peter Kraus
 

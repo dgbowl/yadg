@@ -33,6 +33,10 @@ The following metadata is extracted:
     - ``product``: Model name of the MesaLabs device.
     - ``serial number``: Serial number of the MesaLabs device.
 
+Uncertainties
+`````````````
+All uncertainties are derived from the string representation of the floats.
+
 .. codeauthor::
     Peter Kraus
 

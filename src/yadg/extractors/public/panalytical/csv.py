@@ -28,6 +28,8 @@ Notes on file structure
 These files are split into a ``[Measurement conditions]`` and a ``[Scan points]``
 section. The former stores the metadata and the latter all the datapoints.
 
+Uncertainties
+`````````````
 The uncertainties of ``"angle"`` are taken from the number of significant figures.
 
 The uncertainties of ``"intensity"`` are taken from the number of significant figures.

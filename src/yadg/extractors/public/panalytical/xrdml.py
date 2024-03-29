@@ -43,6 +43,8 @@ The ``angle`` returned from this parser is based on a linear interpolation of th
 and end point of the scan, and is the :math:`2\\theta`. The values of :math:`\\omega`
 are discarded.
 
+Uncertainties
+`````````````
 The uncertainties of in ``"angle"`` are taken as the step-width of the linearly spaced
 :math:`2\\theta` values.
 

@@ -1,4 +1,4 @@
 """
-Extractors for Panalytical X-ray diffractograms.
+Extractors for various exports of Panalytical X-ray diffractograms.
 
 """

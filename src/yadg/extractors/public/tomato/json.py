@@ -47,6 +47,8 @@ might be invalid (after the run has finished) or not in sync with the ``data`` (
 a technique change happened). However, ``previous`` may not be present in the first
 data file of an experiment.
 
+Uncertainties
+`````````````
 To determine the measurement errors, the values from BioLogic manual are used: for
 measured voltages (:math:`E_{\\text{we}}` and :math:`E_{\\text{ce}}`) this corresponds
 to a constant uncertainty of 0.004% of the applied E-range with a maximum of 75 uV,

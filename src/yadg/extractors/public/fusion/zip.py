@@ -54,15 +54,16 @@ def extract(
     *,
     fn: str,
     timezone: str,
+    encoding: str,
     **kwargs: dict,
 ) -> DataTree:
     zf = zipfile.ZipFile(fn)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None
-        for ffn in sorted(os.listdir(tempdir)):
-            if ffn.endswith("fusion-data"):
-                path = os.path.join(tempdir, ffn)
-                fdt = extract_json(fn=path, timezone=timezone, **kwargs).to_dict()
-                dt = merge_dicttrees(dt, fdt, "identical")
+        filenames = [ffn for ffn in os.listdir(tempdir) if ffn.endswith("fusion-data")]
+        for ffn in sorted(filenames):
+            path = os.path.join(tempdir, ffn)
+            fdt = extract_json(fn=path, timezone=timezone, encoding=encoding, **kwargs)
+            dt = merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

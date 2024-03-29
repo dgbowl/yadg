@@ -21,13 +21,6 @@ Schema
         data_vars:
           y:            (E)                   # Signal data
 
-        "params": {
-            "software_id": software_id,
-            "version": version,
-            "username": header.get("operator"),
-        },
-        "file_header": header,
-
 Metadata
 ````````
 The following metadata is extracted:

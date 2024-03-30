@@ -10,7 +10,7 @@ Usage
 `````
 Available since ``yadg-4.2``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.Empalc_csv
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv
 
 Schema
 ``````

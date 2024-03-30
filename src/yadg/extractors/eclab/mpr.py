@@ -10,8 +10,6 @@ This code is partly an adaptation of the `galvani module by Chris
 Kerr <https://github.com/echemdata/galvani>`_, and builds on the work done
 by the previous civilian service member working on the project, Jonas Krieger.
 
-.. _yadg.parsers.electrochem.eclabmpr.techniques:
-
 These are the implemented techniques for which the technique parameter
 sequences can be parsed:
 

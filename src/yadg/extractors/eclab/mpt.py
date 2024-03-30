@@ -7,7 +7,7 @@ parameter sequences and an optional loops section) and a tab-separated
 data table.
 
 A list of techniques supported by this parser is shown in `the techniques table
-<yadg.parsers.electrochem.eclabmpr.techniques>`_.
+<yadg.extractors.eclab.common.techniques>`_.
 
 File Structure of ``.mpt`` Files
 ````````````````````````````````

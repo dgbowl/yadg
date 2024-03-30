@@ -46,7 +46,7 @@ from xarray import Dataset
 import xarray as xr
 import numpy as np
 
-from yadg.dgutils.dateutils import str_to_uts
+from yadg import dgutils
 
 
 logger = logging.getLogger(__name__)
@@ -197,7 +197,7 @@ def extract(
 ) -> DataTree:
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
-    uts = str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
+    uts = dgutils.str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
     data = chromdata(jsdata, uts)
     trace = chromtrace(jsdata, uts)
     newdt = DataTree(data)

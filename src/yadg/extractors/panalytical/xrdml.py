@@ -65,7 +65,7 @@ from xarray import Dataset
 import xarray as xr
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
-from yadg.extractors.public.panalytical.common import panalytical_comment
+from yadg.extractors.panalytical.common import panalytical_comment
 from yadg.dgutils import dateutils
 
 

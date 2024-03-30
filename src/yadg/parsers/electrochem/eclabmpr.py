@@ -198,8 +198,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 import logging
 import xarray as xr
 import numpy as np
-from yadg.dgutils.dateutils import ole_to_uts
-from yadg.dgutils.btools import read_value
+from yadg import dgutils
 from .eclabcommon.techniques import (
     technique_params_dtypes,
     param_from_key,
@@ -213,7 +212,6 @@ from .eclabcommon.mpr_columns import (
     log_dtypes,
     extdev_dtypes,
 )
-from yadg.extractors.custom.basic.csv import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 
@@ -237,14 +235,14 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     technique, params_dtypes = technique_params_dtypes[data[0x0000]]
     settings["technique"] = technique
     for offset, (dtype, name) in settings_dtypes.items():
-        settings[name] = read_value(data, offset, dtype)
+        settings[name] = dgutils.read_value(data, offset, dtype)
     # Then determine the technique parameters. The parameters' offset
     # changes depending on the technique present and apparently on some
     # other factor that is unclear to me.
     params_offset = None
     for offset in (0x0572, 0x1845, 0x1846):
         logger.debug("Trying to find the technique parameters at 0x%x.", offset)
-        n_params = read_value(data, offset + 0x0002, "<u2")
+        n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
         for dtype in params_dtypes:
             if len(dtype) == n_params:
                 params_dtype, params_offset = dtype, offset
@@ -255,7 +253,7 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     if params_offset is None:
         raise NotImplementedError("Unknown parameter offset or technique dtype.")
     logger.debug("Reading number of parameter sequences at 0x%x.", params_offset)
-    ns = read_value(data, params_offset, "<u2")
+    ns = dgutils.read_value(data, params_offset, "<u2")
     logger.debug("Reading %d parameter sequences of %d parameters.", ns, n_params)
     rawparams = np.frombuffer(
         data,
@@ -352,8 +350,8 @@ def process_data(
         ("u").
 
     """
-    n_datapoints = read_value(data, 0x0000, "<u4")
-    n_columns = read_value(data, 0x0004, "|u1")
+    n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
+    n_columns = dgutils.read_value(data, 0x0004, "|u1")
     column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
@@ -410,9 +408,9 @@ def process_data(
                 continue
             devs[name] = get_resolution(name, value, unit, Erange, Irange)
 
-        append_dicts(vals, devs, allvals, allmeta, li=vi)
+        dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
 
-    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
 
 
@@ -432,7 +430,7 @@ def process_log(data: bytes) -> dict:
     """
     log = {}
     for offset, (dtype, name) in log_dtypes.items():
-        log[name] = read_value(data, offset, dtype)
+        log[name] = dgutils.read_value(data, offset, dtype)
     return log
 
 
@@ -450,7 +448,7 @@ def process_loop(data: bytes) -> dict:
         The parsed loops.
 
     """
-    n_indexes = read_value(data, 0x0000, "<u4")
+    n_indexes = dgutils.read_value(data, 0x0000, "<u4")
     indexes = np.frombuffer(data, offset=0x0004, dtype="<u4", count=n_indexes)
     return {"n_indexes": n_indexes, "indexes": indexes}
 
@@ -471,7 +469,7 @@ def process_ext(data: bytes) -> dict:
     """
     ext = {}
     for offset, (dtype, name) in extdev_dtypes.items():
-        ext[name] = read_value(data, offset, dtype)
+        ext[name] = dgutils.read_value(data, offset, dtype)
 
     return ext
 
@@ -494,7 +492,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     for module in modules:
-        header = read_value(module, 0x0000, module_header_dtype)
+        header = dgutils.read_value(module, 0x0000, module_header_dtype)
         name = header["short_name"].strip()
         logger.debug("Read '%s' module.", name)
         module_data = module[module_header_dtype.itemsize :]
@@ -591,7 +589,7 @@ def process(
         fulldate = False
     else:
         metadata["log"] = log
-        start_time = ole_to_uts(log["ole_timestamp"], timezone=timezone)
+        start_time = dgutils.ole_to_uts(log["ole_timestamp"], timezone=timezone)
         fulldate = True
     if "time" in ds:
         ds["uts"] = ds["time"] + start_time

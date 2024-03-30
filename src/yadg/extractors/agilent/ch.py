@@ -71,7 +71,6 @@ Uncertainty in ``elution_time`` is the x-axis step size.
 
 import numpy as np
 from yadg import dgutils
-from yadg.dgutils.dateutils import str_to_uts
 import xarray as xr
 from datatree import DataTree
 
@@ -139,7 +138,7 @@ def extract(
 
     detector, title = pars["tracetitle"].split(",")
 
-    uts = str_to_uts(
+    uts = dgutils.str_to_uts(
         timestamp=pars["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
     )
 

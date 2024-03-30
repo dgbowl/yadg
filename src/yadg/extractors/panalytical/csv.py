@@ -45,7 +45,7 @@ import xarray as xr
 import numpy as np
 
 from yadg.dgutils import dateutils
-from yadg.extractors.public.panalytical.common import panalytical_comment, snake_case
+from yadg.extractors.panalytical.common import panalytical_comment, snake_case
 
 
 def _process_comments(comments: list[str]) -> dict:

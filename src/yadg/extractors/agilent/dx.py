@@ -1,6 +1,6 @@
 """
 Extractor of Agilent OpenLab DX archives. This is a wrapper parser which unzips the
-provided DX file, and then uses the :mod:`yadg.extractors.public.agilent.ch` extractor
+provided DX file, and then uses the :mod:`yadg.extractors.agilent.ch` extractor
 to parse every CH file present in the archive. The IT files in the archive are currently
 ignored.
 
@@ -44,9 +44,10 @@ The following metadata is extracted:
 import zipfile
 import tempfile
 import os
-from yadg.extractors.public.agilent.ch import extract as extract_ch
-from yadg.core import merge_dicttrees
 from datatree import DataTree
+
+from yadg.extractors.agilent.ch import extract as extract_ch
+from yadg import dgutils
 
 
 def extract(
@@ -63,5 +64,5 @@ def extract(
         for ffn in sorted(filenames):
             path = os.path.join(tempdir, ffn)
             fdt = extract_ch(fn=path, timezone=timezone, **kwargs)
-            dt = merge_dicttrees(dt, fdt.to_dict(), "identical")
+            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

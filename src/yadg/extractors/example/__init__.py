@@ -32,7 +32,6 @@ No metadata is returned.
 
 from pydantic import BaseModel
 from yadg import dgutils
-from yadg.extractors.custom.basic.csv import dicts_to_dataset
 from datatree import DataTree
 
 
@@ -48,4 +47,4 @@ def extract(
     data_vals = {k: [v] for k, v in kwargs.items()}
     data_vals["uts"] = [dgutils.now()]
     meta_vals = {}
-    return dicts_to_dataset(data_vals, meta_vals, fulldate=False)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False)

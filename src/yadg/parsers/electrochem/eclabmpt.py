@@ -36,10 +36,9 @@ import re
 import logging
 import locale as lc
 import xarray as xr
-from ...dgutils.dateutils import str_to_uts
+from yadg import dgutils
 from .eclabcommon.techniques import get_resolution, technique_params, param_from_key
 from .eclabcommon.mpt_columns import column_units
-from yadg.extractors.custom.basic.csv import append_dicts, dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +89,7 @@ def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     timestamp_match = timestamp_re.search("\n".join(settings_lines))
     timestamp = timestamp_match["val"]
     for format in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
-        uts = str_to_uts(
+        uts = dgutils.str_to_uts(
             timestamp=timestamp, format=format, timezone=timezone, strict=False
         )
         if uts is not None:
@@ -192,9 +191,9 @@ def process_data(
             assert isinstance(val, float), "`n` should not be string"
             devs[col] = get_resolution(col, val, unit, Erange, Irange)
 
-        append_dicts(vals, devs, allvals, allmeta, li=li)
+        dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
 
-    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
 
 

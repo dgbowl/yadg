@@ -1,5 +1,5 @@
 """
-This module includes shared functions for the :mod:`~yadg.extractors.public.drycal`
+This module includes shared functions for the :mod:`~yadg.extractors.drycal`
 extractor, including functions for parsing the files, processing the tabulated data,
 and ensuring timestamps are increasing.
 
@@ -17,7 +17,7 @@ import xarray as xr
 from striprtf.striprtf import rtf_to_text
 
 from yadg import dgutils
-from yadg.extractors.custom.basic.csv import process_row, append_dicts, dicts_to_dataset
+from yadg.extractors.basic.csv import process_row
 
 logger = logging.getLogger(__name__)
 
@@ -74,9 +74,9 @@ def rtf(
     meta_vals = {"_fn": []}
     for pi, point in enumerate(data):
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return dicts_to_dataset(data_vals, meta_vals, units, False)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def sep(
@@ -122,9 +122,9 @@ def sep(
     meta_vals = {"_fn": []}
     for pi, point in enumerate(data):
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
 
-    return dicts_to_dataset(data_vals, meta_vals, units, False)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
 
 
 def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:

@@ -46,7 +46,7 @@ No metadata is returned.
 
 import logging
 from pydantic import BaseModel
-from yadg.extractors.custom.basic.csv import process_row, append_dicts, dicts_to_dataset
+from yadg.extractors.basic.csv import process_row
 from yadg import dgutils
 from xarray import Dataset
 
@@ -94,6 +94,6 @@ def extract(
             datefunc,
             datecolumns,
         )
-        append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    return dicts_to_dataset(data_vals, meta_vals, units, fulldate)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate)

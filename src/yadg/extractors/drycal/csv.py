@@ -43,7 +43,7 @@ All uncertainties are derived from the string representation of the floats.
 """
 
 from xarray import Dataset
-from yadg.extractors.public.drycal import common
+from yadg.extractors.drycal import common
 
 
 def extract(

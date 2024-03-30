@@ -49,7 +49,7 @@ import xarray as xr
 from xarray import Dataset
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
-from yadg.dgutils.dateutils import str_to_uts
+from yadg import dgutils
 
 
 logger = logging.getLogger(__name__)
@@ -114,7 +114,9 @@ def extract(
                 "area": {},
                 "retention time": {},
                 "sampleid": items[sni],
-                "uts": str_to_uts(timestamp=f"{items[0]}{offset}", timezone=timezone),
+                "uts": dgutils.str_to_uts(
+                    timestamp=f"{items[0]}{offset}", timezone=timezone
+                ),
             }
             for ii, i in enumerate(items[2:]):
                 ii += 2

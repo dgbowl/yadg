@@ -32,7 +32,7 @@ def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
     """
     extractor = ExtractorFactory(extractor={"filetype": filetype}).extractor
 
-    m = importlib.import_module(f"yadg.extractors.public.{extractor.filetype}")
+    m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
     ret = func(fn=str(path), **vars(extractor))

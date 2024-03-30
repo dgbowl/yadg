@@ -1,12 +1,9 @@
 from importlib import metadata
 import logging
 import importlib
-import xarray as xr
-import numpy as np
 from typing import Callable
 from datatree import DataTree
 from xarray import Dataset
-from pydantic import BaseModel
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
@@ -20,18 +17,13 @@ def infer_extractor(extractor: str) -> Callable:
     A function that finds an :func:`extract` function of the supplied ``extractor``.
 
     """
-    modnames = [
-        f"yadg.extractors.public.{extractor}",
-        f"yadg.extractors.custom.{extractor}",
-        f"yadg.extractors.{extractor.replace('.','')}",
-    ]
-    for modname in modnames:
-        try:
-            m = importlib.import_module(modname)
-            if hasattr(m, "extract"):
-                return getattr(m, "extract")
-        except ImportError:
-            logger.critical(f"could not import module '{modname}'")
+    modname = f"yadg.extractors.{extractor}"
+    try:
+        m = importlib.import_module(modname)
+        if hasattr(m, "extract"):
+            return getattr(m, "extract")
+    except ImportError:
+        logger.critical(f"could not import module '{modname}'")
     raise RuntimeError
 
 
@@ -99,69 +91,13 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                     # there are no variables - we don't add 'uts' to those.
                     fvals[name] = dset
                 else:
-                    fvals[name] = complete_uts(
+                    fvals[name] = dgutils.complete_uts(
                         dset, tf, step.externaldate, step.extractor.timezone
                     )
-            vals = merge_dicttrees(vals, fvals, concatmode)
+            vals = dgutils.merge_dicttrees(vals, fvals, concatmode)
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
         stepdt.attrs = sattrs
         stepdt.parent = root
     return root
-
-
-def complete_uts(
-    ds: Dataset,
-    filename: str,
-    externaldate: BaseModel,
-    timezone: str,
-) -> Dataset:
-    """
-    A helper function ensuring that the Dataset ``ds`` contains a dimension ``"uts"``,
-    and that the timestamps in ``"uts"`` are completed as instructed in the
-    ``externaldate`` specification.
-
-    """
-    if not hasattr(ds, "uts"):
-        ds = ds.expand_dims("uts")
-    if len(ds.uts.coords) == 0:
-        ds["uts"] = np.zeros(ds.uts.size)
-        ds.attrs["fulldate"] = False
-    if not ds.attrs.get("fulldate", True) or externaldate is not None:
-        ts, fulldate = dgutils.complete_timestamps(
-            timesteps=ds.uts.values,
-            fn=filename,
-            spec=externaldate,
-            timezone=timezone,
-        )
-        ds["uts"] = ts
-        if fulldate:
-            ds.attrs.pop("fulldate", None)
-        else:
-            # cannot store booleans in NetCDF files
-            ds.attrs["fulldate"] = int(fulldate)
-
-    return ds
-
-
-def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
-    """
-    A helper function that merges two ``DataTree.to_dict()`` objects by concatenating
-    the new values in ``fvals`` to the existing ones in ``vals``.
-
-    """
-    if vals is None:
-        return fvals
-    for k in fvals.keys():
-        try:
-            vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
-        except xr.MergeError:
-            raise RuntimeError(
-                "Merging metadata from multiple files has failed, as some of the "
-                "values differ between files. This might be caused by trying to "
-                "parse data obtained using different techniques/protocols in a "
-                "single step. If you are certain this is what you want, try using "
-                "yadg with the '--ignore-merge-errors' option."
-            )
-    return vals

@@ -15,31 +15,31 @@
 
 {%- if is_namespace %}
 {{- [pkgname, "namespace"] | join(" ") | e | heading }}
-{% elif 'yadg.extractors.custom.basic' == pkgname %}
+{% elif 'yadg.extractors.basic' == pkgname %}
 {{- "**basic**: For tabulated data" | heading }}
-{% elif 'yadg.extractors.custom.empalc' == pkgname %}
+{% elif 'yadg.extractors.empalc' == pkgname %}
 {{- "**empalc**: For Empa's LC data" | heading }}
-{% elif 'yadg.extractors.custom.example' == pkgname %}
+{% elif 'yadg.extractors.example' == pkgname %}
 {{- "**example**: For yadg testing" | heading }}
-{% elif 'yadg.extractors.custom.fhimcpt' == pkgname %}
+{% elif 'yadg.extractors.fhimcpt' == pkgname %}
 {{- "**fhimcpt**: For MCPT set-up at FHI" | heading }}
-{% elif 'yadg.extractors.public.agilent' == pkgname %}
+{% elif 'yadg.extractors.agilent' == pkgname %}
 {{- "**agilent**: For Agilent chromatograms" | heading }}
-{% elif 'yadg.extractors.public.drycal' == pkgname %}
+{% elif 'yadg.extractors.drycal' == pkgname %}
 {{- "**drycal**: For MesaLabs Drycal Pro data" | heading }}
-{% elif 'yadg.extractors.public.eclab' == pkgname %}
+{% elif 'yadg.extractors.eclab' == pkgname %}
 {{- "**eclab**: For BioLogic data files" | heading }}
-{% elif 'yadg.extractors.public.ezchrom' == pkgname %}
+{% elif 'yadg.extractors.ezchrom' == pkgname %}
 {{- "**ezchrom**: For EZChrom chromatograms" | heading }}
-{% elif 'yadg.extractors.public.fusion' == pkgname %}
+{% elif 'yadg.extractors.fusion' == pkgname %}
 {{- "**fusion**: For Fusion chromatograms" | heading }}
-{% elif 'yadg.extractors.public.panalytical' == pkgname %}
+{% elif 'yadg.extractors.panalytical' == pkgname %}
 {{- "**panalytical**: For Panalytical XRD data" | heading }}
-{% elif 'yadg.extractors.public.phi' == pkgname %}
+{% elif 'yadg.extractors.phi' == pkgname %}
 {{- "**phi**: For Phi XPS data" | heading }}
-{% elif 'yadg.extractors.public.quadstar' == pkgname %}
+{% elif 'yadg.extractors.quadstar' == pkgname %}
 {{- "**quadstar**: For Quadstar MS data" | heading }}
-{% elif 'yadg.extractors.public.tomato' == pkgname %}
+{% elif 'yadg.extractors.tomato' == pkgname %}
 {{- "**tomato**: For tomato outputs" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}

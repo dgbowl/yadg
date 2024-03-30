@@ -46,7 +46,7 @@ All uncertainties are derived from the string representation of the floats.
 
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from yadg.dgutils.dateutils import str_to_uts
+from yadg import dgutils
 import xarray as xr
 from datatree import DataTree
 
@@ -57,7 +57,7 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
         columns
     ), "chromtab: The number of headers and columns do not match."
     assert "Date Acquired" in headers, "chromtab: Cannot infer date."
-    res["uts"] = str_to_uts(
+    res["uts"] = dgutils.str_to_uts(
         timestamp=columns[headers.index("Date Acquired")].strip(),
         format="%d %b %Y %H:%M",
         timezone=timezone,

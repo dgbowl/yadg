@@ -1,6 +1,6 @@
 """
 For processing Inficon Fusion zipped data. This is a wrapper parser which unzips the
-provided zip file, and then uses the :mod:`yadg.extractors.public.fusion.json` extractor
+provided zip file, and then uses the :mod:`yadg.extractors.fusion.json` extractor
 to parse every fusion-data file present in the archive.
 
 Contains both the data from the raw chromatogram and the post-processed results.
@@ -45,9 +45,10 @@ No metadata is currently extracted.
 import zipfile
 import tempfile
 import os
-from yadg.extractors.public.fusion.json import extract as extract_json
-from yadg.core import merge_dicttrees
 from datatree import DataTree
+
+from yadg.extractors.fusion.json import extract as extract_json
+from yadg import dgutils
 
 
 def extract(
@@ -65,5 +66,5 @@ def extract(
         for ffn in sorted(filenames):
             path = os.path.join(tempdir, ffn)
             fdt = extract_json(fn=path, timezone=timezone, encoding=encoding, **kwargs)
-            dt = merge_dicttrees(dt, fdt.to_dict(), "identical")
+            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

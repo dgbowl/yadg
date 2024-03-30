@@ -47,9 +47,10 @@ For ``elution_time``, an uncertainty of one X-axis multiplier is used.
 import numpy as np
 import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from yadg.dgutils.dateutils import str_to_uts
 import xarray as xr
 from datatree import DataTree
+
+from yadg import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +77,7 @@ def extract(
                 k = key.lower().replace(" ", "")
                 metadata[k] = line.split(f"{key}:")[1].strip()
         if line.startswith("Acquisition Date and Time:"):
-            uts = str_to_uts(
+            uts = dgutils.str_to_uts(
                 timestamp=line.split("Time:")[1].strip(),
                 format="%m/%d/%Y %I:%M:%S %p",
                 timezone=timezone,

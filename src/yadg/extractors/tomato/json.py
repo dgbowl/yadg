@@ -65,7 +65,7 @@ import logging
 import xarray as xr
 from xarray import Dataset
 
-from yadg.extractors.custom.basic.csv import append_dicts, dicts_to_dataset
+from yadg import dgutils
 
 logger = logging.getLogger(__name__)
 
@@ -181,8 +181,8 @@ def dummy_tomato_json(fn: str, jsdata: dict) -> Dataset:
         for k, v in vals.items():
             if k not in {"time", "address", "channel"}:
                 devs[k] = 0.0
-        append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
-    return dicts_to_dataset(data_vals, meta_vals, fulldate=False)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False)
 
 
 def extract(

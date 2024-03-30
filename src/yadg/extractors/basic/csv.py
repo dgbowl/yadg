@@ -43,13 +43,12 @@ No metadata is extracted.
 """
 
 import logging
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from typing import Callable, Any
 from pydantic import BaseModel
 import locale as lc
-import numpy as np
-import xarray as xr
 from xarray import Dataset
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+from typing import Callable
+
 
 from yadg import dgutils
 
@@ -117,63 +116,6 @@ def process_row(
     return vals, devs
 
 
-def append_dicts(
-    vals: dict[str, Any],
-    devs: dict[str, Any],
-    data: dict[str, list[Any]],
-    meta: dict[str, list[Any]],
-    fn: str = None,
-    li: int = 0,
-) -> None:
-    if "_fn" in meta and fn is not None:
-        meta["_fn"].append(str(fn))
-    for k, v in vals.items():
-        if k not in data:
-            data[k] = [None if isinstance(v, str) else np.nan] * li
-        data[k].append(v)
-    for k, v in devs.items():
-        if k not in meta:
-            meta[k] = [np.nan] * li
-        meta[k].append(v)
-
-    for k in set(data) - set(vals):
-        data[k].append(np.nan)
-    for k in set(meta) - set(devs):
-        if k != "_fn":
-            meta[k].append(np.nan)
-
-
-def dicts_to_dataset(
-    data: dict[str, list[Any]],
-    meta: dict[str, list[Any]],
-    units: dict[str, str] = dict(),
-    fulldate: bool = True,
-) -> Dataset:
-    darrs = {}
-    for k, v in data.items():
-        attrs = {}
-        u = units.get(k, None)
-        if u is not None:
-            attrs["units"] = u
-        if k == "uts":
-            continue
-        darrs[k] = xr.DataArray(data=v, dims=["uts"], attrs=attrs)
-        if k in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
-            err = f"{k}_std_err"
-            darrs[k].attrs["ancillary_variables"] = err
-            attrs["standard_name"] = f"{k} standard error"
-            darrs[err] = xr.DataArray(data=meta[k], dims=["uts"], attrs=attrs)
-    if "uts" in data:
-        coords = dict(uts=data.pop("uts"))
-    else:
-        coords = dict()
-    if fulldate:
-        attrs = dict()
-    else:
-        attrs = dict(fulldate=False)
-    return xr.Dataset(data_vars=darrs, coords=coords, attrs=attrs)
-
-
 def extract(
     *,
     fn: str,
@@ -236,7 +178,7 @@ def extract(
             datefunc,
             datecolumns,
         )
-        append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
     lc.setlocale(category=lc.LC_NUMERIC, locale=old_loc)
 
-    return dicts_to_dataset(data_vals, meta_vals, units, fulldate)
+    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate)

@@ -60,3 +60,5 @@ yadg = "yadg:run_with_arguments"
 enabled = true
 dev_template = "{tag}.dev{ccount}"
 dirty_template = "{tag}.dev{ccount}"
+
+[tool.ruff]

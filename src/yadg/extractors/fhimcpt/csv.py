@@ -61,7 +61,6 @@ def extract(
     parameters: BaseModel,
     **kwargs: dict,
 ) -> Dataset:
-
     with open(fn, "r", encoding=encoding) as infile:
         lines = [i.strip() for i in infile.readlines()]
 

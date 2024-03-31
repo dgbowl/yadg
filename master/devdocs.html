@@ -111,7 +111,7 @@
              
   <section id="developer-documentation">
 <h1>Developer documentation<a class="headerlink" href="#developer-documentation" title="Link to this heading"></a></h1>
-<p>The project follows fairly standard developer practices. Every new feature should be associated with a test, and every PR requires linting using <code class="docutils literal notranslate"><span class="pre">flake8</span></code> and formatting using <code class="docutils literal notranslate"><span class="pre">black</span></code>.</p>
+<p>The project follows fairly standard developer practices. Every new feature should be associated with a test, and every PR requires linting and formatting using <code class="docutils literal notranslate"><span class="pre">ruff</span></code>.</p>
 <section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
 <p>Tests are located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder of the repository, and are executed using <code class="docutils literal notranslate"><span class="pre">pytest</span></code> for every commit in every PR.</p>
@@ -119,23 +119,16 @@
 </section>
 <section id="formatting">
 <h2>Formatting<a class="headerlink" href="#formatting" title="Link to this heading"></a></h2>
-<p>All files should be formatted by <code class="docutils literal notranslate"><span class="pre">black</span></code>. Lines containing text fields, including docstrings, should be between 80-88 characters in length. Imports of functions should be absolute, that is including the <code class="docutils literal notranslate"><span class="pre">yadg.</span></code> prefix.</p>
+<p>All files should be formatted by <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">format</span></code>. Lines containing text fields, including docstrings, should be between 80-88 characters in length. Imports of functions should be absolute, that is including the <code class="docutils literal notranslate"><span class="pre">yadg.</span></code> prefix.</p>
 </section>
 <section id="implementing-new-features">
 <h2>Implementing new features<a class="headerlink" href="#implementing-new-features" title="Link to this heading"></a></h2>
-<p><strong>New parsers</strong> should be implemented by:</p>
+<p><strong>New extractors</strong> should be implemented by:</p>
 <ul class="simple">
 <li><p>adding their schema into <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#dgbowl_schemas.yadg.dataschema.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema.DataSchema</span></code></a></p></li>
-<li><p>adding their implementation in a separate Python package under <code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers</span></code></p></li>
+<li><p>adding their implementation in a separate Python package under <a class="reference internal" href="apidoc/yadg.extractors.html#module-yadg.extractors" title="yadg.extractors"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors</span></code></a></p></li>
 </ul>
-<p>Each <cite>parser</cite> should be documented by adding a structured docstring into the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file of each new sub-module of <code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.parsers</span></code>. This documentation should describe the application and usage of the <cite>parser</cite>, and refer to the Pydantic audotocs via <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#dgbowl_schemas.yadg.dataschema.DataSchema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code></a> to discuss the features exposed via the parameters dictionary. Generally, code implementing the parsing of specific <cite>filetypes</cite> should be kept separate from the main <cite>parser</cite> function in the module.</p>
-<p><strong>New filetypes</strong> should be implemented as sub-modules of their <cite>parser</cite>. They should be documented using a top-level docstring in the relevant sub-module. If the <cite>filetype</cite> is binary, a description of the file structure should be provided in the docstring. Every new <cite>filetype</cite> will have to be added into the <code class="xref py py-mod docutils literal notranslate"><span class="pre">filetype</span></code> module as well.</p>
-<p><strong>New extractors</strong> can be registered using a shim in the <a class="reference internal" href="apidoc/yadg.extractors.html#module-yadg.extractors" title="yadg.extractors"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors</span></code></a> module, referring to the <cite>filetype</cite>. The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of each <cite>extractor</cite> should expose:</p>
-<ul class="simple">
-<li><p>an <code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code> function which returns an <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>,</p></li>
-<li><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code> named <code class="xref py py-obj docutils literal notranslate"><span class="pre">supports</span></code>, enumerating all <cite>filetypes</cite> that can be extracted by the new <cite>extractor.</cite></p></li>
-</ul>
-<p>Note that a new <cite>extractor</cite> requires its <cite>filetype</cite> to be added in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">filetype</span></code> module as well.</p>
+<p>Each extractor should be documented by adding a structured docstring at the top of the file. This documentation should describe the application and usage of the extractor, and refer to the Pydantic audotocs via <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/master/apidoc/dgbowl_schemas.yadg.dataschema.html#module-dgbowl_schemas.yadg.dataschema" title="(in dgbowl-schemas vmaster)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataschema</span></code></a> to discuss the features exposed via the parameters dictionary. If the filetype extracted is binary, a description of the file structure should be provided in the docstring. Every new filetype will have to be added into the <code class="xref py py-mod docutils literal notranslate"><span class="pre">filetype</span></code> module as well.</p>
 </section>
 </section>
 

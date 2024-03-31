@@ -1,0 +1,32 @@
+**panalytical**: For Panalytical XRD data
+=========================================
+
+.. automodule:: yadg.extractors.panalytical
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+.. automodule:: yadg.extractors.panalytical.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.panalytical.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.panalytical.xrdml
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.panalytical.xy
+   :members:
+   :undoc-members:
+   :show-inheritance:

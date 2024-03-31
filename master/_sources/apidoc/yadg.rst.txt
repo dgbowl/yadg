@@ -14,10 +14,7 @@ Subpackages
 
    yadg.dgutils
    yadg.extractors
-   yadg.parsers
 
-Submodules
-----------
 
 
 .. automodule:: yadg.core

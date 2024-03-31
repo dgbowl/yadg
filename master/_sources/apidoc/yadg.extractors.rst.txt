@@ -12,5 +12,16 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   yadg.extractors.custom
-   yadg.extractors.public
+   yadg.extractors.agilent
+   yadg.extractors.basic
+   yadg.extractors.drycal
+   yadg.extractors.eclab
+   yadg.extractors.empalc
+   yadg.extractors.example
+   yadg.extractors.ezchrom
+   yadg.extractors.fhimcpt
+   yadg.extractors.fusion
+   yadg.extractors.panalytical
+   yadg.extractors.phi
+   yadg.extractors.quadstar
+   yadg.extractors.tomato

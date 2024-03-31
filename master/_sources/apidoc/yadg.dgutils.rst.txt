@@ -6,8 +6,6 @@ yadg.dgutils package
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
 
 
 .. automodule:: yadg.dgutils.btools
@@ -17,6 +15,12 @@ Submodules
 
 
 .. automodule:: yadg.dgutils.dateutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.dgutils.dsutils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -34,7 +38,7 @@ Submodules
    :show-inheritance:
 
 
-.. automodule:: yadg.dgutils.utils
+.. automodule:: yadg.dgutils.schemautils
    :members:
    :undoc-members:
    :show-inheritance:

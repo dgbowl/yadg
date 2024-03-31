@@ -1,0 +1,14 @@
+**tomato**: For tomato outputs
+==============================
+
+.. automodule:: yadg.extractors.tomato
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+.. automodule:: yadg.extractors.tomato.json
+   :members:
+   :undoc-members:
+   :show-inheritance:

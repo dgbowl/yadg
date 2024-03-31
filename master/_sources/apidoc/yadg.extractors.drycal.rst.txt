@@ -1,0 +1,32 @@
+**drycal**: For MesaLabs Drycal Pro data
+========================================
+
+.. automodule:: yadg.extractors.drycal
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+.. automodule:: yadg.extractors.drycal.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.drycal.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.drycal.rtf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.drycal.txt
+   :members:
+   :undoc-members:
+   :show-inheritance:

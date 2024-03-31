@@ -1,0 +1,28 @@
+**eclab**: For BioLogic data files
+==================================
+
+.. automodule:: yadg.extractors.eclab
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   yadg.extractors.eclab.common
+
+
+
+.. automodule:: yadg.extractors.eclab.mpr
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: yadg.extractors.eclab.mpt
+   :members:
+   :undoc-members:
+   :show-inheritance:

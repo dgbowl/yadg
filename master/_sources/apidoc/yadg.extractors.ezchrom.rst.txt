@@ -1,0 +1,14 @@
+**ezchrom**: For EZChrom chromatograms
+======================================
+
+.. automodule:: yadg.extractors.ezchrom
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+
+.. automodule:: yadg.extractors.ezchrom.asc
+   :members:
+   :undoc-members:
+   :show-inheritance:

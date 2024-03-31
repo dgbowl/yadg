@@ -4,4 +4,5 @@
    :hidden:
    :glob:
 
+   apidoc/yadg.extractors.example
    apidoc/yadg.extractors.*

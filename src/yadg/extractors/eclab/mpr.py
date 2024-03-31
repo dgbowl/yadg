@@ -1,7 +1,40 @@
 """
-**eclabmpr**: Processing of BioLogic's EC-Lab binary modular files.
--------------------------------------------------------------------
+For processing of BioLogic's EC-Lab binary modular files.
 
+Usage
+`````
+Available since ``yadg-4.0``.
+
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr
+
+Schema
+``````
+The ``mpr`` files contain many columns that vary depending on the electrochemical
+technique used. Below is shown a list of columns that can be expected to be present
+in a typical ``mpr`` file.
+
+.. code-block:: yaml
+
+    xarray.Dataset:
+      coords:
+        uts:            !!float     # Unix timestamp, without date
+      data_vars:
+        Ewe             (uts)       # Potential of the working electrode
+        Ece             (uts)       # Potential of the counter electrode, if present
+        I               (uts)       # Instantaneous current
+        time            (uts)       # Time elapsed since the start of the experiment
+        <Ewe>           (uts)       # Average Ewe potential since last data point
+        <Ece>           (uts)       # Average Ece potential since last data point
+        <I>             (uts)       # Average current since last data point
+        ...
+
+.. note::
+
+     Note that in most cases, either the instantaneous or the averaged quantities are
+     stored - only rarely are both available!
+
+Notes on file structure
+```````````````````````
 ``.mpr`` files are structured in a set of "modules", one concerning
 settings, one for actual data, one for logs, and an optional loops
 module. The parameter sequences can be found in the settings module.
@@ -38,14 +71,6 @@ sequences can be parsed:
 +------+-------------------------------------------------+
 | ZIR  | IR compensation (PEIS)                          |
 +------+-------------------------------------------------+
-
-.. note::
-
-    ``.mpt`` files can contain more data than the corresponding binary
-    ``.mpr`` file.
-
-File Structure of ``.mpr`` Files
-````````````````````````````````
 
 At a top level, ``.mpr`` files are made up of a number of modules,
 separated by the ``MODULE`` keyword. In all the files I have seen, the
@@ -190,7 +215,9 @@ host address and an acquisition start timestamp in Microsoft OLE format.
     of any external sensors plugged into the device), the ``log`` is usually
     not present and therefore the full timestamp cannot be calculated.
 
-.. codeauthor:: Nicolas Vetsch
+.. codeauthor::
+    Nicolas Vetsch
+
 """
 
 import logging

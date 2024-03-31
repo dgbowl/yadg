@@ -1,24 +1,46 @@
 """
-**eclabmpt**: Processing of BioLogic's EC-Lab ASCII export files.
------------------------------------------------------------------
+For processing of BioLogic's EC-Lab binary modular files.
 
-``.mpt`` files are made up of a header portion (with the technique
-parameter sequences and an optional loops section) and a tab-separated
-data table.
+Usage
+`````
+Available since ``yadg-4.0``.
 
-A list of techniques supported by this parser is shown in `the techniques table
-<yadg.extractors.eclab.common.techniques>`_.
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt
 
-File Structure of ``.mpt`` Files
-````````````````````````````````
+Schema
+``````
+The ``.mpt`` files contain many columns that vary depending on the electrochemical
+technique used. Below is shown a list of columns that can be expected to be present
+in a typical ``.mpt`` file.
 
+.. code-block:: yaml
+
+    xarray.Dataset:
+      coords:
+        uts:            !!float     # Unix timestamp, without date
+      data_vars:
+        Ewe             (uts)       # Potential of the working electrode
+        Ece             (uts)       # Potential of the counter electrode, if present
+        I               (uts)       # Instantaneous current
+        time            (uts)       # Time elapsed since the start of the experiment
+        <Ewe>           (uts)       # Average Ewe potential since last data point
+        <Ece>           (uts)       # Average Ece potential since last data point
+        <I>             (uts)       # Average current since last data point
+        ...
+
+.. note::
+
+     Note that in most cases, either the instantaneous or the averaged quantities are
+     stored - only rarely are both available!
+
+Notes on file structure
+```````````````````````
 These human-readable files are sectioned into headerlines and datalines.
 The header part of the ``.mpt`` files is made up of information that can be found
 in the settings, log and loop modules of the binary ``.mpr`` file.
 
 If no header is present, the timestamps will instead be calculated from
 the file's ``mtime()``.
-
 
 Metadata
 ````````
@@ -29,7 +51,9 @@ The metadata will contain the information from the header of the file.
     The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
     is not yet complete.
 
-.. codeauthor:: Nicolas Vetsch
+.. codeauthor::
+    Nicolas Vetsch
+
 """
 
 import re

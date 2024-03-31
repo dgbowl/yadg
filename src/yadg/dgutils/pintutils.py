@@ -49,7 +49,7 @@ def _sanitize_helper(unit: str) -> str:
 
 
 def sanitize_units(
-    units: Union[str, dict[str, str], list[str]]
+    units: Union[str, dict[str, str], list[str]],
 ) -> Union[str, dict[str, str], list[str]]:
     """
     Unit sanitizer.

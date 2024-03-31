@@ -1,12 +1,8 @@
 import json
 import pytest
 
-from .utils import (
-    datagram_from_input,
-    standard_datagram_test,
-    compare_result_dicts,
-    dg_get_quantity,
-)
+from .utils import datagram_from_input, standard_datagram_test, compare_result_dicts, dg_get_quantity
+import math
 
 
 @pytest.mark.parametrize(

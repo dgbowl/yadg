@@ -48,6 +48,11 @@ docs = [
     "autodoc-pydantic ~= 2.1.0",
 ]
 
+[project.urls]
+Documentation = "https://dgbowl.github.io/yadg/master"
+Issues = "https://github.com/dgbowl/yadg/issues"
+Repository = "https://github.com/dgbowl/yadg/"
+
 [project.scripts]
 yadg = "yadg:run_with_arguments"
 
@@ -55,7 +60,3 @@ yadg = "yadg:run_with_arguments"
 enabled = true
 dev_template = "{tag}.dev{ccount}"
 dirty_template = "{tag}.dev{ccount}"
-
-[tool.flake8]
-max-line-length = 88
-extend-ignore = "E203"

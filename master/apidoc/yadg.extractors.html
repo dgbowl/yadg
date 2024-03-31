@@ -128,7 +128,7 @@
 <span id="yadg-extractors-package"></span><h1>yadg.extractors package<a class="headerlink" href="#module-yadg.extractors" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.extract" title="Link to this definition"></a></dt>
 <dd><p>The individual extractor functionality of yadg is called from here.</p>
 <p>Extracts data from provided <code class="docutils literal notranslate"><span class="pre">path</span></code>, assuming it is the specified <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. The
 data is either returned as a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code>. In either case
@@ -137,12 +137,9 @@ which can be used to write the object into a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filetype</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Specifies the filetype. Has to be a filetype supported by the dataschema.</p></li>
-<li><p><strong>path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – A <code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code> object pointing to the file to be extracted.</p></li>
+<li><p><strong>filetype</strong> – Specifies the filetype. Has to be a filetype supported by the dataschema.</p></li>
+<li><p><strong>path</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code> object pointing to the file to be extracted.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a>, <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>

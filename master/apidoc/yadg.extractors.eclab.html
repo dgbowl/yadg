@@ -462,11 +462,11 @@ not present and therefore the full timestamp cannot be calculated.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_settings">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_settings" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_settings" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of settings modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The data to parse through.</p>
+<dd class="field-odd"><p><strong>data</strong> – The data to parse through.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The parsed settings.</p>
@@ -479,7 +479,7 @@ not present and therefore the full timestamp cannot be calculated.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.parse_columns">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">parse_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_ids</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.parse_columns" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">parse_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.parse_columns" title="Link to this definition"></a></dt>
 <dd><p>Puts together column info from a list of data column IDs.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -489,7 +489,7 @@ all packed into a single byte.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>column_ids</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – A list of column IDs.</p>
+<dd class="field-odd"><p><strong>column_ids</strong> – A list of column IDs.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The column names, dtypes, units and a dictionary of flag names
@@ -503,13 +503,13 @@ and bitmasks.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_data">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eranges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iranges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_data" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_data" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of data modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The data to parse through.</p></li>
-<li><p><strong>version</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Module version from the data module header.</p></li>
+<li><p><strong>data</strong> – The data to parse through.</p></li>
+<li><p><strong>version</strong> – Module version from the data module header.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -526,11 +526,11 @@ the value is a dict with value (“n”), sigma (“s”), and unit
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_log">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_log" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_log" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of log modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The data to parse through.</p>
+<dd class="field-odd"><p><strong>data</strong> – The data to parse through.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The parsed log.</p>
@@ -543,11 +543,11 @@ the value is a dict with value (“n”), sigma (“s”), and unit
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_loop">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_loop" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_loop" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of loop modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The data to parse through.</p>
+<dd class="field-odd"><p><strong>data</strong> – The data to parse through.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The parsed loops.</p>
@@ -560,11 +560,11 @@ the value is a dict with value (“n”), sigma (“s”), and unit
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_ext">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_ext" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_ext" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of external device modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The data to parse through.</p>
+<dd class="field-odd"><p><strong>data</strong> – The data to parse through.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The parsed log.</p>
@@ -577,11 +577,11 @@ the value is a dict with value (“n”), sigma (“s”), and unit
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_modules">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_modules" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_modules" title="Link to this definition"></a></dt>
 <dd><p>Handles the processing of all modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>contents</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>) – The contents of an .mpr file, minus the file magic.</p>
+<dd class="field-odd"><p><strong>contents</strong> – The contents of an .mpr file, minus the file magic.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The processed settings, data, log, and loop modules. If they are
@@ -595,13 +595,8 @@ not present in the provided modules, returns None instead.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpr.extract" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <p id="module-yadg.extractors.eclab.mpt">For processing of BioLogic’s EC-Lab binary modular files.</p>
 <section id="id1">
@@ -752,11 +747,11 @@ is not yet complete.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpt.process_header">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">process_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpt.process_header" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">process_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpt.process_header" title="Link to this definition"></a></dt>
 <dd><p>Processes the header lines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The header lines, starting at line 3 (which is an empty line),
+<dd class="field-odd"><p><strong>lines</strong> – The header lines, starting at line 3 (which is an empty line),
 right after the <cite>“Nb header lines : “</cite> line.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -771,11 +766,11 @@ parameters) and a dictionary containing the loop indexes.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpt.process_data">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eranges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iranges</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpt.process_data" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpt.process_data" title="Link to this definition"></a></dt>
 <dd><p>Processes the data lines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The data lines, starting right after the last header section.
+<dd class="field-odd"><p><strong>lines</strong> – The data lines, starting right after the last header section.
 The first line is an empty line, the column names can be found
 on the second line.</p>
 </dd>
@@ -793,14 +788,14 @@ is a dict with value (“n”), sigma (“s”), and unit (“u”).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpt.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.eclab.mpt.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpt.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpt.extract" title="Link to this definition"></a></dt>
 <dd><p>Processes EC-Lab human-readable text export files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The file containing the data to parse.</p></li>
-<li><p><strong>encoding</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “windows-1252”.</p></li>
-<li><p><strong>timezone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – A string description of the timezone. Default is “UTC”.</p></li>
+<li><p><strong>fn</strong> – The file containing the data to parse.</p></li>
+<li><p><strong>encoding</strong> – Encoding of <code class="docutils literal notranslate"><span class="pre">fn</span></code>, by default “windows-1252”.</p></li>
+<li><p><strong>timezone</strong> – A string description of the timezone. Default is “UTC”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

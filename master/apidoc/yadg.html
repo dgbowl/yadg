@@ -348,31 +348,21 @@ The function has the following subcommands:</p>
 </div>
 <dl class="py function" id="module-yadg.core">
 <dt class="sig sig-object py" id="yadg.core.infer_extractor">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">infer_extractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extractor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.infer_extractor" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">infer_extractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#yadg.core.infer_extractor" title="Link to this definition"></a></dt>
 <dd><p>A function that finds an <code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code> function of the supplied <code class="docutils literal notranslate"><span class="pre">extractor</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.core.process_schema">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_merge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.core.process_schema" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataSchema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_merge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.core.process_schema" title="Link to this definition"></a></dt>
 <dd><p>The main processing function of yadg.</p>
 <p>Takes in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> object and returns a single <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code> created
 from the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function" id="module-yadg.main">
 <dt class="sig sig-object py" id="yadg.main.set_loglevel">
-<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">set_loglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.set_loglevel" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.main.</span></span><span class="sig-name descname"><span class="pre">set_loglevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.main.set_loglevel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -391,36 +381,26 @@ The function has the following subcommands:</p>
 
 <dl class="py function" id="module-yadg.subcommands">
 <dt class="sig sig-object py" id="yadg.subcommands.process">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_merge_errors</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.process" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_merge_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.subcommands.process" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">process</span></code> subcommand of yadg.</p>
 <p>This function first checks that the supplied <code class="docutils literal notranslate"><span class="pre">infile</span></code> exists, is a valid
 dataschema, and if yes, proceeds to process the dataschema into a datatree. If
 this is successful, the datatree is written out into <code class="docutils literal notranslate"><span class="pre">outfile</span></code> (which is
 <code class="docutils literal notranslate"><span class="pre">&quot;datagram.nc&quot;</span></code> by default).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.update">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.update" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.subcommands.update" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">update</span></code> subcommand of yadg.</p>
 <p>This function updates the dataschema present in the <code class="docutils literal notranslate"><span class="pre">infile</span></code> to comply with the
 newest version of dataschema, and saves the resulting object into <code class="docutils literal notranslate"><span class="pre">outfile</span></code> (which
 is the <code class="docutils literal notranslate"><span class="pre">infile</span></code> with  a <cite>“.new.json”</cite> suffix by default).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.preset">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packwith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_merge_errors</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.preset" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">archive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packwith</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_merge_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.subcommands.preset" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">preset</span></code> subcommand of yadg.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">folder</span></code> is an existing folder and <code class="docutils literal notranslate"><span class="pre">preset</span></code> a valid dataschema template file,
 this function will prepend the specified <code class="docutils literal notranslate"><span class="pre">folder</span></code> to all relative paths in the
@@ -430,16 +410,11 @@ this function will prepend the specified <code class="docutils literal notransla
 directly processed into a datatree, which is then saved in <code class="docutils literal notranslate"><span class="pre">outfile</span></code>.</p>
 <p>Additionally, the contents of the <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived (if <code class="docutils literal notranslate"><span class="pre">archive</span></code> is
 set), using a compression algorithm of your choice.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.subcommands.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_only</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.subcommands.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.subcommands.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.subcommands.extract" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">extract</span></code> subcommand of yadg.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">filetype</span></code> is known to yadg, it will attempt to extract all data from the
 provided <code class="docutils literal notranslate"><span class="pre">infile</span></code>.</p>
@@ -448,11 +423,6 @@ a NetCDF file. The output location can be configured using the <code class="docu
 argument, by default this is set to the stem of <code class="docutils literal notranslate"><span class="pre">infile</span></code> with a <code class="docutils literal notranslate"><span class="pre">.nc</span></code> suffix.</p>
 <p>Optionally, an export of just the metadata can be requested by setting the
 <code class="docutils literal notranslate"><span class="pre">meta_only</span></code> argument, in this case the output is a json file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
 </dd></dl>
 
 </section>

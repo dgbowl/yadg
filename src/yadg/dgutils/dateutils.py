@@ -6,7 +6,9 @@ import dateutil.parser
 import logging
 from zoneinfo import ZoneInfo
 import numpy as np
+from pydantic import BaseModel
 from typing import Callable, Union, Mapping, Iterable
+from xarray import Dataset
 from dgbowl_schemas.yadg.dataschema_5_0.externaldate import ExternalDate
 from dgbowl_schemas.yadg.dataschema_5_0.timestamp import TimestampSpec
 
@@ -20,7 +22,8 @@ def now(
     """
     Wrapper around datetime.now()
 
-    A convenience function for returning the current time as a ISO 8601 or as a unix timestamp.
+    A convenience function for returning the current time as a ISO 8601 or as a Unix
+    timestamp.
     """
     dt = datetime.datetime.now(tz=tz)
     if asstr:
@@ -138,8 +141,8 @@ def infer_timestamp_from(
 
     spec
         A specification of timestamp elements with associated column indices and
-        optional formats. Currently accepted combinations of keys are: "uts"; "timestamp";
-        "date" and / or "time".
+        optional formats. Currently accepted combinations of keys are: "uts";
+        "timestamp"; "date" and / or "time".
 
     tz
         Timezone to use for conversion. By default, UTC is used.
@@ -194,7 +197,7 @@ def infer_timestamp_from(
 
                 else:
                     logger.debug(
-                        "Assuming specified column containing the time is in ISO 8601 format"
+                        "Assuming specified column is time in ISO 8601 format."
                     )
 
                     def timefn(value):
@@ -220,14 +223,10 @@ def infer_timestamp_from(
 
                 return cols, retfn, True
     elif "uts" in headers:
-        logger.debug(
-            "No timestamp spec provided, assuming column 'uts' is a valid unix timestamp"
-        )
+        logger.debug("Assuming column 'uts' is a valid unix timestamp.")
         return [headers.index("uts")], float, True
     elif "timestamp" in headers:
-        logger.debug(
-            "No timestamp spec provided, assuming column 'timestamp' is a valid ISO 8601 timestamp"
-        )
+        logger.debug("Assuming column 'timestamp' is a valid ISO 8601 timestamp")
 
         def retfunc(value):
             return str_to_uts(timestamp=value, timezone=timezone)
@@ -420,3 +419,36 @@ def timestamps_from_file(
                 )
             else:
                 return float(data)
+
+
+def complete_uts(
+    ds: Dataset,
+    filename: str,
+    externaldate: BaseModel,
+    timezone: str,
+) -> Dataset:
+    """
+    A helper function ensuring that the Dataset ``ds`` contains a dimension ``"uts"``,
+    and that the timestamps in ``"uts"`` are completed as instructed in the
+    ``externaldate`` specification.
+
+    """
+    if not hasattr(ds, "uts"):
+        ds = ds.expand_dims("uts")
+    if len(ds.uts.coords) == 0:
+        ds["uts"] = np.zeros(ds.uts.size)
+        ds.attrs["fulldate"] = False
+    if not ds.attrs.get("fulldate", True) or externaldate is not None:
+        ts, fulldate = complete_timestamps(
+            timesteps=ds.uts.values,
+            fn=filename,
+            spec=externaldate,
+            timezone=timezone,
+        )
+        ds["uts"] = ts
+        if fulldate:
+            ds.attrs.pop("fulldate", None)
+        else:
+            # cannot store booleans in NetCDF files
+            ds.attrs["fulldate"] = int(fulldate)
+    return ds

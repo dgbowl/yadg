@@ -16,6 +16,7 @@ def special_datagram_test(datagram, testspec):
         if i not in testspec:
             continue
         ret = dg_get_quantity(datagram, testspec["step"], i, testspec["point"])
+        print(f"{ret=}")
         for k, v in testspec[i].items():
             rval = ret["n"].sel(dict(species=k))
             rdev = ret["s"].sel(dict(species=k))

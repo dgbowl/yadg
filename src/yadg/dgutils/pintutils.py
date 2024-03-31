@@ -55,7 +55,7 @@ def sanitize_units(
     Unit sanitizer.
 
     This sanitizer should be used where user-supplied units are likely to occur,
-    such as in the parsers :mod:`yadg.parsers.basiccsv`. Currently, only two
+    such as in the parsers :mod:`yadg.extractors.basic.csv`. Currently, only two
     replacements are done:
 
       - "Bar" is replaced with "bar"

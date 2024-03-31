@@ -35,11 +35,11 @@ extensions = [
     # "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.autosummary",
-    "sphinx_autodoc_typehints",
+    # "sphinx.ext.autosummary",
+    # "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
     "sphinxcontrib.autodoc_pydantic",
-    "sphinxcontrib.mermaid",
+    # "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -80,7 +80,6 @@ autodoc_default_flags = ["members", "undoc-members", "show-inheritance"]
 autodoc_member_order = "bysource"
 autodoc_pydantic_model_show_field_summary = False
 autodoc_pydantic_model_member_order = "bysource"
-
 autodoc_pydantic_model_show_field_summary = False
 autodoc_pydantic_model_member_order = "bysource"
 intersphinx_mapping = {

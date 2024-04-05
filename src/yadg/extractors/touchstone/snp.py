@@ -68,7 +68,6 @@ import logging
 from datatree import DataTree
 from xarray import Dataset, DataArray
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-import numpy as np
 
 from yadg import dgutils
 

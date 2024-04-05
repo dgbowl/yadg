@@ -131,7 +131,7 @@ def process_comments(lines: list[str], tz: str) -> dict:
         )
         attrs["Ref Plane"] = lines[1].split(":")[1].strip()
         attrs["Model"] = "PicoVNA 108"
-    # Agilent PNA (N523*) export
+    # Agilent N523* and E50* export
     elif "Agilent Technologies" in lines[0] or "Keysight Technologies" in lines[0]:
         _, model, serial, version = lines[0].split(",")
         attrs["Model"] = model

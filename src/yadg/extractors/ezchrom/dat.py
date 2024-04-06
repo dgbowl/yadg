@@ -12,7 +12,7 @@ Schema
 .. code-block:: yaml
 
     datatree.DataTree:
-      {{ detector_index }}:
+      {{ detector_trace }}:
         coords:
           uts:            !!float               # Unix timestamp
           elution_time:   !!float               # Elution time
@@ -21,18 +21,26 @@ Schema
 
 Metadata
 ````````
-The following metadata is extracted:
+No metadata is currently extracted. If you need some particular metadata, please open
+an issue.
 
-    - ``sampleid``: Sample name.
-    - ``username``: User name used to generate the file.
-    - ``method``: Name of the chromatographic method.
-    - ``version``: Version of the CH file (only "179" is currently supported.)
+Notes on file structure
+```````````````````````
+Data in these files is stored as an OLE file, which is first processed using the
+:mod:`olefile` library.
+
+The timestamp is stored as an OLE timestamp in the ``Chrom Header`` stream.
+
+The metadata for each trace are stored within the ``Detector Trace Handler`` stream,
+and contain the X- and Y-axis multiplier, Y-axis units, and some other metadata.
+
+The data for each trace are stored within the ``Detector Data`` "directory" within the
+OLE file, with one stream per trace.
 
 Uncertainties
 `````````````
-The uncertainties in ``signal`` are derived from the string representation of the float.
-
-For ``elution_time``, an uncertainty of one X-axis multiplier is used.
+The uncertainties in ``signal`` as well as ``elution_time`` are set to the axis
+multiplier.
 
 
 .. codeauthor::
@@ -105,19 +113,21 @@ def extract(
         xunits = {"units": "s"}
         ds = xr.Dataset(
             data_vars={
-                "signal": (["elution_time"], yvals, yunits),
-                "signal_std_err": (["elution_time"], ydevs, yunits),
+                "signal": (["uts", "elution_time"], [yvals], yunits),
+                "signal_std_err": (["uts", "elution_time"], [ydevs], yunits),
                 "elution_time_std_err": (["elution_time"], xdevs, xunits),
             },
-            coords={"elution_time": (["elution_time"], xvals, xunits)},
+            coords={
+                "elution_time": (["elution_time"], xvals, xunits),
+                "uts": (["uts"], [uts]),
+            },
         )
-        ds = ds.expand_dims(dim=dict(uts=[uts]))
         for var in ds.variables:
             if f"{var}_std_err" in ds.variables:
                 ds[var].attrs["ancillary_variables"] = f"{var}_std_err"
             elif var.endswith("_std_err"):
                 end = var.index("_std_err")
                 if var[:end] in ds.variables:
-                    ds[var].attrs["standard_name"] = f"{var[:end]} standard error"
+                    ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
         dt[f"/{key}"] = ds
     return DataTree.from_dict(dt)

@@ -99,10 +99,13 @@ def extract(
             xunits = [each.strip() for each in parts[1:]]
         if line.startswith("Y Axis Title:"):
             parts = line.split("\t")
-            yunits = [each.strip() for each in parts[1:]]
-            if "25 V" in yunits:
-                logger.warning("Implicit conversion of y-axis unit from '25 V' to 'V'.")
-                yunits = [i.replace("25 V", "V") for i in yunits]
+            _yunits = [each.strip() for each in parts[1:]]
+            yunits = [i.replace("25", "").strip() for i in _yunits]
+            if yunits != _yunits:
+                logger.warning(
+                    "Implicit conversion of y-axis unit from '25 µV' to 'µV'."
+                )
+                yunits = [i.replace("25", "") for i in yunits]
         if line.startswith("X Axis Multiplier:"):
             parts = line.split("\t")
             xmuls = [float(each.strip()) for each in parts[1:]]

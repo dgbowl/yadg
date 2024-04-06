@@ -255,7 +255,7 @@ def extract(
             elif var.endswith("_std_err"):
                 end = var.index("_std_err")
                 if var[:end] in ds.variables:
-                    ds[var].attrs["standard_name"] = f"{var[:end]} standard error"
+                    ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
             if "angle" in var:
                 ds[var].attrs["units"] = "degree"
             elif "frequency" in var:

@@ -68,6 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -135,6 +136,10 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.attr_in_lines">attr_in_lines() (in module yadg.extractors.touchstone.snp)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
@@ -178,18 +183,20 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.data_to_dataset">data_to_dataset() (in module yadg.extractors.touchstone.snp)</a>
+</li>
       <li><a href="apidoc/yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.date">date (yadg.extractors.drycal.common.TimeDate attribute)</a>
 </li>
       <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.helpers.deprecated">deprecated() (in module yadg.dgutils.helpers)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.dicts_to_dataset">dicts_to_dataset() (in module yadg.dgutils)</a>
 
       <ul>
         <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.dsutils.dicts_to_dataset">(in module yadg.dgutils.dsutils)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.extractors.drycal.html#yadg.extractors.drycal.common.drycal_table">drycal_table() (in module yadg.extractors.drycal.common)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.tomato.html#yadg.extractors.tomato.json.dummy_tomato_json">dummy_tomato_json() (in module yadg.extractors.tomato.json)</a>
@@ -259,6 +266,8 @@
 </li>
         <li><a href="apidoc/yadg.extractors.tomato.html#yadg.extractors.tomato.json.extract">(in module yadg.extractors.tomato.json)</a>
 </li>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.extract">(in module yadg.extractors.touchstone.snp)</a>
+</li>
         <li><a href="apidoc/yadg.html#yadg.subcommands.extract">(in module yadg.subcommands)</a>
 </li>
       </ul></li>
@@ -314,6 +323,8 @@
         <li><a href="apidoc/yadg.extractors.quadstar.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype">(dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac attribute)</a>
 </li>
         <li><a href="apidoc/yadg.extractors.tomato.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Tomato_json.filetype">(dgbowl_schemas.yadg.dataschema_5_1.filetype.Tomato_json attribute)</a>
+</li>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp.filetype">(dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -482,6 +493,10 @@
 </li>
         <li><a href="apidoc/yadg.extractors.tomato.html#module-yadg.extractors.tomato.json">yadg.extractors.tomato.json</a>
 </li>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone">yadg.extractors.touchstone</a>
+</li>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp">yadg.extractors.touchstone.snp</a>
+</li>
         <li><a href="apidoc/yadg.html#module-yadg.main">yadg.main</a>
 </li>
         <li><a href="apidoc/yadg.html#module-yadg.subcommands">yadg.subcommands</a>
@@ -537,15 +552,19 @@
 </li>
       <li><a href="apidoc/yadg.html#yadg.subcommands.process">process() (in module yadg.subcommands)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments">process_comments() (in module yadg.extractors.touchstone.snp)</a>
+</li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_data">process_data() (in module yadg.extractors.eclab.mpr)</a>
 
       <ul>
         <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_data">(in module yadg.extractors.eclab.mpt)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_ext">process_ext() (in module yadg.extractors.eclab.mpr)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_filename">process_filename() (in module yadg.extractors.touchstone.snp)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_header">process_header() (in module yadg.extractors.eclab.mpt)</a>
 </li>
@@ -554,6 +573,8 @@
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_loop">process_loop() (in module yadg.extractors.eclab.mpr)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_modules">process_modules() (in module yadg.extractors.eclab.mpr)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_options">process_options() (in module yadg.extractors.touchstone.snp)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.basic.html#yadg.extractors.basic.csv.process_row">process_row() (in module yadg.extractors.basic.csv)</a>
 </li>
@@ -876,8 +897,6 @@
         <li><a href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     yadg.extractors.eclab.mpt
 
@@ -885,6 +904,8 @@
         <li><a href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     yadg.extractors.empalc
 
@@ -1051,6 +1072,20 @@
 
       <ul>
         <li><a href="apidoc/yadg.extractors.tomato.html#module-yadg.extractors.tomato.json">module</a>
+</li>
+      </ul></li>
+      <li>
+    yadg.extractors.touchstone
+
+      <ul>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone">module</a>
+</li>
+      </ul></li>
+      <li>
+    yadg.extractors.touchstone.snp
+
+      <ul>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp">module</a>
 </li>
       </ul></li>
       <li>

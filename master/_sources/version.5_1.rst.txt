@@ -18,11 +18,18 @@ New features since ``yadg-5.0`` are:
     - ``Fig8_*cm.s1p`` from https://zenodo.org/doi/10.5281/zenodo.10222705
     - ``VNA_radial_middle.s*p`` from https://zenodo.org/doi/10.5281/zenodo.7339709
 
+  - Support for EZChrom ``.dat`` files using the :mod:`yadg.extractors.ezchrom.dat` extractor. Test files were provided by Z. Asahi from FU Berlin, and J. Schumann from HU Berlin. The data extracted from the ``.dat`` files is cross-checked against the data obtained from ``.asc`` files using the :mod:`yadg.extractors.ezchrom.asc` extractor.
 
 Other changes in ``yadg-5.1`` are:
 
   - The dataschema has been simplified, eliminating parsers in favour of extractors.
   - The code has been reorganised to highlight the extractor functionality in favour of parsers.
+
+Bug fixes in ``yadg-5.1`` include:
+
+  - Fixed incorrect unit assignment when ``/`` was substituted to ``_`` in column names.
+  - Fixed incorrect annotation of ancillary variables: ``standard error`` should be ``standard_error``.
+  - Fixed incorrect parsing of units in the :mod:`yadg.extractors.ezchrom.asc` parser. Now, the ``25 μV`` unit will be correctly replaced by just ``μV`` (without modifying data), which can be understood by :mod:`pint`.
 
 
 .. _concat_lab: https://tu.berlin/en/concat

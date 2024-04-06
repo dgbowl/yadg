@@ -12,3 +12,9 @@
    :members:
    :undoc-members:
    :show-inheritance:
+
+
+.. automodule:: yadg.extractors.ezchrom.dat
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -118,6 +118,7 @@
 - <code class="docutils literal notranslate"><span class="pre">CABLE_3_5MM_1N_TYPE_CONNECTORS.S2P</span></code> from <a class="reference external" href="https://zenodo.org/doi/10.5281/zenodo.10016477">https://zenodo.org/doi/10.5281/zenodo.10016477</a>
 - <code class="docutils literal notranslate"><span class="pre">Fig8_*cm.s1p</span></code> from <a class="reference external" href="https://zenodo.org/doi/10.5281/zenodo.10222705">https://zenodo.org/doi/10.5281/zenodo.10222705</a>
 - <code class="docutils literal notranslate"><span class="pre">VNA_radial_middle.s*p</span></code> from <a class="reference external" href="https://zenodo.org/doi/10.5281/zenodo.7339709">https://zenodo.org/doi/10.5281/zenodo.7339709</a></p></li>
+<li><p>Support for EZChrom <code class="docutils literal notranslate"><span class="pre">.dat</span></code> files using the <a class="reference internal" href="apidoc/yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.dat" title="yadg.extractors.ezchrom.dat"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.ezchrom.dat</span></code></a> extractor. Test files were provided by Z. Asahi from FU Berlin, and J. Schumann from HU Berlin. The data extracted from the <code class="docutils literal notranslate"><span class="pre">.dat</span></code> files is cross-checked against the data obtained from <code class="docutils literal notranslate"><span class="pre">.asc</span></code> files using the <a class="reference internal" href="apidoc/yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.asc" title="yadg.extractors.ezchrom.asc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.ezchrom.asc</span></code></a> extractor.</p></li>
 </ul>
 </div></blockquote>
 <p>Other changes in <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code> are:</p>
@@ -125,6 +126,14 @@
 <div><ul class="simple">
 <li><p>The dataschema has been simplified, eliminating parsers in favour of extractors.</p></li>
 <li><p>The code has been reorganised to highlight the extractor functionality in favour of parsers.</p></li>
+</ul>
+</div></blockquote>
+<p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code> include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Fixed incorrect unit assignment when <code class="docutils literal notranslate"><span class="pre">/</span></code> was substituted to <code class="docutils literal notranslate"><span class="pre">_</span></code> in column names.</p></li>
+<li><p>Fixed incorrect annotation of ancillary variables: <code class="docutils literal notranslate"><span class="pre">standard</span> <span class="pre">error</span></code> should be <code class="docutils literal notranslate"><span class="pre">standard_error</span></code>.</p></li>
+<li><p>Fixed incorrect parsing of units in the <a class="reference internal" href="apidoc/yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.asc" title="yadg.extractors.ezchrom.asc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.ezchrom.asc</span></code></a> parser. Now, the <code class="docutils literal notranslate"><span class="pre">25</span> <span class="pre">μV</span></code> unit will be correctly replaced by just <code class="docutils literal notranslate"><span class="pre">μV</span></code> (without modifying data), which can be understood by <code class="xref py py-mod docutils literal notranslate"><span class="pre">pint</span></code>.</p></li>
 </ul>
 </div></blockquote>
 </section>

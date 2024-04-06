@@ -68,6 +68,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc.filetype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.encoding"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc.encoding</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -76,6 +77,18 @@
 <li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.ezchrom.asc.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat"><code class="docutils literal notranslate"><span class="pre">EZChrom_dat</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat.filetype"><code class="docutils literal notranslate"><span class="pre">EZChrom_dat.filetype</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Uncertainties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.ezchrom.dat.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
@@ -166,6 +179,126 @@ its units have to be deduced from the header.</p>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;windows-1252&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ezchrom.asc'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.encoding">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encoding</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'windows-1252'</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.encoding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_index</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">      </span><span class="nt">elution_time</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Elution time</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">signal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts, elution_time)</span><span class="w">   </span><span class="c1"># Signal data</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sampleid</span></code>: Sample name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">username</span></code>: User name used to generate the file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Name of the chromatographic method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code>: Version of the CH file (only “179” is currently supported.)</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="uncertainties">
+<h2>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h2>
+<p>The uncertainties in <code class="docutils literal notranslate"><span class="pre">signal</span></code> are derived from the string representation of the float.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">elution_time</span></code>, an uncertainty of one X-axis multiplier is used.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.ezchrom.asc.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.ezchrom.asc.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.ezchrom.asc.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p id="module-yadg.extractors.ezchrom.dat">Handles binary files created by EZChrom software.</p>
+<section id="id1">
+<h2>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">EZChrom_dat</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat" title="Link to this definition"></a></dt>
+<dd><p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EZChrom_dat&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;const&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ezchrom.dat&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -205,17 +338,17 @@ its units have to be deduced from the header.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ezchrom.asc'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ezchrom.dat'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
+<section id="id2">
+<h2>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_index</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_trace</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
 <span class="w">      </span><span class="nt">elution_time</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Elution time</span>
@@ -224,27 +357,30 @@ its units have to be deduced from the header.</p>
 </pre></div>
 </div>
 </section>
-<section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
-<p>The following metadata is extracted:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">sampleid</span></code>: Sample name.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">username</span></code>: User name used to generate the file.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Name of the chromatographic method.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code>: Version of the CH file (only “179” is currently supported.)</p></li>
-</ul>
-</div></blockquote>
+<section id="id3">
+<h2>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>No metadata is currently extracted. If you need some particular metadata, please open
+an issue.</p>
 </section>
-<section id="uncertainties">
-<h2>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h2>
-<p>The uncertainties in <code class="docutils literal notranslate"><span class="pre">signal</span></code> are derived from the string representation of the float.</p>
-<p>For <code class="docutils literal notranslate"><span class="pre">elution_time</span></code>, an uncertainty of one X-axis multiplier is used.</p>
+<section id="notes-on-file-structure">
+<h2>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h2>
+<p>Data in these files is stored as an OLE file, which is first processed using the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">olefile</span></code> library.</p>
+<p>The timestamp is stored as an OLE timestamp in the <code class="docutils literal notranslate"><span class="pre">Chrom</span> <span class="pre">Header</span></code> stream.</p>
+<p>The metadata for each trace are stored within the <code class="docutils literal notranslate"><span class="pre">Detector</span> <span class="pre">Trace</span> <span class="pre">Handler</span></code> stream,
+and contain the X- and Y-axis multiplier, Y-axis units, and some other metadata.</p>
+<p>The data for each trace are stored within the <code class="docutils literal notranslate"><span class="pre">Detector</span> <span class="pre">Data</span></code> “directory” within the
+OLE file, with one stream per trace.</p>
+</section>
+<section id="id4">
+<h2>Uncertainties<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>The uncertainties in <code class="docutils literal notranslate"><span class="pre">signal</span></code> as well as <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> are set to the axis
+multiplier.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.ezchrom.asc.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.ezchrom.asc.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.ezchrom.asc.extract" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.extractors.ezchrom.dat.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.ezchrom.dat.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.ezchrom.dat.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>

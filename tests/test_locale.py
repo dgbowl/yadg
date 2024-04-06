@@ -49,7 +49,7 @@ from datatree import open_datatree
 )
 def test_locale_from_basiccsv(input, datadir):
     ret = datagram_from_input(input, "basiccsv", datadir, version="5.0")
-    # ret.to_netcdf("ref.sheet.nc")
+    # ret.to_netcdf("ref.sheet.nc", engine="h5netcdf")
     print(f"{ret=}")
     ref = open_datatree("ref.sheet.nc")
     compare_datatrees(ret, ref)

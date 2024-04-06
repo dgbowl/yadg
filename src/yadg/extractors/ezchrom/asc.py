@@ -71,14 +71,14 @@ def extract(
         for key in ["Version", "Method", "User Name"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata[k] = line.split(f"{key}:")[1].strip()
+                metadata[k] = line.split(f"{key}:")[1].strip().strip(",")
         for key in ["Sample ID"]:  # , "Data File"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata[k] = line.split(f"{key}:")[1].strip()
+                metadata[k] = line.split(f"{key}:")[1].strip().strip(",")
         if line.startswith("Acquisition Date and Time:"):
             uts = dgutils.str_to_uts(
-                timestamp=line.split("Time:")[1].strip(),
+                timestamp=line.split("Time:")[1].strip().strip(","),
                 format="%m/%d/%Y %I:%M:%S %p",
                 timezone=timezone,
             )
@@ -99,10 +99,13 @@ def extract(
             xunits = [each.strip() for each in parts[1:]]
         if line.startswith("Y Axis Title:"):
             parts = line.split("\t")
-            yunits = [each.strip() for each in parts[1:]]
-            if "25 V" in yunits:
-                logger.warning("Implicit conversion of y-axis unit from '25 V' to 'V'.")
-                yunits = [i.replace("25 V", "V") for i in yunits]
+            _yunits = [each.strip() for each in parts[1:]]
+            yunits = [i.replace("25", "").strip() for i in _yunits]
+            if yunits != _yunits:
+                logger.warning(
+                    "Implicit conversion of y-axis unit from '25 µV' to 'µV'."
+                )
+                yunits = [i.replace("25", "") for i in yunits]
         if line.startswith("X Axis Multiplier:"):
             parts = line.split("\t")
             xmuls = [float(each.strip()) for each in parts[1:]]

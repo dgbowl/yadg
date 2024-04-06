@@ -56,7 +56,7 @@ def dicts_to_dataset(
         if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
             err = f"{k}_std_err"
             darrs[k].attrs["ancillary_variables"] = err
-            attrs["standard_name"] = f"{k} standard error"
+            attrs["standard_name"] = f"{k} standard_error"
             darrs[err] = xr.DataArray(data=meta[key], dims=["uts"], attrs=attrs)
     if "uts" in data:
         coords = dict(uts=data.pop("uts"))

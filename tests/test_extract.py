@@ -29,6 +29,8 @@ def test_extract_marda(filetype, infile, outfile, datadir):
     "filetype, infile, outfile",
     [
         ("touchstone.snp", "picovna.s1p", "ref.picovna.s1p.nc"),
+        ("ezchrom.asc", "230324.dat.asc", "ref.230324.dat.asc.nc"),
+        ("ezchrom.dat", "230324.dat", "ref.230324.dat.nc"),
     ],
 )
 def test_extract_yadg(filetype, infile, outfile, datadir):

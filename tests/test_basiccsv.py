@@ -271,6 +271,7 @@ import numpy as np
                     },
                 },
             },
+
         ),
     ],
 )
@@ -279,3 +280,24 @@ def test_datagram_from_basiccsv(input, ts, datadir):
     ret = datagram_from_input(input, "basiccsv", datadir, version=ver)
     standard_datagram_test(ret, ts)
     pars_datagram_test(ret, ts)
+
+
+def test_issue_143(datadir):
+    input = {
+        "case": "flow_data.csv",
+        "version": "4.2",
+        "parameters": {
+            "sep": ",",
+            "timestamp": {"time": {"index": 5}},
+            "units": {
+                "DryCal smL/min": "smL/min",
+                "DryCal Avg. smL/min": "smL/min",
+                "Temp. Deg C": "degC",
+                "Pressure mBar": "mbar",
+            },
+        },
+    }
+    ver = input.pop("version", "4.0")
+    ret = datagram_from_input(input, "basiccsv", datadir, version=ver)
+    print(f"{ret=}")
+    assert ret['0']['DryCal smL_min'].attrs["units"] == "smL/min"

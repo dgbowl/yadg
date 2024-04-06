@@ -106,19 +106,24 @@ def dicts_to_dataset(
     fulldate: bool = True,
 ) -> xr.Dataset:
     darrs = {}
-    for k, v in data.items():
+    for key, val in data.items():
         attrs = {}
-        u = units.get(k, None)
+        u = units.get(key, None)
         if u is not None:
             attrs["units"] = u
-        if k == "uts":
+        if key == "uts":
             continue
-        darrs[k] = xr.DataArray(data=v, dims=["uts"], attrs=attrs)
-        if k in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
+        if "/" in key:
+            logger.warning(f"Replacing '/' for '_' in column {key!r}.")
+            k = key.replace("/", "_")
+        else:
+            k = key
+        darrs[k] = xr.DataArray(data=val, dims=["uts"], attrs=attrs)
+        if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
             err = f"{k}_std_err"
             darrs[k].attrs["ancillary_variables"] = err
             attrs["standard_name"] = f"{k} standard error"
-            darrs[err] = xr.DataArray(data=meta[k], dims=["uts"], attrs=attrs)
+            darrs[err] = xr.DataArray(data=meta[key], dims=["uts"], attrs=attrs)
     if "uts" in data:
         coords = dict(uts=data.pop("uts"))
     else:
@@ -181,11 +186,6 @@ def process(
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
     headers = [h.strip().strip(strip) for h in lines[0].split(parameters.sep)]
-
-    for hi, header in enumerate(headers):
-        if "/" in header:
-            logger.warning("Replacing '/' for '_' in header '%s'.", header)
-            headers[hi] = header.replace("/", "_")
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone

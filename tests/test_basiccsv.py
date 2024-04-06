@@ -300,4 +300,4 @@ def test_issue_143(datadir):
     ver = input.pop("version", "4.0")
     ret = datagram_from_input(input, "basiccsv", datadir, version=ver)
     print(f"{ret=}")
-    assert ret['0']['DryCal smL_min'].attrs["units"] == "smL/min"
+    assert ret["0"]["DryCal smL_min"].attrs["units"] == "smL/min"

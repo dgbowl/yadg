@@ -31,6 +31,7 @@ The metadata will contain the information from the header of the file.
 
 .. codeauthor:: Nicolas Vetsch
 """
+
 import re
 import logging
 import locale as lc

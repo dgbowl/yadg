@@ -40,7 +40,6 @@ def process(
     """
 
     if filetype.startswith("drycal"):
-
         if filetype.endswith(".rtf") or fn.endswith("rtf"):
             vals = drycal.rtf(fn, encoding, timezone)
         elif filetype.endswith(".csv") or fn.endswith("csv"):

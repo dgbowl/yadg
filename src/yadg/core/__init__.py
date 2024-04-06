@@ -76,6 +76,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
+        if hasattr(dataschema, "metadata"):
+            if hasattr(dataschema.metadata, "version"):
+                if dataschema.metadata.version == "5.0":
+                    break
 
     for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)

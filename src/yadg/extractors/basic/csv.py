@@ -138,11 +138,6 @@ def extract(
     assert len(lines) >= 2
     headers = [h.strip().strip(strip) for h in lines[0].split(parameters.sep)]
 
-    for hi, header in enumerate(headers):
-        if "/" in header:
-            logger.warning("Replacing '/' for '_' in header '%s'.", header)
-            headers[hi] = header.replace("/", "_")
-
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone
     )

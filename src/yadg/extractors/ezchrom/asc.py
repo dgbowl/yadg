@@ -71,14 +71,14 @@ def extract(
         for key in ["Version", "Method", "User Name"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata[k] = line.split(f"{key}:")[1].strip()
+                metadata[k] = line.split(f"{key}:")[1].strip().strip(",")
         for key in ["Sample ID"]:  # , "Data File"]:
             if line.startswith(key):
                 k = key.lower().replace(" ", "")
-                metadata[k] = line.split(f"{key}:")[1].strip()
+                metadata[k] = line.split(f"{key}:")[1].strip().strip(",")
         if line.startswith("Acquisition Date and Time:"):
             uts = dgutils.str_to_uts(
-                timestamp=line.split("Time:")[1].strip(),
+                timestamp=line.split("Time:")[1].strip().strip(","),
                 format="%m/%d/%Y %I:%M:%S %p",
                 timezone=timezone,
             )

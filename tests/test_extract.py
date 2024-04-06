@@ -23,3 +23,18 @@ def test_extract_marda(filetype, infile, outfile, datadir):
     ref = datatree.open_datatree(outfile)
     print(f"{ret=}")
     compare_datatrees(ret, ref)
+
+
+@pytest.mark.parametrize(
+    "filetype, infile, outfile",
+    [
+        ("touchstone.snp", "picovna.s1p", "ref.picovna.s1p.nc"),
+    ],
+)
+def test_extract_yadg(filetype, infile, outfile, datadir):
+    os.chdir(datadir)
+    ret = extract(filetype=filetype, path=infile)
+    # ret.to_netcdf(outfile, engine="h5netcdf")
+    ref = datatree.open_datatree(outfile)
+    print(f"{ret=}")
+    compare_datatrees(ret, ref)

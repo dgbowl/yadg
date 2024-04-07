@@ -1,6 +1,6 @@
 """
 This module parses Touchstone files conforming to the Touchstone File Specification,
-:ref:`revision 1.1 <https://ibis.org/connector/touchstone_spec11.pdf>`_.
+`revision 1.1 <https://ibis.org/connector/touchstone_spec11.pdf>`_.
 
 .. note::
 

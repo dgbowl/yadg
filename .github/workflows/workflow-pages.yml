@@ -31,8 +31,8 @@ jobs:
           - name: Build the docs
             shell: bash
             run: |
-                sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -E -f --templatedir=docs/apidoc_t
-                sphinx-build -b html docs/source public/master
+                sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -f --templatedir=docs/apidoc_t
+                sphinx-build -W -b html docs/source public/master
           - uses: actions/upload-artifact@v4
             with:
               name: public-${{ inputs.os }}-${{ inputs.pyver }}

@@ -41,6 +41,8 @@
 {{- "**quadstar**: For Quadstar MS data" | heading }}
 {% elif 'yadg.extractors.tomato' == pkgname %}
 {{- "**tomato**: For tomato outputs" | heading }}
+{% elif 'yadg.extractors.touchstone' == pkgname %}
+{{- "**touchstone**: For Touchstone VNA files" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}

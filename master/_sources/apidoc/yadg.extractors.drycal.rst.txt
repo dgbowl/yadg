@@ -7,24 +7,32 @@
    :show-inheritance:
 
 
+yadg.extractors.drycal.common module
+------------------------------------
 
 .. automodule:: yadg.extractors.drycal.common
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.drycal.csv module
+---------------------------------
 
 .. automodule:: yadg.extractors.drycal.csv
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.drycal.rtf module
+---------------------------------
 
 .. automodule:: yadg.extractors.drycal.rtf
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.drycal.txt module
+---------------------------------
 
 .. automodule:: yadg.extractors.drycal.txt
    :members:

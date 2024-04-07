@@ -64,6 +64,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>eclab</strong>: For BioLogic data files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.mpr">yadg.extractors.eclab.mpr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr"><code class="docutils literal notranslate"><span class="pre">EClab_mpr</span></code></a></li>
 </ul>
@@ -79,6 +82,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.mpr.process_ext"><code class="docutils literal notranslate"><span class="pre">process_ext()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.mpr.process_modules"><code class="docutils literal notranslate"><span class="pre">process_modules()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.mpr.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.mpt">yadg.extractors.eclab.mpt module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt"><code class="docutils literal notranslate"><span class="pre">EClab_mpt</span></code></a></li>
 </ul>
@@ -102,7 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -143,89 +149,30 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.mpr_columns">yadg.extractors.eclab.common.mpr_columns module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.mpt_columns">yadg.extractors.eclab.common.mpt_columns module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.techniques">yadg.extractors.eclab.common.techniques module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-<p id="module-yadg.extractors.eclab.mpr">For processing of BioLogic’s EC-Lab binary modular files.</p>
+</section>
+<section id="module-yadg.extractors.eclab.mpr">
+<span id="yadg-extractors-eclab-mpr-module"></span><h2>yadg.extractors.eclab.mpr module<a class="headerlink" href="#module-yadg.extractors.eclab.mpr" title="Link to this heading"></a></h2>
+<p>For processing of BioLogic’s EC-Lab binary modular files.</p>
 <section id="usage">
 <h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">EClab_mpr</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EClab_mpr&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;eclab.mpr&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;biologic-mpr&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -599,74 +546,17 @@ not present in the provided modules, returns None instead.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p id="module-yadg.extractors.eclab.mpt">For processing of BioLogic’s EC-Lab binary modular files.</p>
+</section>
+<section id="module-yadg.extractors.eclab.mpt">
+<span id="yadg-extractors-eclab-mpt-module"></span><h2>yadg.extractors.eclab.mpt module<a class="headerlink" href="#module-yadg.extractors.eclab.mpt" title="Link to this heading"></a></h2>
+<p>For processing of BioLogic’s EC-Lab binary modular files.</p>
 <section id="id1">
 <h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">EClab_mpt</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EClab_mpt&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;eclab.mpt&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;biologic-mpt&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;windows-1252&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>

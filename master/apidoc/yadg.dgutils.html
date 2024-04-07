@@ -71,7 +71,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
@@ -96,38 +96,20 @@
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dicts_to_dataset"><code class="docutils literal notranslate"><span class="pre">dicts_to_dataset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.append_dicts"><code class="docutils literal notranslate"><span class="pre">append_dicts()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.merge_dicttrees"><code class="docutils literal notranslate"><span class="pre">merge_dicttrees()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.btools.read_pascal_string"><code class="docutils literal notranslate"><span class="pre">read_pascal_string()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.btools.read_value"><code class="docutils literal notranslate"><span class="pre">read_value()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.ole_to_uts"><code class="docutils literal notranslate"><span class="pre">ole_to_uts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.str_to_uts"><code class="docutils literal notranslate"><span class="pre">str_to_uts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.infer_timestamp_from"><code class="docutils literal notranslate"><span class="pre">infer_timestamp_from()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.complete_timestamps"><code class="docutils literal notranslate"><span class="pre">complete_timestamps()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.timestamps_from_file"><code class="docutils literal notranslate"><span class="pre">timestamps_from_file()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dateutils.complete_uts"><code class="docutils literal notranslate"><span class="pre">complete_uts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dsutils.append_dicts"><code class="docutils literal notranslate"><span class="pre">append_dicts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dsutils.dicts_to_dataset"><code class="docutils literal notranslate"><span class="pre">dicts_to_dataset()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dsutils.merge_dicttrees"><code class="docutils literal notranslate"><span class="pre">merge_dicttrees()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.helpers.get_yadg_metadata"><code class="docutils literal notranslate"><span class="pre">get_yadg_metadata()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.helpers.deprecated"><code class="docutils literal notranslate"><span class="pre">deprecated()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.pintutils.sanitize_units"><code class="docutils literal notranslate"><span class="pre">sanitize_units()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.schemautils.calib_3to4"><code class="docutils literal notranslate"><span class="pre">calib_3to4()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.schemautils.schema_3to4"><code class="docutils literal notranslate"><span class="pre">schema_3to4()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.schemautils.update_schema"><code class="docutils literal notranslate"><span class="pre">update_schema()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.schemautils.schema_from_preset"><code class="docutils literal notranslate"><span class="pre">schema_from_preset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.btools">yadg.dgutils.btools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.dateutils">yadg.dgutils.dateutils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.dsutils">yadg.dgutils.dsutils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.helpers">yadg.dgutils.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.pintutils">yadg.dgutils.pintutils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.schemautils">yadg.dgutils.schemautils module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.html">yadg.extractors package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.core.infer_extractor"><code class="docutils literal notranslate"><span class="pre">infer_extractor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.core.process_schema"><code class="docutils literal notranslate"><span class="pre">process_schema()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.main.set_loglevel"><code class="docutils literal notranslate"><span class="pre">set_loglevel()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.main.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.preset"><code class="docutils literal notranslate"><span class="pre">preset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.core">yadg.core module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
 </ul>
 </li>
 </ul>
@@ -265,157 +247,7 @@ specified by the user.</p>
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_0.externaldate.</span></span><span class="sig-name descname"><span class="pre">ExternalDate</span></span></dt>
 <dd><p>Supply timestamping information that are external to the processed file.</p>
-<p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDate&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Supply timestamping information that are external to the processed file.&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;using&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateFile&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateFilename&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateISOString&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateUTSOffset&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Using&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;replace&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read external date information from file.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFile__Content&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;file&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFile&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateFilename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read external date information from the file name.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFilename__Content&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;filename&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFilename&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateISOString&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read a constant external date using an ISO-formatted string.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;isostring&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Isostring&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;isostring&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateISOString&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateUTSOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read a constant external date using a Unix timestamp offset.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;utsoffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Utsoffset&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;utsoffset&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateUTSOffset&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFile__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Path&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Type&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;match&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">                  </span><span class="p">},</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">                  </span><span class="p">}</span>
-<span class="w">               </span><span class="p">],</span>
-<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Match&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;type&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFilename__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Format&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;len&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Len&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;format&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;len&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;using&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -573,7 +405,9 @@ replacements are done:</p>
 the new values in <code class="docutils literal notranslate"><span class="pre">fvals</span></code> to the existing ones in <code class="docutils literal notranslate"><span class="pre">vals</span></code>.</p>
 </dd></dl>
 
-<dl class="py function" id="module-yadg.dgutils.btools">
+<section id="module-yadg.dgutils.btools">
+<span id="yadg-dgutils-btools-module"></span><h2>yadg.dgutils.btools module<a class="headerlink" href="#module-yadg.dgutils.btools" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.btools.read_pascal_string">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.btools.</span></span><span class="sig-name descname"><span class="pre">read_pascal_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pascal_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'windows-1252'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#yadg.dgutils.btools.read_pascal_string" title="Link to this definition"></a></dt>
 <dd><p>Parses a length-prefixed string given some encoding.</p>
@@ -620,7 +454,10 @@ np.dtype.item().</p>
 </dl>
 </dd></dl>
 
-<dl class="py function" id="module-yadg.dgutils.dateutils">
+</section>
+<section id="module-yadg.dgutils.dateutils">
+<span id="yadg-dgutils-dateutils-module"></span><h2>yadg.dgutils.dateutils module<a class="headerlink" href="#module-yadg.dgutils.dateutils" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dateutils.now">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dateutils.</span></span><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asstr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timezone</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timezone.utc</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#yadg.dgutils.dateutils.now" title="Link to this definition"></a></dt>
 <dd><p>Wrapper around datetime.now()</p>
@@ -720,157 +557,7 @@ specified by the user.</p>
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_0.externaldate.</span></span><span class="sig-name descname"><span class="pre">ExternalDate</span></span></dt>
 <dd><p>Supply timestamping information that are external to the processed file.</p>
-<p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDate&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Supply timestamping information that are external to the processed file.&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;using&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateFile&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateFilename&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateISOString&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExternalDateUTSOffset&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Using&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;replace&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mode&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read external date information from file.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFile__Content&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;file&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFile&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateFilename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read external date information from the file name.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;filename&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFilename__Content&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;filename&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateFilename&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateISOString&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read a constant external date using an ISO-formatted string.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;isostring&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Isostring&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;isostring&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateISOString&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ExternalDateUTSOffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read a constant external date using a Unix timestamp offset.&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;utsoffset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Utsoffset&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;utsoffset&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExternalDateUTSOffset&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFile__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Path&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Type&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;match&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">                  </span><span class="p">},</span>
-<span class="w">                  </span><span class="p">{</span>
-<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">                  </span><span class="p">}</span>
-<span class="w">               </span><span class="p">],</span>
-<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Match&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;type&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;dgbowl_schemas__yadg__dataschema_5_0__externaldate__ExternalDateFilename__Content&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Format&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;len&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Len&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">},</span>
-<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;format&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;len&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Content&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;using&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -958,7 +645,10 @@ and that the timestamps in <code class="docutils literal notranslate"><span clas
 <code class="docutils literal notranslate"><span class="pre">externaldate</span></code> specification.</p>
 </dd></dl>
 
-<dl class="py function" id="module-yadg.dgutils.dsutils">
+</section>
+<section id="module-yadg.dgutils.dsutils">
+<span id="yadg-dgutils-dsutils-module"></span><h2>yadg.dgutils.dsutils module<a class="headerlink" href="#module-yadg.dgutils.dsutils" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.dsutils.append_dicts">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dsutils.</span></span><span class="sig-name descname"><span class="pre">append_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">li</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.dsutils.append_dicts" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -975,7 +665,10 @@ and that the timestamps in <code class="docutils literal notranslate"><span clas
 the new values in <code class="docutils literal notranslate"><span class="pre">fvals</span></code> to the existing ones in <code class="docutils literal notranslate"><span class="pre">vals</span></code>.</p>
 </dd></dl>
 
-<dl class="py function" id="module-yadg.dgutils.helpers">
+</section>
+<section id="module-yadg.dgutils.helpers">
+<span id="yadg-dgutils-helpers-module"></span><h2>yadg.dgutils.helpers module<a class="headerlink" href="#module-yadg.dgutils.helpers" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.helpers.get_yadg_metadata">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.helpers.</span></span><span class="sig-name descname"><span class="pre">get_yadg_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.dgutils.helpers.get_yadg_metadata" title="Link to this definition"></a></dt>
 <dd><p>Returns current <strong>yadg</strong> metadata.</p>
@@ -986,7 +679,10 @@ the new values in <code class="docutils literal notranslate"><span class="pre">f
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.helpers.</span></span><span class="sig-name descname"><span class="pre">deprecated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.helpers.deprecated" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p id="module-yadg.dgutils.pintutils"><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
+</section>
+<section id="module-yadg.dgutils.pintutils">
+<span id="yadg-dgutils-pintutils-module"></span><h2>yadg.dgutils.pintutils module<a class="headerlink" href="#module-yadg.dgutils.pintutils" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
 <p>This package defines <code class="docutils literal notranslate"><span class="pre">ureg</span></code>, a <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> used for validation of
 <cite>datagrams</cite> in <strong>yadg</strong>. The default SI <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is extended
 by definitions of fractional quantities (%, ppm, etc.), standard volumetric
@@ -1013,7 +709,10 @@ replacements are done:</p>
 </dl>
 </dd></dl>
 
-<dl class="py function" id="module-yadg.dgutils.schemautils">
+</section>
+<section id="module-yadg.dgutils.schemautils">
+<span id="yadg-dgutils-schemautils-module"></span><h2>yadg.dgutils.schemautils module<a class="headerlink" href="#module-yadg.dgutils.schemautils" title="Link to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.schemautils.calib_3to4">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.schemautils.</span></span><span class="sig-name descname"><span class="pre">calib_3to4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">oldcal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caltype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.dgutils.schemautils.calib_3to4" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1055,6 +754,7 @@ in-built <code class="docutils literal notranslate"><span class="pre">.update()<
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.schemautils.</span></span><span class="sig-name descname"><span class="pre">schema_from_preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataSchema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataSchema</span></span></span><a class="headerlink" href="#yadg.dgutils.schemautils.schema_from_preset" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+</section>
 </section>
 
 

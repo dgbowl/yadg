@@ -59,45 +59,39 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>agilent</strong>: For Agilent chromatograms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.warn_deprecated</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.ch">yadg.extractors.agilent.ch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv"><code class="docutils literal notranslate"><span class="pre">Agilent_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Agilent_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.csv">yadg.extractors.agilent.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv"><code class="docutils literal notranslate"><span class="pre">Agilent_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.warn_deprecated</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.timezone</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.locale</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.encoding"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.encoding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.parameters"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.parameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.dx">yadg.extractors.agilent.dx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx"><code class="docutils literal notranslate"><span class="pre">Agilent_dx</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
@@ -112,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -149,85 +143,20 @@
   <section id="module-yadg.extractors.agilent">
 <span id="agilent-for-agilent-chromatograms"></span><h1><strong>agilent</strong>: For Agilent chromatograms<a class="headerlink" href="#module-yadg.extractors.agilent" title="Link to this heading"></a></h1>
 <p>Extractors for data files generated by various proprietary Agilent software.</p>
-<p id="module-yadg.extractors.agilent.ch">Extractor of Agilent OpenLab binary signal trace files (<code class="docutils literal notranslate"><span class="pre">.ch</span></code> and <code class="docutils literal notranslate"><span class="pre">.it</span></code>).
+<section id="module-yadg.extractors.agilent.ch">
+<span id="yadg-extractors-agilent-ch-module"></span><h2>yadg.extractors.agilent.ch module<a class="headerlink" href="#module-yadg.extractors.agilent.ch" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent OpenLab binary signal trace files (<code class="docutils literal notranslate"><span class="pre">.ch</span></code> and <code class="docutils literal notranslate"><span class="pre">.it</span></code>).
 Currently supports version “179” of the files. Version information is defined in
 the <code class="docutils literal notranslate"><span class="pre">magic_values</span></code> (parameters &amp; metadata) and <cite>data_dtypes</cite> (data) dictionaries.</p>
 <p>Adapted from <a class="reference external" href="https://bit.ly/3HSelIR">ImportAgilent.m</a> and
 <a class="reference external" href="https://github.com/bovee/Aston">aston</a>.</p>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_ch</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Agilent_ch&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;agilent.ch&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;agilent-ch&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -235,7 +164,7 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 </dd>
 <dt class="field-even">Validators<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#id7" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#id6" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -245,7 +174,7 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#id7" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -253,14 +182,14 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 
 <dl class="py method pydantic_validator">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated">
-<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#id6" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
@@ -272,7 +201,7 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 </div>
 </section>
 <section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -284,7 +213,7 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 </div></blockquote>
 </section>
 <section id="notes-on-file-structure">
-<h2>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h2>
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
 <p>The following magic values are used:
 .. code</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mh">0x0000</span> <span class="s2">&quot;version magic&quot;</span>
@@ -308,7 +237,7 @@ the <code class="docutils literal notranslate"><span class="pre">magic_values</s
 as <code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">=</span> <span class="pre">(&quot;data</span> <span class="pre">offset&quot;</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">512</span></code>) until the end of the file.</p>
 </section>
 <section id="uncertainties">
-<h2>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h2>
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
 <p>Uncertainty in <code class="docutils literal notranslate"><span class="pre">signal</span></code> is the y-axis slope.</p>
 <p>Uncertainty in <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is the x-axis step size.</p>
 <p><em>Code author: Peter Kraus</em></p>
@@ -318,7 +247,10 @@ as <code class="docutils literal notranslate"><span class="pre">offset</span> <s
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.ch.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.ch.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p id="module-yadg.extractors.agilent.csv">Extractor of Agilent Chemstation Chromtab tabulated data files. This file format may
+</section>
+<section id="module-yadg.extractors.agilent.csv">
+<span id="yadg-extractors-agilent-csv-module"></span><h2>yadg.extractors.agilent.csv module<a class="headerlink" href="#module-yadg.extractors.agilent.csv" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent Chemstation Chromtab tabulated data files. This file format may
 include multiple timesteps consisting of several traces each in a single CSV file. It
 contains a header section for each timestep, followed by a detector name, and a sequence
 of “X, Y” datapoints, which are stored as <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> and <code class="docutils literal notranslate"><span class="pre">signal</span></code>.</p>
@@ -329,75 +261,12 @@ consistent between the timesteps of the same trace. The traces are expanded to t
 length of the longest trace, and the shorter traces are padded with <code class="docutils literal notranslate"><span class="pre">NaNs</span></code>.</p>
 </div>
 <section id="id1">
-<h2>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Agilent_csv&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;const&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agilent.csv&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -415,7 +284,7 @@ length of the longest trace, and the shorter traces are padded with <code class=
 
 </section>
 <section id="id2">
-<h2>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
@@ -427,7 +296,7 @@ length of the longest trace, and the shorter traces are padded with <code class=
 </div>
 </section>
 <section id="id3">
-<h2>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -437,7 +306,7 @@ length of the longest trace, and the shorter traces are padded with <code class=
 </div></blockquote>
 </section>
 <section id="id4">
-<h2>Uncertainties<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<h3>Uncertainties<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>All uncertainties are derived from the string representation of the floats.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
@@ -446,7 +315,10 @@ length of the longest trace, and the shorter traces are padded with <code class=
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.csv.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p id="module-yadg.extractors.agilent.dx">Extractor of Agilent OpenLab DX archives. This is a wrapper parser which unzips the
+</section>
+<section id="module-yadg.extractors.agilent.dx">
+<span id="yadg-extractors-agilent-dx-module"></span><h2>yadg.extractors.agilent.dx module<a class="headerlink" href="#module-yadg.extractors.agilent.dx" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent OpenLab DX archives. This is a wrapper parser which unzips the
 provided DX file, and then uses the <a class="reference internal" href="#module-yadg.extractors.agilent.ch" title="yadg.extractors.agilent.ch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.ch</span></code></a> extractor
 to parse every CH file present in the archive. The IT files in the archive are currently
 ignored.</p>
@@ -456,79 +328,12 @@ ignored.</p>
 timesteps array without any further sorting.</p>
 </div>
 <section id="id5">
-<h2>Usage<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_ch</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Agilent_ch&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;agilent.ch&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;agilent-ch&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_dx</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -536,68 +341,32 @@ timesteps array without any further sorting.</p>
 </dd>
 <dt class="field-even">Validators<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">locale_set_default</span></code> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locale</span></code></a></p></li>
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">timezone_resolve_localtime</span></code> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timezone</span></code></a></p></li>
-<li><p><a class="reference internal" href="#id7" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#id6" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="id6">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'agilent.ch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent-ch'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'agilent.dx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent-dx'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#id7" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method pydantic_validator">
-<dt class="sig sig-object py" id="id7">
-<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#id6" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Validated by<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">timezone_resolve_localtime</span></code></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Validated by<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">locale_set_default</span></code></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.encoding">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encoding</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.encoding" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.parameters">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="id8">
-<h2>Schema<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id6">
+<h3>Schema<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
@@ -608,8 +377,8 @@ timesteps array without any further sorting.</p>
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h2>Metadata<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id7">
+<h3>Metadata<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -626,6 +395,7 @@ timesteps array without any further sorting.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.dx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.dx.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+</section>
 </section>
 
 

@@ -7,6 +7,8 @@
    :show-inheritance:
 
 
+yadg.extractors.basic.csv module
+--------------------------------
 
 .. automodule:: yadg.extractors.basic.csv
    :members:

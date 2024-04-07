@@ -15,12 +15,16 @@ Subpackages
    yadg.extractors.eclab.common
 
 
+yadg.extractors.eclab.mpr module
+--------------------------------
 
 .. automodule:: yadg.extractors.eclab.mpr
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.eclab.mpt module
+--------------------------------
 
 .. automodule:: yadg.extractors.eclab.mpt
    :members:

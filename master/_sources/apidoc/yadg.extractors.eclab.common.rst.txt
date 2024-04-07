@@ -7,18 +7,24 @@ yadg.extractors.eclab.common package
    :show-inheritance:
 
 
+yadg.extractors.eclab.common.mpr\_columns module
+------------------------------------------------
 
 .. automodule:: yadg.extractors.eclab.common.mpr_columns
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.eclab.common.mpt\_columns module
+------------------------------------------------
 
 .. automodule:: yadg.extractors.eclab.common.mpt_columns
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.eclab.common.techniques module
+----------------------------------------------
 
 .. automodule:: yadg.extractors.eclab.common.techniques
    :members:

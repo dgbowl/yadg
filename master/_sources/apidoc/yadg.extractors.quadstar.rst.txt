@@ -7,6 +7,8 @@
    :show-inheritance:
 
 
+yadg.extractors.quadstar.sac module
+-----------------------------------
 
 .. automodule:: yadg.extractors.quadstar.sac
    :members:

@@ -64,26 +64,26 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>empalc</strong>: For Empa’s LC data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv.filetype"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.empalc.csv">yadg.extractors.empalc.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.empalc.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.empalc.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx.filetype"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.empalc.xlsx">yadg.extractors.empalc.xlsx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.empalc.xlsx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.empalc.xlsx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -131,7 +131,9 @@
 <span id="empalc-for-empa-s-lc-data"></span><h1><strong>empalc</strong>: For Empa’s LC data<a class="headerlink" href="#module-yadg.extractors.empalc" title="Link to this heading"></a></h1>
 <p>A custom extractor for processing liquid chromatography data exported from the Agilent
 Online LC in the Materials for Energy Conversion lab at Empa.</p>
-<p id="module-yadg.extractors.empalc.csv">Handles processing of the csv version of the structured format produced by Agilent’s
+<section id="module-yadg.extractors.empalc.csv">
+<span id="yadg-extractors-empalc-csv-module"></span><h2>yadg.extractors.empalc.csv module<a class="headerlink" href="#module-yadg.extractors.empalc.csv" title="Link to this heading"></a></h2>
+<p>Handles processing of the csv version of the structured format produced by Agilent’s
 Online LC device at Empa. It contains three sections:</p>
 <blockquote>
 <div><ul class="simple">
@@ -141,75 +143,12 @@ Online LC device at Empa. It contains three sections:</p>
 </ul>
 </div></blockquote>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">EmpaLC_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EmpaLC_csv&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;const&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;empalc.csv&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -227,7 +166,7 @@ Online LC device at Empa. It contains three sections:</p>
 
 </section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.Dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
@@ -241,7 +180,7 @@ Online LC device at Empa. It contains three sections:</p>
 </div>
 </section>
 <section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -259,7 +198,10 @@ Online LC device at Empa. It contains three sections:</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.empalc.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.empalc.csv.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p id="module-yadg.extractors.empalc.xlsx">Handles processing of the xlsx version of the structured format produced by Agilent’s
+</section>
+<section id="module-yadg.extractors.empalc.xlsx">
+<span id="yadg-extractors-empalc-xlsx-module"></span><h2>yadg.extractors.empalc.xlsx module<a class="headerlink" href="#module-yadg.extractors.empalc.xlsx" title="Link to this heading"></a></h2>
+<p>Handles processing of the xlsx version of the structured format produced by Agilent’s
 Online LC device at Empa. It contains three sections:</p>
 <blockquote>
 <div><ul class="simple">
@@ -269,75 +211,12 @@ Online LC device at Empa. It contains three sections:</p>
 </ul>
 </div></blockquote>
 <section id="id1">
-<h2>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">EmpaLC_xlsx</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EmpaLC_xlsx&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;const&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;empalc.xlsx&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -355,7 +234,7 @@ Online LC device at Empa. It contains three sections:</p>
 
 </section>
 <section id="id2">
-<h2>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.Dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
@@ -369,7 +248,7 @@ Online LC device at Empa. It contains three sections:</p>
 </div>
 </section>
 <section id="id3">
-<h2>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -387,6 +266,7 @@ Online LC device at Empa. It contains three sections:</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.empalc.xlsx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.empalc.xlsx.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+</section>
 </section>
 
 

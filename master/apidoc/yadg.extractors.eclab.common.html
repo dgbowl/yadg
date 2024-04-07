@@ -63,10 +63,15 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">yadg.extractors.eclab.common package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.common.mpr_columns">yadg.extractors.eclab.common.mpr_columns module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.common.mpt_columns">yadg.extractors.eclab.common.mpt_columns module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.common.techniques">yadg.extractors.eclab.common.techniques module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.common.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
@@ -77,7 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -114,8 +119,16 @@
              
   <section id="module-yadg.extractors.eclab.common">
 <span id="yadg-extractors-eclab-common-package"></span><h1>yadg.extractors.eclab.common package<a class="headerlink" href="#module-yadg.extractors.eclab.common" title="Link to this heading"></a></h1>
+<section id="module-yadg.extractors.eclab.common.mpr_columns">
+<span id="yadg-extractors-eclab-common-mpr-columns-module"></span><h2>yadg.extractors.eclab.common.mpr_columns module<a class="headerlink" href="#module-yadg.extractors.eclab.common.mpr_columns" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yadg.extractors.eclab.common.mpt_columns">
+<span id="yadg-extractors-eclab-common-mpt-columns-module"></span><h2>yadg.extractors.eclab.common.mpt_columns module<a class="headerlink" href="#module-yadg.extractors.eclab.common.mpt_columns" title="Link to this heading"></a></h2>
+</section>
+<section id="module-yadg.extractors.eclab.common.techniques">
+<span id="yadg-extractors-eclab-common-techniques-module"></span><h2>yadg.extractors.eclab.common.techniques module<a class="headerlink" href="#module-yadg.extractors.eclab.common.techniques" title="Link to this heading"></a></h2>
 <section id="eclabtechniques-parameters-for-implemented-techniques">
-<span id="module-yadg.extractors.eclab.common.techniques"></span><span id="module-yadg.extractors.eclab.common.mpt_columns"></span><span id="module-yadg.extractors.eclab.common.mpr_columns"></span><h2><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Link to this heading"></a></h2>
+<h3><strong>eclabtechniques</strong>: Parameters for implemented techniques.<a class="headerlink" href="#eclabtechniques-parameters-for-implemented-techniques" title="Link to this heading"></a></h3>
 <p>Implemented techniques:</p>
 <blockquote>
 <div><ul class="simple">
@@ -193,6 +206,7 @@ resolution is returned, however in some cases only the accuracy is specified
 (currently <code class="docutils literal notranslate"><span class="pre">freq</span></code> and <code class="docutils literal notranslate"><span class="pre">Phase</span></code>).</p>
 </dd></dl>
 
+</section>
 </section>
 
 

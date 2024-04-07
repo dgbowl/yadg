@@ -70,7 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
@@ -86,16 +86,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.core.infer_extractor"><code class="docutils literal notranslate"><span class="pre">infer_extractor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.core.process_schema"><code class="docutils literal notranslate"><span class="pre">process_schema()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.main.set_loglevel"><code class="docutils literal notranslate"><span class="pre">set_loglevel()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.main.run_with_arguments"><code class="docutils literal notranslate"><span class="pre">run_with_arguments()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.preset"><code class="docutils literal notranslate"><span class="pre">preset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.html#yadg.subcommands.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.core">yadg.core module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.main">yadg.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.html#module-yadg.subcommands">yadg.subcommands module</a></li>
 </ul>
 </li>
 </ul>
@@ -150,122 +145,115 @@ which can be used to write the object into a file.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.warn_deprecated</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#module-yadg.extractors.agilent.ch">yadg.extractors.agilent.ch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv"><code class="docutils literal notranslate"><span class="pre">Agilent_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Agilent_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv">yadg.extractors.agilent.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv"><code class="docutils literal notranslate"><span class="pre">Agilent_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id4">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id5">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id0"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#id6"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#id7"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.warn_deprecated</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.timezone"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.timezone</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.locale"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.locale</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.encoding"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.encoding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.parameters"><code class="docutils literal notranslate"><span class="pre">Agilent_ch.parameters</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#module-yadg.extractors.agilent.dx">yadg.extractors.agilent.dx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id5">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.agilent.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx"><code class="docutils literal notranslate"><span class="pre">Agilent_dx</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id7">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id8">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#id9">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Basic_csv"><code class="docutils literal notranslate"><span class="pre">Basic_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.basic.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Basic_csv.Parameters"><code class="docutils literal notranslate"><span class="pre">Basic_csv.Parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.basic.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Basic_csv.parameters"><code class="docutils literal notranslate"><span class="pre">Basic_csv.parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.basic.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Basic_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Basic_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#module-yadg.extractors.basic.csv">yadg.extractors.basic.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.basic.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Basic_csv"><code class="docutils literal notranslate"><span class="pre">Basic_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#yadg.extractors.basic.csv.process_row"><code class="docutils literal notranslate"><span class="pre">process_row()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.basic.html#yadg.extractors.basic.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#yadg.extractors.basic.csv.process_row"><code class="docutils literal notranslate"><span class="pre">process_row()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.basic.html#yadg.extractors.basic.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate"><code class="docutils literal notranslate"><span class="pre">TimeDate</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.TimestampSpec"><code class="docutils literal notranslate"><span class="pre">TimeDate.TimestampSpec</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.TimestampSpec.index"><code class="docutils literal notranslate"><span class="pre">TimeDate.TimestampSpec.index</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.TimestampSpec.format"><code class="docutils literal notranslate"><span class="pre">TimeDate.TimestampSpec.format</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.common">yadg.extractors.drycal.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate"><code class="docutils literal notranslate"><span class="pre">TimeDate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.TimestampSpec"><code class="docutils literal notranslate"><span class="pre">TimeDate.TimestampSpec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.date"><code class="docutils literal notranslate"><span class="pre">TimeDate.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.time"><code class="docutils literal notranslate"><span class="pre">TimeDate.time</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.date"><code class="docutils literal notranslate"><span class="pre">TimeDate.date</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.time"><code class="docutils literal notranslate"><span class="pre">TimeDate.time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.rtf"><code class="docutils literal notranslate"><span class="pre">rtf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.sep"><code class="docutils literal notranslate"><span class="pre">sep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.drycal_table"><code class="docutils literal notranslate"><span class="pre">drycal_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.check_timestamps"><code class="docutils literal notranslate"><span class="pre">check_timestamps()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.rtf"><code class="docutils literal notranslate"><span class="pre">rtf()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.sep"><code class="docutils literal notranslate"><span class="pre">sep()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.drycal_table"><code class="docutils literal notranslate"><span class="pre">drycal_table()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.common.check_timestamps"><code class="docutils literal notranslate"><span class="pre">check_timestamps()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_csv"><code class="docutils literal notranslate"><span class="pre">Drycal_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Drycal_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.csv">yadg.extractors.drycal.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_csv"><code class="docutils literal notranslate"><span class="pre">Drycal_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_rtf"><code class="docutils literal notranslate"><span class="pre">Drycal_rtf</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_rtf.filetype"><code class="docutils literal notranslate"><span class="pre">Drycal_rtf.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.rtf">yadg.extractors.drycal.rtf module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_rtf"><code class="docutils literal notranslate"><span class="pre">Drycal_rtf</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.rtf.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id4">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.rtf.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id5">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_txt"><code class="docutils literal notranslate"><span class="pre">Drycal_txt</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_txt.filetype"><code class="docutils literal notranslate"><span class="pre">Drycal_txt.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.txt">yadg.extractors.drycal.txt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id5">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.drycal.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Drycal_txt"><code class="docutils literal notranslate"><span class="pre">Drycal_txt</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id7">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id8">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.txt.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id6">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id7">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#id8">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.txt.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#eclabtechniques-parameters-for-implemented-techniques"><strong>eclabtechniques</strong>: Parameters for implemented techniques.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.technique_params"><code class="docutils literal notranslate"><span class="pre">technique_params()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#yadg.extractors.eclab.common.techniques.get_resolution"><code class="docutils literal notranslate"><span class="pre">get_resolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.mpr_columns">yadg.extractors.eclab.common.mpr_columns module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.mpt_columns">yadg.extractors.eclab.common.mpt_columns module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.common.html#module-yadg.extractors.eclab.common.techniques">yadg.extractors.eclab.common.techniques module</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr">yadg.extractors.eclab.mpr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#usage">Usage</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr"><code class="docutils literal notranslate"><span class="pre">EClab_mpr</span></code></a></li>
 </ul>
@@ -281,6 +269,9 @@ which can be used to write the object into a file.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_ext"><code class="docutils literal notranslate"><span class="pre">process_ext()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_modules"><code class="docutils literal notranslate"><span class="pre">process_modules()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt">yadg.extractors.eclab.mpt module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#id1">Usage</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="yadg.extractors.eclab.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt"><code class="docutils literal notranslate"><span class="pre">EClab_mpt</span></code></a></li>
 </ul>
@@ -296,26 +287,26 @@ which can be used to write the object into a file.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv.filetype"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#module-yadg.extractors.empalc.csv">yadg.extractors.empalc.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_csv"><code class="docutils literal notranslate"><span class="pre">EmpaLC_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx.filetype"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#module-yadg.extractors.empalc.xlsx">yadg.extractors.empalc.xlsx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.empalc.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EmpaLC_xlsx"><code class="docutils literal notranslate"><span class="pre">EmpaLC_xlsx</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.xlsx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.xlsx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a><ul>
@@ -334,202 +325,200 @@ which can be used to write the object into a file.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.filetype"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc.encoding"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc.encoding</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.asc">yadg.extractors.ezchrom.asc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_asc"><code class="docutils literal notranslate"><span class="pre">EZChrom_asc</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.asc.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.asc.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat"><code class="docutils literal notranslate"><span class="pre">EZChrom_dat</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat.filetype"><code class="docutils literal notranslate"><span class="pre">EZChrom_dat.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.dat">yadg.extractors.ezchrom.dat module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.ezchrom.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat"><code class="docutils literal notranslate"><span class="pre">EZChrom_dat</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.dat.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#id4">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.dat.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_csv"><code class="docutils literal notranslate"><span class="pre">FHI_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_csv.Parameters"><code class="docutils literal notranslate"><span class="pre">FHI_csv.Parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_csv.parameters"><code class="docutils literal notranslate"><span class="pre">FHI_csv.parameters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_csv.filetype"><code class="docutils literal notranslate"><span class="pre">FHI_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.csv">yadg.extractors.fhimcpt.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_csv"><code class="docutils literal notranslate"><span class="pre">FHI_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_vna"><code class="docutils literal notranslate"><span class="pre">FHI_vna</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_vna.filetype"><code class="docutils literal notranslate"><span class="pre">FHI_vna.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.vna">yadg.extractors.fhimcpt.vna module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fhimcpt.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.FHI_vna"><code class="docutils literal notranslate"><span class="pre">FHI_vna</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.vna.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.vna.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv"><code class="docutils literal notranslate"><span class="pre">Fusion_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Fusion_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#module-yadg.extractors.fusion.csv">yadg.extractors.fusion.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv"><code class="docutils literal notranslate"><span class="pre">Fusion_csv</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json"><code class="docutils literal notranslate"><span class="pre">Fusion_json</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json.filetype"><code class="docutils literal notranslate"><span class="pre">Fusion_json.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#module-yadg.extractors.fusion.json">yadg.extractors.fusion.json module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json"><code class="docutils literal notranslate"><span class="pre">Fusion_json</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromdata"><code class="docutils literal notranslate"><span class="pre">chromdata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromtrace"><code class="docutils literal notranslate"><span class="pre">chromtrace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromdata"><code class="docutils literal notranslate"><span class="pre">chromdata()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromtrace"><code class="docutils literal notranslate"><span class="pre">chromtrace()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id4">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip"><code class="docutils literal notranslate"><span class="pre">Fusion_zip</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip.filetype"><code class="docutils literal notranslate"><span class="pre">Fusion_zip.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#module-yadg.extractors.fusion.zip">yadg.extractors.fusion.zip module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id4">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.fusion.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip"><code class="docutils literal notranslate"><span class="pre">Fusion_zip</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id5">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id6">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.zip.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id5">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#id6">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.zip.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.common.panalytical_comment"><code class="docutils literal notranslate"><span class="pre">panalytical_comment()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.common.snake_case"><code class="docutils literal notranslate"><span class="pre">snake_case()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv.filetype"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.common">yadg.extractors.panalytical.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.common.panalytical_comment"><code class="docutils literal notranslate"><span class="pre">panalytical_comment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.common.snake_case"><code class="docutils literal notranslate"><span class="pre">snake_case()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.csv">yadg.extractors.panalytical.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id1">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml.warn_deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.xrdml">yadg.extractors.panalytical.xrdml module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id2">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id3">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id4">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id5">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id6">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy.filetype"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy.filetype</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id4">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id5">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.xy">yadg.extractors.panalytical.xy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id6">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.panalytical.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id7">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id8">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#id9">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xy.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id7">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id8">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id9">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xy.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe"><code class="docutils literal notranslate"><span class="pre">Phi_spe</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.phi.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe.filetype"><code class="docutils literal notranslate"><span class="pre">Phi_spe.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.phi.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe.warn_deprecated"><code class="docutils literal notranslate"><span class="pre">Phi_spe.warn_deprecated</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#module-yadg.extractors.phi.spe">yadg.extractors.phi.spe module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.phi.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe"><code class="docutils literal notranslate"><span class="pre">Phi_spe</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.quadstar.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#module-yadg.extractors.quadstar.sac">yadg.extractors.quadstar.sac module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.quadstar.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#yadg.extractors.quadstar.sac.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.quadstar.html#yadg.extractors.quadstar.sac.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Tomato_json"><code class="docutils literal notranslate"><span class="pre">Tomato_json</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.tomato.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Tomato_json.filetype"><code class="docutils literal notranslate"><span class="pre">Tomato_json.filetype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#module-yadg.extractors.tomato.json">yadg.extractors.tomato.json module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.tomato.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Tomato_json"><code class="docutils literal notranslate"><span class="pre">Tomato_json</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.biologic_tomato_json"><code class="docutils literal notranslate"><span class="pre">biologic_tomato_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.dummy_tomato_json"><code class="docutils literal notranslate"><span class="pre">dummy_tomato_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.biologic_tomato_json"><code class="docutils literal notranslate"><span class="pre">biologic_tomato_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.dummy_tomato_json"><code class="docutils literal notranslate"><span class="pre">dummy_tomato_json()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp">yadg.extractors.touchstone.snp module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.touchstone.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp"><code class="docutils literal notranslate"><span class="pre">Touchstone_snp</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp"><code class="docutils literal notranslate"><span class="pre">Touchstone_snp</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.touchstone.html#dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp.filetype"><code class="docutils literal notranslate"><span class="pre">Touchstone_snp.filetype</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_filename"><code class="docutils literal notranslate"><span class="pre">process_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_options"><code class="docutils literal notranslate"><span class="pre">process_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.attr_in_lines"><code class="docutils literal notranslate"><span class="pre">attr_in_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments"><code class="docutils literal notranslate"><span class="pre">process_comments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.data_to_dataset"><code class="docutils literal notranslate"><span class="pre">data_to_dataset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_filename"><code class="docutils literal notranslate"><span class="pre">process_filename()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_options"><code class="docutils literal notranslate"><span class="pre">process_options()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.attr_in_lines"><code class="docutils literal notranslate"><span class="pre">attr_in_lines()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments"><code class="docutils literal notranslate"><span class="pre">process_comments()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.data_to_dataset"><code class="docutils literal notranslate"><span class="pre">data_to_dataset()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 </ul>

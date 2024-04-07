@@ -69,25 +69,24 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>phi</strong>: For Phi XPS data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe"><code class="docutils literal notranslate"><span class="pre">Phi_spe</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe.filetype"><code class="docutils literal notranslate"><span class="pre">Phi_spe.filetype</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe.warn_deprecated"><code class="docutils literal notranslate"><span class="pre">Phi_spe.warn_deprecated</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.phi.spe">yadg.extractors.phi.spe module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe"><code class="docutils literal notranslate"><span class="pre">Phi_spe</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.phi.spe.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.phi.spe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.phi.spe.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#yadg.extractors.phi.spe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html">yadg.extractors.touchstone package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -123,83 +122,18 @@
              
   <section id="module-yadg.extractors.phi">
 <span id="phi-for-phi-xps-data"></span><h1><strong>phi</strong>: For Phi XPS data<a class="headerlink" href="#module-yadg.extractors.phi" title="Link to this heading"></a></h1>
-<p id="module-yadg.extractors.phi.spe">Processing of ULVAC PHI Multipak XPS traces.</p>
+<section id="module-yadg.extractors.phi.spe">
+<span id="yadg-extractors-phi-spe-module"></span><h2>yadg.extractors.phi.spe module<a class="headerlink" href="#module-yadg.extractors.phi.spe" title="Link to this heading"></a></h2>
+<p>Processing of ULVAC PHI Multipak XPS traces.</p>
 <p>The <a class="reference external" href="https://www.wavemetrics.com/project/phispefileloader">IGOR .spe import script</a> by
 jjweimer was pretty helpful for writing this extractor.</p>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Phi_spe</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Phi_spe" title="Link to this definition"></a></dt>
-<dd><p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Phi_spe&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filetype&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;phi.spe&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;phi-spe&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Filetype&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Timezone&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Locale&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Encoding&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="p">{},</span>
-<span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Parameters&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;filetype&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
@@ -232,7 +166,7 @@ jjweimer was pretty helpful for writing this extractor.</p>
 
 </section>
 <section id="schema">
-<h2>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h2>
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">trace_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
@@ -243,7 +177,7 @@ jjweimer was pretty helpful for writing this extractor.</p>
 </div>
 </section>
 <section id="metadata">
-<h2>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h2>
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -255,7 +189,7 @@ jjweimer was pretty helpful for writing this extractor.</p>
 <p>Additionally, the processed header data is stored in the metadata under <code class="docutils literal notranslate"><span class="pre">file_header</span></code>.</p>
 </section>
 <section id="notes-on-file-structure">
-<h2>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h2>
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
 <p>These binary files actually contain an ASCII file header, delimited by
 <cite>“SOFH
 “</cite> and <cite>“EOFH
@@ -323,7 +257,7 @@ datapoints there is a single 32bit float with the trace’s dwelling time
 again.</p>
 </section>
 <section id="uncertainties">
-<h2>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h2>
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
 <p>The uncertainties of <code class="docutils literal notranslate"><span class="pre">&quot;E&quot;</span></code> are taken as the step-width of
 the linearly spaced energy values.</p>
 <p>The uncertainties <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code> of <code class="docutils literal notranslate"><span class="pre">&quot;y&quot;</span></code> are currently set to a constant
@@ -360,6 +294,7 @@ traces from the phispe parser should be done in a better way.</p>
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.phi.spe.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.phi.spe.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+</section>
 </section>
 
 

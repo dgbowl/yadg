@@ -1,5 +1,5 @@
-yadg.extractors.touchstone package
-==================================
+**touchstone**: For Touchstone VNA files
+========================================
 
 .. automodule:: yadg.extractors.touchstone
    :members:
@@ -7,6 +7,8 @@ yadg.extractors.touchstone package
    :show-inheritance:
 
 
+yadg.extractors.touchstone.snp module
+-------------------------------------
 
 .. automodule:: yadg.extractors.touchstone.snp
    :members:

@@ -7,18 +7,24 @@
    :show-inheritance:
 
 
+yadg.extractors.agilent.ch module
+---------------------------------
 
 .. automodule:: yadg.extractors.agilent.ch
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.agilent.csv module
+----------------------------------
 
 .. automodule:: yadg.extractors.agilent.csv
    :members:
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.agilent.dx module
+---------------------------------
 
 .. automodule:: yadg.extractors.agilent.dx
    :members:

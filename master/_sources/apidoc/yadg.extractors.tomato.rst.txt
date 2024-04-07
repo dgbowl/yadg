@@ -7,6 +7,8 @@
    :show-inheritance:
 
 
+yadg.extractors.tomato.json module
+----------------------------------
 
 .. automodule:: yadg.extractors.tomato.json
    :members:

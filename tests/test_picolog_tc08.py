@@ -2,7 +2,6 @@ import pytest
 import os
 import pickle
 from yadg.extractors.picolog.tc08 import extract
-from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(

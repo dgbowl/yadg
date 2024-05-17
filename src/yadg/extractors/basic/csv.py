@@ -45,7 +45,6 @@ No metadata is extracted.
 import logging
 from pydantic import BaseModel
 from babel.numbers import parse_decimal
-import locale as lc
 from xarray import Dataset
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
@@ -53,7 +52,7 @@ from typing import Callable
 
 from yadg import dgutils
 
-default_locale = lc.getlocale(lc.LC_NUMERIC)[0]
+
 logger = logging.getLogger(__name__)
 
 
@@ -62,7 +61,7 @@ def process_row(
     items: list,
     datefunc: Callable,
     datecolumns: list[int],
-    locale: str = default_locale,
+    locale: str = "en_GB",
 ) -> tuple[dict, dict]:
     """
     A function that processes a row of a table.

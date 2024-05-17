@@ -17,8 +17,9 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=30d551ce"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -368,7 +369,7 @@ set), using a compression algorithm of your choice.</p>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">extract</span></code> subcommand of yadg.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">filetype</span></code> is known to yadg, it will attempt to extract all data from the
 provided <code class="docutils literal notranslate"><span class="pre">infile</span></code>.</p>
-<p>The data is returned as a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or a datatree, and is stored in
+<p>The data is returned as a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.5.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a> or a datatree, and is stored in
 a NetCDF file. The output location can be configured using the <code class="docutils literal notranslate"><span class="pre">outfile</span></code>
 argument, by default this is set to the stem of <code class="docutils literal notranslate"><span class="pre">infile</span></code> with a <code class="docutils literal notranslate"><span class="pre">.nc</span></code> suffix.</p>
 <p>Optionally, an export of just the metadata can be requested by setting the

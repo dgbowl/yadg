@@ -17,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=30d551ce"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -123,7 +123,7 @@
 <li><p>uniform data timestamping within and between all <cite>datagrams</cite>.</p></li>
 </ul>
 </div></blockquote>
-<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is exported as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file. In memory, it is represented by a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a>, with individual <cite>steps</cite> as nodes of that <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
+<p>As of <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>, the <cite>datagram</cite> is exported as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file. In memory, it is represented by a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a>, with individual <cite>steps</cite> as nodes of that <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> containing a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.5.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>.</p>
 <p>The top level <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code></a> contains the following metadata stored in its attributes:</p>
 <blockquote>
 <div><ul class="simple">
@@ -133,7 +133,7 @@
 <li><p>the <cite>datagram</cite> creation timestamp formatted according to ISO8601.</p></li>
 </ul>
 </div></blockquote>
-<p>The contents of the attribute fields for each <cite>step</cite> will vary depending on the parser used to create the corresponding <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.3.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. The following conventions are used:</p>
+<p>The contents of the attribute fields for each <cite>step</cite> will vary depending on the parser used to create the corresponding <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.5.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. The following conventions are used:</p>
 <blockquote>
 <div><ul>
 <li><p>a <cite>coord</cite> field <code class="docutils literal notranslate"><span class="pre">uts</span></code> contains a Unix timestamp (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>),</p></li>

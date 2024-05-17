@@ -17,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=30d551ce"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -149,6 +149,7 @@
 <li><p>Fixed incorrect unit assignment when <code class="docutils literal notranslate"><span class="pre">/</span></code> was substituted to <code class="docutils literal notranslate"><span class="pre">_</span></code> in column names.</p></li>
 <li><p>Fixed incorrect annotation of ancillary variables: <code class="docutils literal notranslate"><span class="pre">standard</span> <span class="pre">error</span></code> should be <code class="docutils literal notranslate"><span class="pre">standard_error</span></code>.</p></li>
 <li><p>Fixed incorrect parsing of units in the <a class="reference internal" href="apidoc/yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.asc" title="yadg.extractors.ezchrom.asc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.ezchrom.asc</span></code></a> parser. Now, the <code class="docutils literal notranslate"><span class="pre">25</span> <span class="pre">μV</span></code> unit will be correctly replaced by just <code class="docutils literal notranslate"><span class="pre">μV</span></code> (without modifying data), which can be understood by <code class="xref py py-mod docutils literal notranslate"><span class="pre">pint</span></code>.</p></li>
+<li><p>Added several new I-range values to <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab" title="yadg.extractors.eclab"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab</span></code></a> parsers. Now, I-range values up to 130 are supported.</p></li>
 </ul>
 </div></blockquote>
 </section>

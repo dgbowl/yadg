@@ -31,6 +31,7 @@ Bug fixes in ``yadg-5.1`` include:
   - Fixed incorrect unit assignment when ``/`` was substituted to ``_`` in column names.
   - Fixed incorrect annotation of ancillary variables: ``standard error`` should be ``standard_error``.
   - Fixed incorrect parsing of units in the :mod:`yadg.extractors.ezchrom.asc` parser. Now, the ``25 μV`` unit will be correctly replaced by just ``μV`` (without modifying data), which can be understood by :mod:`pint`.
+  - Added several new I-range values to :mod:`yadg.extractors.eclab` parsers. Now, I-range values up to 130 are supported.
 
 
 .. _concat_lab: https://tu.berlin/en/concat

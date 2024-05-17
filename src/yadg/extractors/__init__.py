@@ -11,7 +11,13 @@ from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 logger = logging.getLogger(__name__)
 
 
-def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
+def extract(
+    filetype: str,
+    path: Path,
+    timezone: str = None,
+    encoding: str = None,
+    locale: str = None,
+) -> Union[Dataset, DataTree]:
     """
     The individual extractor functionality of yadg is called from here.
 
@@ -30,7 +36,14 @@ def extract(filetype: str, path: Path) -> Union[Dataset, DataTree]:
         A :class:`pathlib.Path` object pointing to the file to be extracted.
 
     """
-    extractor = ExtractorFactory(extractor={"filetype": filetype}).extractor
+    extractor = ExtractorFactory(
+        extractor={
+            "filetype": filetype,
+            "timezone": timezone,
+            "encoding": encoding,
+            "locale": locale,
+        }
+    ).extractor
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")

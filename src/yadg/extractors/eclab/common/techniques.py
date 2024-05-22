@@ -1306,11 +1306,12 @@ def get_resolution(
         return get_resolution("Q", value / 3.6, "C", Erange, Irange)
     elif unit in {"W·h"}:
         return get_resolution("P", value / 3600, "W", Erange, Irange)
-    elif unit in {"µF"}:
+    elif unit in {"µF", "nF"}:
         # [F] = [C]/[V]
+        mul = 1e-9 if unit == "nF" else 1e-6
         return max(
-            get_resolution("Q", value * 1e-6, "C", Erange, Irange),
-            get_resolution("U", value * 1e-6, "V", Erange, Irange),
+            get_resolution("Q", value * mul, "C", Erange, Irange),
+            get_resolution("U", value * mul, "V", Erange, Irange),
         )
     elif unit in {"s"}:
         # Based on the EC-Lib documentation,
@@ -1319,6 +1320,8 @@ def get_resolution(
     elif unit in {"%"}:
         return 0.1
     else:
+        # Temporarily return none here until the function is refactored.
+        return None
         raise RuntimeError(
-            f"Could not get resolution of quantity '{name}' with unit '{unit}."
+            f"Could not get resolution of quantity {name!r} with unit {unit!r}."
         )

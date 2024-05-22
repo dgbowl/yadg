@@ -513,7 +513,6 @@ def _mb_params(settings: list[str]) -> list[str]:
     ]
     params = _prepend_ns(settings, params)
     n1_match = re.search(r"N1\s+", "\n".join(settings))
-    print(f"{n1_match=}")
     if n1_match:
         n1 = [
             "charge/discharge_1",

@@ -59,6 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timestamping">Timestamping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#locale-support">Locale support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dataschema-validation"><cite>Dataschema</cite> validation</a></li>
 </ul>
 </li>
@@ -138,6 +139,10 @@
 <h2>Timestamping<a class="headerlink" href="#timestamping" title="Link to this heading"></a></h2>
 <p>Another key feature in <strong>yadg</strong> is the timestamping of all datapoints. The Unix timestamp is used, as it’s the natural timestamp for Python, and with its resolution in seconds it can be easily converted to minutes or hours.</p>
 <p>Most of the supported file formats contain a timestamp of some kind. However, several file formats may not define both date and time of each datapoint, or may define neither. That is why <strong>yadg</strong> includes a powerful “external date” interface, see <a class="reference internal" href="apidoc/yadg.dgutils.html#yadg.dgutils.dateutils.complete_timestamps" title="yadg.dgutils.dateutils.complete_timestamps"><code class="xref py py-func docutils literal notranslate"><span class="pre">complete_timestamps()</span></code></a>.</p>
+</section>
+<section id="locale-support">
+<h2>Locale support<a class="headerlink" href="#locale-support" title="Link to this heading"></a></h2>
+<p>Support for parsing numbers in localized files is implemented in <strong>yadg</strong> via the <code class="xref py py-mod docutils literal notranslate"><span class="pre">babel</span></code> library, allowing the users to specify the locale of the file using standard locale strings, such as <code class="docutils literal notranslate"><span class="pre">en_US</span></code> or <code class="docutils literal notranslate"><span class="pre">de_CH</span></code>. This avoids “hacks” such as replacing decimal separators (<code class="docutils literal notranslate"><span class="pre">,</span></code> vs <code class="docutils literal notranslate"><span class="pre">.</span></code>) and thousands separators when processing localizable files. By default, <strong>yadg</strong> attempts to infer the locale from the <code class="docutils literal notranslate"><span class="pre">LC_NUMERIC</span></code> environment variable; if this is not set in your environment, <code class="docutils literal notranslate"><span class="pre">en_GB</span></code> is used as a fallback.</p>
 </section>
 <section id="dataschema-validation">
 <h2><cite>Dataschema</cite> validation<a class="headerlink" href="#dataschema-validation" title="Link to this heading"></a></h2>

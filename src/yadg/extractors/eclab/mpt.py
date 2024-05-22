@@ -58,7 +58,7 @@ The metadata will contain the information from the header of the file.
 
 import re
 import logging
-import locale as lc
+from babel.numbers import parse_decimal
 from xarray import Dataset
 from yadg import dgutils
 from .common.techniques import get_resolution, technique_params, param_from_key
@@ -67,7 +67,11 @@ from .common.mpt_columns import column_units
 logger = logging.getLogger(__name__)
 
 
-def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
+def process_header(
+    lines: list[str],
+    timezone: str,
+    locale: str,
+) -> tuple[dict, list, dict]:
     """Processes the header lines.
 
     Parameters
@@ -99,10 +103,11 @@ def process_header(lines: list[str], timezone: str) -> tuple[dict, list, dict]:
     for seq in range(1, n_sequences):
         values = []
         for param in params:
+            val = param[seq * 20 : (seq + 1) * 20]
             try:
-                val = lc.atof(param[seq * 20 : (seq + 1) * 20])
+                val = float(parse_decimal(val, locale=locale))
             except ValueError:
-                val = param[seq * 20 : (seq + 1) * 20].strip()
+                val = val.strip()
             values.append(val)
         params_values.append(values)
     params = [dict(zip(params_keys, values)) for values in params_values]
@@ -144,6 +149,7 @@ def process_data(
     Eranges: list[float],
     Iranges: list[float],
     controls: list[str],
+    locale: str,
 ):
     """Processes the data lines.
 
@@ -181,14 +187,14 @@ def process_data(
         vals = dict()
         for name, value in list(zip(columns, values)):
             if units.get(name) is None:
-                ival = int(lc.atof(value))
+                ival = int(parse_decimal(value, locale=locale))
                 if name == "I Range":
                     vals[name] = param_from_key("I_range", ival)
                 else:
                     vals[name] = ival
             else:
                 try:
-                    fval = lc.atof(value)
+                    fval = float(parse_decimal(value, locale=locale))
                     vals[name] = fval
                 except ValueError:
                     sval = value.strip()
@@ -259,8 +265,6 @@ def extract(
     settings, params = {}, []
 
     # Store current LC_NUMERIC before we do anything:
-    old_loc = lc.getlocale(category=lc.LC_NUMERIC)
-    lc.setlocale(lc.LC_NUMERIC, locale=locale)
     if nb_header_lines <= 3:
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
@@ -269,7 +273,7 @@ def extract(
         Iranges = ["Auto"]
         ctrls = [None]
     else:
-        settings, params, _ = process_header(header_lines, timezone)
+        settings, params, _ = process_header(header_lines, timezone, locale)
         start_time = settings.get("posix_timestamp")
         fulldate = True
         Eranges = []
@@ -290,7 +294,7 @@ def extract(
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
 
-    ds = process_data(data_lines, Eranges, Iranges, ctrls)
+    ds = process_data(data_lines, Eranges, Iranges, ctrls, locale)
     if "time" in ds:
         ds["uts"] = ds["time"] + start_time
     else:
@@ -299,5 +303,4 @@ def extract(
         del ds.attrs["fulldate"]
     ds.attrs.update(metadata)
     # reset to original LC_NUMERIC
-    lc.setlocale(category=lc.LC_NUMERIC, locale=old_loc)
     return ds

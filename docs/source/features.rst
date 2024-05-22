@@ -30,6 +30,11 @@ Another key feature in **yadg** is the timestamping of all datapoints. The Unix 
 Most of the supported file formats contain a timestamp of some kind. However, several file formats may not define both date and time of each datapoint, or may define neither. That is why **yadg** includes a powerful "external date" interface, see :func:`~yadg.dgutils.dateutils.complete_timestamps`.
 
 
+Locale support
+``````````````
+Support for parsing numbers in localized files is implemented in **yadg** via the :mod:`babel` library, allowing the users to specify the locale of the file using standard locale strings, such as ``en_US`` or ``de_CH``. This avoids "hacks" such as replacing decimal separators (``,`` vs ``.``) and thousands separators when processing localizable files. By default, **yadg** attempts to infer the locale from the ``LC_NUMERIC`` environment variable; if this is not set in your environment, ``en_GB`` is used as a fallback.
+
+
 `Dataschema` validation
 ```````````````````````
 Additionally, **yadg** provides `dataschema` validation functionality, by using the schema models from the :mod:`dgbowl_schemas.yadg.dataschema` package, implemented in |Pydantic|_. The schemas are developed in lockstep with **yadg**. This |Pydantic|-based validator class should be used to ensure that the incoming `dataschema` is valid.

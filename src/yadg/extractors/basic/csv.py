@@ -44,7 +44,7 @@ No metadata is extracted.
 
 import logging
 from pydantic import BaseModel
-import locale as lc
+from babel.numbers import parse_decimal
 from xarray import Dataset
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
@@ -61,6 +61,7 @@ def process_row(
     items: list,
     datefunc: Callable,
     datecolumns: list[int],
+    locale: str = "en_GB",
 ) -> tuple[dict, dict]:
     """
     A function that processes a row of a table.
@@ -107,7 +108,7 @@ def process_row(
         elif columns[ci] == "":
             continue
         try:
-            val, dev = tuple_fromstr(lc.delocalize(columns[ci]))
+            val, dev = tuple_fromstr(str(parse_decimal(columns[ci], locale=locale)))
             vals[header] = val
             devs[header] = dev
         except ValueError:
@@ -162,8 +163,6 @@ def extract(
     units = dgutils.sanitize_units(units)
 
     # Process rows
-    old_loc = lc.getlocale(category=lc.LC_NUMERIC)
-    lc.setlocale(lc.LC_NUMERIC, locale=locale)
     data_vals = {}
     meta_vals = {"_fn": []}
     for li, line in enumerate(lines[si:]):
@@ -172,8 +171,8 @@ def extract(
             [i.strip().strip(strip) for i in line.split(parameters.sep)],
             datefunc,
             datecolumns,
+            locale=locale,
         )
         dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
-    lc.setlocale(category=lc.LC_NUMERIC, locale=old_loc)
 
     return dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate)

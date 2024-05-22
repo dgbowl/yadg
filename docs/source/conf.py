@@ -85,4 +85,5 @@ intersphinx_mapping = {
     "dgbowl_schemas": ("https://dgbowl.github.io/dgbowl-schemas/master", None),
     "xarray": ("https://docs.xarray.dev/en/stable", None),
     "datatree": ("https://xarray-datatree.readthedocs.io/en/latest/", None),
+    "babel": ("https://babel.pocoo.org/en/latest/", None),
 }

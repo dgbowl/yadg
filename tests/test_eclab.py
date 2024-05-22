@@ -22,7 +22,7 @@ def _datadir(tmpdir, request):
         ("ca.mpr", "ca.mpt"),
         ("cp.mpr", "cp.mpt"),
         ("cv.mpr", "cv.mpt"),
-        # ("gcpl.mpr", "gcpl.mpt"),
+        ("gcpl.mpr", "gcpl.mpt"),
         ("geis.mpr", "geis.mpt"),
         ("lsv.mpr", "lsv.mpt"),
         ("mb.mpr", "mb.mpt"),
@@ -48,7 +48,7 @@ def test_eclab_consistency(afile, bfile, _datadir):
             if aret[key].dtype.kind in {"U"}:
                 np.testing.assert_array_equal(aret[key], bret[key])
             else:
-                np.testing.assert_allclose(aret[key], bret[key], rtol=1e-3)
+                np.testing.assert_allclose(aret[key], bret[key], rtol=1e-3, atol=1e-11)
             assert aret[key].attrs == bret[key].attrs
         except AssertionError as e:
             print(f"{key=}")

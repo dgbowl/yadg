@@ -11,7 +11,7 @@ from .utils import compare_datatrees
         "ca.mpt",
         "cp.mpt",
         "cv.mpt",
-        # "gcpl.mpt", cannot process GCPL without reworking params parsing
+        "gcpl.mpt",
         "geis.mpt",
         "lsv.mpt",
         "mb.mpt",

@@ -6,7 +6,6 @@ from tests.utils import (
 )
 
 
-
 @pytest.mark.parametrize(
     "infile, ts",
     [

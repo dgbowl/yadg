@@ -256,7 +256,7 @@ def _gcpl_params(settings: list[str]) -> list[str]:
         "dQM",
         "dQM_unit",
         "dxM",
-        "delta SoC", # available only in 11.40 and above - bit of a hack r.n.
+        "delta SoC",  # available only in 11.40 and above - bit of a hack r.n.
         "tR",
         "dER/dt",
         "dER",

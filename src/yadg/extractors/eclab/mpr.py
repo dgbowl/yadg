@@ -548,27 +548,6 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         else:
             raise NotImplementedError(f"Unknown module: {name}.")
     if ext is not None:
-        # replace names, units, and correct sigmas in data with headers present in ext
-        for k in {"Analog IN 1", "Analog IN 2"}:
-            parts = ext[k].split("/")
-            if len(parts) == 1:
-                n = parts[0]
-                u = " "
-            else:
-                n, u = parts
-            if k in ds:
-                ds[n] = ds[k]
-                ds[n].attrs = {"units": u, "ancillary_variables": f"{n}_std_err"}
-                del ds[k]
-                devs = ds[f"{k}_std_err"]
-                fac = ext[k + " max x"] - ext[k + " min x"]
-                fac = fac / (ext[k + " max V"] - ext[k + " min V"])
-                ds[f"{n}_std_err"] = devs * fac
-                ds[f"{n}_std_err"].attrs = {
-                    "units": u,
-                    "standard_name": f"{n} standard_error",
-                }
-                del ds[f"{k}_std_err"]
         settings.update(ext)
     return settings, params, ds, log, loop
 

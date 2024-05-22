@@ -179,7 +179,8 @@ def process_data(
         columns.append(c)
         if u is not None:
             units[c] = u
-    data_lines = lines[2:]
+    # Remove empty lines from data_lines, see issue #151.
+    data_lines = [line for line in lines[2:] if line.strip() != ""]
     allvals = dict()
     allmeta = dict()
     for li, line in enumerate(data_lines):

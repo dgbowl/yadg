@@ -76,7 +76,7 @@ data_columns = {
     0x0026: ("<f4", "-Im(Z)", "Ω"),
     0x0027: ("<u2", "I Range", None),
     0x0046: ("<f4", "P", "W"),
-    0x004A: ("<f8", "Energy", "W·h"),
+    0x004A: ("<f8", "|Energy|", "W·h"),
     0x004B: ("<f4", "Analog OUT", "V"),
     0x004C: ("<f4", "<I>", "mA"),
     0x004D: ("<f4", "<Ewe>", "V"),

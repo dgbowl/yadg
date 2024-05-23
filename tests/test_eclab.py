@@ -1,6 +1,6 @@
 import pytest
 import os
-import numpy as np
+import xarray as xr
 from distutils import dir_util
 from yadg.extractors.eclab.mpr import extract as extract_mpr
 from yadg.extractors.eclab.mpt import extract as extract_mpt
@@ -44,15 +44,4 @@ def test_eclab_consistency(afile, bfile, _datadir):
         fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale="en_US"
     )
     for key in aret.variables:
-        try:
-            if aret[key].dtype.kind in {"U"}:
-                np.testing.assert_array_equal(aret[key], bret[key])
-            else:
-                np.testing.assert_allclose(aret[key], bret[key], rtol=1e-3, atol=1e-11)
-            assert aret[key].attrs == bret[key].attrs
-        except AssertionError as e:
-            print(f"{key=}")
-            if key in {"control_I"} or key.endswith("_std_err"):
-                continue
-            else:
-                raise e
+        xr.testing.assert_allclose(aret[key], bret[key])

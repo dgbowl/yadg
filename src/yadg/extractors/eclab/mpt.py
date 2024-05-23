@@ -56,8 +56,8 @@ The metadata will contain the information from the header of the file.
 
 """
 
-import re
 import logging
+from typing import Any
 from babel.numbers import parse_decimal
 from xarray import Dataset
 from yadg import dgutils
@@ -65,6 +65,40 @@ from .common.techniques import get_resolution, technique_params, param_from_key
 from .common.mpt_columns import column_units
 
 logger = logging.getLogger(__name__)
+
+
+def process_settings(lines: list[str]) -> dict[str, str]:
+    settings = {}
+    for line in lines:
+        items = [item.strip() for item in line.split(":")]
+        if len(items) > 2:
+            items = [items[0], ":".join(items[1:])]
+        if len(items) == 2 and items[1] != "":
+            settings[items[0]] = items[1]
+    return settings
+
+
+def process_params(technique: str, lines: list[str], locale: str) -> dict[str, Any]:
+    # The sequence param columns are always allocated 20 characters.
+    n_sequences = int(len(lines[0]) / 20)
+    params = {}
+    prev = None
+    for line in lines:
+        items = [line[seq * 20 : (seq + 1) * 20].strip() for seq in range(n_sequences)]
+        try:
+            vals = [float(parse_decimal(val, locale=locale)) for val in items[1:]]
+        except ValueError:
+            vals = items[1:]
+        if items[0] in {"vs."}:
+            name = f"{prev} {items[0]}"
+        else:
+            name = items[0]
+        if name not in params:
+            params[name] = vals
+        else:
+            raise RuntimeError(f"Trying to assing same parameter {items[0]!r} twice.")
+        prev = name
+    return params
 
 
 def process_header(
@@ -93,38 +127,28 @@ def process_header(
     # Again, we need the acquisition time to get timestamped data.
     assert len(sections) >= 3, "no settings present"
     technique = sections[1].strip()
-    settings_lines = sections[2].split("\n")
-    technique, params_keys = technique_params(technique, settings_lines)
-    params = settings_lines[-len(params_keys) :]
 
-    # The sequence param columns are always allocated 20 characters.
-    n_sequences = int(len(params[0]) / 20)
-    params_values = []
-    for seq in range(1, n_sequences):
-        values = []
-        for param in params:
-            val = param[seq * 20 : (seq + 1) * 20]
-            try:
-                val = float(parse_decimal(val, locale=locale))
-            except ValueError:
-                val = val.strip()
-            values.append(val)
-        params_values.append(values)
-    params = [dict(zip(params_keys, values)) for values in params_values]
-    settings_lines = [line.strip() for line in settings_lines[: -len(params_keys)]]
+    lines = sections[2].split("\n")
+    for li, line in enumerate(lines):
+        if line.startswith("Cycle Definition :"):
+            break
+
+    settings = process_settings(lines[:li])
+    params = process_params(technique, lines[li + 1 :], locale)
 
     # Parse the acquisition timestamp.
-    timestamp_re = re.compile(r"Acquisition started on : (?P<val>.+)")
-    timestamp_match = timestamp_re.search("\n".join(settings_lines))
-    timestamp = timestamp_match["val"]
-    for format in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
-        uts = dgutils.str_to_uts(
-            timestamp=timestamp, format=format, timezone=timezone, strict=False
-        )
-        if uts is not None:
-            break
-    if uts is None:
-        raise NotImplementedError(f"Time format for {timestamp} not implemented.")
+    if "Acquisition started on" in settings:
+        timestamp = settings["Acquisition started on"]
+        for fmt in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
+            uts = dgutils.str_to_uts(
+                timestamp=timestamp, format=fmt, timezone=timezone, strict=False
+            )
+            if uts is not None:
+                break
+        else:
+            raise NotImplementedError(f"Time format for {timestamp} not implemented.")
+    else:
+        uts = None
 
     loops = None
     if len(sections) >= 4 and sections[-1].startswith("Number of loops : "):
@@ -136,12 +160,14 @@ def process_header(
             index = loops_lines[n + 1].split("to")[0].split()[-1]
             indexes.append(int(index))
         loops = {"n_loops": n_loops, "indexes": indexes}
-    settings = {
-        "posix_timestamp": uts,
+    ret = {
+        "uts": uts,
         "technique": technique,
-        "raw": "\n".join(lines),
+        "settings": settings,
+        "params": params,
+        "loops": loops,
     }
-    return settings, params, loops
+    return ret
 
 
 def process_data(
@@ -210,10 +236,10 @@ def process_data(
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
         devs = {}
-        if "control_V_I" in vals:
+        if "control_VI" in vals:
             icv = controls[vals["Ns"]]
             name = f"control_{icv}"
-            vals[name] = vals.pop("control_V_I")
+            vals[name] = vals.pop("control_VI")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         for col, val in vals.items():
             unit = units.get(col)
@@ -270,32 +296,25 @@ def extract(
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
-        Eranges = [20.0]
+        Eranges = [10.0]
         Iranges = ["Auto"]
-        ctrls = [None]
+        controls = [None]
     else:
-        settings, params, _ = process_header(header_lines, timezone, locale)
-        start_time = settings.get("posix_timestamp")
+        header = process_header(header_lines, timezone, locale)
+        start_time = header.get("uts")
+        settings = header.get("settings")
+        params = header.get("params")
         fulldate = True
-        Eranges = []
-        Iranges = []
-        ctrls = []
-        for el in params:
-            E_range_max = el.get("E_range_max", float("inf"))
-            E_range_min = el.get("E_range_min", float("-inf"))
-            Eranges.append(E_range_max - E_range_min)
-            Iranges.append(el.get("I_range", "Auto"))
-            if "set_I/C" in el:
-                ctrls.append(el["set_I/C"])
-            elif "apply_I/C" in el:
-                ctrls.append(el["apply_I/C"])
-            else:
-                ctrls.append(None)
+        Er_max = params.get("E range max (V)", [10.0])
+        Er_min = params.get("E range min (V)", [0.0])
+        Eranges = [_max - _min for _max, _min in zip(Er_max, Er_min)]
+        Iranges = params.get("I Range", ["Auto"])
+        controls = params.get("Set I/C", params.get("Apply I/C", [None] * len(Iranges)))
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
 
-    ds = process_data(data_lines, Eranges, Iranges, ctrls, locale)
+    ds = process_data(data_lines, Eranges, Iranges, controls, locale)
     if "time" in ds:
         ds["uts"] = ds["time"] + start_time
     else:

@@ -1,6 +1,7 @@
 import pytest
 import os
 import pickle
+import xarray as xr
 from yadg.extractors.picolog.tc08 import extract
 
 
@@ -8,6 +9,7 @@ from yadg.extractors.picolog.tc08 import extract
     "infile",
     [
         "20220723-porosity-study-15p-Cu-200mA-longrun-07.picolog",
+        "20230917-16-S07-temperature.picolog",
     ],
 )
 def test_picolog_tc08(infile, datadir):
@@ -19,4 +21,4 @@ def test_picolog_tc08(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    assert ret.equals(ref)
+    xr.testing.assert_equal(ret, ref)

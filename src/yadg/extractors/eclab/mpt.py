@@ -61,7 +61,7 @@ from typing import Any
 from babel.numbers import parse_decimal
 from xarray import Dataset
 from yadg import dgutils
-from .common.techniques import get_resolution, technique_params, param_from_key
+from .common.techniques import get_resolution, param_from_key
 from .common.mpt_columns import column_units
 
 logger = logging.getLogger(__name__)

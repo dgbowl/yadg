@@ -35,6 +35,8 @@
 {{- "**fusion**: For Fusion chromatograms" | heading }}
 {% elif 'yadg.extractors.panalytical' == pkgname %}
 {{- "**panalytical**: For Panalytical XRD data" | heading }}
+{% elif 'yadg.extractors.picolog' == pkgname %}
+{{- "**picolog**: For PicoTech PicoLog data" | heading }}
 {% elif 'yadg.extractors.phi' == pkgname %}
 {{- "**phi**: For Phi XPS data" | heading }}
 {% elif 'yadg.extractors.quadstar' == pkgname %}

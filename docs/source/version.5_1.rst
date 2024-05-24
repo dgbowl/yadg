@@ -21,6 +21,8 @@ New features since ``yadg-5.0`` are:
 
   - Support for EZChrom ``.dat`` files using the :mod:`yadg.extractors.ezchrom.dat` extractor. Test files were provided by Z. Asahi from FU Berlin, and J. Schumann from HU Berlin. The data extracted from the ``.dat`` files is cross-checked against the data obtained from ``.asc`` files using the :mod:`yadg.extractors.ezchrom.asc` extractor.
 
+  - Support for PicoTech PicoLog ``.picolog`` files (such as those created by the TC-08 thermocouple monitor) using the :mod:`yadg.extractors.picolog.tc08` extractor. Test files were provided by F. Bernasconi from Empa.
+
 Other changes in ``yadg-5.1`` are:
 
   - The dataschema has been simplified, eliminating parsers in favour of extractors.

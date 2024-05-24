@@ -1,8 +1,8 @@
 import pytest
 import os
 import pickle
+import xarray as xr
 from yadg.extractors.eclab.mpr import extract
-from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -35,4 +35,4 @@ def test_eclab_mpr(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    xr.testing.assert_equal(ret, ref)

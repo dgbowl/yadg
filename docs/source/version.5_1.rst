@@ -34,7 +34,8 @@ Bug fixes in ``yadg-5.1`` include:
   - Fixed incorrect parsing of units in the :mod:`yadg.extractors.ezchrom.asc` parser. Now, the ``25 μV`` unit will be correctly replaced by just ``μV`` (without modifying data), which can be understood by :mod:`pint`.
   - Added several new I-range values to :mod:`yadg.extractors.eclab` parsers. Now, I-range values up to 130 are supported.
   - Fixed incorrect column name (``Energy`` to ``|Energy|``) in :mod:`yadg.extractors.eclab.mpr`.
-  - Removed column renaming for ``Analog IN 1`` and ``Analog IN 2`` to maintain consistency within :mod:`yadg.extractors.eclab`
+  - Removed column renaming for ``Analog IN 1`` and ``Analog IN 2`` to maintain consistency within :mod:`yadg.extractors.eclab`.
+  - Reworked parsing of ``.mpt`` file headers in :mod:`yadg.extractors.eclab.mpt`. The parser is now more stable, and the original labels are used without renaming.
 
 .. _concat_lab: https://tu.berlin/en/concat
 

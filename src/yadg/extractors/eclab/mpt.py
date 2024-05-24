@@ -52,7 +52,8 @@ The metadata will contain the information from the header of the file.
     is not yet complete.
 
 .. codeauthor::
-    Nicolas Vetsch
+    Nicolas Vetsch,
+    Peter Kraus
 
 """
 

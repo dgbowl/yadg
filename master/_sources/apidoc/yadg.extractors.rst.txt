@@ -23,6 +23,7 @@ Subpackages
    yadg.extractors.fusion
    yadg.extractors.panalytical
    yadg.extractors.phi
+   yadg.extractors.picolog
    yadg.extractors.quadstar
    yadg.extractors.tomato
    yadg.extractors.touchstone

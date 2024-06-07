@@ -609,6 +609,7 @@ technique_params_dtypes = {
     0x1E: ("GEIS", _geis_params_dtype),
     0x32: ("ZIR", _zir_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
+    0x77: ("GCPL", _gcpl_params_dtypes),
     0x7F: ("MB", _mb_params_dtypes),
 }
 
@@ -793,7 +794,7 @@ def param_from_key(
                     return i[0]
                 else:
                     return i[2]
-        raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
+        logger.warning(f"element '{key}' for parameter '{param}' not understood.")
     return key
 
 

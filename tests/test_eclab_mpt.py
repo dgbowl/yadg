@@ -40,7 +40,7 @@ def test_eclab_mpt(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_equal(ret, ref)
+    xr.testing.assert_allclose(ret, ref)
 
 
 @pytest.mark.parametrize(

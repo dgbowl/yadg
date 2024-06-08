@@ -801,12 +801,10 @@ def get_resolution(
     name: str, value: float, unit: str, Erange: float, Irange: float
 ) -> float:
     """
-    Function that returns the resolution of a property based on its name, value,
-    E-range and I-range.
+    Function that returns the resolution of a voltage or current based on its name,
+    value, E-range and I-range.
 
-    The values used here are hard-coded from VMP-3 potentiostats. Generally, the
-    resolution is returned, however in some cases only the accuracy is specified
-    (currently ``freq`` and ``Phase``).
+    The values used here are hard-coded from VMP-3 potentiostats.
 
     """
     if name in {"control_V"} and unit in {"V"}:
@@ -830,9 +828,27 @@ def get_resolution(
             logger.warning("'I range' not specified. Using 1 A.")
             Irange = 1.0
         return Irange * 0.004 / 100
+    else:
+        raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")
+
+
+def get_derived_resolution(
+    name: str, unit: str, val: float, rtol_I: float, rtol_V: float
+) -> float:
+    """
+    Function that returns the resolution of a derived quantity based on its unit,
+    value, and the relative error in the current and voltage.
+
+    The values used here are hard-coded from VMP-3 potentiostats.
+
+    """
+    if unit in {"V", "mV", "µV"}:
+        return val * rtol_V
+    elif unit in {"A", "mA", "µA", "nA", "pA"}:
+        return val * rtol_I
     elif unit in {"Hz"}:
         # VMP-3: using accuracy: 1% of value
-        return value * 0.01
+        return val * 0.01
     elif unit in {"deg"}:
         # VMP-3: using accuracy: 1 degree
         return 1.0
@@ -840,33 +856,40 @@ def get_resolution(
         # [Ω] = [V]/[A];
         # [S] = [A]/[V];
         # [W] = [A]*[V];
-        return max(
-            get_resolution("U", value, "V", Erange, Irange),
-            get_resolution("I", value, "A", Erange, Irange),
-        )
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"C"}:
         # [C] = [A]*[s];
-        return get_resolution("I", value, "A", Erange, Irange)
+        return val * rtol_I
     elif unit in {"mA·h"}:
-        return get_resolution("Q", value / 3.6, "C", Erange, Irange)
+        # [A·h] = [A]*[h]
+        return val * rtol_I
     elif unit in {"W·h"}:
-        return get_resolution("P", value / 3600, "W", Erange, Irange)
+        # [W·h] = [A]*[V]*[h]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"µF", "nF"}:
-        # [F] = [C]/[V]
-        mul = 1e-9 if unit == "nF" else 1e-6
-        return max(
-            get_resolution("Q", value * mul, "C", Erange, Irange),
-            get_resolution("U", value * mul, "V", Erange, Irange),
-        )
+        # [F] = [C]/[V] = [A]*[s]/[V]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+    elif unit in {"Ω·cm", "Ω·m"}:
+        # [Ω·m] = [Ω]*[m] = [V]*[m]/[A]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+    elif unit in {"mS/cm", "S/cm", "mS/m", "S/m"}:
+        # [S/m] = 1 / ([Ω]*[m]) = [A] / ([V]*[m])
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"s"}:
         # Based on the EC-Lib documentation,
         # 50 us is a safe upper limit for timebase
         return 50e-6
     elif unit in {"%"}:
         return 0.1
-    else:
-        # Temporarily return none here until the function is refactored.
+    elif name in {"Re(M)", "Im(M)", "|M|"}:
         return None
+    elif name in {"Tan(Delta)"}:
+        return None
+    elif name in {"Re(Permittivity)", "Im(Permittivity)", "|Permittivity|"}:
+        # εr = ε/ε0
+        # ε -> [F]/[m] = [A]*[s]/[V]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+    else:
         raise RuntimeError(
             f"Could not get resolution of quantity {name!r} with unit {unit!r}."
         )

@@ -228,6 +228,7 @@ from .common.techniques import (
     technique_params_dtypes,
     param_from_key,
     get_resolution,
+    get_derived_resolution,
 )
 from .common.mpr_columns import (
     module_header_dtype,
@@ -427,11 +428,26 @@ def process_data(
             name = f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
-        for name, value in vals.items():
-            unit = units.get(name)
-            if unit is None:
+
+        rtol_V = 0
+        rtol_I = 0
+        for col in ["Ewe", "I", "<Ewe>", "<I>", "control_I", "control_V"]:
+            val = vals.get(col)
+            unit = units.get(col)
+            if val is None:  # or unit is None:
                 continue
-            devs[name] = get_resolution(name, value, unit, Erange, Irange)
+            devs[col] = get_resolution(col, val, unit, Erange, Irange)
+            if col in {"Ewe", "<Ewe>"}:
+                rtol_V = max(rtol_V, val if val == 0 else devs[col] / val)
+            elif col in {"I", "<I>"}:
+                rtol_I = max(rtol_I, val if val == 0 else devs[col] / val)
+
+        for col, val in vals.items():
+            if col in {"Ewe", "I", "<Ewe>", "<I>", "control_I", "control_V"}:
+                continue
+            unit = units.get(col)
+            if isinstance(val, float):
+                devs[col] = get_derived_resolution(col, unit, val, rtol_I, rtol_V)
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
 

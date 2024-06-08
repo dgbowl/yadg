@@ -62,7 +62,8 @@ from typing import Any
 from babel.numbers import parse_decimal
 from xarray import Dataset
 from yadg import dgutils
-from .common.techniques import get_resolution, param_from_key
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+from .common.techniques import get_resolution, param_from_key, get_derived_resolution
 from .common.mpt_columns import column_units
 
 logger = logging.getLogger(__name__)
@@ -213,6 +214,7 @@ def process_data(
     for li, line in enumerate(data_lines):
         values = line.split("\t")
         vals = dict()
+        devs = dict()
         for name, value in list(zip(columns, values)):
             if units.get(name) is None:
                 ival = int(parse_decimal(value, locale=locale))
@@ -222,8 +224,11 @@ def process_data(
                     vals[name] = ival
             else:
                 try:
-                    fval = float(parse_decimal(value, locale=locale))
+                    fval, fdev = tuple_fromstr(
+                        parse_decimal(value, locale=locale).to_eng_string()
+                    )
                     vals[name] = fval
+                    devs[name] = fdev
                 except ValueError:
                     sval = value.strip()
                     vals[name] = sval
@@ -236,18 +241,32 @@ def process_data(
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
-        devs = {}
+
         if "control_VI" in vals:
             icv = controls[vals["Ns"]]
             name = f"control_{icv}"
             vals[name] = vals.pop("control_VI")
             units[name] = "mA" if icv in {"I", "C"} else "V"
-        for col, val in vals.items():
+
+        rtol_I = 0
+        rtol_V = 0
+        for col in ["Ewe", "I", "<Ewe>", "<I>", "control_I", "control_V"]:
+            val = vals.get(col)
             unit = units.get(col)
-            if unit is None:
+            if val is None or unit is None:
                 continue
-            assert isinstance(val, float), "`n` should not be string"
-            devs[col] = get_resolution(col, val, unit, Erange, Irange)
+            devs[col] = max(devs[col], get_resolution(col, val, unit, Erange, Irange))
+            if col in {"Ewe", "<Ewe>"}:
+                rtol_V = max(rtol_V, val if val == 0 else devs[col] / val)
+            elif col in {"I", "<I>"}:
+                rtol_I = max(rtol_I, val if val == 0 else devs[col] / val)
+
+        for col, val in vals.items():
+            if col in {"Ewe", "I", "<Ewe>", "<I>", "control_I", "control_V"}:
+                continue
+            unit = units.get(col)
+            if isinstance(val, float):
+                devs[col] = get_derived_resolution(col, unit, val, rtol_I, rtol_V)
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
 
@@ -292,7 +311,6 @@ def extract(
     data_lines = lines[nb_header_lines - 3 :]
     settings, params = {}, []
 
-    # Store current LC_NUMERIC before we do anything:
     if nb_header_lines <= 3:
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0

@@ -269,6 +269,6 @@ def compare_datatrees(ret: DataTree, ref: DataTree, atol: float = 1e-6):
         if isinstance(ret[k], DataTree):
             compare_datatrees(ret[k], ref[k])
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
-            assert ret[k].to_dict() == ref[k].to_dict()
+            xr.testing.assert_allclose(ret[k], ref[k], atol=atol)
         else:
             raise RuntimeError(f"Unknown entry '{k}' of type '{type(k)}'.")

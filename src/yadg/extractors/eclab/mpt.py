@@ -266,7 +266,8 @@ def process_data(
                 continue
             unit = units.get(col)
             if isinstance(val, float):
-                devs[col] = get_derived_resolution(col, unit, val, rtol_I, rtol_V)
+                dev = get_derived_resolution(col, unit, val, rtol_I, rtol_V)
+                devs[col] = max(0 if dev is None else dev, devs[col])
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
 

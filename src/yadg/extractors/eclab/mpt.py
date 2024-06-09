@@ -212,6 +212,9 @@ def process_data(
     columns = list()
     for n in names:
         c, u = column_units[n]
+        if c in columns:
+            logger.warning("Duplicate column '%s' with unit '%s'.", c, u)
+            c = f"duplicate {c}"
         columns.append(c)
         if u is not None:
             units[c] = u

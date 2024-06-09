@@ -337,6 +337,9 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 units.append(None)
         elif id in data_columns:
             dtype, name, unit = data_columns[id]
+            if name in names:
+                logger.warning("Duplicate column '%s' with unit '%s'.", name, unit)
+                name = f"duplicate {name}"
             names.append(name)
             dtypes.append(dtype)
             units.append(unit)
@@ -382,6 +385,7 @@ def process_data(
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
+    print(f"{data_dtype=}")
     # Depending on module version, datapoints start at 0x0195 or 0x0196.
     if version == 2:
         offset = 0x0195
@@ -393,6 +397,7 @@ def process_data(
     allmeta = dict()
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
     values = [dict(zip(value.dtype.names, value.item())) for value in values]
+    warn_I_range = False
     for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
@@ -421,6 +426,10 @@ def process_data(
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
+        if Irange is None:
+            warn_I_range = True
+            Irange = 1.0
+
         if "control_V_I" in vals:
             icv = controls[vals["Ns"]]
             name = f"control_{icv}"
@@ -429,6 +438,9 @@ def process_data(
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
+
+    if warn_I_range:
+        logger.warning("I Range not specified, defaulting to 1 A.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds

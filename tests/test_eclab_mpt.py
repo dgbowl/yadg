@@ -37,7 +37,6 @@ def test_eclab_mpt(infile, datadir):
     outfile = f"ref.{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
     xr.testing.assert_allclose(ret, ref)

@@ -35,4 +35,6 @@ def test_eclab_mpr(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
+    with open(f"/home/kraus/Code/yadg/tests/{outfile}", "wb") as out:
+        pickle.dump(ret, out, 5)
     xr.testing.assert_allclose(ret, ref)

@@ -23,7 +23,7 @@ in :func:`get_resolution`.
 """
 
 import numpy as np
-from typing import Union
+from typing import Union, Any
 import bisect
 import logging
 
@@ -797,7 +797,7 @@ def param_from_key(
     return key
 
 
-def get_resolution(
+def get_dev_VI(
     name: str, value: float, unit: str, Erange: float, Irange: float
 ) -> float:
     """
@@ -832,7 +832,7 @@ def get_resolution(
         raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")
 
 
-def get_derived_resolution(
+def get_dev_derived(
     name: str, unit: str, val: float, rtol_I: float, rtol_V: float
 ) -> float:
     """
@@ -882,9 +882,9 @@ def get_derived_resolution(
     elif unit in {"%"}:
         return 0.1
     elif name in {"Re(M)", "Im(M)", "|M|"}:
-        return None
+        return np.NaN
     elif name in {"Tan(Delta)"}:
-        return None
+        return np.NaN
     elif name in {"Re(Permittivity)", "Im(Permittivity)", "|Permittivity|"}:
         # εr = ε/ε0
         # ε -> [F]/[m] = [A]*[s]/[V]
@@ -893,3 +893,47 @@ def get_derived_resolution(
         raise RuntimeError(
             f"Could not get resolution of quantity {name!r} with unit {unit!r}."
         )
+
+
+def get_devs(
+    vals: dict[str, Any],
+    units: dict[str, str],
+    Erange: float,
+    Irange: float,
+    devs: dict[str, float] = None,
+) -> dict[str, float]:
+    rtol_V = 0.0
+    rtol_I = 0.0
+    if devs is None:
+        devs = {}
+    for col in ["<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"]:
+        val = vals.get(col)
+        unit = units.get(col)
+        if val is None:
+            continue
+        devs[col] = np.nanmax(
+            [
+                get_dev_VI(col, abs(val), unit, Erange, Irange),
+                devs.get(col, np.NaN),
+            ]
+        )
+        if val == 0.0:
+            continue
+        elif col in {"Ewe", "<Ewe>"}:
+            rtol_V = min(max(rtol_V, devs[col] / abs(val)), 1.0)
+        elif col in {"I", "<I>"}:
+            rtol_I = min(max(rtol_I, devs[col] / abs(val)), 1.0)
+
+    for col, val in vals.items():
+        if col in {"<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"}:
+            continue
+        unit = units.get(col)
+        if isinstance(val, float):
+            devs[col] = np.nanmax(
+                [
+                    get_dev_derived(col, unit, abs(val), rtol_I, rtol_V),
+                    devs.get(col, np.NaN),
+                ]
+            )
+
+    return devs

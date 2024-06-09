@@ -44,9 +44,10 @@ def test_eclab_consistency(afile, bfile, _datadir):
         fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale="en_US"
     )
     for key in aret.variables:
+        if key.endswith("std_err"):
+            continue
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            if key.endswith("std_err"):
-                continue
+            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
             raise e

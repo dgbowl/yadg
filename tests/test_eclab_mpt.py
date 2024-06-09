@@ -9,18 +9,19 @@ from yadg.extractors.eclab.mpt import extract
     "infile",
     [
         "ca.mpt",
+        "ca.issue_134.mpt",
         "cp.mpt",
+        "cp.issue_61.mpt",
         "cv.mpt",
         "gcpl.mpt",
         "geis.mpt",
         "lsv.mpt",
         "mb.mpt",
+        "mb.issue_95.mpt",
         "ocv.mpt",
         "peis.mpt",
         "wait.mpt",
         "zir.mpt",
-        "mb_67.mpt",
-        "issue_61_Irange_65.mpt",
         "vsp_ocv_with.mpt",
         "vsp_ocv_wo.mpt",
         "vsp_peis_with.mpt",
@@ -45,7 +46,7 @@ def test_eclab_mpt(infile, datadir):
 @pytest.mark.parametrize(
     "afile, bfile",
     [
-        ("mb_67.mpt", "mb_67.de.mpt"),
+        ("mb.issue_95.mpt", "mb.issue_95.de.mpt"),
     ],
 )
 def test_eclab_mpt_locale(afile, bfile, datadir):

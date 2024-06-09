@@ -824,9 +824,6 @@ def get_dev_VI(
         return max(Erange * 0.0015 / 100, 75e-6)
     elif unit in {"A", "mA", "µA", "nA", "pA"}:
         # VMP-3: 0.004% of FSR
-        if Irange is None:
-            logger.warning("'I range' not specified. Using 1 A.")
-            Irange = 1.0
         return Irange * 0.004 / 100
     else:
         raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")

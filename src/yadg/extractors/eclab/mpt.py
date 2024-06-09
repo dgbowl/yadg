@@ -81,9 +81,12 @@ def process_settings(lines: list[str]) -> dict[str, str]:
 
 
 def process_params(technique: str, lines: list[str], locale: str) -> dict[str, Any]:
+    params = {}
+    if len(lines) == 0:
+        logger.warning("No params section was found.")
+        return params
     # The sequence param columns are always allocated 20 characters.
     n_sequences = int(len(lines[0]) / 20)
-    params = {}
     prev = None
     for line in lines:
         items = [line[seq * 20 : (seq + 1) * 20].strip() for seq in range(n_sequences)]
@@ -141,7 +144,12 @@ def process_header(
     # Parse the acquisition timestamp.
     if "Acquisition started on" in settings:
         timestamp = settings["Acquisition started on"]
-        for fmt in ("%m/%d/%Y %H:%M:%S", "%m.%d.%Y %H:%M:%S", "%m/%d/%Y %H:%M:%S.%f"):
+        for fmt in (
+            "%m/%d/%Y %H:%M:%S",
+            "%m.%d.%Y %H:%M:%S",
+            "%m/%d/%Y %H:%M:%S.%f",
+            "%m-%d-%Y %H:%M:%S",
+        ):
             uts = dgutils.str_to_uts(
                 timestamp=timestamp, format=fmt, timezone=timezone, strict=False
             )
@@ -204,6 +212,9 @@ def process_data(
     columns = list()
     for n in names:
         c, u = column_units[n]
+        if c in columns:
+            logger.warning("Duplicate column '%s' with unit '%s'.", c, u)
+            c = f"duplicate {c}"
         columns.append(c)
         if u is not None:
             units[c] = u
@@ -211,6 +222,7 @@ def process_data(
     data_lines = [line for line in lines[2:] if line.strip() != ""]
     allvals = dict()
     allmeta = dict()
+    warn_I_range = False
     for li, line in enumerate(data_lines):
         values = line.split("\t")
         vals = dict()
@@ -232,6 +244,7 @@ def process_data(
                 except ValueError:
                     sval = value.strip()
                     vals[name] = sval
+
         if "Ns" in vals:
             Erange = Eranges[vals["Ns"]]
             Irstr = Iranges[vals["Ns"]]
@@ -241,6 +254,9 @@ def process_data(
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
+        if Irange is None:
+            warn_I_range = True
+            Irange = 1.0
 
         if "control_VI" in vals:
             icv = controls[vals["Ns"]]
@@ -250,6 +266,9 @@ def process_data(
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange, devs=devs)
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
+
+    if warn_I_range:
+        logger.warning("I Range not specified, defaulting to 1 A.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds

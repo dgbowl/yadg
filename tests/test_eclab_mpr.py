@@ -13,6 +13,7 @@ from yadg.extractors.eclab.mpr import extract
         "cp.mpr",
         "cp.issue_61.mpr",
         "cv.mpr",
+        "cva.issue_135.mpr",
         "gcpl.mpr",
         "geis.mpr",
         "lsv.mpr",

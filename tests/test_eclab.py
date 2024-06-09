@@ -24,6 +24,7 @@ def _datadir(tmpdir, request):
         ("cp.mpr", "cp.mpt"),
         ("cp.issue_61.mpr", "cp.issue_61.mpt"),
         ("cv.mpr", "cv.mpt"),
+        ("cva.issue_135.mpr", "cva.issue_135.mpt"),
         ("gcpl.mpr", "gcpl.mpt"),
         ("geis.mpr", "geis.mpt"),
         ("lsv.mpr", "lsv.mpt"),

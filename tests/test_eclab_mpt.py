@@ -13,6 +13,7 @@ from yadg.extractors.eclab.mpt import extract
         "cp.mpt",
         "cp.issue_61.mpt",
         "cv.mpt",
+        "cva.issue_135.mpt",
         "gcpl.mpt",
         "geis.mpt",
         "lsv.mpt",

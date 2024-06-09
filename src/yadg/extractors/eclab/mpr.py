@@ -227,7 +227,7 @@ from yadg import dgutils
 from .common.techniques import (
     technique_params_dtypes,
     param_from_key,
-    get_resolution,
+    get_devs,
 )
 from .common.mpr_columns import (
     module_header_dtype,
@@ -421,17 +421,12 @@ def process_data(
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
-        devs = {}
         if "control_V_I" in vals:
             icv = controls[vals["Ns"]]
             name = f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
-        for name, value in vals.items():
-            unit = units.get(name)
-            if unit is None:
-                continue
-            devs[name] = get_resolution(name, value, unit, Erange, Irange)
+        devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
 
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
 

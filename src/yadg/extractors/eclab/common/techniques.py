@@ -23,7 +23,7 @@ in :func:`get_resolution`.
 """
 
 import numpy as np
-from typing import Union
+from typing import Union, Any
 import bisect
 import logging
 
@@ -797,16 +797,14 @@ def param_from_key(
     return key
 
 
-def get_resolution(
+def get_dev_VI(
     name: str, value: float, unit: str, Erange: float, Irange: float
 ) -> float:
     """
-    Function that returns the resolution of a property based on its name, value,
-    E-range and I-range.
+    Function that returns the resolution of a voltage or current based on its name,
+    value, E-range and I-range.
 
-    The values used here are hard-coded from VMP-3 potentiostats. Generally, the
-    resolution is returned, however in some cases only the accuracy is specified
-    (currently ``freq`` and ``Phase``).
+    The values used here are hard-coded from VMP-3 potentiostats.
 
     """
     if name in {"control_V"} and unit in {"V"}:
@@ -830,9 +828,27 @@ def get_resolution(
             logger.warning("'I range' not specified. Using 1 A.")
             Irange = 1.0
         return Irange * 0.004 / 100
+    else:
+        raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")
+
+
+def get_dev_derived(
+    name: str, unit: str, val: float, rtol_I: float, rtol_V: float
+) -> float:
+    """
+    Function that returns the resolution of a derived quantity based on its unit,
+    value, and the relative error in the current and voltage.
+
+    The values used here are hard-coded from VMP-3 potentiostats.
+
+    """
+    if unit in {"V", "mV", "µV"}:
+        return val * rtol_V
+    elif unit in {"A", "mA", "µA", "nA", "pA"}:
+        return val * rtol_I
     elif unit in {"Hz"}:
         # VMP-3: using accuracy: 1% of value
-        return value * 0.01
+        return val * 0.01
     elif unit in {"deg"}:
         # VMP-3: using accuracy: 1 degree
         return 1.0
@@ -840,33 +856,84 @@ def get_resolution(
         # [Ω] = [V]/[A];
         # [S] = [A]/[V];
         # [W] = [A]*[V];
-        return max(
-            get_resolution("U", value, "V", Erange, Irange),
-            get_resolution("I", value, "A", Erange, Irange),
-        )
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"C"}:
         # [C] = [A]*[s];
-        return get_resolution("I", value, "A", Erange, Irange)
+        return val * rtol_I
     elif unit in {"mA·h"}:
-        return get_resolution("Q", value / 3.6, "C", Erange, Irange)
+        # [A·h] = [A]*[h]
+        return val * rtol_I
     elif unit in {"W·h"}:
-        return get_resolution("P", value / 3600, "W", Erange, Irange)
+        # [W·h] = [A]*[V]*[h]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"µF", "nF"}:
-        # [F] = [C]/[V]
-        mul = 1e-9 if unit == "nF" else 1e-6
-        return max(
-            get_resolution("Q", value * mul, "C", Erange, Irange),
-            get_resolution("U", value * mul, "V", Erange, Irange),
-        )
+        # [F] = [C]/[V] = [A]*[s]/[V]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+    elif unit in {"Ω·cm", "Ω·m"}:
+        # [Ω·m] = [Ω]*[m] = [V]*[m]/[A]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+    elif unit in {"mS/cm", "S/cm", "mS/m", "S/m"}:
+        # [S/m] = 1 / ([Ω]*[m]) = [A] / ([V]*[m])
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     elif unit in {"s"}:
         # Based on the EC-Lib documentation,
         # 50 us is a safe upper limit for timebase
         return 50e-6
     elif unit in {"%"}:
         return 0.1
+    elif name in {"Re(M)", "Im(M)", "|M|"}:
+        return np.NaN
+    elif name in {"Tan(Delta)"}:
+        return np.NaN
+    elif name in {"Re(Permittivity)", "Im(Permittivity)", "|Permittivity|"}:
+        # εr = ε/ε0
+        # ε -> [F]/[m] = [A]*[s]/[V]
+        return val * np.sqrt(rtol_I**2 + rtol_V**2)
     else:
-        # Temporarily return none here until the function is refactored.
-        return None
         raise RuntimeError(
             f"Could not get resolution of quantity {name!r} with unit {unit!r}."
         )
+
+
+def get_devs(
+    vals: dict[str, Any],
+    units: dict[str, str],
+    Erange: float,
+    Irange: float,
+    devs: dict[str, float] = None,
+) -> dict[str, float]:
+    rtol_V = 0.0
+    rtol_I = 0.0
+    if devs is None:
+        devs = {}
+    for col in ["<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"]:
+        val = vals.get(col)
+        unit = units.get(col)
+        if val is None:
+            continue
+        devs[col] = np.nanmax(
+            [
+                get_dev_VI(col, abs(val), unit, Erange, Irange),
+                devs.get(col, np.NaN),
+            ]
+        )
+        if val == 0.0:
+            continue
+        elif col in {"Ewe", "<Ewe>"}:
+            rtol_V = min(max(rtol_V, devs[col] / abs(val)), 1.0)
+        elif col in {"I", "<I>"}:
+            rtol_I = min(max(rtol_I, devs[col] / abs(val)), 1.0)
+
+    for col, val in vals.items():
+        if col in {"<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"}:
+            continue
+        unit = units.get(col)
+        if isinstance(val, float):
+            devs[col] = np.nanmax(
+                [
+                    get_dev_derived(col, unit, abs(val), rtol_I, rtol_V),
+                    devs.get(col, np.NaN),
+                ]
+            )
+
+    return devs

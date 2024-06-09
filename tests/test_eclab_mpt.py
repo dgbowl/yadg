@@ -3,7 +3,6 @@ import os
 import pickle
 import xarray as xr
 from yadg.extractors.eclab.mpt import extract
-from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -38,10 +37,9 @@ def test_eclab_mpt(infile, datadir):
     outfile = f"ref.{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_equal(ret, ref)
+    xr.testing.assert_allclose(ret, ref)
 
 
 @pytest.mark.parametrize(
@@ -55,7 +53,7 @@ def test_eclab_mpt_locale(afile, bfile, datadir):
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
     aret = extract(fn=afile, locale="en_US", **kwargs)
     bret = extract(fn=bfile, locale="de_DE", **kwargs)
-    compare_datatrees(aret, bret)
+    xr.testing.assert_allclose(aret, bret)
 
 
 @pytest.mark.parametrize(

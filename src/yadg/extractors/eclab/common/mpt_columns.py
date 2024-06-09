@@ -28,6 +28,7 @@ column_units = {
     "|Zwe-ce|/Ohm": ("|Zwe-ce|", "Ω"),
     "Analog IN 1/V": ("Analog IN 1", "V"),
     "Analog IN 2/V": ("Analog IN 2", "V"),
+    "Analog OUT/V": ("Analog OUT", "V"),
     "Capacitance charge/µF": ("Capacitance charge", "µF"),
     "Capacitance discharge/µF": ("Capacitance discharge", "µF"),
     "Capacity/mA.h": ("Capacity", "mA·h"),

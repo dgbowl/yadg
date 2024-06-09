@@ -9,6 +9,7 @@ from yadg.extractors.eclab.mpr import extract
     "infile",
     [
         "ca.mpr",
+        "ca.issue_134.mpr",
         "cp.mpr",
         "cv.mpr",
         "gcpl.mpr",

@@ -20,6 +20,7 @@ def _datadir(tmpdir, request):
     "afile, bfile",
     [
         ("ca.mpr", "ca.mpt"),
+        ("ca.issue_134.mpr", "ca.issue_134.mpt"),
         ("cp.mpr", "cp.mpt"),
         ("cv.mpr", "cv.mpt"),
         ("gcpl.mpr", "gcpl.mpt"),

@@ -28,6 +28,7 @@ Other changes in ``yadg-5.1`` are:
   - The dataschema has been simplified, eliminating parsers in favour of extractors.
   - The code has been reorganised to highlight the extractor functionality in favour of parsers.
   - Locale-aware functionality now uses :mod:`babel` instead of the built-in :mod:`locale` module. This means the ``locale`` argument should now be a :class:`str` containing at least the 2-letter country code, ideally also a territory (e.g. ``en_US`` or ``de_CH``). As of ``yadg-5.1``, no :func:`locale.setlocale` is called, making locale procesing in **yadg** thread-safe.
+  - The processing of uncertainties in :mod:`yadg.extractors.eclab` has been changed, with derived quantities now having uncertainties based on the relative error in the measured voltage and / or current.
 
 Bug fixes in ``yadg-5.1`` include:
 

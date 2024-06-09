@@ -7,6 +7,7 @@ Implemented techniques:
     - CA - Chronoamperometry / Chronocoulometry
     - CP - Chronopotentiometry
     - CV - Cyclic Voltammetry
+    - CVA - Cyclic Voltammetry Advanced
     - GCPL - Galvanostatic Cycling with Potential Limitation
     - GEIS - Galvano Electrochemical Impedance Spectroscopy
     - LOOP - Loop
@@ -114,6 +115,45 @@ _cv_params_dtypes = [
             ("reverse_scan", "|u1"),
             ("Ef", "<f4"),
             ("Ef_vs", "|u1"),
+        ]
+    )
+]
+
+
+# ~~~~~~~~~~~~~ Cyclic Voltammetry Advanced ~~~~~~~~~~~~~
+_cva_params_dtypes = [
+    np.dtype(
+        [
+            ("Ei", "<f4"),
+            ("Ei_vs", "|u1"),
+            ("ti", "<f4"),
+            ("dti", "<f4"),
+            ("dE/dt", "<f4"),
+            ("dE/dt_unit", "|u1"),
+            ("E1", "<f4"),
+            ("E1_vs", "|u1"),
+            ("t1", "<f4"),
+            ("dt1", "<f4"),
+            ("step_percent", "|u1"),
+            ("N", "<u4"),
+            ("E_range_min", "<f4"),
+            ("E_range_max", "<f4"),
+            ("I_range", "|u1"),
+            ("I_range_min", "|u1"),
+            ("I_range_max", "|u1"),
+            ("I_range_init", "|u1"),
+            ("bandwidth", "u1"),
+            ("E2", "<f4"),
+            ("E2_vs", "|u1"),
+            ("t2", "<f4"),
+            ("dt2", "<f4"),
+            ("nc_cycles", "<u4"),
+            ("nr", "|u1"),
+            ("reverse_scan", "|u1"),
+            ("Ef", "<f4"),
+            ("Ef_vs", "|u1"),
+            ("tf", "<f4"),
+            ("dtf", "<f4"),
         ]
     )
 ]
@@ -608,6 +648,7 @@ technique_params_dtypes = {
     0x1D: ("PEIS", _peis_params_dtypes),
     0x1E: ("GEIS", _geis_params_dtype),
     0x32: ("ZIR", _zir_params_dtypes),
+    0x33: ("CVA", _cva_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
     0x7F: ("MB", _mb_params_dtypes),
 }

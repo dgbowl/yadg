@@ -23,7 +23,7 @@ New features since ``yadg-5.0`` are:
 
   - Support for PicoTech PicoLog ``.picolog`` files (such as those created by the TC-08 thermocouple monitor) using the :mod:`yadg.extractors.picolog.tc08` extractor. Test files were provided by F. Bernasconi from Empa.
 
-  - Support for the ``CVA`` (Cyclic Voltammetry Advanced) technique in the :mod:`yadg.extractors.eclab` extractors. Test files were provided by S. Soren from University of Copenhagen.
+  - Support for the ``CVA`` (Cyclic Voltammetry Advanced) technique in the :mod:`yadg.extractors.eclab` extractors. Test files were provided by S. B. Scott from University of Copenhagen.
 
 Other changes in ``yadg-5.1`` are:
 

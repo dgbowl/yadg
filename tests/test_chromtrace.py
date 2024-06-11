@@ -1,6 +1,5 @@
 import pytest
 import os
-import json
 from tests.utils import (
     datagram_from_input,
     standard_datagram_test,

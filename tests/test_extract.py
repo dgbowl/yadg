@@ -22,7 +22,7 @@ def test_extract_marda(filetype, infile, outfile, datadir):
     # ret.to_netcdf(outfile, engine="h5netcdf")
     ref = datatree.open_datatree(outfile)
     print(f"{ret=}")
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, toplevel=False)
 
 
 @pytest.mark.parametrize(

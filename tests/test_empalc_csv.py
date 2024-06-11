@@ -1,21 +1,20 @@
 import pytest
 import os
 import pickle
-from yadg.extractors.ezchrom.dat import extract
+from yadg.extractors.empalc.csv import extract
 from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
     "infile",
     [
-        "2023-06-29-007.dat",
-        "2023-06-29-014.dat",
-        "230324.dat",
+        "Cu-20p_v2.csv",
+        "Cu-25p_v2.csv",
     ],
 )
-def test_ezchrom_dat(infile, datadir):
+def test_empalc_csv(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, timezone="Europe/Berlin")
+    ret = extract(fn=infile, encoding="utf-8")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

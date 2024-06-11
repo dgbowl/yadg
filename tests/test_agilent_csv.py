@@ -14,7 +14,7 @@ from .utils import compare_datatrees
 def test_agilent_csv(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile, encoding="utf-8", timezone="Europe/Berlin")
-    outfile = f"ref.{infile}.pkl"
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")

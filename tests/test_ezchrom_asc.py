@@ -16,7 +16,7 @@ from .utils import compare_datatrees
 def test_ezchrom_asc(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile, encoding="windows-1252", timezone="Europe/Berlin")
-    outfile = f"ref.{infile}.pkl"
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")

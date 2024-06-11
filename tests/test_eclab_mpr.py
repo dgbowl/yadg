@@ -31,7 +31,7 @@ from yadg.extractors.eclab.mpr import extract
 def test_eclab_mpr(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile, timezone="Europe/Berlin")
-    outfile = f"ref.{infile}.pkl"
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")

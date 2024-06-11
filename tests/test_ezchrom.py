@@ -4,7 +4,7 @@ import numpy as np
 from distutils import dir_util
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
-
+from .utils import compare_datatrees
 
 @pytest.fixture
 def ezchrom_datadir(tmpdir, request):
@@ -28,7 +28,4 @@ def test_ezchrom_consistency(datfile, ascfile, ezchrom_datadir):
     os.chdir(ezchrom_datadir)
     dat = extract_dat(fn=datfile, timezone="Europe/Berlin")
     asc = extract_asc(fn=ascfile, timezone="Europe/Berlin", encoding="windows-1252")
-    for d, a in zip(dat.values(), asc.values()):
-        for key in d.variables:
-            np.testing.assert_allclose(d[key], a[key], rtol=1e-4)
-            assert d[key].attrs == a[key].attrs
+    compare_datatrees(dat, asc)

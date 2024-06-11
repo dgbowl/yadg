@@ -36,7 +36,7 @@ def test_eclab_mpt(infile, datadir):
         encoding="windows-1252",
         locale="en_US",
     )
-    outfile = f"ref.{infile}.pkl"
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     with open(outfile, "wb") as out:

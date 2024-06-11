@@ -15,7 +15,7 @@ from yadg.extractors.picolog.tc08 import extract
 def test_picolog_tc08(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile)
-    outfile = f"ref.{infile}.pkl"
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")

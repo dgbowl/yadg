@@ -71,13 +71,13 @@ def extract(
         elif line.strip() == "":
             break
         elif line.strip().startswith("Sequence name"):
-            metadata["sequence"] = line.split(":,")[1]
+            metadata["sequence"] = line.split(":,")[1].strip()
         elif line.strip().startswith("Description"):
-            metadata["description"] = line.split(":,")[1]
+            metadata["description"] = line.split(":,")[1].strip()
         elif line.strip().startswith("Acquired by"):
-            metadata["username"] = line.split(":,")[1]
+            metadata["username"] = line.split(":,")[1].strip()
         elif line.strip().startswith("Data path"):
-            metadata["datafile"] = line.split(":,")[1]
+            metadata["datafile"] = line.split(":,")[1].strip()
         elif line.strip().startswith("Report version"):
             metadata["version"] = int(line.split(":,")[1])
 

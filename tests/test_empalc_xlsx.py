@@ -1,19 +1,20 @@
 import pytest
 import os
 import pickle
-from yadg.extractors.agilent.ch import extract
+from yadg.extractors.empalc.xlsx import extract
 from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
     "infile",
     [
-        "extracted-3487d194-9155-4f79-8f11-dbd18ce53187.CH",
+        "Cu-25p_v2.xlsx",
+        "samplename_newlines.xlsx",
     ],
 )
-def test_agilent_ch(infile, datadir):
+def test_empalc_xlsx(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, timezone="Europe/Berlin")
+    ret = extract(fn=infile)
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

@@ -1,10 +1,10 @@
 import pytest
 import os
-import numpy as np
 from distutils import dir_util
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
 from .utils import compare_datatrees
+
 
 @pytest.fixture
 def ezchrom_datadir(tmpdir, request):

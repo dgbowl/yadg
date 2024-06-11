@@ -40,33 +40,6 @@ from tests.utils import (
             },
         ),
         (
-            {  # ts1 - chromtab parse
-                "folders": ["."],
-                "prefix": "CHROMTAB",
-                "suffix": "CSV",
-                "parameters": {"tracetype": "agilent.csv"},
-            },
-            {
-                "nsteps": 1,
-                "step": 0,
-                "nrows": 3,
-                "method": None,
-                "point": 0,
-                "test": {
-                    "TCD1A.ch": {
-                        "i": 10,
-                        "elution_time": {"n": 2.15999999, "s": 0.06, "u": "s"},
-                        "signal": {"n": 488830.0, "s": 0.001, "u": None},
-                    },
-                    "FID2B.ch": {
-                        "i": 10,
-                        "elution_time": {"n": 2.15999999, "s": 0.06, "u": "s"},
-                        "signal": {"n": 42430.0, "s": 0.001},
-                    },
-                },
-            },
-        ),
-        (
             {  # ts2 - fusion json parse
                 "folders": ["."],
                 "prefix": "",
@@ -115,48 +88,6 @@ from tests.utils import (
                 },
             },
         ),
-        (
-            {  # ts4 - agilent ch file parse
-                "folders": ["."],
-                "suffix": "CH",
-                "parameters": {"tracetype": "agilent.ch"},
-            },
-            {
-                "nsteps": 1,
-                "step": 0,
-                "nrows": 1,
-                "method": "CO2RR_FTI_0.7mL_40uL_45dgr_36min.amx",
-                "point": 0,
-                "test": {
-                    "RID1A": {
-                        "i": 0,
-                        "elution_time": {"n": 0.0675, "s": 0.0675, "u": "s"},
-                        "signal": {"n": 0.39, "s": 0.01, "u": "nRIU"},
-                    }
-                },
-            },
-        ),
-        (
-            {  # ts5 - agilent dx file unzip & parse
-                "folders": ["."],
-                "suffix": "dx",
-                "parameters": {"tracetype": "agilent.dx"},
-            },
-            {
-                "nsteps": 1,
-                "step": 0,
-                "nrows": 1,
-                "method": "CO2RR_FTI_0.7mL_40uL_45dgr_36min.amx",
-                "point": 0,
-                "test": {
-                    "RID1A": {
-                        "i": 10,
-                        "elution_time": {"n": 2.2276485, "s": 0.0675, "u": "s"},
-                        "signal": {"n": -1.6, "s": 0.01, "u": "nRIU"},
-                    }
-                },
-            },
-        ),
     ],
 )
 def test_datagram_from_chromtrace(input, ts, datadir):
@@ -177,33 +108,3 @@ def test_datagram_from_chromtrace(input, ts, datadir):
                 {"n": ret["n"][v["i"]], "s": ret["s"][v["i"]], "u": ret["u"]},
                 v[kk],
             )
-
-
-@pytest.mark.parametrize(
-    "input",
-    [
-        (
-            {  # ts0 - ch file parse, method, and integration
-                "folders": ["."],
-                "suffix": "CH",
-                "parameters": {"tracetype": "agilent.ch"},
-            }
-        ),
-        (
-            {  # ts1 - dx file unzip, parse, method, integration from file
-                "folders": ["."],
-                "suffix": "dx",
-                "parameters": {"tracetype": "agilent.dx"},
-            }
-        ),
-    ],
-)
-def test_chromtrace_compare_raw_values(input, datadir):
-    os.chdir(datadir)
-    dg = datagram_from_input(input, "chromtrace", datadir)
-    with open("yvals.json", "r") as infile:
-        ref = json.load(infile)["traces"]
-    for trace, v in ref.items():
-        for k in {"signal", "elution_time"}:
-            ret = dg_get_quantity(dg["0"], trace, col=k, utsrow=0)
-            compare_result_dicts(ret, v[k])

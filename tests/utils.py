@@ -265,12 +265,14 @@ def compare_datatrees(ret: DataTree, ref: DataTree, atol: float = 1e-6):
     for k in ref:
         assert k in ret, f"Entry {k} not present in result DataTree."
 
+    assert ret.attrs == ref.attrs
     for k in ret:
         if isinstance(ret[k], DataTree):
             compare_datatrees(ret[k], ref[k])
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
             try:
                 xr.testing.assert_allclose(ret[k], ref[k], atol=atol)
+                assert ret[k].attrs == ref[k].attrs
             except AssertionError as e:
                 e.args = (e.args[0] + f"Error happened on key: {k!r}\n",)
                 raise e

@@ -107,23 +107,20 @@ def extract(
 
     magic = dgutils.read_value(ch, 0, "utf-8")
     pars = {}
+    orig_meta = {}
     if magic in magic_values.keys():
         for offset, (tag, dtype) in magic_values[magic].items():
             v = dgutils.read_value(ch, offset, dtype)
-            pars[tag] = v
+            orig_meta[tag] = v
+    orig_meta["version"] = magic
     pars["end"] = len(ch)
+    pars["start"] = (orig_meta["offset"] - 1) * 512
     dsize, ddtype = data_dtypes[magic]
-    pars["start"] = (pars["offset"] - 1) * 512
     nbytes = pars["end"] - pars["start"]
     assert nbytes % dsize == 0
     npoints = nbytes // dsize
 
-    metadata = dict()
-    for k in ["sampleid", "username", "method"]:
-        metadata[k] = pars[k]
-    metadata["version"] = str(magic)
-
-    xsn = np.linspace(pars["xmin"] / 1000, pars["xmax"] / 1000, num=npoints)
+    xsn = np.linspace(orig_meta["xmin"] / 1000, orig_meta["xmax"] / 1000, num=npoints)
     xss = np.ones(npoints) * xsn[0]
     ysn = (
         np.frombuffer(
@@ -132,14 +129,14 @@ def extract(
             dtype=ddtype,
             count=npoints,
         )
-        * pars["slope"]
+        * orig_meta["slope"]
     )
-    yss = np.ones(npoints) * pars["slope"]
+    yss = np.ones(npoints) * orig_meta["slope"]
 
-    detector, title = pars["tracetitle"].split(",")
+    detector, title = orig_meta["tracetitle"].split(",")
 
     uts = dgutils.str_to_uts(
-        timestamp=pars["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
+        timestamp=orig_meta["timestamp"], format="%d-%b-%y, %H:%M:%S", timezone=timezone
     )
 
     ds = xr.Dataset(
@@ -147,12 +144,12 @@ def extract(
             "signal": (
                 ["uts", "elution_time"],
                 [ysn],
-                {"units": pars["yunit"], "ancillary_variables": "signal_std_err"},
+                {"units": orig_meta["yunit"], "ancillary_variables": "signal_std_err"},
             ),
             "signal_std_err": (
                 ["uts", "elution_time"],
                 [yss],
-                {"units": pars["yunit"], "standard_name": "signal standard_error"},
+                {"units": orig_meta["yunit"], "standard_name": "signal standard_error"},
             ),
             "elution_time_std_err": (
                 ["elution_time"],
@@ -171,5 +168,5 @@ def extract(
         attrs={"title": title},
     )
     dt = DataTree.from_dict({detector: ds})
-    dt.attrs = metadata
+    dt.attrs = {"original_metadata": orig_meta}
     return dt

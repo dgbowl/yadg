@@ -49,28 +49,23 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from yadg import dgutils
 import xarray as xr
 from datatree import DataTree
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:
-    res = {}
-    assert len(headers) == len(
-        columns
-    ), "chromtab: The number of headers and columns do not match."
-    assert "Date Acquired" in headers, "chromtab: Cannot infer date."
-    res["uts"] = dgutils.str_to_uts(
-        timestamp=columns[headers.index("Date Acquired")].strip(),
-        format="%d %b %Y %H:%M",
-        timezone=timezone,
-    )
-    fn = ""
-    if "Path" in headers:
-        fn += columns[headers.index("Path")]
-    if "File" in headers:
-        fn += columns[headers.index("File")]
-    res["datafile"] = fn
-    if "Sample" in headers:
-        res["sampleid"] = columns[headers.index("Sample")]
-    return res
+    orig_meta = {k: v.strip() for k, v in zip(headers, columns)}
+    if "Date Acquired" in orig_meta:
+        uts = dgutils.str_to_uts(
+            timestamp=columns[headers.index("Date Acquired")].strip(),
+            format="%d %b %Y %H:%M",
+            timezone=timezone,
+        )
+    else:
+        logger.warning("'Date Acquired' not in file header, cannot infer timestamp.")
+        uts = None
+    return orig_meta, uts
 
 
 def _to_trace(tx, ty):
@@ -94,7 +89,7 @@ def extract(
 ) -> DataTree:
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
-    metadata = {}
+    orig_meta = {}
     uts = []
     tx = []
     ty = []
@@ -120,8 +115,8 @@ def extract(
             else:
                 columns = [p.replace('"', "") for p in parts]
                 ret = _process_headers(headers, columns, timezone)
-                uts.append(ret.pop("uts"))
-                metadata.update(ret)
+                uts.append(ret[1])
+                dgutils.merge_meta(orig_meta, ret[0])
         elif len(parts) == 1:
             if tx != [] and ty != [] and detname is not None:
                 trace = _to_trace(tx, ty)
@@ -180,5 +175,5 @@ def extract(
             dsets.append(ds)
         vals[tr] = xr.concat(dsets, dim="uts")
     dt = DataTree.from_dict(vals)
-    dt.attrs = metadata
+    dt.attrs = {"original_metadata": orig_meta}
     return dt

@@ -204,8 +204,11 @@ def test_yadg_preset_dataschema_compat(datadir):
         command = ["yadg", "preset", "-p", fn, "ds_compat", fn.replace("yml", "nc")]
         subprocess.run(command, check=True)
         ncs.append((fn, open_datatree(fn.replace("yml", "nc"))))
-    refname, ref = ncs[0]
-    for tup in ncs[1:]:
-        retname, ret = tup
-        print(f"comparing {refname} with {retname}")
-        compare_datatrees(ret, ref, toplevel=False)
+    _, ref = ncs[0]
+    for name, ret in ncs[1:]:
+        try:
+            print(f"{ret=}")
+            compare_datatrees(ret, ref, toplevel=False, descend=False)
+        except AssertionError as e:
+            e.args = (e.args[0] + f"\nFailed on file {name!r}.\n",)
+            raise e

@@ -259,18 +259,20 @@ def dg_get_quantity(
     return {"n": n, "s": d, "u": u}
 
 
-def compare_datatrees(ret: DataTree, ref: DataTree, atol: float = 1e-6, toplevel=True):
+def compare_datatrees(
+    ret: DataTree, ref: DataTree, atol: float = 1e-6, toplevel=True, descend=True,
+):
     for k in ret:
         assert k in ref, f"Entry {k} not present in reference DataTree."
     for k in ref:
         assert k in ret, f"Entry {k} not present in result DataTree."
 
-    if toplevel:
+    if toplevel and descend:
         assert ret.attrs == ref.attrs
 
     for k in ret:
         if isinstance(ret[k], DataTree):
-            compare_datatrees(ret[k], ref[k])
+            compare_datatrees(ret[k], ref[k], atol = atol, descend=descend)
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
             try:
                 xr.testing.assert_allclose(ret[k], ref[k], atol=atol)

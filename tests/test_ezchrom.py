@@ -3,7 +3,7 @@ import os
 from distutils import dir_util
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
-from .utils import compare_datatrees
+import xarray as xr
 
 
 @pytest.fixture
@@ -26,6 +26,11 @@ def ezchrom_datadir(tmpdir, request):
 )
 def test_ezchrom_consistency(datfile, ascfile, ezchrom_datadir):
     os.chdir(ezchrom_datadir)
-    dat = extract_dat(fn=datfile, timezone="Europe/Berlin")
-    asc = extract_asc(fn=ascfile, timezone="Europe/Berlin", encoding="windows-1252")
-    compare_datatrees(dat, asc)
+    aret = extract_dat(fn=datfile, timezone="Europe/Berlin")
+    bret = extract_asc(fn=ascfile, timezone="Europe/Berlin", encoding="windows-1252")
+    for key in aret.variables:
+        try:
+            xr.testing.assert_allclose(aret[key], bret[key])
+        except AssertionError as e:
+            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            raise e

@@ -175,7 +175,7 @@ def test_yadg_extract(filetype, infile, datadir):
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc")
     ref = open_datatree(f"ref.{infile}.nc")
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, toplevel=False)
 
 
 @pytest.mark.parametrize(
@@ -208,4 +208,4 @@ def test_yadg_preset_dataschema_compat(datadir):
     for tup in ncs[1:]:
         retname, ret = tup
         print(f"comparing {refname} with {retname}")
-        compare_datatrees(ret, ref)
+        compare_datatrees(ret, ref, toplevel=False)

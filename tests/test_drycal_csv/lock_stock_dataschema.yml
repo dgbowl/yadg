@@ -16,6 +16,4 @@ steps:
                 format: "%Y%m%d"
                 len: 8
         mode: "add"
-    parameters:
-        filetype: "drycal.csv"
     tag: outlet

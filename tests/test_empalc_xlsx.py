@@ -1,8 +1,11 @@
 import pytest
 import os
 import pickle
+import yaml
 from yadg.extractors.empalc.xlsx import extract
 from .utils import compare_datatrees
+from yadg.core import process_schema
+from dgbowl_schemas.yadg import to_dataschema
 
 
 @pytest.mark.parametrize(
@@ -10,6 +13,7 @@ from .utils import compare_datatrees
     [
         "Cu-25p_v2.xlsx",
         "samplename_newlines.xlsx",
+        "2022-09-12-15-37-07+0200_spCuDurapore05_old_injections_LC-data.xlsx",
     ],
 )
 def test_empalc_xlsx(infile, datadir):
@@ -22,3 +26,13 @@ def test_empalc_xlsx(infile, datadir):
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref)
+
+
+def test_empalc_lock_stock_dataschema(datadir):
+    os.chdir(datadir)
+    with open("lock_stock_dataschema.yml", "r") as inf:
+        schema = yaml.safe_load(inf)
+    ret = process_schema(to_dataschema(**schema))
+    print(f"{ret=}")
+    for k in {"height", "concentration", "retention time", "area"}:
+        assert ret["LC"][k].shape == (7, 2)

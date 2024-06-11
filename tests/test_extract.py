@@ -41,4 +41,4 @@ def test_extract_yadg(filetype, infile, datadir):
     # ret.to_netcdf(outfile, engine="h5netcdf")
     ref = datatree.open_datatree(outfile)
     print(f"{ret=}")
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, toplevel=False)

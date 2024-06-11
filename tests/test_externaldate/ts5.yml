@@ -1,0 +1,23 @@
+metadata:
+    provenance:
+        type: manual
+    version: "5.0"
+step_defaults:
+    timezone: Europe/Berlin
+steps:
+  - parser: basiccsv
+    input:
+        files: ["case_time_custom.csv"]
+    parameters:
+        timestamp:
+            time:
+              index: 0
+              format: "%I.%M%p"
+    externaldate:
+        using:
+            file:
+                path: file_5.pkl
+                type: pkl
+        mode: add
+
+

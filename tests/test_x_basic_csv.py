@@ -157,3 +157,36 @@ def test_basic_csv_locale(infile, params, locale, datadir):
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
     xr.testing.assert_identical(ret, ref)
+
+
+@pytest.mark.parametrize(
+    "infile, params, encoding",
+    [
+        (
+            "log 2021-09-17 11-26-14.140.csv",
+            {
+                "timestamp": {
+                    "timestamp": {"index": 0, "format": '"%Y-%m-%d %H:%M:%S.%f"'}
+                },
+                "units": {},
+            },
+            "utf-8-sig",
+        ),
+    ],
+)
+def test_basic_csv_encoding(infile, params, encoding, datadir):
+    os.chdir(datadir)
+    ret = extract(
+        fn=infile,
+        parameters=Basic_csv(filetype="basic.csv", parameters={**params}).parameters,
+        encoding=encoding,
+        locale="en_GB",
+        timezone="Europe/Berlin",
+    )
+    outfile = f"{infile}.pkl"
+    with open(outfile, "rb") as inp:
+        ref = pickle.load(inp)
+    print(f"{ret=}")
+    with open(outfile, "wb") as out:
+        pickle.dump(ret, out, 5)
+    xr.testing.assert_identical(ret, ref)

@@ -1,11 +1,14 @@
+from packaging.version import Version
 import logging
 import os
 from typing import Union
 from dgbowl_schemas.yadg import to_dataschema
 from dgbowl_schemas.yadg.dataschema import DataSchema
+from pydantic import BaseModel
+from pydantic.v1 import BaseModel as BaseModel_v1
+from yadg import dgutils
 
-from .. import dgutils
-
+__latest_dataschema__ = "5.1"
 logger = logging.getLogger(__name__)
 
 
@@ -104,7 +107,7 @@ def schema_3to4(oldschema: list) -> dict:
     return newschema
 
 
-def update_schema(object: Union[list, dict]) -> dict:
+def update_schema(object: Union[list, dict, BaseModel, BaseModel_v1]) -> DataSchema:
     """
     The ``yadg update`` worker function.
 
@@ -131,15 +134,23 @@ def update_schema(object: Union[list, dict]) -> dict:
 
     if isinstance(object, list):
         logger.info("Updating list-style DataSchema")
-        newobj = schema_3to4(object)
+        newobj = to_dataschema(**schema_3to4(object))
     elif isinstance(object, dict):
         logger.info("Updating dict-style DataSchema")
+        newobj = to_dataschema(**object)
+    elif isinstance(object, (BaseModel, BaseModel_v1)):
+        logger.info("Updating an existing DataSchema object")
         newobj = object
     else:
         raise ValueError(f"Supplied object is of incorrect type: {type(object)}")
-    newobj = to_dataschema(**newobj)
+
+    maxver = Version(__latest_dataschema__)
     while hasattr(newobj, "update"):
-        newobj = newobj.update()
+        temp = newobj.update()
+        if hasattr(temp, "version"):
+            if Version(temp.version) > maxver:
+                break
+        newobj = temp
     return newobj
 
 

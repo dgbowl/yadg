@@ -1,0 +1,19 @@
+metadata:
+    provenance:
+        type: manual
+    version: "4.2"
+    timezone: Europe/Berlin
+steps:
+  - parser: basiccsv
+    input:
+        files: ["case_time_custom.csv"]
+    parameters:
+        timestamp:
+            time:
+              index: 0
+              format: "%I.%M%p"
+    externaldate:
+        using:
+            isostring: "2021-01-01"
+
+

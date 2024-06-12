@@ -24,8 +24,7 @@ classifiers = [
 ]
 requires-python = ">= 3.9"
 dependencies = [
-    "numpy",
-    "scipy",
+    "numpy >= 1.20",
     "pint >= 0.22",
     "pyyaml",
     "uncertainties",
@@ -40,7 +39,6 @@ dependencies = [
     "babel >= 2.15",
     "xarray-datatree >= 0.0.12",
     "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git@dataschema_5.1",
-    "requests",
 ]
 
 [project.optional-dependencies]

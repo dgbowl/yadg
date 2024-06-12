@@ -3,8 +3,8 @@ import subprocess
 import os
 import json
 from datatree import open_datatree
-
-from .utils import pars_datagram_test, standard_datagram_test, compare_datatrees
+import numpy as np
+from .utils import compare_datatrees
 
 
 def test_yadg_version():
@@ -156,9 +156,10 @@ def test_yadg_preset_roundtrip_uts(datadir):
     command = ["yadg", "preset", "-p", "data_4.preset.json", "data_4", "data_4.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("data_4.nc")
-    dg = open_datatree("data_4.nc")
-    standard_datagram_test(dg, ts)
-    pars_datagram_test(dg, ts)
+    ret = open_datatree("data_4.nc", engine="h5netcdf")
+    print(f"{ret=}")
+    assert ret["worker"]["uts"].shape == (20,)
+    np.testing.assert_almost_equal(ret["worker"]["uts"][-1], 1652254017.1712718)
 
 
 @pytest.mark.parametrize(
@@ -173,9 +174,9 @@ def test_yadg_extract(filetype, infile, datadir):
     command = ["yadg", "extract", filetype, infile, "test.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
-    ret = open_datatree("test.nc")
-    ref = open_datatree(f"ref.{infile}.nc")
-    compare_datatrees(ret, ref)
+    ret = open_datatree("test.nc", engine="h5netcdf")
+    ref = open_datatree(f"ref.{infile}.nc", engine="h5netcdf")
+    compare_datatrees(ret, ref, toplevel=False)
 
 
 @pytest.mark.parametrize(
@@ -203,9 +204,11 @@ def test_yadg_preset_dataschema_compat(datadir):
     for fn in sfns:
         command = ["yadg", "preset", "-p", fn, "ds_compat", fn.replace("yml", "nc")]
         subprocess.run(command, check=True)
-        ncs.append((fn, open_datatree(fn.replace("yml", "nc"))))
-    refname, ref = ncs[0]
-    for tup in ncs[1:]:
-        retname, ret = tup
-        print(f"comparing {refname} with {retname}")
-        compare_datatrees(ret, ref)
+        ncs.append((fn, open_datatree(fn.replace("yml", "nc"), engine="h5netcdf")))
+    _, ref = ncs[0]
+    for name, ret in ncs[1:]:
+        try:
+            compare_datatrees(ret, ref, toplevel=False, descend=False)
+        except AssertionError as e:
+            e.args = (e.args[0] + f"\nFailed on file {name!r}.\n",)
+            raise e

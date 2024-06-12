@@ -1,0 +1,24 @@
+version: "5.1"
+metadata:
+    provenance: manual
+step_defaults:
+    timezone: Europe/Berlin
+steps:
+  - extractor:
+        filetype: basic.csv
+        parameters:
+            timestamp:
+                time:
+                    index: 0
+                    format: "%I.%M%p"
+    input:
+        files: ["case_time_custom.csv"]
+    externaldate:
+        using:
+            file:
+                path: file_6.json
+                type: json
+                match: uts
+        mode: add
+
+

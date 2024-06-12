@@ -89,3 +89,15 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
                 "yadg with the '--ignore-merge-errors' option."
             )
     return vals
+
+
+def merge_meta(old: dict, new: dict):
+    for k, v in new.items():
+        if k not in old:
+            old[k] = v
+        elif v == old[k]:
+            pass
+        elif isinstance(old[k], tuple):
+            old[k] = (*old[k], v)
+        else:
+            old[k] = (old[k], v)

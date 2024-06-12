@@ -71,7 +71,7 @@ def extract(
     ws = wb["Page 1"]
     metadata = {}
     for row in ws.rows:
-        val = row[1].value if len(row) > 1 else ""
+        val = row[1].value if len(row) > 1 and row[1].value is not None else ""
         if row[0].value.startswith("Sequence name"):
             metadata["sequence"] = val
         elif row[0].value.startswith("Description"):

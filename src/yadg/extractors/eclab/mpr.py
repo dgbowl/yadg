@@ -385,7 +385,6 @@ def process_data(
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
-    print(f"{data_dtype=}")
     # Depending on module version, datapoints start at 0x0195 or 0x0196.
     if version == 2:
         offset = 0x0195

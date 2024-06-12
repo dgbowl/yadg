@@ -34,7 +34,7 @@ dependencies = [
     "python-dateutil",
     "openpyxl >= 3.0.0",
     "olefile >= 0.47",
-    "h5netcdf ~= 1.0",
+    "h5netcdf >= 1.0",
     "pandas >= 2.0",
     "babel >= 2.15",
     "xarray-datatree >= 0.0.12",

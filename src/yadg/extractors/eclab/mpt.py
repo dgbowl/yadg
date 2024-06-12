@@ -60,7 +60,7 @@ The metadata will contain the information from the header of the file.
 import logging
 from typing import Any
 from babel.numbers import parse_decimal
-from xarray import Dataset
+from datatree import DataTree
 from yadg import dgutils
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from .common.techniques import get_devs, param_from_key
@@ -281,26 +281,7 @@ def extract(
     locale: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
-    """Processes EC-Lab human-readable text export files.
-
-    Parameters
-    ----------
-    fn
-        The file containing the data to parse.
-
-    encoding
-        Encoding of ``fn``, by default "windows-1252".
-
-    timezone
-        A string description of the timezone. Default is "UTC".
-
-    Returns
-    -------
-    :class:`xarray.Dataset`
-        The full date may not be specified if header is not present.
-
-    """
+) -> DataTree:
     file_magic = "EC-Lab ASCII FILE\n"
     with open(fn, "r", encoding=encoding) as mpt_file:
         assert mpt_file.read(len(file_magic)) == file_magic, "invalid file magic"
@@ -341,5 +322,5 @@ def extract(
     if fulldate:
         del ds.attrs["fulldate"]
     ds.attrs.update(metadata)
-    # reset to original LC_NUMERIC
-    return ds
+
+    return DataTree(ds)

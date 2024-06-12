@@ -1,8 +1,8 @@
 import pytest
 import os
 import pickle
-import xarray as xr
 from yadg.extractors.picolog.tc08 import extract
+from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -21,4 +21,4 @@ def test_picolog_tc08(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_allclose(ret, ref)
+    compare_datatrees(ret, ref)

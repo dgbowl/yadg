@@ -11,7 +11,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         angle:          !!float               # 2θ angle
@@ -61,7 +61,7 @@ from collections import defaultdict
 from typing import Union
 from xml.etree import ElementTree
 import numpy as np
-from xarray import Dataset
+from datatree import DataTree
 import xarray as xr
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
@@ -202,7 +202,7 @@ def extract(
     fn: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     it = ElementTree.iterparse(fn)
     # Removing xmlns prefixes from all tags.
     # From https://stackoverflow.com/a/25920989.
@@ -268,4 +268,4 @@ def extract(
         },
         attrs=meta,
     )
-    return vals
+    return DataTree(vals)

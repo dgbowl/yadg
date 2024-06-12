@@ -184,17 +184,22 @@ def test_yadg_extract(filetype, infile, datadir):
     [
         ("eclab.mpr", "cp.mpr", "-m"),
         ("biologic-mpr", "cp.mpr", "--meta-only"),
+        ("agilent.ch", "agilent.CH", "-m"),
+        ("fusion.json", "fusion.fusion-data", "--meta-only"),
     ],
 )
 def test_yadg_extract_meta_only(filetype, infile, flag, datadir):
     os.chdir(datadir)
     command = ["yadg", "extract", filetype, infile, flag]
     subprocess.run(command, check=True)
-    assert os.path.exists("cp.json")
-    with open("cp.json", "r") as inp:
+    outfile = infile.split(".")[0] + ".json"
+    assert os.path.exists(outfile)
+    with open(outfile, "r") as inp:
         ret = json.load(inp)
-    for key in {"attrs", "coords", "dims", "data_vars"}:
-        assert key in ret.keys()
+    print(f"{ret=}")
+    for node in ret.values():
+        for key in {"attrs", "coords", "dims", "data_vars"}:
+            assert key in node.keys()
 
 
 def test_yadg_preset_dataschema_compat(datadir):

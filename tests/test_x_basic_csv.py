@@ -3,7 +3,7 @@ import os
 import pickle
 from yadg.extractors.basic.csv import extract
 from dgbowl_schemas.yadg.dataschema_5_1.filetype import Basic_csv
-import xarray as xr
+from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -100,7 +100,7 @@ def test_basic_csv(infile, params, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_identical(ret, ref)
+    compare_datatrees(ret, ref)
 
 
 @pytest.mark.parametrize(
@@ -156,7 +156,7 @@ def test_basic_csv_locale(infile, params, locale, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_identical(ret, ref)
+    compare_datatrees(ret, ref)
 
 
 @pytest.mark.parametrize(
@@ -189,4 +189,4 @@ def test_basic_csv_encoding(infile, params, encoding, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_identical(ret, ref)
+    compare_datatrees(ret, ref)

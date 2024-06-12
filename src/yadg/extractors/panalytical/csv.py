@@ -11,7 +11,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         angle:          !!float               # 2θ angle
@@ -40,7 +40,7 @@ The uncertainties of ``"intensity"`` are taken from the number of significant fi
 """
 
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from xarray import Dataset
+from datatree import DataTree
 import xarray as xr
 import numpy as np
 
@@ -116,7 +116,7 @@ def extract(
     encoding: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     with open(fn, "r", encoding=encoding) as csv_file:
         csv = csv_file.read()
     # Split file into its sections.
@@ -165,4 +165,4 @@ def extract(
         },
         attrs=header,
     )
-    return vals
+    return DataTree(vals)

@@ -16,7 +16,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         species:        !!str                 # Species name
@@ -46,8 +46,7 @@ import datetime
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 import numpy as np
-from xarray import Dataset
-
+from datatree import DataTree
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +56,7 @@ def extract(
     fn: str,
     encoding: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
@@ -239,4 +238,4 @@ def extract(
         attrs=metadata,
     )
 
-    return ds
+    return DataTree(ds)

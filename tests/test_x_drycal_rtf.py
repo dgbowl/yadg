@@ -2,7 +2,7 @@ import pytest
 import os
 import pickle
 from yadg.extractors.drycal.rtf import extract
-import xarray as xr
+from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
@@ -20,4 +20,4 @@ def test_drycal_rtf(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    xr.testing.assert_identical(ret, ref)
+    compare_datatrees(ret, ref)

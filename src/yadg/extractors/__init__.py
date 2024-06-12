@@ -2,8 +2,6 @@ import importlib
 import logging
 from pathlib import Path
 from datatree import DataTree
-from xarray import Dataset
-from typing import Union
 from yadg import dgutils, core
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 
@@ -17,7 +15,7 @@ def extract(
     timezone: str = None,
     encoding: str = None,
     locale: str = None,
-) -> Union[Dataset, DataTree]:
+) -> DataTree:
     """
     The individual extractor functionality of yadg is called from here.
 
@@ -48,6 +46,7 @@ def extract(
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
+    # Func should always return a datatree.DataTree
     ret = func(fn=str(path), **vars(extractor))
     ret.attrs = {
         "provenance": "yadg extract",

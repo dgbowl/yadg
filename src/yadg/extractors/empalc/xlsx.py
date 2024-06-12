@@ -16,7 +16,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         species:        !!str                 # Species name
@@ -46,7 +46,7 @@ import datetime
 import openpyxl
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
-from xarray import Dataset
+from datatree import DataTree
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ def extract(
     *,
     fn: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     try:
         wb = openpyxl.load_workbook(
             filename=fn,
@@ -235,4 +235,4 @@ def extract(
         attrs=metadata,
     )
 
-    return ds
+    return DataTree(ds)

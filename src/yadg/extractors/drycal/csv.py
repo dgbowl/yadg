@@ -17,7 +17,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp, without date
       data_vars:
@@ -42,7 +42,7 @@ All uncertainties are derived from the string representation of the floats.
 
 """
 
-from xarray import Dataset
+from datatree import DataTree
 from yadg.extractors.drycal import common
 
 
@@ -52,6 +52,6 @@ def extract(
     encoding: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     vals = common.sep(fn, ",", encoding, timezone)
-    return common.check_timestamps(vals)
+    return DataTree(common.check_timestamps(vals))

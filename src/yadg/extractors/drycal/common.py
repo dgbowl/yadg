@@ -10,7 +10,6 @@ and ensuring timestamps are increasing.
 
 from pydantic import BaseModel
 from typing import Optional
-from datatree import DataTree
 from xarray import Dataset
 import logging
 import xarray as xr
@@ -35,7 +34,7 @@ def rtf(
     fn: str,
     encoding: str,
     timezone: str,
-) -> DataTree:
+) -> Dataset:
     with open(fn, "r", encoding=encoding) as infile:
         rtf = infile.read()
     lines = rtf_to_text(rtf).split("\n")
@@ -84,7 +83,7 @@ def sep(
     sep: str,
     encoding: str,
     timezone: str,
-) -> DataTree:
+) -> Dataset:
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     for li in range(len(lines)):

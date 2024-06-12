@@ -97,6 +97,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.dicts_to_dataset"><code class="docutils literal notranslate"><span class="pre">dicts_to_dataset()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.append_dicts"><code class="docutils literal notranslate"><span class="pre">append_dicts()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.merge_dicttrees"><code class="docutils literal notranslate"><span class="pre">merge_dicttrees()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.merge_meta"><code class="docutils literal notranslate"><span class="pre">merge_meta()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.btools">yadg.dgutils.btools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.dateutils">yadg.dgutils.dateutils module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-yadg.dgutils.dsutils">yadg.dgutils.dsutils module</a></li>
@@ -311,7 +312,7 @@ and that the timestamps in <code class="docutils literal notranslate"><span clas
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.update_schema">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">update_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.dgutils.update_schema" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">update_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseModel</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataSchema</span></span></span><a class="headerlink" href="#yadg.dgutils.update_schema" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code> worker function.</p>
 <p>The main purpose is to allow a simple update pathway from older versions of
 dataschema files to the current latest and greatest.</p>
@@ -405,6 +406,11 @@ replacements are done:</p>
 <dd><p>A helper function that merges two <code class="docutils literal notranslate"><span class="pre">DataTree.to_dict()</span></code> objects by concatenating
 the new values in <code class="docutils literal notranslate"><span class="pre">fvals</span></code> to the existing ones in <code class="docutils literal notranslate"><span class="pre">vals</span></code>.</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.merge_meta">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">merge_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.merge_meta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <section id="module-yadg.dgutils.btools">
 <span id="yadg-dgutils-btools-module"></span><h2>yadg.dgutils.btools module<a class="headerlink" href="#module-yadg.dgutils.btools" title="Link to this heading"></a></h2>
@@ -666,6 +672,11 @@ and that the timestamps in <code class="docutils literal notranslate"><span clas
 the new values in <code class="docutils literal notranslate"><span class="pre">fvals</span></code> to the existing ones in <code class="docutils literal notranslate"><span class="pre">vals</span></code>.</p>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.dsutils.merge_meta">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.dsutils.</span></span><span class="sig-name descname"><span class="pre">merge_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.dgutils.dsutils.merge_meta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-yadg.dgutils.helpers">
 <span id="yadg-dgutils-helpers-module"></span><h2>yadg.dgutils.helpers module<a class="headerlink" href="#module-yadg.dgutils.helpers" title="Link to this heading"></a></h2>
@@ -725,7 +736,7 @@ replacements are done:</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.schemautils.update_schema">
-<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.schemautils.</span></span><span class="sig-name descname"><span class="pre">update_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.dgutils.schemautils.update_schema" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.schemautils.</span></span><span class="sig-name descname"><span class="pre">update_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseModel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">BaseModel</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataSchema</span></span></span><a class="headerlink" href="#yadg.dgutils.schemautils.update_schema" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">update</span></code> worker function.</p>
 <p>The main purpose is to allow a simple update pathway from older versions of
 dataschema files to the current latest and greatest.</p>

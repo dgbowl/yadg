@@ -3,7 +3,6 @@ import logging
 import importlib
 from typing import Callable
 from datatree import DataTree
-from xarray import Dataset
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
@@ -45,10 +44,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
     root = DataTree()
     root.attrs = {
-        "provenance": "yadg process",
-        "date": dgutils.now(asstr=True),
-        "input_schema": dataschema.model_dump_json(),
-        "datagram_version": datagram_version,
+        "yadg_provenance": "yadg process",
+        "yadg_process_date": dgutils.now(asstr=True),
+        "yadg_process_dataschema": dataschema.model_dump_json(),
+        "yadg_datagram_version": datagram_version,
     }
     root.attrs.update(dgutils.get_yadg_metadata())
 
@@ -77,13 +76,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             vals = {}
         for tf in todofiles:
             logger.info(f"Processing file '{tf}'.")
-            ret = handler(fn=tf, **vars(step.extractor))
-            if isinstance(ret, DataTree):
-                tasks = ret.to_dict()
-            elif isinstance(ret, Dataset):
-                tasks = {"/": ret}
-            else:
-                raise RuntimeError(type(ret))
+            tasks = handler(fn=tf, **vars(step.extractor)).to_dict()
             fvals = {}
             for name, dset in tasks.items():
                 if name == "/" and len(dset.variables) == 0:

@@ -167,6 +167,8 @@ def test_yadg_preset_roundtrip_uts(datadir):
     [
         ("eclab.mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
+        ("agilent.ch", "agilent.CH"),
+        ("fusion.json", "fusion.fusion-data"),
     ],
 )
 def test_yadg_extract(filetype, infile, datadir):
@@ -175,8 +177,12 @@ def test_yadg_extract(filetype, infile, datadir):
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")
-    ref = open_datatree(f"ref.{infile}.nc", engine="h5netcdf")
-    compare_datatrees(ret, ref, toplevel=False)
+    ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    # let's delete metadata we know will be wrong
+    for k in {"yadg_extract_date", "yadg_datagram_version"}:
+        del ret.attrs[k]
+        del ref.attrs[k]
+    compare_datatrees(ret, ref, toplevel=True, descend=True)
 
 
 @pytest.mark.parametrize(

@@ -49,9 +49,9 @@ def extract(
     # Func should always return a datatree.DataTree
     ret = func(fn=str(path), **vars(extractor))
     ret.attrs = {
-        "provenance": "yadg extract",
-        "date": dgutils.now(asstr=True),
-        "datagram_version": core.datagram_version,
+        "yadg_provenance": "yadg extract",
+        "yadg_extract_date": dgutils.now(asstr=True),
+        "yadg_datagram_version": core.datagram_version,
         "yadg_extract_filename": str(path),
         "yadg_extract_filetype": str(extractor),
     }

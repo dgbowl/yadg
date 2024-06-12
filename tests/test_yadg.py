@@ -118,6 +118,13 @@ def test_yadg_process_with_yml(datadir):
     command = ["yadg", "process", "test_schema.yml"]
     subprocess.run(command, check=True)
     assert os.path.exists("datagram.nc")
+    ret = open_datatree("datagram.nc", engine="h5netcdf")
+    ref = open_datatree("datagram.ref.nc", engine="h5netcdf")
+    # let's delete metadata we know will be wrong
+    for k in {"yadg_process_date", "yadg_datagram_version", "yadg_version"}:
+        del ret.attrs[k]
+        del ref.attrs[k]
+    compare_datatrees(ret, ref, toplevel=True, descend=True)
 
 
 def test_yadg_preset_with_yml(datadir):
@@ -125,6 +132,18 @@ def test_yadg_preset_with_yml(datadir):
     command = ["yadg", "preset", "-p", "data_2.preset.yaml", "data_2", "data_2.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("data_2.nc")
+    ret = open_datatree("data_2.nc", engine="h5netcdf")
+    ref = open_datatree("data_2.ref.nc", engine="h5netcdf")
+    # let's delete metadata we know will be wrong
+    for k in {
+        "yadg_process_date",
+        "yadg_datagram_version",
+        "yadg_version",
+        "yadg_process_dataschema",
+    }:
+        del ret.attrs[k]
+        del ref.attrs[k]
+    compare_datatrees(ret, ref, toplevel=True, descend=True)
 
 
 @pytest.mark.parametrize(

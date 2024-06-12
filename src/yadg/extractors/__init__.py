@@ -53,8 +53,9 @@ def extract(
         "yadg_extract_date": dgutils.now(asstr=True),
         "yadg_datagram_version": core.datagram_version,
         "yadg_extract_filename": str(path),
-        "yadg_extract_filetype": str(extractor),
+        "yadg_extract_Extractor": str(extractor),
     }
+    ret.attrs.update(dgutils.get_yadg_metadata())
 
     return ret
 

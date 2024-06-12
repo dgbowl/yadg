@@ -121,7 +121,12 @@ def test_yadg_process_with_yml(datadir):
     ret = open_datatree("datagram.nc", engine="h5netcdf")
     ref = open_datatree("datagram.ref.nc", engine="h5netcdf")
     # let's delete metadata we know will be wrong
-    for k in {"yadg_process_date", "yadg_datagram_version", "yadg_version"}:
+    for k in {
+        "yadg_process_date",
+        "yadg_datagram_version",
+        "yadg_version",
+        "yadg_command",
+    }:
         del ret.attrs[k]
         del ref.attrs[k]
     compare_datatrees(ret, ref, toplevel=True, descend=True)
@@ -138,8 +143,9 @@ def test_yadg_preset_with_yml(datadir):
     for k in {
         "yadg_process_date",
         "yadg_datagram_version",
-        "yadg_version",
         "yadg_process_dataschema",
+        "yadg_version",
+        "yadg_command",
     }:
         del ret.attrs[k]
         del ref.attrs[k]
@@ -198,7 +204,12 @@ def test_yadg_extract(filetype, infile, datadir):
     ret = open_datatree("test.nc", engine="h5netcdf")
     ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
     # let's delete metadata we know will be wrong
-    for k in {"yadg_extract_date", "yadg_datagram_version"}:
+    for k in {
+        "yadg_extract_date",
+        "yadg_datagram_version",
+        "yadg_version",
+        "yadg_command",
+    }:
         del ret.attrs[k]
         del ref.attrs[k]
     compare_datatrees(ret, ref, toplevel=True, descend=True)

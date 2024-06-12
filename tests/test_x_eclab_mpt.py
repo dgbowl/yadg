@@ -56,7 +56,7 @@ def test_eclab_mpt_locale(afile, bfile, datadir):
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
     aret = extract(fn=afile, locale="en_US", **kwargs)
     bret = extract(fn=bfile, locale="de_DE", **kwargs)
-    compare_datatrees(aret, bret)
+    compare_datatrees(aret, bret, descend=False)
 
 
 @pytest.mark.parametrize(

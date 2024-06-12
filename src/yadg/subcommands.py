@@ -111,7 +111,7 @@ def update(
 
     logger.info("Writing new dataschema into '%s'.", outfile)
     with open(outfile, "w") as out:
-        json.dump(outobj.dict(), out, indent=1)
+        json.dump(outobj.model_dump(), out, indent=1)
 
 
 def preset(
@@ -162,9 +162,9 @@ def preset(
     schema = to_dataschema(**preset)
 
     logger.info("Creating a schema from preset for '%s'.", folder)
-    ds = dgutils.schema_from_preset(schema, folder)
+    ds = dgutils.update_schema(dgutils.schema_from_preset(schema, folder))
 
-    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
+    logger.info("Loaded dataschema version '%s'", ds.version)
     if process:
         logger.info("Processing created schema.")
         datagram = core.process_schema(ds, strict_merge=not ignore_merge_errors)
@@ -186,7 +186,7 @@ def preset(
         outfile = "schema.json" if outfile is None else outfile
         logger.info("Saving schema to '%s'.", outfile)
         with open(outfile, "w") as ofile:
-            json.dump(ds.dict(), ofile, indent=1)
+            json.dump(ds.model_dump(), ofile, indent=1)
 
 
 def extract(

@@ -40,7 +40,6 @@ def compare_datatrees(
                 assert ret[k].attrs == ref[k].attrs
             except AssertionError as e:
                 e.args = (e.args[0] + f"Error happened on key: {k!r}\n",)
-                raise e
-
+                raise AssertionError(e.args)
         else:
             raise RuntimeError(f"Unknown entry '{k}' of type '{type(k)}'.")

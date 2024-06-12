@@ -41,7 +41,7 @@ def extract(
     parameters: BaseModel,
     **kwargs: dict,
 ) -> DataTree:
-    kwargs = {} if parameters is None else parameters.dict()
+    kwargs = {} if parameters is None else parameters.model_dump()
     if "parser" in kwargs:
         del kwargs["parser"]
     data_vals = {k: [v] for k, v in kwargs.items()}

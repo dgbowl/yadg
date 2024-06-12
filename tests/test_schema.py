@@ -151,12 +151,12 @@ def test_datagram_from_schema_dict(inp_dict, l_dg, l_res, datadir):
     os.chdir(datadir)
     ds = to_dataschema(**inp_dict)
     ret = yadg.core.process_schema(ds)
-    print(ret)
+    print(f"{ret=}")
     assert len(ret.children) == l_dg, "wrong number of steps"
     if l_dg > 0:
         assert len(ret["0"].get("uts", [])) == l_res, "wrong number of timesteps"
     ret.to_netcdf("test.nc", engine="h5netcdf")
-    ref = datatree.open_datatree("test.nc")
+    ref = datatree.open_datatree("test.nc", engine="h5netcdf")
     print(ref)
     assert ref == ret
 
@@ -187,7 +187,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     for k, v in ts["kwargs"].items():
         assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"
     ret.to_netcdf("test.nc", engine="h5netcdf")
-    ref = datatree.open_datatree("test.nc")
+    ref = datatree.open_datatree("test.nc", engine="h5netcdf")
     print(ref)
     assert ref == ret
 

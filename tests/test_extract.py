@@ -20,7 +20,7 @@ def test_extract_marda(filetype, infile, outfile, datadir):
     os.chdir(datadir)
     ret = extract(filetype=filetype, path=infile)
     # ret.to_netcdf(outfile, engine="h5netcdf")
-    ref = datatree.open_datatree(outfile)
+    ref = datatree.open_datatree(outfile, engine="h5netcdf")
     print(f"{ret=}")
     compare_datatrees(ret, ref, toplevel=False)
 
@@ -39,6 +39,6 @@ def test_extract_yadg(filetype, infile, datadir):
     outfile = f"ref.{infile}.nc"
     ret = extract(filetype=filetype, path=infile)
     # ret.to_netcdf(outfile, engine="h5netcdf")
-    ref = datatree.open_datatree(outfile)
+    ref = datatree.open_datatree(outfile, engine="h5netcdf")
     print(f"{ret=}")
     compare_datatrees(ret, ref, toplevel=False)

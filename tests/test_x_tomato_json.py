@@ -1,11 +1,8 @@
 import pytest
 import os
 import pickle
-import yaml
 from yadg.extractors.tomato.json import extract
-from .utils import compare_datatrees
-from yadg.core import process_schema
-from dgbowl_schemas.yadg import to_dataschema
+from .utils import compare_datatrees, datagram_from_file
 
 
 @pytest.mark.parametrize(
@@ -27,12 +24,17 @@ def test_tomato_json(infile, datadir):
     compare_datatrees(ret, ref)
 
 
-def test_tomato_json_dataschema(datadir):
+@pytest.mark.parametrize(
+    "infile",
+    [
+        "tomato_json_dataschema.1.yml",
+        "tomato_json_dataschema.2.yml",
+    ],
+)
+def test_tomato_json_dataschema(infile, datadir):
     os.chdir(datadir)
-    with open("tomato_json_dataschema.yml", "r") as inf:
-        schema = yaml.safe_load(inf)
-    ret = process_schema(to_dataschema(**schema))
-    outfile = "tomato_json_dataschema.yml.pkl"
+    ret = datagram_from_file(infile)
+    outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")

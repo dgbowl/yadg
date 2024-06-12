@@ -3,9 +3,7 @@ import os
 import pickle
 from yadg.extractors.drycal.csv import extract
 import xarray as xr
-import yaml
-from yadg.core import process_schema
-from dgbowl_schemas.yadg import to_dataschema
+from .utils import datagram_from_file
 
 
 @pytest.mark.parametrize(
@@ -30,8 +28,6 @@ def test_drycal_csv(infile, datadir):
 
 def test_drycal_lock_stock_dataschema(datadir):
     os.chdir(datadir)
-    with open("lock_stock_dataschema.yml", "r") as inf:
-        schema = yaml.safe_load(inf)
-    ret = process_schema(to_dataschema(**schema))
+    ret = datagram_from_file("lock_stock_dataschema.yml")
     print(f"{ret=}")
     assert ret["outlet"]["DryCal"].shape == (187,)

@@ -1,10 +1,7 @@
 import pytest
 import os
-import yaml
 import pickle
-from .utils import compare_datatrees
-from yadg.core import process_schema
-from dgbowl_schemas.yadg import to_dataschema
+from .utils import compare_datatrees, datagram_from_file
 
 
 @pytest.mark.parametrize(
@@ -21,9 +18,7 @@ from dgbowl_schemas.yadg import to_dataschema
 )
 def test_externaldate_dataschema(infile, datadir):
     os.chdir(datadir)
-    with open(infile, "r") as inf:
-        schema = yaml.safe_load(inf)
-    ret = process_schema(to_dataschema(**schema))
+    ret = datagram_from_file(infile)
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

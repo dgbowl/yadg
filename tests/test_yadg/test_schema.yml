@@ -1,13 +1,17 @@
-metadata: 
+version: "5.1"
+metadata:
     provenance: manual
-    schema_version: "4.0.1"
+step_defaults:
+    timezone: "Europe/Berlin"
+    locale: "en_GB"
 steps:
-  - parser: basiccsv
-    import:
-        files: ["data_3.1.0/00-experiment/measurement.csv"]
-    parameters:
-        sep: ";"
-        timestamp:
+  - extractor:
+        filetype: basic.csv
+        parameters:
+            sep: ";"
             timestamp:
-                index: 0
-                format: "%Y-%m-%d-%H-%M-%S"
+                timestamp:
+                    index: 0
+                    format: "%Y-%m-%d-%H-%M-%S"
+    input:
+        files: ["data_3.1.0/00-experiment/measurement.csv"]

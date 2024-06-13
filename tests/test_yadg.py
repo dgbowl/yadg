@@ -209,6 +209,7 @@ def test_yadg_extract(filetype, infile, datadir):
         "yadg_datagram_version",
         "yadg_version",
         "yadg_command",
+        "yadg_extract_Extractor",
     }:
         del ret.attrs[k]
         del ref.attrs[k]

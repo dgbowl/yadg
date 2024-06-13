@@ -63,7 +63,9 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         if step.extractor.encoding is None:
             step.extractor.encoding = dataschema.step_defaults.encoding
 
-        sattrs = {"extractor_schema": step.extractor.model_dump_json(exclude_none=True)}
+        sattrs = {
+            "yadg_extract_Extractor": step.extractor.model_dump_json(exclude_none=True)
+        }
 
         if step.tag is None:
             step.tag = f"{si}"
@@ -91,6 +93,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
-        stepdt.attrs = sattrs
+        stepdt.attrs.update(sattrs)
         stepdt.parent = root
     return root

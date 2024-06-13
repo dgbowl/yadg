@@ -69,11 +69,8 @@ def process(
     schema = _load_file(infile)
 
     logger.info("Loading dataschema.")
-    ds = to_dataschema(**schema)
-    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
-
-    while hasattr(ds, "update"):
-        ds = ds.update()
+    inobj = to_dataschema(**schema)
+    ds = dgutils.update_schema(inobj)
 
     logger.debug("Processing dataschema")
     datagram = core.process_schema(ds, strict_merge=not ignore_merge_errors)

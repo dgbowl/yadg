@@ -17,3 +17,8 @@ steps:
     input:
         folders: ["."]
         suffix: "asc"
+    externaldate:
+        using:
+            filename:
+                format: "%Y-%m-%d-%H-%M-%S"
+                len: 19

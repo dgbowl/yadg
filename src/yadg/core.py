@@ -1,4 +1,5 @@
 from importlib import metadata
+import json
 import logging
 import importlib
 from typing import Callable
@@ -46,8 +47,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
     root.attrs = {
         "yadg_provenance": "yadg process",
         "yadg_process_date": dgutils.now(asstr=True),
-        "yadg_process_dataschema": dataschema.model_dump_json(),
-        "yadg_datagram_version": datagram_version,
+        "yadg_process_DataSchema": dataschema.model_dump_json(),
     }
     root.attrs.update(dgutils.get_yadg_metadata())
 
@@ -62,10 +62,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             step.extractor.locale = dataschema.step_defaults.locale
         if step.extractor.encoding is None:
             step.extractor.encoding = dataschema.step_defaults.encoding
-
-        sattrs = {
-            "yadg_extract_Extractor": step.extractor.model_dump_json(exclude_none=True)
-        }
 
         if step.tag is None:
             step.tag = f"{si}"
@@ -93,6 +89,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
-        stepdt.attrs.update(sattrs)
+        for k, v in stepdt.attrs.items():
+            if isinstance(v, dict):
+                stepdt.attrs[k] = json.dumps(v)
+        extractor_model_json = step.extractor.model_dump_json(exclude_none=True)
+        stepdt.attrs["yadg_extract_Extractor"] = extractor_model_json
         stepdt.parent = root
     return root

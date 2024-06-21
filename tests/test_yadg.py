@@ -113,17 +113,20 @@ def test_yadg_preset_with_preset_folder_p3(datadir):
     assert os.path.exists("data_2.dg.nc")
 
 
-def test_yadg_process_with_yml(datadir):
+def test_yadg_process_with_metadata(datadir):
     os.chdir(datadir)
     command = ["yadg", "process", "test_schema.yml"]
     subprocess.run(command, check=True)
     assert os.path.exists("datagram.nc")
     ret = open_datatree("datagram.nc", engine="h5netcdf")
-    ref = open_datatree("datagram.ref.nc", engine="h5netcdf")
+    ref = open_datatree("datagram.nc.ref", engine="h5netcdf")
+    print(f"{ret.attrs=}")
+    print(f"{ref.attrs=}")
+    assert ret.attrs.keys() == ref.attrs.keys()
     # let's delete metadata we know will be wrong
     for k in {
         "yadg_process_date",
-        "yadg_datagram_version",
+        "yadg_process_DataSchema",
         "yadg_version",
         "yadg_command",
     }:
@@ -132,18 +135,20 @@ def test_yadg_process_with_yml(datadir):
     compare_datatrees(ret, ref, toplevel=True, descend=True)
 
 
-def test_yadg_preset_with_yml(datadir):
+def test_yadg_preset_with_metadata(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "-p", "data_2.preset.yaml", "data_2", "data_2.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("data_2.nc")
     ret = open_datatree("data_2.nc", engine="h5netcdf")
-    ref = open_datatree("data_2.ref.nc", engine="h5netcdf")
+    ref = open_datatree("data_2.nc.ref", engine="h5netcdf")
+    print(f"{ret.attrs=}")
+    print(f"{ref.attrs=}")
+    assert ret.attrs.keys() == ref.attrs.keys()
     # let's delete metadata we know will be wrong
     for k in {
         "yadg_process_date",
-        "yadg_datagram_version",
-        "yadg_process_dataschema",
+        "yadg_process_DataSchema",
         "yadg_version",
         "yadg_command",
     }:
@@ -196,20 +201,19 @@ def test_yadg_preset_roundtrip_uts(datadir):
         ("fusion.json", "fusion.fusion-data"),
     ],
 )
-def test_yadg_extract(filetype, infile, datadir):
+def test_yadg_extract_with_metadata(filetype, infile, datadir):
     os.chdir(datadir)
     command = ["yadg", "extract", filetype, infile, "test.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")
     ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    assert ret.attrs.keys() == ref.attrs.keys()
     # let's delete metadata we know will be wrong
     for k in {
         "yadg_extract_date",
-        "yadg_datagram_version",
         "yadg_version",
         "yadg_command",
-        "yadg_extract_Extractor",
     }:
         del ret.attrs[k]
         del ref.attrs[k]

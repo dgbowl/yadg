@@ -1,5 +1,5 @@
 import sys
-from importlib import metadata as ilmd
+from importlib import metadata
 import warnings
 
 
@@ -7,11 +7,11 @@ def get_yadg_metadata() -> dict:
     """
     Returns current **yadg** metadata.
     """
-    metadata = {
-        "yadg_version": ilmd.version("yadg"),
+    md = {
+        "yadg_version": metadata.version("yadg"),
         "yadg_command": " ".join(sys.argv),
     }
-    return metadata
+    return md
 
 
 def deprecated(arg, depin="4.2", depout="5.0") -> None:

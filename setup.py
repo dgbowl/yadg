@@ -33,7 +33,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where=packagedir),
     python_requires=">=3.9",
     install_requires=[
-        "numpy",
+        "numpy < 2.0",
         "scipy",
         "pint>=0.22",
         "pyyaml",

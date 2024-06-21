@@ -246,7 +246,7 @@ def extract(
     uts, attrs = process_comments(comments, timezone)
     attrs["Ref R"] = f"{metadata['Rref']} Ohm"
 
-    dtdict = {"/": Dataset(attrs=attrs)}
+    dtdict = {"/": Dataset(attrs=dict(original_metadata=attrs))}
     for k in metadata["params"]:
         ds = data_to_dataset(key=k, data=data)
         for var in ds.variables:

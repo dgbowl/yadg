@@ -588,5 +588,5 @@ def extract(
         ds["uts"] = [start_time]
     if fulldate:
         del ds.attrs["fulldate"]
-    ds.attrs.update(metadata)
+    ds.attrs["original_metadata"] = metadata
     return DataTree(ds)

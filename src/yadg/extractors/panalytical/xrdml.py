@@ -266,6 +266,6 @@ def extract(
                 },
             ),
         },
-        attrs=meta,
+        attrs=dict(original_metadata=meta),
     )
     return DataTree(vals)

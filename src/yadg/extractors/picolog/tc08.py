@@ -147,5 +147,5 @@ def extract(
             if var[:end] in ds.variables:
                 ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
 
-    ds.attrs = attrs
+    ds.attrs = dict(original_metadata=attrs)
     return DataTree(ds)

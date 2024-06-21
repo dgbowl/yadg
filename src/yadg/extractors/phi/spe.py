@@ -384,5 +384,5 @@ def extract(
         vals[v["name"]] = fvals
 
     dt = datatree.DataTree.from_dict(vals)
-    dt.attrs = meta
+    dt.attrs["original_metadata"] = meta
     return dt

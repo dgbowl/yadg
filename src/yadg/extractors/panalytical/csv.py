@@ -163,6 +163,6 @@ def extract(
                 {"units": "deg", "ancillary_variables": "angle_std_err"},
             ),
         },
-        attrs=header,
+        attrs=dict(original_metadata=header),
     )
     return DataTree(vals)

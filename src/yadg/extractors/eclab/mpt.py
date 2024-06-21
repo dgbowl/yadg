@@ -15,7 +15,7 @@ in a typical ``.mpt`` file.
 
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float     # Unix timestamp, without date
       data_vars:

@@ -26,7 +26,7 @@ def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
     ret = extract(filetype=filetype, path=infile)
     # ret.to_netcdf(f"C:/Users/Kraus/Code/yadg/tests/test_extract/{outfile}", engine="h5netcdf")
     ref = datatree.open_datatree(outfile, engine="h5netcdf")
-    print(f"{ret=}")
+
     for k in ret.attrs.keys():
         assert (
             k.startswith("yadg_") or k == "original_metadata"

@@ -1,4 +1,3 @@
-from importlib import metadata
 import json
 import logging
 import importlib
@@ -8,7 +7,6 @@ from datatree import DataTree
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
 
-datagram_version = metadata.version("yadg")
 logger = logging.getLogger(__name__)
 
 
@@ -90,7 +88,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
         for k, v in stepdt.attrs.items():
-            if isinstance(v, dict):
+            if isinstance(v, (dict, list)):
                 stepdt.attrs[k] = json.dumps(v)
         extractor_model_json = step.extractor.model_dump_json(exclude_none=True)
         stepdt.attrs["yadg_extract_Extractor"] = extractor_model_json

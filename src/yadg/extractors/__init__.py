@@ -2,7 +2,7 @@ import importlib
 import logging
 from pathlib import Path
 from datatree import DataTree
-from yadg import dgutils, core
+from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 
 
@@ -51,7 +51,6 @@ def extract(
     ret.attrs = {
         "yadg_provenance": "yadg extract",
         "yadg_extract_date": dgutils.now(asstr=True),
-        "yadg_datagram_version": core.datagram_version,
         "yadg_extract_filename": str(path),
         "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
     }

@@ -1,5 +1,6 @@
 import importlib
 import logging
+import json
 from pathlib import Path
 from datatree import DataTree
 from yadg import dgutils
@@ -48,12 +49,19 @@ def extract(
 
     # Func should always return a datatree.DataTree
     ret = func(fn=str(path), **vars(extractor))
-    ret.attrs = {
-        "yadg_provenance": "yadg extract",
-        "yadg_extract_date": dgutils.now(asstr=True),
-        "yadg_extract_filename": str(path),
-        "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
-    }
+
+    for k, v in ret.attrs.items():
+        if isinstance(v, (dict, list)):
+            ret.attrs[k] = json.dumps(v)
+
+    ret.attrs.update(
+        {
+            "yadg_provenance": "yadg extract",
+            "yadg_extract_date": dgutils.now(asstr=True),
+            "yadg_extract_filename": str(path),
+            "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
+        }
+    )
     ret.attrs.update(dgutils.get_yadg_metadata())
 
     return ret

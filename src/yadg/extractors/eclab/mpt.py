@@ -62,7 +62,6 @@ from typing import Any
 from babel.numbers import parse_decimal
 from datatree import DataTree
 from yadg import dgutils
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from .common.techniques import get_devs, param_from_key
 from .common.mpt_columns import column_units
 
@@ -236,11 +235,10 @@ def process_data(
                     vals[name] = ival
             else:
                 try:
-                    fval, fdev = tuple_fromstr(
-                        parse_decimal(value, locale=locale).to_eng_string()
-                    )
-                    vals[name] = fval
-                    devs[name] = fdev
+                    dec = parse_decimal(value, locale=locale)
+                    vals[name] = float(dec)
+                    exp = dec.as_tuple().exponent
+                    devs[name] = float("nan") if isinstance(exp, str) else 10**exp
                 except ValueError:
                     sval = value.strip()
                     vals[name] = sval

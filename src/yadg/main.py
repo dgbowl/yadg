@@ -159,6 +159,24 @@ def run_with_arguments():
         help="Extract and return file metadata only in a JSON format.",
         default=False,
     )
+    extract.add_argument(
+        "--locale",
+        help="Set locale of the extracted file.",
+        default=None,
+        type=str,
+    )
+    extract.add_argument(
+        "--encoding",
+        help="Set encoding of the extracted file.",
+        default=None,
+        type=str,
+    )
+    extract.add_argument(
+        "--timezone",
+        help="Set timezone for the extracted file.",
+        default=None,
+        type=str,
+    )
     extract.set_defaults(func=subcommands.extract)
 
     # parse subparser args

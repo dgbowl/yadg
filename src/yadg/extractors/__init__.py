@@ -15,6 +15,7 @@ def extract(
     timezone: str = None,
     encoding: str = None,
     locale: str = None,
+    **kwargs: dict,
 ) -> DataTree:
     """
     Extract data and metadata from a path using the supplied filetype.

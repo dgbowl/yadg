@@ -2,7 +2,6 @@ import pytest
 import os
 import pickle
 import xarray as xr
-import numpy as np
 from yadg.extractors.eclab.mpt import extract
 from .utils import compare_datatrees
 

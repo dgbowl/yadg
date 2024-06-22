@@ -15,7 +15,7 @@ in a typical ``mpr`` file.
 
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float     # Unix timestamp, without date
       data_vars:
@@ -221,7 +221,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 
 import logging
-from xarray import Dataset
+from datatree import DataTree
 import numpy as np
 from yadg import dgutils
 from .common.techniques import (
@@ -563,7 +563,7 @@ def extract(
     fn: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     with open(fn, "rb") as mpr_file:
         assert mpr_file.read(len(file_magic)) == file_magic, "invalid file magic"
@@ -588,5 +588,5 @@ def extract(
         ds["uts"] = [start_time]
     if fulldate:
         del ds.attrs["fulldate"]
-    ds.attrs.update(metadata)
-    return ds
+    ds.attrs["original_metadata"] = metadata
+    return DataTree(ds)

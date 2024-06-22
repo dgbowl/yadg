@@ -13,7 +13,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float     # Unix timestamp
       data_vars:
@@ -63,7 +63,7 @@ I-range with a maximum of 0.76 uA.
 import json
 import logging
 import xarray as xr
-from xarray import Dataset
+from datatree import DataTree
 
 from yadg import dgutils
 
@@ -81,7 +81,7 @@ I_ranges = {
 }
 
 
-def biologic_tomato_json(fn: str, jsdata: dict) -> Dataset:
+def biologic_tomato_json(fn: str, jsdata: dict) -> DataTree:
     technique = jsdata["technique"]
     previous = jsdata.get("previous", None)
     current = jsdata["current"]
@@ -169,10 +169,10 @@ def biologic_tomato_json(fn: str, jsdata: dict) -> Dataset:
     ds = xr.Dataset(data_vars, coords=dict(uts=uts))
     if not fulldate:
         ds.attrs["fulldate"] = False
-    return ds
+    return DataTree(ds)
 
 
-def dummy_tomato_json(fn: str, jsdata: dict) -> Dataset:
+def dummy_tomato_json(fn: str, jsdata: dict) -> DataTree:
     data_vals = {}
     meta_vals = {}
     for vi, vals in enumerate(jsdata["data"]):
@@ -182,14 +182,14 @@ def dummy_tomato_json(fn: str, jsdata: dict) -> Dataset:
             if k not in {"time", "address", "channel"}:
                 devs[k] = 0.0
         dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
-    return dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False)
+    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False))
 
 
 def extract(
     *,
     fn: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     with open(fn, "r") as inf:
         jsdata = json.load(inf)
 

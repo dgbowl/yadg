@@ -132,7 +132,7 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
     ds = xr.Dataset(
         data_vars=data_vars,
         coords={"species": (["species"], species), "uts": (["uts"], [uts])},
-        attrs=metadata,
+        attrs=dict(original_metadata=metadata),
     )
     return ds
 
@@ -184,7 +184,7 @@ def chromtrace(jsdata: dict, uts: float) -> DataTree:
         vals[detname] = fvals
 
     dt = DataTree.from_dict(vals)
-    dt.attrs = metadata
+    dt.attrs = dict(original_metadata=metadata)
     return dt
 
 

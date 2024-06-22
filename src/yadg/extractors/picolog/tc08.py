@@ -12,7 +12,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float           # Unix timestamp, optional
       data_vars:
@@ -58,7 +58,7 @@ import tarfile
 import gzip
 import tempfile
 import xarray as xr
-from xarray import Dataset
+from datatree import DataTree
 
 from yadg import dgutils
 
@@ -67,7 +67,7 @@ def extract(
     *,
     fn: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     with tarfile.open(fn, mode="r") as tf:
         with tempfile.TemporaryDirectory() as tempdir:
             tf.extractall(tempdir)
@@ -147,5 +147,5 @@ def extract(
             if var[:end] in ds.variables:
                 ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
 
-    ds.attrs = attrs
-    return ds
+    ds.attrs = dict(original_metadata=attrs)
+    return DataTree(ds)

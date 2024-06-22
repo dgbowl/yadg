@@ -1,21 +1,24 @@
+version: "5.1"
 metadata:
-    provenance:
-        type: manual
-    version: "4.1"
+    provenance: manual
+step_defaults:
+    timezone: Europe/Berlin
+    locale: en_GB
 steps:
-  - parser: qftrace
+  - extractor:
+        filetype: fhimcpt.vna
     input:
         folders:
             - f1
             - f2
         suffix: csv
-    parameters:
-        method: kajfez
-        cutoff: 0.4
-  - parser: chromtrace
+    externaldate:
+        using:
+            filename:
+                format: "%Y-%m-%d-%H-%M-%S"
+                len: 19
+  - extractor:
+        filetype: ezchrom.asc
     input:
         folders: ["."]
         suffix: "asc"
-    parameters:
-        filetype: "ezchrom.asc"
-        calfile: calib/fhi_gccal.json

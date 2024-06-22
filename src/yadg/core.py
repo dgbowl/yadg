@@ -1,14 +1,12 @@
-from importlib import metadata
+import json
 import logging
 import importlib
 from typing import Callable
 from datatree import DataTree
-from xarray import Dataset
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
 
-datagram_version = metadata.version("yadg")
 logger = logging.getLogger(__name__)
 
 
@@ -45,10 +43,9 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
     root = DataTree()
     root.attrs = {
-        "provenance": "yadg process",
-        "date": dgutils.now(asstr=True),
-        "input_schema": dataschema.model_dump_json(),
-        "datagram_version": datagram_version,
+        "yadg_provenance": "yadg process",
+        "yadg_process_date": dgutils.now(asstr=True),
+        "yadg_process_DataSchema": dataschema.model_dump_json(),
     }
     root.attrs.update(dgutils.get_yadg_metadata())
 
@@ -64,8 +61,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         if step.extractor.encoding is None:
             step.extractor.encoding = dataschema.step_defaults.encoding
 
-        sattrs = {"extractor_schema": step.extractor.model_dump_json(exclude_none=True)}
-
         if step.tag is None:
             step.tag = f"{si}"
 
@@ -77,13 +72,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             vals = {}
         for tf in todofiles:
             logger.info(f"Processing file '{tf}'.")
-            ret = handler(fn=tf, **vars(step.extractor))
-            if isinstance(ret, DataTree):
-                tasks = ret.to_dict()
-            elif isinstance(ret, Dataset):
-                tasks = {"/": ret}
-            else:
-                raise RuntimeError(type(ret))
+            tasks = handler(fn=tf, **vars(step.extractor)).to_dict()
             fvals = {}
             for name, dset in tasks.items():
                 if name == "/" and len(dset.variables) == 0:
@@ -98,6 +87,10 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
-        stepdt.attrs = sattrs
+        for k, v in stepdt.attrs.items():
+            if isinstance(v, (dict, list)):
+                stepdt.attrs[k] = json.dumps(v)
+        extractor_model_json = step.extractor.model_dump_json(exclude_none=True)
+        stepdt.attrs["yadg_extract_Extractor"] = extractor_model_json
         stepdt.parent = root
     return root

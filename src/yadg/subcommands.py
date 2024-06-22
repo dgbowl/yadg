@@ -5,7 +5,8 @@ import yaml
 import shutil
 import hashlib
 from pathlib import Path
-
+from datatree import DataTree
+from xarray import Dataset
 
 from dgbowl_schemas.yadg import to_dataschema
 from yadg import core, dgutils, extractors
@@ -43,6 +44,18 @@ def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
     return fn, m.hexdigest()
 
 
+def _obj_to_meta_dict(dt: DataTree) -> dict:
+    ret = {}
+    for k, v in dt.to_dict().items():
+        if isinstance(v, Dataset):
+            ret[k] = v.to_dict(data=False)
+        elif isinstance(v, DataTree):
+            ret[k] = _obj_to_meta_dict(v)
+        else:
+            raise RuntimeError(f"Object {k!r} is type {type(v)!r}.")
+    return ret
+
+
 def process(
     *,
     infile: str,
@@ -68,11 +81,8 @@ def process(
     schema = _load_file(infile)
 
     logger.info("Loading dataschema.")
-    ds = to_dataschema(**schema)
-    logger.info("Loaded dataschema version '%s'", ds.metadata.version)
-
-    while hasattr(ds, "update"):
-        ds = ds.update()
+    inobj = to_dataschema(**schema)
+    ds = dgutils.update_schema(inobj)
 
     logger.debug("Processing dataschema")
     datagram = core.process_schema(ds, strict_merge=not ignore_merge_errors)
@@ -224,7 +234,8 @@ def extract(
 
     ret = extractors.extract(filetype, path)
     if meta_only:
+        meta = _obj_to_meta_dict(ret)
         with outpath.open("w", encoding="UTF-8") as target:
-            json.dump(ret.to_dict(data=False), target)
+            json.dump(meta, target)
     else:
         ret.to_netcdf(outpath, engine="h5netcdf")

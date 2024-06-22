@@ -7,7 +7,9 @@ Testing
 ```````
 Tests are located in the ``tests`` folder of the repository, and are executed using ``pytest`` for every commit in every PR.
 
-If a new test requires additional data (input files, schemas, etc.), they can be placed in a folder using the name of the test module (that is, ``test_drycal.py`` has its test files in ``test_drycal`` folder), or in the ``common`` folder for files that may be reused multiple times.
+If a new test requires additional data (input files, schemas, etc.), they can be placed in a folder using the name of the test module (that is, ``test_yadg.py`` has its test files in ``test_yadg`` folder). Tests for new extractors should be added into separate test modules, using ``test_x_{extractor_name}.py`` nomenclature.
+
+A convenient testing function :func:`compare_datatrees` is available in the :mod:`tests.utils` module. This function is useful for comparing two :class:`~datatree.Datatree` objects including metadata.
 
 Formatting
 ``````````

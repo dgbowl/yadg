@@ -22,7 +22,7 @@ def test_empalc_xlsx(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, thislevel=True)
 
 
 def test_empalc_lock_stock_dataschema(datadir):

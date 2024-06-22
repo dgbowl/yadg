@@ -113,18 +113,26 @@ def test_yadg_preset_with_preset_folder_p3(datadir):
     assert os.path.exists("data_2.dg.nc")
 
 
-def test_yadg_process_with_yml(datadir):
+def test_yadg_process_with_metadata(datadir):
     os.chdir(datadir)
     command = ["yadg", "process", "test_schema.yml"]
     subprocess.run(command, check=True)
     assert os.path.exists("datagram.nc")
+    ret = open_datatree("datagram.nc", engine="h5netcdf")
+    ref = open_datatree("datagram.nc.ref", engine="h5netcdf")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
-def test_yadg_preset_with_yml(datadir):
+def test_yadg_preset_with_metadata(datadir):
     os.chdir(datadir)
     command = ["yadg", "preset", "-p", "data_2.preset.yaml", "data_2", "data_2.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("data_2.nc")
+    ret = open_datatree("data_2.nc", engine="h5netcdf")
+    ref = open_datatree("data_2.nc.ref", engine="h5netcdf")
+    print(f"{ret.attrs=}")
+    print(f"{ref.attrs=}")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
 @pytest.mark.parametrize(
@@ -167,16 +175,19 @@ def test_yadg_preset_roundtrip_uts(datadir):
     [
         ("eclab.mpr", "cp.mpr"),
         ("biologic-mpr", "cp.mpr"),
+        ("agilent.ch", "agilent.CH"),
+        ("fusion.json", "fusion.fusion-data"),
     ],
 )
-def test_yadg_extract(filetype, infile, datadir):
+def test_yadg_extract_with_metadata(filetype, infile, datadir):
     os.chdir(datadir)
     command = ["yadg", "extract", filetype, infile, "test.nc"]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")
-    ref = open_datatree(f"ref.{infile}.nc", engine="h5netcdf")
-    compare_datatrees(ret, ref, toplevel=False)
+    ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    # let's delete metadata we know will be wrong
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
 @pytest.mark.parametrize(
@@ -184,17 +195,22 @@ def test_yadg_extract(filetype, infile, datadir):
     [
         ("eclab.mpr", "cp.mpr", "-m"),
         ("biologic-mpr", "cp.mpr", "--meta-only"),
+        ("agilent.ch", "agilent.CH", "-m"),
+        ("fusion.json", "fusion.fusion-data", "--meta-only"),
     ],
 )
 def test_yadg_extract_meta_only(filetype, infile, flag, datadir):
     os.chdir(datadir)
     command = ["yadg", "extract", filetype, infile, flag]
     subprocess.run(command, check=True)
-    assert os.path.exists("cp.json")
-    with open("cp.json", "r") as inp:
+    outfile = infile.split(".")[0] + ".json"
+    assert os.path.exists(outfile)
+    with open(outfile, "r") as inp:
         ret = json.load(inp)
-    for key in {"attrs", "coords", "dims", "data_vars"}:
-        assert key in ret.keys()
+    print(f"{ret=}")
+    for node in ret.values():
+        for key in {"attrs", "coords", "dims", "data_vars"}:
+            assert key in node.keys()
 
 
 def test_yadg_preset_dataschema_compat(datadir):
@@ -208,7 +224,7 @@ def test_yadg_preset_dataschema_compat(datadir):
     _, ref = ncs[0]
     for name, ret in ncs[1:]:
         try:
-            compare_datatrees(ret, ref, toplevel=False, descend=False)
+            compare_datatrees(ret, ref)
         except AssertionError as e:
             e.args = (e.args[0] + f"\nFailed on file {name!r}.\n",)
             raise e

@@ -18,7 +18,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:                !!float               # Unix timestamp
         species:            !!str                 # Species name
@@ -46,7 +46,7 @@ The uncertainties are derived from the string representation of the floats.
 import logging
 import numpy as np
 import xarray as xr
-from xarray import Dataset
+from datatree import DataTree
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 from yadg import dgutils
@@ -75,7 +75,7 @@ def extract(
     encoding: str,
     timezone: str,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     with open(fn, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
@@ -155,7 +155,7 @@ def extract(
             "species": (["species"], species),
             "uts": (["uts"], [i["uts"] for i in data]),
         },
-        attrs=dict(method=method),
+        attrs=dict(original_metadata=dict(method=method)),
     )
 
-    return ds
+    return DataTree(ds)

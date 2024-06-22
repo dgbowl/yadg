@@ -15,7 +15,7 @@ The output schema is only defined for the ``tomato.json`` filetype.
 
 .. code-block:: yaml
 
-  xr.Dataset:
+  datatree.DataTree:
     coords:
       uts:              !!float      # The current timestamp
     data_vars:
@@ -47,4 +47,4 @@ def extract(
     data_vals = {k: [v] for k, v in kwargs.items()}
     data_vals["uts"] = [dgutils.now()]
     meta_vals = {}
-    return dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False)
+    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False))

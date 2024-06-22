@@ -27,7 +27,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    xarray.Dataset:
+    datatree.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
       data_vars:
@@ -45,7 +45,7 @@ No metadata is extracted.
 import logging
 from pydantic import BaseModel
 from babel.numbers import parse_decimal
-from xarray import Dataset
+from datatree import DataTree
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
 
@@ -125,7 +125,7 @@ def extract(
     timezone: str,
     parameters: BaseModel,
     **kwargs: dict,
-) -> Dataset:
+) -> DataTree:
     if hasattr(parameters, "strip"):
         strip = parameters.strip
     else:
@@ -175,4 +175,4 @@ def extract(
         )
         dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
 
-    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate)
+    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))

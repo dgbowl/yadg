@@ -1,10 +1,9 @@
 import importlib
 import logging
+import json
 from pathlib import Path
 from datatree import DataTree
-from xarray import Dataset
-from typing import Union
-from yadg import dgutils, core
+from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory
 
 
@@ -17,14 +16,15 @@ def extract(
     timezone: str = None,
     encoding: str = None,
     locale: str = None,
-) -> Union[Dataset, DataTree]:
+) -> DataTree:
     """
     The individual extractor functionality of yadg is called from here.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
-    data is either returned as a :class:`DataTree` or a :class:`Dataset`. In either case
-    the returned objects have a :func:`to_netcdf` as well as a :func:`to_dict` method,
-    which can be used to write the object into a file.
+    data is always returned as a :class:`DataTree`. The ``original_metadata`` entries in
+    the returned objects are flattened using json serialisation. The returned objects have
+    a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to write
+    the returned object into a file.
 
     Parameters
     ----------
@@ -34,6 +34,15 @@ def extract(
 
     path:
         A :class:`pathlib.Path` object pointing to the file to be extracted.
+
+    timezone:
+        A :class:`str` containing the TZ identifier, e.g. "Europe/Berlin".
+
+    encoding:
+        A :class:`str` containing the encoding, e.g. "utf-8".
+
+    locale:
+        A :class:`str` containing the locale name, e.g. "de_CH".
 
     """
     extractor = ExtractorFactory(
@@ -48,16 +57,33 @@ def extract(
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
+    # Func should always return a datatree.DataTree
     ret = func(fn=str(path), **vars(extractor))
-    ret.attrs = {
-        "provenance": "yadg extract",
-        "date": dgutils.now(asstr=True),
-        "datagram_version": core.datagram_version,
-        "yadg_extract_filename": str(path),
-        "yadg_extract_filetype": str(extractor),
-    }
+    jsonize_orig_meta(ret)
+
+    for k, v in ret.attrs.items():
+        if isinstance(v, (dict, list)):
+            ret.attrs[k] = json.dumps(v)
+
+    ret.attrs.update(
+        {
+            "yadg_provenance": "yadg extract",
+            "yadg_extract_date": dgutils.now(asstr=True),
+            "yadg_extract_filename": str(path),
+            "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
+        }
+    )
+    ret.attrs.update(dgutils.get_yadg_metadata())
 
     return ret
+
+
+def jsonize_orig_meta(obj: DataTree):
+    for k in obj:
+        if isinstance(obj[k], DataTree):
+            jsonize_orig_meta(obj[k])
+    if "original_metadata" in obj.attrs:
+        obj.attrs["original_metadata"] = json.dumps(obj.attrs["original_metadata"])
 
 
 __all__ = ["extract"]

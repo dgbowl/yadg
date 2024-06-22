@@ -20,26 +20,51 @@ def compare_datatrees(
     ret: DataTree,
     ref: DataTree,
     atol: float = 1e-6,
-    toplevel=True,
-    descend=True,
+    thislevel=False,
+    descend=False,
 ):
     for k in ret:
-        assert k in ref, f"Entry {k} not present in reference DataTree."
+        assert k in ref, f"Entry {k!r} not present in reference DataTree."
     for k in ref:
-        assert k in ret, f"Entry {k} not present in result DataTree."
+        assert k in ret, f"Entry {k!r} not present in result DataTree."
 
-    if toplevel and descend:
-        assert ret.attrs == ref.attrs
+    if thislevel:
+        check_attrs(ret.attrs, ref.attrs)
 
     for k in ret:
         if isinstance(ret[k], DataTree):
-            compare_datatrees(ret[k], ref[k], atol=atol, descend=descend)
+            compare_datatrees(
+                ret[k], ref[k], atol=atol, thislevel=descend, descend=descend
+            )
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
             try:
                 xr.testing.assert_allclose(ret[k], ref[k], atol=atol)
-                assert ret[k].attrs == ref[k].attrs
             except AssertionError as e:
                 e.args = (e.args[0] + f"Error happened on key: {k!r}\n",)
                 raise AssertionError(e.args)
+            # if thislevel:
+            #    check_attrs(ref.attrs, ret.attrs)
         else:
-            raise RuntimeError(f"Unknown entry '{k}' of type '{type(k)}'.")
+            raise RuntimeError(f"Unknown entry {k!r} of type {type(k)!r}.")
+
+
+def check_attrs(ret: dict, ref: dict):
+    for k in ret.keys():
+        if k in {
+            "yadg_process_date",
+            "yadg_process_DataSchema",
+            "yadg_extract_date",
+            "yadg_version",
+            "yadg_command",
+        }:
+            continue
+        elif k.startswith("yadg_") or k in {
+            "original_metadata",
+            "fulldate",
+        }:
+            pass
+        else:
+            raise AssertionError(
+                f"Metadata entry {k!r} is not allowed at this level of DataTree."
+            )
+        assert ret[k] == ref[k]

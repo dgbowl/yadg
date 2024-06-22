@@ -182,5 +182,5 @@ def extract(
         )
         vals[ti] = fvals
     dt = DataTree.from_dict(vals)
-    dt.attrs = metadata
+    dt.attrs = dict(original_metadata=metadata)
     return dt

@@ -1,6 +1,6 @@
 import pytest
 import os
-from distutils import dir_util
+import shutil
 from yadg.extractors.panalytical.xrdml import extract as extract_xrdml
 from yadg.extractors.panalytical.csv import extract as extract_csv
 import xarray as xr
@@ -12,7 +12,7 @@ def _datadir(tmpdir, request):
     test_dir, _ = os.path.splitext(filename)
     base_dir, _ = os.path.split(test_dir)
     for ddir in ["test_x_panalytical_xrdml", "test_x_panalytical_csv"]:
-        dir_util.copy_tree(os.path.join(base_dir, ddir), str(tmpdir))
+        shutil.copytree(os.path.join(base_dir, ddir), str(tmpdir), dirs_exist_ok=True)
     return tmpdir
 
 

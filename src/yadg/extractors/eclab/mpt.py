@@ -226,7 +226,8 @@ def process_data(
         values = line.split("\t")
         vals = dict()
         devs = dict()
-        for name, value in list(zip(columns, values)):
+        for ci, name in enumerate(columns):
+            value = values[ci]
             if units.get(name) is None:
                 ival = int(parse_decimal(value, locale=locale))
                 if name == "I Range":

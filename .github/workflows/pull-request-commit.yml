@@ -6,10 +6,10 @@ jobs:
     build:
         strategy:
             matrix:
-                pyver: ['3.9', '3.10', '3.11']
+                pyver: ['3.10', '3.11', '3.12']
                 os: ['ubuntu-latest']
                 include:
-                  - pyver: '3.9'
+                  - pyver: '3.10'
                     os: 'windows-latest'
         uses: ./.github/workflows/workflow-build.yml
         with:
@@ -19,10 +19,10 @@ jobs:
         needs: [build]
         strategy:
             matrix:
-                pyver: ['3.9', '3.10', '3.11']
+                pyver: ['3.10', '3.11', '3.12']
                 os: ['ubuntu-latest']
                 include:
-                  - pyver: '3.9'
+                  - pyver: '3.10'
                     os: 'windows-latest'
         uses: ./.github/workflows/workflow-test.yml
         with:
@@ -32,5 +32,5 @@ jobs:
         needs: [build]
         uses: ./.github/workflows/workflow-pages.yml
         with:
-            pyver: '3.9'
+            pyver: '3.10'
             os: ubuntu-latest

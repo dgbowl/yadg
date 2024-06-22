@@ -24,6 +24,7 @@ in :func:`get_resolution`.
 """
 
 import numpy as np
+from math import sqrt
 from typing import Union, Any
 import bisect
 import logging
@@ -871,7 +872,7 @@ def get_dev_VI(
 
 
 def get_dev_derived(
-    name: str, unit: str, val: float, rtol_I: float, rtol_V: float
+    name: str, unit: str, val: float, rtol_I: float, rtol_V: float, rtol_VI: float,
 ) -> float:
     """
     Function that returns the resolution of a derived quantity based on its unit,
@@ -894,7 +895,7 @@ def get_dev_derived(
         # [Ω] = [V]/[A];
         # [S] = [A]/[V];
         # [W] = [A]*[V];
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     elif unit in {"C"}:
         # [C] = [A]*[s];
         return val * rtol_I
@@ -903,16 +904,16 @@ def get_dev_derived(
         return val * rtol_I
     elif unit in {"W·h"}:
         # [W·h] = [A]*[V]*[h]
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     elif unit in {"µF", "nF"}:
         # [F] = [C]/[V] = [A]*[s]/[V]
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     elif unit in {"Ω·cm", "Ω·m"}:
         # [Ω·m] = [Ω]*[m] = [V]*[m]/[A]
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     elif unit in {"mS/cm", "S/cm", "mS/m", "S/m"}:
         # [S/m] = 1 / ([Ω]*[m]) = [A] / ([V]*[m])
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     elif unit in {"s"}:
         # Based on the EC-Lib documentation,
         # 50 us is a safe upper limit for timebase
@@ -920,13 +921,13 @@ def get_dev_derived(
     elif unit in {"%"}:
         return 0.1
     elif name in {"Re(M)", "Im(M)", "|M|"}:
-        return np.NaN
+        return float("nan")
     elif name in {"Tan(Delta)"}:
-        return np.NaN
+        return float("nan")
     elif name in {"Re(Permittivity)", "Im(Permittivity)", "|Permittivity|"}:
         # εr = ε/ε0
         # ε -> [F]/[m] = [A]*[s]/[V]
-        return val * np.sqrt(rtol_I**2 + rtol_V**2)
+        return val * rtol_VI
     else:
         raise RuntimeError(
             f"Could not get resolution of quantity {name!r} with unit {unit!r}."
@@ -949,11 +950,9 @@ def get_devs(
         unit = units.get(col)
         if val is None:
             continue
-        devs[col] = np.nanmax(
-            [
-                get_dev_VI(col, abs(val), unit, Erange, Irange),
-                devs.get(col, np.NaN),
-            ]
+        devs[col] = max(
+            get_dev_VI(col, abs(val), unit, Erange, Irange),
+            devs.get(col, float("nan")),
         )
         if val == 0.0:
             continue
@@ -962,16 +961,16 @@ def get_devs(
         elif col in {"I", "<I>"}:
             rtol_I = min(max(rtol_I, devs[col] / abs(val)), 1.0)
 
+    r_sqrtVI = sqrt(rtol_I**2 + rtol_V**2)
+
     for col, val in vals.items():
         if col in {"<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"}:
             continue
         unit = units.get(col)
         if isinstance(val, float):
-            devs[col] = np.nanmax(
-                [
-                    get_dev_derived(col, unit, abs(val), rtol_I, rtol_V),
-                    devs.get(col, np.NaN),
-                ]
+            devs[col] = max(
+                get_dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI),
+                devs.get(col, float("nan")),
             )
 
     return devs

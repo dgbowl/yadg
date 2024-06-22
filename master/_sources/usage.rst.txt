@@ -26,19 +26,17 @@ In this mode, **yadg** can be invoked by providing just the `FileType` and the p
 
 The ``infile`` will be then parsed using **yadg** into a :class:`~datatree.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting :class:`~datatree.DataTree` will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
 
-.. warning::
+By default, in `extractor` mode, **yadg** assumes the following defaults:
 
-    The `extractor` mode has been introduced in ``yadg-5.0`` and its API is not yet stable.
+    - `timezone` is set to the ``localtime`` of the `localhost`,
+    - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
+    - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
 
-.. warning::
+All of the above options might lead to improper parsing of the input files. Errors due to improper `encoding` are likely to lead to crashes; `locale` errors might be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); incorrect `timezone` information may lead to errors that are more subtle. You can specify the correct values for these three parameters, if known, on the command line using:
 
-    In `extractor` mode, **yadg** assumes the following defaults:
+.. code-block:: bash
 
-        - `timezone` is set to the ``localtime`` of the `localhost`,
-        - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
-        - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
-
-    All of the above options might lead to improper parsing of the input files. Errors due to improper `locale` might be obvious (e.g. data parsed using wrong decimal separators); incorrect `timezone` information may lead to errors that are more subtle.
+    yadg extract --locale=de_DE --encoding=utf-8 --timezone=Europe/Berlin filetype infile [outfile]
 
 
 Metadata-only extraction

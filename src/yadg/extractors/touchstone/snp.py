@@ -67,7 +67,7 @@ Currently, only the first three sections are parsed.
 import logging
 from datatree import DataTree
 from xarray import Dataset, DataArray
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+from babel.numbers import parse_decimal
 
 from yadg import dgutils
 
@@ -188,6 +188,7 @@ def extract(
     fn: str,
     encoding: str,
     timezone: str,
+    locale: str,
     **kwargs: dict,
 ) -> DataTree:
     with open(fn, encoding=encoding) as inf:
@@ -232,7 +233,10 @@ def extract(
 
             # For .s3p and above, we'd have to append multiple lines together here
             for k, v in zip(cols, parts):
-                val, dev = tuple_fromstr(v)
+                dec = parse_decimal(v, locale=locale)
+                exp = dec.as_tuple().exponent
+                val = float(dec)
+                dev = 10**exp
                 if k == "frequency":
                     data[k].append(val)
                     data[f"{k}_std_err"].append(dev)

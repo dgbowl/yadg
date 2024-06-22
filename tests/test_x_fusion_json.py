@@ -14,7 +14,7 @@ from .utils import compare_datatrees
         "AgPTFE28_100mA_NaS_01 - Aug 13 2021, 18;18.fusion-data",
     ],
 )
-def test_fusion_csv(infile, datadir):
+def test_fusion_json(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile, encoding="utf-8", timezone="Europe/Berlin")
     outfile = f"{infile}.pkl"
@@ -23,4 +23,4 @@ def test_fusion_csv(infile, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, thislevel=True)

@@ -261,7 +261,7 @@ def extract(
                     ),
                     "uts": (["uts"], [uts_timestamp]),
                 },
-                attrs=info,
+                attrs=dict(original_metadata=info),
             )
             if f"{ti}" not in traces:
                 traces[f"{ti}"] = ds
@@ -277,5 +277,5 @@ def extract(
                     )
 
     ret = DataTree.from_dict(traces)
-    ret.attrs = meta
+    ret.attrs = dict(original_metadata=meta)
     return ret

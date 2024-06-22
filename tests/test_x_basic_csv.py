@@ -100,7 +100,7 @@ def test_basic_csv(infile, params, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, thislevel=True)
 
 
 @pytest.mark.parametrize(
@@ -156,7 +156,7 @@ def test_basic_csv_locale(infile, params, locale, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, thislevel=True)
 
 
 @pytest.mark.parametrize(
@@ -189,4 +189,4 @@ def test_basic_csv_encoding(infile, params, encoding, datadir):
     print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    compare_datatrees(ret, ref)
+    compare_datatrees(ret, ref, thislevel=True)

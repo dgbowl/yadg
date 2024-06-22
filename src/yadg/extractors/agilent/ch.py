@@ -165,7 +165,7 @@ def extract(
             ),
             "uts": (["uts"], [uts]),
         },
-        attrs={"title": title},
+        attrs=dict(original_metadata={"title": title}),
     )
     dt = DataTree.from_dict({detector: ds})
     dt.attrs = {"original_metadata": orig_meta}

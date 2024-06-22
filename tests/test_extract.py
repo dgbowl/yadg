@@ -26,19 +26,4 @@ def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
     ret = extract(filetype=filetype, path=infile)
     # ret.to_netcdf(f"C:/Users/Kraus/Code/yadg/tests/test_extract/{outfile}", engine="h5netcdf")
     ref = datatree.open_datatree(outfile, engine="h5netcdf")
-
-    for k in ret.attrs.keys():
-        assert (
-            k.startswith("yadg_") or k == "original_metadata"
-        ), f"Metadata attribute {k!r} is not allowed at the top level DataTree!"
-
-    assert ret.attrs.keys() == ref.attrs.keys()
-    # let's delete metadata we know will be wrong
-    for k in {
-        "yadg_extract_date",
-        "yadg_version",
-        "yadg_command",
-    }:
-        del ret.attrs[k]
-        del ref.attrs[k]
-    compare_datatrees(ret, ref, toplevel=True, descend=True)
+    compare_datatrees(ret, ref, thislevel=True, descend=True)

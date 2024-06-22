@@ -49,6 +49,7 @@ def extract(
 
     # Func should always return a datatree.DataTree
     ret = func(fn=str(path), **vars(extractor))
+    jsonize_orig_meta(ret)
 
     for k, v in ret.attrs.items():
         if isinstance(v, (dict, list)):
@@ -65,6 +66,14 @@ def extract(
     ret.attrs.update(dgutils.get_yadg_metadata())
 
     return ret
+
+
+def jsonize_orig_meta(obj: DataTree):
+    for k in obj:
+        if isinstance(obj[k], DataTree):
+            jsonize_orig_meta(obj[k])
+    if "original_metadata" in obj.attrs:
+        obj.attrs["original_metadata"] = json.dumps(obj.attrs["original_metadata"])
 
 
 __all__ = ["extract"]

@@ -120,19 +120,7 @@ def test_yadg_process_with_metadata(datadir):
     assert os.path.exists("datagram.nc")
     ret = open_datatree("datagram.nc", engine="h5netcdf")
     ref = open_datatree("datagram.nc.ref", engine="h5netcdf")
-    print(f"{ret.attrs=}")
-    print(f"{ref.attrs=}")
-    assert ret.attrs.keys() == ref.attrs.keys()
-    # let's delete metadata we know will be wrong
-    for k in {
-        "yadg_process_date",
-        "yadg_process_DataSchema",
-        "yadg_version",
-        "yadg_command",
-    }:
-        del ret.attrs[k]
-        del ref.attrs[k]
-    compare_datatrees(ret, ref, toplevel=True, descend=True)
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
 def test_yadg_preset_with_metadata(datadir):
@@ -144,17 +132,7 @@ def test_yadg_preset_with_metadata(datadir):
     ref = open_datatree("data_2.nc.ref", engine="h5netcdf")
     print(f"{ret.attrs=}")
     print(f"{ref.attrs=}")
-    assert ret.attrs.keys() == ref.attrs.keys()
-    # let's delete metadata we know will be wrong
-    for k in {
-        "yadg_process_date",
-        "yadg_process_DataSchema",
-        "yadg_version",
-        "yadg_command",
-    }:
-        del ret.attrs[k]
-        del ref.attrs[k]
-    compare_datatrees(ret, ref, toplevel=True, descend=True)
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
 @pytest.mark.parametrize(
@@ -208,16 +186,8 @@ def test_yadg_extract_with_metadata(filetype, infile, datadir):
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")
     ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
-    assert ret.attrs.keys() == ref.attrs.keys()
     # let's delete metadata we know will be wrong
-    for k in {
-        "yadg_extract_date",
-        "yadg_version",
-        "yadg_command",
-    }:
-        del ret.attrs[k]
-        del ref.attrs[k]
-    compare_datatrees(ret, ref, toplevel=True, descend=True)
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
 
 
 @pytest.mark.parametrize(
@@ -254,7 +224,7 @@ def test_yadg_preset_dataschema_compat(datadir):
     _, ref = ncs[0]
     for name, ret in ncs[1:]:
         try:
-            compare_datatrees(ret, ref, toplevel=False, descend=False)
+            compare_datatrees(ret, ref)
         except AssertionError as e:
             e.args = (e.args[0] + f"\nFailed on file {name!r}.\n",)
             raise e

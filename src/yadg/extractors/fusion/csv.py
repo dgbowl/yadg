@@ -155,7 +155,7 @@ def extract(
             "species": (["species"], species),
             "uts": (["uts"], [i["uts"] for i in data]),
         },
-        attrs=dict(method=method),
+        attrs=dict(original_metadata=dict(method=method)),
     )
 
     return DataTree(ds)

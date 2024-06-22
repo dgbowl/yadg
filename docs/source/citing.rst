@@ -1,6 +1,6 @@
 Citing **yadg**
 ---------------
-**yadg** is currently being developed at the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin, Berlin, Germany. It has been previously developed at `Materials for Energy Conversion lab <https://www.empa.ch/web/s501>`_ at Empa, Dübendorf, Switzerland. If you find **yadg** useful, please cite our recent paper [Kraus2022b]_, or our previous work where **yadg** was first introduced [Kraus2022a]_. We extend no warranty, neither express nor implied.
+**yadg** is currently being developed at the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin, Berlin, Germany. It has been previously developed at `Materials for Energy Conversion lab <https://www.empa.ch/web/s501>`_ at Empa, Dübendorf, Switzerland. If you find **yadg** useful, please cite our recent paper [Kraus2022b]_, or our previous work where **yadg** was first introduced [Kraus2022a]_. Other works where **yadg** was used include [Kraus2024a]_. We extend no warranty, neither express nor implied.
 
 Papers related to yadg
 ``````````````````````

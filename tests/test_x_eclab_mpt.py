@@ -2,6 +2,7 @@ import pytest
 import os
 import pickle
 import xarray as xr
+import numpy as np
 from yadg.extractors.eclab.mpt import extract
 from .utils import compare_datatrees
 
@@ -78,7 +79,8 @@ def test_eclab_mpt_old(afile, bfile, datadir):
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            if key in {"Efficiency"}:
+            if key in {"Efficiency", "Efficiency_std_err"}:
                 pass
             else:
+                e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
                 raise e

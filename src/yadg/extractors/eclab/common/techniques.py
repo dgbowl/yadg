@@ -872,7 +872,12 @@ def get_dev_VI(
 
 
 def get_dev_derived(
-    name: str, unit: str, val: float, rtol_I: float, rtol_V: float, rtol_VI: float,
+    name: str,
+    unit: str,
+    val: float,
+    rtol_I: float,
+    rtol_V: float,
+    rtol_VI: float,
 ) -> float:
     """
     Function that returns the resolution of a derived quantity based on its unit,

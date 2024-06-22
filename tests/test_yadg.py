@@ -228,3 +228,19 @@ def test_yadg_preset_dataschema_compat(datadir):
         except AssertionError as e:
             e.args = (e.args[0] + f"\nFailed on file {name!r}.\n",)
             raise e
+
+
+@pytest.mark.parametrize(
+    "filetype, infile, locale",
+    [
+        ("eclab.mpt", "mb.issue_95.de.mpt", "de_DE"),
+    ],
+)
+def test_yadg_extract_locale(filetype, infile, locale, datadir):
+    os.chdir(datadir)
+    command = ["yadg", "extract", "--locale", locale, filetype, infile, "test.nc"]
+    subprocess.run(command, check=True)
+    assert os.path.exists("test.nc")
+    ret = open_datatree("test.nc", engine="h5netcdf")
+    ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)

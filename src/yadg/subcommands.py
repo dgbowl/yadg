@@ -232,7 +232,7 @@ def extract(
     else:
         outpath = Path(outfile)
 
-    ret = extractors.extract(filetype, path)
+    ret = extractors.extract(filetype, path, **kwargs)
     if meta_only:
         meta = _obj_to_meta_dict(ret)
         with outpath.open("w", encoding="UTF-8") as target:

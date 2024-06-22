@@ -87,6 +87,8 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
                 "parse data obtained using different techniques/protocols in a "
                 "single step. If you are certain this is what you want, try using "
                 "yadg with the '--ignore-merge-errors' option."
+                f"\n{vals[k].attrs=}"
+                f"\n{fvals[k].attrs=}"
             )
     return vals
 

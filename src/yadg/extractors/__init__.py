@@ -21,9 +21,10 @@ def extract(
     The individual extractor functionality of yadg is called from here.
 
     Extracts data from provided ``path``, assuming it is the specified ``filetype``. The
-    data is either returned as a :class:`DataTree` or a :class:`Dataset`. In either case
-    the returned objects have a :func:`to_netcdf` as well as a :func:`to_dict` method,
-    which can be used to write the object into a file.
+    data is always returned as a :class:`DataTree`. The ``original_metadata`` entries in
+    the returned objects are flattened using json serialisation. The returned objects have
+    a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to write
+    the returned object into a file.
 
     Parameters
     ----------
@@ -33,6 +34,15 @@ def extract(
 
     path:
         A :class:`pathlib.Path` object pointing to the file to be extracted.
+
+    timezone:
+        A :class:`str` containing the TZ identifier, e.g. "Europe/Berlin".
+
+    encoding:
+        A :class:`str` containing the encoding, e.g. "utf-8".
+
+    locale:
+        A :class:`str` containing the locale name, e.g. "de_CH".
 
     """
     extractor = ExtractorFactory(

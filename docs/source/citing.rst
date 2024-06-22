@@ -4,6 +4,7 @@ Citing **yadg**
 
 Papers related to yadg
 ``````````````````````
+.. [Kraus2024a] Kraus, P.; Bainglass, E.; Ramirez, F. F.; Svaluto-Ferro, E.; Ercole, L.; Kunz, B.; Huber, S. P.; Plainpan, N.; Marzari, N.; Battaglia, C.; Pizzi, G. *A bridge between trust and control: computational workflows meet automated battery cycling*, Journal of Materials Chemistry A **2024**, *12*, 10773, DOI: https://doi.org/10.1039/D3TA06889G
 
 .. [Kraus2022b] Kraus, P.; Vetsch, N.; Battaglia, C. *yadg: yet another datagram*, Journal of Open Source Software **2022**, *7*, 4166, DOI: https://doi.org/10.21105/joss.04166
 

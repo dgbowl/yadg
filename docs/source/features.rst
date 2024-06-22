@@ -35,9 +35,18 @@ Locale support
 Support for parsing numbers in localized files is implemented in **yadg** via the :mod:`babel` library, allowing the users to specify the locale of the file using standard locale strings, such as ``en_US`` or ``de_CH``. This avoids "hacks" such as replacing decimal separators (``,`` vs ``.``) and thousands separators when processing localizable files. By default, **yadg** attempts to infer the locale from the ``LC_NUMERIC`` environment variable; if this is not set in your environment, ``en_GB`` is used as a fallback.
 
 
-`Dataschema` validation
+Original metadata
+`````````````````
+By default, **yadg** attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the ``original_metadata`` entry within the ``.attrs`` on the :class:`~datatree.DataTree` nodes, which is serialised into json strings in the :func:`yadg.extractors.extract` function.
+
+.. warning::
+
+    The ``original_metadata`` functionality has been introduced in ``yadg-5.1`` and its implementation might change in future versions.
+
+
+`DataSchema` validation
 ```````````````````````
-Additionally, **yadg** provides `dataschema` validation functionality, by using the schema models from the :mod:`dgbowl_schemas.yadg.dataschema` package, implemented in |Pydantic|_. The schemas are developed in lockstep with **yadg**. This |Pydantic|-based validator class should be used to ensure that the incoming `dataschema` is valid.
+Additionally, **yadg** provides `DataSchema` validation functionality, by using the schema models from the :mod:`dgbowl_schemas.yadg.dataschema` package, implemented in |Pydantic|_. The schemas are developed in lockstep with **yadg**. This |Pydantic|-based validator class should be used to ensure that the incoming `dataschema` is valid.
 
 
 .. _pint: https://pint.readthedocs.io/en/stable/

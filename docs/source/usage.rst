@@ -11,8 +11,8 @@ We have prepared an interactive, Binder-compatible Jupyter notebook, showing the
 
 There are two main ways of using **yadg**:
 
-#. A limited `extractor` mode, useful to extract (meta)-data from single, separate files.
-#. A fully featured `parser` mode, requiring a `dataschema`, intended to process all files semantically related to a single "experiment".
+#. A limited `extractor` mode, useful to extract (meta)-data from individual files.
+#. A fully featured `parser` mode, intended to process all files semantically related to a single "experiment". This mode requires a `dataschema`.
 
 .. _extractor mode:
 
@@ -24,7 +24,7 @@ In this mode, **yadg** can be invoked by providing just the `FileType` and the p
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting |NetCDF|_ files will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create the file.
+The ``infile`` will be then parsed using **yadg** into a :class:`~datatree.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting :class:`~datatree.DataTree` will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
 
 .. warning::
 
@@ -51,21 +51,21 @@ To use **yadg** to extract and retrieve just the metadata contained in the input
 
 The metadata are returned as a ``.json`` file, and are generated using the :func:`~xarray.Dataset.to_dict` function of :class:`xarray.Dataset`. They contain a description of the data coordinates (``coords``), dimensions (``dims``), and variables (``data_vars``), and include their names, attributes, dtypes, and shapes.
 
-The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see |marda_extractors|_.
+The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see |datatractor|_.
 
 .. _parser mode:
 
 `Parser` mode
 -------------
-The main purpose of **yadg** is to process a bunch of raw data files according to a provided `dataschema` into a well-defined, annotated, FAIR-data file called `datagram`. As of ``yadg-5.0``, the `datagram` is a |NetCDF|_ file. To use **yadg** like this, it should be invoked as follows:
+The main purpose of **yadg** is to process a bunch of raw data files according to a provided `dataschema` into well-defined, annotated, FAIR-data |NetCDF|_ files. To use **yadg** like this, it should be invoked as follows:
 
 .. code-block:: bash
 
     yadg process infile [outfile]
 
-Where ``infile`` corresponds to the ``json`` or ``yaml`` file containing the `dataschema`, and the optional ``outfile`` is the filename to which the created `datagram` should be saved (it defaults to ``datagram.nc``).
+Where ``infile`` corresponds to the ``json`` or ``yaml`` file containing the `dataschema`, and the optional ``outfile`` is the filename to which the created :class:`~datatree.DataTree` should be saved (it defaults to ``datagram.nc``).
 
-In this fully-featured usage pattern via `dataschema`, **yadg** offloads the responsibility of data extraction and normalisation to its modules, called `parsers`. The currently implemented `parsers` are documented in the sidebar.
+In this fully-featured usage pattern via `dataschema`, the individual `extractors` can be further configured and combined. The currently implemented `extractors` are documented in the sidebar.
 
 `Dataschema` from presets
 `````````````````````````
@@ -81,17 +81,17 @@ Alternatively, if the `dataschema` should be processed immediately, the ``--proc
 
 .. code-block:: bash
 
-    yadg preset -p infile folder [outfile.json]
+    yadg preset -p infile folder [outfile.nc]
 
-This syntax will process the created `dataschema` immediately, and the `datagram` will be saved to ``outfile.json`` instead.
+This syntax will process the created `dataschema` immediately, and the :class:`~datatree.DataTree` will be saved to ``outfile.nc`` instead.
 
-Finally, the raw data files in the processed ``folder`` can be archived, checksumed, and referenced in the `datagram`, by using the following pattern:
+Finally, the raw data files in the processed ``folder`` can be archived, checksumed, and referenced in the :class:`~datatree.DataTree`, by using the following pattern:
 
 .. code-block:: bash
 
-    yadg preset -p -a infile folder [outfile.json]
+    yadg preset -p -a infile folder [outfile.nc]
 
-This will create a `datagram` in ``outfile.json`` as well as a ``outfile.zip`` archive from the whole contents of the specified ``folder``.
+This will create a |NetCDF|_ file in ``outfile.nc`` as well as a ``outfile.zip`` archive including the whole contents of the specified ``folder``.
 
 `Dataschema` version updater
 ````````````````````````````
@@ -106,8 +106,8 @@ This will update the `dataschema` specified in ``infile`` and save it to ``outfi
 
 .. _NetCDF: https://www.unidata.ucar.edu/software/netcdf/
 
-.. _marda_extractors: https://github.com/marda-alliance/metadata_extractors
+.. _datatractor: https://github.com/datatractor
 
 .. |NetCDF| replace:: ``NetCDF``
 
-.. |marda_extractors| replace:: MaRDA Metadata Extractors WG
+.. |datatractor| replace:: Datatractor

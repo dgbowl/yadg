@@ -44,6 +44,18 @@ def _zip_file(folder: str, outpath: str, method: str = "zip") -> str:
     return fn, m.hexdigest()
 
 
+def _obj_to_meta_dict(dt: DataTree) -> dict:
+    ret = {}
+    for k, v in dt.to_dict().items():
+        if isinstance(v, Dataset):
+            ret[k] = v.to_dict(data=False)
+        elif isinstance(v, DataTree):
+            ret[k] = _obj_to_meta_dict(v)
+        else:
+            raise RuntimeError(f"Object {k!r} is type {type(v)!r}.")
+    return ret
+
+
 def process(
     *,
     infile: str,
@@ -222,20 +234,8 @@ def extract(
 
     ret = extractors.extract(filetype, path)
     if meta_only:
-        meta = obj_to_meta_dict(ret)
+        meta = _obj_to_meta_dict(ret)
         with outpath.open("w", encoding="UTF-8") as target:
             json.dump(meta, target)
     else:
         ret.to_netcdf(outpath, engine="h5netcdf")
-
-
-def obj_to_meta_dict(dt: DataTree) -> dict:
-    ret = {}
-    for k, v in dt.to_dict().items():
-        if isinstance(v, Dataset):
-            ret[k] = v.to_dict(data=False)
-        elif isinstance(v, DataTree):
-            ret[k] = obj_to_meta_dict(v)
-        else:
-            raise RuntimeError(f"Object {k!r} is type {type(v)!r}.")
-    return ret

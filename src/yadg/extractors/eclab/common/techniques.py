@@ -839,9 +839,7 @@ def param_from_key(
     return key
 
 
-def get_dev_VI(
-    name: str, value: float, unit: str, Erange: float, Irange: float
-) -> float:
+def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> float:
     """
     Function that returns the resolution of a voltage or current based on its name,
     value, E-range and I-range.
@@ -871,7 +869,7 @@ def get_dev_VI(
         raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")
 
 
-def get_dev_derived(
+def dev_derived(
     name: str,
     unit: str,
     val: float,
@@ -956,7 +954,7 @@ def get_devs(
         if val is None:
             continue
         devs[col] = max(
-            get_dev_VI(col, abs(val), unit, Erange, Irange),
+            dev_VI(col, abs(val), unit, Erange, Irange),
             devs.get(col, float("nan")),
         )
         if val == 0.0:
@@ -973,9 +971,12 @@ def get_devs(
             continue
         unit = units.get(col)
         if isinstance(val, float):
-            devs[col] = max(
-                get_dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI),
-                devs.get(col, float("nan")),
-            )
+            if col in devs:
+                devs[col] = max(
+                    devs[col],
+                    dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI),
+                )
+            else:
+                devs[col] = dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI)
 
     return devs

@@ -41,7 +41,7 @@ def compare_datatrees(
                 xr.testing.assert_allclose(ret[k], ref[k], atol=atol)
             except AssertionError as e:
                 e.args = (e.args[0] + f"Error happened on key: {k!r}\n",)
-                raise AssertionError(e.args)
+                raise AssertionError(*e.args)
             # if thislevel:
             #    check_attrs(ref.attrs, ret.attrs)
         else:

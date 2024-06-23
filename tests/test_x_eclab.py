@@ -17,33 +17,34 @@ def _datadir(tmpdir, request):
 
 
 @pytest.mark.parametrize(
-    "afile, bfile",
+    "afile, bfile, locale",
     [
-        ("ca.mpr", "ca.mpt"),
-        ("ca.issue_134.mpr", "ca.issue_134.mpt"),
-        ("cp.mpr", "cp.mpt"),
-        ("cp.issue_61.mpr", "cp.issue_61.mpt"),
-        ("cv.mpr", "cv.mpt"),
-        ("cva.issue_135.mpr", "cva.issue_135.mpt"),
-        ("gcpl.mpr", "gcpl.mpt"),
-        ("geis.mpr", "geis.mpt"),
-        ("lsv.mpr", "lsv.mpt"),
-        ("mb.mpr", "mb.mpt"),
-        ("mb.issue_95.mpr", "mb.issue_95.mpt"),
-        ("ocv.mpr", "ocv.mpt"),
-        ("peis.mpr", "peis.mpt"),
-        ("wait.mpr", "wait.mpt"),
-        ("zir.mpr", "zir.mpt"),
-        ("vsp_ocv_wo.mpr", "vsp_ocv_wo.mpt"),
-        ("vsp_ocv_with.mpr", "vsp_ocv_with.mpt"),
-        ("vsp_peis_with.mpr", "vsp_peis_with.mpt"),
+        ("ca.mpr", "ca.mpt", "en_US"),
+        ("ca.issue_134.mpr", "ca.issue_134.mpt", "en_US"),
+        ("cp.mpr", "cp.mpt", "en_US"),
+        ("cp.issue_61.mpr", "cp.issue_61.mpt", "en_US"),
+        ("cv.mpr", "cv.mpt", "en_US"),
+        ("cv.issue_149.mpr", "cv.issue_149.mpt", "de_DE"),
+        ("cva.issue_135.mpr", "cva.issue_135.mpt", "en_US"),
+        ("gcpl.mpr", "gcpl.mpt", "en_US"),
+        ("geis.mpr", "geis.mpt", "en_US"),
+        ("lsv.mpr", "lsv.mpt", "en_US"),
+        ("mb.mpr", "mb.mpt", "en_US"),
+        ("mb.issue_95.mpr", "mb.issue_95.mpt", "en_US"),
+        ("ocv.mpr", "ocv.mpt", "en_US"),
+        ("peis.mpr", "peis.mpt", "en_US"),
+        ("wait.mpr", "wait.mpt", "en_US"),
+        ("zir.mpr", "zir.mpt", "en_US"),
+        ("vsp_ocv_wo.mpr", "vsp_ocv_wo.mpt", "en_US"),
+        ("vsp_ocv_with.mpr", "vsp_ocv_with.mpt", "en_US"),
+        ("vsp_peis_with.mpr", "vsp_peis_with.mpt", "en_US"),
     ],
 )
-def test_eclab_consistency(afile, bfile, _datadir):
+def test_eclab_consistency(afile, bfile, locale, _datadir):
     os.chdir(_datadir)
     aret = extract_mpr(fn=afile, timezone="Europe/Berlin")
     bret = extract_mpt(
-        fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale="en_US"
+        fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale=locale
     )
     for key in aret.variables:
         if key.endswith("std_err"):

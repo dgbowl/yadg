@@ -648,6 +648,7 @@ technique_params_dtypes = {
     0x1C: ("WAIT", _wait_params_dtypes),
     0x1D: ("PEIS", _peis_params_dtypes),
     0x1E: ("GEIS", _geis_params_dtype),
+    0x30: ("CV", _cv_params_dtypes),
     0x32: ("ZIR", _zir_params_dtypes),
     0x33: ("CVA", _cva_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
@@ -968,6 +969,8 @@ def get_devs(
 
     for col, val in vals.items():
         if col in {"<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"}:
+            continue
+        elif col.startswith("unknown_"):
             continue
         unit = units.get(col)
         if isinstance(val, float):

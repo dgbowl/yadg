@@ -13,6 +13,7 @@ from .utils import compare_datatrees
         "cp.mpr",
         "cp.issue_61.mpr",
         "cv.mpr",
+        "cv.issue_149.mpr",
         "cva.issue_135.mpr",
         "gcpl.mpr",
         "geis.mpr",
@@ -31,10 +32,10 @@ from .utils import compare_datatrees
 def test_eclab_mpr(infile, datadir):
     os.chdir(datadir)
     ret = extract(fn=infile, timezone="Europe/Berlin")
+    print(f"{ret=}")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    print(f"{ret=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)

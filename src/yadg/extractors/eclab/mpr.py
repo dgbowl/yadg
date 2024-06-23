@@ -230,7 +230,7 @@ from .common.techniques import (
     get_devs,
 )
 from .common.mpr_columns import (
-    module_header_dtype,
+    module_header_dtypes,
     settings_dtypes,
     flag_columns,
     data_columns,
@@ -265,7 +265,14 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     # changes depending on the technique present and apparently on some
     # other factor that is unclear to me.
     params_offset = None
-    for offset in (0x0572, 0x1845, 0x1846):
+    offsets = (
+        0x0572,
+        0x1845,
+        0x1846,
+        0x1847,
+    )
+    logger.debug("Looking for %d params.", len(dtype))
+    for offset in offsets:
         logger.debug("Trying to find the technique parameters at 0x%x.", offset)
         n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
         for dtype in params_dtypes:
@@ -345,10 +352,10 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
             units.append(unit)
         else:
             name = f"unknown_{len(names)}"
-            logger.warning("Unknown column ID '%d' was assigned into '%s'.", id, name)
+            logger.warning("Unknown column ID %d was assigned into '%s'.", id, name)
             names.append(name)
             dtypes.append("<f4")
-            units.append("")
+            units.append(None)
     return names, dtypes, units, flags
 
 
@@ -379,14 +386,21 @@ def process_data(
 
     """
     n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
+    print(f"{n_datapoints=}")
     n_columns = dgutils.read_value(data, 0x0004, "|u1")
-    column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
+    if version == 0:
+        column_ids = np.frombuffer(data, offset=0x005, dtype=">u2", count=n_columns)
+    elif version in {2, 3}:
+        column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
+    logging.debug(f"{n_columns=} {column_ids=}")
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
     # Depending on module version, datapoints start at 0x0195 or 0x0196.
-    if version == 2:
+    if version == 0:
+        offset = 1007
+    elif version == 2:
         offset = 0x0195
     elif version == 3:
         offset = 0x0196
@@ -400,7 +414,10 @@ def process_data(
     for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
-            if unit is None:
+            if name.startswith("unknown_"):
+                continue
+            elif unit is None:
+                # print(f"{name=} {value=}")
                 intv = int(value)
                 if name == "I Range":
                     vals[name] = param_from_key("I_range", intv)
@@ -435,9 +452,7 @@ def process_data(
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
-
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
-
     if warn_I_range:
         logger.warning("I Range not specified, defaulting to 1 A.")
 
@@ -523,10 +538,15 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     for module in modules:
-        header = dgutils.read_value(module, 0x0000, module_header_dtype)
+        for mhd in module_header_dtypes:
+            header = dgutils.read_value(module, 0x0000, mhd)
+            if len(module) == mhd.itemsize + header["length"]:
+                break
+        else:
+            raise RuntimeError("Unknown module header.")
         name = header["short_name"].strip()
-        logger.debug("Read '%s' module.", name)
-        module_data = module[module_header_dtype.itemsize :]
+        logger.debug("Read '%s' module with version '%d'.", name, header["version"])
+        module_data = module[mhd.itemsize :]
         if name == "VMP Set":
             settings, params = process_settings(module_data)
             Eranges = []

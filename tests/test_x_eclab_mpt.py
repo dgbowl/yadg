@@ -38,12 +38,12 @@ def test_eclab_mpt(infile, locale, datadir):
         encoding="windows-1252",
         locale=locale,
     )
+    print(f"{ret=}")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
-    print(f"{ret=}")
     compare_datatrees(ret, ref, thislevel=True)
 
 

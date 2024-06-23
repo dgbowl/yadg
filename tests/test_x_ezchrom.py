@@ -1,6 +1,6 @@
 import pytest
 import os
-from distutils import dir_util
+import shutil
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
 import xarray as xr
@@ -12,7 +12,7 @@ def ezchrom_datadir(tmpdir, request):
     test_dir, _ = os.path.splitext(filename)
     base_dir, _ = os.path.split(test_dir)
     for ddir in ["test_x_ezchrom_dat", "test_x_ezchrom_asc"]:
-        dir_util.copy_tree(os.path.join(base_dir, ddir), str(tmpdir))
+        shutil.copytree(os.path.join(base_dir, ddir), str(tmpdir), dirs_exist_ok=True)
     return tmpdir
 
 

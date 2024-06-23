@@ -1,7 +1,7 @@
 import pytest
 import os
 import xarray as xr
-from distutils import dir_util
+import shutil
 from yadg.extractors.eclab.mpr import extract as extract_mpr
 from yadg.extractors.eclab.mpt import extract as extract_mpt
 
@@ -12,7 +12,7 @@ def _datadir(tmpdir, request):
     test_dir, _ = os.path.splitext(filename)
     base_dir, _ = os.path.split(test_dir)
     for ddir in ["test_x_eclab_mpr", "test_x_eclab_mpt"]:
-        dir_util.copy_tree(os.path.join(base_dir, ddir), str(tmpdir))
+        shutil.copytree(os.path.join(base_dir, ddir), str(tmpdir), dirs_exist_ok=True)
     return tmpdir
 
 

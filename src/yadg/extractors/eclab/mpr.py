@@ -143,13 +143,13 @@ EC-Lab, etc. Here a quick overview (offsets from start of module data).
 
 .. code-block::
 
-    0x0000 n_datapoints  # Number of datapoints.
-    0x0004 n_columns     # Number of values per datapoint.
-    0x0005 column_ids    # n_columns unique column IDs.
+    0x0000 n_datapoints   # Number of datapoints.
+    0x0004 n_columns      # Number of values per datapoint.
+    0x0005 column_ids     # n_columns unique column IDs.
     ...
-    # Depending on module version, datapoints start 0x0195 or 0x0196.
+    # Depending on module version, datapoints start 0x195, 0x196, or 0x3ef
     # Length of each datapoint depends on number and IDs of columns.
-    0x0195 datapoints    # n_datapoints points of data.
+    0x0195 datapoints     # n_datapoints points of data.
 
 *Log Module*
 
@@ -397,13 +397,13 @@ def process_data(
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
-    # Depending on module version, datapoints start at 0x0195 or 0x0196.
+    # Depending on module version, datapoints start at different offsets.
     if version == 0:
-        offset = 1007
+        offset = 0x3ef
     elif version == 2:
-        offset = 0x0195
+        offset = 0x195
     elif version == 3:
-        offset = 0x0196
+        offset = 0x196
     else:
         raise NotImplementedError(f"Unknown data module version: {version}")
     allvals = dict()

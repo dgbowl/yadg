@@ -21,8 +21,10 @@ def _datadir(tmpdir, request):
     [
         ("ca.mpr", "ca.mpt", "en_US"),
         ("ca.issue_134.mpr", "ca.issue_134.mpt", "en_US"),
+        ("ca.issue_149.mpr", "ca.issue_149.mpt", "de_DE"),
         ("cp.mpr", "cp.mpt", "en_US"),
         ("cp.issue_61.mpr", "cp.issue_61.mpt", "en_US"),
+        ("cp.issue_149.mpr", "cp.issue_149.mpt", "de_DE"),
         ("cv.mpr", "cv.mpt", "en_US"),
         ("cv.issue_149.mpr", "cv.issue_149.mpt", "de_DE"),
         ("cva.issue_135.mpr", "cva.issue_135.mpt", "en_US"),
@@ -32,7 +34,9 @@ def _datadir(tmpdir, request):
         ("lsv.mpr", "lsv.mpt", "en_US"),
         ("mb.mpr", "mb.mpt", "en_US"),
         ("mb.issue_95.mpr", "mb.issue_95.mpt", "en_US"),
+        ("mb.issue_149.mpr", "mb.issue_149.mpt", "de_DE"),
         ("ocv.mpr", "ocv.mpt", "en_US"),
+        ("ocv.issue_149.mpr", "ocv.issue_149.mpt", "de_DE"),
         ("peis.mpr", "peis.mpt", "en_US"),
         ("wait.mpr", "wait.mpt", "en_US"),
         ("zir.mpr", "zir.mpt", "en_US"),
@@ -52,6 +56,45 @@ def test_eclab_consistency(afile, bfile, locale, _datadir):
     for key in aret.variables:
         if key.endswith("std_err"):
             continue
+        try:
+            xr.testing.assert_allclose(aret[key], bret[key])
+        except AssertionError as e:
+            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            raise e
+
+
+@pytest.mark.parametrize(
+    "afile, bfile, locale",
+    [
+        ("geis.issue_149.mpr", "geis.issue_149.mpt", "de_DE"),
+        ("peis.issue_149.mpr", "peis.issue_149.mpt", "de_DE"),
+    ],
+)
+def test_eclab_consistency_partial(afile, bfile, locale, _datadir):
+    os.chdir(_datadir)
+    aret = extract_mpr(fn=afile, timezone="Europe/Berlin")
+    bret = extract_mpt(
+        fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale=locale
+    )
+    print(f"{aret.data_vars=}")
+    print(f"{bret.data_vars=}")
+    for key in {
+        "freq",
+        "Re(Z)",
+        "-Im(Z)",
+        "|Z|",
+        "Phase(Z)",
+        "time",
+        "<Ewe>",
+        "<I>",
+        "Cs",
+        "Cp",
+        "cycle number",
+        "|Ewe|",
+        "|I|",
+        "Ns",
+        "I Range",
+    }:
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:

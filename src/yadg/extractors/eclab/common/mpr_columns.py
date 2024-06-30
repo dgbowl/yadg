@@ -115,6 +115,7 @@ data_columns = {
     179: ("<f4", "dQ", "C"),
     182: ("<f8", "step time", "s"),
     211: ("<f8", "Q charge or discharge", "C"),
+    217: ("<f4", "THD Ewe", "%"),
     241: ("<f4", "|E1|", "V"),
     242: ("<f4", "|E2|", "V"),
     271: ("<f4", "Phase(Z1)", "deg"),

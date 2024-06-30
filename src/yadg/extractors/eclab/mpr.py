@@ -241,7 +241,7 @@ from .common.mpr_columns import (
 logger = logging.getLogger(__name__)
 
 
-def process_settings(data: bytes) -> tuple[dict, list]:
+def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     """Processes the contents of settings modules.
 
     Parameters
@@ -273,10 +273,10 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     )
     logger.debug("Looking for %d params.", len(dtype))
     for offset in offsets:
-        logger.debug("Trying to find the technique parameters at 0x%x.", offset)
         n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
-        for dtype in params_dtypes:
-            if len(dtype) == n_params:
+        logger.debug("Trying to find %d technique params at 0x%x.", n_params, offset)
+        for dtype, versions in params_dtypes:
+            if minver in versions and len(dtype) == n_params:
                 params_dtype, params_offset = dtype, offset
                 logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
                 break
@@ -294,15 +294,6 @@ def process_settings(data: bytes) -> tuple[dict, list]:
         count=ns,
     )
     pardicts = [dict(zip(value.dtype.names, value.item())) for value in rawparams]
-    # print(f"{[i['set_I/C'] for i in pardicts]=}")
-    # print(f"{[i['Is'] for i in pardicts]=}")
-    # print(f"{[i['Is_unit'] for i in pardicts]=}")
-    # print(f"{[i['Is_vs'] for i in pardicts]=}")
-    # print(f"{[i['N'] for i in pardicts]=}")
-    # print(f"{[i['I_sign'] for i in pardicts]=}")
-    # print(f"{[i['t1'] for i in pardicts]=}")
-    # print(f"{[i['I_range'] for i in pardicts]=}")
-    # print(f"{[i['bandwidth'] for i in pardicts]=}")
     params = []
     for pardict in pardicts:
         for k, v in pardict.items():
@@ -313,7 +304,6 @@ def process_settings(data: bytes) -> tuple[dict, list]:
             # Handle NaNs and +/-Inf in params here
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
-        print(f"{pardict=}")
         params.append(pardict)
     return settings, params
 
@@ -396,13 +386,12 @@ def process_data(
 
     """
     n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
-    print(f"{n_datapoints=}")
     n_columns = dgutils.read_value(data, 0x0004, "|u1")
     if version == 0:
         column_ids = np.frombuffer(data, offset=0x005, dtype=">u2", count=n_columns)
     elif version in {2, 3}:
         column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
-    logging.debug(f"{n_columns=} {column_ids=}")
+    logger.debug("Found %d columns with IDs: %s", n_columns, column_ids)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
@@ -427,14 +416,12 @@ def process_data(
             if name.startswith("unknown_"):
                 continue
             elif unit is None:
-                # print(f"{name=} {value=}")
                 intv = int(value)
                 if name == "I Range":
                     vals[name] = param_from_key("I_range", intv)
                 else:
                     vals[name] = intv
         if flaglist:
-            # logger.debug("Extracting flag values.")
             flag_bits = vals.pop("flags")
             for name, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
@@ -554,10 +541,22 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         else:
             raise RuntimeError("Unknown module header.")
         name = header["short_name"].strip()
-        logger.debug("Read '%s' module with version '%d'.", name, header["version"])
+        # We need to determine file version from the header to be able to select correct
+        # dtypes. Unfortunately, the header["version"] of the "VMP Set" module is always
+        # set to 0. However, the newer versions of this module include the "max_length"
+        # entry as well as an "unknown" key set to 10.
+        if "max_length" in header and header.get("unknown", None) is not None:
+            minver = "11.50"
+        # The oldest version we have in test files is 10.40.
+        else:
+            minver = "10.40"
+
+        logger.debug(
+            "Read '%s' with version '%d' ('%s')", name, header["version"], minver
+        )
         module_data = module[mhd.itemsize :]
         if name == "VMP Set":
-            settings, params = process_settings(module_data)
+            settings, params = process_settings(module_data, minver)
             Eranges = []
             Iranges = []
             ctrls = []

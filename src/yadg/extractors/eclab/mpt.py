@@ -244,7 +244,7 @@ def process_data(
                     sval = value.strip()
                     vals[name] = sval
 
-        Ns  = vals.get("Ns", 0)
+        Ns = vals.get("Ns", 0)
         Erange = Eranges[Ns] if isinstance(Eranges, list) else Eranges
         Irstr = Iranges[Ns] if isinstance(Iranges, list) else Iranges
         if "I Range" in vals:

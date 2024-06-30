@@ -234,7 +234,7 @@ _gcpl_params_dtypes = [
             ("goto_Ns", "u4"),
             ("nc_cycles", "u4"),
         ]
-    )
+    ),
 ]
 
 

@@ -7,36 +7,45 @@ from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
-    "infile",
+    "infile, locale",
     [
-        "ca.mpt",
-        "ca.issue_134.mpt",
-        "cp.mpt",
-        "cp.issue_61.mpt",
-        "cv.mpt",
-        "cva.issue_135.mpt",
-        "gcpl.mpt",
-        "geis.mpt",
-        "lsv.mpt",
-        "mb.mpt",
-        "mb.issue_95.mpt",
-        "ocv.mpt",
-        "peis.mpt",
-        "wait.mpt",
-        "zir.mpt",
-        "vsp_ocv_with.mpt",
-        "vsp_ocv_wo.mpt",
-        "vsp_peis_with.mpt",
+        ("ca.mpt", "en_GB"),
+        ("ca.issue_134.mpt", "en_GB"),
+        ("ca.issue_149.mpt", "de_DE"),
+        ("cp.mpt", "en_GB"),
+        ("cp.issue_61.mpt", "en_GB"),
+        ("cp.issue_149.mpt", "de_DE"),
+        ("cv.mpt", "en_GB"),
+        ("cv.issue_149.mpt", "de_DE"),
+        ("cva.issue_135.mpt", "en_GB"),
+        ("gcpl.mpt", "en_GB"),
+        ("gcpl.issue_149.mpt", "de_DE"),
+        ("geis.mpt", "en_GB"),
+        ("geis.issue_149.mpt", "de_DE"),
+        ("lsv.mpt", "en_GB"),
+        ("mb.mpt", "en_GB"),
+        ("mb.issue_95.mpt", "en_GB"),
+        ("mb.issue_149.mpt", "de_DE"),
+        ("ocv.mpt", "en_GB"),
+        ("ocv.issue_149.mpt", "de_DE"),
+        ("peis.mpt", "en_GB"),
+        ("peis.issue_149.mpt", "de_DE"),
+        ("wait.mpt", "en_GB"),
+        ("zir.mpt", "en_GB"),
+        ("vsp_ocv_with.mpt", "en_GB"),
+        ("vsp_ocv_wo.mpt", "en_GB"),
+        ("vsp_peis_with.mpt", "en_GB"),
     ],
 )
-def test_eclab_mpt(infile, datadir):
+def test_eclab_mpt(infile, locale, datadir):
     os.chdir(datadir)
     ret = extract(
         fn=infile,
         timezone="Europe/Berlin",
         encoding="windows-1252",
-        locale="en_US",
+        locale=locale,
     )
+    print(f"{ret=}")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

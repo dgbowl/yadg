@@ -94,6 +94,8 @@ def jsonize_orig_meta(obj: DataTree):
             jsonize_orig_meta(obj[k])
     if "original_metadata" in obj.attrs:
         obj.attrs["original_metadata"] = json.dumps(obj.attrs["original_metadata"])
+    if "fulldate" in obj.attrs:
+        obj.attrs["fulldate"] = int(obj.attrs["fulldate"])
 
 
 __all__ = ["extract"]

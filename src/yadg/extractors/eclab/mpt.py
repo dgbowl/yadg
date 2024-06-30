@@ -244,30 +244,27 @@ def process_data(
                     sval = value.strip()
                     vals[name] = sval
 
-        if "Ns" in vals:
-            Erange = Eranges[vals["Ns"]]
-            Irstr = Iranges[vals["Ns"]]
-        else:
-            Erange = Eranges[0]
-            Irstr = Iranges[0]
+        Ns = vals.get("Ns", 0)
+        Erange = Eranges[Ns] if isinstance(Eranges, list) else Eranges
+        Irstr = Iranges[Ns] if isinstance(Iranges, list) else Iranges
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
+
+        # I Range can be None if it's set to "Auto", "PAC" or other such string.
         if Irange is None:
             warn_I_range = True
             Irange = 1.0
 
         if "control_VI" in vals:
-            icv = controls[vals["Ns"]]
+            icv = controls[Ns] if isinstance(controls, list) else controls
             name = f"control_{icv}"
             vals[name] = vals.pop("control_VI")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange, devs=devs)
-
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
-
     if warn_I_range:
-        logger.warning("I Range not specified, defaulting to 1 A.")
+        logger.warning("I Range could not be understood, defaulting to 1 A.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
@@ -295,9 +292,11 @@ def extract(
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
-        Eranges = [10.0]
-        Iranges = ["Auto"]
-        controls = [None]
+        Eranges = 10.0
+        logger.warning("E Range not specified due to missing header, setting to 10 V.")
+        Iranges = "1 A"
+        logger.warning("I Range not specified due to missing header, setting to 1 A.")
+        controls = None
     else:
         header = process_header(header_lines, timezone, locale)
         start_time = header.get("uts")
@@ -307,7 +306,7 @@ def extract(
         Er_max = params.get("E range max (V)", [10.0])
         Er_min = params.get("E range min (V)", [0.0])
         Eranges = [_max - _min for _max, _min in zip(Er_max, Er_min)]
-        Iranges = params.get("I Range", ["Auto"])
+        Iranges = params.get("I Range", ["1 A"])
         controls = params.get("Set I/C", params.get("Apply I/C", [None] * len(Iranges)))
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.

@@ -143,13 +143,13 @@ EC-Lab, etc. Here a quick overview (offsets from start of module data).
 
 .. code-block::
 
-    0x0000 n_datapoints  # Number of datapoints.
-    0x0004 n_columns     # Number of values per datapoint.
-    0x0005 column_ids    # n_columns unique column IDs.
+    0x0000 n_datapoints   # Number of datapoints.
+    0x0004 n_columns      # Number of values per datapoint.
+    0x0005 column_ids     # n_columns unique column IDs.
     ...
-    # Depending on module version, datapoints start 0x0195 or 0x0196.
+    # Depending on module version, datapoints start 0x195, 0x196, or 0x3ef
     # Length of each datapoint depends on number and IDs of columns.
-    0x0195 datapoints    # n_datapoints points of data.
+    0x0195 datapoints     # n_datapoints points of data.
 
 *Log Module*
 
@@ -230,7 +230,7 @@ from .common.techniques import (
     get_devs,
 )
 from .common.mpr_columns import (
-    module_header_dtype,
+    module_header_dtypes,
     settings_dtypes,
     flag_columns,
     data_columns,
@@ -241,7 +241,7 @@ from .common.mpr_columns import (
 logger = logging.getLogger(__name__)
 
 
-def process_settings(data: bytes) -> tuple[dict, list]:
+def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     """Processes the contents of settings modules.
 
     Parameters
@@ -265,11 +265,18 @@ def process_settings(data: bytes) -> tuple[dict, list]:
     # changes depending on the technique present and apparently on some
     # other factor that is unclear to me.
     params_offset = None
-    for offset in (0x0572, 0x1845, 0x1846):
-        logger.debug("Trying to find the technique parameters at 0x%x.", offset)
+    offsets = (
+        0x0572,
+        0x1845,
+        0x1846,
+        0x1847,
+    )
+    logger.debug("Looking for %d params.", len(dtype))
+    for offset in offsets:
         n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
-        for dtype in params_dtypes:
-            if len(dtype) == n_params:
+        logger.debug("Trying to find %d technique params at 0x%x.", n_params, offset)
+        for dtype, versions in params_dtypes:
+            if minver in versions and len(dtype) == n_params:
                 params_dtype, params_offset = dtype, offset
                 logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
                 break
@@ -345,10 +352,10 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
             units.append(unit)
         else:
             name = f"unknown_{len(names)}"
-            logger.warning("Unknown column ID '%d' was assigned into '%s'.", id, name)
+            logger.warning("Unknown column ID %d was assigned into '%s'.", id, name)
             names.append(name)
             dtypes.append("<f4")
-            units.append("")
+            units.append(None)
     return names, dtypes, units, flags
 
 
@@ -380,16 +387,22 @@ def process_data(
     """
     n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
     n_columns = dgutils.read_value(data, 0x0004, "|u1")
-    column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
+    if version == 0:
+        column_ids = np.frombuffer(data, offset=0x005, dtype=">u2", count=n_columns)
+    elif version in {2, 3}:
+        column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
+    logger.debug("Found %d columns with IDs: %s", n_columns, column_ids)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
-    # Depending on module version, datapoints start at 0x0195 or 0x0196.
-    if version == 2:
-        offset = 0x0195
+    # Depending on module version, datapoints start at different offsets.
+    if version == 0:
+        offset = 0x3EF
+    elif version == 2:
+        offset = 0x195
     elif version == 3:
-        offset = 0x0196
+        offset = 0x196
     else:
         raise NotImplementedError(f"Unknown data module version: {version}")
     allvals = dict()
@@ -400,14 +413,15 @@ def process_data(
     for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
-            if unit is None:
+            if name.startswith("unknown_"):
+                continue
+            elif unit is None:
                 intv = int(value)
                 if name == "I Range":
                     vals[name] = param_from_key("I_range", intv)
                 else:
                     vals[name] = intv
         if flaglist:
-            # logger.debug("Extracting flag values.")
             flag_bits = vals.pop("flags")
             for name, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
@@ -416,30 +430,27 @@ def process_data(
                 # Rightshift flag by that amount.
                 vals[name] = (flag_bits & bitmask) >> shift
 
-        if "Ns" in vals:
-            Erange = Eranges[vals["Ns"]]
-            Irstr = Iranges[vals["Ns"]]
-        else:
-            Erange = Eranges[0]
-            Irstr = Iranges[0]
+        Ns = vals.get("Ns", 0)
+        Erange = Eranges[Ns]
+        Irstr = Iranges[Ns]
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
+
+        # I Range can be None if it's set to "Auto", "PAC" or other such string.
         if Irange is None:
             warn_I_range = True
             Irange = 1.0
 
         if "control_V_I" in vals:
-            icv = controls[vals["Ns"]]
+            icv = controls[Ns]
             name = f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
-
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
-
     if warn_I_range:
-        logger.warning("I Range not specified, defaulting to 1 A.")
+        logger.warning("I Range could not be understood, defaulting to 1 A.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
@@ -523,12 +534,29 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     for module in modules:
-        header = dgutils.read_value(module, 0x0000, module_header_dtype)
+        for mhd in module_header_dtypes:
+            header = dgutils.read_value(module, 0x0000, mhd)
+            if len(module) == mhd.itemsize + header["length"]:
+                break
+        else:
+            raise RuntimeError("Unknown module header.")
         name = header["short_name"].strip()
-        logger.debug("Read '%s' module.", name)
-        module_data = module[module_header_dtype.itemsize :]
+        # We need to determine file version from the header to be able to select correct
+        # dtypes. Unfortunately, the header["version"] of the "VMP Set" module is always
+        # set to 0. However, the newer versions of this module include the "max_length"
+        # entry as well as an "unknown" key set to 10.
+        if "max_length" in header and header.get("unknown", None) is not None:
+            minver = "11.50"
+        # The oldest version we have in test files is 10.40.
+        else:
+            minver = "10.40"
+
+        logger.debug(
+            "Read '%s' with version '%d' ('%s')", name, header["version"], minver
+        )
+        module_data = module[mhd.itemsize :]
         if name == "VMP Set":
-            settings, params = process_settings(module_data)
+            settings, params = process_settings(module_data, minver)
             Eranges = []
             Iranges = []
             ctrls = []

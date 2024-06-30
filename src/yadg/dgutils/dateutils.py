@@ -437,8 +437,10 @@ def complete_uts(
         ds = ds.expand_dims("uts")
     if len(ds.uts.coords) == 0:
         ds["uts"] = np.zeros(ds.uts.size)
-        ds.attrs["fulldate"] = False
-    if not ds.attrs.get("fulldate", True) or externaldate is not None:
+        ds.attrs["fulldate"] = 0
+
+    # fulldate should be an int, as it's converted int yadg.extract.extract_from_path()
+    if ds.attrs.get("fulldate", 1) == 0 or externaldate is not None:
         ts, fulldate = complete_timestamps(
             timesteps=ds.uts.values,
             fn=filename,
@@ -448,7 +450,4 @@ def complete_uts(
         ds["uts"] = ts
         if fulldate:
             ds.attrs.pop("fulldate", None)
-        else:
-            # cannot store booleans in NetCDF files
-            ds.attrs["fulldate"] = int(fulldate)
     return ds

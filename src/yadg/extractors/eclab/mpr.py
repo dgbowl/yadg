@@ -294,6 +294,15 @@ def process_settings(data: bytes) -> tuple[dict, list]:
         count=ns,
     )
     pardicts = [dict(zip(value.dtype.names, value.item())) for value in rawparams]
+   # print(f"{[i['set_I/C'] for i in pardicts]=}")
+   # print(f"{[i['Is'] for i in pardicts]=}")
+   # print(f"{[i['Is_unit'] for i in pardicts]=}")
+   # print(f"{[i['Is_vs'] for i in pardicts]=}")
+   # print(f"{[i['N'] for i in pardicts]=}")
+   # print(f"{[i['I_sign'] for i in pardicts]=}")
+   # print(f"{[i['t1'] for i in pardicts]=}")
+   # print(f"{[i['I_range'] for i in pardicts]=}")
+   # print(f"{[i['bandwidth'] for i in pardicts]=}")
     params = []
     for pardict in pardicts:
         for k, v in pardict.items():
@@ -304,6 +313,7 @@ def process_settings(data: bytes) -> tuple[dict, list]:
             # Handle NaNs and +/-Inf in params here
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
+        print(f"{pardict=}")
         params.append(pardict)
     return settings, params
 

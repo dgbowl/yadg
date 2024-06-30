@@ -27,6 +27,7 @@ def _datadir(tmpdir, request):
         ("cv.issue_149.mpr", "cv.issue_149.mpt", "de_DE"),
         ("cva.issue_135.mpr", "cva.issue_135.mpt", "en_US"),
         ("gcpl.mpr", "gcpl.mpt", "en_US"),
+        ("gcpl.issue_149.mpr", "gcpl.issue_149.mpt", "de_DE"),
         ("geis.mpr", "geis.mpt", "en_US"),
         ("lsv.mpr", "lsv.mpt", "en_US"),
         ("mb.mpr", "mb.mpt", "en_US"),
@@ -46,6 +47,8 @@ def test_eclab_consistency(afile, bfile, locale, _datadir):
     bret = extract_mpt(
         fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale=locale
     )
+    print(f"{aret.data_vars=}")
+    print(f"{bret.data_vars=}")
     for key in aret.variables:
         if key.endswith("std_err"):
             continue

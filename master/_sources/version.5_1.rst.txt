@@ -25,6 +25,8 @@ New features since ``yadg-5.0`` are:
 
   - Support for the ``CVA`` (Cyclic Voltammetry Advanced) technique in the :mod:`yadg.extractors.eclab` extractors. Test files were provided by S. B. Scott from University of Copenhagen.
 
+  - Support for files generated with EC-Lab 11.50 using the :mod:`yadg.extractors.eclab` module. Test files were provided by ``@fg-personal`` and ``@tk-4767`` on `GitHub <https://github.com/dgbowl/yadg/pull/171>`_, and E. Svaluto-Ferro from Empa.
+
 Other changes in ``yadg-5.1`` are:
 
   - The storage of original metadata present in the extracted files as well as **yadg**-related metadata has been standardised in all extractors.

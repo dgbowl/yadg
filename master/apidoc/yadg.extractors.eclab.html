@@ -344,13 +344,13 @@ EC-Lab, etc. Here a quick overview (offsets from start of module data).</p>
 </pre></div>
 </div>
 <p><em>Data Module</em></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mh">0x0000</span> <span class="n">n_datapoints</span>  <span class="c1"># Number of datapoints.</span>
-<span class="mh">0x0004</span> <span class="n">n_columns</span>     <span class="c1"># Number of values per datapoint.</span>
-<span class="mh">0x0005</span> <span class="n">column_ids</span>    <span class="c1"># n_columns unique column IDs.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mh">0x0000</span> <span class="n">n_datapoints</span>   <span class="c1"># Number of datapoints.</span>
+<span class="mh">0x0004</span> <span class="n">n_columns</span>      <span class="c1"># Number of values per datapoint.</span>
+<span class="mh">0x0005</span> <span class="n">column_ids</span>     <span class="c1"># n_columns unique column IDs.</span>
 <span class="o">...</span>
-<span class="c1"># Depending on module version, datapoints start 0x0195 or 0x0196.</span>
+<span class="c1"># Depending on module version, datapoints start 0x195, 0x196, or 0x3ef</span>
 <span class="c1"># Length of each datapoint depends on number and IDs of columns.</span>
-<span class="mh">0x0195</span> <span class="n">datapoints</span>    <span class="c1"># n_datapoints points of data.</span>
+<span class="mh">0x0195</span> <span class="n">datapoints</span>     <span class="c1"># n_datapoints points of data.</span>
 </pre></div>
 </div>
 <p><em>Log Module</em></p>
@@ -414,7 +414,7 @@ not present and therefore the full timestamp cannot be calculated.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_settings">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_settings" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_settings" title="Link to this definition"></a></dt>
 <dd><p>Processes the contents of settings modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

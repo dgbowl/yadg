@@ -433,28 +433,27 @@ def process_data(
                 # Rightshift flag by that amount.
                 vals[name] = (flag_bits & bitmask) >> shift
 
-        if "Ns" in vals:
-            Erange = Eranges[vals["Ns"]]
-            Irstr = Iranges[vals["Ns"]]
-        else:
-            Erange = Eranges[0]
-            Irstr = Iranges[0]
+        Ns = vals.get("Ns", 0)
+        Erange = Eranges[Ns]
+        Irstr = Iranges[Ns]
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
+
+        # I Range can be None if it's set to "Auto", "PAC" or other such string.
         if Irange is None:
             warn_I_range = True
             Irange = 1.0
 
         if "control_V_I" in vals:
-            icv = controls[vals["Ns"]]
+            icv = controls[Ns]
             name = f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
     if warn_I_range:
-        logger.warning("I Range not specified, defaulting to 1 A.")
+        logger.warning("I Range could not be understood, defaulting to 1 A.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds

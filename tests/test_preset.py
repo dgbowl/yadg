@@ -1,10 +1,6 @@
 import pytest
 import os
 import json
-
-# from tests.utils import standard_datagram_test
-from dgbowl_schemas.yadg import to_dataschema
-
 import yadg.dgutils
 import yadg.core
 

@@ -7,24 +7,26 @@
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-Set of tools to process raw instrument data according to a *dataschema* into a standardised form called *datagram*, annotated with metadata, provenance information, timestamps, units, and uncertainties. Developed by the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH) and by the [ConCat lab](https://www.tu.berlin/en/concat) at Technische Universität Berlin (Berlin, DE).
-
-![schema to datagram with yadg](./docs/source/images/schema_yadg_datagram.png)
+A set of tools to *extract* raw data from scientific instruments into standardised [`DataTree`](https://xarray-datatree.readthedocs.io/en/latest/) in-memory objects, or into [`NetCDF`](https://www.unidata.ucar.edu/software/netcdf/) files on disk. The resulting data is annotated with metadata, provenance information, timestamps, units, and uncertainties. Currently developed at the [ConCat lab](https://www.tu.berlin/en/concat) at Technische Universität Berlin (Berlin, DE) and the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH).
 
 ### Capabilities:
-- Parsing **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats.
-- Parsing **chromatography data** from gas and liquid chromatography, including several Agilent, Masshunter, and Fusion formats.
-- Parsing **reflection coefficient** traces from network analysers.
-- Parsing **potentiostat files** for electrochemistry applications. Supports BioLogic file formats.
-- Parsing **spectroscopy files** including common XPS, XRD and MS formats.
+- Extraction of **chromatography data** from gas and liquid chromatograms. Supports several Agilent, EZChrom, Masshunter, and Fusion formats.
+- Extraction of **electrochemical data** from electrochemistry and battery cycling experiments. Supports BioLogic file formats.
+- Extraction of **reflection coefficient** traces from network analysers. Supports the Touchstone file format.
+- Extraction of **spectroscopy files** including common XPS, XRD and MS formats.
+- Extraction of **tabulated data** using CSV parsing functionality, including Bronkhorst and DryCal output formats.
+
+Additionally, data from multiple files of the same type, or even of different types, can be easily and reproducibly combined into a single `DataTree` by using *process* and *preset* modes of **yadg**.
 
 ### Features:
-- timezone-aware timestamping using Unix timestamps
+- timezone-aware timestamp processing using Unix timestamps
+- locale-aware processing of files
 - automatic uncertainty determination using data contained in the raw files, instrument specification, or last significant digit
-- uncertainty propagation to derived quantities
-- tagging of data with units
-- extensive *dataschema* and *datagram* validation using provided specifications
-- mandatory metadata (such as provenance) is enforced
+- tagging of all data with units
+- annotation with processing metadata (such as provenance or extraction date) under the `yadg_⋅⋅⋅` namespace
+- original metadata from the extracted files is stored under `original_metadata`
+- extensive *dataschema* validation using provided specifications
+
 
 The full list of capabilities and features is listed in the [project documentation](http://dgbowl.github.io/yadg).
 

@@ -1,26 +1,31 @@
 {
-    "metadata": {
-        "version": "5.0",
-        "provenance": {"type": "manual"}
+    "version": "5.1",
+    "metadata": {"provenance": "manual"},
+    "step_defaults": {
+        "timezone": "Europe/Berlin",
+        "locale": "de_DE"
     },
     "steps": [
         {
             "tag": "flow",
-            "parser": "basiccsv",
-            "input": {"files": ["foo.csv"]},
-            "extractor": {"filetype": "None"},
-            "parameters": {"sep": ","}
+            "extractor": {
+                "filetype": "basic.csv",
+                "locale": "en_GB",
+                "parameters": {"sep": ","}
+            },
+            "input": {"files": ["foo.csv"]}
         },
         {
-            "parser": "basiccsv",
-            "input": {"files": ["bar.csv"]},
-            "extractor": {"filetype": "None"},
-            "parameters": {"sep": ","}
+            "extractor": {
+                "filetype": "basic.csv"
+            },
+            "input": {"files": ["bar.csv"]}
         },
         {
-            "parser": "chromtrace",
-            "input": {"files": ["./GC/"]},
-            "extractor": {"filetype": "fusion.json"}
+            "extractor": {
+                "filetype": "fusion.json"
+            },
+            "input": {"folders": ["./GC/"]}
         }
     ]
 }

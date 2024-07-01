@@ -12,10 +12,11 @@
 #
 import os
 import sys
+from importlib.metadata import version as get_version
 
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "src")))
 
-version = "master"
+version = get_version("yadg")
 
 # -- Project information -----------------------------------------------------
 

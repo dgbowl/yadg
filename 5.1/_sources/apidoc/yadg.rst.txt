@@ -1,0 +1,41 @@
+yadg package
+============
+
+.. automodule:: yadg
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   yadg.dgutils
+   yadg.extractors
+
+
+yadg.core module
+----------------
+
+.. automodule:: yadg.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.main module
+----------------
+
+.. automodule:: yadg.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.subcommands module
+-----------------------
+
+.. automodule:: yadg.subcommands
+   :members:
+   :undoc-members:
+   :show-inheritance:

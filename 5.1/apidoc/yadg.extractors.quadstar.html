@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quadstar: For Quadstar MS data &mdash; yadg 5.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=4af8989d"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tomato: For tomato outputs" href="yadg.extractors.tomato.html" />
+    <link rel="prev" title="picolog: For PicoTech PicoLog data" href="yadg.extractors.picolog.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                5.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>quadstar</strong>: For Quadstar MS data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.quadstar.sac">yadg.extractors.quadstar.sac module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.quadstar.sac.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>quadstar</strong>: For Quadstar MS data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.quadstar.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.quadstar">
+<span id="quadstar-for-quadstar-ms-data"></span><h1><strong>quadstar</strong>: For Quadstar MS data<a class="headerlink" href="#module-yadg.extractors.quadstar" title="Link to this heading"></a></h1>
+<section id="module-yadg.extractors.quadstar.sac">
+<span id="yadg-extractors-quadstar-sac-module"></span><h2>yadg.extractors.quadstar.sac module<a class="headerlink" href="#module-yadg.extractors.quadstar.sac" title="Link to this heading"></a></h2>
+<p>The <a class="reference external" href="https://www.bubek.org/sac2dat.php">sac2dat.c code from Dr. Moritz Bubek</a>
+was a really useful stepping stone for this Python file parser.</p>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Quadstar_sac</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'quadstar.sac'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">trace_index</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">              </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">      </span><span class="nt">mass_to_charge</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># M/Z ratio</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">fsr</span><span class="p">:</span><span class="w">              </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">                </span><span class="c1"># Full scale range</span>
+<span class="w">      </span><span class="nt">y</span><span class="p">:</span><span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">(uts, mass_to_charge)</span><span class="w"> </span><span class="c1"># Signal data</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>The “info_position” section in the below structure is stored as metadata for every
+trace, without further processing.</p>
+</section>
+<section id="notes-on-file-structure">
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
+<p>Pretty much the entire file format has been reverse engineered. There
+are still one or two unknown fields.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mh">0x00</span> <span class="s2">&quot;data_index&quot;</span>
+<span class="mh">0x02</span> <span class="s2">&quot;software_id&quot;</span>
+<span class="mh">0x06</span> <span class="s2">&quot;version_major&quot;</span>
+<span class="mh">0x07</span> <span class="s2">&quot;version_minor&quot;</span>
+<span class="mh">0x08</span> <span class="s2">&quot;second&quot;</span>
+<span class="mh">0x09</span> <span class="s2">&quot;minute&quot;</span>
+<span class="mh">0x0a</span> <span class="s2">&quot;hour&quot;</span>
+<span class="mh">0x0b</span> <span class="s2">&quot;day&quot;</span>
+<span class="mh">0x0c</span> <span class="s2">&quot;month&quot;</span>
+<span class="mh">0x0d</span> <span class="s2">&quot;year&quot;</span>
+<span class="mh">0x0f</span> <span class="s2">&quot;author&quot;</span>
+<span class="mh">0x64</span> <span class="s2">&quot;n_timesteps&quot;</span>
+<span class="mh">0x68</span> <span class="s2">&quot;n_traces&quot;</span>
+<span class="mh">0x6a</span> <span class="s2">&quot;timestep_length&quot;</span>
+<span class="o">...</span>
+<span class="c1"># Not sure what sits from 0x6e to 0xc2.</span>
+<span class="o">...</span>
+<span class="mh">0xc2</span> <span class="s2">&quot;uts_base_s&quot;</span>
+<span class="mh">0xc6</span> <span class="s2">&quot;uts_base_ms&quot;</span>
+<span class="c1"># Trace header. Read these 9 bytes for every trace (n_traces).</span>
+<span class="mh">0xc8</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;type&quot;</span>
+<span class="mh">0xc9</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;info_position&quot;</span>
+<span class="mh">0xcd</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mh">0x09</span><span class="p">)</span> <span class="s2">&quot;data_position&quot;</span>
+<span class="o">...</span>
+<span class="c1"># Trace info. Read these 137 bytes for every trace where type != 0x11.</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x00</span> <span class="s2">&quot;data_format&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x02</span> <span class="s2">&quot;y_title&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x0f</span> <span class="s2">&quot;y_unit&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x1d</span> <span class="s2">&quot;x_title&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x2a</span> <span class="s2">&quot;x_unit&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x38</span> <span class="s2">&quot;comment&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x7a</span> <span class="s2">&quot;first_mass&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x7e</span> <span class="s2">&quot;scan_width&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x80</span> <span class="s2">&quot;values_per_mass&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x81</span> <span class="s2">&quot;zoom_start&quot;</span>
+<span class="n">info_position</span> <span class="o">+</span> <span class="mh">0x85</span> <span class="s2">&quot;zoom_end&quot;</span>
+<span class="o">...</span>
+<span class="c1"># UTS offset. Read these 6 bytes for every timestep (n_timesteps).</span>
+<span class="mh">0xc2</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="s2">&quot;uts_offset_s&quot;</span>
+<span class="mh">0xc6</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="s2">&quot;uts_offset_ms&quot;</span>
+<span class="c1"># Read everything remaining below for every timestep and every trace</span>
+<span class="c1"># where type != 0x11.</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x00</span> <span class="s2">&quot;n_datapoints&quot;</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x04</span> <span class="s2">&quot;data_range&quot;</span>
+<span class="c1"># Datapoints. Read these 4 bytes (scan_width * values_per_mass)</span>
+<span class="c1"># times.</span>
+<span class="n">data_position</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">timestep_length</span><span class="p">)</span> <span class="o">+</span> <span class="mh">0x06</span> <span class="s2">&quot;datapoints&quot;</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<p>Uncertainties in <code class="docutils literal notranslate"><span class="pre">mass_to_charge</span></code> are set to one step in M/Z spacing.</p>
+<p>Uncertainties in the signal <code class="docutils literal notranslate"><span class="pre">y</span></code> are either based on the analog-to-digital conversion
+(i.e. using the full scale range), or from the upper limit of contribution of
+neighboring M/Z points (50 ppm).</p>
+<p><em>Code author: Nicolas Vetsch</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.quadstar.sac.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.quadstar.sac.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.quadstar.sac.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.picolog.html" class="btn btn-neutral float-left" title="picolog: For PicoTech PicoLog data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.tomato.html" class="btn btn-neutral float-right" title="tomato: For tomato outputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 5.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

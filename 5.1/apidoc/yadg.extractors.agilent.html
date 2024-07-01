@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>agilent: For Agilent chromatograms &mdash; yadg 5.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=4af8989d"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="basic: For tabulated data" href="yadg.extractors.basic.html" />
+    <link rel="prev" title="example: For yadg testing" href="yadg.extractors.example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                5.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>agilent</strong>: For Agilent chromatograms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.ch">yadg.extractors.agilent.ch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch"><code class="docutils literal notranslate"><span class="pre">Agilent_ch</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.csv">yadg.extractors.agilent.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv"><code class="docutils literal notranslate"><span class="pre">Agilent_csv</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.agilent.dx">yadg.extractors.agilent.dx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx"><code class="docutils literal notranslate"><span class="pre">Agilent_dx</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.common.html">yadg.extractors.eclab.common package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>agilent</strong>: For Agilent chromatograms</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.agilent.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.agilent">
+<span id="agilent-for-agilent-chromatograms"></span><h1><strong>agilent</strong>: For Agilent chromatograms<a class="headerlink" href="#module-yadg.extractors.agilent" title="Link to this heading"></a></h1>
+<p>Extractors for data files generated by various proprietary Agilent software.</p>
+<section id="module-yadg.extractors.agilent.ch">
+<span id="yadg-extractors-agilent-ch-module"></span><h2>yadg.extractors.agilent.ch module<a class="headerlink" href="#module-yadg.extractors.agilent.ch" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent OpenLab binary signal trace files (<code class="docutils literal notranslate"><span class="pre">.ch</span></code> and <code class="docutils literal notranslate"><span class="pre">.it</span></code>).
+Currently supports version “179” of the files. Version information is defined in
+the <code class="docutils literal notranslate"><span class="pre">magic_values</span></code> (parameters &amp; metadata) and <cite>data_dtypes</cite> (data) dictionaries.</p>
+<p>Adapted from <a class="reference external" href="https://bit.ly/3HSelIR">ImportAgilent.m</a> and
+<a class="reference external" href="https://github.com/bovee/Aston">aston</a>.</p>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_ch</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'agilent.ch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent-ch'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_ch.warn_deprecated" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">      </span><span class="nt">elution_time</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Elution time</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">signal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts, elution_time)</span><span class="w">   </span><span class="c1"># Signal data</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sampleid</span></code>: Sample name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">username</span></code>: User name used to generate the file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Name of the chromatographic method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code>: Version of the CH file (only “179” is currently supported.)</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="notes-on-file-structure">
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
+<p>The following magic values are used:
+.. code</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mh">0x0000</span> <span class="s2">&quot;version magic&quot;</span>
+<span class="mh">0x0108</span> <span class="s2">&quot;data offset&quot;</span>
+<span class="mh">0x011a</span> <span class="s2">&quot;x-axis minimum (ms)&quot;</span>
+<span class="mh">0x011e</span> <span class="s2">&quot;x-axis maximum (ms)&quot;</span>
+<span class="mh">0x035a</span> <span class="s2">&quot;sample ID&quot;</span>
+<span class="mh">0x0559</span> <span class="s2">&quot;description&quot;</span>
+<span class="mh">0x0758</span> <span class="s2">&quot;username&quot;</span>
+<span class="mh">0x0957</span> <span class="s2">&quot;timestamp&quot;</span>
+<span class="mh">0x09e5</span> <span class="s2">&quot;instrument name&quot;</span>
+<span class="mh">0x09bc</span> <span class="s2">&quot;inlet&quot;</span>
+<span class="mh">0x0a0e</span> <span class="s2">&quot;method&quot;</span>
+<span class="mh">0x104c</span> <span class="s2">&quot;y-axis unit&quot;</span>
+<span class="mh">0x1075</span> <span class="s2">&quot;detector name&quot;</span>
+<span class="mh">0x1274</span> <span class="s2">&quot;y-axis intercept&quot;</span>
+<span class="mh">0x127c</span> <span class="s2">&quot;y-axis slope&quot;</span>
+</pre></div>
+</div>
+<p>Data is stored in a consecutive set of <code class="docutils literal notranslate"><span class="pre">&lt;f8</span></code>, starting at the offset (calculated
+as <code class="docutils literal notranslate"><span class="pre">offset</span> <span class="pre">=</span> <span class="pre">(&quot;data</span> <span class="pre">offset&quot;</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">512</span></code>) until the end of the file.</p>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<p>Uncertainty in <code class="docutils literal notranslate"><span class="pre">signal</span></code> is the y-axis slope.</p>
+<p>Uncertainty in <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is the x-axis step size.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.agilent.ch.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.ch.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.ch.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.agilent.csv">
+<span id="yadg-extractors-agilent-csv-module"></span><h2>yadg.extractors.agilent.csv module<a class="headerlink" href="#module-yadg.extractors.agilent.csv" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent Chemstation Chromtab tabulated data files. This file format may
+include multiple timesteps consisting of several traces each in a single CSV file. It
+contains a header section for each timestep, followed by a detector name, and a sequence
+of “X, Y” datapoints, which are stored as <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> and <code class="docutils literal notranslate"><span class="pre">signal</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is not guaranteed that the X-axis of the chromatogram (i.e. <code class="docutils literal notranslate"><span class="pre">elution_time</span></code>) is
+consistent between the timesteps of the same trace. The traces are expanded to the
+length of the longest trace, and the shorter traces are padded with <code class="docutils literal notranslate"><span class="pre">NaNs</span></code>.</p>
+</div>
+<section id="id1">
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'agilent.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_csv.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">      </span><span class="nt">elution_time</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Elution time</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">signal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts, elution_time)</span><span class="w">   </span><span class="c1"># Signal data</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sampleid</span></code>: Sample name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">datafile</span></code>: Original path of the data file.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id4">
+<h3>Uncertainties<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>All uncertainties are derived from the string representation of the floats.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.agilent.csv.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.csv.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.agilent.dx">
+<span id="yadg-extractors-agilent-dx-module"></span><h2>yadg.extractors.agilent.dx module<a class="headerlink" href="#module-yadg.extractors.agilent.dx" title="Link to this heading"></a></h2>
+<p>Extractor of Agilent OpenLab DX archives. This is a wrapper parser which unzips the
+provided DX file, and then uses the <a class="reference internal" href="#module-yadg.extractors.agilent.ch" title="yadg.extractors.agilent.ch"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.ch</span></code></a> extractor
+to parse every CH file present in the archive. The IT files in the archive are currently
+ignored.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently the timesteps from multiple CH files (if present) are appended in the
+timesteps array without any further sorting.</p>
+</div>
+<section id="id5">
+<h3>Usage<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Agilent_dx</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'agilent.dx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'agilent-dx'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Agilent_dx.warn_deprecated" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id6">
+<h3>Schema<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">detector_name</span><span class="w"> </span><span class="p p-Indicator">}}:</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">      </span><span class="nt">elution_time</span><span class="p">:</span><span class="w">   </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Elution time</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">signal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts, elution_time)</span><span class="w">   </span><span class="c1"># Signal data</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Metadata<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sampleid</span></code>: Sample name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">username</span></code>: User name used to generate the file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Name of the chromatographic method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code>: Version of the CH file (only “179” is currently supported.)</p></li>
+</ul>
+</div></blockquote>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.agilent.dx.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.agilent.dx.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.agilent.dx.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.example.html" class="btn btn-neutral float-left" title="example: For yadg testing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.basic.html" class="btn btn-neutral float-right" title="basic: For tabulated data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 5.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

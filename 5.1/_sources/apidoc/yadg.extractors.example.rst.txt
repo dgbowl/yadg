@@ -1,0 +1,7 @@
+**example**: For yadg testing
+=============================
+
+.. automodule:: yadg.extractors.example
+   :members:
+   :undoc-members:
+   :show-inheritance:

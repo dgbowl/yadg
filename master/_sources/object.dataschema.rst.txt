@@ -5,6 +5,7 @@ A `dataschema` is an object defining the files and folders to be processed by **
 
 The current version of the `dataschema` is implemented as a Pydantic model in the class :obj:`~dgbowl_schemas.yadg.dataschema.DataSchema` of the :mod:`dgbowl_schemas.yadg` module. The following (previous) versions of the `dataschema` are available in the same repository:
 
+- :class:`dgbowl_schemas.yadg.dataschema_5_1.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_5_0.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_4_2.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_4_1.DataSchema`
@@ -20,6 +21,8 @@ Despite these three devices measuring concurrently, we would have to specify thr
 
 .. literalinclude:: dataschema.json
   :language: json
+
+As we set ``step_defaults -> locale`` to ``de_DE``, the numbers in the localized files (such as the ``csv`` data) will be expected to use ``,`` as a decimal separator. These ``step_defaults`` can be overriden in each *step* using the ``extractor`` entry, see the ``steps -> [0] -> extractor -> locale`` entry which is set to ``en_GB``.
 
 .. note::
 

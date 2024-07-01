@@ -24,19 +24,21 @@ In this mode, **yadg** can be invoked by providing just the `FileType` and the p
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** into a :class:`~datatree.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. The resulting :class:`~datatree.DataTree` will contain annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
+The ``infile`` will be then parsed using **yadg** into a :class:`~datatree.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. In addition to any ``original_metadata`` stored in the ``.attrs`` object of the resulting :class:`~datatree.DataTree`, it will contain **yadg**-specific metadata, including the annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
 
-By default, in `extractor` mode, **yadg** assumes the following defaults:
+.. warning::
 
-    - `timezone` is set to the ``localtime`` of the `localhost`,
-    - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
-    - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
+    By default, in `extractor` mode, **yadg** assumes the following defaults:
 
-All of the above options might lead to improper parsing of the input files. Errors due to improper `encoding` are likely to lead to crashes; `locale` errors might be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); incorrect `timezone` information may lead to errors that are more subtle. You can specify the correct values for these three parameters, if known, on the command line using:
+        - `timezone` is set to the ``localtime`` of the `localhost`,
+        - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
+        - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
 
-.. code-block:: bash
+    All of the above options might lead to improper parsing of the input files. While errors due to improper `encoding` are likely to be immediately obvious as they lead to crashes; `locale` errors might only be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); and incorrect `timezone` information may lead to errors that are much more subtle. You can specify the correct values for these three parameters, if known, on the command line using:
 
-    yadg extract --locale=de_DE --encoding=utf-8 --timezone=Europe/Berlin filetype infile [outfile]
+    .. code-block:: bash
+
+        yadg extract --locale=de_DE --encoding=utf-8 --timezone=Europe/Berlin filetype infile [outfile]
 
 
 Metadata-only extraction
@@ -49,7 +51,7 @@ To use **yadg** to extract and retrieve just the metadata contained in the input
 
 The metadata are returned as a ``.json`` file, and are generated using the :func:`~xarray.Dataset.to_dict` function of :class:`xarray.Dataset`. They contain a description of the data coordinates (``coords``), dimensions (``dims``), and variables (``data_vars``), and include their names, attributes, dtypes, and shapes.
 
-The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see |datatractor|_.
+The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see the |datatractor|_ project.
 
 .. _parser mode:
 

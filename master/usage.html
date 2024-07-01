@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to use yadg &mdash; yadg master documentation</title>
+  <title>How to use yadg &mdash; yadg 5.1rc1.dev2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=30d551ce"></script>
+        <script src="_static/documentation_options.js?v=2f95a42d"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                master
+                5.1rc1.dev2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -133,7 +133,9 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>extract<span class="w"> </span>filetype<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">infile</span></code> will be then parsed using <strong>yadg</strong> into a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, and, if successful, saved as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file, optionally using the specified <code class="docutils literal notranslate"><span class="pre">outfile</span></code> location. The resulting <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> will contain annotation of provenance (i.e. <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code>), <cite>filetype</cite> information, and the resolved defaults of <cite>timezone</cite>, <cite>locale</cite>, and <cite>encoding</cite> used to create it.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">infile</span></code> will be then parsed using <strong>yadg</strong> into a <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, and, if successful, saved as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file, optionally using the specified <code class="docutils literal notranslate"><span class="pre">outfile</span></code> location. In addition to any <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> stored in the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> object of the resulting <a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev1+g0afaa6c.d20240123)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it will contain <strong>yadg</strong>-specific metadata, including the annotation of provenance (i.e. <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code>), <cite>filetype</cite> information, and the resolved defaults of <cite>timezone</cite>, <cite>locale</cite>, and <cite>encoding</cite> used to create it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>By default, in <cite>extractor</cite> mode, <strong>yadg</strong> assumes the following defaults:</p>
 <blockquote>
 <div><ul class="simple">
@@ -142,9 +144,10 @@
 <li><p><cite>encoding</cite> of the input files is set to <code class="docutils literal notranslate"><span class="pre">UTF-8</span></code> or the <cite>extractor</cite> default.</p></li>
 </ul>
 </div></blockquote>
-<p>All of the above options might lead to improper parsing of the input files. Errors due to improper <cite>encoding</cite> are likely to lead to crashes; <cite>locale</cite> errors might be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); incorrect <cite>timezone</cite> information may lead to errors that are more subtle. You can specify the correct values for these three parameters, if known, on the command line using:</p>
+<p>All of the above options might lead to improper parsing of the input files. While errors due to improper <cite>encoding</cite> are likely to be immediately obvious as they lead to crashes; <cite>locale</cite> errors might only be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); and incorrect <cite>timezone</cite> information may lead to errors that are much more subtle. You can specify the correct values for these three parameters, if known, on the command line using:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>extract<span class="w"> </span>--locale<span class="o">=</span>de_DE<span class="w"> </span>--encoding<span class="o">=</span>utf-8<span class="w"> </span>--timezone<span class="o">=</span>Europe/Berlin<span class="w"> </span>filetype<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
+</div>
 </div>
 <section id="metadata-only-extraction">
 <h3>Metadata-only extraction<a class="headerlink" href="#metadata-only-extraction" title="Link to this heading"></a></h3>
@@ -153,7 +156,7 @@
 </pre></div>
 </div>
 <p>The metadata are returned as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file, and are generated using the <code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code> function of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.6.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. They contain a description of the data coordinates (<code class="docutils literal notranslate"><span class="pre">coords</span></code>), dimensions (<code class="docutils literal notranslate"><span class="pre">dims</span></code>), and variables (<code class="docutils literal notranslate"><span class="pre">data_vars</span></code>), and include their names, attributes, dtypes, and shapes.</p>
-<p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar. For more information about the <cite>extractor</cite> concept, see <a class="reference external" href="https://github.com/datatractor">Datatractor</a>.</p>
+<p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar. For more information about the <cite>extractor</cite> concept, see the <a class="reference external" href="https://github.com/datatractor">Datatractor</a> project.</p>
 </section>
 </section>
 <section id="parser-mode">
@@ -220,7 +223,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: master
+      v: 5.1rc1.dev2
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

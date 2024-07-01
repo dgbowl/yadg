@@ -9,7 +9,7 @@ Tests are located in the ``tests`` folder of the repository, and are executed us
 
 If a new test requires additional data (input files, schemas, etc.), they can be placed in a folder using the name of the test module (that is, ``test_yadg.py`` has its test files in ``test_yadg`` folder). Tests for new extractors should be added into separate test modules, using ``test_x_{extractor_name}.py`` nomenclature.
 
-A convenient testing function :func:`compare_datatrees` is available in the :mod:`tests.utils` module. This function is useful for comparing two :class:`~datatree.Datatree` objects including metadata.
+A convenient testing function :func:`compare_datatrees` is available in the :mod:`tests.utils` module. This function is useful for comparing two :class:`~datatree.DataTree` object, optionally including metadata.
 
 Formatting
 ``````````

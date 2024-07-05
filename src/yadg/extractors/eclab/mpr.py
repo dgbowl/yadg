@@ -280,6 +280,14 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
                 params_dtype, params_offset = dtype, offset
                 logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
                 break
+            # Manually merged/appended mpr files have a mysterious additional parameter
+            if len(dtype) == n_params - 1:
+                tmp_descr = dtype.descr
+                tmp_descr.append(("unknown", "<f4"))
+                new_dtype = np.dtype(tmp_descr)
+                params_dtype, params_offset = new_dtype, offset
+                logger.debug("Determined %d parameters at 0x%x.", n_params, offset)
+                break
         if params_offset is not None:
             break
     if params_offset is None:

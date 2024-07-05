@@ -27,7 +27,6 @@ Additionally, data from multiple files of the same type, or even of different ty
 - original metadata from the extracted files is stored under `original_metadata`
 - extensive *dataschema* validation using provided specifications
 
-
 The full list of capabilities and features is listed in the [project documentation](http://dgbowl.github.io/yadg).
 
 ### Installation:
@@ -69,14 +68,11 @@ yadg.extractors.extract(filetype=<filetype>, path=<infile>)
 
 More detailed [usage instructions](https://dgbowl.github.io/yadg/master/usage.html) are available in the project documentation.
 
-
-
 ### Contributors:
 - [Peter Kraus](http://github.com/PeterKraus)
 - [Nicolas Vetsch](http://github.com/vetschn)
 
 ### Acknowledgements
-
 This project has received funding from the following sources:
 
 - European Union’s Horizon 2020 programme under grant agreement No 957189.

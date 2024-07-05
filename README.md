@@ -34,18 +34,42 @@ The full list of capabilities and features is listed in the [project documentati
 The released versions of `yadg` are available on the Python Package Index (PyPI) under [yadg](https://pypi.org/project/yadg). Those can be installed using:
 
 ```bash
-    pip install yadg
+pip install yadg
 ```
 
 If you wish to install the current development version as an editable installation, check out the `master` branch using git, and install `yadg` as an editable package using pip:
 
 ```bash
-   git clone git@github.com:dgbowl/yadg.git
-   cd yadg
-   pip install -e .
+git clone git@github.com:dgbowl/yadg.git
+cd yadg
+pip install -e .
 ```
 
 Additional targets `yadg[testing]` and `yadg[docs]` are available and can be specified in the above commands, if testing and/or documentation capabilities are required.
+
+### Usage:
+After installing `yadg`, you can extract data from single files of known filetypes using:
+
+```bash
+yadg extract <filetype> <infile> [outfile]
+```
+
+This will write the data extracted from the `infile` into a NetCDF file called `outfile`. An example usage for BioLogic MPR files would be:
+
+```bash
+yadg extract eclab.mpr example_file.mpr output_file.nc
+```
+
+Alternatively, you can obtain a `DataTree` object in Python via:
+
+```python
+import yadg
+yadg.extractors.extract(filetype=<filetype>, path=<infile>)
+```
+
+More detailed [usage instructions](https://dgbowl.github.io/yadg/master/usage.html) are available in the project documentation.
+
+
 
 ### Contributors:
 - [Peter Kraus](http://github.com/PeterKraus)

@@ -2,7 +2,7 @@
 [![Documentation](https://badgen.net/badge/docs/dgbowl.github.io/grey?icon=firefox)](https://dgbowl.github.io/yadg)
 [![PyPi version](https://badgen.net/pypi/v/yadg/?icon=pypi)](https://pypi.org/project/yadg)
 [![Github link](https://badgen.net/github/tag/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/)
-[![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/actions/workflows/push-master.yml)
+[![Github status](https://badgen.net/github/checks/dgbowl/yadg/?icon=github)](https://github.com/dgbowl/yadg/actions/workflows/push-main.yml)
 
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
@@ -36,7 +36,7 @@ The released versions of `yadg` are available on the Python Package Index (PyPI)
 pip install yadg
 ```
 
-If you wish to install the current development version as an editable installation, check out the `master` branch using git, and install `yadg` as an editable package using pip:
+If you wish to install the current development version as an editable installation, check out the `main` branch using git, and install `yadg` as an editable package using pip:
 
 ```bash
 git clone git@github.com:dgbowl/yadg.git
@@ -66,7 +66,7 @@ import yadg
 yadg.extractors.extract(filetype=<filetype>, path=<infile>)
 ```
 
-More detailed [usage instructions](https://dgbowl.github.io/yadg/master/usage.html) are available in the project documentation.
+More detailed [usage instructions](https://dgbowl.github.io/yadg/main/usage.html) are available in the project documentation.
 
 ### Contributors:
 - [Peter Kraus](http://github.com/PeterKraus)

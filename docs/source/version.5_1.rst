@@ -4,7 +4,7 @@
   :target: https://github.com/PeterKraus/yadg/tree/5.1
 .. image:: https://img.shields.io/static/v1?label=yadg&message=v5.1&color=blue&logo=pypi
   :target: https://pypi.org/project/yadg/5.1/
-.. image:: https://img.shields.io/static/v1?label=release%20date&message=2024-XX-YY&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2024-07-01&color=red&logo=pypi
 
 
 Developed in the |concat_lab|_ at Technische Universität Berlin (Berlin, DE).

@@ -32,8 +32,8 @@ jobs:
             shell: bash
             run: |
                 sphinx-apidoc -o docs/source/apidoc src/yadg -T -M -f --templatedir=docs/apidoc_t
-                sphinx-build -W -b html docs/source public/master
+                sphinx-build -W -b html docs/source public/main
           - uses: actions/upload-artifact@v4
             with:
               name: public-${{ inputs.os }}-${{ inputs.pyver }}
-              path: public/master
+              path: public/main

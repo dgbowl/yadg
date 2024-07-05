@@ -2,7 +2,7 @@ name: lint-every-pr
 on:
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   lint:
    runs-on: ubuntu-latest

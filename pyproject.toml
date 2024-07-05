@@ -51,7 +51,7 @@ docs = [
 ]
 
 [project.urls]
-Documentation = "https://dgbowl.github.io/yadg/master"
+Documentation = "https://dgbowl.github.io/yadg/main"
 Issues = "https://github.com/dgbowl/yadg/issues"
 Repository = "https://github.com/dgbowl/yadg/"
 

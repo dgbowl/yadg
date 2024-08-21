@@ -75,11 +75,11 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
     root.attrs.update(dgutils.get_yadg_metadata())
 
     while hasattr(dataschema, "update"):
-        dataschema = dataschema.update()
         if hasattr(dataschema, "metadata"):
             if hasattr(dataschema.metadata, "version"):
                 if dataschema.metadata.version == "5.0":
                     break
+        dataschema = dataschema.update()
 
     for si, step in enumerate(dataschema.steps):
         logger.info("Processing step %d:", si)

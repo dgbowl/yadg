@@ -139,6 +139,10 @@ def update_schema(object: Union[list, dict]) -> dict:
         raise ValueError(f"Supplied object is of incorrect type: {type(object)}")
     newobj = to_dataschema(**newobj)
     while hasattr(newobj, "update"):
+        if hasattr(newobj, "metadata"):
+            if hasattr(newobj.metadata, "version"):
+                if newobj.metadata.version == "5.0":
+                    break
         newobj = newobj.update()
     return newobj
 

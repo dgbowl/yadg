@@ -23,6 +23,10 @@ def test_preset(input, ts, datadir):
 
     schema = to_dataschema(**preset)
     while hasattr(schema, "update"):
+        if hasattr(schema, "metadata"):
+            if hasattr(schema.metadata, "version"):
+                if schema.metadata.version == "5.0":
+                    break
         schema = schema.update()
     ds = yadg.dgutils.schema_from_preset(schema, input)
 

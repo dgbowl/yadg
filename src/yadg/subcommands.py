@@ -66,11 +66,12 @@ def process(args: argparse.Namespace) -> None:
     logger.info("Loaded dataschema version '%s'", ds.metadata.version)
 
     while hasattr(ds, "update"):
-        ds = ds.update()
         if hasattr(ds, "metadata"):
             if hasattr(ds.metadata, "version"):
                 if ds.metadata.version == "5.0":
                     break
+        ds = ds.update()
+
 
     logger.debug("Processing schema")
     datagram = core.process_schema(ds, strict_merge=not args.ignore_merge_errors)

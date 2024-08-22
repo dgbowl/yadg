@@ -8,8 +8,8 @@ module_header_dtypes = (
             ("long_name", "|S25"),
             ("max_length", "<u4"),
             ("length", "<u4"),
-            ("version", "<u4"),
-            ("unknown", "<u4"),
+            ("oldver", "<u4"),
+            ("newver", "<u4"),
             ("date", "|S8"),
         ]
     ),
@@ -18,7 +18,7 @@ module_header_dtypes = (
             ("short_name", "|S10"),
             ("long_name", "|S25"),
             ("length", "<u4"),
-            ("version", "<u4"),
+            ("oldver", "<u4"),
             ("date", "|S8"),
         ]
     ),

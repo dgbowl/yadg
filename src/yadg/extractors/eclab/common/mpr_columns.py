@@ -6,8 +6,10 @@ module_header_dtypes = (
         [
             ("short_name", "|S10"),
             ("long_name", "|S25"),
+            ("max_length", "<u4"),
             ("length", "<u4"),
-            ("version", "<u4"),
+            ("oldver", "<u4"),
+            ("newver", "<u4"),
             ("date", "|S8"),
         ]
     ),
@@ -15,10 +17,8 @@ module_header_dtypes = (
         [
             ("short_name", "|S10"),
             ("long_name", "|S25"),
-            ("max_length", "<u4"),
             ("length", "<u4"),
-            ("version", "<u4"),
-            ("unknown", "<u4"),
+            ("oldver", "<u4"),
             ("date", "|S8"),
         ]
     ),
@@ -128,6 +128,7 @@ data_columns = {
     332: ("<f4", "Re(Z2)", "Ω"),
     361: ("<f4", "-Im(Z1)", "Ω"),
     362: ("<f4", "-Im(Z2)", "Ω"),
+    379: ("<f8", "Energy charge", "W·h"),
     391: ("<f4", "<E1>", "V"),
     392: ("<f4", "<E2>", "V"),
     422: ("<f4", "Phase(Zstack)", "deg"),

@@ -11,7 +11,7 @@
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=YYYY-MM-DD&color=red&logo=pypi
 
 
-Developed in the |concat_lab|_ at Technische Universität Berlin (Berlin, DE).
+Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).
 
 New features in ``yadg-5.2`` are:
 

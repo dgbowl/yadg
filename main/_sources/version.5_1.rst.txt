@@ -7,7 +7,7 @@
 .. image:: https://img.shields.io/static/v1?label=release%20date&message=2024-07-01&color=red&logo=pypi
 
 
-Developed in the |concat_lab|_ at Technische Universität Berlin (Berlin, DE).
+Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).
 
 New features since ``yadg-5.0`` are:
 
@@ -48,7 +48,3 @@ Bug fixes in ``yadg-5.1`` include:
   - Fixed incorrect column name (``Energy`` to ``|Energy|``) in :mod:`yadg.extractors.eclab.mpr`.
   - Removed column renaming for ``Analog IN 1`` and ``Analog IN 2`` to maintain consistency within :mod:`yadg.extractors.eclab`.
   - Reworked parsing of ``.mpt`` file headers in :mod:`yadg.extractors.eclab.mpt`. The parser is now more stable, and the original labels are used without renaming.
-
-.. _concat_lab: https://tu.berlin/en/concat
-
-.. |concat_lab| replace:: ConCat Lab

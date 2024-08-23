@@ -21,8 +21,3 @@ Bug fixes in ``yadg-5.2`` include:
 
   - Increased supported I-range values in :mod:`~yadg.extractors.eclab` up to 193.
   - Implemented support for a 33-parameter GCPL file in :mod:`~yadg.extractors.eclab.mpr`.
-
-
-.. _concat_lab: https://tu.berlin/en/concat
-
-.. |concat_lab| replace:: ConCat Lab

@@ -19,6 +19,7 @@ from .utils import compare_datatrees
         "cva.issue_135.mpr",
         "gcpl.mpr",
         "gcpl.issue_149.mpr",
+        "gcpl.issue_175.mpr",
         "geis.mpr",
         "geis.issue_149.mpr",
         "lsv.mpr",

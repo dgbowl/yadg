@@ -258,6 +258,7 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     settings = {}
     # First parse the settings right at the top of the data block.
     technique, params_dtypes = technique_params_dtypes[data[0x0000]]
+    logger.debug("Found technique '%s'.", technique)
     settings["technique"] = technique
     for offset, (dtype, name) in settings_dtypes.items():
         settings[name] = dgutils.read_value(data, offset, dtype)
@@ -271,7 +272,6 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
         0x1846,
         0x1847,
     )
-    logger.debug("Looking for %d params.", len(dtype))
     for offset in offsets:
         n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
         logger.debug("Trying to find %d technique params at 0x%x.", n_params, offset)
@@ -387,7 +387,7 @@ def process_data(
     """
     n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
     n_columns = dgutils.read_value(data, 0x0004, "|u1")
-    if version == 0:
+    if version in {10, 11}:
         column_ids = np.frombuffer(data, offset=0x005, dtype=">u2", count=n_columns)
     elif version in {2, 3}:
         column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
@@ -397,7 +397,7 @@ def process_data(
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
     # Depending on module version, datapoints start at different offsets.
-    if version == 0:
+    if version in {10, 11}:
         offset = 0x3EF
     elif version == 2:
         offset = 0x195
@@ -537,23 +537,27 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         for mhd in module_header_dtypes:
             header = dgutils.read_value(module, 0x0000, mhd)
             if len(module) == mhd.itemsize + header["length"]:
+                version = header.get("newver", 0) + header["oldver"]
+                logger.debug(
+                    "Parsed module header with length %d, version %s",
+                    header["length"],
+                    version,
+                )
                 break
         else:
             raise RuntimeError("Unknown module header.")
         name = header["short_name"].strip()
         # We need to determine file version from the header to be able to select correct
-        # dtypes. Unfortunately, the header["version"] of the "VMP Set" module is always
+        # dtypes. Unfortunately, the header["oldver"] of the "VMP Set" module is always
         # set to 0. However, the newer versions of this module include the "max_length"
-        # entry as well as an "unknown" key set to 10.
-        if "max_length" in header and header.get("unknown", None) is not None:
+        # entry as well as an "newver" key set to 10.
+        if version >= 10:
             minver = "11.50"
         # The oldest version we have in test files is 10.40.
         else:
             minver = "10.40"
 
-        logger.debug(
-            "Read '%s' with version '%d' ('%s')", name, header["version"], minver
-        )
+        logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
         module_data = module[mhd.itemsize :]
         if name == "VMP Set":
             settings, params = process_settings(module_data, minver)
@@ -572,7 +576,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                 else:
                     ctrls.append(None)
         elif name == "VMP data":
-            ds = process_data(module_data, header["version"], Eranges, Iranges, ctrls)
+            ds = process_data(module_data, version, Eranges, Iranges, ctrls)
         elif name == "VMP LOG":
             log = process_log(module_data)
         elif name == "VMP loop":

@@ -100,3 +100,30 @@ def test_eclab_consistency_partial(afile, bfile, locale, _datadir):
         except AssertionError as e:
             e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
             raise e
+
+
+@pytest.mark.parametrize(
+    "afile, bfile, locale",
+    [
+        ("gcpl.pr_182.1.mpr", "gcpl.pr_182.1.mpt", "en_US"),
+        ("gcpl.pr_182.2.mpr", "gcpl.pr_182.2.mpt", "en_US"),
+    ],
+)
+def test_eclab_consistency_partial_2(afile, bfile, locale, _datadir):
+    os.chdir(_datadir)
+    aret = extract_mpr(fn=afile, timezone="Europe/Berlin")
+    bret = extract_mpt(
+        fn=bfile, timezone="Europe/Berlin", encoding="windows-1252", locale=locale
+    )
+    print(f"{aret.data_vars=}")
+    print(f"{bret.data_vars=}")
+    for key in aret.variables:
+        if key.endswith("std_err"):
+            continue
+        elif key in {"control_I"}:
+            continue
+        try:
+            xr.testing.assert_allclose(aret[key], bret[key])
+        except AssertionError as e:
+            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            raise e

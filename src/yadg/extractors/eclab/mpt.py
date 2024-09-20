@@ -210,7 +210,7 @@ def process_data(
     units = dict()
     columns = list()
     for n in names:
-        c, u = column_units[n]
+        c, u = column_units[n.strip()]
         if c in columns:
             logger.warning("Duplicate column '%s' with unit '%s'.", c, u)
             c = f"duplicate {c}"

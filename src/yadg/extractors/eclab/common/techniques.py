@@ -1286,7 +1286,7 @@ def param_from_key(
                     return i[0]
                 else:
                     return i[2]
-        logger.warning(f"element '{key}' for parameter '{param}' not understood.")
+        raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
     return key
 
 

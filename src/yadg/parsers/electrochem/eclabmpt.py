@@ -147,7 +147,7 @@ def process_data(
     units = dict()
     columns = list()
     for n in names:
-        c, u = column_units[n]
+        c, u = column_units[n.strip()]
         columns.append(c)
         if u is not None:
             units[c] = u

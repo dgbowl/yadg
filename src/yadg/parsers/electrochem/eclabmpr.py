@@ -371,6 +371,8 @@ def process_data(
     allmeta = dict()
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
     values = [dict(zip(value.dtype.names, value.item())) for value in values]
+    warn_I_range = False
+    warn_Ns = False
     for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
@@ -390,19 +392,20 @@ def process_data(
                 # Rightshift flag by that amount.
                 vals[name] = (flag_bits & bitmask) >> shift
 
-        if "Ns" in vals:
-            Erange = Eranges[vals["Ns"]]
-            Irstr = Iranges[vals["Ns"]]
-        else:
-            Erange = Eranges[0]
-            Irstr = Iranges[0]
+        Ns = vals.get("Ns", 0)
+        # Manually merged/appended mpr files have a mysteriously larger Ns
+        if Ns >= len(Eranges):
+            warn_Ns = True
+            Ns = len(Eranges) - 1
+        Erange = Eranges[Ns]
+        Irstr = Iranges[Ns]
         if "I Range" in vals:
             Irstr = vals["I Range"]
         Irange = param_from_key("I_range", Irstr, to_str=False)
         devs = {}
         if "control_V_I" in vals:
-            icv = controls[vals["Ns"]]
-            name = f"control_{icv}"
+            icv = controls[Ns]
+            name = "control_I" if icv in {"I", "C"} else "control_V"  # f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         for name, value in vals.items():
@@ -412,6 +415,10 @@ def process_data(
             devs[name] = get_resolution(name, value, unit, Erange, Irange)
 
         append_dicts(vals, devs, allvals, allmeta, li=vi)
+    if warn_I_range:
+        logger.warning("I Range could not be understood, defaulting to 1 A.")
+    if warn_Ns:
+        logger.warning("Ns found in data exceeds Ns in header, using last defined Ns.")
 
     ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds

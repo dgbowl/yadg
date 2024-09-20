@@ -88,3 +88,5 @@ intersphinx_mapping = {
     "datatree": ("https://xarray-datatree.readthedocs.io/en/latest/", None),
     "babel": ("https://babel.pocoo.org/en/latest/", None),
 }
+
+suppress_warnings = ["ref.footnote"]

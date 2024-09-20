@@ -21,3 +21,4 @@ Bug fixes in ``yadg-5.2`` include:
 
   - Increased supported I-range values in :mod:`~yadg.extractors.eclab` up to 193.
   - Implemented support for a 33-parameter GCPL file in :mod:`~yadg.extractors.eclab.mpr`.
+  - Implemented support for merged/appended files in :mod:`~yadg.extractors.eclab.mpr`. Test files taken from the data available at https://zenodo.org/doi/10.5281/zenodo.12165685.

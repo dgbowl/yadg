@@ -1030,6 +1030,7 @@ technique_params_dtypes = {
     0x32: ("ZIR", _zir_params_dtypes),
     0x33: ("CVA", _cva_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
+    0x77: ("GCPL", _gcpl_params_dtypes),
     0x7F: ("MB", _mb_params_dtypes),
 }
 

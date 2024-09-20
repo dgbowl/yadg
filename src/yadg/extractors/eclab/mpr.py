@@ -410,6 +410,7 @@ def process_data(
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
     values = [dict(zip(value.dtype.names, value.item())) for value in values]
     warn_I_range = False
+    warn_Ns = False
     for vi, vals in enumerate(values):
         # Lets split this into two loops: get the indices first, then the data
         for (name, value), unit in list(zip(vals.items(), unitlist)):
@@ -431,6 +432,10 @@ def process_data(
                 vals[name] = (flag_bits & bitmask) >> shift
 
         Ns = vals.get("Ns", 0)
+        # Manually merged/appended mpr files have a mysteriously larger Ns
+        if Ns >= len(Eranges):
+            warn_Ns = True
+            Ns = len(Eranges) - 1
         Erange = Eranges[Ns]
         Irstr = Iranges[Ns]
         if "I Range" in vals:
@@ -444,13 +449,15 @@ def process_data(
 
         if "control_V_I" in vals:
             icv = controls[Ns]
-            name = f"control_{icv}"
+            name = "control_I" if icv in {"I", "C"} else "control_V"  # f"control_{icv}"
             vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
     if warn_I_range:
         logger.warning("I Range could not be understood, defaulting to 1 A.")
+    if warn_Ns:
+        logger.warning("Ns found in data exceeds Ns in header, using last defined Ns.")
 
     ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds

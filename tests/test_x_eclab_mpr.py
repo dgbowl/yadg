@@ -26,6 +26,7 @@ from .utils import compare_datatrees
         "mb.mpr",
         "mb.issue_95.mpr",
         "mb.issue_149.mpr",
+        "mp.issue_183.mpr",
         "ocv.mpr",
         "ocv.issue_149.mpr",
         "peis.mpr",

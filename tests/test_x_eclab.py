@@ -35,6 +35,7 @@ def _datadir(tmpdir, request):
         ("mb.mpr", "mb.mpt", "en_US"),
         ("mb.issue_95.mpr", "mb.issue_95.mpt", "en_US"),
         ("mb.issue_149.mpr", "mb.issue_149.mpt", "de_DE"),
+        ("mp.issue_183.mpr", "mp.issue_183.mpt", "en_US"),
         ("ocv.mpr", "ocv.mpt", "en_US"),
         ("ocv.issue_149.mpr", "ocv.issue_149.mpt", "de_DE"),
         ("peis.mpr", "peis.mpt", "en_US"),

@@ -154,7 +154,9 @@ def process_header(
 
     settings = process_settings(lines[:li])
     # New thing in v11.61 - There can be an "External device configuration" section
-    if lines[li + 1].startswith("External device configuration :"):
+    if li + 1 < len(lines) and lines[li + 1].startswith(
+        "External device configuration :"
+    ):
         li += 1
         for dext, line in enumerate(lines[li + 1 :]):
             logger.debug(f"{dext=} {line=}")

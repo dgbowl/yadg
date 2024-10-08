@@ -1065,7 +1065,6 @@ _mp_params_dtypes = [
 ]
 
 
-
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
     0x04: ("GCPL", _gcpl_params_dtypes),

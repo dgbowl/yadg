@@ -105,6 +105,21 @@ def process_params(technique: str, lines: list[str], locale: str) -> dict[str, A
     return params
 
 
+def process_external(lines: list[str]) -> dict:
+    ret = {}
+    target = ret
+    for line in lines:
+        k, v = line.split(":")
+        k = k.strip()
+        v = v.strip()
+        if v == "":
+            target[k] = {}
+            target = target[k]
+        else:
+            target[k] = v
+    return ret
+
+
 def process_header(
     lines: list[str],
     timezone: str,
@@ -138,7 +153,21 @@ def process_header(
             break
 
     settings = process_settings(lines[:li])
-    params = process_params(technique, lines[li + 1 :], locale)
+    # New thing in v11.61 - There can be an "External device configuration" section
+    if lines[li + 1].startswith("External device configuration :"):
+        li += 1
+        for dext, line in enumerate(lines[li + 1 :]):
+            logger.debug(f"{dext=} {line=}")
+            if line.startswith(" "):
+                pass
+            else:
+                dext += 1
+                break
+        settings.update(process_external(lines[li : li + dext]))
+    else:
+        dext = 1
+
+    params = process_params(technique, lines[li + dext :], locale)
 
     # Parse the acquisition timestamp.
     if "Acquisition started on" in settings:

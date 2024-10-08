@@ -1015,12 +1015,63 @@ _zir_params_dtypes = [
     )
 ]
 
+# ~~~~~~~~~~~~~ Modular Potentio ~~~~~~~~~~~~~
+_mp_params_dtypes = [
+    (
+        np.dtype(
+            [
+                ("Mode", "<u4"),
+                ("tR", "<f4"),
+                ("dER/dt", "<f4"),
+                ("dER", "<f4"),
+                ("dtR", "<f4"),
+                ("Es", "<f4"),
+                ("Es_vs", "<u4"),
+                ("ts", "<f4"),
+                ("dE/dt", "<f4"),
+                ("dE/dt_unit", "|u1"),
+                ("Ei", "<f4"),
+                ("Ei_vs", "<u4"),
+                ("Ef", "<f4"),
+                ("Ef_vs", "<u4"),
+                ("E_range_min", "<f4"),
+                ("E_range_max", "<f4"),
+                ("I_range", "|u1"),
+                ("I_range_min", "|u1"),
+                ("I_range_max", "|u1"),
+                ("I_range_init", "|u1"),
+                ("bandwidth", "|u1"),
+                ("record", "|u1"),
+                ("dIp", "<f4"),
+                ("dIp_unit", "|u1"),
+                ("dQp", "<f4"),
+                ("dQp_unit", "|u1"),
+                ("dtp", "<f4"),
+                ("dts", "<f4"),
+                ("step_percent", "|u1"),
+                ("N", "|u1"),
+                ("dQM", "<f4"),
+                ("dQM_unit", "<u4"),
+                ("Imax", "<f4"),
+                ("Imax_unit", "|u1"),
+                ("Imin", "<f4"),
+                ("Imin_unit", "|u1"),
+                ("goto_Ns", "|u4"),
+                ("nc_cycles", "<u4"),
+            ]
+        ),
+        {"11.50"},
+    )
+]
+
+
 
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
     0x04: ("GCPL", _gcpl_params_dtypes),
     0x06: ("CV", _cv_params_dtypes),
     0x0B: ("OCV", _ocv_params_dtypes),
+    0x16: ("MP", _mp_params_dtypes),
     0x18: ("CA", _ca_params_dtypes),
     0x19: ("CP", _cp_params_dtypes),
     0x1C: ("WAIT", _wait_params_dtypes),

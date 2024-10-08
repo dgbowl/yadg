@@ -276,6 +276,7 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
         n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
         logger.debug("Trying to find %d technique params at 0x%x.", n_params, offset)
         for dtype, versions in params_dtypes:
+            logger.debug(f"{minver=} {versions=} {len(dtype)=} {n_params=}")
             if minver in versions and len(dtype) == n_params:
                 params_dtype, params_offset = dtype, offset
                 logger.debug("Determined %d parameters at 0x%x.", n_params, offset)

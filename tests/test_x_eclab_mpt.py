@@ -26,6 +26,7 @@ from .utils import compare_datatrees
         ("mb.mpt", "en_GB"),
         ("mb.issue_95.mpt", "en_GB"),
         ("mb.issue_149.mpt", "de_DE"),
+        ("mp.issue_183.mpt", "en_US"),
         ("ocv.mpt", "en_GB"),
         ("ocv.issue_149.mpt", "de_DE"),
         ("peis.mpt", "en_GB"),

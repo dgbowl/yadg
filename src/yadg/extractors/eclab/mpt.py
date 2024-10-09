@@ -62,8 +62,8 @@ from typing import Any
 from babel.numbers import parse_decimal
 from datatree import DataTree
 from yadg import dgutils
-from .common.techniques import get_devs, param_from_key
-from .common.mpt_columns import column_units
+from .techniques import get_devs, param_from_key
+from .mpt_columns import column_units
 
 logger = logging.getLogger(__name__)
 

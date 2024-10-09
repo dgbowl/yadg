@@ -224,12 +224,12 @@ import logging
 from datatree import DataTree
 import numpy as np
 from yadg import dgutils
-from .common.techniques import (
+from .techniques import (
     technique_params_dtypes,
     param_from_key,
     get_devs,
 )
-from .common.mpr_columns import (
+from .mpr_columns import (
     module_header_dtypes,
     settings_dtypes,
     flag_columns,

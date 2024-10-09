@@ -6,14 +6,6 @@
    :undoc-members:
    :show-inheritance:
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   yadg.extractors.eclab.common
-
 
 yadg.extractors.eclab.mpr module
 --------------------------------
@@ -23,10 +15,34 @@ yadg.extractors.eclab.mpr module
    :undoc-members:
    :show-inheritance:
 
+yadg.extractors.eclab.mpr\_columns module
+-----------------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpr_columns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 yadg.extractors.eclab.mpt module
 --------------------------------
 
 .. automodule:: yadg.extractors.eclab.mpt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.mpt\_columns module
+-----------------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpt_columns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.techniques module
+---------------------------------------
+
+.. automodule:: yadg.extractors.eclab.techniques
    :members:
    :undoc-members:
    :show-inheritance:

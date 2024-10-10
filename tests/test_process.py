@@ -10,7 +10,7 @@ from .utils import compare_datatrees
 @pytest.mark.parametrize(
     "input",
     [
-        "test_locale_passthrough.json"
+        "test_locale_passthrough.json",
     ],
 )
 def test_process_locale_passthrough(input, datadir):

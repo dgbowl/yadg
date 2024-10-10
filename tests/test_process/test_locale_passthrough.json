@@ -1,0 +1,27 @@
+{
+    "version": "5.1",
+    "metadata": {
+            "provenance": {"type": "manual"}
+        },
+    "step_defaults": {
+        "timezone": "Europe/Berlin",
+        "locale": "en_US"
+    },
+    "steps": [
+        {
+            "tag": "stepdefaults",
+            "input": {"files": ["measurement.csv"]},
+            "extractor": {
+                "filetype": "example"
+            }
+        },
+        {
+            "tag": "locale-de_DE",
+            "input": {"files": ["measurement.csv"]},
+            "extractor": {
+                "filetype": "example",
+                "locale": "de_DE"
+            }
+        }
+    ]
+}

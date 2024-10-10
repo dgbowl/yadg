@@ -1,6 +1,6 @@
 """
-**eclabtechniques**: Parameters for implemented techniques.
------------------------------------------------------------
+**techniques**: Parameters for implemented techniques.
+------------------------------------------------------
 
 Implemented techniques:
 
@@ -17,6 +17,8 @@ Implemented techniques:
     - PEIS - Potentio Electrochemical Impedance Spectroscopy
     - WAIT - Wait
     - ZIR - IR compensation (PEIS)
+    - MP - Modular Potentio
+    - CoV - Constant Voltage
 
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
@@ -1064,6 +1066,77 @@ _mp_params_dtypes = [
     )
 ]
 
+# ~~~~~~~~~~~~~ Constant Voltage ~~~~~~~~~~~~~
+_cov_params_dtypes = [
+    (
+        np.dtype(
+            [
+                ("tR", "<f4"),
+                ("dER/dt", "<f4"),
+                ("dER", "<f4"),
+                ("dtR", "<f4"),
+                ("Ei", "<f4"),
+                ("Ei_vs", "<u4"),
+                ("ti", "<f4"),
+                ("Imax", "<f4"),
+                ("Imax_unit", "|u1"),
+                ("Imin", "<f4"),
+                ("Imin_unit", "|u1"),
+                ("dQM", "<f4"),
+                ("dQM_unit", "<u4"),
+                ("record", "|u1"),
+                ("dI", "<f4"),
+                ("dI_unit", "|u1"),
+                ("dQ", "<f4"),
+                ("dQ_unit", "|u1"),
+                ("dt", "<f4"),
+                ("dta", "<f4"),
+                ("E_range_min", "<f4"),
+                ("E_range_max", "<f4"),
+                ("I_range", "|u1"),
+                ("I_range_min", "|u1"),
+                ("I_range_max", "|u1"),
+                ("I_range_init", "|u1"),
+                ("bandwidth", "|u1"),
+                ("goto_Ns", "<u4"),
+                ("nc_cycles", "<u4"),
+            ]
+        ),
+        {"11.50"},
+    )
+]
+
+# ~~~~~~~~~~~~~ Constant Current ~~~~~~~~~~~~~
+_coc_params_dtypes = [
+    (
+        np.dtype(
+            [
+                ("tR", "<f4"),
+                ("dER/dt", "<f4"),
+                ("dER", "<f4"),
+                ("dtR", "<f4"),
+                ("Is", "<f4"),
+                ("Is_unit", "|u1"),
+                ("Is_vs", "|u4"),
+                ("ts", "<f4"),
+                ("EM", "<f4"),
+                ("dQM", "<f4"),
+                ("dQM_unit", "|u1"),
+                ("record", "|u1"),
+                ("dEs", "<f4"),
+                ("dts", "<f4"),
+                ("E_range_min", "<f4"),
+                ("E_range_max", "<f4"),
+                ("I_range", "|u1"),
+                ("bandwidth", "|u1"),
+                ("goto_Ns", "<u4"),
+                ("nc_cycles", "<u4"),
+            ]
+        ),
+        {"11.50"},
+    )
+]
+
 
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
@@ -1080,6 +1153,8 @@ technique_params_dtypes = {
     0x32: ("ZIR", _zir_params_dtypes),
     0x33: ("CVA", _cva_params_dtypes),
     0x6C: ("LSV", _lsv_params_dtype),
+    0x75: ("coV", _cov_params_dtypes),
+    0x76: ("coC", _coc_params_dtypes),
     0x77: ("GCPL", _gcpl_params_dtypes),
     0x7F: ("MB", _mb_params_dtypes),
 }

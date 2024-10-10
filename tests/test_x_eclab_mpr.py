@@ -11,6 +11,8 @@ from .utils import compare_datatrees
         "ca.mpr",
         "ca.issue_134.mpr",
         "ca.issue_149.mpr",
+        "coc.issue_185.mpr",
+        "cov.issue_185.mpr",
         "cp.mpr",
         "cp.issue_61.mpr",
         "cp.issue_149.mpr",

@@ -22,6 +22,8 @@ def _datadir(tmpdir, request):
         ("ca.mpr", "ca.mpt", "en_US"),
         ("ca.issue_134.mpr", "ca.issue_134.mpt", "en_US"),
         ("ca.issue_149.mpr", "ca.issue_149.mpt", "de_DE"),
+        ("coc.issue_185.mpr", "coc.issue_185.mpt", "en_US"),
+        ("cov.issue_185.mpr", "cov.issue_185.mpt", "en_US"),
         ("cp.mpr", "cp.mpt", "en_US"),
         ("cp.issue_61.mpr", "cp.issue_61.mpt", "en_US"),
         ("cp.issue_149.mpr", "cp.issue_149.mpt", "de_DE"),

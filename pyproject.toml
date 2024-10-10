@@ -39,8 +39,7 @@ dependencies = [
     "pandas >= 2.0",
     "babel >= 2.15",
     "xarray-datatree >= 0.0.12",
-    # "dgbowl-schemas >= 117",
-    "dgbowl-schemas @ git+https://github.com/dgbowl/dgbowl-schemas.git",
+    "dgbowl-schemas >= 120",
 ]
 
 [project.optional-dependencies]

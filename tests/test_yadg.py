@@ -181,7 +181,17 @@ def test_yadg_preset_roundtrip_uts(datadir):
 )
 def test_yadg_extract_with_metadata(filetype, infile, datadir):
     os.chdir(datadir)
-    command = ["yadg", "extract", filetype, infile, "test.nc", "--locale", "en_GB"]
+    command = [
+        "yadg",
+        "extract",
+        filetype,
+        infile,
+        "test.nc",
+        "--locale",
+        "en_GB",
+        "--timezone",
+        "Europe/Berlin",
+    ]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")
@@ -201,7 +211,17 @@ def test_yadg_extract_with_metadata(filetype, infile, datadir):
 )
 def test_yadg_extract_meta_only(filetype, infile, flag, datadir):
     os.chdir(datadir)
-    command = ["yadg", "extract", filetype, infile, flag, "--locale", "en_GB"]
+    command = [
+        "yadg",
+        "extract",
+        filetype,
+        infile,
+        flag,
+        "--locale",
+        "en_GB",
+        "--timezone",
+        "Europe/Berlin",
+    ]
     subprocess.run(command, check=True)
     outfile = infile.split(".")[0] + ".json"
     assert os.path.exists(outfile)

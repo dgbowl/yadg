@@ -31,12 +31,12 @@ jobs:
           - name: Prepare locales
             shell: bash
             run: sudo locale-gen de_DE.UTF-8 en_GB.UTF-8 || echo windows
-          - name: Prepare timezone
-            uses: szenius/set-timezone@v2.0
-            with:
-                timezoneLinux: Europe/Berlin
-                timezoneMacos: Europe/Berlin
-                timezoneWindows: W. Europe Standard Time
+          # - name: Prepare timezone
+          #  uses: szenius/set-timezone@v2.0
+          #  with:
+          #      timezoneLinux: Europe/Berlin
+          #      timezoneMacos: Europe/Berlin
+          #      timezoneWindows: W. Europe Standard Time
           - name: Print yadg version
             shell: bash
             run: yadg --version

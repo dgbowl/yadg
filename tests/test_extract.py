@@ -23,7 +23,9 @@ from .utils import compare_datatrees
 def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
     os.chdir(datadir)
     outfile = f"{infile}.nc"
-    ret = extract(filetype=filetype, path=infile, locale="en_GB")
+    ret = extract(
+        filetype=filetype, path=infile, locale="en_GB", timezone="Europe/Berlin"
+    )
     # ret.to_netcdf(f"C:/Users/Kraus/Code/yadg/tests/test_extract/{outfile}", engine="h5netcdf")
     ref = datatree.open_datatree(outfile, engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)

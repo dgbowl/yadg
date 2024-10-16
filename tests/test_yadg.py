@@ -258,7 +258,17 @@ def test_yadg_preset_dataschema_compat(datadir):
 )
 def test_yadg_extract_locale(filetype, infile, locale, datadir):
     os.chdir(datadir)
-    command = ["yadg", "extract", "--locale", locale, filetype, infile, "test.nc"]
+    command = [
+        "yadg",
+        "extract",
+        "--locale",
+        locale,
+        filetype,
+        infile,
+        "test.nc",
+        "--timezone",
+        "Europe/Berlin",
+    ]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
     ret = open_datatree("test.nc", engine="h5netcdf")

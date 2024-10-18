@@ -579,8 +579,8 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                 Iranges.append(el.get("I Range", "Auto"))
                 if "Set I/C" in el:
                     ctrls.append(el["Set I/C"])
-                elif "apply_I/C" in el:
-                    ctrls.append(el["apply_I/C"])
+                elif "Apply I/C" in el:
+                    ctrls.append(el["Apply I/C"])
                 else:
                     ctrls.append(None)
         elif name == "VMP data":

@@ -182,7 +182,35 @@ _cv_params_dtypes = [
                 ("Ef (V) vs.", "|u1"),
             ]
         ),
-        {"10.40", "11.50"},
+        {"10.40"},
+    ),
+    (
+        np.dtype(
+            [
+                ("Ei (V)", "<f4"),
+                ("Ei (V) vs.", "|u4"),
+                ("dE/dt", "<f4"),
+                ("dE/dt unit", "|u1"),
+                ("E1 (V)", "<f4"),
+                ("E1 (V) vs.", "|u4"),
+                ("Step percent", "|u1"),
+                ("N", "|u4"),
+                ("E range min (V)", "<f4"),
+                ("E range max (V)", "<f4"),
+                ("I Range", "|u1"),
+                ("I Range min", "|u1"),
+                ("I Range max", "|u1"),
+                ("I Range init", "|u1"),
+                ("Bandwidth", "|u1"),
+                ("E2 (V)", "<f4"),
+                ("E2 (V) vs.", "|u4"),
+                ("nc cycles", "|u4"),
+                ("Reverse Scan", "|u1"),
+                ("Ef (V)", "<f4"),
+                ("Ef (V) vs.", "|u4"),
+            ]
+        ),
+        {"11.50"},
     )
 ]
 

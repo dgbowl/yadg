@@ -262,7 +262,7 @@ def process_data(
             if units.get(name) is None:
                 ival = int(parse_decimal(value, locale=locale))
                 if name == "I Range":
-                    vals[name] = param_from_key("I_range", ival)
+                    vals[name] = param_from_key("I Range", ival)
                 else:
                     vals[name] = ival
             else:
@@ -280,7 +280,7 @@ def process_data(
         Irstr = Iranges[Ns] if isinstance(Iranges, list) else Iranges
         if "I Range" in vals:
             Irstr = vals["I Range"]
-        Irange = param_from_key("I_range", Irstr, to_str=False)
+        Irange = param_from_key("I Range", Irstr, to_str=False)
 
         # I Range can be None if it's set to "Auto", "PAC" or other such string.
         if Irange is None:

@@ -298,8 +298,8 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     params = []
     for pardict in pardicts:
         for k, v in pardict.items():
-            # MPR quirk: I_range off by one
-            if k == "I_range":
+            # MPR quirk: I Range off by one
+            if k == "I Range":
                 v += 1
             pardict[k] = param_from_key(k, v, to_str=True)
             # Handle NaNs and +/-Inf in params here
@@ -420,7 +420,7 @@ def process_data(
             elif unit is None:
                 intv = int(value)
                 if name == "I Range":
-                    vals[name] = param_from_key("I_range", intv)
+                    vals[name] = param_from_key("I Range", intv)
                 else:
                     vals[name] = intv
         if flaglist:
@@ -441,7 +441,7 @@ def process_data(
         Irstr = Iranges[Ns]
         if "I Range" in vals:
             Irstr = vals["I Range"]
-        Irange = param_from_key("I_range", Irstr, to_str=False)
+        Irange = param_from_key("I Range", Irstr, to_str=False)
 
         # I Range can be None if it's set to "Auto", "PAC" or other such string.
         if Irange is None:
@@ -576,9 +576,9 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
                 E_range_max = el.get("E_range_max", float("inf"))
                 E_range_min = el.get("E_range_min", float("-inf"))
                 Eranges.append(E_range_max - E_range_min)
-                Iranges.append(el.get("I_range", "Auto"))
-                if "set_I/C" in el:
-                    ctrls.append(el["set_I/C"])
+                Iranges.append(el.get("I Range", "Auto"))
+                if "Set I/C" in el:
+                    ctrls.append(el["Set I/C"])
                 elif "apply_I/C" in el:
                     ctrls.append(el["apply_I/C"])
                 else:

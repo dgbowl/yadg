@@ -1022,7 +1022,7 @@ _mp_params_dtypes = [
     (
         np.dtype(
             [
-                ("Mode", "<u4"),
+                ("Mode", "|u4"),
                 ("tR (h:m:s)", "<f4"),
                 ("dER/dt (mV/h)", "<f4"),
                 ("dER (mV)", "<f4"),
@@ -1051,15 +1051,15 @@ _mp_params_dtypes = [
                 ("dtp (s)", "<f4"),
                 ("dts (s)", "<f4"),
                 ("step percent", "|u1"),
-                ("N", "|u1"),
+                ("N", "|u4"),
                 ("dQM", "<f4"),
-                ("unit dQM", "<u4"),
+                ("unit dQM", "|u1"),
                 ("Imax", "<f4"),
                 ("unit Imax", "|u1"),
                 ("Imin", "<f4"),
                 ("unit Imin", "|u1"),
                 ("goto Ns'", "|u4"),
-                ("nc cycles", "<u4"),
+                ("nc cycles", "|u4"),
             ]
         ),
         {"11.50"},

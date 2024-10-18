@@ -1373,18 +1373,25 @@ param_map = {
     ),
     "E_vs": (
         ("Eref", 0),
+        ("Emeas", 2),
         ("Eref", 112),
     ),
     "E1_vs": (
         ("Eref", 0),
+        ("Eref", 4),
         ("Eref", 110),
         ("Eref", 135),
     ),
-    "E2_vs": (("Eref", 123),),
+    "E2_vs": (
+        ("Eref", 123),
+        ("Eref", 4),
+    ),
     "Ef_vs": (
         ("Eoc", 0),
         ("Eref", 1),
+        ("Eoc", 2),
         ("Eoc", 3),
+        ("Eref", 22),
         ("Eoc", 50),
     ),
     "Ei_vs": (
@@ -1395,7 +1402,12 @@ param_map = {
     ),
     "EL_vs": (
         ("Eref", 0),
+        ("Eref", 4),
         ("Eoc", 102),
+    ),
+    "Es_vs": (
+        ("Eoc", 0),
+        ("Eref", 4),
     ),
     "Is_vs": (
         ("None", 0),

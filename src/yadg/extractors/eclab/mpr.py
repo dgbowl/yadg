@@ -306,6 +306,10 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
         params.append(pardict)
+    if len(params) > 0:
+        params = {k: [d[k] for d in params] for k in params[0]}
+    else:
+        params = {}
     return settings, params
 
 
@@ -569,20 +573,17 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         module_data = module[mhd.itemsize :]
         if name == "VMP Set":
             settings, params = process_settings(module_data, minver)
-            Eranges = []
-            Iranges = []
-            ctrls = []
-            for el in params:
-                E_range_max = el.get("E_range_max", float("inf"))
-                E_range_min = el.get("E_range_min", float("-inf"))
-                Eranges.append(E_range_max - E_range_min)
-                Iranges.append(el.get("I Range", "Auto"))
-                if "Set I/C" in el:
-                    ctrls.append(el["Set I/C"])
-                elif "Apply I/C" in el:
-                    ctrls.append(el["Apply I/C"])
-                else:
-                    ctrls.append(None)
+
+            E_range_max = params.get("E range max (V)", [float("inf")])
+            E_range_min = params.get("E range min (V)", [float("-inf")])
+            Eranges = [a - b for a, b in zip(E_range_max, E_range_min)]
+            Iranges = params.get("I Range", ["Auto"])
+            if "Set I/C" in params:
+                ctrls = params.get("Set I/C")
+            elif "Apply I/C" in params:
+                ctrls = params.get("Apply I/C")
+            else:
+                ctrls = [None] * len(Iranges)
         elif name == "VMP data":
             ds = process_data(module_data, version, Eranges, Iranges, ctrls)
         elif name == "VMP LOG":

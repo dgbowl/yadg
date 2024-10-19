@@ -244,7 +244,7 @@ _cva_params_dtypes = [
                 ("t2", "<f4"),
                 ("dt2", "<f4"),
                 ("nc cycles", "|u4"),
-                ("nr", "|u1"),
+                ("nr", "|u4"),
                 ("Reverse Scan", "|u1"),
                 ("Ef (V)", "<f4"),
                 ("Ef (V) vs.", "|u1"),
@@ -1187,6 +1187,37 @@ technique_params_dtypes = {
     0x7F: ("MB", _mb_params_dtypes),
 }
 
+unit_map = {
+    "f": (
+        ("MHz", 0, 1e6),
+        ("kHz", 1, 1e3),
+        ("Hz", 2, 1.0),
+        ("mHz", 3, 1e-3),
+    ),
+    "I": (
+        ("A", 0, 1.0),
+        ("mA", 1, 1e-3),
+        ("µA", 2, 1e-6),
+        ("nA", 3, 1e-9),
+        ("pA", 4, 1e-12),
+    ),
+    "Q": (
+        ("A.h", 0, 1.0),
+        ("mA.h", 1, 1e-3),
+        ("µA.h", 2, 1e-6),
+        ("nA.h", 3, 1e-9),
+        ("pA.h", 4, 1e-12),
+    ),
+    "vs.": (("<None>", 2),),
+}
+
+vs_map = (
+    ("Eoc", 0),
+    ("Emeas", 2),
+    ("Ei", 3),
+    ("Ref", 4),
+)
+
 param_map = {
     "I Range": (
         ("10 mA", 1, 1e-2),
@@ -1384,16 +1415,31 @@ param_map = {
         ("16 A", 193, 16.0),
         ("Auto", None, None),
     ),
-    "unit Is": (
-        ("A", 0),  # guess
-        ("mA", 1),
-        ("µA", 2),
-        ("nA", 3),  # guess
-        ("pA", 4),  # guess
-    ),
+    "unit dI": unit_map["I"],
+    "unit dIp": unit_map["I"],
+    "unit dq": unit_map["Q"],
+    "unit dQ": unit_map["Q"],
+    "unit dQM": unit_map["Q"],
+    "unit dQp": unit_map["Q"],
+    "unit f": unit_map["f"],
+    "unit fi": unit_map["f"],
+    "unit ff": unit_map["f"],
+    "unit  Ia": unit_map["I"],
+    "unit Im": unit_map["I"],
+    "unit Imax": unit_map["I"],
+    "unit Imin": unit_map["I"],
+    "unit Is": unit_map["I"],
+    "unit Is vs.": unit_map["vs."],
+    "E (V) vs.": vs_map,
+    "E1 (V) vs.": vs_map,
+    "E2 (V) vs.": vs_map,
+    "Ef (V) vs.": vs_map,
+    "Ei (V) vs.": vs_map,
+    "EL (V) vs.": vs_map,
+    "Es (V) vs.": vs_map,
     "Set I/C": (
         ("I", 0),
-        ("C", 1),  # guess
+        ("C", 1),
     ),
     "Apply I/C": (
         ("I", 0),

@@ -18,6 +18,15 @@ def check_file(fname, kwargs, func):
     return ret
 
 
+def compare_params(left, right):
+    lpar = left.attrs["original_metadata"].get("params", {})
+    rpar = right.attrs["original_metadata"].get("params", {})
+    for k in rpar:
+        if k.endswith("vs.") or k.startswith("unit") or k == "I Range":
+            assert k in lpar, f"Param {k!r} not found in mpt file: {lpar.keys()}"
+            assert lpar[k] == rpar[k], f"Inconsistent param {k!r}: {lpar[k]}, {rpar[k]}"
+
+
 @pytest.mark.parametrize(
     "froot, locale",
     [
@@ -64,6 +73,7 @@ def test_eclab_consistency(froot, locale, datadir):
         except AssertionError as e:
             e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
             raise e
+    compare_params(aret, bret)
 
 
 @pytest.mark.parametrize(
@@ -101,6 +111,7 @@ def test_eclab_consistency_partial_1(froot, locale, datadir):
         except AssertionError as e:
             e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
             raise e
+    compare_params(aret, bret)
 
 
 @pytest.mark.parametrize(
@@ -126,6 +137,7 @@ def test_eclab_consistency_partial_2(froot, locale, datadir):
         except AssertionError as e:
             e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
             raise e
+    compare_params(aret, bret)
 
 
 @pytest.mark.parametrize(

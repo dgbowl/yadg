@@ -440,7 +440,7 @@ _geis_params_dtype = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"10.40"},
@@ -960,7 +960,7 @@ _peis_params_dtypes = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"10.40"},

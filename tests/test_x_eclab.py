@@ -45,6 +45,7 @@ def compare_params(left, right):
         ("gcpl.issue_149", "de_DE"),
         ("geis", "en_US"),
         ("lsv", "en_US"),
+        ("lsv.issue_195", "en_US"),
         ("mb", "en_US"),
         ("mb.issue_95", "en_US"),
         ("mb.issue_149", "de_DE"),

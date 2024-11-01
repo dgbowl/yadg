@@ -440,7 +440,7 @@ _geis_params_dtype = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"10.40"},
@@ -502,7 +502,7 @@ _geis_params_dtype = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"11.50"},
@@ -540,8 +540,38 @@ _lsv_params_dtype = [
                 ("Bandwidth", "|u1"),
             ]
         ),
-        {"10.40", "11.50"},
-    )
+        {"10.40"},
+    ),
+    (
+        np.dtype(
+            [
+                ("tR (h:m:s)", "<f4"),
+                ("dER/dt (mV/h)", "<f4"),
+                ("dER (mV)", "<f4"),
+                ("dtR (s)", "<f4"),
+                ("dE/dt", "<f4"),
+                ("dE/dt unit", "|u1"),
+                ("Ei (V)", "<f4"),
+                ("Ei (V) vs.", "|u4"),
+                ("EL (V)", "<f4"),
+                ("EL (V) vs.", "|u4"),
+                ("record", "|u1"),
+                ("dI", "<f4"),
+                ("unit dI", "|u1"),
+                ("tI (s)", "<f4"),
+                ("step percent", "|u1"),
+                ("N", "|u4"),
+                ("E range min (V)", "<f4"),
+                ("E range max (V)", "<f4"),
+                ("I Range", "|u1"),
+                ("I Range min", "|u1"),
+                ("I Range max", "|u1"),
+                ("I Range init", "|u1"),
+                ("Bandwidth", "|u1"),
+            ]
+        ),
+        {"11.50"},
+    ),
 ]
 
 
@@ -930,7 +960,7 @@ _peis_params_dtypes = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"10.40"},
@@ -938,9 +968,9 @@ _peis_params_dtypes = [
     (
         np.dtype(
             [
-                ("Mode", "|u4"),
+                ("Mode", "|u1"),
                 ("E (V)", "<f4"),
-                ("E (V) vs.", "|u1"),
+                ("E (V) vs.", "|u4"),
                 ("tE (h:m:s)", "<f4"),
                 ("record", "|u1"),
                 ("dI", "<f4"),
@@ -989,7 +1019,7 @@ _peis_params_dtypes = [
                 ("nc cycles", "|u4"),
                 ("goto Ns'", "|u4"),
                 ("nr cycles", "|u4"),
-                ("inc. cycle", "|u4"),
+                ("inc. cycle", "|u1"),
             ]
         ),
         {"11.50"},

@@ -70,7 +70,7 @@ def extract(
 ) -> DataTree:
     with tarfile.open(fn, mode="r") as tf:
         with tempfile.TemporaryDirectory() as tempdir:
-            tf.extractall(tempdir)
+            tf.extractall(tempdir, filter="data")
 
             # Get file metadata
             with open(os.path.join(tempdir, "metadata.json")) as inf:

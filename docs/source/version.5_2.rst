@@ -15,13 +15,14 @@ Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Unive
 
 New features in ``yadg-5.2`` are:
 
-  - Implemented support for merged/appended files in :mod:`~yadg.extractors.eclab.mpr`. Test files taken from the data available at https://zenodo.org/doi/10.5281/zenodo.12165685. Thanks to Arnd Koeppe from KIT for bringing the issue up.
-  - Implemented support for the Modular Potentio technique in :mod:`~yadg.extractors.eclab.mpr`. Thanks to Graham Kimbell and Clea Burgel from Empa for providing test data.
-  - Implemented support for the Constant Current and Constant Voltage techniques in :mod:`~yadg.extractors.eclab.mpr`. Thanks to Carla Terboven from HZB for providing test data.
+  - Implemented support for merged/appended files in :mod:`yadg.extractors.eclab.mpr`. Test files taken from the data available at https://zenodo.org/doi/10.5281/zenodo.12165685. Thanks to Arnd Koeppe from KIT for bringing the issue up.
+  - Implemented support for the Modular Potentio technique in :mod:`yadg.extractors.eclab.mpr`. Thanks to Graham Kimbell and Clea Burgel from Empa for providing test data.
+  - Implemented support for the Constant Current and Constant Voltage techniques in :mod:`yadg.extractors.eclab.mpr`. Thanks to Carla Terboven from HZB for providing test data.
 
 Other changes in ``yadg-5.2`` are:
 
 Bug fixes in ``yadg-5.2`` include:
 
-  - Increased supported I-range values in :mod:`~yadg.extractors.eclab` up to 193.
-  - Implemented support for a 33-parameter GCPL file in :mod:`~yadg.extractors.eclab.mpr`.
+  - Increased supported I-range values in :mod:`yadg.extractors.eclab` up to 193.
+  - Implemented support for a 33-parameter GCPL file in :mod:`yadg.extractors.eclab.mpr`.
+  - Fixed parsing of optional metadata in :mod:`yadg.extractors.fusion.json`. Thanks to Emiliano Dal Molin for finding the bug and providing test data.

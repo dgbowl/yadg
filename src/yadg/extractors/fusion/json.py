@@ -53,15 +53,13 @@ logger = logging.getLogger(__name__)
 
 
 def chromdata(jsdata: dict, uts: float) -> Dataset:
-    metadata = {
-        "method": jsdata.get("methodName", "n/a"),
-        "version": jsdata.get("softwareVersion", {}).get("version", None),
-        "datafile": jsdata.get("sequence", {}).get("location", None),
-    }
-
-    sampleid = jsdata.get("annotations", {}).get("name", None)
-    if sampleid is not None:
-        metadata["sampleid"] = sampleid
+    metadata = {}
+    metadata["method"] = jsdata["methodName"]
+    metadata["version"] = jsdata["softwareVersion"]["version"]
+    if jsdata.get("sequence") is not None:
+        metadata["datafile"] = jsdata["sequence"].get("location")
+    if jsdata.get("annotations") is not None:
+        metadata["sampleid"] = jsdata["annotations"].get("name", None)
 
     units = {
         "height": None,
@@ -138,13 +136,6 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
 
 
 def chromtrace(jsdata: dict, uts: float) -> DataTree:
-    metadata = {
-        "method": jsdata.get("methodName", "n/a"),
-        "sampleid": jsdata.get("annotations", {}).get("name", None),
-        "version": jsdata.get("softwareVersion", {}).get("version", None),
-        "datafile": jsdata.get("sequence", {}).get("location", None),
-    }
-
     # sort detector keys to ensure alphabetic order for ID matching
     traces = sorted(jsdata["detectors"].keys())
     vals = {}
@@ -184,7 +175,6 @@ def chromtrace(jsdata: dict, uts: float) -> DataTree:
         vals[detname] = fvals
 
     dt = DataTree.from_dict(vals)
-    dt.attrs = dict(original_metadata=metadata)
     return dt
 
 

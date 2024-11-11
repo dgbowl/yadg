@@ -19,7 +19,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ detector_name }}:
         coords:
           uts:            !!float               # Unix timestamp
@@ -44,7 +44,7 @@ The following metadata is extracted:
 import zipfile
 import tempfile
 import os
-from datatree import DataTree
+from xarray import DataTree
 
 from yadg.extractors.agilent.ch import extract as extract_ch
 from yadg import dgutils

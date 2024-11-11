@@ -12,7 +12,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:              !!float
         species:          !!str
@@ -41,8 +41,7 @@ No metadata is currently extracted.
 
 import json
 import logging
-from datatree import DataTree
-from xarray import Dataset
+from xarray import Dataset, DataTree
 import xarray as xr
 import numpy as np
 

@@ -15,7 +15,7 @@ in a typical ``mpr`` file.
 
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float     # Unix timestamp, without date
       data_vars:
@@ -221,7 +221,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 
 import logging
-from datatree import DataTree
+from xarray import DataTree
 import numpy as np
 from yadg import dgutils
 from .techniques import (

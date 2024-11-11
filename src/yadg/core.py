@@ -1,5 +1,5 @@
 import logging
-from datatree import DataTree
+from xarray import DataTree
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils

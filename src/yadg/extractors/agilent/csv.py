@@ -20,7 +20,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ detector_name }}:
         coords:
           uts:            !!float               # Unix timestamp
@@ -48,7 +48,7 @@ import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from yadg import dgutils
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 import logging
 
 logger = logging.getLogger(__name__)

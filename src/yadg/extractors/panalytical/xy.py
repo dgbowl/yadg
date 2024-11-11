@@ -12,7 +12,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         angle:          !!float               # 2θ angle
       data_vars:
@@ -36,7 +36,7 @@ timestamp.
 
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import numpy as np
-from datatree import DataTree
+from xarray import DataTree
 import xarray as xr
 
 

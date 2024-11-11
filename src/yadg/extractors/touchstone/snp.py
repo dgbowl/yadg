@@ -16,7 +16,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ parameter_name }}                  # S11, S21, etc. for scattering parameters
         coords:
           uts:            !!float           # Unix timestamp, optional
@@ -65,8 +65,7 @@ Currently, only the first three sections are parsed.
 """
 
 import logging
-from datatree import DataTree
-from xarray import Dataset, DataArray
+from xarray import Dataset, DataArray, DataTree
 from babel.numbers import parse_decimal
 
 from yadg import dgutils

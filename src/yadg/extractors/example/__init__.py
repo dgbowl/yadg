@@ -15,7 +15,7 @@ The output schema is only defined for the ``tomato.json`` filetype.
 
 .. code-block:: yaml
 
-  datatree.DataTree:
+  xarray.DataTree:
     coords:
       uts:              !!float      # The current timestamp
     data_vars:
@@ -32,7 +32,7 @@ No metadata is returned.
 
 from pydantic import BaseModel
 from yadg import dgutils
-from datatree import DataTree
+from xarray import DataTree
 
 
 def extract(

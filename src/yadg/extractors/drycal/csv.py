@@ -17,7 +17,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float               # Unix timestamp, without date
       data_vars:
@@ -42,7 +42,7 @@ All uncertainties are derived from the string representation of the floats.
 
 """
 
-from datatree import DataTree
+from xarray import DataTree
 from yadg.extractors.drycal import common
 
 

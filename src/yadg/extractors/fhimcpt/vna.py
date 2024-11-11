@@ -19,7 +19,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       S11:              !!xarray.Dataset
         coords:
             freq:       !!float     # An array of measurement frequencies
@@ -40,7 +40,7 @@ No metadata is returned.
 
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 
 
 def extract(

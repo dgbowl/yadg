@@ -27,7 +27,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
       data_vars:
@@ -45,10 +45,9 @@ No metadata is extracted.
 import logging
 from pydantic import BaseModel
 from babel.numbers import parse_decimal
-from datatree import DataTree
+from xarray import DataTree
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
-
 
 from yadg import dgutils
 

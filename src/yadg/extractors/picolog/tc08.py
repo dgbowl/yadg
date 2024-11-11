@@ -12,7 +12,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float           # Unix timestamp, optional
       data_vars:
@@ -58,7 +58,7 @@ import tarfile
 import gzip
 import tempfile
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 
 from yadg import dgutils
 

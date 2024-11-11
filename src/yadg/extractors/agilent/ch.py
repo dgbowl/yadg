@@ -16,7 +16,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ detector_name }}:
         coords:
           uts:            !!float               # Unix timestamp
@@ -72,7 +72,7 @@ Uncertainty in ``elution_time`` is the x-axis step size.
 import numpy as np
 from yadg import dgutils
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 
 magic_values = {}
 magic_values["179"] = {

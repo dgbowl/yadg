@@ -15,7 +15,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:              !!float
         species:          !!str
@@ -45,7 +45,7 @@ No metadata is currently extracted.
 import zipfile
 import tempfile
 import os
-from datatree import DataTree
+from xarray import DataTree
 
 from yadg.extractors.fusion.json import extract as extract_json
 from yadg import dgutils

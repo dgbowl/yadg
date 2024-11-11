@@ -1,7 +1,7 @@
 import json
 import yaml
 import yadg.core
-from datatree import DataTree
+from xarray import DataTree
 import xarray as xr
 from dgbowl_schemas.yadg import to_dataschema
 

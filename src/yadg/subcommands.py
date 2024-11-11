@@ -5,8 +5,7 @@ import yaml
 import shutil
 import hashlib
 from pathlib import Path
-from datatree import DataTree
-from xarray import Dataset
+from xarray import Dataset, DataTree
 
 from dgbowl_schemas.yadg import to_dataschema
 from yadg import core, dgutils, extractors

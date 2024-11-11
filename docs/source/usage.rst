@@ -24,7 +24,7 @@ In this mode, **yadg** can be invoked by providing just the `FileType` and the p
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** into a :class:`~datatree.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. In addition to any ``original_metadata`` stored in the ``.attrs`` object of the resulting :class:`~datatree.DataTree`, it will contain **yadg**-specific metadata, including the annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
+The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. In addition to any ``original_metadata`` stored in the ``.attrs`` object of the resulting :class:`~xarray.DataTree`, it will contain **yadg**-specific metadata, including the annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
 
 .. warning::
 
@@ -63,7 +63,7 @@ The main purpose of **yadg** is to process a bunch of raw data files according t
 
     yadg process infile [outfile]
 
-Where ``infile`` corresponds to the ``json`` or ``yaml`` file containing the `dataschema`, and the optional ``outfile`` is the filename to which the created :class:`~datatree.DataTree` should be saved (it defaults to ``datagram.nc``).
+Where ``infile`` corresponds to the ``json`` or ``yaml`` file containing the `dataschema`, and the optional ``outfile`` is the filename to which the created :class:`~xarray.DataTree` should be saved (it defaults to ``datagram.nc``).
 
 In this fully-featured usage pattern via `dataschema`, the individual `extractors` can be further configured and combined. The currently implemented `extractors` are documented in the sidebar.
 
@@ -83,9 +83,9 @@ Alternatively, if the `dataschema` should be processed immediately, the ``--proc
 
     yadg preset -p infile folder [outfile.nc]
 
-This syntax will process the created `dataschema` immediately, and the :class:`~datatree.DataTree` will be saved to ``outfile.nc`` instead.
+This syntax will process the created `dataschema` immediately, and the :class:`~xarray.DataTree` will be saved to ``outfile.nc`` instead.
 
-Finally, the raw data files in the processed ``folder`` can be archived, checksumed, and referenced in the :class:`~datatree.DataTree`, by using the following pattern:
+Finally, the raw data files in the processed ``folder`` can be archived, checksumed, and referenced in the :class:`~xarray.DataTree`, by using the following pattern:
 
 .. code-block:: bash
 

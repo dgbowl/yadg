@@ -35,8 +35,8 @@ Other changes in ``yadg-5.1`` are:
   - Locale-aware functionality now uses :mod:`babel` instead of the built-in :mod:`locale` module. This means the ``locale`` argument should now be a :class:`str` containing at least the 2-letter country code, ideally also a territory (e.g. ``en_US`` or ``de_CH``). As of ``yadg-5.1``, no :func:`locale.setlocale` is called, making locale procesing in **yadg** thread-safe.
   - The processing of uncertainties in :mod:`yadg.extractors.eclab` has been changed, with derived quantities now having uncertainties based on the relative error in the measured voltage and / or current.
   - The ``yadg extract`` functionality now accepts ``--locale``, ``--timezone``, and ``--encoding`` as optional arguments.
-  - The :func:`yadg.extractors.extract` function now always returns a :class:`datatree.DataTree`.
-  - The meta-only functionality of ``yadg extract`` now returns a dict with the node names of the :class:`datatree.DataTree` as keys and the metadata as values.
+  - The :func:`yadg.extractors.extract` function now always returns a :class:`xarray.DataTree`.
+  - The meta-only functionality of ``yadg extract`` now returns a dict with the node names of the :class:`xarray.DataTree` as keys and the metadata as values.
 
 Bug fixes in ``yadg-5.1`` include:
 

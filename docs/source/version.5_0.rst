@@ -12,7 +12,7 @@ Developed at Technische Universität Berlin (Berlin, DE) and at Empa (Dübendorf
 New features since ``yadg-4.2`` are:
 
   - Support for ``DataSchema-5.0``.
-  - The output format of ``yadg`` is now a ``NetCDF`` file (``.nc``), as written by the :class:`datatree.DataTree` class.
+  - The output format of ``yadg`` is now a ``NetCDF`` file (``.nc``), as written by the :class:`xarray.DataTree` class.
   - The supplied `dataschemas` are now automatically updated, yielding the latest verison of `dataschema` prior to parsing.
   - Added ``yadg extract`` usage, with optional ``--meta-only`` switch, for a quick data or meta data extraction from individual files. This implements the |marda_extractors|_ inteface.
 

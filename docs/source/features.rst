@@ -7,7 +7,7 @@ One of the key features of **yadg** is the enforced association of units and unc
 
 Units
 +++++
-In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`datatree.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
+In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`~xarray.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
 
 .. warning::
 
@@ -39,7 +39,7 @@ Note that locale settings currently do not affect processing of date and time st
 
 Original metadata
 `````````````````
-By default, **yadg** attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the ``original_metadata`` entry within the ``.attrs`` on the :class:`~datatree.DataTree` nodes, which is serialised into json strings in the :func:`yadg.extractors.extract` function.
+By default, **yadg** attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the ``original_metadata`` entry within the ``.attrs`` on the :class:`~xarray.DataTree` nodes, which is serialised into json strings in the :func:`yadg.extractors.extract` function.
 
 .. warning::
 
@@ -47,7 +47,7 @@ By default, **yadg** attempts to decode and store all understood metadata presen
 
 .. note::
 
-    When merging multiple files into one :class:`~datatree.DataTree`, it may happen that the ``original_metadata`` entry is not identical in between the processed files. In such cases, executing **yadg** with the ``--ignore-merge-errors`` option will drop the conflicting metadata entries and proceed with the processing.
+    When merging multiple files into one :class:`~xarray.DataTree`, it may happen that the ``original_metadata`` entry is not identical in between the processed files. In such cases, executing **yadg** with the ``--ignore-merge-errors`` option will drop the conflicting metadata entries and proceed with the processing.
 
 
 `DataSchema` validation

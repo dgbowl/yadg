@@ -18,6 +18,7 @@ jobs:
           - uses: actions/setup-python@v5
             with:
                 python-version: ${{ inputs.pyver }}
+                check-latest: true
           - uses: actions/download-artifact@v4
             with:
                 name: dist-${{ inputs.os }}-${{ inputs.pyver }}

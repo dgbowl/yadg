@@ -20,6 +20,7 @@ jobs:
           - uses: actions/setup-python@v5
             with:
                 python-version: ${{ inputs.pyver }}
+                check-latest: true
           - name: Install dependencies
             shell: bash
             run: |

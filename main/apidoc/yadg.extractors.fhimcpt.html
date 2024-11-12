@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fhimcpt: For MCPT set-up at FHI &mdash; yadg 5.1.dev14 documentation</title>
+  <title>fhimcpt: For MCPT set-up at FHI &mdash; yadg 5.1.dev15 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=16155f75"></script>
+        <script src="../_static/documentation_options.js?v=b26ddb6c"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                5.1.dev14
+                5.1.dev15
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -184,7 +184,7 @@ information about the timestamp, temperatures, and inlet / process flows.</p>
 </section>
 <section id="schema">
 <h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">     </span><span class="c1"># Unix timestamp</span>
 <span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
@@ -215,7 +215,7 @@ information about the timestamp, temperatures, and inlet / process flows.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fhimcpt.csv.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseModel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev3+g5f3956f.d20241024)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.csv.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseModel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.10.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.csv.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -254,7 +254,7 @@ this value.</p>
 </section>
 <section id="id2">
 <h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">datatree.DataTree</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">S11</span><span class="p">:</span><span class="w">              </span><span class="kt">!!xarray.Dataset</span>
 <span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">freq</span><span class="p">:</span><span class="w">       </span><span class="kt">!!float</span><span class="w">     </span><span class="c1"># An array of measurement frequencies</span>
@@ -273,7 +273,7 @@ this value.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fhimcpt.vna.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.vna.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://xarray-datatree.readthedocs.io/en/latest/generated/datatree.DataTree.html#datatree.DataTree" title="(in Datatree v0.0.15.dev3+g5f3956f.d20241024)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.vna.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.vna.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.10.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.vna.extract" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -306,7 +306,7 @@ this value.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 5.1.dev14
+      v: 5.1.dev15
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

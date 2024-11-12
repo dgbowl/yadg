@@ -33,6 +33,7 @@ The project is also part of BATTERY 2030+, the large-scale European research ini
    :caption: yadg user manual
    :hidden:
 
+   install
    usage
    features
    citing

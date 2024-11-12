@@ -2,7 +2,7 @@ import pytest
 import subprocess
 import os
 import json
-from datatree import open_datatree
+from xarray import open_datatree
 import numpy as np
 from .utils import compare_datatrees
 

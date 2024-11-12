@@ -15,7 +15,7 @@ in a typical ``.mpt`` file.
 
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float     # Unix timestamp, without date
       data_vars:
@@ -60,7 +60,7 @@ The metadata will contain the information from the header of the file.
 import logging
 from typing import Any
 from babel.numbers import parse_decimal
-from datatree import DataTree
+from xarray import DataTree
 from yadg import dgutils
 from .techniques import get_devs, param_from_key
 from .mpt_columns import column_units

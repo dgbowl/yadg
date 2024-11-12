@@ -14,7 +14,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ trace_name }}:
         coords:
           E:            !!float               # Binding energies
@@ -131,8 +131,7 @@ far only seem to take on values in those steps.
 import re
 import numpy as np
 import xarray as xr
-import datatree
-from datatree import DataTree
+from xarray import DataTree
 import yadg.dgutils as dgutils
 
 data_header_dtype = np.dtype(
@@ -383,6 +382,6 @@ def extract(
         )
         vals[v["name"]] = fvals
 
-    dt = datatree.DataTree.from_dict(vals)
+    dt = DataTree.from_dict(vals)
     dt.attrs["original_metadata"] = meta
     return dt

@@ -12,7 +12,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ trace_index }}:
         coords:
           uts:              !!float               # Unix timestamp
@@ -97,7 +97,7 @@ neighboring M/Z points (50 ppm).
 """
 
 import numpy as np
-from datatree import DataTree
+from xarray import DataTree
 import xarray as xr
 import yadg.dgutils as dgutils
 

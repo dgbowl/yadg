@@ -6,19 +6,19 @@ jobs:
     build:
         uses: ./.github/workflows/workflow-build.yml
         with:
-            pyver: '3.9'
+            pyver: '3.10'
             os: 'ubuntu-latest'
     test:
         needs: [build]
         uses: ./.github/workflows/workflow-test.yml
         with:
-            pyver: '3.9'
+            pyver: '3.10'
             os: 'ubuntu-latest'
     pages:
         needs: [build]
         uses: ./.github/workflows/workflow-pages.yml
         with:
-            pyver: '3.9'
+            pyver: '3.10'
             os: ubuntu-latest
     deploy:
         needs: [pages]
@@ -27,10 +27,10 @@ jobs:
           - uses: actions/checkout@v4
           - uses: actions/setup-python@v5
             with:
-                python-version: '3.9'
+                python-version: '3.10'
           - uses: actions/download-artifact@v4
             with:
-                name: public-ubuntu-latest-3.9
+                name: public-ubuntu-latest-3.10
                 path: public/main
           - uses: peaceiris/actions-gh-pages@v3
             with:

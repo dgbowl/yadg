@@ -1,7 +1,7 @@
 import importlib
 import logging
 import json
-from datatree import DataTree
+from xarray import DataTree
 from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
 
@@ -71,7 +71,7 @@ def extract_from_path(
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
-    # Func should always return a datatree.DataTree
+    # Func should always return a xarray.DataTree
     ret: DataTree = func(fn=path, **vars(extractor))
     jsonize_orig_meta(ret)
 

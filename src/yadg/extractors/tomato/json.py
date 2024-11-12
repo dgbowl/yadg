@@ -13,7 +13,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float     # Unix timestamp
       data_vars:
@@ -63,7 +63,7 @@ I-range with a maximum of 0.76 uA.
 import json
 import logging
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 
 from yadg import dgutils
 

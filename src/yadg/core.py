@@ -1,5 +1,5 @@
 import logging
-from datatree import DataTree
+from xarray import DataTree
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
@@ -75,5 +75,5 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag
-        stepdt.parent = root
+        root[step.tag] = stepdt
     return root

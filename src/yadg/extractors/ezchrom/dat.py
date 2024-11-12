@@ -11,7 +11,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       {{ detector_trace }}:
         coords:
           uts:            !!float               # Unix timestamp
@@ -50,7 +50,7 @@ multiplier.
 
 import olefile
 import xarray as xr
-from datatree import DataTree
+from xarray import DataTree
 import numpy as np
 
 from yadg import dgutils

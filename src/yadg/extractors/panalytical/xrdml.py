@@ -11,7 +11,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         angle:          !!float               # 2θ angle
@@ -61,7 +61,7 @@ from collections import defaultdict
 from typing import Union
 from xml.etree import ElementTree
 import numpy as np
-from datatree import DataTree
+from xarray import DataTree
 import xarray as xr
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 

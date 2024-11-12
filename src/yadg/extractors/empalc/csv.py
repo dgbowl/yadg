@@ -16,7 +16,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float               # Unix timestamp
         species:        !!str                 # Species name
@@ -46,7 +46,7 @@ import datetime
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 import numpy as np
-from datatree import DataTree
+from xarray import DataTree
 
 logger = logging.getLogger(__name__)
 

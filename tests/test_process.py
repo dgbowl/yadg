@@ -3,7 +3,7 @@ import os
 import json
 import yadg.dgutils
 import yadg.core
-import datatree
+import xarray as xr
 from .utils import compare_datatrees
 
 
@@ -22,5 +22,5 @@ def test_process_locale_passthrough(input, datadir):
     schema = yadg.dgutils.update_schema(obj)
     ret = yadg.core.process_schema(schema)
     # ret.to_netcdf(f"{input}.nc", engine="h5netcdf")
-    ref = datatree.open_datatree(f"{input}.nc", engine="h5netcdf")
+    ref = xr.open_datatree(f"{input}.nc", engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)

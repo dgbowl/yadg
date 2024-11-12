@@ -13,7 +13,7 @@ Schema
 ``````
 .. code-block:: yaml
 
-    datatree.DataTree:
+    xarray.DataTree:
       coords:
         uts:            !!float     # Unix timestamp
       data_vars:
@@ -48,7 +48,7 @@ import logging
 from pydantic import BaseModel
 from yadg.extractors.basic.csv import process_row
 from yadg import dgutils
-from datatree import DataTree
+from xarray import DataTree
 
 logger = logging.getLogger(__name__)
 

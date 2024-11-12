@@ -8,6 +8,7 @@ name = "yadg"
 authors = [
     {name = "Peter Kraus", email = "peter.kraus@tu-berlin.de"},
     {name = "Nicolas Vetsch"},
+    {name = "Carla Terboven"},
 ]
 maintainers = [
     {name = "Peter Kraus", email = "peter.kraus@tu-berlin.de"},
@@ -17,13 +18,13 @@ readme = "README.md"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
 ]
-requires-python = ">= 3.9"
+requires-python = ">= 3.10"
 dependencies = [
     "numpy >= 1.20",
     "pint >= 0.24.1",
@@ -38,7 +39,7 @@ dependencies = [
     "h5netcdf >= 1.0",
     "pandas >= 2.0",
     "babel >= 2.15",
-    "xarray-datatree >= 0.0.12",
+    "xarray >= 2024.10.0",
     "dgbowl-schemas >= 120",
 ]
 

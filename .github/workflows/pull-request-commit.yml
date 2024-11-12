@@ -9,7 +9,7 @@ jobs:
                 pyver: ['3.10', '3.11', '3.12', '3.13']
                 os: ['ubuntu-latest']
                 include:
-                  - pyver: '3.10'
+                  - pyver: '3.10.15'
                     os: 'windows-latest'
         uses: ./.github/workflows/workflow-build.yml
         with:
@@ -22,7 +22,7 @@ jobs:
                 pyver: ['3.10', '3.11', '3.12', '3.13']
                 os: ['ubuntu-latest']
                 include:
-                  - pyver: '3.10'
+                  - pyver: '3.10.15'
                     os: 'windows-latest'
         uses: ./.github/workflows/workflow-test.yml
         with:

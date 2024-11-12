@@ -19,9 +19,15 @@ Implemented techniques:
     - ZIR - IR compensation (PEIS)
     - MP - Modular Potentio
     - CoV - Constant Voltage
+    - CoC - Constant Current
 
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
+
+.. codeauthor::
+    Nicolas Vetsch,
+    Peter Kraus,
+    Carla Terboven
 
 """
 

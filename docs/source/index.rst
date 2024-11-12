@@ -17,6 +17,7 @@ Contributors
 ````````````
 - `Peter Kraus <https://github.com/PeterKraus>`_
 - `Nicolas Vetsch <https://github.com/vetschn>`_
+- `Carla Terboven <https://github.com/carla-terboven>`_
 
 Acknowledgements
 ````````````````

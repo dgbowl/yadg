@@ -3,7 +3,7 @@ import logging
 import json
 from datatree import DataTree
 from yadg import dgutils
-from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
+from dgbowl_schemas.yadg.dataschema_5_1 import ExtractorFactory, FileType
 
 
 logger = logging.getLogger(__name__)

@@ -5,7 +5,7 @@ Usage
 `````
 Available since ``yadg-4.0``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.EClab_mpr
 
 Schema
 ``````

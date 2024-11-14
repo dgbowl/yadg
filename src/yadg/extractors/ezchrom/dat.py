@@ -5,7 +5,7 @@ Usage
 `````
 Available since ``yadg-5.1``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EZChrom_dat
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.EZChrom_dat
 
 Schema
 ``````

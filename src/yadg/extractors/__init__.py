@@ -3,9 +3,10 @@ import logging
 import json
 from xarray import DataTree
 from yadg import dgutils
-from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
+from yadg.dgutils.schemautils import __latest_dataschema__ as ver
 
-
+modname = f"dgbowl_schemas.yadg.dataschema_{ver.major}_{ver.minor}"
+dataschema = importlib.import_module(modname)
 logger = logging.getLogger(__name__)
 
 
@@ -42,7 +43,7 @@ def extract(
         A :class:`str` containing the locale name, e.g. "de_CH".
 
     """
-    extractor = ExtractorFactory(
+    extractor = dataschema.ExtractorFactory(
         extractor={
             "filetype": filetype,
             "timezone": timezone,
@@ -56,7 +57,7 @@ def extract(
 
 def extract_from_path(
     path: str,
-    extractor: FileType,
+    extractor: dataschema.FileType,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided path using the supplied extractor.

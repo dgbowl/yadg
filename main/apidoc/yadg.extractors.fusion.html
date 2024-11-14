@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fusion: For Fusion chromatograms &mdash; yadg 5.1.dev15 documentation</title>
+  <title>fusion: For Fusion chromatograms &mdash; yadg 5.1.dev16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b26ddb6c"></script>
+        <script src="../_static/documentation_options.js?v=85955106"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                5.1.dev15
+                5.1.dev16
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -51,6 +51,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
@@ -68,7 +69,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>fusion</strong>: For Fusion chromatograms</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fusion.csv">yadg.extractors.fusion.csv module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv"><code class="docutils literal notranslate"><span class="pre">Fusion_csv</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_csv"><code class="docutils literal notranslate"><span class="pre">Fusion_csv</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
@@ -79,7 +80,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fusion.json">yadg.extractors.fusion.json module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json"><code class="docutils literal notranslate"><span class="pre">Fusion_json</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_json"><code class="docutils literal notranslate"><span class="pre">Fusion_json</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
@@ -91,7 +92,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fusion.zip">yadg.extractors.fusion.zip module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip"><code class="docutils literal notranslate"><span class="pre">Fusion_zip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip"><code class="docutils literal notranslate"><span class="pre">Fusion_zip</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Schema</a></li>
@@ -142,6 +143,7 @@
              
   <section id="module-yadg.extractors.fusion">
 <span id="fusion-for-fusion-chromatograms"></span><h1><strong>fusion</strong>: For Fusion chromatograms<a class="headerlink" href="#module-yadg.extractors.fusion" title="Link to this heading"></a></h1>
+<p>Extractors for data files created and exported from Inficon Fusion Micro GCs.</p>
 <section id="module-yadg.extractors.fusion.csv">
 <span id="yadg-extractors-fusion-csv-module"></span><h2>yadg.extractors.fusion.csv module<a class="headerlink" href="#module-yadg.extractors.fusion.csv" title="Link to this heading"></a></h2>
 <p>For processing Inficon Fusion csv export format (csv). This is a tabulated format,
@@ -156,8 +158,8 @@ be parsed instead.</p>
 <h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_csv" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -168,8 +170,8 @@ be parsed instead.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_csv.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_csv.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -217,8 +219,8 @@ chromatogram and the post-processed results.</p>
 <h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_json</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_json">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_json</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_json" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -229,8 +231,8 @@ chromatogram and the post-processed results.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_json.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_json.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.json'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_json.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -289,8 +291,8 @@ to parse every fusion-data file present in the archive.</p>
 <h3>Usage<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_zip</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Fusion_zip</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -301,8 +303,8 @@ to parse every fusion-data file present in the archive.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Fusion_zip.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fusion.zip'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -370,7 +372,7 @@ to parse every fusion-data file present in the archive.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 5.1.dev15
+      v: 5.1.dev16
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

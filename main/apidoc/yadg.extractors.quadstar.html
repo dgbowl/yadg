@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quadstar: For Quadstar MS data &mdash; yadg 5.1.dev15 documentation</title>
+  <title>quadstar: For Quadstar MS data &mdash; yadg 5.1.dev16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b26ddb6c"></script>
+        <script src="../_static/documentation_options.js?v=85955106"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                5.1.dev15
+                5.1.dev16
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -51,6 +51,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
@@ -72,7 +73,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>quadstar</strong>: For Quadstar MS data</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.quadstar.sac">yadg.extractors.quadstar.sac module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Quadstar_sac"><code class="docutils literal notranslate"><span class="pre">Quadstar_sac</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
@@ -121,6 +122,7 @@
              
   <section id="module-yadg.extractors.quadstar">
 <span id="quadstar-for-quadstar-ms-data"></span><h1><strong>quadstar</strong>: For Quadstar MS data<a class="headerlink" href="#module-yadg.extractors.quadstar" title="Link to this heading"></a></h1>
+<p>An extractors for data files produced by Quadstar mass spectrometers.</p>
 <section id="module-yadg.extractors.quadstar.sac">
 <span id="yadg-extractors-quadstar-sac-module"></span><h2>yadg.extractors.quadstar.sac module<a class="headerlink" href="#module-yadg.extractors.quadstar.sac" title="Link to this heading"></a></h2>
 <p>The <a class="reference external" href="https://www.bubek.org/sac2dat.php">sac2dat.c code from Dr. Moritz Bubek</a>
@@ -129,8 +131,8 @@ was a really useful stepping stone for this Python file parser.</p>
 <h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Quadstar_sac</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Quadstar_sac">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Quadstar_sac</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Quadstar_sac" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -141,8 +143,8 @@ was a really useful stepping stone for this Python file parser.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'quadstar.sac'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Quadstar_sac.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Quadstar_sac.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'quadstar.sac'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Quadstar_sac.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -264,7 +266,7 @@ neighboring M/Z points (50 ppm).</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 5.1.dev15
+      v: 5.1.dev16
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

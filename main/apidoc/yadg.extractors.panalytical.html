@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>panalytical: For Panalytical XRD data &mdash; yadg 5.1.dev15 documentation</title>
+  <title>panalytical: For Panalytical XRD data &mdash; yadg 5.1.dev16 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b26ddb6c"></script>
+        <script src="../_static/documentation_options.js?v=85955106"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                5.1.dev15
+                5.1.dev16
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -52,6 +52,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
@@ -75,7 +76,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.csv">yadg.extractors.panalytical.csv module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
@@ -87,7 +88,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xrdml">yadg.extractors.panalytical.xrdml module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
@@ -100,7 +101,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xy">yadg.extractors.panalytical.xy module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id6">Usage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Schema</a></li>
@@ -197,8 +198,8 @@
 <h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -209,8 +210,8 @@
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_csv.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -257,8 +258,8 @@ Peter Kraus</em></p>
 <h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xrdml</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xrdml</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -266,26 +267,11 @@ Peter Kraus</em></p>
 </ul>
 </dd>
 <dt class="field-even">Validators<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a> » <a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filetype</span></code></a></p></li>
-</ul>
-</dd>
+<dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'panalytical-xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Validated by<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn_deprecated</span></code></a></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method pydantic_validator">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated">
-<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warn_deprecated</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype" title="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.filetype"><em class="xref py py-obj"><span class="pre">filetype</span></em></a><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xrdml.warn_deprecated" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -361,8 +347,8 @@ csv files should be used instead.</p>
 <h3>Usage<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
 <dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_5_1.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xy</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xy</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Config<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -373,8 +359,8 @@ csv files should be used instead.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy.filetype">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_5_1.filetype.Panalytical_xy.filetype" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy.filetype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -437,7 +423,7 @@ Peter Kraus</em></p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 5.1.dev15
+      v: 5.1.dev16
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

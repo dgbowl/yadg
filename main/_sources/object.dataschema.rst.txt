@@ -5,6 +5,7 @@ A `dataschema` is an object defining the files and folders to be processed by **
 
 The current version of the `dataschema` is implemented as a Pydantic model in the class :obj:`~dgbowl_schemas.yadg.dataschema.DataSchema` of the :mod:`dgbowl_schemas.yadg` module. The following (previous) versions of the `dataschema` are available in the same repository:
 
+- :class:`dgbowl_schemas.yadg.dataschema_6_0.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_5_1.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_5_0.DataSchema`
 - :class:`dgbowl_schemas.yadg.dataschema_4_2.DataSchema`

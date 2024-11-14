@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from pydantic.v1 import BaseModel as BaseModel_v1
 from yadg import dgutils
 
-__latest_dataschema__ = "5.1"
+__latest_dataschema__ = Version("6.0")
 logger = logging.getLogger(__name__)
 
 
@@ -144,7 +144,7 @@ def update_schema(object: Union[list, dict, BaseModel, BaseModel_v1]) -> DataSch
     else:
         raise ValueError(f"Supplied object is of incorrect type: {type(object)}")
 
-    maxver = Version(__latest_dataschema__)
+    maxver = __latest_dataschema__
     while hasattr(newobj, "update"):
         temp = newobj.update()
         if hasattr(temp, "version"):

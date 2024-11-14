@@ -174,7 +174,6 @@ def test_yadg_preset_roundtrip_uts(datadir):
     "filetype, infile",
     [
         ("eclab.mpr", "cp.mpr"),
-        ("biologic-mpr", "cp.mpr"),
         ("agilent.ch", "agilent.CH"),
         ("fusion.json", "fusion.fusion-data"),
     ],
@@ -203,8 +202,7 @@ def test_yadg_extract_with_metadata(filetype, infile, datadir):
 @pytest.mark.parametrize(
     "filetype, infile, flag",
     [
-        ("eclab.mpr", "cp.mpr", "-m"),
-        ("biologic-mpr", "cp.mpr", "--meta-only"),
+        ("eclab.mpr", "cp.mpr", "--meta-only"),
         ("agilent.ch", "agilent.CH", "-m"),
         ("fusion.json", "fusion.fusion-data", "--meta-only"),
     ],

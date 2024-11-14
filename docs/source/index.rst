@@ -17,6 +17,7 @@ Contributors
 ````````````
 - `Peter Kraus <https://github.com/PeterKraus>`_
 - `Nicolas Vetsch <https://github.com/vetschn>`_
+- `Carla Terboven <https://github.com/carla-terboven>`_
 
 Acknowledgements
 ````````````````
@@ -33,6 +34,7 @@ The project is also part of BATTERY 2030+, the large-scale European research ini
    :caption: yadg user manual
    :hidden:
 
+   install
    usage
    features
    citing

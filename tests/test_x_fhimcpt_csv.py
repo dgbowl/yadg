@@ -2,7 +2,7 @@ import pytest
 import os
 import pickle
 from yadg.extractors.fhimcpt.csv import extract
-from dgbowl_schemas.yadg.dataschema_5_1.filetype import FHI_csv
+from dgbowl_schemas.yadg.dataschema_6_0.filetype import FHI_csv
 from .utils import compare_datatrees
 
 

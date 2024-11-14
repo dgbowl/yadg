@@ -10,7 +10,7 @@ Usage
 `````
 Available since ``yadg-5.1``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.Touchstone_snp
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp
 
 Schema
 ``````

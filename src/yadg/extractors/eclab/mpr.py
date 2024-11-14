@@ -5,7 +5,7 @@ Usage
 `````
 Available since ``yadg-4.0``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpr
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.EClab_mpr
 
 Schema
 ``````
@@ -43,37 +43,8 @@ This code is partly an adaptation of the `galvani module by Chris
 Kerr <https://github.com/echemdata/galvani>`_, and builds on the work done
 by the previous civilian service member working on the project, Jonas Krieger.
 
-These are the implemented techniques for which the technique parameter
-sequences can be parsed:
-
-+------+-------------------------------------------------+
-| CA   | Chronoamperometry / Chronocoulometry            |
-+------+-------------------------------------------------+
-| CP   | Chronopotentiometry                             |
-+------+-------------------------------------------------+
-| CV   | Cyclic Voltammetry                              |
-+------+-------------------------------------------------+
-| GCPL | Galvanostatic Cycling with Potential Limitation |
-+------+-------------------------------------------------+
-| GEIS | Galvano Electrochemical Impedance Spectroscopy  |
-+------+-------------------------------------------------+
-| LOOP | Loop                                            |
-+------+-------------------------------------------------+
-| LSV  | Linear Sweep Voltammetry                        |
-+------+-------------------------------------------------+
-| MB   | Modulo Bat                                      |
-+------+-------------------------------------------------+
-| OCV  | Open Circuit Voltage                            |
-+------+-------------------------------------------------+
-| PEIS | Potentio Electrochemical Impedance Spectroscopy |
-+------+-------------------------------------------------+
-| WAIT | Wait                                            |
-+------+-------------------------------------------------+
-| ZIR  | IR compensation (PEIS)                          |
-+------+-------------------------------------------------+
-
 At a top level, ``.mpr`` files are made up of a number of modules,
-separated by the ``MODULE`` keyword. In all the files I have seen, the
+separated by the ``MODULE`` keyword. In all the files we have seen, the
 first module is the settings module, followed by the data module, the
 log module and then an optional loop module.
 
@@ -196,15 +167,6 @@ The metadata will contain the information from the *Settings module*. This shoul
 include information about the technique, as well as any explicitly parsed cell
 characteristics data specified in EC-Lab.
 
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/12
-
-    The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
-    is not yet complete. In ``.mpr`` files, some technique parameters in the settings
-    module correspond to entries in drop-down lists in EC-Lab. These values are
-    stored as single-byte values in ``.mpr`` files.
-
 The metadata also contains the infromation from the *Log module*, which contains
 more general parameters, like software, firmware and server versions, channel number,
 host address and an acquisition start timestamp in Microsoft OLE format.
@@ -216,7 +178,8 @@ host address and an acquisition start timestamp in Microsoft OLE format.
     not present and therefore the full timestamp cannot be calculated.
 
 .. codeauthor::
-    Nicolas Vetsch
+    Nicolas Vetsch,
+    Peter Kraus,
 
 """
 

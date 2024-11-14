@@ -8,12 +8,12 @@ from .utils import compare_datatrees
 @pytest.mark.parametrize(
     "filetype, infile",
     [
-        ("biologic-mpr", "cp.mpr"),
-        ("biologic-mpt", "cp.mpt"),
-        ("agilent-ch", "hplc.CH"),
-        ("agilent-dx", "hplc.dx"),
-        ("phi-spe", "xps.spe"),
-        ("panalytical-xrdml", "xrd.xrdml"),
+        ("eclab.mpr", "cp.mpr"),
+        ("eclab.mpt", "cp.mpt"),
+        ("agilent.ch", "hplc.CH"),
+        ("agilent.dx", "hplc.dx"),
+        ("phi.spe", "xps.spe"),
+        ("panalytical.xrdml", "xrd.xrdml"),
         ("touchstone.snp", "picovna.s1p"),
         ("ezchrom.asc", "230324.dat.asc"),
         ("ezchrom.dat", "230324.dat"),

@@ -5,7 +5,7 @@ Usage
 `````
 Available since ``yadg-4.0``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.EClab_mpt
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.EClab_mpt
 
 Schema
 ``````
@@ -35,7 +35,7 @@ in a typical ``.mpt`` file.
 
 Notes on file structure
 ```````````````````````
-These human-readable files are sectioned into headerlines and datalines.
+These human-readable files are sectioned into header lines and data lines.
 The header part of the ``.mpt`` files is made up of information that can be found
 in the settings, log and loop modules of the binary ``.mpr`` file.
 
@@ -45,11 +45,6 @@ the file's ``mtime()``.
 Metadata
 ````````
 The metadata will contain the information from the header of the file.
-
-.. note ::
-
-    The mapping between metadata parameters between ``.mpr`` and ``.mpt`` files
-    is not yet complete.
 
 .. codeauthor::
     Nicolas Vetsch,

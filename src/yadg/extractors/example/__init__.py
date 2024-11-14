@@ -6,7 +6,7 @@ Usage
 `````
 Available since ``yadg-4.0``.
 
-.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_5_1.filetype.Example
+.. autopydantic_model:: dgbowl_schemas.yadg.dataschema_6_0.filetype.Example
 
 
 Schema

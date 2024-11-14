@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>panalytical: For Panalytical XRD data &mdash; yadg 6.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=7cffc26f"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="phi: For Phi XPS data" href="yadg.extractors.phi.html" />
+    <link rel="prev" title="fusion: For Fusion chromatograms" href="yadg.extractors.fusion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                6.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>panalytical</strong>: For Panalytical XRD data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.common">yadg.extractors.panalytical.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.common.panalytical_comment"><code class="docutils literal notranslate"><span class="pre">panalytical_comment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.common.snake_case"><code class="docutils literal notranslate"><span class="pre">snake_case()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.csv">yadg.extractors.panalytical.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv"><code class="docutils literal notranslate"><span class="pre">Panalytical_csv</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xrdml">yadg.extractors.panalytical.xrdml module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml"><code class="docutils literal notranslate"><span class="pre">Panalytical_xrdml</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xy">yadg.extractors.panalytical.xy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy"><code class="docutils literal notranslate"><span class="pre">Panalytical_xy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xy.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>panalytical</strong>: For Panalytical XRD data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.panalytical.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.panalytical">
+<span id="panalytical-for-panalytical-xrd-data"></span><h1><strong>panalytical</strong>: For Panalytical XRD data<a class="headerlink" href="#module-yadg.extractors.panalytical" title="Link to this heading"></a></h1>
+<p>Extractors for various exports of Panalytical X-ray diffractograms.</p>
+<section id="module-yadg.extractors.panalytical.common">
+<span id="yadg-extractors-panalytical-common-module"></span><h2>yadg.extractors.panalytical.common module<a class="headerlink" href="#module-yadg.extractors.panalytical.common" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.common.panalytical_comment">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.common.</span></span><span class="sig-name descname"><span class="pre">panalytical_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.common.panalytical_comment" title="Link to this definition"></a></dt>
+<dd><p>Processes a comments from the file header into a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> – A line containing the comment.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the processed comment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.common.snake_case">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.common.</span></span><span class="sig-name descname"><span class="pre">snake_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.common.snake_case" title="Link to this definition"></a></dt>
+<dd><p>Converts Sentence case. and camelCase strings to snake_case.</p>
+<p>From <a class="reference external" href="https://stackoverflow.com/a/1176023">https://stackoverflow.com/a/1176023</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> – The input string to be converted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corresponding snake_case string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-yadg.extractors.panalytical.csv">
+<span id="yadg-extractors-panalytical-csv-module"></span><h2>yadg.extractors.panalytical.csv module<a class="headerlink" href="#module-yadg.extractors.panalytical.csv" title="Link to this heading"></a></h2>
+<p>Handles processing of csv exports of Panalytical XRD files.</p>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_csv.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">    </span><span class="nt">angle</span><span class="p">:</span><span class="w">          </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># 2θ angle</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">intensity</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(uts, angle)</span><span class="w">          </span><span class="c1"># Measured intensity</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>With the exception of the <code class="docutils literal notranslate"><span class="pre">comment</span></code>, the metadata present in the csv file is extracted
+from the file header without post-processing.</p>
+</section>
+<section id="notes-on-file-structure">
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
+<p>These files are split into a <code class="docutils literal notranslate"><span class="pre">[Measurement</span> <span class="pre">conditions]</span></code> and a <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code>
+section. The former stores the metadata and the latter all the datapoints.</p>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<p>The uncertainties of <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code> are taken from the number of significant figures.</p>
+<p>The uncertainties of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are taken from the number of significant figures.</p>
+<p><em>Code author: Nicolas Vetsch,
+Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.10.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.panalytical.xrdml">
+<span id="yadg-extractors-panalytical-xrdml-module"></span><h2>yadg.extractors.panalytical.xrdml module<a class="headerlink" href="#module-yadg.extractors.panalytical.xrdml" title="Link to this heading"></a></h2>
+<p>Handles processing of Panalytical XRDML files.</p>
+<section id="id1">
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xrdml</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xrdml'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xrdml.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp</span>
+<span class="w">    </span><span class="nt">angle</span><span class="p">:</span><span class="w">          </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># 2θ angle</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">intensity</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(uts, angle)</span><span class="w">          </span><span class="c1"># Measured intensity</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample</span></code>: Metadata information about the sample.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wavelength</span></code>: Measurement wavelength.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comment</span></code>: A free-form description of the experiment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">incident_beam_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diffracted_beam_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">counting_time</span></code></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The returned metadata contain only a subset of the available metadata in the XML
+file. If something important is missing, please contact us!</p>
+</div>
+</section>
+<section id="id4">
+<h3>Notes on file structure<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>These are xml-formatted files, which we here parse using the <code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree</span></code>
+library into a Python <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">angle</span></code> returned from this parser is based on a linear interpolation of the start
+and end point of the scan, and is the <span class="math notranslate nohighlight">\(2\theta\)</span>. The values of <span class="math notranslate nohighlight">\(\omega\)</span>
+are discarded.</p>
+</section>
+<section id="id5">
+<h3>Uncertainties<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>The uncertainties of in <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code> are taken as the step-width of the linearly spaced
+<span class="math notranslate nohighlight">\(2\theta\)</span> values.</p>
+<p>The uncertainties of of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are currently set to a constant
+value of 1.0 count as all the supported files seem to produce integer values.</p>
+<p><em>Code author: Nicolas Vetsch,
+Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.etree_to_dict">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">etree_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Element</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.etree_to_dict" title="Link to this definition"></a></dt>
+<dd><p>Recursively converts an ElementTree.Element into a dictionary.</p>
+<p>Element attributes are stored into <cite>“&#64;”</cite>-prefixed attribute keys.
+Element text is stored into <cite>“#text”</cite> for all nodes.</p>
+<p>From <a class="reference external" href="https://stackoverflow.com/a/10076823">https://stackoverflow.com/a/10076823</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.10.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.panalytical.xy">
+<span id="yadg-extractors-panalytical-xy-module"></span><h2>yadg.extractors.panalytical.xy module<a class="headerlink" href="#module-yadg.extractors.panalytical.xy" title="Link to this heading"></a></h2>
+<p>Handles processing of xy exports of Panalytical XRD files. When possible, the xrdml or
+csv files should be used instead.</p>
+<section id="id6">
+<h3>Usage<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.2</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Panalytical_xy</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'panalytical.xy'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Panalytical_xy.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id7">
+<h3>Schema<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">angle</span><span class="p">:</span><span class="w">          </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># 2θ angle</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">intensity</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(angle)</span><span class="w">          </span><span class="c1"># Measured intensity</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>Metadata<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>No metadata is present in files.</p>
+</section>
+<section id="id9">
+<h3>Notes on file structure<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p>These files basically just contain the <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code> part of Panalytical csv files.
+As a consequence, no metadata is recorded, and the format does not have an associated
+timestamp.</p>
+<p><em>Code author: Nicolas Vetsch,
+Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xy.extract">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xy.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2024.10.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xy.extract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.fusion.html" class="btn btn-neutral float-left" title="fusion: For Fusion chromatograms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.phi.html" class="btn btn-neutral float-right" title="phi: For Phi XPS data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2024, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 6.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

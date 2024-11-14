@@ -1,0 +1,16 @@
+**quadstar**: For Quadstar MS data
+==================================
+
+.. automodule:: yadg.extractors.quadstar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.quadstar.sac module
+-----------------------------------
+
+.. automodule:: yadg.extractors.quadstar.sac
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,48 @@
+**eclab**: For BioLogic data files
+==================================
+
+.. automodule:: yadg.extractors.eclab
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.eclab.mpr module
+--------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpr
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.mpr\_columns module
+-----------------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpr_columns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.mpt module
+--------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.mpt\_columns module
+-----------------------------------------
+
+.. automodule:: yadg.extractors.eclab.mpt_columns
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.eclab.techniques module
+---------------------------------------
+
+.. automodule:: yadg.extractors.eclab.techniques
+   :members:
+   :undoc-members:
+   :show-inheritance:

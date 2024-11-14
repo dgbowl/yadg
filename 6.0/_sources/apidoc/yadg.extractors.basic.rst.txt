@@ -1,0 +1,16 @@
+**basic**: For tabulated data
+=============================
+
+.. automodule:: yadg.extractors.basic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.basic.csv module
+--------------------------------
+
+.. automodule:: yadg.extractors.basic.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:

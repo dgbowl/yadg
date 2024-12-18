@@ -27,7 +27,7 @@ classifiers = [
 requires-python = ">= 3.10"
 dependencies = [
     "numpy >= 1.20",
-    "pint >= 0.24.1",
+    "pint >= 0.17",
     "pyyaml",
     "uncertainties",
     "striprtf",
@@ -40,7 +40,7 @@ dependencies = [
     "pandas >= 2.0",
     "babel >= 2.15",
     "xarray >= 2024.10.0",
-    "dgbowl-schemas >= 121",
+    #"dgbowl-schemas >= 121",
 ]
 
 [project.optional-dependencies]

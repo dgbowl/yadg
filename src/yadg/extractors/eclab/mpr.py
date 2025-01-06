@@ -268,6 +268,7 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
             # Handle NaNs and +/-Inf in params here
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
+        logger.debug("Parameters read are: %s", pardict)
         params.append(pardict)
     if len(params) > 0:
         params = {k: [d[k] for d in params] for k in params[0]}

@@ -1,9 +1,5 @@
 **yadg** version 6.0
-``````````````````````
-.. warning::
-
-   This version of yadg is not yet released.
-
+````````````````````
 .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.0&color=blue&logo=github
   :target: https://github.com/PeterKraus/yadg/tree/6.0
 .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.0&color=blue&logo=pypi

@@ -21,7 +21,7 @@ version = get_version("yadg")
 # -- Project information -----------------------------------------------------
 
 project = "yadg"
-copyright = "2021 - 2024, yadg authors"
+copyright = "2021 - 2025, yadg authors"
 author = "Peter Kraus"
 release = version
 

@@ -124,10 +124,12 @@ def process_comments(lines: list[str], tz: str) -> dict:
         pass
     # PicoVNA 108 files
     elif "Ref Plane:" in comstr and len(lines) == 3:
-        fmt = "%m/%d/%Y  %I:%M:%S %p"
-        uts = dgutils.str_to_uts(
-            timestamp=lines[0], timezone=tz, format=fmt, strict=False
-        )
+        for fmt in ["%m/%d/%Y  %I:%M:%S %p", "%d/%m/%Y  %H:%M:%S"]:
+            uts = dgutils.str_to_uts(
+                timestamp=lines[0], timezone=tz, format=fmt, strict=False
+            )
+            if uts is not None:
+                break
         attrs["Ref Plane"] = lines[1].split(":")[1].strip()
         attrs["Model"] = "PicoVNA 108"
     # Agilent N523* and E50* export

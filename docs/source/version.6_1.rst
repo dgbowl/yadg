@@ -23,3 +23,4 @@ Breaking changes in ``yadg-6.1`` are:
 Bug fixes in ``yadg-6.1`` include:
 
   - Fixed metadata extraction and added support for another version of the CVA technique in :mod:`yadg.extractors.eclab.mpr`. Thanks to `@acavell <https://github.com/acavell>`_ for providing test files.
+  - Fixed timestamp parsing for D/M/Y formats of PicoVNA files in :mod:`yadg.extractors.touchstone.snp`.

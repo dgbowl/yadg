@@ -33,21 +33,21 @@ def test_isotimestamp_parsing_utc(datadir):
     dg = datagram_from_file("iso_utc.json")
 
     assert dg["0"].uts[0] == 1622557825.0, "Z-suffix parsed to 'uts' correctly"
-    assert (
-        dg["0"].uts[1] == 1622557825.0 + 7200 + 1
-    ), "±HH:MM-suffix parsed to 'uts' correctly"
-    assert (
-        dg["0"].uts[2] == 1622557825.0 + 2
-    ), "no suffix with timezone = UTC parsed to 'uts' correctly"
+    assert dg["0"].uts[1] == 1622557825.0 + 7200 + 1, (
+        "±HH:MM-suffix parsed to 'uts' correctly"
+    )
+    assert dg["0"].uts[2] == 1622557825.0 + 2, (
+        "no suffix with timezone = UTC parsed to 'uts' correctly"
+    )
 
 
 def test_isotimestamp_parsing_cet(datadir):
     os.chdir(datadir)
     dg = datagram_from_file("iso_cet.json")
     assert dg["0"].uts[0] == 1622557825.0, "Z-suffix parsed to 'uts' correctly"
-    assert (
-        dg["0"].uts[1] == 1622557825.0 + 7200 + 1
-    ), "±HH:MM-suffix parsed to 'uts' correctly"
-    assert (
-        dg["0"].uts[2] == 1622557825.0 - 7200 + 2
-    ), "no suffix with timezone = CEST parsed to 'uts' correctly"
+    assert dg["0"].uts[1] == 1622557825.0 + 7200 + 1, (
+        "±HH:MM-suffix parsed to 'uts' correctly"
+    )
+    assert dg["0"].uts[2] == 1622557825.0 - 7200 + 2, (
+        "no suffix with timezone = CEST parsed to 'uts' correctly"
+    )

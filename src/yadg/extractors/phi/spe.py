@@ -306,7 +306,7 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
             retstep=True,
         )
         # Construct data from trace_header
-        data_dtype = np.dtype(f'{trace_header["data_dtype"].decode()}')
+        data_dtype = np.dtype(f"{trace_header['data_dtype'].decode()}")
         data_offset = trace_header["end_of_data"] - trace_header["num_data_bytes"]
         datapoints = np.frombuffer(
             data,

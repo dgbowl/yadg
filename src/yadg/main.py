@@ -31,7 +31,7 @@ def run_with_arguments():
     parser.add_argument(
         "--version",
         action="version",
-        version=f'%(prog)s version {metadata.version("yadg")}',
+        version=f"%(prog)s version {metadata.version('yadg')}",
     )
 
     verbose = argparse.ArgumentParser(add_help=False)

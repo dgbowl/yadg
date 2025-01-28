@@ -152,7 +152,7 @@ def preset(
 
     """
     assert os.path.exists(folder) and os.path.isdir(folder), (
-        f"Supplied folder path '{folder}' does not exist " "or is not a valid folder."
+        f"Supplied folder path '{folder}' does not exist or is not a valid folder."
     )
 
     if not os.path.isabs(folder) and not process:
@@ -162,7 +162,7 @@ def preset(
         )
 
     assert os.path.exists(preset) and os.path.isfile(preset), (
-        f"Supplied preset path '{preset}' does not exist " "or is not a valid file."
+        f"Supplied preset path '{preset}' does not exist or is not a valid file."
     )
 
     logger.info("Reading input file from '%s'.", preset)
@@ -224,7 +224,7 @@ def extract(
     path = Path(infile)
 
     assert path.is_file(), (
-        f"Supplied object filename '{infile}' does not exist " "or is not a valid file."
+        f"Supplied object filename '{infile}' does not exist or is not a valid file."
     )
 
     if outfile is None:

@@ -182,7 +182,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
     os.chdir(datadir)
     ret = datagram_from_file(inp_fn)
     assert len(ret.children) == ts["nsteps"], (
-        "wrong number of steps: " f"got: {len(ret.children)}, expected: {ts['nsteps']}"
+        f"wrong number of steps: got: {len(ret.children)}, expected: {ts['nsteps']}"
     )
     for k, v in ts["kwargs"].items():
         assert ret[ts["step"]][k][ts["item"]] == v, "kwargs not passed correctly"

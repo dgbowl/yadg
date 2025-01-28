@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version 6.0 &mdash; yadg 6.0.dev1 documentation</title>
+  <title>yadg version 6.0 &mdash; yadg 6.0.1.dev1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=24767345"></script>
+        <script src="_static/documentation_options.js?v=5b18b53a"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.0.dev1
+                6.0.1.dev1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -121,7 +121,7 @@
 <p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-6.0</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>As <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.1.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> is now merged into the <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2025.1.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> module, <code class="docutils literal notranslate"><span class="pre">yadg-6.0</span></code> no longer depends on <code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray-datatree</span></code>. For data stored <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, this shouldn’t be a problem, as they can be read using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.open_datatree.html#xarray.open_datatree" title="(in xarray v2025.1.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.open_datatree()</span></code></a>. However, if you stored a <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> as a <code class="docutils literal notranslate"><span class="pre">pickle</span></code>, and attempt to load it using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.1.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>, this may not work!</p></li>
+<li><p>As <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.1.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> is now merged into the <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2025.1.2.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> module, <code class="docutils literal notranslate"><span class="pre">yadg-6.0</span></code> no longer depends on <code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray-datatree</span></code>. For data stored <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, this shouldn’t be a problem, as they can be read using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.open_datatree.html#xarray.open_datatree" title="(in xarray v2025.1.2.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.open_datatree()</span></code></a>. However, if you stored a <code class="xref py py-class docutils literal notranslate"><span class="pre">datatree.DataTree</span></code> as a <code class="docutils literal notranslate"><span class="pre">pickle</span></code>, and attempt to load it using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.1.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>, this may not work!</p></li>
 <li><p>The parameter specification within the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entries in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> should now be consistent with <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a>. This means renaming of most parameters in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> to match <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a>, and a much larger parameter map to map from the <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> values stored in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> files to their <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> counterparts. Thanks to Carla Terboven from HZB for the contribution!</p></li>
 <li><p>Support for <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">&lt;=</span> <span class="pre">3.9</span></code> has been dropped. This is a consequence of <code class="docutils literal notranslate"><span class="pre">yadg-6.0</span></code> requiring <code class="docutils literal notranslate"><span class="pre">xarray</span> <span class="pre">&gt;=</span> <span class="pre">2024.10.0</span></code>. However, support for <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">==</span> <span class="pre">3.13</span></code> is now included.</p></li>
 </ul>
@@ -160,7 +160,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.0.dev1
+      v: 6.0.1.dev1
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

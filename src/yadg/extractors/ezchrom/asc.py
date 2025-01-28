@@ -83,15 +83,15 @@ def extract(
                 timezone=timezone,
             )
         if line.startswith("Sampling Rate:"):
-            assert (
-                "Hz" in line
-            ), f"datasc: Incorrect units for rate in file {fn}: {line}"
+            assert "Hz" in line, (
+                f"datasc: Incorrect units for rate in file {fn}: {line}"
+            )
             parts = line.split("\t")
             samplerates = [float(each.strip()) for each in parts[1:-1]]
         if line.startswith("Total Data Points:"):
-            assert (
-                "Pts." in line
-            ), f"datasc: Incorrect units for number of points in file {fn}: {line}"
+            assert "Pts." in line, (
+                f"datasc: Incorrect units for number of points in file {fn}: {line}"
+            )
             parts = line.split("\t")
             npoints = [int(each.strip()) for each in parts[1:-1]]
         if line.startswith("X Axis Title:"):
@@ -127,9 +127,9 @@ def extract(
     data = {}
     units = {}
     for ti, npts in enumerate(npoints):
-        assert (
-            xunits[ti] == "Minutes"
-        ), f"datasc: X units label of trace {ti} in {fn} was not understood."
+        assert xunits[ti] == "Minutes", (
+            f"datasc: X units label of trace {ti} in {fn} was not understood."
+        )
         dt = 60
         xmul = xmuls[ti] * dt / samplerates[ti]
         ymul = ymuls[ti]

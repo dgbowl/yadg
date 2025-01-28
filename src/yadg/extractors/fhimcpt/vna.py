@@ -51,9 +51,9 @@ def extract(
 ) -> DataTree:
     with open(fn, "r", encoding=encoding) as infile:
         lines = infile.readlines()
-    assert (
-        len(lines) > 2
-    ), f"qftrace: Only {len(lines)-1} points supplied in {fn}; fitting impossible."
+    assert len(lines) > 2, (
+        f"qftrace: Only {len(lines) - 1} points supplied in {fn}; fitting impossible."
+    )
 
     # process header
     bw = [10000.0, 1.0]

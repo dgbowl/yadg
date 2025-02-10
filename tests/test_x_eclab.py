@@ -41,6 +41,7 @@ def compare_params(left, right):
         ("cv", "en_US"),
         ("cv.issue_149", "de_DE"),
         ("cva.issue_135", "en_US"),
+        ("cva.issue_202", "en_US"),
         ("gcpl", "en_US"),
         ("gcpl.issue_149", "de_DE"),
         ("geis", "en_US"),

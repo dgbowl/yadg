@@ -258,8 +258,45 @@ _cva_params_dtypes = [
                 ("dtf", "<f4"),
             ]
         ),
-        {"10.40", "11.50"},
-    )
+        {"10.40"},
+    ),
+    (
+        np.dtype(
+            [
+                ("Ei (V)", "<f4"),
+                ("Ei (V) vs.", "|u4"),
+                ("ti (h:m:s)", "<f4"),
+                ("dti (s)", "<f4"),
+                ("dE/dt", "<f4"),
+                ("dE/dt unit", "|u1"),
+                ("E1 (V)", "<f4"),
+                ("E1 (V) vs.", "|u4"),
+                ("t1 (h:m:s)", "<f4"),
+                ("dt1 (s)", "<f4"),
+                ("Step percent", "|u1"),
+                ("N", "|u4"),
+                ("E range min (V)", "<f4"),
+                ("E range max (V)", "<f4"),
+                ("I Range", "|u1"),
+                ("I Range min", "|u1"),
+                ("I Range max", "|u1"),
+                ("I Range init", "|u1"),
+                ("Bandwidth", "|u1"),
+                ("E2 (V)", "<f4"),
+                ("E2 (V) vs.", "|u4"),
+                ("t2 (h:m:s)", "<f4"),
+                ("dt2 (s)", "<f4"),
+                ("nc cycles", "|u4"),
+                ("nr", "|u4"),
+                ("Reverse Scan", "|u4"),
+                ("Ef (V)", "<f4"),
+                ("Ef (V) vs.", "|u4"),
+                ("tf (h:m:s)", "<f4"),
+                ("dtf (s)", "<f4"),
+            ]
+        ),
+        {"11.50"},
+    ),
 ]
 
 

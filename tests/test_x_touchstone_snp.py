@@ -9,6 +9,7 @@ from .utils import compare_datatrees
     "infile, locale",
     [
         ("picovna.s1p", "en_GB"),
+        ("picovna_DMY.s1p", "en_GB"),
         ("Device_r_40um.s1p", "en_GB"),
         ("Device_r_60um.s1p", "en_GB"),
         ("Fig8_0.6cm.s1p", "en_GB"),

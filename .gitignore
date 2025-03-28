@@ -5,7 +5,6 @@ samples/
 dist/
 *.egg-info
 *.egg
-.idea/
 build/
 /public/
 docs/source/apidoc/

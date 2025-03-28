@@ -46,8 +46,10 @@ def extract(
     extract_func:
         A :class:`str` containing the extractor function to use, e.g. "extract_raw_content".
         Options:
-            - "extract" (default): The data is extracted based on a file path. This file path is specified in the source parameter.
-            - "extract_raw_content": The data is directly extracted from raw data. The source parameter contains, e.g., the raw bytes of an mpr file.
+            - "extract" (default): The data is extracted based on a file path.
+                This file path is specified in the source parameter.
+            - "extract_raw_content": The data is directly extracted from raw data.
+                The source parameter contains, e.g., the raw bytes of an mpr file.
 
     path:
         Deprecated. Can now be specified using the source parameter.

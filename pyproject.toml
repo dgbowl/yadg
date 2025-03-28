@@ -27,7 +27,7 @@ classifiers = [
 requires-python = ">= 3.10"
 dependencies = [
     "numpy >= 1.20",
-    "pint >= 0.17",
+    "pint >= 0.24.1",
     "pyyaml",
     "uncertainties",
     "striprtf",

@@ -32,7 +32,7 @@ def extract(
         Specifies the filetype. Has to be a filetype supported by the dataschema.
 
     source:
-        Raw bytes of the file to be extracted, e.g. a file path or raw bytes of an mpr file.
+        Specification of the file to be extracted, e.g. a file path or raw bytes of an mpr file.
 
     timezone:
         A :class:`str` containing the TZ identifier, e.g. "Europe/Berlin".
@@ -46,8 +46,8 @@ def extract(
     extract_func:
         A :class:`str` containing the extractor function to use, e.g. "extract_raw_content".
         Options:
-            - "extract" (default): Uses the file path to extract data.
-            - "extract_raw_content": Directly extracts from raw contents like bytes of an mpr file.
+            - "extract" (default): The data is extracted based on a file path. This file path is specified in the source parameter.
+            - "extract_raw_content": The data is directly extracted from raw data. The source parameter contains, e.g., the raw bytes of an mpr file.
 
     path:
         Deprecated. Can now be specified using the source parameter.
@@ -87,7 +87,9 @@ def extract_from_source(
 
     # Func should always return a xarray.DataTree
     if extractor_func == "extract":
-        ret: DataTree = func(fn=source, **vars(extractor))      # TODO would be best to change all fn to source?
+        ret: DataTree = func(
+            fn=source, **vars(extractor)
+        )  # TODO would be best to change all fn to source?
     else:
         ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)
@@ -101,7 +103,11 @@ def extract_from_source(
     )
     ret.attrs.update(dgutils.get_yadg_metadata())
     if extractor_func == "extract":
-        ret.attrs.update({"yadg_extract_filename": str(source),})
+        ret.attrs.update(
+            {
+                "yadg_extract_filename": str(source),
+            }
+        )
 
     return ret
 

@@ -89,9 +89,7 @@ def extract_from_source(
 
     # Func should always return a xarray.DataTree
     if extractor_func == "extract":
-        ret: DataTree = func(
-            fn=source, **vars(extractor)
-        )
+        ret: DataTree = func(fn=source, **vars(extractor))
     else:
         ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)

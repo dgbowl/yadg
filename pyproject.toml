@@ -69,3 +69,4 @@ dirty_template = "{tag}.dev{ccount}"
 [tool.pytest.ini_options]
 log_cli = false
 log_cli_level = "DEBUG"
+

@@ -569,11 +569,20 @@ def extract(
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     with open(fn, "rb") as mpr_file:
-        assert mpr_file.read(len(file_magic)) == file_magic, "invalid file magic"
         mpr = mpr_file.read()
-    settings, params, ds, log, loop = process_modules(mpr)
+    return extract_raw_content(source=mpr, timezone=timezone)
+
+
+def extract_raw_content(
+    *,
+    source: bytes,
+    timezone: str,
+    **kwargs: dict,
+) -> DataTree:
+    file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
+    assert source[: len(file_magic)] == file_magic, "invalid file magic"
+    settings, params, ds, log, loop = process_modules(source)
     assert settings is not None, "no settings module"
     assert ds is not None, "no data module"
     # Arrange all the data into the correct format.

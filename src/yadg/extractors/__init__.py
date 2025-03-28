@@ -91,7 +91,7 @@ def extract_from_source(
     if extractor_func == "extract":
         ret: DataTree = func(
             fn=source, **vars(extractor)
-        )  # TODO would be best to change all fn to source?
+        )
     else:
         ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)

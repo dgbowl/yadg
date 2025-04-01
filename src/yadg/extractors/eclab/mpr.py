@@ -563,22 +563,47 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     return settings, params, ds, log, loop
 
 
-def extract(
+from functools import singledispatch
+@singledispatch
+def extract_source(fn, timezone):
+    logger.warning("The selected extractor does not support the provided source. "
+                "Please check the available extractors or enter a valid file path.")
+
+
+@extract_source.register(str)
+def _(fn: str,
     *,
-    fn: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
     with open(fn, "rb") as mpr_file:
         mpr = mpr_file.read()
-    return extract_raw_content(source=mpr, timezone=timezone)
+    return extract_raw_bytes(source=mpr, timezone=timezone)
 
 
-def extract_raw_content(
+@extract_source.register(bytes)
+def _(fn: bytes,
     *,
-    source: bytes,
     timezone: str,
     **kwargs: dict,
+) -> DataTree:
+    return extract_raw_bytes(source=fn, timezone=timezone)
+
+
+def extract(
+    fn,
+    *,
+    timezone: str,
+    **kwargs: dict,
+) -> DataTree:
+    return extract_source(fn, timezone=timezone)
+
+
+def extract_raw_bytes(
+        *,
+        source: bytes,
+        timezone: str,
+        **kwargs: dict,
 ) -> DataTree:
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     assert source[: len(file_magic)] == file_magic, "invalid file magic"

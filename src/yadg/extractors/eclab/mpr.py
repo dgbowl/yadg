@@ -185,6 +185,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 
 import logging
 from xarray import DataTree
+from functools import singledispatch
 import numpy as np
 from yadg import dgutils
 from .techniques import (
@@ -563,15 +564,17 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     return settings, params, ds, log, loop
 
 
-from functools import singledispatch
 @singledispatch
 def extract_source(fn, timezone):
-    logger.warning("The selected extractor does not support the provided source. "
-                "Please check the available extractors or enter a valid file path.")
+    logger.warning(
+        "The selected extractor does not support the provided source. "
+        "Please check the available extractors or enter a valid file path."
+    )
 
 
 @extract_source.register(str)
-def _(fn: str,
+def _(
+    fn: str,
     *,
     timezone: str,
     **kwargs: dict,
@@ -582,7 +585,8 @@ def _(fn: str,
 
 
 @extract_source.register(bytes)
-def _(fn: bytes,
+def _(
+    fn: bytes,
     *,
     timezone: str,
     **kwargs: dict,
@@ -600,10 +604,10 @@ def extract(
 
 
 def extract_raw_bytes(
-        *,
-        source: bytes,
-        timezone: str,
-        **kwargs: dict,
+    *,
+    source: bytes,
+    timezone: str,
+    **kwargs: dict,
 ) -> DataTree:
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     assert source[: len(file_magic)] == file_magic, "invalid file magic"

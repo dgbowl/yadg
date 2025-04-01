@@ -187,6 +187,7 @@ import logging
 from xarray import DataTree
 from functools import singledispatch
 import numpy as np
+from pathlib import Path
 from yadg import dgutils
 from .techniques import (
     technique_params_dtypes,
@@ -575,6 +576,18 @@ def extract_source(fn, timezone):
 @extract_source.register(str)
 def _(
     fn: str,
+    *,
+    timezone: str,
+    **kwargs: dict,
+) -> DataTree:
+    with open(fn, "rb") as mpr_file:
+        mpr = mpr_file.read()
+    return extract_raw_bytes(source=mpr, timezone=timezone)
+
+
+@extract_source.register(Path)
+def _(
+    fn: Path,
     *,
     timezone: str,
     **kwargs: dict,

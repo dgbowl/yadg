@@ -573,21 +573,10 @@ def extract_source(fn, timezone):
     )
 
 
-@extract_source.register(str)
-def _(
-    fn: str,
-    *,
-    timezone: str,
-    **kwargs: dict,
-) -> DataTree:
-    with open(fn, "rb") as mpr_file:
-        mpr = mpr_file.read()
-    return extract_raw_bytes(source=mpr, timezone=timezone)
-
-
 @extract_source.register(Path)
-def _(
-    fn: Path,
+@extract_source.register(str)
+def extract_from_path(
+    fn: Path | str,
     *,
     timezone: str,
     **kwargs: dict,
@@ -598,7 +587,7 @@ def _(
 
 
 @extract_source.register(bytes)
-def _(
+def extract_from_bytes(
     fn: bytes,
     *,
     timezone: str,

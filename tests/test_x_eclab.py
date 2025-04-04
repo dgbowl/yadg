@@ -18,6 +18,17 @@ def check_file(fname, kwargs, func):
     return ret
 
 
+def check_file_extract_bytes(fname, bytes, kwargs, func):
+    ret = func(fn=bytes, **kwargs)
+    outfile = f"{fname}.pkl"
+    with open(outfile, "rb") as inp:
+        ref = pickle.load(inp)
+    with open(outfile, "wb") as out:
+        pickle.dump(ret, out, 5)
+    compare_datatrees(ret, ref, thislevel=True)
+    return ret
+
+
 def compare_params(left, right):
     lpar = left.attrs["original_metadata"].get("params", {})
     rpar = right.attrs["original_metadata"].get("params", {})
@@ -65,6 +76,59 @@ def test_eclab_consistency(froot, locale, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", locale=locale, encoding="windows-1252")
     aret = check_file(f"{froot}.mpr", kwargs, extract_mpr)
+    bret = check_file(f"{froot}.mpt", kwargs, extract_mpt)
+
+    for key in aret.variables:
+        if key.endswith("std_err"):
+            continue
+        try:
+            xr.testing.assert_allclose(aret[key], bret[key])
+        except AssertionError as e:
+            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            raise e
+    compare_params(aret, bret)
+
+
+@pytest.mark.parametrize(
+    "froot, locale",
+    [
+        ("ca", "en_US"),
+("ca.issue_134", "en_US"),
+        ("ca.issue_149", "de_DE"),
+        ("coc.issue_185", "en_US"),
+        ("cov.issue_185", "en_US"),
+        ("cp", "en_US"),
+        ("cp.issue_61", "en_US"),
+        ("cp.issue_149", "de_DE"),
+        ("cv", "en_US"),
+        ("cv.issue_149", "de_DE"),
+        ("cva.issue_135", "en_US"),
+        ("cva.issue_202", "en_US"),
+        ("gcpl", "en_US"),
+        ("gcpl.issue_149", "de_DE"),
+        ("geis", "en_US"),
+        ("lsv", "en_US"),
+        ("lsv.issue_195", "en_US"),
+        ("mb", "en_US"),
+        ("mb.issue_95", "en_US"),
+        ("mb.issue_149", "de_DE"),
+        ("mp.issue_183", "en_US"),
+        ("ocv", "en_US"),
+        ("ocv.issue_149", "de_DE"),
+        ("peis", "en_US"),
+        ("wait", "en_US"),
+        ("vsp_ocv_wo", "en_US"),
+        ("vsp_ocv_with", "en_US"),
+        ("vsp_peis_with", "en_US"),
+        ("zir", "en_US"),
+    ],
+)
+def test_eclab_consistency_extract_mpr_bytes(froot, locale, datadir):
+    os.chdir(datadir)
+    kwargs = dict(timezone="Europe/Berlin", locale=locale, encoding="windows-1252")
+    with open(f"{froot}.mpr", "rb") as mpr_file:
+        mpr_bytes = mpr_file.read()
+    aret = check_file_extract_bytes(f"{froot}.mpr", mpr_bytes, kwargs, extract_mpr)
     bret = check_file(f"{froot}.mpt", kwargs, extract_mpt)
 
     for key in aret.variables:

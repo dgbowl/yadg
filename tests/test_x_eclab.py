@@ -93,7 +93,7 @@ def test_eclab_consistency(froot, locale, datadir):
     "froot, locale",
     [
         ("ca", "en_US"),
-("ca.issue_134", "en_US"),
+        ("ca.issue_134", "en_US"),
         ("ca.issue_149", "de_DE"),
         ("coc.issue_185", "en_US"),
         ("cov.issue_185", "en_US"),

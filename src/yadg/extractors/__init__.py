@@ -1,6 +1,7 @@
 import importlib
 import logging
 import json
+from pathlib import Path
 from xarray import DataTree
 from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
@@ -55,8 +56,9 @@ def extract(
 
 
 def extract_from_path(
-    path: str,
+    source: Path | str,
     extractor: FileType,
+    path: str = None,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided path using the supplied extractor.
@@ -67,19 +69,26 @@ def extract_from_path(
     have a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to
     write the returned object into a file.
     """
+    if path is not None:
+        logger.warning(
+            "The parameter 'path' is deprecated and has been replaced by 'source'. "
+            "Please use 'source' instead.",
+            DeprecationWarning,
+        )
+        source = path
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(fn=path, **vars(extractor))
+    ret: DataTree = func(fn=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
         {
             "yadg_provenance": "yadg extract",
             "yadg_extract_date": dgutils.now(asstr=True),
-            "yadg_extract_filename": str(path),
+            "yadg_extract_filename": str(source),
             "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
         }
     )

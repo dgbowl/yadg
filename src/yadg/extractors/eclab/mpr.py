@@ -566,7 +566,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 
 @singledispatch
-def extract_source(fn, timezone):
+def extract_source(source, timezone):
     logger.warning(
         "The selected extractor does not support the provided source. "
         "Please check the available extractors or enter a valid file path."
@@ -576,29 +576,29 @@ def extract_source(fn, timezone):
 @extract_source.register(Path)
 @extract_source.register(str)
 def extract_from_path(
-    fn: Path | str,
+    source: Path | str,
     *,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "rb") as mpr_file:
+    with open(source, "rb") as mpr_file:
         mpr = mpr_file.read()
     return extract_raw_bytes(source=mpr, timezone=timezone)
 
 
 @extract_source.register(bytes)
 def extract_from_bytes(
-    fn: bytes,
+    source: bytes,
     *,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    return extract_raw_bytes(source=fn, timezone=timezone)
+    return extract_raw_bytes(source=source, timezone=timezone)
 
 
 def extract(
-    fn,
     *,
+    fn,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:

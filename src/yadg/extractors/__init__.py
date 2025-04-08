@@ -1,6 +1,7 @@
 import importlib
 import logging
 import json
+from functools import wraps
 from pathlib import Path
 from xarray import DataTree
 from yadg import dgutils
@@ -8,6 +9,26 @@ from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
 
 
 logger = logging.getLogger(__name__)
+
+
+def deprecate_fn_path(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if kwargs.get("fn") is not None:
+            logger.warning(
+                "The parameter 'fn' is deprecated and has been replaced by 'source'.",
+                DeprecationWarning,
+            )
+            kwargs["source"] = kwargs.get("source", kwargs.pop("fn"))
+        if kwargs.get("path") is not None:
+            logger.warning(
+                "The parameter 'path' is deprecated and has been replaced by 'source'.",
+                DeprecationWarning,
+            )
+            kwargs["source"] = kwargs.get("source", kwargs.pop("path"))
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 def extract(
@@ -55,10 +76,10 @@ def extract(
     return extract_from_path(path, extractor)
 
 
+@deprecate_fn_path
 def extract_from_path(
     source: Path | str,
     extractor: FileType,
-    path: str = None,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided path using the supplied extractor.
@@ -69,19 +90,12 @@ def extract_from_path(
     have a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to
     write the returned object into a file.
     """
-    if path is not None:
-        logger.warning(
-            "The parameter 'path' is deprecated and has been replaced by 'source'. "
-            "Please use 'source' instead.",
-            DeprecationWarning,
-        )
-        source = path
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(fn=source, **vars(extractor))
+    ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
@@ -115,7 +129,7 @@ def extract_from_bytes(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(source, **vars(extractor))
+    ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(

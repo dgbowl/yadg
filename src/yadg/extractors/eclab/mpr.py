@@ -188,6 +188,8 @@ from xarray import DataTree
 from functools import singledispatch
 import numpy as np
 from pathlib import Path
+from typing import Any
+from yadg.extractors import deprecate_fn_path
 from yadg import dgutils
 from .techniques import (
     technique_params_dtypes,
@@ -566,7 +568,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
 
 @singledispatch
-def extract_source(source, timezone):
+def extract_source(source: Any, timezone: str, **kwargs):
     logger.warning(
         "The selected extractor does not support the provided source. "
         "Please check the available extractors or enter a valid file path."
@@ -596,13 +598,14 @@ def extract_from_bytes(
     return extract_raw_bytes(source=source, timezone=timezone)
 
 
+@deprecate_fn_path
 def extract(
     *,
-    fn,
+    source=None,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    return extract_source(fn, timezone=timezone)
+    return extract_source(source, timezone=timezone, **kwargs)
 
 
 def extract_raw_bytes(

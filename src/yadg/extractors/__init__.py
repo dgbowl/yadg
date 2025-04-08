@@ -16,14 +16,14 @@ def deprecate_fn_path(func):
     def wrapper(*args, **kwargs):
         if kwargs.get("fn") is not None:
             logger.warning(
-                "The parameter 'fn' is deprecated and has been replaced by 'source'.",
-                DeprecationWarning,
+                "The parameter 'fn' is deprecated and has been replaced by 'source'. (%s)",
+                DeprecationWarning.__name__,
             )
             kwargs["source"] = kwargs.get("source", kwargs.pop("fn"))
         if kwargs.get("path") is not None:
             logger.warning(
-                "The parameter 'path' is deprecated and has been replaced by 'source'.",
-                DeprecationWarning,
+                "The parameter 'path' is deprecated and has been replaced by 'source'. (%s)",
+                DeprecationWarning.__name__,
             )
             kwargs["source"] = kwargs.get("source", kwargs.pop("path"))
         return func(*args, **kwargs)
@@ -95,7 +95,7 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(source=source, **vars(extractor))
+    ret: DataTree = func(fn=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(

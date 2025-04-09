@@ -57,6 +57,7 @@ from typing import Any
 from babel.numbers import parse_decimal
 from xarray import DataTree
 from yadg import dgutils
+from yadg.extractors import deprecate_fn_path
 from .techniques import get_devs, param_from_key
 from .mpt_columns import column_units
 
@@ -296,16 +297,17 @@ def process_data(
     return ds
 
 
+@deprecate_fn_path
 def extract(
+    source: str,
     *,
-    fn: str,
     encoding: str,
     locale: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
     file_magic = "EC-Lab ASCII FILE\n"
-    with open(fn, "r", encoding=encoding) as mpt_file:
+    with open(source, "r", encoding=encoding) as mpt_file:
         assert mpt_file.read(len(file_magic)) == file_magic, "invalid file magic"
         mpt = mpt_file.read()
     lines = mpt.split("\n")

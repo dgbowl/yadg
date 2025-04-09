@@ -1,12 +1,36 @@
 import importlib
 import logging
 import json
+from functools import wraps
+from pathlib import Path
 from xarray import DataTree
 from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
 
 
 logger = logging.getLogger(__name__)
+
+
+def deprecate_fn_path(func):
+    def handle_deprecated(param, *args, **kwargs):
+        logger.warning(
+            f"The parameter '{param}' is deprecated and has been replaced by 'source'. ({DeprecationWarning.__name__})",
+        )
+        source = kwargs.get("source", kwargs.pop(param))
+        args = (source,) + args
+        return args, kwargs
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if kwargs.get("source") is not None:
+            args = (kwargs.pop("source"),) + args
+        elif kwargs.get("fn") is not None:
+            args, kwargs = handle_deprecated("fn", *args, **kwargs)
+        elif kwargs.get("path") is not None:
+            args, kwargs = handle_deprecated("path", *args, **kwargs)
+        return func(*args, **kwargs)
+
+    return wrapper
 
 
 def extract(
@@ -54,8 +78,9 @@ def extract(
     return extract_from_path(path, extractor)
 
 
+@deprecate_fn_path
 def extract_from_path(
-    path: str,
+    source: Path | str,
     extractor: FileType,
 ) -> DataTree:
     """
@@ -72,14 +97,47 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(fn=path, **vars(extractor))
+    ret: DataTree = func(fn=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
         {
             "yadg_provenance": "yadg extract",
             "yadg_extract_date": dgutils.now(asstr=True),
-            "yadg_extract_filename": str(path),
+            "yadg_extract_filename": str(source),
+            "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
+        }
+    )
+    ret.attrs.update(dgutils.get_yadg_metadata())
+
+    return ret
+
+
+def extract_from_bytes(
+    source: bytes,
+    extractor: FileType,
+) -> DataTree:
+    """
+    Extracts data and metadata from the provided raw bytes using the supplied extractor.
+
+    The individual extractor functionality of yadg is called from here. The data is
+    always returned as a :class:`DataTree`. The ``original_metadata`` entries in
+    the returned objects are flattened using json serialisation. The returned objects
+    have a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to
+    write the returned object into a file.
+    """
+
+    m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
+    func = getattr(m, "extract")
+
+    # Func should always return a xarray.DataTree
+    ret: DataTree = func(source=source, **vars(extractor))
+    jsonize_orig_meta(ret)
+
+    ret.attrs.update(
+        {
+            "yadg_provenance": "yadg extract",
+            "yadg_extract_date": dgutils.now(asstr=True),
             "yadg_extract_Extractor": extractor.model_dump_json(exclude_none=True),
         }
     )

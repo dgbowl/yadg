@@ -299,8 +299,8 @@ def process_data(
 
 @deprecate_fn_path
 def extract(
-    *,
     source: str,
+    *,
     encoding: str,
     locale: str,
     timezone: str,

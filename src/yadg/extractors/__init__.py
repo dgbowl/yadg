@@ -12,20 +12,22 @@ logger = logging.getLogger(__name__)
 
 
 def deprecate_fn_path(func):
+    def handle_deprecated(param, *args, **kwargs):
+        logger.warning(
+            f"The parameter '{param}' is deprecated and has been replaced by 'source'. ({DeprecationWarning.__name__})",
+        )
+        source = kwargs.get("source", kwargs.pop(param))
+        args = (source,) + args
+        return args, kwargs
+
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if kwargs.get("fn") is not None:
-            logger.warning(
-                "The parameter 'fn' is deprecated and has been replaced by 'source'. (%s)",
-                DeprecationWarning.__name__,
-            )
-            kwargs["source"] = kwargs.get("source", kwargs.pop("fn"))
-        if kwargs.get("path") is not None:
-            logger.warning(
-                "The parameter 'path' is deprecated and has been replaced by 'source'. (%s)",
-                DeprecationWarning.__name__,
-            )
-            kwargs["source"] = kwargs.get("source", kwargs.pop("path"))
+        if kwargs.get("source") is not None:
+            args = (kwargs.pop("source"),) + args
+        elif kwargs.get("fn") is not None:
+            args, kwargs = handle_deprecated("fn", *args, **kwargs)
+        elif kwargs.get("path") is not None:
+            args, kwargs = handle_deprecated("path", *args, **kwargs)
         return func(*args, **kwargs)
 
     return wrapper

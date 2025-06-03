@@ -4,6 +4,7 @@ import json
 from functools import wraps
 from pathlib import Path
 from xarray import DataTree
+from typing import Union
 from yadg import dgutils
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
 
@@ -35,7 +36,7 @@ def deprecate_fn_path(func):
 
 def extract(
     filetype: str,
-    path: str,
+    path: Union[Path, str],
     timezone: str = None,
     encoding: str = None,
     locale: str = None,
@@ -80,7 +81,7 @@ def extract(
 
 @deprecate_fn_path
 def extract_from_path(
-    source: Path | str,
+    source: Union[Path, str],
     extractor: FileType,
 ) -> DataTree:
     """
@@ -97,7 +98,7 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(fn=source, **vars(extractor))
+    ret: DataTree = func(fn=str(source), **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(

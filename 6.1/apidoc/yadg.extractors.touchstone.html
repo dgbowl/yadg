@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>touchstone: For Touchstone VNA files &mdash; yadg 6.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d8874676"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developer documentation" href="../devdocs.html" />
+    <link rel="prev" title="tomato: For tomato outputs" href="yadg.extractors.tomato.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                6.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>touchstone</strong>: For Touchstone VNA files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.touchstone.snp">yadg.extractors.touchstone.snp module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp"><code class="docutils literal notranslate"><span class="pre">Touchstone_snp</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.process_filename"><code class="docutils literal notranslate"><span class="pre">process_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.process_options"><code class="docutils literal notranslate"><span class="pre">process_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.attr_in_lines"><code class="docutils literal notranslate"><span class="pre">attr_in_lines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.process_comments"><code class="docutils literal notranslate"><span class="pre">process_comments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.data_to_dataset"><code class="docutils literal notranslate"><span class="pre">data_to_dataset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.touchstone.snp.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>touchstone</strong>: For Touchstone VNA files</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.touchstone.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.touchstone">
+<span id="touchstone-for-touchstone-vna-files"></span><h1><strong>touchstone</strong>: For Touchstone VNA files<a class="headerlink" href="#module-yadg.extractors.touchstone" title="Link to this heading"></a></h1>
+<p>An extractors for data in Touchstone formats.</p>
+<section id="module-yadg.extractors.touchstone.snp">
+<span id="yadg-extractors-touchstone-snp-module"></span><h2>yadg.extractors.touchstone.snp module<a class="headerlink" href="#module-yadg.extractors.touchstone.snp" title="Link to this heading"></a></h2>
+<p>This module parses Touchstone files conforming to the Touchstone File Specification,
+<a class="reference external" href="https://ibis.org/connector/touchstone_spec11.pdf">revision 1.1</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently only 1- and 2-port (i.e. <code class="docutils literal notranslate"><span class="pre">.s1p</span></code> and <code class="docutils literal notranslate"><span class="pre">.s2p</span></code>) files are supported.</p>
+</div>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Touchstone_snp</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'touchstone.snp'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Touchstone_snp.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">parameter_name</span><span class="w"> </span><span class="p p-Indicator">}}</span><span class="w">                  </span><span class="c1"># S11, S21, etc. for scattering parameters</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">           </span><span class="c1"># Unix timestamp, optional</span>
+<span class="w">      </span><span class="nt">frequency</span><span class="p">:</span><span class="w">      </span><span class="kt">!!float</span><span class="w">           </span><span class="c1">#</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">real</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts, frequency)</span><span class="w">  </span><span class="c1"># Real part of the response</span>
+<span class="w">      </span><span class="nt">imag</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts, frequency)</span><span class="w">  </span><span class="c1"># Imagunary part of the response</span>
+<span class="w">      </span><span class="nt">magnitude</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(uts, frequency)</span><span class="w">  </span><span class="c1"># Magnitude of the response</span>
+<span class="w">      </span><span class="nt">phase_angle</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(uts, frequency)</span><span class="w">  </span><span class="c1"># Phase angle of the response</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>Metadata about the device are inferred from the structure of the comments lines, see
+below. In most circumstances, the following information can be provided:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Ref</span> <span class="pre">R</span></code>: the reference resistance (in Ohms)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Model</span></code>: model number of the network analyseer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Serial</span></code>: serial number of the device</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Version</span></code>: software version with which the file was created</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timestamp (<code class="docutils literal notranslate"><span class="pre">uts</span></code>) is also parsed from the comments in the file. In case you
+have Touchstone files with a well-defined header that is not supported by yadg,
+please open an issue.</p>
+</div>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<p>Uncertainties in all variables are determined from the precision of the string-to-float
+conversion.</p>
+</section>
+<section id="notes-on-file-structure">
+<h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
+<p>The Touchstone <code class="docutils literal notranslate"><span class="pre">.sNp</span></code> files are composed of four sections:</p>
+<ul class="simple">
+<li><p>options line, denoted by <code class="docutils literal notranslate"><span class="pre">#</span></code></p></li>
+<li><p>any number of comments lines, denoted by <code class="docutils literal notranslate"><span class="pre">!</span></code></p></li>
+<li><p>data lines</p></li>
+<li><p>a noise parameters section, delimited by <code class="docutils literal notranslate"><span class="pre">!</span> <span class="pre">NOISE</span> <span class="pre">PARAMETERS</span></code></p></li>
+</ul>
+<p>Currently, only the first three sections are parsed.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.process_filename">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">process_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.process_filename" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.process_options">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">process_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.process_options" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.attr_in_lines">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">attr_in_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">':'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.attr_in_lines" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.process_comments">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">process_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.process_comments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.data_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">data_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.data_to_dataset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.touchstone.snp.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.touchstone.snp.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.touchstone.snp.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.tomato.html" class="btn btn-neutral float-left" title="tomato: For tomato outputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../devdocs.html" class="btn btn-neutral float-right" title="Developer documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2025, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 6.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

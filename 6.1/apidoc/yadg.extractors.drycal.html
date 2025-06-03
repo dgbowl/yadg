@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>drycal: For MesaLabs Drycal Pro data &mdash; yadg 6.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d8874676"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="eclab: For BioLogic data files" href="yadg.extractors.eclab.html" />
+    <link rel="prev" title="basic: For tabulated data" href="yadg.extractors.basic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                6.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.drycal.common">yadg.extractors.drycal.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate"><code class="docutils literal notranslate"><span class="pre">TimeDate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec"><code class="docutils literal notranslate"><span class="pre">TimeDate.TimestampSpec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate.date"><code class="docutils literal notranslate"><span class="pre">TimeDate.date</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate.time"><code class="docutils literal notranslate"><span class="pre">TimeDate.time</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.common.rtf"><code class="docutils literal notranslate"><span class="pre">rtf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.common.sep"><code class="docutils literal notranslate"><span class="pre">sep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.common.drycal_table"><code class="docutils literal notranslate"><span class="pre">drycal_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.common.check_timestamps"><code class="docutils literal notranslate"><span class="pre">check_timestamps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.drycal.csv">yadg.extractors.drycal.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_csv"><code class="docutils literal notranslate"><span class="pre">Drycal_csv</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.drycal.rtf">yadg.extractors.drycal.rtf module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_rtf"><code class="docutils literal notranslate"><span class="pre">Drycal_rtf</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.rtf.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.drycal.txt">yadg.extractors.drycal.txt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_txt"><code class="docutils literal notranslate"><span class="pre">Drycal_txt</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.drycal.txt.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fhimcpt.html"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>drycal</strong>: For MesaLabs Drycal Pro data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.drycal.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.drycal">
+<span id="drycal-for-mesalabs-drycal-pro-data"></span><h1><strong>drycal</strong>: For MesaLabs Drycal Pro data<a class="headerlink" href="#module-yadg.extractors.drycal" title="Link to this heading"></a></h1>
+<p>Extractors for files from MesaLabs DryCal Pro software for Defender flow meters.</p>
+<section id="module-yadg.extractors.drycal.common">
+<span id="yadg-extractors-drycal-common-module"></span><h2>yadg.extractors.drycal.common module<a class="headerlink" href="#module-yadg.extractors.drycal.common" title="Link to this heading"></a></h2>
+<p>This module includes shared functions for the <a class="reference internal" href="#module-yadg.extractors.drycal" title="yadg.extractors.drycal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">drycal</span></code></a>
+extractor, including functions for parsing the files, processing the tabulated data,
+and ensuring timestamps are increasing.</p>
+<p><em>Code author: Peter Kraus</em></p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.common.</span></span><span class="sig-name descname"><span class="pre">TimeDate</span></span><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate.TimestampSpec">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimestampSpec</span></span><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate.TimestampSpec.index">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec.index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate.TimestampSpec.format">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec.format" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate.date">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec" title="yadg.extractors.drycal.common.TimeDate.TimestampSpec"><span class="pre">TimestampSpec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate.date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.TimeDate.time">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yadg.extractors.drycal.common.TimeDate.TimestampSpec" title="yadg.extractors.drycal.common.TimeDate.TimestampSpec"><span class="pre">TimestampSpec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#yadg.extractors.drycal.common.TimeDate.time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.rtf">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.common.</span></span><span class="sig-name descname"><span class="pre">rtf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.common.rtf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.sep">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.common.</span></span><span class="sig-name descname"><span class="pre">sep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.common.sep" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.drycal_table">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.common.</span></span><span class="sig-name descname"><span class="pre">drycal_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">','</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.drycal.common.drycal_table" title="Link to this definition"></a></dt>
+<dd><p>DryCal table-processing function.</p>
+<p>Given a table with headers and units in the first line, and data in the following
+lines, this function returns the headers, units, and data extracted from the table.
+The returned values are always of <code class="xref py py-class docutils literal notranslate"><span class="pre">(str)</span></code> type, any post-processing is done
+in the calling routine.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.common.check_timestamps">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.common.</span></span><span class="sig-name descname"><span class="pre">check_timestamps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><span class="pre">Dataset</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.common.check_timestamps" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.drycal.csv">
+<span id="yadg-extractors-drycal-csv-module"></span><h2>yadg.extractors.drycal.csv module<a class="headerlink" href="#module-yadg.extractors.drycal.csv" title="Link to this heading"></a></h2>
+<p>Handles the reading and processing of volumetric flow meter data exported from the
+MesaLabs DryCal software as a csv file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The date information is missing in the timestamps of the exported files and has to
+be supplied externally.</p>
+</div>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Drycal_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_csv" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'drycal.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_csv.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp, without date</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">DryCal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Standardised flow rate</span>
+<span class="w">    </span><span class="nt">DryCal Avg.</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Running average of the flow rate</span>
+<span class="w">    </span><span class="nt">Temp.</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow temperature</span>
+<span class="w">    </span><span class="nt">Pressure</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow pressure</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">product</span></code>: Model name of the MesaLabs device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serial</span> <span class="pre">number</span></code>: Serial number of the MesaLabs device.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<p>All uncertainties are derived from the string representation of the floats.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.csv.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.csv.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.drycal.rtf">
+<span id="yadg-extractors-drycal-rtf-module"></span><h2>yadg.extractors.drycal.rtf module<a class="headerlink" href="#module-yadg.extractors.drycal.rtf" title="Link to this heading"></a></h2>
+<p>Handles the reading and processing of volumetric flow meter data exported from the
+MesaLabs DryCal software as a rtf file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The date information is missing in the timestamps of the exported files and has to
+be supplied externally. The timestamp in the header of the rtf file corresponds to
+the timestamp of export / report generation, not measurement.</p>
+</div>
+<section id="id1">
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_rtf">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Drycal_rtf</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_rtf" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_rtf.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'drycal.rtf'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_rtf.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp, without date</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">DryCal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Standardised flow rate</span>
+<span class="w">    </span><span class="nt">DryCal Avg.</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Running average of the flow rate</span>
+<span class="w">    </span><span class="nt">Temp.</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow temperature</span>
+<span class="w">    </span><span class="nt">Pressure</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow pressure</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">product</span></code>: Model name of the MesaLabs device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serial</span> <span class="pre">number</span></code>: Serial number of the MesaLabs device.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id4">
+<h3>Uncertainties<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>All uncertainties are derived from the string representation of the floats.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.rtf.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.rtf.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.rtf.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.drycal.txt">
+<span id="yadg-extractors-drycal-txt-module"></span><h2>yadg.extractors.drycal.txt module<a class="headerlink" href="#module-yadg.extractors.drycal.txt" title="Link to this heading"></a></h2>
+<p>Handles the reading and processing of volumetric flow meter data exported from the
+MesaLabs DryCal software as a txt file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The date information is missing in the timestamps of the exported files and has to
+be supplied externally.</p>
+</div>
+<section id="id5">
+<h3>Usage<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_txt">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">Drycal_txt</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_txt" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_txt.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'drycal.txt'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Drycal_txt.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id6">
+<h3>Schema<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">               </span><span class="c1"># Unix timestamp, without date</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">DryCal</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Standardised flow rate</span>
+<span class="w">    </span><span class="nt">DryCal Avg.</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Running average of the flow rate</span>
+<span class="w">    </span><span class="nt">Temp.</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow temperature</span>
+<span class="w">    </span><span class="nt">Pressure</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">                 </span><span class="c1"># Measured flow pressure</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Metadata<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>The following metadata is extracted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">product</span></code>: Model name of the MesaLabs device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serial</span> <span class="pre">number</span></code>: Serial number of the MesaLabs device.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id8">
+<h3>Uncertainties<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<p>All uncertainties are derived from the string representation of the floats.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.drycal.txt.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.drycal.txt.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.drycal.txt.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.basic.html" class="btn btn-neutral float-left" title="basic: For tabulated data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.eclab.html" class="btn btn-neutral float-right" title="eclab: For BioLogic data files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2025, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 6.1
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

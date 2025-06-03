@@ -1,0 +1,56 @@
+yadg.dgutils package
+====================
+
+.. automodule:: yadg.dgutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.dgutils.btools module
+--------------------------
+
+.. automodule:: yadg.dgutils.btools
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.dgutils.dateutils module
+-----------------------------
+
+.. automodule:: yadg.dgutils.dateutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.dgutils.dsutils module
+---------------------------
+
+.. automodule:: yadg.dgutils.dsutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.dgutils.helpers module
+---------------------------
+
+.. automodule:: yadg.dgutils.helpers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.dgutils.pintutils module
+-----------------------------
+
+.. automodule:: yadg.dgutils.pintutils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.dgutils.schemautils module
+-------------------------------
+
+.. automodule:: yadg.dgutils.schemautils
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.empalc.csv import extract
 from .utils import compare_datatrees
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -14,7 +15,7 @@ from .utils import compare_datatrees
 )
 def test_empalc_csv(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, encoding="utf-8")
+    ret = extract(source=Path(infile), encoding="utf-8")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

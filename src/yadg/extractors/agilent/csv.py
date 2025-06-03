@@ -47,11 +47,14 @@ All uncertainties are derived from the string representation of the floats.
 import numpy as np
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from yadg import dgutils
+from yadg.extractors import get_extract_dispatch
 import xarray as xr
+from pathlib import Path
 from xarray import DataTree
 import logging
 
 logger = logging.getLogger(__name__)
+extract = get_extract_dispatch()
 
 
 def _process_headers(headers: list, columns: list, timezone: str) -> dict:
@@ -80,14 +83,15 @@ def _to_trace(tx, ty):
     return trace
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
+    with open(source, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
     orig_meta = {}
     uts = []

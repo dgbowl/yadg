@@ -133,6 +133,10 @@ import numpy as np
 import xarray as xr
 from xarray import DataTree
 import yadg.dgutils as dgutils
+from yadg.extractors import get_extract_dispatch
+from pathlib import Path
+
+extract = get_extract_dispatch()
 
 data_header_dtype = np.dtype(
     [
@@ -335,12 +339,12 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
     return traces
 
 
-def extract(
-    *,
-    fn: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "rb") as spe_file:
+    with open(source, "rb") as spe_file:
         spe = spe_file.readlines()
     header = _process_header(spe)
     software_id, version = header.get("software_version").split()

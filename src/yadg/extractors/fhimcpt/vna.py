@@ -41,18 +41,23 @@ No metadata is returned.
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 from xarray import DataTree
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding) as infile:
+    with open(source, "r", encoding=encoding) as infile:
         lines = infile.readlines()
     assert len(lines) > 2, (
-        f"qftrace: Only {len(lines) - 1} points supplied in {fn}; fitting impossible."
+        f"qftrace: Only {len(lines) - 1} points supplied in {source}; fitting impossible."
     )
 
     # process header

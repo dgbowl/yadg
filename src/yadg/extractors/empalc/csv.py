@@ -47,17 +47,22 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 import numpy as np
 from xarray import DataTree
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 logger = logging.getLogger(__name__)
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
+    with open(str(source), "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
     metadata = {}
@@ -65,7 +70,7 @@ def extract(
         line = lines.pop(0)
         if len(lines) == 0:
             raise RuntimeError(
-                f"Last line of file '{fn}' read during metadata section."
+                f"Last line of file '{source}' read during metadata section."
             )
         elif line.strip() == "":
             break
@@ -81,13 +86,15 @@ def extract(
             metadata["version"] = int(line.split(":,")[1])
 
     if metadata.get("version", None) is None:
-        raise RuntimeError(f"Report version in file '{fn}' was not specified.")
+        raise RuntimeError(f"Report version in file '{source}' was not specified.")
 
     samples = {}
     while len(lines) > 0:
         line = lines.pop(0)
         if len(lines) == 0:
-            raise RuntimeError(f"Last line of file '{fn}' read during samples section.")
+            raise RuntimeError(
+                f"Last line of file '{source}' read during samples section."
+            )
         elif line.strip() == "":
             break
         elif "Line#" in line:
@@ -114,15 +121,15 @@ def extract(
     svals = samples.values()
     if len(svals) == 0:
         raise RuntimeError(
-            f"No complete sample data found in file '{fn}'. "
+            f"No complete sample data found in file '{source}'. "
             "Have you added time offsets?"
         )
     r = next(iter(svals))
     # check that acquisition and integration methods are consistent throughout file:
     if any([s["acquisition"]["method"] != r["acquisition"]["method"] for s in svals]):
-        logger.warning("Acquisition method is inconsistent in file '%s'.", fn)
+        logger.warning("Acquisition method is inconsistent in file '%s'.", source)
     if any([s["integration"]["method"] != r["integration"]["method"] for s in svals]):
-        logger.warning("Integration method is inconsistent in file '%s'.", fn)
+        logger.warning("Integration method is inconsistent in file '%s'.", source)
 
     metadata["method"] = r["acquisition"]["method"]
 
@@ -159,7 +166,7 @@ def extract(
                 logger.warning(
                     "Report version '%d' in file '%s' not understood.",
                     metadata["version"],
-                    fn,
+                    source,
                 )
                 c = data[headers.index("Concentration")]
             if c != "":
@@ -199,7 +206,7 @@ def extract(
             except ValueError:
                 raise RuntimeError(
                     f"It was not possible to parse offset '{offset}' present in file "
-                    f"'{fn}' using known formats."
+                    f"'{source}' using known formats."
                 )
         else:
             td = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)

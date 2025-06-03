@@ -33,11 +33,16 @@ No metadata is returned.
 from pydantic import BaseModel
 from yadg import dgutils
 from xarray import DataTree
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     parameters: BaseModel,
     **kwargs: dict,
 ) -> DataTree:

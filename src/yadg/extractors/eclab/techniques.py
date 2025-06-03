@@ -1521,9 +1521,7 @@ param_map = {
 }
 
 
-def param_from_key(
-    param: str, key: int | str, to_str: bool = True
-) -> str | float:
+def param_from_key(param: str, key: int | str, to_str: bool = True) -> str | float:
     """
     Convert a supplied key of a certain parameter to its string or float value.
 

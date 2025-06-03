@@ -48,10 +48,11 @@ from babel.numbers import parse_decimal
 from xarray import DataTree
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
-
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 from yadg import dgutils
 
-
+extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
 
 
@@ -116,9 +117,10 @@ def process_row(
     return vals, devs
 
 
+@extract.register(Path)
 def extract(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     locale: str,
     timezone: str,
@@ -131,7 +133,7 @@ def extract(
         strip = None
 
     # Load file, extract headers and get timestamping function
-    with open(fn, "r", encoding=encoding) as infile:
+    with open(source, "r", encoding=encoding) as infile:
         # This decode/encode is done to account for some csv files that have a BOM
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
@@ -172,6 +174,6 @@ def extract(
             datecolumns,
             locale=locale,
         )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(source), li)
 
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))

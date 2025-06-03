@@ -46,19 +46,23 @@ import zipfile
 import tempfile
 import os
 from xarray import DataTree
-
 from yadg.extractors.fusion.json import extract as extract_json
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     encoding: str,
     **kwargs: dict,
 ) -> DataTree:
-    zf = zipfile.ZipFile(fn)
+    zf = zipfile.ZipFile(source)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None

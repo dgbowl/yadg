@@ -2,6 +2,8 @@ import importlib
 import logging
 import json
 from functools import wraps
+from functools import singledispatch
+from typing import Any
 from pathlib import Path
 from xarray import DataTree
 from yadg import dgutils
@@ -80,7 +82,7 @@ def extract(
 
 @deprecate_fn_path
 def extract_from_path(
-    source: Path | str,
+    source: Path,
     extractor: FileType,
 ) -> DataTree:
     """
@@ -97,7 +99,7 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(fn=str(source), **vars(extractor))
+    ret: DataTree = func(source=source, **vars(extractor))
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
@@ -157,3 +159,20 @@ def jsonize_orig_meta(obj: DataTree):
 
 
 __all__ = ["extract"]
+
+
+def get_extract_dispatch():
+    @deprecate_fn_path
+    @singledispatch
+    def extract(
+        source: Any,
+        *,
+        timezone: str,
+        **kwargs: dict,
+    ) -> DataTree:
+        raise RuntimeError(
+            f"The selected extractor does not support the source type {type(source)!r} "
+            "provided. Please check the available extractors or enter a valid file path."
+        )
+
+    return extract

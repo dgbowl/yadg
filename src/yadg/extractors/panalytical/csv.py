@@ -43,9 +43,12 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from xarray import DataTree
 import xarray as xr
 import numpy as np
-
 from yadg.dgutils import dateutils
 from yadg.extractors.panalytical.common import panalytical_comment, snake_case
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
 def _process_comments(comments: list[str]) -> dict:
@@ -110,14 +113,15 @@ def _process_data(data: str) -> tuple[list, list]:
     return avals, adevs, ivals, idevs
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding) as csv_file:
+    with open(source, "r", encoding=encoding) as csv_file:
         csv = csv_file.read()
     # Split file into its sections.
     __, header, data = csv.split("[")

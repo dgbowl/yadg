@@ -49,20 +49,23 @@ import logging
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 from xarray import DataTree
-
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 from yadg import dgutils
 
+extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
+    with open(source, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
     metadata = {}
     data = {}
@@ -84,13 +87,13 @@ def extract(
             )
         if line.startswith("Sampling Rate:"):
             assert "Hz" in line, (
-                f"datasc: Incorrect units for rate in file {fn}: {line}"
+                f"datasc: Incorrect units for rate in file {source}: {line}"
             )
             parts = line.split("\t")
             samplerates = [float(each.strip()) for each in parts[1:-1]]
         if line.startswith("Total Data Points:"):
             assert "Pts." in line, (
-                f"datasc: Incorrect units for number of points in file {fn}: {line}"
+                f"datasc: Incorrect units for number of points in file {source}: {line}"
             )
             parts = line.split("\t")
             npoints = [int(each.strip()) for each in parts[1:-1]]
@@ -122,13 +125,13 @@ def extract(
         == len(yunits)
         == len(xmuls)
         == len(ymuls)
-    ), f"datasc: Inconsistent number of traces in {fn}."
+    ), f"datasc: Inconsistent number of traces in {source}."
 
     data = {}
     units = {}
     for ti, npts in enumerate(npoints):
         assert xunits[ti] == "Minutes", (
-            f"datasc: X units label of trace {ti} in {fn} was not understood."
+            f"datasc: X units label of trace {ti} in {source} was not understood."
         )
         dt = 60
         xmul = xmuls[ti] * dt / samplerates[ti]

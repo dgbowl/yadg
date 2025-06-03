@@ -2,6 +2,7 @@ import pytest
 import os
 from yadg.extractors import extract
 import xarray as xr
+from pathlib import Path
 from .utils import compare_datatrees
 
 
@@ -24,7 +25,7 @@ def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
     os.chdir(datadir)
     outfile = f"{infile}.nc"
     ret = extract(
-        filetype=filetype, path=infile, locale="en_GB", timezone="Europe/Berlin"
+        filetype=filetype, path=Path(infile), locale="en_GB", timezone="Europe/Berlin"
     )
     ret.to_netcdf(f"{outfile}.tmp", engine="h5netcdf")
     ref = xr.open_datatree(outfile, engine="h5netcdf")

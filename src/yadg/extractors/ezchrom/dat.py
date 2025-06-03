@@ -52,8 +52,11 @@ import olefile
 import xarray as xr
 from xarray import DataTree
 import numpy as np
-
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
 detector_trace_struct = [
@@ -68,15 +71,16 @@ detector_trace_struct = [
 ]
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
     # Read data from the OLE file
     dd = {}
-    with olefile.OleFileIO(fn) as of:
+    with olefile.OleFileIO(source) as of:
         ch = of.openstream(["Chrom Header"]).read()
         dth = of.openstream(["Detector Trace Handler"]).read()
         for path in of.listdir():

@@ -67,10 +67,12 @@ Currently, only the first three sections are parsed.
 import logging
 from xarray import Dataset, DataArray, DataTree
 from babel.numbers import parse_decimal
-
+from yadg.extractors import get_extract_dispatch
+from pathlib import Path
 from yadg import dgutils
 
 logger = logging.getLogger(__name__)
+extract = get_extract_dispatch()
 
 
 def process_filename(filename: str) -> dict:
@@ -184,17 +186,18 @@ def data_to_dataset(key: str, data: dict) -> Dataset:
     return Dataset(data_vars=data_vars, coords=coords)
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     locale: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, encoding=encoding) as inf:
+    with open(source, encoding=encoding) as inf:
         lines = inf.readlines()
-    metadata = process_filename(fn)
+    metadata = process_filename(str(source))
 
     # Find options line
     for li in lines:

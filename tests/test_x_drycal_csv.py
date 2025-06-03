@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.drycal.csv import extract
 from .utils import datagram_from_file, compare_datatrees
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -15,7 +16,7 @@ from .utils import datagram_from_file, compare_datatrees
 )
 def test_drycal_csv(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, encoding="utf8", timezone="Europe/Berlin")
+    ret = extract(source=Path(infile), encoding="utf8", timezone="Europe/Berlin")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

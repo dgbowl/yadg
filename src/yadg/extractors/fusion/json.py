@@ -44,8 +44,11 @@ import logging
 from xarray import Dataset, DataTree
 import xarray as xr
 import numpy as np
-
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
 logger = logging.getLogger(__name__)
@@ -177,14 +180,15 @@ def chromtrace(jsdata: dict, uts: float) -> DataTree:
     return dt
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
+    with open(source, "r", encoding=encoding, errors="ignore") as infile:
         jsdata = json.load(infile)
     uts = dgutils.str_to_uts(timestamp=jsdata["runTimeStamp"], timezone=timezone)
     data = chromdata(jsdata, uts)

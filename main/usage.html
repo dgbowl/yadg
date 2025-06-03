@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to use yadg &mdash; yadg 6.0.3a1.dev2 documentation</title>
+  <title>How to use yadg &mdash; yadg 6.0.3a1.dev3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=76435d80"></script>
+        <script src="_static/documentation_options.js?v=d23bd999"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.0.3a1.dev2
+                6.0.3a1.dev3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -133,7 +133,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>extract<span class="w"> </span>filetype<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">infile</span></code> will be then parsed using <strong>yadg</strong> into a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, and, if successful, saved as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file, optionally using the specified <code class="docutils literal notranslate"><span class="pre">outfile</span></code> location. In addition to any <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> stored in the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> object of the resulting <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it will contain <strong>yadg</strong>-specific metadata, including the annotation of provenance (i.e. <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code>), <cite>filetype</cite> information, and the resolved defaults of <cite>timezone</cite>, <cite>locale</cite>, and <cite>encoding</cite> used to create it.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">infile</span></code> will be then parsed using <strong>yadg</strong> into a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, and, if successful, saved as a <a class="reference external" href="https://www.unidata.ucar.edu/software/netcdf/"><code class="docutils literal notranslate"><span class="pre">NetCDF</span></code></a> file, optionally using the specified <code class="docutils literal notranslate"><span class="pre">outfile</span></code> location. In addition to any <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> stored in the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> object of the resulting <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it will contain <strong>yadg</strong>-specific metadata, including the annotation of provenance (i.e. <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code>), <cite>filetype</cite> information, and the resolved defaults of <cite>timezone</cite>, <cite>locale</cite>, and <cite>encoding</cite> used to create it.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>By default, in <cite>extractor</cite> mode, <strong>yadg</strong> assumes the following defaults:</p>
@@ -155,7 +155,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>extract<span class="w"> </span>--meta-only<span class="w"> </span>filetype<span class="w"> </span>infile
 </pre></div>
 </div>
-<p>The metadata are returned as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file, and are generated using the <code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code> function of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. They contain a description of the data coordinates (<code class="docutils literal notranslate"><span class="pre">coords</span></code>), dimensions (<code class="docutils literal notranslate"><span class="pre">dims</span></code>), and variables (<code class="docutils literal notranslate"><span class="pre">data_vars</span></code>), and include their names, attributes, dtypes, and shapes.</p>
+<p>The metadata are returned as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file, and are generated using the <code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code> function of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. They contain a description of the data coordinates (<code class="docutils literal notranslate"><span class="pre">coords</span></code>), dimensions (<code class="docutils literal notranslate"><span class="pre">dims</span></code>), and variables (<code class="docutils literal notranslate"><span class="pre">data_vars</span></code>), and include their names, attributes, dtypes, and shapes.</p>
 <p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar. For more information about the <cite>extractor</cite> concept, see the <a class="reference external" href="https://github.com/datatractor">Datatractor</a> project.</p>
 </section>
 </section>
@@ -165,7 +165,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>process<span class="w"> </span>infile<span class="w"> </span><span class="o">[</span>outfile<span class="o">]</span>
 </pre></div>
 </div>
-<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file containing the <cite>dataschema</cite>, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> should be saved (it defaults to <code class="docutils literal notranslate"><span class="pre">datagram.nc</span></code>).</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">infile</span></code> corresponds to the <code class="docutils literal notranslate"><span class="pre">json</span></code> or <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file containing the <cite>dataschema</cite>, and the optional <code class="docutils literal notranslate"><span class="pre">outfile</span></code> is the filename to which the created <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> should be saved (it defaults to <code class="docutils literal notranslate"><span class="pre">datagram.nc</span></code>).</p>
 <p>In this fully-featured usage pattern via <cite>dataschema</cite>, the individual <cite>extractors</cite> can be further configured and combined. The currently implemented <cite>extractors</cite> are documented in the sidebar.</p>
 <section id="dataschema-from-presets">
 <h3><cite>Dataschema</cite> from presets<a class="headerlink" href="#dataschema-from-presets" title="Link to this heading"></a></h3>
@@ -178,8 +178,8 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.nc<span class="o">]</span>
 </pre></div>
 </div>
-<p>This syntax will process the created <cite>dataschema</cite> immediately, and the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> will be saved to <code class="docutils literal notranslate"><span class="pre">outfile.nc</span></code> instead.</p>
-<p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed, and referenced in the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, by using the following pattern:</p>
+<p>This syntax will process the created <cite>dataschema</cite> immediately, and the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> will be saved to <code class="docutils literal notranslate"><span class="pre">outfile.nc</span></code> instead.</p>
+<p>Finally, the raw data files in the processed <code class="docutils literal notranslate"><span class="pre">folder</span></code> can be archived, checksumed, and referenced in the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, by using the following pattern:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yadg<span class="w"> </span>preset<span class="w"> </span>-p<span class="w"> </span>-a<span class="w"> </span>infile<span class="w"> </span>folder<span class="w"> </span><span class="o">[</span>outfile.nc<span class="o">]</span>
 </pre></div>
 </div>
@@ -223,7 +223,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.0.3a1.dev2
+      v: 6.0.3a1.dev3
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

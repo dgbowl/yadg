@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version 6.1 &mdash; yadg 6.0.3a1.dev2 documentation</title>
+  <title>yadg version 6.1 &mdash; yadg 6.0.3a1.dev3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=76435d80"></script>
+        <script src="_static/documentation_options.js?v=d23bd999"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.0.3a1.dev2
+                6.0.3a1.dev3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -112,12 +112,36 @@
 </div>
 <p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
 <p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-6.1</span></code> are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added support for extraction from different sources rather than just files.</p>
+<ul>
+<li><p>Extraction from a <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code> object can be requested using <code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract_from_bytes()</span></code>.</p></li>
+<li><p>Currently, this is only implemented for <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a>, which can now extract either <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code> objects.</p></li>
+<li><p>Thanks to <cite>&#64;carla-terboven &lt;https://github.com/carla-terboven&gt;</cite>.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
 <p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-6.1</span></code> are:</p>
+<blockquote>
+<div><ul>
+<li><p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code> function of each <code class="docutils literal notranslate"><span class="pre">Extractor</span></code> module now expects a positional <code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code> argument instead of a required keyword argument <code class="xref py py-obj docutils literal notranslate"><span class="pre">fn</span></code>. The internal <code class="docutils literal notranslate"><span class="pre">Extractor</span></code> API has changed in the following way:</p>
+<ul class="simple">
+<li><p>Passing <code class="xref py py-obj docutils literal notranslate"><span class="pre">fn</span></code> to <code class="docutils literal notranslate"><span class="pre">Extractors</span></code> is deprecated and will stop working in a future version of <a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg</span></code></a>.</p></li>
+<li><p>If an extraction from a file is requested, <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code> <strong>must</strong> now be passed as <code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span></code>.</p></li>
+<li><p>An extraction from another object type can be implemented by registering a dispatch function for that type in each <code class="docutils literal notranslate"><span class="pre">Extractor</span></code>.</p></li>
+</ul>
+<p>Note that the <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function still requests the usual two arguments, i.e. an <code class="xref py py-obj docutils literal notranslate"><span class="pre">filename:</span> <span class="pre">str</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">path:</span> <span class="pre">Path</span> <span class="pre">|</span> <span class="pre">str</span></code>. The new behaviour does not affect this high-level external API.</p>
+</li>
+</ul>
+</div></blockquote>
 <p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-6.1</span></code> include:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Fixed metadata extraction and added support for another version of the CVA technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a>. Thanks to <a class="reference external" href="https://github.com/acavell">&#64;acavell</a> for providing test files.</p></li>
 <li><p>Fixed timestamp parsing for D/M/Y formats of PicoVNA files in <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.touchstone.snp</span></code></a>.</p></li>
+<li><p>Fixed issue when the filename was passed to <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.touchstone.snp</span></code></a> as <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code> instead of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -146,7 +170,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.0.3a1.dev2
+      v: 6.0.3a1.dev3
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.extractors package &mdash; yadg 6.0.3a1.dev2 documentation</title>
+  <title>yadg.extractors package &mdash; yadg 6.0.3a1.dev3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=76435d80"></script>
+        <script src="../_static/documentation_options.js?v=d23bd999"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.0.3a1.dev2
+                6.0.3a1.dev3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -126,10 +126,10 @@
 <span id="yadg-extractors-package"></span><h1>yadg.extractors package<a class="headerlink" href="#module-yadg.extractors" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.extract" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.extract" title="Link to this definition"></a></dt>
 <dd><p>Extract data and metadata from a path using the supplied filetype.</p>
 <p>A wrapper around the <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_from_path()</span></code> worker function, which creates a
-default extractor object.</p>
+default extractor object. Coerces any <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> provided to <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -157,7 +157,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.ch.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.ch.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv">yadg.extractors.agilent.csv module</a><ul>
@@ -168,7 +168,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id2">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id3">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id4">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.agilent.html#module-yadg.extractors.agilent.dx">yadg.extractors.agilent.dx module</a><ul>
@@ -178,7 +178,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id6">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#id7">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.dx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.agilent.html#yadg.extractors.agilent.dx.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -219,7 +219,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#schema">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.rtf">yadg.extractors.drycal.rtf module</a><ul>
@@ -230,7 +230,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id2">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id3">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id4">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.rtf.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.rtf.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.drycal.html#module-yadg.extractors.drycal.txt">yadg.extractors.drycal.txt module</a><ul>
@@ -241,7 +241,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id6">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id7">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#id8">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.txt.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.drycal.html#yadg.extractors.drycal.txt.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -262,7 +262,6 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_loop"><code class="docutils literal notranslate"><span class="pre">process_loop()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_ext"><code class="docutils literal notranslate"><span class="pre">process_ext()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_modules"><code class="docutils literal notranslate"><span class="pre">process_modules()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract_from_bytes"><code class="docutils literal notranslate"><span class="pre">extract_from_bytes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract_raw_bytes"><code class="docutils literal notranslate"><span class="pre">extract_raw_bytes()</span></code></a></li>
@@ -282,7 +281,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_external"><code class="docutils literal notranslate"><span class="pre">process_external()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_header"><code class="docutils literal notranslate"><span class="pre">process_header()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_data"><code class="docutils literal notranslate"><span class="pre">process_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt_columns">yadg.extractors.eclab.mpt_columns module</a></li>
@@ -304,7 +303,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#schema">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#metadata">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.empalc.html#module-yadg.extractors.empalc.xlsx">yadg.extractors.empalc.xlsx module</a><ul>
@@ -314,7 +313,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#id2">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#id3">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.xlsx.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.empalc.html#yadg.extractors.empalc.xlsx.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -331,7 +330,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.example.html#schema">Schema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.example.html#metadata">Metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.example.html#yadg.extractors.example.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.example.html#yadg.extractors.example.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a><ul>
@@ -343,7 +342,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#schema">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.asc.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.asc.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.ezchrom.html#module-yadg.extractors.ezchrom.dat">yadg.extractors.ezchrom.dat module</a><ul>
@@ -355,7 +354,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id3">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#id4">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.dat.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.ezchrom.html#yadg.extractors.ezchrom.dat.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -368,7 +367,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#schema">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#metadata">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.vna">yadg.extractors.fhimcpt.vna module</a><ul>
@@ -378,7 +377,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id2">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#id3">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.vna.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fhimcpt.html#yadg.extractors.fhimcpt.vna.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -392,7 +391,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#schema">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#module-yadg.extractors.fusion.json">yadg.extractors.fusion.json module</a><ul>
@@ -404,7 +403,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id3">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromdata"><code class="docutils literal notranslate"><span class="pre">chromdata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.chromtrace"><code class="docutils literal notranslate"><span class="pre">chromtrace()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.json.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.fusion.html#module-yadg.extractors.fusion.zip">yadg.extractors.fusion.zip module</a><ul>
@@ -414,7 +413,7 @@ default extractor object.</p>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id5">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#id6">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.zip.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.fusion.html#yadg.extractors.fusion.zip.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -434,7 +433,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.xrdml">yadg.extractors.panalytical.xrdml module</a><ul>
@@ -447,7 +446,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id4">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id5">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="yadg.extractors.panalytical.html#module-yadg.extractors.panalytical.xy">yadg.extractors.panalytical.xy module</a><ul>
@@ -458,7 +457,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id7">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id8">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#id9">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xy.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.panalytical.html#yadg.extractors.panalytical.xy.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -474,7 +473,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.camel_to_snake"><code class="docutils literal notranslate"><span class="pre">camel_to_snake()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.phi.html#yadg.extractors.phi.spe.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -489,7 +488,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.picolog.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.picolog.html#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.picolog.html#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.picolog.html#yadg.extractors.picolog.tc08.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.picolog.html#yadg.extractors.picolog.tc08.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -504,7 +503,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#yadg.extractors.quadstar.sac.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.quadstar.html#yadg.extractors.quadstar.sac.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -521,7 +520,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.biologic_tomato_json"><code class="docutils literal notranslate"><span class="pre">biologic_tomato_json()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.dummy_tomato_json"><code class="docutils literal notranslate"><span class="pre">dummy_tomato_json()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.tomato.html#yadg.extractors.tomato.json.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -541,7 +540,7 @@ default extractor object.</p>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.attr_in_lines"><code class="docutils literal notranslate"><span class="pre">attr_in_lines()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments"><code class="docutils literal notranslate"><span class="pre">process_comments()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.data_to_dataset"><code class="docutils literal notranslate"><span class="pre">data_to_dataset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -577,7 +576,7 @@ default extractor object.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.0.3a1.dev2
+      v: 6.0.3a1.dev3
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

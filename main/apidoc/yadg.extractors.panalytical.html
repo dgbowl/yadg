@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>panalytical: For Panalytical XRD data &mdash; yadg 6.0.3a1.dev2 documentation</title>
+  <title>panalytical: For Panalytical XRD data &mdash; yadg 6.0.3a1.dev3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=76435d80"></script>
+        <script src="../_static/documentation_options.js?v=d23bd999"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.0.3a1.dev2
+                6.0.3a1.dev3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -83,7 +83,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xrdml">yadg.extractors.panalytical.xrdml module</a><ul>
@@ -96,7 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id4">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.panalytical.xy">yadg.extractors.panalytical.xy module</a><ul>
@@ -107,7 +107,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id7">Schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id8">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xy.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xy.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -246,8 +246,8 @@ section. The former stores the metadata and the latter all the datapoints.</p>
 Peter Kraus</em></p>
 </section>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.extract" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -334,8 +334,8 @@ Element text is stored into <cite>“#text”</cite> for all nodes.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.extract" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -389,8 +389,8 @@ timestamp.</p>
 Peter Kraus</em></p>
 </section>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.panalytical.xy.extract">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xy.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.3.2.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xy.extract" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xy.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xy.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xy.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -423,7 +423,7 @@ Peter Kraus</em></p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.0.3a1.dev2
+      v: 6.0.3a1.dev3
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

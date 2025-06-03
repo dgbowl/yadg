@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from pydantic.v1 import BaseModel as BaseModel_v1
 from yadg import dgutils
 
-__latest_dataschema__ = "5.1"
+__latest_dataschema__ = "6.0"
 logger = logging.getLogger(__name__)
 
 

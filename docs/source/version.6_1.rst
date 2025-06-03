@@ -1,15 +1,10 @@
 **yadg** version 6.1
 ````````````````````
-.. warning::
-
-   This version of yadg is not yet released.
-
-..
-  .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.0&color=blue&logo=github
-    :target: https://github.com/PeterKraus/yadg/tree/6.0
-  .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.0&color=blue&logo=pypi
-    :target: https://pypi.org/project/yadg/6.0/
-  .. image:: https://img.shields.io/static/v1?label=release%20date&message=2024-11-14&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v6.1&color=blue&logo=github
+  :target: https://github.com/PeterKraus/yadg/tree/6.1
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v6.1&color=blue&logo=pypi
+  :target: https://pypi.org/project/yadg/6.1/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2025-06-03&color=red&logo=pypi
 
 
 Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).

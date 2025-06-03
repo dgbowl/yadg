@@ -73,6 +73,10 @@ import numpy as np
 from yadg import dgutils
 import xarray as xr
 from xarray import DataTree
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 magic_values = {}
 magic_values["179"] = {
@@ -96,13 +100,14 @@ data_dtypes = {}
 data_dtypes["179"] = (8, "<f8")
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "rb") as inf:
+    with open(source, "rb") as inf:
         ch = inf.read()
 
     magic = dgutils.read_value(ch, 0, "utf-8")

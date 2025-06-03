@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Union, Any
+from typing import Any
 
 
 def read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> str:
@@ -30,7 +30,7 @@ def read_pascal_string(pascal_bytes: bytes, encoding: str = "windows-1252") -> s
 def read_value(
     data: bytes,
     offset: int,
-    dtype: Union[np.dtype, str],
+    dtype: np.dtype | str,
     encoding: str = "windows-1252",
 ) -> Any:
     """Reads a single value or a set of values from a buffer at a certain offset.

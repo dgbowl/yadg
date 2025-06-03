@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.empalc.xlsx import extract
 from .utils import compare_datatrees, datagram_from_file
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -15,7 +16,7 @@ from .utils import compare_datatrees, datagram_from_file
 )
 def test_empalc_xlsx(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile)
+    ret = extract(source=Path(infile))
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

@@ -46,25 +46,29 @@ import zipfile
 import tempfile
 import os
 from xarray import DataTree
-
 from yadg.extractors.fusion.json import extract as extract_json
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     encoding: str,
     **kwargs: dict,
 ) -> DataTree:
-    zf = zipfile.ZipFile(fn)
+    zf = zipfile.ZipFile(source)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None
         filenames = [ffn for ffn in os.listdir(tempdir) if ffn.endswith("fusion-data")]
         for ffn in sorted(filenames):
-            path = os.path.join(tempdir, ffn)
+            path = Path(tempdir) / ffn
             fdt = extract_json(fn=path, timezone=timezone, encoding=encoding, **kwargs)
             dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

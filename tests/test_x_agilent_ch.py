@@ -1,6 +1,7 @@
 import pytest
 import os
 import pickle
+from pathlib import Path
 from yadg.extractors.agilent.ch import extract
 from .utils import compare_datatrees
 
@@ -13,7 +14,7 @@ from .utils import compare_datatrees
 )
 def test_agilent_ch(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, timezone="Europe/Berlin")
+    ret = extract(source=Path(infile), timezone="Europe/Berlin")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

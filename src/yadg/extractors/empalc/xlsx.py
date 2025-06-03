@@ -48,23 +48,26 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import xarray as xr
 from xarray import DataTree
 import numpy as np
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 
+extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
 
 
-def extract(
-    *,
-    fn: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     **kwargs: dict,
 ) -> DataTree:
     try:
         wb = openpyxl.load_workbook(
-            filename=fn,
+            filename=str(source),
             read_only=True,
         )
     except TypeError:
         raise RuntimeError(
-            f"Could not read the file '{fn}' using openpyxl. Try to open and save the "
+            f"Could not read the file '{source}' using openpyxl. Try to open and save the "
             f"file in Excel."
         )
 
@@ -84,7 +87,7 @@ def extract(
             metadata["version"] = int(val)
 
     if metadata.get("version", None) is None:
-        raise RuntimeError(f"Report version in file '{fn}' was not specified.")
+        raise RuntimeError(f"Report version in file '{source}' was not specified.")
 
     ws = wb["Page 2"]
     samples = {}
@@ -114,15 +117,15 @@ def extract(
     svals = samples.values()
     if len(svals) == 0:
         raise RuntimeError(
-            f"No complete sample data found in file '{fn}'. "
+            f"No complete sample data found in file '{source}'. "
             "Have you added time offsets?"
         )
     r = next(iter(svals))
     # check that acquisition and integration methods are consistent throughout file:
     if any([s["acquisition"]["method"] != r["acquisition"]["method"] for s in svals]):
-        logger.warning("Acquisition method is inconsistent in file '%s'.", fn)
+        logger.warning("Acquisition method is inconsistent in file '%s'.", source)
     if any([s["integration"]["method"] != r["integration"]["method"] for s in svals]):
-        logger.warning("Integration method is inconsistent in file '%s'.", fn)
+        logger.warning("Integration method is inconsistent in file '%s'.", source)
 
     metadata["method"] = r["acquisition"]["method"].replace("\n", "").replace(" ", "")
 
@@ -155,7 +158,7 @@ def extract(
                 logger.warning(
                     "Report version '%d' in file '%s' not understood.",
                     metadata["version"],
-                    fn,
+                    source,
                 )
                 c = data[headers.index("Concentration")]
             if c is not None:
@@ -196,7 +199,7 @@ def extract(
             except ValueError:
                 raise RuntimeError(
                     f"It was not possible to parse offset '{offset}' present in file "
-                    f"'{fn}' using known formats."
+                    f"'{source}' using known formats."
                 )
         else:
             td = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)

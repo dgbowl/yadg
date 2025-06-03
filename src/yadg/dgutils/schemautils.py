@@ -1,14 +1,13 @@
 from packaging.version import Version
 import logging
 import os
-from typing import Union
 from dgbowl_schemas.yadg import to_dataschema
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from pydantic import BaseModel
 from pydantic.v1 import BaseModel as BaseModel_v1
 from yadg import dgutils
 
-__latest_dataschema__ = "5.1"
+__latest_dataschema__ = "6.0"
 logger = logging.getLogger(__name__)
 
 
@@ -107,7 +106,7 @@ def schema_3to4(oldschema: list) -> dict:
     return newschema
 
 
-def update_schema(object: Union[list, dict, BaseModel, BaseModel_v1]) -> DataSchema:
+def update_schema(object: list | dict | BaseModel | BaseModel_v1) -> DataSchema:
     """
     The ``yadg update`` worker function.
 

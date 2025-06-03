@@ -45,24 +45,28 @@ import zipfile
 import tempfile
 import os
 from xarray import DataTree
-
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 from yadg.extractors.agilent.ch import extract as extract_ch
 from yadg import dgutils
 
+extract = get_extract_dispatch()
 
-def extract(
+
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    zf = zipfile.ZipFile(fn)
+    zf = zipfile.ZipFile(source)
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None
         filenames = [ffn for ffn in os.listdir(tempdir) if ffn.endswith("CH")]
         for ffn in sorted(filenames):
-            path = os.path.join(tempdir, ffn)
-            fdt = extract_ch(fn=path, timezone=timezone, **kwargs)
+            path = Path(tempdir) / ffn
+            fdt = extract_ch(source=path, timezone=timezone, **kwargs)
             dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

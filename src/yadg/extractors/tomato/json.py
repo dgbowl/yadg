@@ -64,9 +64,11 @@ import json
 import logging
 import xarray as xr
 from xarray import DataTree
-
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 
+extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
 
 I_ranges = {
@@ -81,7 +83,7 @@ I_ranges = {
 }
 
 
-def biologic_tomato_json(fn: str, jsdata: dict) -> DataTree:
+def biologic_tomato_json(fn: Path, jsdata: dict) -> DataTree:
     technique = jsdata["technique"]
     previous = jsdata.get("previous", None)
     current = jsdata["current"]
@@ -172,7 +174,7 @@ def biologic_tomato_json(fn: str, jsdata: dict) -> DataTree:
     return DataTree(ds)
 
 
-def dummy_tomato_json(fn: str, jsdata: dict) -> DataTree:
+def dummy_tomato_json(fn: Path, jsdata: dict) -> DataTree:
     data_vals = {}
     meta_vals = {}
     for vi, vals in enumerate(jsdata["data"]):
@@ -181,19 +183,19 @@ def dummy_tomato_json(fn: str, jsdata: dict) -> DataTree:
         for k, v in vals.items():
             if k not in {"time", "address", "channel"}:
                 devs[k] = 0.0
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, vi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(fn), vi)
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False))
 
 
-def extract(
-    *,
-    fn: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r") as inf:
+    with open(source, "r") as inf:
         jsdata = json.load(inf)
 
     if "technique" in jsdata:
-        return biologic_tomato_json(fn, jsdata)
+        return biologic_tomato_json(source, jsdata)
     else:
-        return dummy_tomato_json(fn, jsdata)
+        return dummy_tomato_json(source, jsdata)

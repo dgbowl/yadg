@@ -49,19 +49,24 @@ from pydantic import BaseModel
 from yadg.extractors.basic.csv import process_row
 from yadg import dgutils
 from xarray import DataTree
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 logger = logging.getLogger(__name__)
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     parameters: BaseModel,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding) as infile:
+    with open(source, "r", encoding=encoding) as infile:
         lines = [i.strip() for i in infile.readlines()]
 
     headers = [i.strip() for i in lines.pop(0).split(";")]
@@ -93,6 +98,6 @@ def extract(
             datefunc,
             datecolumns,
         )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(source), li)
 
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))

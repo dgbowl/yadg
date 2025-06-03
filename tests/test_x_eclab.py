@@ -5,10 +5,11 @@ import pickle
 from yadg.extractors.eclab.mpr import extract as extract_mpr
 from yadg.extractors.eclab.mpt import extract as extract_mpt
 from .utils import compare_datatrees
+from pathlib import Path
 
 
 def check_file(fname, kwargs, func):
-    ret = func(source=fname, **kwargs)
+    ret = func(source=Path(fname), **kwargs)
     outfile = f"{fname}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
@@ -185,8 +186,8 @@ def test_eclab_consistency_partial_2(froot, locale, datadir):
 def test_eclab_mpt_locale(afile, bfile, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
-    aret = extract_mpt(source=afile, locale="en_US", **kwargs)
-    bret = extract_mpt(source=bfile, locale="de_DE", **kwargs)
+    aret = extract_mpt(source=Path(afile), locale="en_US", **kwargs)
+    bret = extract_mpt(source=Path(bfile), locale="de_DE", **kwargs)
     compare_datatrees(aret, bret)
 
 
@@ -202,8 +203,8 @@ def test_eclab_mpt_locale(afile, bfile, datadir):
 def test_eclab_mpt_old(afile, bfile, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
-    aret = extract_mpt(source=afile, locale="en_US", **kwargs)
-    bret = extract_mpt(source=bfile, locale="en_US", **kwargs)
+    aret = extract_mpt(source=Path(afile), locale="en_US", **kwargs)
+    bret = extract_mpt(source=Path(bfile), locale="en_US", **kwargs)
 
     for key in aret.variables:
         try:

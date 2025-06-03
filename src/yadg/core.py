@@ -3,6 +3,7 @@ from xarray import DataTree
 
 from dgbowl_schemas.yadg.dataschema import DataSchema
 from yadg import dgutils
+from pathlib import Path
 from yadg.extractors import extract_from_path
 
 logger = logging.getLogger(__name__)
@@ -54,7 +55,9 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
             vals = {}
         for tf in todofiles:
             logger.info(f"Processing file '{tf}'.")
-            tasks = extract_from_path(source=tf, extractor=step.extractor).to_dict()
+            tasks = extract_from_path(
+                source=Path(tf), extractor=step.extractor
+            ).to_dict()
             fvals = {}
             for name, dset in tasks.items():
                 # The root datatree node may sometimes carry metadata, even if

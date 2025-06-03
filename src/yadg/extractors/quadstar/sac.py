@@ -100,6 +100,10 @@ import numpy as np
 from xarray import DataTree
 import xarray as xr
 import yadg.dgutils as dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 # The general header at the top of .sac files.
 general_header_dtype = np.dtype(
@@ -159,12 +163,12 @@ def _find_first_data_position(scan_headers: list[dict]) -> int:
         return header["data_position"]
 
 
-def extract(
-    *,
-    fn: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "rb") as sac_file:
+    with open(source, "rb") as sac_file:
         sac = sac_file.read()
     meta = dgutils.read_value(sac, 0x0000, general_header_dtype)
     uts_base_s = dgutils.read_value(sac, 0x00C2, "<u4")

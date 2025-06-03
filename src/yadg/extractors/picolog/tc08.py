@@ -59,16 +59,19 @@ import gzip
 import tempfile
 import xarray as xr
 from xarray import DataTree
-
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
-    *,
-    fn: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     **kwargs: dict,
 ) -> DataTree:
-    with tarfile.open(fn, mode="r") as tf:
+    with tarfile.open(source, mode="r") as tf:
         with tempfile.TemporaryDirectory() as tempdir:
             tf.extractall(tempdir, filter="data")
 

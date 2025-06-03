@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.ezchrom.asc import extract
 from .utils import compare_datatrees
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -15,7 +16,9 @@ from .utils import compare_datatrees
 )
 def test_ezchrom_asc(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, encoding="windows-1252", timezone="Europe/Berlin")
+    ret = extract(
+        source=Path(infile), encoding="windows-1252", timezone="Europe/Berlin"
+    )
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

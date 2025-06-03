@@ -44,14 +44,19 @@ All uncertainties are derived from the string representation of the floats.
 
 from xarray import DataTree
 from yadg.extractors.drycal import common
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    vals = common.sep(fn, "\t", encoding, timezone)
+    vals = common.sep(str(source), "\t", encoding, timezone)
     return DataTree(common.check_timestamps(vals))

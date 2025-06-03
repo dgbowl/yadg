@@ -57,11 +57,13 @@ from typing import Any
 from babel.numbers import parse_decimal
 from xarray import DataTree
 from yadg import dgutils
-from yadg.extractors import deprecate_fn_path
 from .techniques import get_devs, param_from_key
 from .mpt_columns import column_units
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
 
 logger = logging.getLogger(__name__)
+extract = get_extract_dispatch()
 
 
 def process_settings(lines: list[str]) -> dict[str, str]:
@@ -297,9 +299,9 @@ def process_data(
     return ds
 
 
-@deprecate_fn_path
-def extract(
-    source: str,
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
     encoding: str,
     locale: str,

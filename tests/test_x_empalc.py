@@ -4,6 +4,7 @@ import shutil
 from yadg.extractors.empalc.xlsx import extract as extract_xls
 from yadg.extractors.empalc.csv import extract as extract_csv
 import xarray as xr
+from pathlib import Path
 
 
 @pytest.fixture
@@ -22,8 +23,8 @@ def _datadir(tmpdir, request):
 )
 def test_empalc_consistency(afile, bfile, _datadir):
     os.chdir(_datadir)
-    aret = extract_xls(fn=afile)
-    bret = extract_csv(fn=bfile, encoding="utf-8")
+    aret = extract_xls(fn=Path(afile))
+    bret = extract_csv(fn=Path(bfile), encoding="utf-8")
 
     for key in aret.variables:
         if key.endswith("std_err"):

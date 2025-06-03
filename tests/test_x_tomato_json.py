@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.tomato.json import extract
 from .utils import compare_datatrees, datagram_from_file
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -14,7 +15,7 @@ from .utils import compare_datatrees, datagram_from_file
 )
 def test_tomato_json(infile, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile)
+    ret = extract(source=Path(infile))
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

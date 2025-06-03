@@ -48,8 +48,11 @@ import numpy as np
 import xarray as xr
 from xarray import DataTree
 from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-
 from yadg import dgutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
 logger = logging.getLogger(__name__)
@@ -69,14 +72,15 @@ data_units = {
 }
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding, errors="ignore") as infile:
+    with open(source, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
 
     data = []

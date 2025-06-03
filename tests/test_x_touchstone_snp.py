@@ -3,6 +3,7 @@ import os
 import pickle
 from yadg.extractors.touchstone.snp import extract
 from .utils import compare_datatrees
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -24,7 +25,9 @@ from .utils import compare_datatrees
 )
 def test_touchstone_snp(infile, locale, datadir):
     os.chdir(datadir)
-    ret = extract(fn=infile, encoding="utf-8", timezone="Europe/Berlin", locale=locale)
+    ret = extract(
+        source=Path(infile), encoding="utf-8", timezone="Europe/Berlin", locale=locale
+    )
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

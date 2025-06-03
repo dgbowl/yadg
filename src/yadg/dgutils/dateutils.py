@@ -7,7 +7,7 @@ import logging
 from zoneinfo import ZoneInfo
 import numpy as np
 from pydantic import BaseModel
-from typing import Callable, Union, Mapping, Iterable
+from typing import Callable, Mapping, Iterable
 from xarray import Dataset
 from dgbowl_schemas.yadg.dataschema_5_0.externaldate import ExternalDate
 from dgbowl_schemas.yadg.dataschema_5_0.timestamp import TimestampSpec
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def now(
     asstr: bool = False, tz: datetime.timezone = datetime.timezone.utc
-) -> Union[float, str]:
+) -> float | str:
     """
     Wrapper around datetime.now()
 
@@ -68,7 +68,7 @@ def str_to_uts(
     timezone: str,
     format: str = None,
     strict: bool = True,
-) -> Union[float, None]:
+) -> float | None:
     """
     Converts a string to POSIX timestamp.
 
@@ -93,7 +93,7 @@ def str_to_uts(
 
     Returns
     -------
-    uts: Union[float, None]
+    uts: float | None
         Returns the POSIX timestamp if successful, otherwise None.
 
     """
@@ -350,7 +350,7 @@ def timestamps_from_file(
     type: str,
     match: str,
     timezone: str,
-) -> Union[float, list[float]]:
+) -> float | list[float]:
     """
     Load timestamps from file.
 
@@ -376,7 +376,7 @@ def timestamps_from_file(
 
     Returns
     -------
-    parseddata: Union[float, list[float]]
+    parseddata: float | list[float]
         A single or a list of POSIX timestamps.
 
     """

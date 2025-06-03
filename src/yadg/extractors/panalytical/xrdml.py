@@ -58,7 +58,6 @@ value of 1.0 count as all the supported files seem to produce integer values.
 """
 
 from collections import defaultdict
-from typing import Union
 from xml.etree import ElementTree
 import numpy as np
 from xarray import DataTree
@@ -67,6 +66,10 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 
 from yadg.extractors.panalytical.common import panalytical_comment
 from yadg.dgutils import dateutils
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
 def etree_to_dict(e: ElementTree.Element) -> dict:
@@ -97,7 +100,7 @@ def etree_to_dict(e: ElementTree.Element) -> dict:
     return d
 
 
-def _process_values(d: Union[dict, str]) -> Union[dict, str]:
+def _process_values(d: dict | str) -> dict | str:
     """
     Recursively parses dicts in the following format:
 
@@ -197,13 +200,14 @@ def _process_measurement(measurement: dict, timezone: str):
     return trace, meta
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     timezone: str,
     **kwargs: dict,
 ) -> DataTree:
-    it = ElementTree.iterparse(fn)
+    it = ElementTree.iterparse(source)
     # Removing xmlns prefixes from all tags.
     # From https://stackoverflow.com/a/25920989.
     for __, e in it:
@@ -222,7 +226,7 @@ def extract(
     sample["type"] = sample.pop("@type")
     # Process measurement data.
     data, meta = _process_measurement(measurements["xrdMeasurement"], timezone)
-    data["fn"] = fn
+    data["fn"] = str(source)
     # Shove unused data into meta
     meta["sample"] = sample
     meta["comment"] = comment

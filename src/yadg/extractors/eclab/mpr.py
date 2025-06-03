@@ -185,11 +185,9 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 
 import logging
 from xarray import DataTree
-from functools import singledispatch
 import numpy as np
 from pathlib import Path
-from typing import Any
-from yadg.extractors import deprecate_fn_path
+from yadg.extractors import get_extract_dispatch
 from yadg import dgutils
 from .techniques import (
     technique_params_dtypes,
@@ -206,6 +204,7 @@ from .mpr_columns import (
 )
 
 logger = logging.getLogger(__name__)
+extract = get_extract_dispatch()
 
 
 def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
@@ -567,24 +566,9 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     return settings, params, ds, log, loop
 
 
-@deprecate_fn_path
-@singledispatch
-def extract(
-    source: Any,
-    *,
-    timezone: str,
-    **kwargs: dict,
-) -> DataTree:
-    logger.warning(
-        "The selected extractor does not support the provided source. "
-        "Please check the available extractors or enter a valid file path."
-    )
-
-
 @extract.register(Path)
-@extract.register(str)
 def extract_from_path(
-    source: Path | str,
+    source: Path,
     *,
     timezone: str,
     **kwargs: dict,

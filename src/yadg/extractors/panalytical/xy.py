@@ -38,15 +38,20 @@ from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 import numpy as np
 from xarray import DataTree
 import xarray as xr
+from pathlib import Path
+from yadg.extractors import get_extract_dispatch
+
+extract = get_extract_dispatch()
 
 
-def extract(
+@extract.register(Path)
+def extract_from_path(
+    source: Path,
     *,
-    fn: str,
     encoding: str,
     **kwargs: dict,
 ) -> DataTree:
-    with open(fn, "r", encoding=encoding) as xy_file:
+    with open(source, "r", encoding=encoding) as xy_file:
         xy = xy_file.readlines()
     datapoints = [li.strip().split() for li in xy]
     angle, intensity = list(zip(*datapoints))

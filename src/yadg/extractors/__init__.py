@@ -47,7 +47,7 @@ def extract(
     Extract data and metadata from a path using the supplied filetype.
 
     A wrapper around the :func:`extract_from_path` worker function, which creates a
-    default extractor object.
+    default extractor object. Coerces any :class:`str` provided to :class:`Path`.
 
     Parameters
     ----------
@@ -77,7 +77,7 @@ def extract(
         }
     ).extractor
 
-    return extract_from_path(path, extractor)
+    return extract_from_path(Path(path), extractor)
 
 
 @deprecate_fn_path

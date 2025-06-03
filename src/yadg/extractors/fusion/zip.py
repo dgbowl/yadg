@@ -68,7 +68,7 @@ def extract_from_path(
         dt = None
         filenames = [ffn for ffn in os.listdir(tempdir) if ffn.endswith("fusion-data")]
         for ffn in sorted(filenames):
-            path = os.path.join(tempdir, ffn)
+            path = Path(tempdir) / ffn
             fdt = extract_json(fn=path, timezone=timezone, encoding=encoding, **kwargs)
             dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
     return DataTree.from_dict(dt)

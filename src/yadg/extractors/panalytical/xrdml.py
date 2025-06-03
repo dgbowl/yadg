@@ -58,7 +58,6 @@ value of 1.0 count as all the supported files seem to produce integer values.
 """
 
 from collections import defaultdict
-from typing import Union
 from xml.etree import ElementTree
 import numpy as np
 from xarray import DataTree
@@ -97,7 +96,7 @@ def etree_to_dict(e: ElementTree.Element) -> dict:
     return d
 
 
-def _process_values(d: Union[dict, str]) -> Union[dict, str]:
+def _process_values(d: dict | str) -> dict | str:
     """
     Recursively parses dicts in the following format:
 

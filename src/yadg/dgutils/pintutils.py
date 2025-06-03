@@ -9,7 +9,6 @@ file types.
 """
 
 import logging
-from typing import Union
 import pint
 
 logger = logging.getLogger(__name__)
@@ -49,8 +48,8 @@ def _sanitize_helper(unit: str) -> str:
 
 
 def sanitize_units(
-    units: Union[str, dict[str, str], list[str]],
-) -> Union[str, dict[str, str], list[str]]:
+    units: str | dict[str, str] | list[str],
+) -> str | dict[str, str] | list[str]:
     """
     Unit sanitizer.
 

@@ -4,6 +4,7 @@ import pickle
 from yadg.extractors.basic.csv import extract
 from dgbowl_schemas.yadg.dataschema_6_0.filetype import Basic_csv
 from .utils import compare_datatrees
+from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -88,7 +89,7 @@ from .utils import compare_datatrees
 def test_basic_csv(infile, params, datadir):
     os.chdir(datadir)
     ret = extract(
-        fn=infile,
+        source=Path(infile),
         parameters=Basic_csv(filetype="basic.csv", parameters={**params}).parameters,
         encoding="utf8",
         locale="en_GB",
@@ -144,7 +145,7 @@ def test_basic_csv(infile, params, datadir):
 def test_basic_csv_locale(infile, params, locale, datadir):
     os.chdir(datadir)
     ret = extract(
-        fn=infile,
+        source=Path(infile),
         parameters=Basic_csv(filetype="basic.csv", parameters={**params}).parameters,
         encoding="utf8",
         locale=locale,
@@ -177,7 +178,7 @@ def test_basic_csv_locale(infile, params, locale, datadir):
 def test_basic_csv_encoding(infile, params, encoding, datadir):
     os.chdir(datadir)
     ret = extract(
-        fn=infile,
+        source=Path(infile),
         parameters=Basic_csv(filetype="basic.csv", parameters={**params}).parameters,
         encoding=encoding,
         locale="en_GB",

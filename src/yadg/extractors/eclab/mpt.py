@@ -284,7 +284,7 @@ def process_data(
 
         if "control_VI" in vals:
             icv = controls[Ns] if isinstance(controls, list) else controls
-            name = f"control_{icv}"
+            name = "control_I" if icv in {"I", "C"} else "control_V"
             vals[name] = vals.pop("control_VI")
             units[name] = "mA" if icv in {"I", "C"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange, devs=devs)

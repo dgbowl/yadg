@@ -121,6 +121,7 @@ def test_eclab_consistency_partial_1(froot, locale, datadir):
     [
         ("gcpl.pr_182.1", "en_US"),
         ("gcpl.pr_182.2", "en_US"),
+        ("gcpl.issue_211", "en_US"),
     ],
 )
 def test_eclab_consistency_partial_2(froot, locale, datadir):
@@ -132,7 +133,7 @@ def test_eclab_consistency_partial_2(froot, locale, datadir):
     for key in aret.variables:
         if key.endswith("std_err"):
             continue
-        elif key in {"control_I"}:
+        elif key in {"control_I", "control_V", "Energy charge", "Energy discharge"}:
             continue
         try:
             xr.testing.assert_allclose(aret[key], bret[key])

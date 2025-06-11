@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version 5.1 &mdash; yadg 6.1rc1.dev1 documentation</title>
+  <title>yadg version 5.1 &mdash; yadg 6.1.dev1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=6c99a40c"></script>
+        <script src="_static/documentation_options.js?v=bb34e7df"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.1rc1.dev1
+                6.1.dev1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -137,8 +137,8 @@
 <li><p>Locale-aware functionality now uses <code class="xref py py-mod docutils literal notranslate"><span class="pre">babel</span></code> instead of the built-in <code class="xref py py-mod docutils literal notranslate"><span class="pre">locale</span></code> module. This means the <code class="docutils literal notranslate"><span class="pre">locale</span></code> argument should now be a <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> containing at least the 2-letter country code, ideally also a territory (e.g. <code class="docutils literal notranslate"><span class="pre">en_US</span></code> or <code class="docutils literal notranslate"><span class="pre">de_CH</span></code>). As of <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code>, no <code class="xref py py-func docutils literal notranslate"><span class="pre">locale.setlocale()</span></code> is called, making locale procesing in <strong>yadg</strong> thread-safe.</p></li>
 <li><p>The processing of uncertainties in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab" title="yadg.extractors.eclab"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab</span></code></a> has been changed, with derived quantities now having uncertainties based on the relative error in the measured voltage and / or current.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> functionality now accepts <code class="docutils literal notranslate"><span class="pre">--locale</span></code>, <code class="docutils literal notranslate"><span class="pre">--timezone</span></code>, and <code class="docutils literal notranslate"><span class="pre">--encoding</span></code> as optional arguments.</p></li>
-<li><p>The <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function now always returns a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>.</p></li>
-<li><p>The meta-only functionality of <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> now returns a dict with the node names of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.4.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a> as keys and the metadata as values.</p></li>
+<li><p>The <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function now always returns a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a>.</p></li>
+<li><p>The meta-only functionality of <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> now returns a dict with the node names of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataTree</span></code></a> as keys and the metadata as values.</p></li>
 </ul>
 </div></blockquote>
 <p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code> include:</p>
@@ -180,7 +180,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.1rc1.dev1
+      v: 6.1.dev1
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

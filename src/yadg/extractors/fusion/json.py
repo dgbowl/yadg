@@ -88,20 +88,30 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
                 else:
                     species.add(peak["label"])
                 if "height" in peak:
+                    if peak["height"] is None:
+                        continue
                     raw["height"][peak["label"]] = (float(peak["height"]), 1.0)
                 if "area" in peak:
+                    if peak["area"] is None:
+                        continue
                     raw["area"][peak["label"]] = (float(peak["area"]), 0.01)
                 if "concentration" in peak:
+                    if peak["concentration"] is None:
+                        continue
                     raw["concentration"][peak["label"]] = (
                         float(peak["concentration"]),
                         float(peak["concentration"]) * 1e-3,
                     )
                 if "normalizedConcentration" in peak:
+                    if peak["normalizedConcentration"] is None:
+                        continue
                     raw["xout"][peak["label"]] = (
                         float(peak["normalizedConcentration"]),
                         float(peak["normalizedConcentration"]) * 1e-3,
                     )
                 if "top" in peak:
+                    if peak["top"] is None:
+                        continue
                     raw["retention time"][peak["label"]] = (float(peak["top"]), 0.01)
 
     valve = jsdata.get("annotations", {}).get("valcoPosition", None)

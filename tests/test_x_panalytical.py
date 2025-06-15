@@ -25,8 +25,8 @@ def _datadir(tmpdir, request):
 )
 def test_panalytical_consistency(afile, bfile, _datadir):
     os.chdir(_datadir)
-    aret = extract_csv(fn=Path(afile), encoding="utf-8", timezone="Europe/Berlin")
-    bret = extract_xrdml(fn=Path(bfile), encoding="utf-8", timezone="Europe/Berlin")
+    aret = extract_csv(source=Path(afile), encoding="utf-8", timezone="Europe/Berlin")
+    bret = extract_xrdml(source=Path(bfile), encoding="utf-8", timezone="Europe/Berlin")
     for key in aret.variables:
         if key.endswith("std_err"):
             continue

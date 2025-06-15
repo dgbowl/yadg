@@ -28,11 +28,11 @@ def ezchrom_datadir(tmpdir, request):
 def test_ezchrom_consistency(dfile, afile, ezchrom_datadir):
     os.chdir(ezchrom_datadir)
     aret = extract_dat(
-        fn=Path(dfile),
+        source=Path(dfile),
         timezone="Europe/Berlin",
     )
     bret = extract_asc(
-        fn=Path(afile),
+        source=Path(afile),
         timezone="Europe/Berlin",
         encoding="windows-1252",
     )

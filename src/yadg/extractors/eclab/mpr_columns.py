@@ -134,7 +134,7 @@ data_columns = {
     392: ("<f4", "<E2>", "V"),
     422: ("<f4", "Phase(Zstack)", "deg"),
     423: ("<f4", "|Zstack|", "Ω"),
-    424: ("<f4", "Re(Zstack)", "Ω"),
+    424: ("<f4", "Rcmp", "Ω"),
     425: ("<f4", "-Im(Zstack)", "Ω"),
     426: ("<f4", "<Estack>", "V"),
     430: ("<f4", "Phase(Zwe-ce)", "deg"),

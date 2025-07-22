@@ -211,7 +211,7 @@ _cv_params_dtypes = [
                 ("E2 (V)", "<f4"),
                 ("E2 (V) vs.", "|u4"),
                 ("nc cycles", "|u4"),
-                ("Reverse Scan", "|u1"),
+                ("Reverse Scan", "|u4"),
                 ("Ef (V)", "<f4"),
                 ("Ef (V) vs.", "|u4"),
             ]

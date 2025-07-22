@@ -19,5 +19,6 @@ Breaking changes in ``yadg-next`` are:
 Bug fixes in ``yadg-next`` include:
 
   - Fixed metadata extraction in :mod:`yadg.extractors.eclab.mpt` where ``control_*`` columns would not match the names present in the corresponding ``mpr`` files.
+  - Fixed metadata extraction in :mod:`yadg.extractors.eclab.mpt` so that multiple ``Comments:`` lines are concatenated instead of just the last line being kept.
   - Added further ``Set I/C`` parameters. Thanks to `@Locki3 <https://github.com/Locki3>`_ for providing test files.
   - Fixed ``param format`` and ``data_column`` in CV files generated with EC-Lab version 11.50 using the :mod:`yadg.extractors.eclab.mpr` module. Thank you to J.N. Hausmann from Helmholtz-Zentrum Berlin für Materialien und Energie for providing the test files.

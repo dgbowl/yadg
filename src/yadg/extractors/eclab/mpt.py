@@ -68,12 +68,18 @@ extract = get_extract_dispatch()
 
 def process_settings(lines: list[str]) -> dict[str, str]:
     settings = {}
+    comments = []
     for line in lines:
         items = [item.strip() for item in line.split(":")]
         if len(items) > 2:
             items = [items[0], ":".join(items[1:])]
         if len(items) == 2 and items[1] != "":
-            settings[items[0]] = items[1]
+            if items[0] == "Comments":
+                comments.append(items[1])
+            else:
+                settings[items[0]] = items[1]
+    if len(comments) > 0:
+        settings["Comments"] = "\n".join(comments)
     return settings
 
 

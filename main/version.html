@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg 6.1.dev4 documentation</title>
+  <title>yadg version history &mdash; yadg 6.1.dev5 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e33d7961"></script>
+        <script src="_static/documentation_options.js?v=4745fd78"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.1.dev4
+                6.1.dev5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -128,6 +128,7 @@
 <blockquote>
 <div><ul class="simple">
 <li><p>Fixed metadata extraction in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> where <code class="docutils literal notranslate"><span class="pre">control_*</span></code> columns would not match the names present in the corresponding <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files.</p></li>
+<li><p>Fixed metadata extraction in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> so that multiple <code class="docutils literal notranslate"><span class="pre">Comments:</span></code> lines are concatenated instead of just the last line being kept.</p></li>
 <li><p>Added further <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters. Thanks to <a class="reference external" href="https://github.com/Locki3">&#64;Locki3</a> for providing test files.</p></li>
 <li><p>Fixed <code class="docutils literal notranslate"><span class="pre">param</span> <span class="pre">format</span></code> and <code class="docutils literal notranslate"><span class="pre">data_column</span></code> in CV files generated with EC-Lab version 11.50 using the <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> module. Thank you to J.N. Hausmann from Helmholtz-Zentrum Berlin für Materialien und Energie for providing the test files.</p></li>
 </ul>
@@ -508,7 +509,7 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.1.dev4
+      v: 6.1.dev5
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

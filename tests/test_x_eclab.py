@@ -51,6 +51,7 @@ def compare_params(left, right):
         ("mb", "en_US"),
         ("mb.issue_95", "en_US"),
         ("mb.issue_149", "de_DE"),
+        ("mb.issue_218", "en_US"),
         ("mp.issue_183", "en_US"),
         ("ocv", "en_US"),
         ("ocv.issue_149", "de_DE"),

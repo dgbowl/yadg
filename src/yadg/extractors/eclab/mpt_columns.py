@@ -67,6 +67,7 @@ column_units = {
     "Ece/V": ("Ece", "V"),
     "Ecell/V": ("Ecell", "V"),
     "Efficiency/%": ("Efficiency", "%"),
+    "Energy we/W.h": ("Energy we", "W·h"),
     "Energy charge/W.h": ("Energy charge", "W·h"),
     "Energy discharge/W.h": ("Energy discharge", "W·h"),
     "Energy ce charge/W.h": ("Energy ce charge", "W·h"),

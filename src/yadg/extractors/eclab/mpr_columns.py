@@ -178,7 +178,7 @@ data_columns = {
     501: ("<f4", "|Ece h5|", "V"),
     502: ("<f4", "|Ece h6|", "V"),
     503: ("<f4", "|Ece h7|", "V"),
-    981: ("<u4", "z cycle", None),
+    981: ("<u4", "z cycle", None),  # 981 % 512 = 469, also z cycle
 }
 
 

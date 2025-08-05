@@ -1697,7 +1697,7 @@ def dev_derived(
     elif unit in {"deg"}:
         # VMP-3: using accuracy: 1 degree
         return 1.0
-    elif unit in {"Ω", "S", "W"}:
+    elif unit in {"Ω", "S", "W", "Ω⁻¹"}:
         # [Ω] = [V]/[A];
         # [S] = [A]/[V];
         # [W] = [A]*[V];

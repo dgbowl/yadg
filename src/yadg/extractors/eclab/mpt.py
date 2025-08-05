@@ -245,6 +245,8 @@ def process_data(
     units = dict()
     columns = list()
     for n in names:
+        if n.strip() == "":
+            continue
         c, u = column_units[n.strip()]
         if c in columns:
             logger.warning("Duplicate column '%s' with unit '%s'.", c, u)

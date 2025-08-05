@@ -13,6 +13,7 @@ column_units = {
     "<Ece>/V": ("<Ece>", "V"),
     "<Ewe>/V": ("<Ewe>", "V"),
     "<Ewe/V>": ("<Ewe>", "V"),
+    "<Ewe-Ece>/V": ("<Ewe-Ece>", "V"),
     "<I>/mA": ("<I>", "mA"),
     "|C|/nF": ("|C|", "nF"),
     "|Conductivity|/mS/cm": ("|Conductivity|", "mS/cm"),

@@ -69,6 +69,9 @@ def compare_params(left, right):
         ("ocv", "en_US"),
         ("ocv.issue_149", "de_DE"),
         ("peis", "en_US"),
+        ("peis.issue_225.no_ece", "en_US"),
+        ("peis.issue_225.with_ece", "en_US"),
+        ("peis.issue_225.ewe_ece", "en_US"),
         ("wait", "en_US"),
         ("vsp_ocv_wo", "en_US"),
         ("vsp_ocv_with", "en_US"),
@@ -88,7 +91,7 @@ def test_eclab_consistency(froot, locale, datadir):
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
     compare_params(aret, bret)
 
@@ -111,7 +114,7 @@ def test_eclab_consistency_extract_mpr_bytes(froot, locale, datadir):
         try:
             xr.testing.assert_equal(aret[key], bret[key])
         except AssertionError as e:
-            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
     compare_params(aret, bret)
 
@@ -149,7 +152,7 @@ def test_eclab_consistency_partial_1(froot, locale, datadir):
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
     compare_params(aret, bret)
 
@@ -176,7 +179,7 @@ def test_eclab_consistency_partial_2(froot, locale, datadir):
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+            e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
     compare_params(aret, bret)
 
@@ -217,5 +220,5 @@ def test_eclab_mpt_old(afile, bfile, datadir):
             if key in {"Efficiency", "Efficiency_std_err"}:
                 pass
             else:
-                e.args = (e.args[0] + f"Error happened on key: {key!r}\n",)
+                e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
                 raise e

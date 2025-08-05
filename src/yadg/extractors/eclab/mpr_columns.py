@@ -110,7 +110,7 @@ data_columns = {
     169: ("<f4", "Cs", "µF"),
     172: ("<f4", "Cp", "µF"),
     173: ("<f4", "Cp⁻²", "µF⁻²"),
-    174: ("<f4", "Phase(Zwe-ce)", "deg"),
+    174: ("<f4", "<Ewe>", "V"),  # This column may conflict with ID 77.
     178: ("<f4", "(Q-Qo)", "C"),
     179: ("<f4", "dQ", "C"),
     182: ("<f8", "step time", "s"),
@@ -183,6 +183,13 @@ data_columns = {
     981: ("<u4", "z cycle", None),  # 981 % 512 = 469, also z cycle
 }
 
+# Conflict resolution map. If both the outer and inner column ID are present,
+# the meaning of the outer column ID is set to the entry below.
+conflict_columns = {
+    174: {
+        77: ("<f4", "Phase(Zwe-ce)", "deg"),
+    },
+}
 
 # Relates the offset in log data to the corresponding dtype and name.
 # NOTE: The safety limits are maybe at 0x200?

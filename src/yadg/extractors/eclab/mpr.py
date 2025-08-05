@@ -460,10 +460,9 @@ def process_data(
             warn_I_range = True
             Irange = 1.0
 
-        if "control_V_I" in vals:
+        if "control_V or I" in vals:
+            name = "control_V or I"
             icv = controls[Ns]
-            name = "control_I" if icv in {"I", "C", "C x N", "C / N"} else "control_V"
-            vals[name] = vals.pop("control_V_I")
             units[name] = "mA" if icv in {"I", "C", "C x N", "C / N"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)

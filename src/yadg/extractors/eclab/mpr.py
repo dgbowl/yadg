@@ -199,6 +199,7 @@ from .mpr_columns import (
     settings_dtypes,
     flag_columns,
     data_columns,
+    conflict_columns,
     log_dtypes,
     extdev_dtypes,
 )
@@ -314,17 +315,57 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 names.append("flags")
                 dtypes.append("|u1")
                 units.append(None)
-        elif id in data_columns:
+        elif id in data_columns and id not in conflict_columns:
             dtype, name, unit = data_columns[id]
             if name in names:
-                logger.warning("Duplicate column '%s' with unit '%s'.", name, unit)
+                logger.error(
+                    "Column ID %d is a duplicate of '%s' with unit '%s'. "
+                    "This is most certainly an error, please submit a bug report.",
+                    id,
+                    name,
+                    unit,
+                )
                 name = f"duplicate {name}"
             names.append(name)
             dtypes.append(dtype)
             units.append(unit)
+        elif id in conflict_columns:
+            for cid, cvals in conflict_columns[id].items():
+                if cid in column_ids:
+                    dtype, name, unit = cvals
+                    names.append(name)
+                    dtypes.append(dtype)
+                    units.append(unit)
+                    logger.warning(
+                        "Ambiguous column ID %d assigned as '%s' with unit '%s'. "
+                        "Please check this assignment manually.",
+                        id,
+                        name,
+                        unit,
+                    )
+                    break
+            else:
+                dtype, name, unit = data_columns[id]
+                if name in names:
+                    logger.error(
+                        "Column ID %d is duplicate of '%s' with unit '%s'. "
+                        "This is most certainly an error, please submit a bug report.",
+                        id,
+                        name,
+                        unit,
+                    )
+                    name = f"duplicate {name}"
+                names.append(name)
+                dtypes.append(dtype)
+                units.append(unit)
         else:
             name = f"unknown_{len(names)}"
-            logger.warning("Unknown column ID %d was assigned into '%s'.", id, name)
+            logger.error(
+                "Unknown column ID %d encountered and assigned into '%s'. "
+                "This is an error, please submit a bug report.",
+                id,
+                name,
+            )
             names.append(name)
             dtypes.append("<f4")
             units.append(None)

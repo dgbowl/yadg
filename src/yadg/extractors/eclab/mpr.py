@@ -462,9 +462,9 @@ def process_data(
 
         if "control_V_I" in vals:
             icv = controls[Ns]
-            name = "control_I" if icv in {"I", "C"} else "control_V"
+            name = "control_I" if icv in {"I", "C", "C x N", "C / N"} else "control_V"
             vals[name] = vals.pop("control_V_I")
-            units[name] = "mA" if icv in {"I", "C"} else "V"
+            units[name] = "mA" if icv in {"I", "C", "C x N", "C / N"} else "V"
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
     if warn_I_range:

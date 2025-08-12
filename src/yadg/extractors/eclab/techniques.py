@@ -1790,8 +1790,8 @@ def get_devs(
 def split_control(vals: dict, units: dict):
     if "control" in vals:
         mode = vals.get("mode", 3)
-        vals["control_V"] = None if mode in {1, 3} else vals["control"]
-        vals["control_I"] = None if mode in {2} else vals["control"]
+        vals["control_V"] = np.nan if mode in {1, 3} else vals["control"]
+        vals["control_I"] = np.nan if mode in {2} else vals["control"]
         units["control_V"] = "V"
         units["control_I"] = "mA"
         del vals["control"]

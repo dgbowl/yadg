@@ -1650,7 +1650,7 @@ def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> 
     The values used here are hard-coded from VMP-3 potentiostats.
 
     """
-    if name in {"control_V", "control_V or I"} and unit in {"V"}:
+    if name in {"control_V", "control_V 2"} and unit in {"V"}:
         # VMP-3: bisect function between 5 µV and 300 µV, as the
         # voltage is stored in a 16-bit int.
         if Erange >= 20.0:
@@ -1659,7 +1659,7 @@ def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> 
             res = [5e-6, 10e-6, 20e-6, 50e-6, 100e-6, 150e-6, 200e-6, 300e-6, 305.18e-6]
             i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
             return res[i]
-    elif name in {"control_I", "control_V or I"} and unit in {"mA"}:
+    elif name in {"control_I", "control_I 2"} and unit in {"mA"}:
         # VMP-3: 0.004% of FSR, 760 µV at 10 µA I-range
         return max(Irange * 0.004 / 100, 760e-12)
     elif unit in {"V", "mV", "μV"}:
@@ -1785,3 +1785,14 @@ def get_devs(
                 devs[col] = dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI)
 
     return devs
+
+
+def split_control(vals: dict, units: dict):
+    if "control" in vals:
+        mode = vals.get("mode", 3)
+        vals["control_V"] = None if mode in {1, 3} else vals["control"]
+        vals["control_I"] = None if mode in {2} else vals["control"]
+        units["control_V"] = "V"
+        units["control_I"] = "mA"
+        del vals["control"]
+    return vals, units

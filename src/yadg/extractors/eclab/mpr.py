@@ -193,6 +193,7 @@ from .techniques import (
     technique_params_dtypes,
     param_from_key,
     get_devs,
+    split_control,
 )
 from .mpr_columns import (
     module_header_dtypes,
@@ -460,10 +461,7 @@ def process_data(
             warn_I_range = True
             Irange = 1.0
 
-        if "control_V or I" in vals:
-            name = "control_V or I"
-            icv = controls[Ns]
-            units[name] = "mA" if icv in {"I", "C", "C x N", "C / N"} else "V"
+        vals, units = split_control(vals, units)
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
     if warn_I_range:

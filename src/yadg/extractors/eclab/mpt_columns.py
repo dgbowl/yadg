@@ -51,7 +51,7 @@ column_units = {
     "control changes": ("control changes", None),
     "control/mA": ("control_I", "mA"),
     "control/V": ("control_V", "V"),
-    "control/V/mA": ("control_V or I", "V/mA"),
+    "control/V/mA": ("control", "V/mA"),
     "counter inc.": ("counter inc.", None),
     "Cp-2/µF-2": ("Cp⁻²", "µF⁻²"),
     "Cp/µF": ("Cp", "µF"),

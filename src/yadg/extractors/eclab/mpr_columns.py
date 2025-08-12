@@ -67,7 +67,7 @@ flag_columns = {
 # unit.
 data_columns = {
     4: ("<f8", "time", "s"),
-    5: ("<f4", "control_V or I", "V/mA"),
+    5: ("<f4", "control", "V/mA"),
     6: ("<f4", "Ewe", "V"),
     7: ("<f8", "dq", "mA·h"),
     8: ("<f4", "I", "mA"),

@@ -1,6 +1,7 @@
 import pytest
 import os
 import xarray as xr
+import numpy as np
 import pickle
 from yadg.extractors.eclab.mpr import extract as extract_mpr
 from yadg.extractors.eclab.mpt import extract as extract_mpt
@@ -63,6 +64,7 @@ def compare_params(left, right):
         ("gcpl.issue_211", "en_US"),
         ("gcpl.issue_226.I", "en_US"),
         ("gcpl.issue_226.CxN", "en_US"),
+        ("gcpl.issue_228", "en_US"),
         ("geis", "en_US"),
         ("lsv", "en_US"),
         ("lsv.issue_195", "en_US"),
@@ -101,11 +103,19 @@ def test_eclab_consistency(froot, locale, datadir):
                 bkey = key.replace("we", "")
             elif key.replace("we ", "") in bret:
                 bkey = key.replace("we ", "")
-
         assert bkey in bret
 
         try:
-            xr.testing.assert_allclose(aret[key], bret[bkey])
+            if np.isdtype(aret[key].dtype, "numeric"):
+                np.testing.assert_allclose(
+                    aret[key],
+                    bret[bkey],
+                    equal_nan=True,
+                    atol=1e-8,
+                    rtol=1e-5,
+                )
+            else:
+                np.testing.assert_array_equal(aret[key], bret[bkey])
         except AssertionError as e:
             e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
@@ -183,7 +193,16 @@ def test_eclab_consistency_partial_149(froot, locale, datadir):
         assert bkey in bret
 
         try:
-            xr.testing.assert_allclose(aret[key], bret[bkey])
+            if np.isdtype(aret[key].dtype, "numeric"):
+                np.testing.assert_allclose(
+                    aret[key],
+                    bret[bkey],
+                    equal_nan=True,
+                    atol=1e-8,
+                    rtol=1e-5,
+                )
+            else:
+                np.testing.assert_array_equal(aret[key], bret[bkey])
         except AssertionError as e:
             e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e

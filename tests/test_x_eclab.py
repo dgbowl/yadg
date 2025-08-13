@@ -1,6 +1,7 @@
 import pytest
 import os
 import xarray as xr
+import numpy as np
 import pickle
 from yadg.extractors.eclab.mpr import extract as extract_mpr
 from yadg.extractors.eclab.mpt import extract as extract_mpt
@@ -57,6 +58,13 @@ def compare_params(left, right):
         ("cva.issue_202", "en_US"),
         ("gcpl", "en_US"),
         ("gcpl.issue_149", "de_DE"),
+        ("gcpl.issue_175", "en_US"),
+        ("gcpl.pr_182.1", "en_US"),
+        ("gcpl.pr_182.2", "en_US"),
+        ("gcpl.issue_211", "en_US"),
+        ("gcpl.issue_226.I", "en_US"),
+        ("gcpl.issue_226.CxN", "en_US"),
+        ("gcpl.issue_228", "en_US"),
         ("geis", "en_US"),
         ("lsv", "en_US"),
         ("lsv.issue_195", "en_US"),
@@ -88,8 +96,26 @@ def test_eclab_consistency(froot, locale, datadir):
     for key in aret.variables:
         if key.endswith("std_err"):
             continue
+
+        bkey = key
+        if bkey not in bret:
+            if key.replace("we", "") in bret:
+                bkey = key.replace("we", "")
+            elif key.replace("we ", "") in bret:
+                bkey = key.replace("we ", "")
+        assert bkey in bret
+
         try:
-            xr.testing.assert_allclose(aret[key], bret[key])
+            if np.isdtype(aret[key].dtype, "numeric"):
+                np.testing.assert_allclose(
+                    aret[key],
+                    bret[bkey],
+                    equal_nan=True,
+                    atol=1e-8,
+                    rtol=1e-5,
+                )
+            else:
+                np.testing.assert_array_equal(aret[key], bret[bkey])
         except AssertionError as e:
             e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e
@@ -122,50 +148,11 @@ def test_eclab_consistency_extract_mpr_bytes(froot, locale, datadir):
 @pytest.mark.parametrize(
     "froot, locale",
     [
-        ("geis.issue_149", "de_DE"),
-        ("peis.issue_149", "de_DE"),
+        ("geis.issue_149", "en_US"),
+        ("peis.issue_149", "en_US"),
     ],
 )
-def test_eclab_consistency_partial_1(froot, locale, datadir):
-    os.chdir(datadir)
-    kwargs = dict(timezone="Europe/Berlin", locale=locale, encoding="windows-1252")
-    aret = check_file(f"{froot}.mpr", kwargs, extract_mpr)
-    bret = check_file(f"{froot}.mpt", kwargs, extract_mpt)
-
-    for key in {
-        "freq",
-        "Re(Z)",
-        "-Im(Z)",
-        "|Z|",
-        "Phase(Z)",
-        "time",
-        "<Ewe>",
-        "<I>",
-        "Cs",
-        "Cp",
-        "cycle number",
-        "|Ewe|",
-        "|I|",
-        "Ns",
-        "I Range",
-    }:
-        try:
-            xr.testing.assert_allclose(aret[key], bret[key])
-        except AssertionError as e:
-            e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
-            raise e
-    compare_params(aret, bret)
-
-
-@pytest.mark.parametrize(
-    "froot, locale",
-    [
-        ("gcpl.pr_182.1", "en_US"),
-        ("gcpl.pr_182.2", "en_US"),
-        ("gcpl.issue_211", "en_US"),
-    ],
-)
-def test_eclab_consistency_partial_2(froot, locale, datadir):
+def test_eclab_consistency_partial_149(froot, locale, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", locale=locale, encoding="windows-1252")
     aret = check_file(f"{froot}.mpr", kwargs, extract_mpr)
@@ -174,10 +161,48 @@ def test_eclab_consistency_partial_2(froot, locale, datadir):
     for key in aret.variables:
         if key.endswith("std_err"):
             continue
-        elif key in {"control_I", "control_V", "Energy charge", "Energy discharge"}:
+        elif key in {
+            "THD Ewe",
+            "NSD Ewe",
+            "NSR Ewe",
+            "|Ewe h2|",
+            "|Ewe h3|",
+            "|Ewe h4|",
+            "|Ewe h5|",
+            "|Ewe h6|",
+            "|Ewe h7|",
+            "THD I",
+            "NSD I",
+            "NSR I",
+            "|I h2|",
+            "|I h3|",
+            "|I h4|",
+            "|I h5|",
+            "|I h6|",
+            "|I h7|",
+        }:
             continue
+
+        bkey = key
+        if bkey not in bret:
+            if key.replace("we", "") in bret:
+                bkey = key.replace("we", "")
+            elif key.replace("we ", "") in bret:
+                bkey = key.replace("we ", "")
+
+        assert bkey in bret
+
         try:
-            xr.testing.assert_allclose(aret[key], bret[key])
+            if np.isdtype(aret[key].dtype, "numeric"):
+                np.testing.assert_allclose(
+                    aret[key],
+                    bret[bkey],
+                    equal_nan=True,
+                    atol=1e-8,
+                    rtol=1e-5,
+                )
+            else:
+                np.testing.assert_array_equal(aret[key], bret[bkey])
         except AssertionError as e:
             e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)
             raise e

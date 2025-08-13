@@ -57,7 +57,7 @@ from typing import Any
 from babel.numbers import parse_decimal
 from xarray import DataTree
 from yadg import dgutils
-from .techniques import get_devs, param_from_key
+from .techniques import get_devs, param_from_key, split_control
 from .mpt_columns import column_units
 from pathlib import Path
 from yadg.extractors import get_extract_dispatch
@@ -293,11 +293,7 @@ def process_data(
             warn_I_range = True
             Irange = 1.0
 
-        if "control_VI" in vals:
-            icv = controls[Ns] if isinstance(controls, list) else controls
-            name = "control_I" if icv in {"I", "C"} else "control_V"
-            vals[name] = vals.pop("control_VI")
-            units[name] = "mA" if icv in {"I", "C"} else "V"
+        vals, units = split_control(vals, units)
         devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange, devs=devs)
         dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
     if warn_I_range:

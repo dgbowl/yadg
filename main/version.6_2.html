@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version next &mdash; yadg 6.1.dev8 documentation</title>
+  <title>yadg version next &mdash; yadg 6.1.dev9 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=3cdf50c9"></script>
+        <script src="_static/documentation_options.js?v=98a7d4d0"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.1.dev8
+                6.1.dev9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -109,10 +109,36 @@
 <p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
 <p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
 <p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
+<blockquote>
+<div><ul>
+<li><p>Some column names in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> files might have changed, as EC-Lab 11.62 has a new naming convention for derived quantities. In particular:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">charge</span></code> is now <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">we</span> <span class="pre">charge</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">discharge</span></code> is now <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">we</span> <span class="pre">discharge</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P</span></code> is now <code class="docutils literal notranslate"><span class="pre">Pwe</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> is now <code class="docutils literal notranslate"><span class="pre">Rwe</span></code>.</p></li>
+</ul>
+<p>This will also unfortunately affect processing older <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files. Depending on which version of EC-Lab was used to convert the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> file to the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file will contain the old (i.e. <code class="docutils literal notranslate"><span class="pre">P</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">charge</span></code>) or the new (i.e. <code class="docutils literal notranslate"><span class="pre">Pwe</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">we</span> <span class="pre">charge</span></code>) column names. For yadg internal consistency testing, we still attempt an exact match between <code class="docutils literal notranslate"><span class="pre">mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">mpt</span></code> columns; if the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> column is not present in the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, we look for an equivalent column without the <code class="docutils literal notranslate"><span class="pre">we</span></code> annotation.</p>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">control/V/mA</span></code> column and the <code class="docutils literal notranslate"><span class="pre">mode</span></code> column in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> as well as <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> files is now used to create the <code class="docutils literal notranslate"><span class="pre">control_V</span></code> (units <code class="docutils literal notranslate"><span class="pre">V</span></code>) and <code class="docutils literal notranslate"><span class="pre">control_I</span></code> (units <code class="docutils literal notranslate"><span class="pre">mA</span></code>) columns in both kinds of files:</p>
+<ul class="simple">
+<li><p>The original <code class="docutils literal notranslate"><span class="pre">control/V</span></code> and <code class="docutils literal notranslate"><span class="pre">control/mA</span></code> which are present in <code class="docutils literal notranslate"><span class="pre">mpt</span></code> and may be present in <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files are now overwritten by values from the <code class="docutils literal notranslate"><span class="pre">control/V/mA</span></code> column, which is always present.</p></li>
+<li><p>In any given row, either <code class="docutils literal notranslate"><span class="pre">control_V</span></code> or <code class="docutils literal notranslate"><span class="pre">control_I</span></code> is set, with the other (non-controlling) column being <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p></li>
+<li><p>The currently known <code class="docutils literal notranslate"><span class="pre">mode</span></code> values correspond to:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> for constant current (<code class="docutils literal notranslate"><span class="pre">control_I</span></code> = limiting value)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code> for constant voltage (<code class="docutils literal notranslate"><span class="pre">control_V</span></code> = limiting value)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code> for open circuit (<code class="docutils literal notranslate"><span class="pre">control_I</span></code> = forced to zero)</p></li>
+</ul>
+</li>
+</ul>
+<p>Thanks to <a class="reference external" href="https://github.com/g-kimbell">Graham Kimbell</a> from Empa for helping out with these changes.</p>
+</li>
+</ul>
+</div></blockquote>
 <p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> include:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Fixed metadata extraction in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> where <code class="docutils literal notranslate"><span class="pre">control_*</span></code> columns would not match the names present in the corresponding <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files.</p></li>
 <li><p>Fixed metadata extraction in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> so that multiple <code class="docutils literal notranslate"><span class="pre">Comments:</span></code> lines are concatenated instead of just the last line being kept.</p></li>
 <li><p>Added further <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters. Thanks to <a class="reference external" href="https://github.com/Locki3">&#64;Locki3</a> for providing test files.</p></li>
 <li><p>Fixed <code class="docutils literal notranslate"><span class="pre">param</span> <span class="pre">format</span></code> and <code class="docutils literal notranslate"><span class="pre">data_column</span></code> in CV files generated with EC-Lab version 11.50 using the <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> module. Thank you to J.N. Hausmann from Helmholtz-Zentrum Berlin für Materialien und Energie for providing the test files.</p></li>
@@ -146,7 +172,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.1.dev8
+      v: 6.1.dev9
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

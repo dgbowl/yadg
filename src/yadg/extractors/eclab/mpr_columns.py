@@ -100,6 +100,7 @@ data_columns = {
     99: ("<f4", "|Zce|", "Ω"),
     100: ("<f4", "Re(Zce)", "Ω"),
     101: ("<f4", "-Im(Zce)", "Ω"),
+    115: ("<f8", "Energy ce charge", "W·h"),
     123: ("<f8", "Energy we charge", "W·h"),
     124: ("<f8", "Energy we discharge", "W·h"),
     125: ("<f8", "Capacitance charge", "µF"),
@@ -180,6 +181,8 @@ data_columns = {
     501: ("<f4", "|Ece h5|", "V"),
     502: ("<f4", "|Ece h6|", "V"),
     503: ("<f4", "|Ece h7|", "V"),
+    884: ("<f8", "Energy ce discharge", "W·h"),
+    893: ("<f8", "Capacitance charge", "µF"),
     981: ("<u4", "z cycle", None),  # 981 % 512 = 469, also z cycle
 }
 

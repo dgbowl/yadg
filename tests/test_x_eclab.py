@@ -65,6 +65,7 @@ def compare_params(left, right):
         ("gcpl.issue_226.I", "en_US"),
         ("gcpl.issue_226.CxN", "en_US"),
         ("gcpl.issue_228", "en_US"),
+        ("gcpl.issue_230", "en_US"),
         ("geis", "en_US"),
         ("lsv", "en_US"),
         ("lsv.issue_195", "en_US"),

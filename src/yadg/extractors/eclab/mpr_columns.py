@@ -181,9 +181,11 @@ data_columns = {
     501: ("<f4", "|Ece h5|", "V"),
     502: ("<f4", "|Ece h6|", "V"),
     503: ("<f4", "|Ece h7|", "V"),
+    878: ("<f8", "Energy ce", "W·h"),
     884: ("<f8", "Energy ce discharge", "W·h"),
     893: ("<f8", "Capacitance charge", "µF"),
     981: ("<u4", "z cycle", None),  # 981 % 512 = 469, also z cycle
+    983: ("<f4", "<Ece>", "V"),  # 983 % 512 = 471, also <Ece>
 }
 
 # Conflict resolution map. If both the outer and inner column ID are present,

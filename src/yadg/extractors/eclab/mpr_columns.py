@@ -111,7 +111,7 @@ data_columns = {
     169: ("<f4", "Cs", "µF"),
     172: ("<f4", "Cp", "µF"),
     173: ("<f4", "Cp⁻²", "µF⁻²"),
-    174: ("<f4", "<Ewe>", "V"),  # This column may conflict with ID 77.
+    174: ("<f4", "<Ewe>", "V"),  # This column may conflict with ID 77 and 6.
     178: ("<f4", "(Q-Qo)", "C"),
     179: ("<f4", "dQ", "C"),
     182: ("<f8", "step time", "s"),
@@ -181,15 +181,18 @@ data_columns = {
     501: ("<f4", "|Ece h5|", "V"),
     502: ("<f4", "|Ece h6|", "V"),
     503: ("<f4", "|Ece h7|", "V"),
+    878: ("<f8", "Energy ce", "W·h"),
     884: ("<f8", "Energy ce discharge", "W·h"),
     893: ("<f8", "Capacitance charge", "µF"),
     981: ("<u4", "z cycle", None),  # 981 % 512 = 469, also z cycle
+    983: ("<f4", "<Ece>", "V"),  # 983 % 512 = 471, also <Ece>
 }
 
 # Conflict resolution map. If both the outer and inner column ID are present,
 # the meaning of the outer column ID is set to the entry below.
 conflict_columns = {
     174: {
+        6: ("<f4", "Phase(Zwe-ce)", "deg"),
         77: ("<f4", "Phase(Zwe-ce)", "deg"),
     },
 }

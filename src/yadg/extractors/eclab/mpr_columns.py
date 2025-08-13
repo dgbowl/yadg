@@ -111,7 +111,7 @@ data_columns = {
     169: ("<f4", "Cs", "µF"),
     172: ("<f4", "Cp", "µF"),
     173: ("<f4", "Cp⁻²", "µF⁻²"),
-    174: ("<f4", "<Ewe>", "V"),  # This column may conflict with ID 77.
+    174: ("<f4", "<Ewe>", "V"),  # This column may conflict with ID 77 and 6.
     178: ("<f4", "(Q-Qo)", "C"),
     179: ("<f4", "dQ", "C"),
     182: ("<f8", "step time", "s"),
@@ -192,6 +192,7 @@ data_columns = {
 # the meaning of the outer column ID is set to the entry below.
 conflict_columns = {
     174: {
+        6: ("<f4", "Phase(Zwe-ce)", "deg"),
         77: ("<f4", "Phase(Zwe-ce)", "deg"),
     },
 }

@@ -555,15 +555,18 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     settings = log = loop = ext = None
     for module in modules:
         for mhd in module_header_dtypes:
-            header = dgutils.read_value(module, 0x0000, mhd)
-            if len(module) == mhd.itemsize + header["length"]:
-                version = header.get("newver", 0) + header["oldver"]
-                logger.debug(
-                    "Parsed module header with length %d, version %s",
-                    header["length"],
-                    version,
-                )
-                break
+            try:
+                header = dgutils.read_value(module, 0x0000, mhd)
+                if len(module) == mhd.itemsize + header["length"]:
+                    version = header.get("newver", 0) + header["oldver"]
+                    logger.debug(
+                        "Parsed module header with length %d, version %s",
+                        header["length"],
+                        version,
+                    )
+                    break
+            except UnicodeDecodeError:
+                continue
         else:
             raise RuntimeError("Unknown module header.")
         name = header["short_name"].strip()

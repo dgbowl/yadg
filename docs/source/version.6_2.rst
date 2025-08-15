@@ -44,3 +44,4 @@ Bug fixes in ``yadg-next`` include:
   - Fixed parsing of various kinds of Modulo Bat files in :mod:`yadg.extractors.eclab.mpr`. Thank you to `Johannes Baller <https://github.com/JohannesBaller>`_ for providing test files.
   - Fixed parsing of missing columns in GCPL files in :mod:`yadg.extractors.eclab.mpr`. Thank you to `Joachim Laviolette <https://github.com/JL-CEA>`_ for providing test files.
   - Columns in :mod:`yadg.extractors.eclab.mpr` files may have different meanings based on which other columns are also present in the files, see `issue 225 <https://github.com/dgbowl/yadg/issues/225>`_. Added a (hopefully extensible) way to tackle such conflicts and clarified the warnings.
+  - It looks like there are only 256 columns in :mod:`~yadg.extractor.eclab.mpr` files, with higher IDs corresponding to ``id % 256`` in all cases. Thanks to `Graham Kimbell <https://github.com/g-kimbell>`_ for first pointing this out.

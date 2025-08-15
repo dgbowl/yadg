@@ -308,6 +308,7 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
     units = []
     flags = {}
     for id in column_ids:
+        idd = id % 256
         if id in flag_columns:
             bitmask, name = flag_columns[id]
             flags[name] = bitmask
@@ -316,13 +317,14 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 names.append("flags")
                 dtypes.append("|u1")
                 units.append(None)
-        elif id in data_columns and id not in conflict_columns:
-            dtype, name, unit = data_columns[id]
+        elif idd in data_columns and idd not in conflict_columns:
+            dtype, name, unit = data_columns[idd]
             if name in names:
                 logger.error(
-                    "Column ID %d is a duplicate of '%s' with unit '%s'. "
+                    "Column ID %d (%d) is a duplicate of '%s' with unit '%s'. "
                     "This is most certainly an error, please submit a bug report.",
                     id,
+                    idd,
                     name,
                     unit,
                 )
@@ -330,28 +332,30 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
             names.append(name)
             dtypes.append(dtype)
             units.append(unit)
-        elif id in conflict_columns:
-            for cid, cvals in conflict_columns[id].items():
+        elif idd in conflict_columns:
+            for cid, cvals in conflict_columns[idd].items():
                 if cid in column_ids:
                     dtype, name, unit = cvals
                     names.append(name)
                     dtypes.append(dtype)
                     units.append(unit)
                     logger.warning(
-                        "Ambiguous column ID %d assigned as '%s' with unit '%s'. "
+                        "Ambiguous column ID %d (%d) assigned as '%s' with unit '%s'. "
                         "Please check this assignment manually.",
                         id,
+                        idd,
                         name,
                         unit,
                     )
                     break
             else:
-                dtype, name, unit = data_columns[id]
+                dtype, name, unit = data_columns[idd]
                 if name in names:
                     logger.error(
-                        "Column ID %d is duplicate of '%s' with unit '%s'. "
+                        "Column ID %d (%d) is duplicate of '%s' with unit '%s'. "
                         "This is most certainly an error, please submit a bug report.",
                         id,
+                        idd,
                         name,
                         unit,
                     )

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version next &mdash; yadg 6.1.dev13 documentation</title>
+  <title>yadg version next &mdash; yadg 6.1.dev14 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=5a113995"></script>
+        <script src="_static/documentation_options.js?v=9198a958"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.1.dev13
+                6.1.dev14
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -145,6 +145,7 @@
 <li><p>Fixed parsing of various kinds of Modulo Bat files in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a>. Thank you to <a class="reference external" href="https://github.com/JohannesBaller">Johannes Baller</a> for providing test files.</p></li>
 <li><p>Fixed parsing of missing columns in GCPL files in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a>. Thank you to <a class="reference external" href="https://github.com/JL-CEA">Joachim Laviolette</a> for providing test files.</p></li>
 <li><p>Columns in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> files may have different meanings based on which other columns are also present in the files, see <a class="reference external" href="https://github.com/dgbowl/yadg/issues/225">issue 225</a>. Added a (hopefully extensible) way to tackle such conflicts and clarified the warnings.</p></li>
+<li><p>It looks like there are only 256 columns in <code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code> files, with higher IDs corresponding to <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">%</span> <span class="pre">256</span></code> in all cases. Thanks to <a class="reference external" href="https://github.com/g-kimbell">Graham Kimbell</a> for first pointing this out.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -173,7 +174,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.1.dev13
+      v: 6.1.dev14
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

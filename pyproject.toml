@@ -6,9 +6,10 @@ build-backend = "setuptools.build_meta"
 dynamic = ["version"]
 name = "yadg"
 authors = [
-    {name = "Peter Kraus", email = "peter.kraus@tu-berlin.de"},
+    {name = "Peter Kraus"},
     {name = "Nicolas Vetsch"},
     {name = "Carla Terboven"},
+    {name = "Graham Kimbell"},
 ]
 maintainers = [
     {name = "Peter Kraus", email = "peter.kraus@tu-berlin.de"},

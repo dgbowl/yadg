@@ -1,19 +1,16 @@
-**yadg** version next
-`````````````````````
-..
-  .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.1&color=blue&logo=github
-    :target: https://github.com/PeterKraus/yadg/tree/6.1
-  .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.1&color=blue&logo=pypi
-    :target: https://pypi.org/project/yadg/6.1/
-  .. image:: https://img.shields.io/static/v1?label=release%20date&message=2025-06-03&color=red&logo=pypi
+**yadg** version 6.2
+````````````````````
+
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v6.2&color=blue&logo=github
+  :target: https://github.com/PeterKraus/yadg/tree/6.2
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v6.2&color=blue&logo=pypi
+  :target: https://pypi.org/project/yadg/6.2/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2025-08-20&color=red&logo=pypi
 
 
 Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).
 
-New features in ``yadg-next`` are:
-
-
-Breaking changes in ``yadg-next`` are:
+Breaking changes in ``yadg-6.2`` are:
 
   - Some column names in :mod:`yadg.extractors.eclab.mpr` files might have changed, as EC-Lab 11.62 has a new naming convention for derived quantities. In particular:
 
@@ -22,7 +19,7 @@ Breaking changes in ``yadg-next`` are:
     - ``P`` is now ``Pwe``,
     - ``R`` is now ``Rwe``.
 
-    This will also unfortunately affect processing older ``mpr`` files. Depending on which version of EC-Lab was used to convert the ``mpr`` file to the ``mpt`` file, the ``mpt`` file will contain the old (i.e. ``P`` or ``Energy charge``) or the new (i.e. ``Pwe`` or ``Energy we charge``) column names. For yadg internal consistency testing, we still attempt an exact match between ``mpr`` and ``mpt`` columns; if the ``mpr`` column is not present in the ``mpt`` file, we look for an equivalent column without the ``we`` annotation.
+    This will also unfortunately affect processing older ``mpr`` files. Depending on which version of EC-Lab was used to convert the ``mpr`` file to the ``mpt`` file, the ``mpt`` file will contain the old (i.e. ``P`` or ``Energy charge``) or the new (i.e. ``Pwe`` or ``Energy we charge``) column names. For yadg internal test-suite, we still attempt an exact match between ``mpr`` and ``mpt`` columns; if the ``mpr`` column is not present in the ``mpt`` file, we look for an equivalent column without the ``we`` annotation.
 
   - The ``control/V/mA`` column and the ``mode`` column in :mod:`~yadg.extractors.eclab.mpr` as well as :mod:`~yadg.extractors.eclab.mpr` files is now used to create the ``control_V`` (units ``V``) and ``control_I`` (units ``mA``) columns in both kinds of files:
 

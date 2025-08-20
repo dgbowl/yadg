@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg 6.1.dev14 documentation</title>
+  <title>yadg version history &mdash; yadg 6.1.dev15 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9198a958"></script>
+        <script src="_static/documentation_options.js?v=35e02d41"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.1.dev14
+                6.1.dev15
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -78,7 +78,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#yadg-version-next"><strong>yadg</strong> version next</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-2"><strong>yadg</strong> version 6.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-1"><strong>yadg</strong> version 6.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-0"><strong>yadg</strong> version 6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-5-1"><strong>yadg</strong> version 5.1</a></li>
@@ -119,11 +119,13 @@
              
   <section id="yadg-version-history">
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Link to this heading"></a></h1>
-<section id="yadg-version-next">
-<h2><strong>yadg</strong> version next<a class="headerlink" href="#yadg-version-next" title="Link to this heading"></a></h2>
+<section id="yadg-version-6-2">
+<h2><strong>yadg</strong> version 6.2<a class="headerlink" href="#yadg-version-6-2" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/6.2"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v6.2&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v6.2&amp;color=blue&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/yadg/6.2/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v6.2&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v6.2&amp;color=blue&amp;logo=pypi" /></a>
+<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2025-08-20&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2025-08-20&amp;color=red&amp;logo=pypi" />
 <p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
-<p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
-<p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
+<p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-6.2</span></code> are:</p>
 <blockquote>
 <div><ul>
 <li><p>Some column names in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> files might have changed, as EC-Lab 11.62 has a new naming convention for derived quantities. In particular:</p>
@@ -133,7 +135,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">P</span></code> is now <code class="docutils literal notranslate"><span class="pre">Pwe</span></code>,</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">R</span></code> is now <code class="docutils literal notranslate"><span class="pre">Rwe</span></code>.</p></li>
 </ul>
-<p>This will also unfortunately affect processing older <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files. Depending on which version of EC-Lab was used to convert the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> file to the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file will contain the old (i.e. <code class="docutils literal notranslate"><span class="pre">P</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">charge</span></code>) or the new (i.e. <code class="docutils literal notranslate"><span class="pre">Pwe</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">we</span> <span class="pre">charge</span></code>) column names. For yadg internal consistency testing, we still attempt an exact match between <code class="docutils literal notranslate"><span class="pre">mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">mpt</span></code> columns; if the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> column is not present in the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, we look for an equivalent column without the <code class="docutils literal notranslate"><span class="pre">we</span></code> annotation.</p>
+<p>This will also unfortunately affect processing older <code class="docutils literal notranslate"><span class="pre">mpr</span></code> files. Depending on which version of EC-Lab was used to convert the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> file to the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file will contain the old (i.e. <code class="docutils literal notranslate"><span class="pre">P</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">charge</span></code>) or the new (i.e. <code class="docutils literal notranslate"><span class="pre">Pwe</span></code> or <code class="docutils literal notranslate"><span class="pre">Energy</span> <span class="pre">we</span> <span class="pre">charge</span></code>) column names. For yadg internal test-suite, we still attempt an exact match between <code class="docutils literal notranslate"><span class="pre">mpr</span></code> and <code class="docutils literal notranslate"><span class="pre">mpt</span></code> columns; if the <code class="docutils literal notranslate"><span class="pre">mpr</span></code> column is not present in the <code class="docutils literal notranslate"><span class="pre">mpt</span></code> file, we look for an equivalent column without the <code class="docutils literal notranslate"><span class="pre">we</span></code> annotation.</p>
 </li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">control/V/mA</span></code> column and the <code class="docutils literal notranslate"><span class="pre">mode</span></code> column in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> as well as <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> files is now used to create the <code class="docutils literal notranslate"><span class="pre">control_V</span></code> (units <code class="docutils literal notranslate"><span class="pre">V</span></code>) and <code class="docutils literal notranslate"><span class="pre">control_I</span></code> (units <code class="docutils literal notranslate"><span class="pre">mA</span></code>) columns in both kinds of files:</p>
 <ul class="simple">
@@ -539,7 +541,7 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.1.dev14
+      v: 6.1.dev15
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

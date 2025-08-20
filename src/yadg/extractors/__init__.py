@@ -47,7 +47,7 @@ def extract(
     Extract data and metadata from a path using the supplied filetype.
 
     A wrapper around the :func:`extract_from_path` worker function, which creates a
-    default extractor object. Coerces any :class:`str` provided to :class:`Path`.
+    default extractor object. Coerces any :class:`str`s provided as ``path`` to :class:`Path`.
 
     Parameters
     ----------
@@ -56,7 +56,7 @@ def extract(
         Specifies the filetype. Has to be a filetype supported by the dataschema.
 
     path:
-        A :class:`pathlib.Path` object pointing to the file to be extracted.
+        A :class:`Path` object pointing to the file to be extracted.
 
     timezone:
         A :class:`str` containing the TZ identifier, e.g. "Europe/Berlin".
@@ -93,6 +93,15 @@ def extract_from_path(
     the returned objects are flattened using json serialisation. The returned objects
     have a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to
     write the returned object into a file.
+
+    Parameters
+    ----------
+
+    source:
+        A :obj:`Path` pointing to the extracted file.
+
+    extractor:
+        A :class:`FileType` object describing the extraction process.
     """
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
@@ -127,6 +136,15 @@ def extract_from_bytes(
     the returned objects are flattened using json serialisation. The returned objects
     have a :func:`to_netcdf` as well as a :func:`to_dict` method, which can be used to
     write the returned object into a file.
+
+    Parameters
+    ----------
+
+    source:
+        A :obj:`bytes` object containing the raw data to be extracted.
+
+    extractor:
+        A :class:`FileType` object describing the extraction process.
     """
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")

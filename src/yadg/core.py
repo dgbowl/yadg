@@ -11,10 +11,21 @@ logger = logging.getLogger(__name__)
 
 def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTree:
     """
-    The main processing function of yadg.
+    The main :class:`DataSchema` processing function of yadg.
 
-    Takes in a :class:`DataSchema` object and returns a single :class:`DataTree` created
-    from the :class:`DataSchema`.
+    Takes in a :class:`DataSchema` object, updates it to the latest version compatible
+    with the installed version of yadg, processes each `step`, and returns a single
+    :class:`DataTree` created from the :class:`DataSchema`.
+
+    Parameters
+    ----------
+
+    dataschema:
+        A :class:`DataSchema` object describing the extraction process.
+
+    strict_merge:
+        A :class:`bool` indicating whether metadata of the files processed in a single `step`
+        has to be identical. Defaults to ``False`` which means conflicts will be dropped.
 
     """
     if strict_merge:

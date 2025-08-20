@@ -1,0 +1,32 @@
+**fusion**: For Fusion chromatograms
+====================================
+
+.. automodule:: yadg.extractors.fusion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.fusion.csv module
+---------------------------------
+
+.. automodule:: yadg.extractors.fusion.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.fusion.json module
+----------------------------------
+
+.. automodule:: yadg.extractors.fusion.json
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.fusion.zip module
+---------------------------------
+
+.. automodule:: yadg.extractors.fusion.zip
+   :members:
+   :undoc-members:
+   :show-inheritance:

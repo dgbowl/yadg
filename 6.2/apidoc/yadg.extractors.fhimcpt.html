@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fhimcpt: For MCPT set-up at FHI &mdash; yadg 6.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom_theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/yadg_ico.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=ef7fcc1c"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fusion: For Fusion chromatograms" href="yadg.extractors.fusion.html" />
+    <link rel="prev" title="ezchrom: For EZChrom chromatograms" href="yadg.extractors.ezchrom.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            yadg
+              <img src="../_static/yadg.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                6.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">yadg user manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">How to install <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">How to use <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Key features of <strong>yadg</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing <strong>yadg</strong></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg extractors</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.example.html"><strong>example</strong>: For yadg testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.agilent.html"><strong>agilent</strong>: For Agilent chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.basic.html"><strong>basic</strong>: For tabulated data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.drycal.html"><strong>drycal</strong>: For MesaLabs Drycal Pro data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.eclab.html"><strong>eclab</strong>: For BioLogic data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.empalc.html"><strong>empalc</strong>: For Empa’s LC data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.ezchrom.html"><strong>ezchrom</strong>: For EZChrom chromatograms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>fhimcpt</strong>: For MCPT set-up at FHI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fhimcpt.csv">yadg.extractors.fhimcpt.csv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv"><code class="docutils literal notranslate"><span class="pre">FHI_csv</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fhimcpt.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fhimcpt.vna">yadg.extractors.fhimcpt.vna module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_vna"><code class="docutils literal notranslate"><span class="pre">FHI_vna</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fhimcpt.vna.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.fusion.html"><strong>fusion</strong>: For Fusion chromatograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.panalytical.html"><strong>panalytical</strong>: For Panalytical XRD data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.phi.html"><strong>phi</strong>: For Phi XPS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.picolog.html"><strong>picolog</strong>: For PicoTech PicoLog data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../devdocs.html">Developer documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../version.html"><strong>yadg</strong> version history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objects.html"><strong>yadg</strong> objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.html">yadg package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">yadg</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>fhimcpt</strong>: For MCPT set-up at FHI</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apidoc/yadg.extractors.fhimcpt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-yadg.extractors.fhimcpt">
+<span id="fhimcpt-for-mcpt-set-up-at-fhi"></span><h1><strong>fhimcpt</strong>: For MCPT set-up at FHI<a class="headerlink" href="#module-yadg.extractors.fhimcpt" title="Link to this heading"></a></h1>
+<p>A set of custom extractors for processing files generated by the MCPT instrument at FHI,
+now in the Risse group at FU Berlin.</p>
+<section id="module-yadg.extractors.fhimcpt.csv">
+<span id="yadg-extractors-fhimcpt-csv-module"></span><h2>yadg.extractors.fhimcpt.csv module<a class="headerlink" href="#module-yadg.extractors.fhimcpt.csv" title="Link to this heading"></a></h2>
+<p>This parser handles the reading and processing of the legacy log files created by
+the LabView interface for the MCPT instrument at FHI, now FU Berlin. These files contain
+information about the timestamp, temperatures, and inlet / process flows.</p>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-3.0</span></code>. Deprecated since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">FHI_csv</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameters</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters.timestamp">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.timestamp.Timestamp" title="(in dgbowl-schemas v124rc2.dev1)"><span class="pre">Timestamp</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.timestamp.TimeDate" title="(in dgbowl-schemas v124rc2.dev1)"><span class="pre">TimeDate</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.timestamp.UTS" title="(in dgbowl-schemas v124rc2.dev1)"><span class="pre">UTS</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Timestamp(timestamp=TimestampSpec(index=0,</span> <span class="pre">format='%Y-%m-%d-%H-%M-%S'))</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters.timestamp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.parameters">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters" title="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.Parameters"><span class="pre">Parameters</span></a></em><em class="property"> <span class="pre">[Optional]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fhimcpt.csv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_csv.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="schema">
+<h3>Schema<a class="headerlink" href="#schema" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">            </span><span class="kt">!!float</span><span class="w">     </span><span class="c1"># Unix timestamp</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">T_f</span><span class="p">:</span><span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Flow temperature</span>
+<span class="w">    </span><span class="nt">T_fs</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Flow temperature setpoint</span>
+<span class="w">    </span><span class="nt">T_fo</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Flow heater duty cycle</span>
+<span class="w">    </span><span class="nt">T_c</span><span class="p">:</span><span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Cavity temperature</span>
+<span class="w">    </span><span class="nt">T_cs</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Cavity temperature setpoint</span>
+<span class="w">    </span><span class="nt">T_co</span><span class="p">:</span><span class="w">           </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Cavity cooling duty cycle</span>
+<span class="w">    </span><span class="nt">T_cal</span><span class="p">:</span><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Calibration thermocouple temperature</span>
+<span class="w">    </span><span class="nt">N2</span><span class="p">:</span><span class="w">             </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># N2 flow</span>
+<span class="w">    </span><span class="nt">O2</span><span class="p">:</span><span class="w">             </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># N2 flow</span>
+<span class="w">    </span><span class="nt">alkane</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># alkane flow</span>
+<span class="w">    </span><span class="nt">CO_CO2</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># CO or CO2 flow</span>
+<span class="w">    </span><span class="nt">saturator</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># saturator flow</span>
+<span class="w">    </span><span class="nt">pressure</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Reactor flow meter back-pressure</span>
+<span class="w">    </span><span class="nt">flow low</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Reactor mix high-flow MFC</span>
+<span class="w">    </span><span class="nt">flow high</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Reactor mix low-flow MFC</span>
+<span class="w">    </span><span class="nt">cavity flush</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Cavity N2 flow</span>
+<span class="w">    </span><span class="nt">heater flow</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(uts)</span><span class="w">       </span><span class="c1"># Heater flow</span>
+</pre></div>
+</div>
+</section>
+<section id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
+<p>No metadata is returned.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.fhimcpt.csv.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseModel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.8.1)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.csv.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-yadg.extractors.fhimcpt.vna">
+<span id="yadg-extractors-fhimcpt-vna-module"></span><h2>yadg.extractors.fhimcpt.vna module<a class="headerlink" href="#module-yadg.extractors.fhimcpt.vna" title="Link to this heading"></a></h2>
+<p>Used to process files generated using Agilent PNA-L N5320C via its LabVIEW driver.
+This file format includes a header, with the values of bandwidth and averaging,
+and three tab-separated columns containing the frequency <span class="math notranslate nohighlight">\(f\)</span>, and the real
+and imaginary parts of the complex reflection coefficient <span class="math notranslate nohighlight">\(\Gamma(f)\)</span>.</p>
+<p>Note that no timestamps are present in the file and have to be supplied externally,
+e.g. from the file name. One trace per file. As the MCPT set-up for which this
+extractor was designed always uses the <code class="docutils literal notranslate"><span class="pre">S11</span></code> port, the node name is is hard-coded to
+this value.</p>
+<section id="id1">
+<h3>Usage<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-3.0</span></code>.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_vna">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dgbowl_schemas.yadg.dataschema_6_0.filetype.</span></span><span class="sig-name descname"><span class="pre">FHI_vna</span></span><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_vna" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = forbid</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_vna.filetype">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'fhimcpt.vna'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.FHI_vna.filetype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">S11</span><span class="p">:</span><span class="w">              </span><span class="kt">!!xarray.Dataset</span>
+<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">freq</span><span class="p">:</span><span class="w">       </span><span class="kt">!!float</span><span class="w">     </span><span class="c1"># An array of measurement frequencies</span>
+<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">Re(G)</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(freq)</span><span class="w">      </span><span class="c1"># Real part of Γ</span>
+<span class="w">        </span><span class="nt">Im(G)</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(freq)</span><span class="w">      </span><span class="c1"># Imaginary part of Γ</span>
+<span class="w">        </span><span class="nt">average</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">      </span><span class="c1"># Number of traces averaged</span>
+<span class="w">        </span><span class="nt">bandwidth</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">      </span><span class="c1"># Filter bandwidth</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>No metadata is returned.</p>
+<p><em>Code author: Peter Kraus</em></p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.fhimcpt.vna.extract_from_path">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.vna.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2025.8.1)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.vna.extract_from_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="yadg.extractors.ezchrom.html" class="btn btn-neutral float-left" title="ezchrom: For EZChrom chromatograms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="yadg.extractors.fusion.html" class="btn btn-neutral float-right" title="fusion: For Fusion chromatograms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 - 2025, yadg authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 6.2
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"> 
+      <script src="../versions.js"></script>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

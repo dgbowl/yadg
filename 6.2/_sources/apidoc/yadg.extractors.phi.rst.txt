@@ -1,0 +1,16 @@
+**phi**: For Phi XPS data
+=========================
+
+.. automodule:: yadg.extractors.phi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.phi.spe module
+------------------------------
+
+.. automodule:: yadg.extractors.phi.spe
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,29 @@
+yadg.extractors package
+=======================
+
+.. automodule:: yadg.extractors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   yadg.extractors.agilent
+   yadg.extractors.basic
+   yadg.extractors.drycal
+   yadg.extractors.eclab
+   yadg.extractors.empalc
+   yadg.extractors.example
+   yadg.extractors.ezchrom
+   yadg.extractors.fhimcpt
+   yadg.extractors.fusion
+   yadg.extractors.panalytical
+   yadg.extractors.phi
+   yadg.extractors.picolog
+   yadg.extractors.quadstar
+   yadg.extractors.tomato
+   yadg.extractors.touchstone

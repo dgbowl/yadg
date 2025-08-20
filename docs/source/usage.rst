@@ -40,6 +40,25 @@ The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTre
 
         yadg extract --locale=de_DE --encoding=utf-8 --timezone=Europe/Berlin filetype infile [outfile]
 
+.. _extractor api:
+
+API endpoint for `extractor` mode
+`````````````````````````````````
+If you want to use **yadg** in your own code, you should use the common extractors API available in the :mod:`yadg.extractors` module:
+
+.. autofunction:: yadg.extractors.extract
+    :no-index:
+
+.. autofunction:: yadg.extractors.extract_from_path
+    :no-index:
+
+.. autofunction:: yadg.extractors.extract_from_bytes
+    :no-index:
+
+.. warning::
+
+    Please do not use the :func:`extract` functions from each extractor (e.g. :func:`yadg.extractors.eclab.mpr.extract_from_path`) directly. Those are not part of the user-facing API and their function signatures may change between minor or point versions.
+
 
 Metadata-only extraction
 ````````````````````````
@@ -102,6 +121,13 @@ If you'd like to update a `dataschema` from a previous version of **yadg** to th
     yadg update infile [outfile]
 
 This will update the `dataschema` specified in ``infile`` and save it to ``outfile``, if provided.
+
+API for processing `dataschema`
+```````````````````````````````
+
+
+.. autofunction:: yadg.core.process_schema
+    :no-index:
 
 
 .. _NetCDF: https://www.unidata.ucar.edu/software/netcdf/

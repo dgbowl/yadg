@@ -1,6 +1,10 @@
 Developer documentation
 -----------------------
 
+.. note::
+
+    If you want to use yadg in your project, you probably want to see :ref:`the API of the extractor mode <extractor api>` or process a `dataschema` using :func:`yadg.core.process_schema`.
+
 The project follows fairly standard developer practices. Every new feature should be associated with a test, and every PR requires linting and formatting using ``ruff``.
 
 Testing

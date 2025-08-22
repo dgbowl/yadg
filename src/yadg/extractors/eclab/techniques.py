@@ -1640,6 +1640,8 @@ param_map = {
     "Ei (V) vs.": vs_map,
     "EL (V) vs.": vs_map,
     "Es (V) vs.": vs_map,
+    "EM1 vs.": vs_map,
+    "EM2 vs.": vs_map,
     "Set I/C": (
         ("I", 0),
         ("C", 1),

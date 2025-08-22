@@ -20,6 +20,7 @@ Implemented techniques:
     - MP - Modular Potentio
     - CoV - Constant Voltage
     - CoC - Constant Current
+    - BCD - Battery Capacity Determination
 
 The module also implements resolution determination for parameters of techniques,
 in :func:`get_resolution`.
@@ -1318,6 +1319,52 @@ _coc_params_dtypes = [
     )
 ]
 
+# ~~~~~~~~~~~~~ Battery Capacity Determination ~~~~~~~~~~~~~
+_bcd_params_dtypes = [
+    (
+        np.dtype(
+            [
+                ("Set I/C", "|u1"),
+                ("Is1", "<f4"),
+                ("unit Is1", "|u1"),
+                ("N1", "<f4"),
+                ("I1 sign", "|u1"),
+                ("t1 (h:m:s)", "<f4"),
+                ("EM1 (V)", "<f4"),
+                ("EM1 vs.", "|u1"),
+                ("EM2 (V)", "<f4"),
+                ("EM2 vs.", "|u1"),
+                ("dE1 (mV)", "<f4"),
+                ("dt1 (s)", "<f4"),
+                ("Hold NONE/EM1/EM2", "|u1"),
+                ("tM (h:m:s)", "<f4"),
+                ("Set I limit", "|u1"),
+                ("Im", "<f4"),
+                ("unit Im", "|u1"),
+                ("Nl", "<f4"),
+                ("I Range", "|u1"),
+                ("Bandwidth", "|u1"),
+                ("E range min (V)", "<f4"),
+                ("E range max (V)", "<f4"),
+                ("tR (h:m:s)", "<f4"),
+                ("dER/dt (mV/h)", "<f4"),
+                ("dER (mV)", "<f4"),
+                ("dtR (s)", "<f4"),
+                ("Charge/Discharge", "|u1"),
+                ("Set I/C 2", "|u1"),
+                ("Is2", "<f4"),
+                ("unit Is2", "|u1"),
+                ("N2", "<f4"),
+                ("I2 sign", "|u1"),
+                ("t2 (h:m:s)", "<f4"),
+                ("Return Ei", "|u1"),
+                ("use C", "|u1"),
+            ]
+        ),
+        {"10.40"},
+    )
+]
+
 
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
@@ -1338,6 +1385,7 @@ technique_params_dtypes = {
     0x76: ("coC", _coc_params_dtypes),
     0x77: ("GCPL", _gcpl_params_dtypes),
     0x7F: ("MB", _mb_params_dtypes),
+    0x88: ("BCD", _bcd_params_dtypes),
 }
 
 unit_map = {
@@ -1582,6 +1630,8 @@ param_map = {
     "unit Imax": unit_map["I"],
     "unit Imin": unit_map["I"],
     "unit Is": unit_map["I"],
+    "unit Is1": unit_map["I"],
+    "unit Is2": unit_map["I"],
     "unit Is vs.": unit_map["vs."],
     "E (V) vs.": vs_map,
     "E1 (V) vs.": vs_map,

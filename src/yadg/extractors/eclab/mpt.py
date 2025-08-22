@@ -104,7 +104,7 @@ def process_params(technique: str, lines: list[str], locale: str) -> dict[str, A
         if name not in params:
             params[name] = vals
         else:
-            raise RuntimeError(f"Trying to assing same parameter {items[0]!r} twice.")
+            raise RuntimeError(f"Trying to assign same parameter {items[0]!r} twice.")
         prev = name
     return params
 

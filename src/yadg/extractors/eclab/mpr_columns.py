@@ -174,6 +174,12 @@ conflict_columns = {
     },
 }
 
+technique_dependent_ids = {
+    6: {
+        "BCD": "Ecell",
+    }
+}
+
 # Relates the offset in log data to the corresponding dtype and name.
 # NOTE: The safety limits are maybe at 0x200?
 # NOTE: The log also seems to contain the settings again. These are left

@@ -101,11 +101,15 @@ def process_params(technique: str, lines: list[str], locale: str) -> dict[str, A
             name = f"{prev} {items[0]}"
         else:
             name = items[0]
-        if name not in params:
+        if technique == "Battery Capacity Determination" and name == "Set I/C":
+            if "Set I/C 1" in params:
+                params["Set I/C 2"] = vals
+            else:
+                params["Set I/C 1"] = vals
+        elif name not in params:
             params[name] = vals
         else:
-            # raise RuntimeError(f"Trying to assign same parameter {items[0]!r} twice.")
-            logger.warning(f"Trying to assign same parameter {items[0]!r} twice.")
+            raise RuntimeError(f"Trying to assign same parameter {items[0]!r} twice.")
         prev = name
     return params
 

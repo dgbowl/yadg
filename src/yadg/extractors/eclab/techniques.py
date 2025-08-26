@@ -1324,7 +1324,7 @@ _bcd_params_dtypes = [
     (
         np.dtype(
             [
-                ("Set I/C", "|u1"),
+                ("Set I/C 1", "|u1"),
                 ("Is1", "<f4"),
                 ("unit Is1", "|u1"),
                 ("N1", "<f4"),
@@ -1417,6 +1417,12 @@ vs_map = (
     ("Emeas", 2),
     ("Ei", 3),
     ("Ref", 4),
+)
+
+ic_map = (
+    ("I", 0),
+    ("C / N", 1),
+    ("C x N", 2),
 )
 
 param_map = {
@@ -1642,12 +1648,9 @@ param_map = {
     "Es (V) vs.": vs_map,
     "EM1 vs.": vs_map,
     "EM2 vs.": vs_map,
-    "Set I/C": (
-        ("I", 0),
-        ("C", 1),
-        ("C x N", 2),
-        ("C / N", 3),
-    ),
+    "Set I/C": ic_map,
+    "Set I/C 1": ic_map,
+    "Set I/C 2": ic_map,
     "Apply I/C": (
         ("I", 0),
         ("C", 1),

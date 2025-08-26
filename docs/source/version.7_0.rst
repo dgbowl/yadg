@@ -19,3 +19,5 @@ Breaking changes in ``yadg-next`` are:
 
 Bug fixes in ``yadg-next`` include:
 
+  - The parameter ``Set I/C`` in :mod:`yadg.extractors.eclab.mpr` files should be ``C / N`` when set to 1, not ``C``.
+

@@ -126,7 +126,7 @@ def extract_from_path(
     npoints = nbytes // dsize
 
     xsn = np.linspace(orig_meta["xmin"] / 1000, orig_meta["xmax"] / 1000, num=npoints)
-    xss = np.ones(npoints) * xsn[0]
+    xss = xsn[0]
     ysn = (
         np.frombuffer(
             ch,
@@ -136,7 +136,7 @@ def extract_from_path(
         )
         * orig_meta["slope"]
     )
-    yss = np.ones(npoints) * orig_meta["slope"]
+    yss = orig_meta["slope"]
 
     detector, title = orig_meta["tracetitle"].split(",")
 
@@ -149,24 +149,42 @@ def extract_from_path(
             "signal": (
                 ["uts", "elution_time"],
                 [ysn],
-                {"units": orig_meta["yunit"], "ancillary_variables": "signal_std_err"},
+                {
+                    "units": orig_meta["yunit"],
+                    "ancillary_variables": "signal_uncertainty",
+                },
             ),
-            "signal_std_err": (
-                ["uts", "elution_time"],
-                [yss],
-                {"units": orig_meta["yunit"], "standard_name": "signal standard_error"},
+            "signal_uncertainty": (
+                [],
+                yss,
+                {
+                    "units": orig_meta["yunit"],
+                    "standard_name": "signal standard_error",
+                    "yadg_uncertainty_absolute": 1,
+                    "yadg_uncertainty_distribution": "normal",
+                    "yadg_uncertainty_source": "scaling",
+                },
             ),
-            "elution_time_std_err": (
-                ["elution_time"],
+            "elution_time_uncertainty": (
+                [],
                 xss,
-                {"units": "s", "standard_name": "elution_time standard_error"},
+                {
+                    "units": "s",
+                    "standard_name": "elution_time standard_error",
+                    "yadg_uncertainty_absolute": 1,
+                    "yadg_uncertainty_distribution": "normal",
+                    "yadg_uncertainty_source": "scaling",
+                },
             ),
         },
         coords={
             "elution_time": (
                 ["elution_time"],
                 xsn,
-                {"units": "s", "ancillary_variables": "elution_time_std_err"},
+                {
+                    "units": "s",
+                    "ancillary_variables": "elution_time_uncertainty",
+                },
             ),
             "uts": (["uts"], [uts]),
         },

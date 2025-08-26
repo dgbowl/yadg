@@ -1,4 +1,4 @@
-from .helpers import get_yadg_metadata
+from .helpers import get_yadg_metadata, deprecated, removed
 from .dateutils import (
     now,
     infer_timestamp_from,
@@ -9,11 +9,13 @@ from .dateutils import (
 )
 from .schemautils import update_schema, schema_from_preset
 from .btools import read_value
-from .pintutils import sanitize_units, ureg
+from .pintutils import sanitize_units
 from .dsutils import dicts_to_dataset, append_dicts, merge_dicttrees, merge_meta
 
 __all__ = [
     "get_yadg_metadata",
+    "deprecated",
+    "removed",
     "now",
     "infer_timestamp_from",
     "str_to_uts",
@@ -24,7 +26,6 @@ __all__ = [
     "schema_from_preset",
     "read_value",
     "sanitize_units",
-    "ureg",
     "dicts_to_dataset",
     "append_dicts",
     "merge_dicttrees",

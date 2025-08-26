@@ -23,3 +23,13 @@ def deprecated(arg, depin="4.2", depout="5.0") -> None:
         stacklevel=2,
     )
     warnings.simplefilter("default", DeprecationWarning)
+
+
+def removed(arg, depout="7.0") -> None:
+    warnings.simplefilter("always", DeprecationWarning)
+    warnings.warn(
+        f"'{arg}' has been removed in yadg-{depout}, please check release notes",
+        category=DeprecationWarning,
+        stacklevel=2,
+    )
+    warnings.simplefilter("default", DeprecationWarning)

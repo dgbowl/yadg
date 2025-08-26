@@ -17,6 +17,8 @@ New features in ``yadg-next`` are:
 
 Breaking changes in ``yadg-next`` are:
 
+  - In :mod:`yadg.extractors.agilent.csv`, the ``signal`` data variable now has ``elution_time`` as a proper coordinate. Previously, the ``elution_time`` was expanded manually to the length of the largest trace present in the file, with ``np.nan`` used as padding for shorter traces. An arbitrary coordinate ``_`` was also present. Now, ``elution_time`` is expanded automatically by :func:`xarray.concat`, inserting ``np.nan`` into the ``signal`` data variable as necessary for ``elution_time``s which are not present in each trace.
+
 Bug fixes in ``yadg-next`` include:
 
   - The parameter ``Set I/C`` in :mod:`yadg.extractors.eclab.mpr` files should be ``C / N`` when set to 1, not ``C``.

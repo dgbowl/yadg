@@ -9,6 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def _sanitize_helper(unit: str) -> str:
     unit = unit.replace("Bar", "bar")
     if unit in {"deg C", "Deg C"}:

@@ -242,7 +242,7 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
         0x1847,
     )
     for offset in offsets:
-        n_params = dgutils.read_value(data, offset + 0x0002, "<u2")
+        n_params = np.frombuffer(data, offset=offset + 0x0002, dtype="<u2", count=1)[0]
         logger.debug("Trying to find %d technique params at 0x%x.", n_params, offset)
         for dtype, versions in params_dtypes:
             logger.debug(f"{minver=} {versions=} {len(dtype)=} {n_params=}")
@@ -255,7 +255,7 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     if params_offset is None:
         raise NotImplementedError("Unknown parameter offset or technique dtype.")
     logger.debug("Reading number of parameter sequences at 0x%x.", params_offset)
-    ns = dgutils.read_value(data, params_offset, "<u2")
+    ns = np.frombuffer(data, offset=params_offset, dtype="<u2", count=1)[0]
     logger.debug("Reading %d parameter sequences of %d parameters.", ns, n_params)
     rawparams = np.frombuffer(
         data,
@@ -387,7 +387,6 @@ def process_data(
     version: int,
     Eranges: list[float],
     Iranges: list[float],
-    controls: list[str],
     technique: str,
 ):
     """Processes the contents of data modules.
@@ -409,8 +408,8 @@ def process_data(
         ("u").
 
     """
-    n_datapoints = dgutils.read_value(data, 0x0000, "<u4")
-    n_columns = dgutils.read_value(data, 0x0004, "|u1")
+    n_datapoints = np.frombuffer(data, offset=0x0000, dtype="<u4", count=1)[0]
+    n_columns = np.frombuffer(data, offset=0x0004, dtype="|u1", count=1)[0]
     if version in {10, 11}:
         column_ids = np.frombuffer(data, offset=0x005, dtype=">u2", count=n_columns)
     elif version in {2, 3}:
@@ -517,7 +516,7 @@ def process_loop(data: bytes) -> dict:
         The parsed loops.
 
     """
-    n_indexes = dgutils.read_value(data, 0x0000, "<u4")
+    n_indexes = np.frombuffer(data, offset=0x0000, dtype="<u4", count=1)[0]
     indexes = np.frombuffer(data, offset=0x0004, dtype="<u4", count=n_indexes)
     return {"n_indexes": n_indexes, "indexes": indexes}
 
@@ -597,14 +596,8 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             E_range_min = params.get("E range min (V)", [float("-inf")])
             Eranges = [a - b for a, b in zip(E_range_max, E_range_min)]
             Iranges = params.get("I Range", ["Auto"])
-            if "Set I/C" in params:
-                ctrls = params.get("Set I/C")
-            elif "Apply I/C" in params:
-                ctrls = params.get("Apply I/C")
-            else:
-                ctrls = [None] * len(Iranges)
         elif name == "VMP data":
-            ds = process_data(module_data, version, Eranges, Iranges, ctrls, technique)
+            ds = process_data(module_data, version, Eranges, Iranges, technique)
         elif name == "VMP LOG":
             log = process_log(module_data)
         elif name == "VMP loop":

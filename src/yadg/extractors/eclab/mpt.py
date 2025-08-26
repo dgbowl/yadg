@@ -223,7 +223,6 @@ def process_data(
     lines: list[str],
     Eranges: list[float],
     Iranges: list[float],
-    controls: list[str],
     locale: str,
 ):
     """Processes the data lines.
@@ -335,7 +334,6 @@ def extract_from_path(
         logger.warning("E Range not specified due to missing header, setting to 10 V.")
         Iranges = "1 A"
         logger.warning("I Range not specified due to missing header, setting to 1 A.")
-        controls = None
     else:
         header = process_header(header_lines, timezone, locale)
         start_time = header.get("uts")
@@ -346,12 +344,11 @@ def extract_from_path(
         Er_min = params.get("E range min (V)", [0.0])
         Eranges = [_max - _min for _max, _min in zip(Er_max, Er_min)]
         Iranges = params.get("I Range", ["1 A"])
-        controls = params.get("Set I/C", params.get("Apply I/C", [None] * len(Iranges)))
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
 
-    ds = process_data(data_lines, Eranges, Iranges, controls, locale)
+    ds = process_data(data_lines, Eranges, Iranges, locale)
     if "time" in ds:
         ds["uts"] = ds["time"] + start_time
     else:

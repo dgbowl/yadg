@@ -46,7 +46,6 @@ import logging
 from pydantic import BaseModel
 from babel.numbers import parse_decimal
 from xarray import DataTree
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
 from typing import Callable
 from pathlib import Path
 from yadg.extractors import get_extract_dispatch
@@ -108,9 +107,10 @@ def process_row(
         elif columns[ci] == "":
             continue
         try:
-            val, dev = tuple_fromstr(str(parse_decimal(columns[ci], locale=locale)))
-            vals[header] = val
-            devs[header] = dev
+            dec = parse_decimal(columns[ci], locale=locale)
+            exp = dec.as_tuple().exponent
+            vals[header] = float(dec)
+            devs[header] = 10**exp
         except ValueError:
             vals[header] = columns[ci]
 
@@ -165,7 +165,7 @@ def extract(
 
     # Process rows
     data_vals = {}
-    meta_vals = {"_fn": []}
+    meta_vals = {}
     for li, line in enumerate(lines[si:]):
         vals, devs = process_row(
             headers,
@@ -174,6 +174,6 @@ def extract(
             datecolumns,
             locale=locale,
         )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(source), li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, li)
 
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))

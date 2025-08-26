@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version 3.1.0 &mdash; yadg 6.2.dev1 documentation</title>
+  <title>yadg version next &mdash; yadg 6.2.dev1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -94,9 +94,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active"><strong>yadg</strong> version 3.1.0</li>
+      <li class="breadcrumb-item active"><strong>yadg</strong> version next</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/version.3_1.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/version.7_0.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -104,32 +104,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="yadg-version-3-1-0">
-<h1><strong>yadg</strong> version 3.1.0<a class="headerlink" href="#yadg-version-3-1-0" title="Link to this heading"></a></h1>
-<a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/3.1.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=github" /></a>
-<a class="reference external image-reference" href="https://pypi.org/project/yadg/3.1.0/"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=pypi" src="https://img.shields.io/static/v1?label=yadg&amp;message=v3.1.0&amp;color=blue&amp;logo=pypi" /></a>
-<img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" />
-<p>First released version of <strong>yadg</strong>, containing functionality developed at the
-Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
-<a class="reference internal" href="citing.html#kraus2022a" id="id1"><span>[Kraus2022a]</span></a>.</p>
-<p>Major features are:</p>
+  <section id="yadg-version-next">
+<h1><strong>yadg</strong> version next<a class="headerlink" href="#yadg-version-next" title="Link to this heading"></a></h1>
+<p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
+<p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><strong>yadg</strong> is now a python package</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gctrace</span></code>: support for gas-phase chromatrography, including:</p>
-<ul>
-<li><p>trace integration,</p></li>
-<li><p>EZChrom ASCII export format,</p></li>
-<li><p>CHROMTAB ASCII export format,</p></li>
+<li><p>Support for Battery Capacity Determination (BCD) technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a>. Note that the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters in BCD are renamed to <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">2</span></code> in both <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a> files. Thank you to <a class="reference external" href="https://github.com/JL-CEA">Joachim Laviolette</a> for providing test files.</p></li>
 </ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">qftrace</span></code>: support for reflection trace measurements, including:</p>
-<ul>
-<li><p>fitting of quality factor using Lorentzian and naive methods</p></li>
-<li><p>fitting of quality factor using Kajfez’s circle fitting method</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meascsv</span></code>: support for in-house MCPT logger for flow and temperature data</p></li>
+</div></blockquote>
+<p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
+<p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The parameter <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> files should be <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">/</span> <span class="pre">N</span></code> when set to 1, not <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
 </ul>
 </div></blockquote>
 </section>

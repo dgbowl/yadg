@@ -387,7 +387,6 @@ def process_data(
     version: int,
     Eranges: list[float],
     Iranges: list[float],
-    controls: list[str],
     technique: str,
 ):
     """Processes the contents of data modules.
@@ -597,14 +596,8 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             E_range_min = params.get("E range min (V)", [float("-inf")])
             Eranges = [a - b for a, b in zip(E_range_max, E_range_min)]
             Iranges = params.get("I Range", ["Auto"])
-            if "Set I/C" in params:
-                ctrls = params.get("Set I/C")
-            elif "Apply I/C" in params:
-                ctrls = params.get("Apply I/C")
-            else:
-                ctrls = [None] * len(Iranges)
         elif name == "VMP data":
-            ds = process_data(module_data, version, Eranges, Iranges, ctrls, technique)
+            ds = process_data(module_data, version, Eranges, Iranges, technique)
         elif name == "VMP LOG":
             log = process_log(module_data)
         elif name == "VMP loop":

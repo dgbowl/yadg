@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.dgutils package &mdash; yadg 6.2.dev3 documentation</title>
+  <title>yadg.dgutils package &mdash; yadg 6.2.dev4 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=52025243"></script>
+        <script src="../_static/documentation_options.js?v=998bc28e"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev3
+                6.2.dev4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -84,6 +84,8 @@
 <li class="toctree-l2 current"><a class="reference internal" href="yadg.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">yadg.dgutils package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.get_yadg_metadata"><code class="docutils literal notranslate"><span class="pre">get_yadg_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.deprecated"><code class="docutils literal notranslate"><span class="pre">deprecated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.removed"><code class="docutils literal notranslate"><span class="pre">removed()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.infer_timestamp_from"><code class="docutils literal notranslate"><span class="pre">infer_timestamp_from()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#yadg.dgutils.str_to_uts"><code class="docutils literal notranslate"><span class="pre">str_to_uts()</span></code></a></li>
@@ -148,6 +150,16 @@
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">get_yadg_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.dgutils.get_yadg_metadata" title="Link to this definition"></a></dt>
 <dd><p>Returns current <strong>yadg</strong> metadata.</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.deprecated">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">deprecated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.deprecated" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.removed">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.</span></span><span class="sig-name descname"><span class="pre">removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.removed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.now">
@@ -379,7 +391,7 @@ replacements are done:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>“Bar” is replaced with “bar”</p></li>
-<li><p>“Deg C” is replace with “degC</p></li>
+<li><p>“Deg C” is replaced with “degC</p></li>
 </ul>
 </div></blockquote>
 <p>Use with caution.</p>
@@ -691,15 +703,17 @@ the new values in <code class="docutils literal notranslate"><span class="pre">f
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.helpers.</span></span><span class="sig-name descname"><span class="pre">deprecated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.helpers.deprecated" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.dgutils.helpers.removed">
+<span class="sig-prename descclassname"><span class="pre">yadg.dgutils.helpers.</span></span><span class="sig-name descname"><span class="pre">removed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'7.0'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#yadg.dgutils.helpers.removed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-yadg.dgutils.pintutils">
 <span id="yadg-dgutils-pintutils-module"></span><h2>yadg.dgutils.pintutils module<a class="headerlink" href="#module-yadg.dgutils.pintutils" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pint</span></code> compatibility functions in <strong>yadg</strong>.</p>
-<p>This package defines <code class="docutils literal notranslate"><span class="pre">ureg</span></code>, a <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> used for validation of
-<cite>datagrams</cite> in <strong>yadg</strong>. The default SI <code class="xref py py-class docutils literal notranslate"><span class="pre">pint.UnitRegistry</span></code> is extended
-by definitions of fractional quantities (%, ppm, etc.), standard volumetric
-quantities (smL/min, sccm), and other dimensionless “units” present in several
-file types.</p>
+<p>This module contains the unit sanitizer to make some common unit spelling
+variants compatible with <code class="xref py py-mod docutils literal notranslate"><span class="pre">pint</span></code>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.dgutils.pintutils.sanitize_units">
 <span class="sig-prename descclassname"><span class="pre">yadg.dgutils.pintutils.</span></span><span class="sig-name descname"><span class="pre">sanitize_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.dgutils.pintutils.sanitize_units" title="Link to this definition"></a></dt>
@@ -710,7 +724,7 @@ replacements are done:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>“Bar” is replaced with “bar”</p></li>
-<li><p>“Deg C” is replace with “degC</p></li>
+<li><p>“Deg C” is replaced with “degC</p></li>
 </ul>
 </div></blockquote>
 <p>Use with caution.</p>
@@ -796,7 +810,7 @@ in-built <code class="docutils literal notranslate"><span class="pre">.update()<
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev3
+      v: 6.2.dev4
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -9,11 +9,6 @@ Units
 +++++
 In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`~xarray.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
 
-.. warning::
-
-    A special :class:`pint.UnitRegistry` was exposed in ``yadg-4.x`` under :class:`yadg.dgutils.ureg`. Use of this :class:`pint.UnitRegistry` is deprecated as of ``yadg-5.0``, and it will be removed in ``yadg-6.0``.
-
-
 Uncertainties
 +++++++++++++
 In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in **yadg** is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint, i.e. the resolution. The precision of the measurement (which is normally a higher value than that of the resolution) can be obtained using post-processing, e.g. as a ``mean()`` and ``stdev()`` of a series of data.

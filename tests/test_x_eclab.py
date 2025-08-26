@@ -42,6 +42,7 @@ def compare_params(left, right):
 @pytest.mark.parametrize(
     "froot, locale",
     [
+        ("bcd.issue_241", "en_US"),
         ("ca", "en_US"),
         ("ca.issue_134", "en_US"),
         ("ca.issue_149", "de_DE"),

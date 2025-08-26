@@ -200,6 +200,7 @@ from .mpr_columns import (
     flag_columns,
     data_columns,
     conflict_columns,
+    technique_dependent_ids,
     log_dtypes,
     extdev_dtypes,
 )
@@ -278,10 +279,12 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
         params = {k: [d[k] for d in params] for k in params[0]}
     else:
         params = {}
-    return settings, params
+    return technique, settings, params
 
 
-def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
+def parse_columns(
+    column_ids: list[int], technique: str
+) -> tuple[list, list, list, dict]:
     """Puts together column info from a list of data column IDs.
 
     Note
@@ -317,6 +320,8 @@ def parse_columns(column_ids: list[int]) -> tuple[list, list, list, dict]:
                 units.append(None)
         elif id in data_columns and id not in conflict_columns:
             dtype, name, unit = data_columns[id]
+            if id in technique_dependent_ids:
+                name = technique_dependent_ids[id].get(technique, name)
             if name in names:
                 logger.error(
                     "Column ID %d is a duplicate of '%s' with unit '%s'. "
@@ -378,6 +383,7 @@ def process_data(
     Eranges: list[float],
     Iranges: list[float],
     controls: list[str],
+    technique: str,
 ):
     """Processes the contents of data modules.
 
@@ -406,7 +412,7 @@ def process_data(
         column_ids = np.frombuffer(data, offset=0x005, dtype="<u2", count=n_columns)
     logger.debug("Found %d columns with IDs: %s", n_columns, column_ids)
     # Length of each datapoint depends on number and IDs of columns.
-    namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids)
+    namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids, technique)
     units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
     # Depending on module version, datapoints start at different offsets.
@@ -553,6 +559,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
     """
     modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
+    technique = None
     for module in modules:
         for mhd in module_header_dtypes:
             try:
@@ -583,7 +590,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
         module_data = module[mhd.itemsize :]
         if name == "VMP Set":
-            settings, params = process_settings(module_data, minver)
+            technique, settings, params = process_settings(module_data, minver)
 
             E_range_max = params.get("E range max (V)", [float("inf")])
             E_range_min = params.get("E range min (V)", [float("-inf")])
@@ -596,7 +603,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             else:
                 ctrls = [None] * len(Iranges)
         elif name == "VMP data":
-            ds = process_data(module_data, version, Eranges, Iranges, ctrls)
+            ds = process_data(module_data, version, Eranges, Iranges, ctrls, technique)
         elif name == "VMP LOG":
             log = process_log(module_data)
         elif name == "VMP loop":

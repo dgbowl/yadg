@@ -70,10 +70,10 @@ def rtf(
 
     # Process rows
     data_vals = {}
-    meta_vals = {"_fn": []}
+    meta_vals = {}
     for pi, point in enumerate(data):
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, pi)
 
     return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
 
@@ -118,10 +118,10 @@ def sep(
 
     # Process rows
     data_vals = {}
-    meta_vals = {"_fn": []}
+    meta_vals = {}
     for pi, point in enumerate(data):
         vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, fn, pi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, pi)
 
     return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
 

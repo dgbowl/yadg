@@ -55,7 +55,7 @@ The metadata will contain the information from the header of the file.
 import logging
 from typing import Any
 from babel.numbers import parse_decimal
-from xarray import DataTree
+from xarray import DataTree, Dataset, DataArray
 from yadg import dgutils
 from .techniques import get_devs, param_from_key, split_control
 from .mpt_columns import column_units
@@ -64,6 +64,42 @@ from yadg.extractors import get_extract_dispatch
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
+
+
+def dicts_to_dataset(
+    data: dict[str, list[Any]],
+    meta: dict[str, list[Any]],
+    units: dict[str, str] = dict(),
+    fulldate: bool = True,
+) -> Dataset:
+    darrs = {}
+    for key, val in data.items():
+        attrs = {}
+        u = units.get(key, None)
+        if u is not None:
+            attrs["units"] = u
+        if key == "uts":
+            continue
+        if "/" in key:
+            logger.warning(f"Replacing '/' for '_' in column {key!r}.")
+            k = key.replace("/", "_")
+        else:
+            k = key
+        darrs[k] = DataArray(data=val, dims=["uts"], attrs=attrs)
+        if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
+            err = f"{k}_std_err"
+            darrs[k].attrs["ancillary_variables"] = err
+            attrs["standard_name"] = f"{k} standard_error"
+            darrs[err] = DataArray(data=meta[key], dims=["uts"], attrs=attrs)
+    if "uts" in data:
+        coords = dict(uts=data.pop("uts"))
+    else:
+        coords = dict()
+    if fulldate:
+        attrs = dict()
+    else:
+        attrs = dict(fulldate=False)
+    return Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process_settings(lines: list[str]) -> dict[str, str]:
@@ -303,7 +339,7 @@ def process_data(
     if warn_I_range:
         logger.warning("I Range could not be understood, defaulting to 1 A.")
 
-    ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
 
 

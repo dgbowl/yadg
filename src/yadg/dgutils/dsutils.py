@@ -12,11 +12,8 @@ def append_dicts(
     devs: dict[str, Any],
     data: dict[str, list[Any]],
     meta: dict[str, list[Any]],
-    fn: str = None,
     li: int = 0,
 ) -> None:
-    if "_fn" in meta and fn is not None:
-        meta["_fn"].append(str(fn))
     for k, v in vals.items():
         if k not in data:
             data[k] = [None if isinstance(v, str) else np.nan] * li
@@ -29,8 +26,7 @@ def append_dicts(
     for k in set(data) - set(vals):
         data[k].append(np.nan)
     for k in set(meta) - set(devs):
-        if k != "_fn":
-            meta[k].append(np.nan)
+        meta[k].append(np.nan)
 
 
 def dicts_to_dataset(
@@ -54,10 +50,19 @@ def dicts_to_dataset(
             k = key
         darrs[k] = xr.DataArray(data=val, dims=["uts"], attrs=attrs)
         if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
-            err = f"{k}_std_err"
+            err = f"{k.replace(' ', '_')}_uncertainty"
             darrs[k].attrs["ancillary_variables"] = err
-            attrs["standard_name"] = f"{k} standard_error"
-            darrs[err] = xr.DataArray(data=meta[key], dims=["uts"], attrs=attrs)
+            attrs["standard_name"] = f"{k!r} standard_error"
+            attrs["yadg_uncertainty_absolute"] = 1
+            attrs["yadg_uncertainty_distribution"] = "rectangular"
+            attrs["yadg_uncertainty_source"] = "sigfig"
+            setdev = set(meta[key])
+            if np.nan in setdev:
+                setdev.remove(np.nan)
+            if len(setdev) == 1:
+                darrs[err] = xr.DataArray(data=setdev.pop(), dims=[], attrs=attrs)
+            else:
+                darrs[err] = xr.DataArray(data=meta[key], dims=["uts"], attrs=attrs)
     if "uts" in data:
         coords = dict(uts=data.pop("uts"))
     else:
@@ -79,7 +84,15 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
         return fvals
     for k in fvals.keys():
         try:
-            vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
+            # vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
+            vals[k] = xr.concat(
+                [vals[k], fvals[k]],
+                dim="uts",
+                data_vars="different",
+                compat="identical",
+                join="outer",
+                combine_attrs=mode,
+            )
         except xr.MergeError:
             raise RuntimeError(
                 "Merging metadata from multiple files has failed, as some of the "

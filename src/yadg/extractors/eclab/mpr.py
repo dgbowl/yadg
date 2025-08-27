@@ -206,6 +206,8 @@ from .mpr_columns import (
     extdev_dtypes,
 )
 
+from .mpt import dicts_to_dataset
+
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
 
@@ -478,7 +480,7 @@ def process_data(
     if warn_Ns:
         logger.warning("Ns found in data exceeds Ns in header, using last defined Ns.")
 
-    ds = dgutils.dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
     return ds
 
 

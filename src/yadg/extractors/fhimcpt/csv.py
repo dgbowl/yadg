@@ -98,6 +98,6 @@ def extract_from_path(
             datefunc,
             datecolumns,
         )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(source), li)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, li)
 
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))

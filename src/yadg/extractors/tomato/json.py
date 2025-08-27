@@ -183,7 +183,7 @@ def dummy_tomato_json(fn: Path, jsdata: dict) -> DataTree:
         for k, v in vals.items():
             if k not in {"time", "address", "channel"}:
                 devs[k] = 0.0
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, str(fn), vi)
+        dgutils.append_dicts(vals, devs, data_vals, meta_vals, vi)
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False))
 
 

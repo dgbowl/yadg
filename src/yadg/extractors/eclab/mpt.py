@@ -65,6 +65,7 @@ from yadg.extractors import get_extract_dispatch
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
 
+
 def dicts_to_dataset(
     data: dict[str, list[Any]],
     meta: dict[str, list[Any]],

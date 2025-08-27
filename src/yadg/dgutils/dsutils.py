@@ -84,7 +84,15 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
         return fvals
     for k in fvals.keys():
         try:
-            vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
+            # vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
+            vals[k] = xr.concat(
+                [vals[k], fvals[k]],
+                dim="uts",
+                data_vars="different",
+                compat="identical",
+                join="outer",
+                combine_attrs=mode,
+            )
         except xr.MergeError:
             raise RuntimeError(
                 "Merging metadata from multiple files has failed, as some of the "

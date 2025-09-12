@@ -1789,6 +1789,8 @@ def dev_derived(
         # εr = ε/ε0
         # ε -> [F]/[m] = [A]*[s]/[V]
         return val * rtol_VI
+    elif unit in {"°C"}:
+        return 1e-6  # Based on quantization error in measurements
     else:
         raise RuntimeError(
             f"Could not get resolution of quantity {name!r} with unit {unit!r}."

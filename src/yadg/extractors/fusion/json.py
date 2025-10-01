@@ -123,21 +123,22 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
 
     species = sorted(species)
     data_vars = {}
-    for k, v in units.items():
-        vals, devs = zip(*[raw[k].get(s, (np.nan, np.nan)) for s in species])
-        data_vars[k] = (
-            ["uts", "species"],
-            [vals],
-            {"ancillary_variables": f"{k}_std_err"},
-        )
-        data_vars[f"{k}_std_err"] = (
-            ["uts", "species"],
-            [devs],
-            {"standard_name": f"{k} stdandard_error"},
-        )
-        if v is not None:
-            data_vars[k][2]["units"] = v
-            data_vars[f"{k}_std_err"][2]["units"] = v
+    if len(species) > 0:
+        for k, v in units.items():
+            vals, devs = zip(*[raw[k].get(s, (np.nan, np.nan)) for s in species])
+            data_vars[k] = (
+                ["uts", "species"],
+                [vals],
+                {"ancillary_variables": f"{k}_std_err"},
+            )
+            data_vars[f"{k}_std_err"] = (
+                ["uts", "species"],
+                [devs],
+                {"standard_name": f"{k} stdandard_error"},
+            )
+            if v is not None:
+                data_vars[k][2]["units"] = v
+                data_vars[f"{k}_std_err"][2]["units"] = v
 
     ds = xr.Dataset(
         data_vars=data_vars,

@@ -69,7 +69,7 @@ def dicts_to_dataset(
     return xr.Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
-def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
+def merge_dicttrees(vals: dict, fvals: dict, strict_merge: bool) -> dict:
     """
     A helper function that merges two ``DataTree.to_dict()`` objects by concatenating
     the new values in ``fvals`` to the existing ones in ``vals``.
@@ -79,8 +79,16 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
         return fvals
     for k in fvals.keys():
         try:
-            vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
-        except xr.MergeError:
+            # vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
+            vals[k] = xr.concat(
+                [vals[k], fvals[k]],
+                dim="uts",
+                data_vars="different",
+                compat="identical" if strict_merge else "equals",
+                join="outer",
+                combine_attrs="identical" if strict_merge else "drop_conflicts",
+            )
+        except (xr.MergeError, ValueError) as e:
             raise RuntimeError(
                 "Merging metadata from multiple files has failed, as some of the "
                 "values differ between files. This might be caused by trying to "
@@ -89,7 +97,7 @@ def merge_dicttrees(vals: dict, fvals: dict, mode: str) -> dict:
                 "yadg with the '--ignore-merge-errors' option."
                 f"\n{vals[k].attrs=}"
                 f"\n{fvals[k].attrs=}"
-            )
+            ) from e
     return vals
 
 

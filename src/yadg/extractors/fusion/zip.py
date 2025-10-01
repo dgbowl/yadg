@@ -50,8 +50,10 @@ from yadg.extractors.fusion.json import extract as extract_json
 from yadg import dgutils
 from pathlib import Path
 from yadg.extractors import get_extract_dispatch
+import logging
 
 extract = get_extract_dispatch()
+logger = logging.getLogger(__name__)
 
 
 @extract.register(Path)
@@ -63,14 +65,19 @@ def extract_from_path(
     **kwargs: dict,
 ) -> DataTree:
     zf = zipfile.ZipFile(source)
+    strict_merge = not kwargs.get("ignore_merge_errors", False)
+    if strict_merge is False:
+        logger.info("Will drop metadata conflicts in individual fusion-data files.")
+
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dt = None
         filenames = [ffn for ffn in os.listdir(tempdir) if ffn.endswith("fusion-data")]
         for ffn in sorted(filenames):
+            logger.debug("Processing filename '%s'", ffn)
             path = Path(tempdir) / ffn
             fdt = extract_json(
                 source=path, timezone=timezone, encoding=encoding, **kwargs
             )
-            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
+            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), strict_merge)
     return DataTree.from_dict(dt)

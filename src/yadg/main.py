@@ -177,6 +177,13 @@ def run_with_arguments():
         default=None,
         type=str,
     )
+    extract.add_argument(
+        "--ignore-merge-errors",
+        dest="ignore_merge_errors",
+        action="store_true",
+        help="Ignore metadata merge errors while processing multiple files in a step.",
+        default=False,
+    )
     extract.set_defaults(func=subcommands.extract)
 
     # parse subparser args

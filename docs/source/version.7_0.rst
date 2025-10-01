@@ -25,4 +25,5 @@ Bug fixes in ``yadg-next`` include:
 
   - The parameter ``Set I/C`` in :mod:`yadg.extractors.eclab.mpr` files should be ``C / N`` when set to 1, not ``C``.
   - The command line argument ``--ignore-merge-errors`` was not being passed to the individual extractors when using the ``yadg extract`` syntax.
+  - Fixed passing of :mod:`yadg.extractors.fusion.json` files where no species are present.
 

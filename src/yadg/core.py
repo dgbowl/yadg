@@ -28,10 +28,6 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
         has to be identical. Defaults to ``False`` which means conflicts will be dropped.
 
     """
-    if strict_merge:
-        concatmode = "identical"
-    else:
-        concatmode = "drop_conflicts"
 
     while hasattr(dataschema, "update"):
         dataschema = dataschema.update()
@@ -85,7 +81,7 @@ def process_schema(dataschema: DataSchema, strict_merge: bool = False) -> DataTr
                     if k in fvals[name].attrs:
                         del fvals[name].attrs[k]
 
-            vals = dgutils.merge_dicttrees(vals, fvals, concatmode)
+            vals = dgutils.merge_dicttrees(vals, fvals, strict_merge)
 
         stepdt = DataTree.from_dict({} if vals is None else vals)
         stepdt.name = step.tag

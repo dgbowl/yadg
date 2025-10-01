@@ -68,5 +68,5 @@ def extract_from_path(
         for ffn in sorted(filenames):
             path = Path(tempdir) / ffn
             fdt = extract_ch(source=path, timezone=timezone, **kwargs)
-            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), "identical")
+            dt = dgutils.merge_dicttrees(dt, fdt.to_dict(), True)
     return DataTree.from_dict(dt)

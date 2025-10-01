@@ -69,13 +69,14 @@ def extract(
         }
     ).extractor
 
-    return extract_from_path(Path(path), extractor)
+    return extract_from_path(Path(path), extractor, **kwargs)
 
 
 @deprecate_fn_path
 def extract_from_path(
     source: Path,
     extractor: FileType,
+    **kwargs: dict,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided path using the supplied extractor.
@@ -100,7 +101,7 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(source=source, **vars(extractor))
+    ret: DataTree = func(source=source, **vars(extractor), **kwargs)
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
@@ -119,6 +120,7 @@ def extract_from_path(
 def extract_from_bytes(
     source: bytes,
     extractor: FileType,
+    **kwargs: dict,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided raw bytes using the supplied extractor.

@@ -79,13 +79,9 @@ def merge_dicttrees(vals: dict, fvals: dict, strict_merge: bool) -> dict:
         return fvals
     for k in fvals.keys():
         try:
-            # vals[k] = xr.concat([vals[k], fvals[k]], dim="uts", combine_attrs=mode)
             vals[k] = xr.concat(
                 [vals[k], fvals[k]],
                 dim="uts",
-                data_vars="different",
-                compat="identical" if strict_merge else "equals",
-                join="outer",
                 combine_attrs="identical" if strict_merge else "drop_conflicts",
             )
         except (xr.MergeError, ValueError) as e:

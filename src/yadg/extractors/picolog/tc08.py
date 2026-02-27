@@ -141,7 +141,7 @@ def extract_from_path(
                     },
                     coords={"uts": (["uts"], xvals)},
                 )
-                ds = xr.merge((ds, newds))
+                ds = xr.merge((ds, newds), join="outer")
     for var in ds.variables:
         if f"{var}_std_err" in ds.variables:
             ds[var].attrs["ancillary_variables"] = f"{var}_std_err"

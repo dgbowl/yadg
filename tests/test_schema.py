@@ -4,7 +4,6 @@ import xarray as xr
 import yadg.core
 from dgbowl_schemas.yadg import to_dataschema, DataSchema_4_0, DataSchema_4_1
 from pydantic import ValidationError
-from pydantic.v1 import ValidationError as ValidationError_v1
 from .utils import datagram_from_file
 
 ts0 = {
@@ -204,7 +203,7 @@ def test_datagram_from_schema_file(inp_fn, ts, datadir):
 )
 def test_schema_validator_4_0(inp_dict, expr, datadir):
     os.chdir(datadir)
-    with pytest.raises((ValidationError, ValidationError_v1), match=expr):
+    with pytest.raises(ValidationError, match=expr):
         assert DataSchema_4_0(**inp_dict)
 
 
@@ -219,5 +218,5 @@ def test_schema_validator_4_0(inp_dict, expr, datadir):
 )
 def test_schema_validator_4_1(inp_dict, expr, datadir):
     os.chdir(datadir)
-    with pytest.raises((ValidationError, ValidationError_v1), match=expr):
+    with pytest.raises(ValidationError, match=expr):
         assert DataSchema_4_1(**inp_dict)

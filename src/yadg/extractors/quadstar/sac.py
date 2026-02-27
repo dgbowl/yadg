@@ -272,7 +272,10 @@ def extract_from_path(
             else:
                 try:
                     traces[f"{ti}"] = xr.concat(
-                        [traces[f"{ti}"], ds], dim="uts", combine_attrs="identical"
+                        [traces[f"{ti}"], ds],
+                        data_vars="all",
+                        dim="uts",
+                        combine_attrs="identical",
                     )
                 except xr.MergeError:
                     raise RuntimeError(

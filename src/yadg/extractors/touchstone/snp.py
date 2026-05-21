@@ -234,12 +234,11 @@ def extract_from_path(
         elif "magnitude" in var and metadata["mag_unit"] is not None:
             data_vars[var]["attrs"]["units"] = metadata["mag_unit"]
 
-    ds = Dataset.from_dict(data_vars)
-    ds.attrs = dict(original_metadata=attrs)
+    coords = dict(frequency=data_vars.pop("frequency"))
+    attrs = dict(original_metadata=attrs)
+    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
     if uts is not None:
         ds = ds.expand_dims(dim=dict(uts=[uts]))
     else:
         ds.attrs["fulldate"] = False
-    dtdict = {"/": ds}
-    dt = DataTree.from_dict(dtdict)
-    return dt
+    return DataTree(ds)

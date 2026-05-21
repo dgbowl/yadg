@@ -22,10 +22,15 @@ def compare_datatrees(
     atol: float = 1e-6,
     thislevel=False,
     descend=False,
+    uncertainties=True,
 ):
     for k in ret:
+        if k.endswith("_uncertainty") and uncertainties is False:
+            continue
         assert k in ref, f"Entry {k!r} not present in reference DataTree."
     for k in ref:
+        if k.endswith("_uncertainty") and uncertainties is False:
+            continue
         assert k in ret, f"Entry {k!r} not present in result DataTree."
 
     if thislevel:

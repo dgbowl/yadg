@@ -1,5 +1,6 @@
 from babel.numbers import parse_decimal
 from decimal import Decimal
+from typing import Callable
 
 
 def process_row(
@@ -24,10 +25,16 @@ def process_row(
             digs.append(len(dtp.digits))
             exps.append(dtp.exponent)
         except ValueError:
-            vals.append(item)
-            kind.append(str)
-            digs.append(None)
-            exps.append(None)
+            if item == "":
+                vals.append(float("nan"))
+                kind.append(int)
+                digs.append(0)
+                exps.append(0)
+            else:
+                vals.append(item)
+                kind.append(str)
+                digs.append(None)
+                exps.append(None)
     return vals, kind, digs, exps
 
 
@@ -35,21 +42,64 @@ def process_table(
     lines: list[str],
     headers: list[str],
     sep: str = None,
+    strip: str = None,
     locale: str = "en_GB",
     uncertainties: bool = True,
+    datecolumns: list[int] = None,
+    datefunc: Callable = None,
 ) -> dict:
     """
-    A function for parsing a list of string values, containing numerical data, into a xr.Dataset
-    including determining uncertainties.
+    A function for parsing a list of string values, containing numerical data, into a dict
+    structure that can be used to construct a xr.Dataset.
+
+    Parameters
+    ----------
+    lines
+        The list of individual records.
+
+    headers
+        The list of headers for those records. If there are more items in each line than they are headers,
+        the rightmost columns will be dropped.
+
+    sep
+        The separator character ("," or ";") used to split the line into items. Defaults to whitespace.
+
+    strip
+        A set of extra characters to be stripped from each item.
+
+    locale
+        The locale of the data, defaults to "en_GB".
+
+    uncertainties
+        A :class:`bool` triggering whether uncertainties should be processed. Defaults to ``True``.
+
+    datecolumns
+        A list of column indices which will be used to construct a ``uts``. Those columns won't be treated as data.
+
+    datefunc
+        A :class:`Callable`, using which the items identified in ``datecolumns`` will be processed into ``uts``.
+
+    Returns
+    -------
+    data_vars
+        A :class:`dict` structured in order to construct a :class:`xarray.Dataset` via :func:`xarray.Dataset.from_dict`.
+
     """
 
     vals = {k: [] for k in headers}
     types = {k: int for k in headers}
     precs = {k: 0 for k in headers}
+    if datecolumns is not None:
+        uts = []
 
     for line in lines:
-        vs, ts, ds, es = process_row(line.split(sep), locale)
-        for k, v, t, d, e in zip(headers, vs, ts, ds, es):
+        parts = [i.strip().strip(strip) for i in line.split(sep)]
+        if datecolumns is not None:
+            uts.append(datefunc(*[parts[i] for i in datecolumns]))
+        vs, ts, ds, es = process_row(parts, locale)
+        for i, (k, v, t, d, e) in enumerate(zip(headers, vs, ts, ds, es)):
+            if datecolumns is not None and i in datecolumns:
+                continue
             vals[k].append(v)
             if uncertainties is False:
                 continue
@@ -67,9 +117,11 @@ def process_table(
 
     data_vars = {}
 
-    for k in headers:
+    for i, k in enumerate(headers):
+        if datecolumns is not None and i in datecolumns:
+            continue
         data_vars[k] = {
-            "dims": (k,),
+            "dims": ("uts",) if datecolumns is not None else (k,),
             "data": vals[k],
             "attrs": {},
         }
@@ -91,5 +143,10 @@ def process_table(
                 "yadg_uncertainty_distribution": "rectangular",
                 "yadg_uncertainty_source": "str_conv",
             },
+        }
+    if datecolumns is not None:
+        data_vars["uts"] = {
+            "dims": ("uts",),
+            "data": uts,
         }
     return data_vars

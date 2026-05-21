@@ -45,11 +45,11 @@ No metadata is returned.
 """
 
 import logging
-from pydantic import BaseModel
-from yadg.extractors.basic.csv import process_row
-from yadg import dgutils
-from xarray import DataTree
 from pathlib import Path
+from pydantic import BaseModel
+from xarray import DataTree, Dataset
+from yadg import dgutils
+from yadg.dgutils.table import process_table
 from yadg.extractors import get_extract_dispatch
 
 extract = get_extract_dispatch()
@@ -88,16 +88,20 @@ def extract_from_path(
         timezone=timezone,
     )
 
-    # Process rows
-    data_vals = {}
-    meta_vals = {"_fn": []}
-    for li, line in enumerate(lines):
-        vals, devs = process_row(
-            headers,
-            line.split(";"),
-            datefunc,
-            datecolumns,
-        )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, li)
+    data_vars = process_table(
+        lines=lines,
+        headers=headers,
+        sep=";",
+        datefunc=datefunc,
+        datecolumns=datecolumns,
+    )
 
-    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))
+    coords = dict(uts=data_vars.pop("uts"))
+    attrs = dict() if fulldate else dict(fulldate=False)
+
+    for k in units:
+        if k in data_vars:
+            data_vars[k]["attrs"]["units"] = units[k]
+
+    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    return DataTree(ds)

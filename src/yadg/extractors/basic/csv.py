@@ -43,79 +43,16 @@ No metadata is extracted.
 """
 
 import logging
-from pydantic import BaseModel
-from babel.numbers import parse_decimal
-from xarray import DataTree, Dataset
-from typing import Callable
 from pathlib import Path
-from yadg.extractors import get_extract_dispatch
+from pydantic import BaseModel
 from yadg import dgutils
 from yadg.dgutils.table import process_table
+from yadg.extractors import get_extract_dispatch
+from xarray import DataTree, Dataset
+
 
 extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
-
-
-def process_row(
-    headers: list,
-    items: list,
-    datefunc: Callable,
-    datecolumns: list[int],
-    locale: str = "en_GB",
-) -> tuple[dict, dict]:
-    """
-    A function that processes a row of a table.
-
-    This is the main worker function of :mod:`basic.csv` module, but is often
-    re-used by any other parser that needs to process tabular data.
-
-    Parameters
-    ----------
-    headers
-        A list of headers of the table.
-
-    items
-        A list of values corresponding to the headers. Must be the same length as
-        headers.
-
-    datefunc
-        A function that will generate ``uts`` given a list of values.
-
-    datecolumns
-        Column indices that need to be passed to ``datefunc`` to generate uts.
-
-    Returns
-    -------
-    vals, devs
-        A tuple of result dictionaries, with the first element containing the values
-        and the second element containing the uncertainties of the values.
-
-    """
-    if len(headers) != len(items):
-        raise RuntimeError(
-            f"Length mismatch between provided headers {headers!r} and items {items!r}."
-        )
-
-    vals = {}
-    devs = {}
-    columns = [column.strip() for column in items]
-
-    # Process raw data, assign sigma and units
-    vals["uts"] = datefunc(*[columns[i] for i in datecolumns])
-    for ci, header in enumerate(headers):
-        if ci in datecolumns:
-            continue
-        elif columns[ci] == "":
-            continue
-        try:
-            dec = parse_decimal(columns[ci], locale=locale)
-            exp = dec.as_tuple().exponent
-            vals[header] = float(dec)
-            devs[header] = 10**exp
-        except ValueError:
-            vals[header] = columns[ci]
-
-    return vals, devs
 
 
 @extract.register(Path)

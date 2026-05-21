@@ -1,4 +1,3 @@
-import xarray as xr
 from babel.numbers import parse_decimal
 from decimal import Decimal
 
@@ -14,8 +13,8 @@ def process_row(
     for item in items:
         try:
             dec = parse_decimal(item, locale=locale)
-            dtp = dec.as_tuple()
             vals.append(float(dec))
+            dtp = dec.as_tuple()
             if "e" in item or "E" in item:
                 kind.append(float)
             elif dtp.exponent == 0:
@@ -37,6 +36,7 @@ def process_table(
     headers: list[str],
     sep: str = None,
     locale: str = "en_GB",
+    uncertainties: bool = True,
 ) -> dict:
     """
     A function for parsing a list of string values, containing numerical data, into a xr.Dataset
@@ -51,6 +51,8 @@ def process_table(
         vs, ts, ds, es = process_row(line.split(sep), locale)
         for k, v, t, d, e in zip(headers, vs, ts, ds, es):
             vals[k].append(v)
+            if uncertainties is False:
+                continue
             if types[k] is int:
                 types[k] = t
             elif types[k] is Decimal and t is not int:
@@ -73,6 +75,8 @@ def process_table(
         }
 
         if types[k] is str:
+            continue
+        if uncertainties is False:
             continue
 
         ku = f"{k.replace(' ', '_')}_uncertainty"

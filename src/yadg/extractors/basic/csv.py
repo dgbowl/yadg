@@ -45,11 +45,12 @@ No metadata is extracted.
 import logging
 from pydantic import BaseModel
 from babel.numbers import parse_decimal
-from xarray import DataTree
+from xarray import DataTree, Dataset
 from typing import Callable
 from pathlib import Path
 from yadg.extractors import get_extract_dispatch
 from yadg import dgutils
+from yadg.dgutils.table import process_table
 
 extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
@@ -138,7 +139,12 @@ def extract(
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
-    headers = [h.strip().strip(strip) for h in lines[0].split(parameters.sep)]
+    headers = [
+        h.replace("/", "_").strip().strip(strip) for h in lines[0].split(parameters.sep)
+    ]
+    # Strip trailing columns; data will be dumped too!
+    while headers[-1] == "":
+        headers = headers[:-1]
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone
@@ -164,16 +170,21 @@ def extract(
     units = dgutils.sanitize_units(units)
 
     # Process rows
-    data_vals = {}
-    meta_vals = {}
-    for li, line in enumerate(lines[si:]):
-        vals, devs = process_row(
-            headers,
-            [i.strip().strip(strip) for i in line.split(parameters.sep)],
-            datefunc,
-            datecolumns,
-            locale=locale,
-        )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, li)
+    data_vars = process_table(
+        lines[si:],
+        headers=headers,
+        sep=parameters.sep,
+        strip=parameters.strip,
+        locale=locale,
+        datecolumns=datecolumns,
+        datefunc=datefunc,
+    )
+    coords = dict(uts=data_vars.pop("uts"))
+    attrs = dict() if fulldate else dict(fulldate=False)
 
-    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))
+    for k in units:
+        if k in data_vars:
+            data_vars[k]["attrs"]["units"] = units[k]
+
+    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    return DataTree(ds)

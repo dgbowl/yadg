@@ -65,11 +65,12 @@ Currently, only the first three sections are parsed.
 """
 
 import logging
-from xarray import Dataset, DataArray, DataTree
-from babel.numbers import parse_decimal
-from yadg.extractors import get_extract_dispatch
 from pathlib import Path
+from xarray import Dataset, DataTree
 from yadg import dgutils
+from yadg.dgutils.table import process_table
+from yadg.extractors import get_extract_dispatch
+
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
@@ -174,18 +175,6 @@ def process_comments(lines: list[str], tz: str) -> dict:
     return uts, attrs
 
 
-def data_to_dataset(key: str, data: dict) -> Dataset:
-    coords = {"frequency": data["frequency"]}
-    data_vars = {
-        "frequency_std_err": DataArray(
-            data=data["frequency_std_err"], dims=["frequency"]
-        )
-    }
-    for k, v in data[key].items():
-        data_vars[k] = DataArray(data=v, dims=coords.keys())
-    return Dataset(data_vars=data_vars, coords=coords)
-
-
 @extract.register(Path)
 def extract_from_path(
     source: Path,
@@ -209,71 +198,48 @@ def extract_from_path(
     # Prepare data structures
     metadata["params"] = [p.replace("_", metadata["param"]) for p in metadata["params"]]
     cols = ["frequency"]
-    data = {"frequency": [], "frequency_std_err": []}
     for k in metadata["params"]:
-        data[k] = {}
         for m in metadata["columns"]:
-            data[k][m] = []
-            data[k][f"{m}_std_err"] = []
-            cols.append((k, m))
-    comments = []
+            cols.append(f"{k}_{m}")
 
     # Parse data lines
-    for li in lines:
-        if li.startswith("#"):
+    comments = []
+    table = []
+    for line in lines:
+        if line.startswith("#"):
             continue
-        elif li.startswith("!"):
+        elif line.startswith("!"):
             # Watch out for "! NOISE PARAMETERS"
-            if "NOISE PARAMETERS" in li:
+            if "NOISE PARAMETERS" in line:
                 break
             else:
-                comments.append(li[1:].strip())
+                comments.append(line[1:].strip())
         else:
             # Trim comments from data lines
             if "!" in li:
-                parts = li[: li.index("!")].split()
-            else:
-                parts = li.split()
-
-            # For .s3p and above, we'd have to append multiple lines together here
-            for k, v in zip(cols, parts):
-                dec = parse_decimal(v, locale=locale)
-                exp = dec.as_tuple().exponent
-                val = float(dec)
-                dev = 10**exp
-                if k == "frequency":
-                    data[k].append(val)
-                    data[f"{k}_std_err"].append(dev)
-                elif k[1] == "magnitude":
-                    data[k[0]][k[1]].append(val)
-                    data[k[0]][f"{k[1]}_std_err"].append(dev)
-                else:
-                    data[k[0]][k[1]].append(val)
-                    data[k[0]][f"{k[1]}_std_err"].append(dev)
+                line = li[: li.index("!")]
+            table.append(line)
 
     uts, attrs = process_comments(comments, timezone)
     attrs["Ref R"] = f"{metadata['Rref']} Ohm"
 
-    dtdict = {"/": Dataset(attrs=dict(original_metadata=attrs))}
-    for k in metadata["params"]:
-        ds = data_to_dataset(key=k, data=data)
-        for var in ds.variables:
-            if f"{var}_std_err" in ds.variables:
-                ds[var].attrs["ancillary_variables"] = f"{var}_std_err"
-            elif var.endswith("_std_err"):
-                end = var.index("_std_err")
-                if var[:end] in ds.variables:
-                    ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
-            if "angle" in var:
-                ds[var].attrs["units"] = "degree"
-            elif "frequency" in var:
-                ds[var].attrs["units"] = metadata["freq_unit"]
-            elif "magnitude" in var and metadata["mag_unit"] is not None:
-                ds[var].attrs["units"] = metadata["mag_unit"]
-        if uts is not None:
-            ds = ds.expand_dims(dim=dict(uts=[uts]))
-        else:
-            ds.attrs["fulldate"] = False
-        dtdict[f"/{k}"] = ds
+    data_vars = process_table(table, headers=cols, locale=locale)
+    for var in data_vars:
+        if "frequency" not in var and "uncertainty" not in var:
+            data_vars[var]["dims"] = ("frequency",)
+        if "angle" in var:
+            data_vars[var]["attrs"]["units"] = "degree"
+        elif "frequency" in var:
+            data_vars[var]["attrs"]["units"] = metadata["freq_unit"]
+        elif "magnitude" in var and metadata["mag_unit"] is not None:
+            data_vars[var]["attrs"]["units"] = metadata["mag_unit"]
+
+    ds = Dataset.from_dict(data_vars)
+    ds.attrs = dict(original_metadata=attrs)
+    if uts is not None:
+        ds = ds.expand_dims(dim=dict(uts=[uts]))
+    else:
+        ds.attrs["fulldate"] = False
+    dtdict = {"/": ds}
     dt = DataTree.from_dict(dtdict)
     return dt

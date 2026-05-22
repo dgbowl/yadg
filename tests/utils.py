@@ -23,10 +23,9 @@ def compare_datatrees(
     descend=False,
     uncertainties=True,
 ):
-    for k in ret:
-        if k.endswith("_uncertainty") and uncertainties is False:
-            continue
-        assert k in ref, f"Entry {k!r} not present in reference DataTree."
+    if thislevel:
+        check_attrs(ret.attrs, ref.attrs)
+
     for k in ref:
         if k.endswith("_uncertainty") and uncertainties is False:
             continue
@@ -34,13 +33,19 @@ def compare_datatrees(
             continue
         assert k in ret, f"Entry {k!r} not present in result DataTree."
 
-    if thislevel:
-        check_attrs(ret.attrs, ref.attrs)
-
     for k in ret:
+        if k.endswith("_uncertainty") and uncertainties is False:
+            continue
+        assert k in ref, f"Entry {k!r} not present in reference DataTree."
+
         if isinstance(ret[k], xr.DataTree):
             compare_datatrees(
-                ret[k], ref[k], atol=atol, thislevel=descend, descend=descend
+                ret[k],
+                ref[k],
+                atol=atol,
+                thislevel=descend,
+                descend=descend,
+                uncertainties=uncertainties,
             )
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
             try:

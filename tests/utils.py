@@ -31,6 +31,8 @@ def compare_datatrees(
     for k in ref:
         if k.endswith("_uncertainty") and uncertainties is False:
             continue
+        if k.endswith("_std_err") and uncertainties is False:
+            continue
         assert k in ret, f"Entry {k!r} not present in result DataTree."
 
     if thislevel:

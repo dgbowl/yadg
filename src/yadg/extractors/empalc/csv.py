@@ -28,8 +28,7 @@ Schema
 
 Uncertainties
 `````````````
-- all values: string to float conversion
-
+- all values: string to float conversion, selecting lowest uncertainty
 
 Metadata
 ````````
@@ -220,7 +219,7 @@ def extract_from_path(
         devs = {}
         for kk in {"height", "area", "concentration", "retention time"}:
             val = v.get(kk, {})
-            vals[kk], devs[kk] = zip(*[val.get(cn, (np.nan, 0)) for cn in species])
+            vals[kk], devs[kk] = zip(*[val.get(cn, (np.nan, np.inf)) for cn in species])
         point["vals"] = vals
         point["devs"] = devs
         data.append(point)
@@ -235,7 +234,7 @@ def extract_from_path(
         uk = f"{kk.replace(' ', '_')}_uncertainty"
         data_vars[uk] = (
             [],
-            max([max(i["devs"][kk]) for i in data]),
+            min([min(i["devs"][kk]) for i in data]),
             {
                 "standard_name": f"{kk} standard_error",
                 "standard_error_multiplier": 1,

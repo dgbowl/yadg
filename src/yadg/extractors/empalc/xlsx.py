@@ -26,6 +26,10 @@ Schema
         concentration:  (uts, species)        # Peak area with calibration applied
         retention time: (uts, species)        # Position of peak maximum
 
+Uncertainties
+`````````````
+- all values: string to float conversion, selecting lowest uncertainty
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -208,7 +212,7 @@ def extract_from_path(
         devs = {}
         for kk in {"height", "area", "concentration", "retention time"}:
             val = v.get(kk, {})
-            vals[kk], devs[kk] = zip(*[val.get(cn, (np.nan, np.nan)) for cn in species])
+            vals[kk], devs[kk] = zip(*[val.get(cn, (np.nan, np.inf)) for cn in species])
         point["vals"] = vals
         point["devs"] = devs
         data.append(point)
@@ -218,16 +222,22 @@ def extract_from_path(
         data_vars[kk] = (
             ["uts", "species"],
             [i["vals"][kk] for i in data],
-            {"anciliary_variables": f"{kk}_std_err"},
+            {"anciliary_variables": f"{kk}_uncertainty"},
         )
-        data_vars[f"{kk}_std_err"] = (
-            ["uts", "species"],
-            [i["devs"][kk] for i in data],
-            {"standard_name": f"{kk} standard_error"},
+        uk = f"{kk.replace(' ', '_')}_uncertainty"
+        data_vars[uk] = (
+            [],
+            min([min(i["devs"][kk]) for i in data]),
+            {
+                "standard_name": f"{kk} standard_error",
+                "standard_error_multiplier": 1,
+                "yadg_uncertainty_type": "abs",
+                "yadg_uncertainty_distribution": "rectangular",
+                "yadg_uncertainty_source": "str_conv",
+            },
         )
         if units[kk] is not None:
             data_vars[kk][2]["units"] = units[kk]
-            data_vars[f"{kk}_std_err"][2]["units"] = units[kk]
 
     ds = xr.Dataset(
         data_vars=data_vars,

@@ -450,28 +450,24 @@ def process_data(
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                data_vars[fname] = {
-                    "dims": ("uts",),
-                    "data": (values[name] & bitmask) >> shift,
-                    "attrs": {},
-                }
+                data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
         elif unit is None:
-            data_vars[name] = {
-                "dims": ("uts",),
-                "data": [param_from_key(name, int(v)) for v in values[name]],
-                "attrs": {},
-            }
+            data_vars[name] = (
+                ("uts",),
+                [param_from_key(name, int(v)) for v in values[name]],
+                {},
+            )
         else:
-            data_vars[name] = {
-                "dims": ("uts",),
-                "data": values[name],
-                "attrs": {"units": unit},
-            }
+            data_vars[name] = (
+                ("uts",),
+                values[name],
+                {"units": unit},
+            )
 
     coords = dict()
     attrs = dict(fulldate=False)
 
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return ds
 
 
@@ -648,23 +644,17 @@ def extract_raw_bytes(
     else:
         Irange = 1.0
     val, attrs = get_unc("control_V", Erange)
-    ds["control_V_uncertainty"] = DataArray(
-        [val], dims="control_V_uncertainty", attrs=attrs
-    )
+    ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
     relE = val / Erange
     val, attrs = get_unc("control_I", Irange)
-    ds["control_I_uncertainty"] = DataArray(
-        [val], dims="control_I_uncertainty", attrs=attrs
-    )
+    ds["control_I_uncertainty"] = DataArray(val, attrs=attrs)
     relI = val / Irange
     rel = max(relI, relE)
 
     for k in {"V", "<V>", "I", "<I>"}:
         if k in ds:
             val, attrs = get_unc(k, Irange if "I" in k else Erange)
-            ds[f"{k}_uncertainty"] = DataArray(
-                [val], dims=f"{k}_uncertainty", attrs=attrs
-            )
+            ds[f"{k}_uncertainty"] = DataArray(val, attrs=attrs)
 
     for k in ds:
         if k in {"V", "<V>", "I", "<I>", "control_V", "control_I"}:
@@ -682,7 +672,7 @@ def extract_raw_bytes(
             "yadg_uncertainty_distribution": "normal",
             "yadg_uncertainty_source": "estimate",
         }
-        ds[ku] = DataArray([rel], dims=ku, attrs=attrs)
+        ds[ku] = DataArray(rel, attrs=attrs)
 
     if log is None:
         logger.warning("No 'log' module present in mpr file. Timestamps incomplete.")

@@ -125,11 +125,7 @@ def process_table(
     for i, k in enumerate(headers):
         if datecolumns is not None and i in datecolumns:
             continue
-        data_vars[k] = {
-            "dims": ("uts",) if datecolumns is not None else (k,),
-            "data": vals[k],
-            "attrs": {},
-        }
+        data_vars[k] = (("uts",) if datecolumns is not None else (k,), vals[k], {})
 
         if types[k] is str:
             continue
@@ -139,21 +135,21 @@ def process_table(
             continue
 
         ku = f"{k.replace(' ', '_')}_uncertainty"
-        data_vars[k]["attrs"]["ancillary_variables"] = ku
-        data_vars[ku] = {
-            "dims": (ku,),
-            "data": [precs[k] if types[k] is float else 10 ** (-precs[k])],
-            "attrs": {
+        data_vars[k][2]["ancillary_variables"] = ku
+        data_vars[ku] = (
+            [],
+            precs[k] if types[k] is float else 10 ** (-precs[k]),
+            {
                 "standard_name": f"{k} standard_error",
                 "standard_error_multiplier": 1,
                 "yadg_uncertainty_type": "sig" if types[k] is float else "abs",
                 "yadg_uncertainty_distribution": "rectangular",
                 "yadg_uncertainty_source": "str_conv",
             },
-        }
+        )
     if datecolumns is not None:
-        data_vars["uts"] = {
-            "dims": ("uts",),
-            "data": uts,
-        }
+        data_vars["uts"] = (
+            ("uts",),
+            uts,
+        )
     return data_vars

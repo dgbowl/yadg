@@ -283,21 +283,24 @@ def process_data(
     for k in data_vars:
         if k.endswith("_uncertainty"):
             continue
-        data_vars[k]["dims"] = ("uts",)
+        data_vars[k] = (("uts",), *data_vars[k][1:])
 
     if "I Range" in data_vars:
-        data_vars["I Range"]["data"] = [
-            param_from_key("I Range", int(v)) for v in data_vars["I Range"]["data"]
-        ]
+        params = [param_from_key("I Range", int(v)) for v in data_vars["I Range"][1]]
+        data_vars["I Range"] = (
+            data_vars["I Range"][0],
+            params,
+            data_vars["I Range"][2],
+        )
 
     coords = dict()
     attrs = dict(fulldate=False)
 
     for k in units:
         if k in data_vars:
-            data_vars[k]["attrs"]["units"] = units[k]
+            data_vars[k][2]["units"] = units[k]
 
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return ds
 
 
@@ -352,20 +355,14 @@ def extract_from_path(
     ds = split_control(ds)
 
     val, attrs = get_unc("control_V", Erange)
-    ds["control_V_uncertainty"] = DataArray(
-        [val], dims="control_V_uncertainty", attrs=attrs
-    )
+    ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
     val, attrs = get_unc("control_I", Irange)
-    ds["control_I_uncertainty"] = DataArray(
-        [val], dims="control_I_uncertainty", attrs=attrs
-    )
+    ds["control_I_uncertainty"] = DataArray(val, attrs=attrs)
 
     for k in {"V", "<V>", "I", "<I>"}:
         if k in ds:
             val, attrs = get_unc(k, Irange if "I" in k else Erange)
-            ds[f"{k}_uncertainty"] = DataArray(
-                [val], dims=f"{k}_uncertainty", attrs=attrs
-            )
+            ds[f"{k}_uncertainty"] = DataArray(val, attrs=attrs)
 
     if "time" in ds:
         ds["uts"] = ds["time"].values + start_time

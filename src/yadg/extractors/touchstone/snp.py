@@ -225,20 +225,28 @@ def extract_from_path(
 
     data_vars = process_table(table, headers=cols, locale=locale)
     for var in data_vars:
-        if "frequency" not in var and "uncertainty" not in var:
-            data_vars[var]["dims"] = ("frequency",)
+        if "uncertainty" in var:
+            continue
+        if "frequency" not in var:
+            data_vars[var] = (
+                ("uts", "frequency"),
+                [data_vars[var][1]],
+                data_vars[var][2],
+            )
         if "angle" in var:
-            data_vars[var]["attrs"]["units"] = "degree"
+            data_vars[var][2]["units"] = "degree"
         elif "frequency" in var:
-            data_vars[var]["attrs"]["units"] = metadata["freq_unit"]
+            data_vars[var][2]["units"] = metadata["freq_unit"]
         elif "magnitude" in var and metadata["mag_unit"] is not None:
-            data_vars[var]["attrs"]["units"] = metadata["mag_unit"]
+            data_vars[var][2]["units"] = metadata["mag_unit"]
 
     coords = dict(frequency=data_vars.pop("frequency"))
     attrs = dict(original_metadata=attrs)
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
     if uts is not None:
-        ds = ds.expand_dims(dim=dict(uts=[uts]))
+        coords["uts"] = [uts]
     else:
-        ds.attrs["fulldate"] = False
+        attrs["fulldate"] = False
+
+    #    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return DataTree(ds)

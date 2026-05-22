@@ -77,19 +77,27 @@ def process_trace(lines: list[str], uts: float) -> Dataset:
         headers=["elution_time", "signal"],
         sep=",",
     )
-    data_vars["elution_time"]["data"] = [
-        v * 60.0 for v in data_vars["elution_time"]["data"]
-    ]
-    data_vars["elution_time"]["attrs"]["units"] = "s"
+    data_vars["elution_time"] = (
+        data_vars["elution_time"][0],
+        [v * 60.0 for v in data_vars["elution_time"][1]],
+        data_vars["elution_time"][2],
+    )
+    data_vars["elution_time"][2]["units"] = "s"
+    data_vars["elution_time_uncertainty"] = (
+        [],
+        data_vars["elution_time_uncertainty"][1] * 60,
+        data_vars["elution_time_uncertainty"][2],
+    )
     coords = dict(
-        elution_time=data_vars.pop("elution_time"), uts={"data": [uts], "dims": "uts"}
+        elution_time=data_vars.pop("elution_time"),
+        uts=(("uts",), [uts]),
     )
-    data_vars["signal"]["dims"] = (
-        "uts",
-        "elution_time",
+    data_vars["signal"] = (
+        ("uts", "elution_time"),
+        [data_vars["signal"][1]],
+        data_vars["signal"][2],
     )
-    data_vars["signal"]["data"] = [data_vars["signal"]["data"]]
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": {}})
+    ds = Dataset(data_vars=data_vars, coords=coords)
     return ds
 
 

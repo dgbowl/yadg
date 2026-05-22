@@ -80,9 +80,9 @@ def rtf(
 
     for k in units:
         if k in data_vars:
-            data_vars[k]["attrs"]["units"] = units[k]
+            data_vars[k][2]["units"] = units[k]
 
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return ds
 
 
@@ -139,9 +139,9 @@ def sep(
 
     for k in units:
         if k in data_vars:
-            data_vars[k]["attrs"]["units"] = units[k]
+            data_vars[k][2]["units"] = units[k]
 
-    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return ds
 
 

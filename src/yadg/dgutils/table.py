@@ -14,13 +14,15 @@ def process_row(
     for item in items:
         try:
             dec = parse_decimal(item, locale=locale)
-            vals.append(float(dec))
             dtp = dec.as_tuple()
             if "e" in item or "E" in item:
                 kind.append(float)
+                vals.append(float(dec))
             elif dtp.exponent == 0:
                 kind.append(int)
+                vals.append(int(dec))
             else:
+                vals.append(float(dec))
                 kind.append(Decimal)
             digs.append(len(dtp.digits))
             exps.append(dtp.exponent)
@@ -45,6 +47,7 @@ def process_table(
     strip: str = None,
     locale: str = "en_GB",
     uncertainties: bool = True,
+    uncertainties_int_columns: bool = True,
     datecolumns: list[int] = None,
     datefunc: Callable = None,
 ) -> dict:
@@ -110,6 +113,8 @@ def process_table(
             if t is str:
                 continue
             elif t in (int, Decimal):
+                if e in {"n", "F"}:
+                    e = 0
                 prec = abs(e)
             else:
                 prec = d
@@ -127,6 +132,8 @@ def process_table(
         }
 
         if types[k] is str:
+            continue
+        if types[k] is int and uncertainties_int_columns is False:
             continue
         if uncertainties is False:
             continue

@@ -1697,6 +1697,24 @@ def param_from_key(param: str, key: int | str, to_str: bool = True) -> str | flo
     return key
 
 
+# TODO: tidy up here
+def get_unc(name: str, range: float) -> tuple[float, dict]:
+    if name in {"control_V", "V", "<V>"}:
+        kwargs = dict(unit="V", Erange=range, Irange=None)
+    elif name in {"control_I", "I", "<I>"}:
+        kwargs = dict(unit="mA", Irange=range, Erange=None)
+
+    val = dev_VI(name=name, value=0, **kwargs)
+    attrs = {
+        "standard_name": f"{name} standard_error",
+        "standard_error_multiplier": 1,
+        "yadg_uncertainty_type": "abs",
+        "yadg_uncertainty_distribution": "normal",
+        "yadg_uncertainty_source": "datasheet",
+    }
+    return val, attrs
+
+
 def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> float:
     """
     Function that returns the resolution of a voltage or current based on its name,

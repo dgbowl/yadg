@@ -18,8 +18,9 @@ New features in ``yadg-next`` are:
 Breaking changes in ``yadg-next`` are:
 
   - For all extractors, the ``source`` (positional) argument now must be specified instead of ``fn`` or ``path``.
-
   - In :mod:`yadg.extractors.agilent.csv`, the ``signal`` data variable now has ``elution_time`` as a proper coordinate. Previously, the ``elution_time`` was expanded manually to the length of the largest trace present in the file, with ``np.nan`` used as padding for shorter traces. An arbitrary coordinate ``_`` was also present. Now, ``elution_time`` is expanded automatically by :func:`xarray.concat`, inserting ``np.nan`` into the ``signal`` data variable as necessary for ``elution_time`` which are not present in each trace.
+  - In :mod:`yadg.extractors.touchstone.snp`, the acquisition parameters (S11, S21 etc.) are no longer NetCDF groups, but the label is prepended to the property name (e.g. ``S11/real`` is now ``S11_real``). This means the ``frequency`` coordinate is not duplicated.
+  - In :mod:`yadg.extractors.fhimcpt.vna`, the schema now follows :mod:`~yadg.extractors.touchstone.snp` for consistency.
 
 Bug fixes in ``yadg-next`` include:
 

@@ -19,7 +19,7 @@ def test_fhimcpt_vna(infile, datadir):
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    print(f"{ret=}")
+    print(f"{ref=}")
     with open(outfile, "wb") as out:
         pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)

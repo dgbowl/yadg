@@ -17,15 +17,18 @@ Schema
 .. code-block:: yaml
 
     xarray.DataTree:
-      {{ parameter_name }}                  # S11, S21, etc. for scattering parameters
-        coords:
-          uts:            !!float           # Unix timestamp, optional
-          frequency:      !!float           #
-        data_vars:
-          real:           (uts, frequency)  # Real part of the response
-          imag:           (uts, frequency)  # Imagunary part of the response
-          magnitude:      (uts, frequency)  # Magnitude of the response
-          phase_angle:    (uts, frequency)  # Phase angle of the response
+      coords:
+        uts:             !!float           # Unix timestamp, optional
+        frequency:       !!float           # An array of measurement frequencies
+      data_vars:
+        S11_real:        (uts, frequency)  # Real part of the response
+        S11_imag:        (uts, frequency)  # Imagunary part of the response
+        S11_magnitude:   (uts, frequency)  # Magnitude of the response
+        S11_phase_angle: (uts, frequency)  # Phase angle of the response
+
+Uncertainties
+`````````````
+- all values: string to float conversion
 
 Metadata
 ````````
@@ -42,11 +45,6 @@ below. In most circumstances, the following information can be provided:
     The timestamp (``uts``) is also parsed from the comments in the file. In case you
     have Touchstone files with a well-defined header that is not supported by yadg,
     please open an issue.
-
-Uncertainties
-`````````````
-Uncertainties in all variables are determined from the precision of the string-to-float
-conversion.
 
 Notes on file structure
 ```````````````````````

@@ -20,14 +20,19 @@ Schema
 .. code-block:: yaml
 
     xarray.DataTree:
-      S11:              !!xarray.Dataset
-        coords:
-            freq:       !!float     # An array of measurement frequencies
-        data_vars:
-            Re(G):      (freq)      # Real part of Γ
-            Im(G):      (freq)      # Imaginary part of Γ
-            average:    (None)      # Number of traces averaged
-            bandwidth:  (None)      # Filter bandwidth
+      coords:
+        frequency:       !!float           # An array of measurement frequencies
+      data_vars:
+        S11_real:        (frequency)       # Real part of the response
+        S11_imag:        (frequency)       # Imagunary part of the response
+        average:         (None)            # Number of traces averaged
+        bandwidth:       (None)            # Filter bandwidth
+
+Uncertainties
+`````````````
+- ``frequency``: explicit from bandwidth / average
+- all other values: string to float conversion
+
 
 Metadata
 ````````
@@ -38,11 +43,12 @@ No metadata is returned.
 
 """
 
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-import xarray as xr
-from xarray import DataTree
 from pathlib import Path
+from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
+from yadg.dgutils.table import process_table
 from yadg.extractors import get_extract_dispatch
+from xarray import DataTree, Dataset
+
 
 extract = get_extract_dispatch()
 
@@ -72,69 +78,32 @@ def extract_from_path(
                 avg = int(item.split("=")[-1].strip())
     fsbw = bw[0] / avg
 
-    # calculate precision of trace
-    freq = {"vals": [], "devs": []}
-    real = {"vals": [], "devs": []}
-    imag = {"vals": [], "devs": []}
-    for line in lines:
-        f, re, im = line.strip().split()
-        fn, fs = tuple_fromstr(f)
-        fs = max(fs, fsbw)
-        ren, res = tuple_fromstr(re)
-        imn, ims = tuple_fromstr(im)
-        freq["vals"].append(fn)
-        freq["devs"].append(fs)
-        real["vals"].append(ren)
-        real["devs"].append(res)
-        imag["vals"].append(imn)
-        imag["devs"].append(ims)
+    data_vars = process_table(
+        lines=lines,
+        headers=["frequency", "S11_real", "S11_imag"],
+    )
+    for k in {"S11_real", "S11_imag"}:
+        data_vars[k] = (("frequency"), *data_vars[k][1:])
 
-    vals = xr.Dataset(
-        data_vars={
-            "Re(G)": (
-                ["freq"],
-                real["vals"],
-                {"ancillary_variables": "Re(G)_std_err"},
-            ),
-            "Re(G)_std_err": (
-                ["freq"],
-                real["devs"],
-                {"standard_name": "Re(G) standard_error"},
-            ),
-            "Im(G)": (
-                ["freq"],
-                imag["vals"],
-                {"ancillary_variables": "Im(G)_std_err"},
-            ),
-            "Im(G)_std_err": (
-                ["freq"],
-                imag["devs"],
-                {"standard_name": "Im(G) standard_error"},
-            ),
-            "average": avg,
-            "bandwidth": (
-                [],
-                bw[0],
-                {"units": "Hz", "ancillary_variables": "bandwidth_std_err"},
-            ),
-            "bandwidth_std_err": (
-                [],
-                bw[1],
-                {"units": "Hz", "standard_name": "bandwidth standard_error"},
-            ),
-        },
-        coords={
-            "freq": (
-                ["freq"],
-                freq["vals"],
-                {"units": "Hz", "ancillary_variables": "freq_std_err"},
-            ),
-            "freq_std_err": (
-                ["freq"],
-                freq["devs"],
-                {"units": "Hz", "standard_name": "freq standard_error"},
-            ),
+    data_vars["average"] = (
+        [],
+        avg,
+    )
+    data_vars["bandwidth"] = ([], bw[0], {"units": "Hz"})
+
+    data_vars["frequency_uncertainty"] = (
+        [],
+        fsbw,
+        {
+            "standard_name": "frequency standard_error",
+            "standard_error_multiplier": 1,
+            "yadg_uncertainty_type": "abs",
+            "yadg_uncertainty_distribution": "normal",
+            "yadg_uncertainty_source": "explicit",
         },
     )
 
-    return DataTree.from_dict(dict(S11=vals))
+    coords = dict(frequency=data_vars.pop("frequency"))
+    ds = Dataset(data_vars=data_vars, coords=coords)
+
+    return DataTree(ds)

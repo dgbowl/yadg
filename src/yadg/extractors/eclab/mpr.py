@@ -33,6 +33,15 @@ in a typical ``mpr`` file.
      Note that in most cases, either the instantaneous or the averaged quantities are
      stored - only rarely are both available!
 
+Uncertainties
+`````````````
+- ``control_V``: VMP-3 specsheet using maximum E Range as FSR with 16-bit conversion
+- ``control_I``: VMP-3 specsheet using maximum I Range as FSR with 760 µV minimum
+- ``V``, ``<V>``: VMP-3 specsheet using maximum E Range as FSR
+- ``I``, ``<I>``: VMP-3 specsheet using maximum I Range as FSR
+- all other values: relative errors from the maximum of ``control_I`` and ``control_V``
+
+
 Notes on file structure
 ```````````````````````
 ``.mpr`` files are structured in a set of "modules", one concerning
@@ -184,17 +193,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 """
 
 import logging
-from xarray import DataTree
 import numpy as np
-from pathlib import Path
-from yadg.extractors import get_extract_dispatch
-from yadg import dgutils
-from .techniques import (
-    technique_params_dtypes,
-    param_from_key,
-    get_devs,
-    split_control,
-)
 from .mpr_columns import (
     module_header_dtypes,
     settings_dtypes,
@@ -205,8 +204,17 @@ from .mpr_columns import (
     log_dtypes,
     extdev_dtypes,
 )
+from .techniques import (
+    technique_params_dtypes,
+    param_from_key,
+    split_control,
+    get_unc,
+)
+from pathlib import Path
+from yadg import dgutils
+from yadg.extractors import get_extract_dispatch
+from xarray import DataTree, Dataset, DataArray
 
-from .mpt import dicts_to_dataset
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
@@ -387,8 +395,6 @@ def parse_columns(
 def process_data(
     data: bytes,
     version: int,
-    Eranges: list[float],
-    Iranges: list[float],
     technique: str,
 ):
     """Processes the contents of data modules.
@@ -419,7 +425,6 @@ def process_data(
     logger.debug("Found %d columns with IDs: %s", n_columns, column_ids)
     # Length of each datapoint depends on number and IDs of columns.
     namelist, dtypelist, unitlist, flaglist = parse_columns(column_ids, technique)
-    units = {k: v for k, v in zip(namelist, unitlist) if v is not None}
     data_dtype = np.dtype(list(zip(namelist, dtypelist)))
     # Depending on module version, datapoints start at different offsets.
     if version in {10, 11}:
@@ -430,57 +435,43 @@ def process_data(
         offset = 0x196
     else:
         raise NotImplementedError(f"Unknown data module version: {version}")
-    allvals = dict()
-    allmeta = dict()
+
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
-    values = [dict(zip(value.dtype.names, value.item())) for value in values]
-    warn_I_range = False
-    warn_Ns = False
-    for vi, vals in enumerate(values):
-        # Lets split this into two loops: get the indices first, then the data
-        for (name, value), unit in list(zip(vals.items(), unitlist)):
-            if name.startswith("unknown_"):
-                continue
-            elif unit is None:
-                intv = int(value)
-                if name == "I Range":
-                    vals[name] = param_from_key("I Range", intv)
-                else:
-                    vals[name] = intv
-        if flaglist:
-            flag_bits = vals.pop("flags")
-            for name, bitmask in flaglist.items():
+
+    data_vars = {}
+    for name, unit in zip(values.dtype.names, unitlist):
+        if name.startswith("unknown_"):
+            continue
+        elif len(values[name]) == 0:
+            continue
+        elif name == "flags" and flaglist:
+            for fname, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                vals[name] = (flag_bits & bitmask) >> shift
+                data_vars[fname] = {
+                    "dims": ("uts",),
+                    "data": (values[name] & bitmask) >> shift,
+                    "attrs": {},
+                }
+        elif unit is None:
+            data_vars[name] = {
+                "dims": ("uts",),
+                "data": [param_from_key(name, int(v)) for v in values[name]],
+                "attrs": {},
+            }
+        else:
+            data_vars[name] = {
+                "dims": ("uts",),
+                "data": values[name],
+                "attrs": {"units": unit},
+            }
 
-        Ns = vals.get("Ns", 0)
-        # Manually merged/appended mpr files have a mysteriously larger Ns
-        if Ns >= len(Eranges):
-            warn_Ns = True
-            Ns = len(Eranges) - 1
-        Erange = Eranges[Ns]
-        Irstr = Iranges[Ns]
-        if "I Range" in vals:
-            Irstr = vals["I Range"]
-        Irange = param_from_key("I Range", Irstr, to_str=False)
+    coords = dict()
+    attrs = dict(fulldate=False)
 
-        # I Range can be None if it's set to "Auto", "PAC" or other such string.
-        if Irange is None:
-            warn_I_range = True
-            Irange = 1.0
-
-        vals, units = split_control(vals, units)
-        devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange)
-        dgutils.append_dicts(vals, devs, allvals, allmeta, li=vi)
-    if warn_I_range:
-        logger.warning("I Range could not be understood, defaulting to 1 A.")
-    if warn_Ns:
-        logger.warning("Ns found in data exceeds Ns in header, using last defined Ns.")
-
-    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    ds = Dataset.from_dict({"data_vars": data_vars, "coords": coords, "attrs": attrs})
     return ds
 
 
@@ -594,12 +585,8 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         if name == "VMP Set":
             technique, settings, params = process_settings(module_data, minver)
 
-            E_range_max = params.get("E range max (V)", [float("inf")])
-            E_range_min = params.get("E range min (V)", [float("-inf")])
-            Eranges = [a - b for a, b in zip(E_range_max, E_range_min)]
-            Iranges = params.get("I Range", ["Auto"])
         elif name == "VMP data":
-            ds = process_data(module_data, version, Eranges, Iranges, technique)
+            ds = process_data(module_data, version, technique)
         elif name == "VMP LOG":
             log = process_log(module_data)
         elif name == "VMP loop":
@@ -649,6 +636,54 @@ def extract_raw_bytes(
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
+
+    ds = split_control(ds)
+    E_range_max = params.get("E range max (V)", [float("inf")])
+    E_range_min = params.get("E range min (V)", [float("-inf")])
+    Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
+    if "I Range" in ds:
+        Irange = max(
+            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
+        )
+    else:
+        Irange = 1.0
+    val, attrs = get_unc("control_V", Erange)
+    ds["control_V_uncertainty"] = DataArray(
+        [val], dims="control_V_uncertainty", attrs=attrs
+    )
+    relE = val / Erange
+    val, attrs = get_unc("control_I", Irange)
+    ds["control_I_uncertainty"] = DataArray(
+        [val], dims="control_I_uncertainty", attrs=attrs
+    )
+    relI = val / Irange
+    rel = max(relI, relE)
+
+    for k in {"V", "<V>", "I", "<I>"}:
+        if k in ds:
+            val, attrs = get_unc(k, Irange if "I" in k else Erange)
+            ds[f"{k}_uncertainty"] = DataArray(
+                [val], dims=f"{k}_uncertainty", attrs=attrs
+            )
+
+    for k in ds:
+        if k in {"V", "<V>", "I", "<I>", "control_V", "control_I"}:
+            continue
+        elif "units" not in ds[k].attrs:
+            continue
+        elif k.endswith("_uncertainty"):
+            continue
+        ku = f"{k.replace(' ', '_')}_uncertainty"
+        ds[k].attrs["ancillary_variables"] = ku
+        attrs = {
+            "standard_name": f"{ku} standard_error",
+            "standard_error_multiplier": 1,
+            "yadg_uncertainty_type": "rel",
+            "yadg_uncertainty_distribution": "normal",
+            "yadg_uncertainty_source": "estimate",
+        }
+        ds[ku] = DataArray([rel], dims=ku, attrs=attrs)
+
     if log is None:
         logger.warning("No 'log' module present in mpr file. Timestamps incomplete.")
         start_time = 0

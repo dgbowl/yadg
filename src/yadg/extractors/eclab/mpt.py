@@ -33,6 +33,15 @@ in a typical ``.mpt`` file.
      Note that in most cases, either the instantaneous or the averaged quantities are
      stored - only rarely are both available!
 
+Uncertainties
+`````````````
+- ``control_V``: VMP-3 specsheet using maximum E Range as FSR with 16-bit conversion
+- ``control_I``: VMP-3 specsheet using maximum I Range as FSR with 760 µV minimum
+- ``V``, ``<V>``: VMP-3 specsheet using maximum E Range as FSR
+- ``I``, ``<I>``: VMP-3 specsheet using maximum I Range as FSR
+- all other values: string to float conversion
+
+
 Notes on file structure
 ```````````````````````
 These human-readable files are sectioned into header lines and data lines.
@@ -53,9 +62,8 @@ The metadata will contain the information from the header of the file.
 """
 
 import logging
-import xarray as xr
 from .mpt_columns import column_units
-from .techniques import param_from_key, get_unc
+from .techniques import param_from_key, get_unc, split_control
 from babel.numbers import parse_decimal
 from pathlib import Path
 from typing import Any
@@ -67,42 +75,6 @@ from yadg.dgutils.table import process_table
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
-
-
-def dicts_to_dataset(
-    data: dict[str, list[Any]],
-    meta: dict[str, list[Any]],
-    units: dict[str, str] = dict(),
-    fulldate: bool = True,
-) -> Dataset:
-    darrs = {}
-    for key, val in data.items():
-        attrs = {}
-        u = units.get(key, None)
-        if u is not None:
-            attrs["units"] = u
-        if key == "uts":
-            continue
-        if "/" in key:
-            logger.warning(f"Replacing '/' for '_' in column {key!r}.")
-            k = key.replace("/", "_")
-        else:
-            k = key
-        darrs[k] = DataArray(data=val, dims=["uts"], attrs=attrs)
-        if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
-            err = f"{k}_std_err"
-            darrs[k].attrs["ancillary_variables"] = err
-            attrs["standard_name"] = f"{k} standard_error"
-            darrs[err] = DataArray(data=meta[key], dims=["uts"], attrs=attrs)
-    if "uts" in data:
-        coords = dict(uts=data.pop("uts"))
-    else:
-        coords = dict()
-    if fulldate:
-        attrs = dict()
-    else:
-        attrs = dict(fulldate=False)
-    return Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process_settings(lines: list[str]) -> dict[str, str]:
@@ -377,35 +349,22 @@ def extract_from_path(
     else:
         Irange = 1.0
 
-    # TODO: Refactor into split_control
-    if "control" in ds:
-        mask = xr.where(ds["mode"].values == 2, True, False)
-        ds["control_V"] = DataArray(
-            data=xr.where(mask, 1, float("nan")) * ds["control"].values,
-            dims=("uts",),
-            attrs={"ancillary_variables": "control_V_uncertainty", "units": "V"},
-        )
-        ds["control_I"] = DataArray(
-            data=xr.where(~mask, 1, float("nan")) * ds["control"].values,
-            dims=("uts",),
-            attrs={"ancillary_variables": "control_I_uncertainty", "units": "mA"},
-        )
+    ds = split_control(ds)
 
-        val, attrs = get_unc("control_V", Erange)
-        ds["control_V_uncertainty"] = DataArray(
-            [val], dims="control_V_uncertainty", attrs=attrs
-        )
-        val, attrs = get_unc("control_I", Irange)
-        ds["control_I_uncertainty"] = DataArray(
-            [val], dims="control_I_uncertainty", attrs=attrs
-        )
-        del ds["control"]
+    val, attrs = get_unc("control_V", Erange)
+    ds["control_V_uncertainty"] = DataArray(
+        [val], dims="control_V_uncertainty", attrs=attrs
+    )
+    val, attrs = get_unc("control_I", Irange)
+    ds["control_I_uncertainty"] = DataArray(
+        [val], dims="control_I_uncertainty", attrs=attrs
+    )
 
-    for k in {"V", "<V>", "I<I>"}:
+    for k in {"V", "<V>", "I", "<I>"}:
         if k in ds:
             val, attrs = get_unc(k, Irange if "I" in k else Erange)
             ds[f"{k}_uncertainty"] = DataArray(
-                [val], dims="control_V_uncertainty", attrs=attrs
+                [val], dims=f"{k}_uncertainty", attrs=attrs
             )
 
     if "time" in ds:

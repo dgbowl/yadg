@@ -1,7 +1,6 @@
 import json
 import yaml
 import yadg.core
-from xarray import DataTree
 import xarray as xr
 from dgbowl_schemas.yadg import to_dataschema
 
@@ -17,8 +16,8 @@ def datagram_from_file(infile):
 
 
 def compare_datatrees(
-    ret: DataTree,
-    ref: DataTree,
+    ret: xr.DataTree,
+    ref: xr.DataTree,
     atol: float = 1e-6,
     thislevel=False,
     descend=False,
@@ -39,7 +38,7 @@ def compare_datatrees(
         check_attrs(ret.attrs, ref.attrs)
 
     for k in ret:
-        if isinstance(ret[k], DataTree):
+        if isinstance(ret[k], xr.DataTree):
             compare_datatrees(
                 ret[k], ref[k], atol=atol, thislevel=descend, descend=descend
             )

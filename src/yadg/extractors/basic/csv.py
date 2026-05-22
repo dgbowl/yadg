@@ -33,6 +33,10 @@ Schema
       data_vars:
         {{ headers }}:  (uts)                 # Populated from file headers
 
+Uncertainties
+`````````````
+- all values: string to float conversion
+
 Metadata
 ````````
 No metadata is extracted.

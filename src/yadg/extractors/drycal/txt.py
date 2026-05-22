@@ -26,6 +26,10 @@ Schema
         Temp.:          (uts)                 # Measured flow temperature
         Pressure:       (uts)                 # Measured flow pressure
 
+Uncertainties
+`````````````
+- all values: string to float conversion
+
 Metadata
 ````````
 The following metadata is extracted:

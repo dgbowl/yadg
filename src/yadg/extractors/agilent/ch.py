@@ -24,6 +24,11 @@ Schema
         data_vars:
           signal:         (uts, elution_time)   # Signal data
 
+Uncertainties
+`````````````
+- ``signal``: the y-axis slope
+- ``elution_time``: the x-axis step size
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -32,7 +37,6 @@ The following metadata is extracted:
     - ``username``: User name used to generate the file.
     - ``method``: Name of the chromatographic method.
     - ``version``: Version of the CH file (only "179" is currently supported.)
-
 
 Notes on file structure
 ```````````````````````
@@ -57,12 +61,6 @@ The following magic values are used:
 
 Data is stored in a consecutive set of ``<f8``, starting at the offset (calculated
 as ``offset = ("data offset" - 1) * 512``) until the end of the file.
-
-Uncertainties
-`````````````
-Uncertainty in ``signal`` is the y-axis slope.
-
-Uncertainty in ``elution_time`` is the x-axis step size.
 
 .. codeauthor::
     Peter Kraus
@@ -158,9 +156,9 @@ def extract_from_path(
                 [],
                 yss,
                 {
-                    "units": orig_meta["yunit"],
                     "standard_name": "signal standard_error",
-                    "yadg_uncertainty_absolute": 1,
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
                     "yadg_uncertainty_distribution": "normal",
                     "yadg_uncertainty_source": "scaling",
                 },
@@ -169,9 +167,9 @@ def extract_from_path(
                 [],
                 xss,
                 {
-                    "units": "s",
                     "standard_name": "elution_time standard_error",
-                    "yadg_uncertainty_absolute": 1,
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "s",
                     "yadg_uncertainty_distribution": "normal",
                     "yadg_uncertainty_source": "scaling",
                 },

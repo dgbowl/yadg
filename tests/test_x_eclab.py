@@ -96,7 +96,7 @@ def test_eclab_consistency(froot, locale, datadir):
     bret = check_file(f"{froot}.mpt", kwargs, extract_mpt)
 
     for key in aret.variables:
-        if key.endswith("std_err"):
+        if key.endswith("_uncertainty"):
             continue
 
         bkey = key
@@ -161,7 +161,7 @@ def test_eclab_consistency_partial_149(froot, locale, datadir):
     bret = check_file(f"{froot}.mpt", kwargs, extract_mpt)
 
     for key in aret.variables:
-        if key.endswith("std_err"):
+        if key.endswith("_uncertainty"):
             continue
         elif key in {
             "THD Ewe",

@@ -19,6 +19,11 @@ Schema
         data_vars:
           signal:         (uts, elution_time)   # Signal data
 
+Uncertainties
+`````````````
+- ``signal``: using scaling from Y-axis multiplier.
+- ``elution_time``: using scaling from X-axis multiplier.
+
 Metadata
 ````````
 No metadata is currently extracted. If you need some particular metadata, please open
@@ -37,23 +42,17 @@ and contain the X- and Y-axis multiplier, Y-axis units, and some other metadata.
 The data for each trace are stored within the ``Detector Data`` "directory" within the
 OLE file, with one stream per trace.
 
-Uncertainties
-`````````````
-The uncertainties in ``signal`` as well as ``elution_time`` are set to the axis
-multiplier.
-
 
 .. codeauthor::
     Peter Kraus
 
 """
 
-import olefile
-import xarray as xr
-from xarray import DataTree
 import numpy as np
-from yadg import dgutils
+import olefile
 from pathlib import Path
+from xarray import DataTree, Dataset
+from yadg import dgutils
 from yadg.extractors import get_extract_dispatch
 
 extract = get_extract_dispatch()
@@ -110,20 +109,54 @@ def extract_from_path(
         par = dtp[key]
         npoints = dgutils.read_value(data=vals, offset=4, dtype="u4")
         yvals = np.frombuffer(vals, offset=20, count=npoints, dtype="i4") * par["y_mul"]
-        ydevs = np.ones(npoints) * par["y_mul"]
-        yunits = {"units": par["y_unit"].replace("25", "").strip()}
         xvals = np.arange(0, npoints) * par["x_mul"]
-        xdevs = np.ones(npoints) * par["x_mul"]
-        xunits = {"units": "s"}
-        ds = xr.Dataset(
+
+        ds = Dataset(
             data_vars={
-                "signal": (["uts", "elution_time"], [yvals], yunits),
-                "signal_std_err": (["uts", "elution_time"], [ydevs], yunits),
-                "elution_time_std_err": (["elution_time"], xdevs, xunits),
+                "signal": (
+                    ["uts", "elution_time"],
+                    [yvals],
+                    {
+                        "units": par["y_unit"].replace("25", "").strip(),
+                        "ancillary_variables": "signal_uncertainty",
+                    },
+                ),
+                "signal_uncertainty": (
+                    [],
+                    par["y_mul"],
+                    {
+                        "standard_name": "signal standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "scaling",
+                    },
+                ),
+                "elution_time_uncertainty": (
+                    [],
+                    par["x_mul"],
+                    {
+                        "standard_name": "elution_time standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "scaling",
+                    },
+                ),
             },
             coords={
-                "elution_time": (["elution_time"], xvals, xunits),
-                "uts": (["uts"], [uts]),
+                "elution_time": (
+                    ["elution_time"],
+                    xvals,
+                    {
+                        "units": "s",
+                        "ancillary_variables": "elution_time_uncertainty",
+                    },
+                ),
+                "uts": (
+                    ["uts"],
+                    [uts],
+                ),
             },
         )
         for var in ds.variables:

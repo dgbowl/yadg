@@ -18,6 +18,12 @@ Schema
       data_vars:
         intensity:      (uts, angle)          # Measured intensity
 
+
+Uncertainties
+`````````````
+- ``angle``: are taken as the step-width of the linearly spaced :math:`2\\theta` values.
+- ``intensity``: are from count values which seem to be integers.
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -43,31 +49,21 @@ The ``angle`` returned from this parser is based on a linear interpolation of th
 and end point of the scan, and is the :math:`2\\theta`. The values of :math:`\\omega`
 are discarded.
 
-Uncertainties
-`````````````
-The uncertainties of in ``"angle"`` are taken as the step-width of the linearly spaced
-:math:`2\\theta` values.
-
-The uncertainties of of ``"intensity"`` are currently set to a constant
-value of 1.0 count as all the supported files seem to produce integer values.
-
 .. codeauthor::
     Nicolas Vetsch,
     Peter Kraus
 
 """
 
-from collections import defaultdict
-from xml.etree import ElementTree
 import numpy as np
-from xarray import DataTree
-import xarray as xr
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-
-from yadg.extractors.panalytical.common import panalytical_comment
-from yadg.dgutils import dateutils
+from collections import defaultdict
 from pathlib import Path
+from xarray import DataTree, Dataset
+from xml.etree import ElementTree
+from yadg.dgutils import dateutils
 from yadg.extractors import get_extract_dispatch
+from yadg.extractors.panalytical.common import panalytical_comment
+
 
 extract = get_extract_dispatch()
 
@@ -100,7 +96,7 @@ def etree_to_dict(e: ElementTree.Element) -> dict:
     return d
 
 
-def _process_values(d: dict | str) -> dict | str:
+def process_values(d: dict | str) -> dict | str:
     """
     Recursively parses dicts in the following format:
 
@@ -123,37 +119,35 @@ def _process_values(d: dict | str) -> dict | str:
             return f"{d['#text']} {d['@version']}"
         else:
             for k, v in d.items():
-                d[k] = _process_values(v)
+                d[k] = process_values(v)
     return d
 
 
-def _process_scan(scan: dict) -> dict:
+def process_scan(scan: dict) -> dict:
     """
     Parses the scan section of the file. Creates the explicit positions based
     on the number of measured intensities and the start & end position.
     """
     header = scan.pop("header")
     dpts = scan.pop("dataPoints")
-    counting_time = _process_values(dpts.pop("commonCountingTime"))
-    ivals, idevs = list(
-        zip(*[tuple_fromstr(c) for c in dpts["intensities"].pop("#text").split()])
-    )
+    counting_time = process_values(dpts.pop("commonCountingTime"))
+    ivals = [float(c) for c in dpts["intensities"].pop("#text").split()]
     iunit = dpts["intensities"].pop("@unit")
     timestamp = header.pop("startTimeStamp")
 
     dp = {
-        "intensity": {"vals": ivals, "devs": idevs, "unit": iunit},
+        "intensity": {"vals": ivals, "devs": 1.0, "unit": iunit},
         "timestamp": timestamp,
         "counting_time": counting_time,
     }
 
-    positions = _process_values(dpts.pop("positions"))
+    positions = process_values(dpts.pop("positions"))
     for v in positions:
         pos = np.linspace(
             float(v["startPosition"]), float(v["endPosition"]), num=len(ivals)
         )
-        adiff = np.abs(np.diff(pos)) * 0.5
-        adiff = np.append(adiff, adiff[-1])
+        adiff = float(v["endPosition"]) - float(v["startPosition"])
+        adiff = adiff / len(ivals)
         dp[v["@axis"]] = {
             "vals": pos,
             "devs": adiff,
@@ -162,7 +156,7 @@ def _process_scan(scan: dict) -> dict:
     return dp
 
 
-def _process_comment(comment: dict) -> dict:
+def process_comment(comment: dict) -> dict:
     entry = comment.pop("entry")
     ret = {}
     for line in entry:
@@ -170,7 +164,7 @@ def _process_comment(comment: dict) -> dict:
     return ret
 
 
-def _process_measurement(measurement: dict, timezone: str):
+def process_measurement(measurement: dict, timezone: str):
     """
     A function that processes each section of the XRD XML file.
     """
@@ -182,15 +176,15 @@ def _process_measurement(measurement: dict, timezone: str):
     keys = ["phd_lower_level", "phd_upper_level"]
     measurement["comment"] = dict(zip(keys, values))
     # Wavelength.
-    wavelength = _process_values(measurement.pop("usedWavelength"))
+    wavelength = process_values(measurement.pop("usedWavelength"))
     measurement["wavelength"] = wavelength
     # Incident beam path.
-    incident_beam_path = _process_values(measurement.pop("incidentBeamPath"))
+    incident_beam_path = process_values(measurement.pop("incidentBeamPath"))
     measurement["incident_beam_path"] = incident_beam_path
     # Diffracted beam path.
-    diffracted_beam_path = _process_values(measurement.pop("diffractedBeamPath"))
+    diffracted_beam_path = process_values(measurement.pop("diffractedBeamPath"))
     measurement["diffracted_beam_path"] = diffracted_beam_path
-    scan = _process_scan(measurement.pop("scan"))
+    scan = process_scan(measurement.pop("scan"))
     trace = {"angle": scan.pop("2Theta"), "intensity": scan.pop("intensity")}
     meta = measurement
     meta["counting_time"] = scan.pop("counting_time")
@@ -219,43 +213,49 @@ def extract_from_path(
     # Start processing the xml contents.
     measurements = xrd["xrdMeasurements"]
     assert measurements["@status"] == "Completed", "Incomplete measurement."
-    comment = _process_comment(measurements["comment"])
+    comment = process_comment(measurements["comment"])
     # Renaming some entries because I want to.
     sample = measurements["sample"]
     sample["prepared_by"] = sample.pop("preparedBy")
     sample["type"] = sample.pop("@type")
     # Process measurement data.
-    data, meta = _process_measurement(measurements["xrdMeasurement"], timezone)
+    data, meta = process_measurement(measurements["xrdMeasurement"], timezone)
     data["fn"] = str(source)
     # Shove unused data into meta
     meta["sample"] = sample
     meta["comment"] = comment
     meta["fulldate"] = True
     # Build Datasets
-    vals = xr.Dataset(
+    vals = Dataset(
         data_vars={
             "intensity": (
                 ["uts", "angle"],
                 np.reshape(data["intensity"]["vals"], (1, -1)),
                 {
                     "units": data["intensity"]["unit"],
-                    "ancillary_variables": "intensity_std_err",
+                    "ancillary_variables": "intensity_uncertainty",
                 },
             ),
-            "intensity_std_err": (
-                ["uts", "angle"],
-                np.reshape(data["intensity"]["devs"], (1, -1)),
+            "intensity_uncertainty": (
+                [],
+                data["intensity"]["devs"],
                 {
-                    "units": data["intensity"]["unit"],
                     "standard_name": "intensity standard_error",
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
+                    "yadg_uncertainty_distribution": "rectangular",
+                    "yadg_uncertainty_source": "str_conv",
                 },
             ),
-            "angle_std_err": (
-                ["uts", "angle"],
-                np.reshape(data["angle"]["devs"], (1, -1)),
+            "angle_uncertainty": (
+                [],
+                data["angle"]["devs"],
                 {
-                    "units": data["angle"]["unit"],
-                    "standard_name": "angle standard_error",
+                    "standard_name": "intensity standard_error",
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
+                    "yadg_uncertainty_distribution": "rectangular",
+                    "yadg_uncertainty_source": "scaling",
                 },
             ),
         },
@@ -266,7 +266,7 @@ def extract_from_path(
                 data["angle"]["vals"],
                 {
                     "units": data["angle"]["unit"],
-                    "ancillary_variables": "angle_std_err",
+                    "ancillary_variables": "angle_uncertainty",
                 },
             ),
         },

@@ -21,6 +21,10 @@ Schema
           fsr:              (None)                # Full scale range
           y:                (uts, mass_to_charge) # Signal data
 
+Uncertainties
+`````````````
+- ``mass_to_charge``: set to one step in M/Z spacing.
+- ``y``: based on the analog-to-digital conversion (i.e. using the full scale range).
 
 Metadata
 ````````
@@ -83,13 +87,6 @@ are still one or two unknown fields.
     data_position + (n * timestep_length) + 0x06 "datapoints"
     ...
 
-Uncertainties
-`````````````
-Uncertainties in ``mass_to_charge`` are set to one step in M/Z spacing.
-
-Uncertainties in the signal ``y`` are either based on the analog-to-digital conversion
-(i.e. using the full scale range), or from the upper limit of contribution of
-neighboring M/Z points (50 ppm).
 
 .. codeauthor::
     Nicolas Vetsch
@@ -97,11 +94,12 @@ neighboring M/Z points (50 ppm).
 """
 
 import numpy as np
-from xarray import DataTree
-import xarray as xr
 import yadg.dgutils as dgutils
+import xarray as xr
 from pathlib import Path
+from xarray import DataTree, Dataset
 from yadg.extractors import get_extract_dispatch
+
 
 extract = get_extract_dispatch()
 
@@ -205,7 +203,6 @@ def extract_from_path(
                 endpoint=False,
                 retstep=True,
             )
-            mdevs = np.ones(len(mvals)) * dm
             # Read and construct the y data.
             ts_data_pos = header["data_position"] + ts_offset
             # Determine the detector's full scale range.
@@ -222,36 +219,42 @@ def extract_from_path(
             # TODO: Determine the correct accuracy from fsr. The 32bit
             # ADC is a guess that seems to put the error in the correct
             # order of magnitude.
-            sigma_adc = np.ones(len(yvals)) * fsr / 2**32
-            # Determine error based on contributions of neighboring masses.
-            # The upper limit on contribution from peak at next integer mass is 50ppm.
-            prev_neighbor = np.roll(yvals, ndm)
-            prev_neighbor[:ndm] = np.nan
-            next_neighbor = np.roll(yvals, -ndm)
-            next_neighbor[-ndm:] = np.nan
-            sigma_neighbor = np.fmax(prev_neighbor, next_neighbor) * 50e-6
-            # Pick the maximum error here
-            ydevs = np.fmax(sigma_adc, sigma_neighbor)
-            ds = xr.Dataset(
+            sigma_adc = fsr / 2**32
+            ds = Dataset(
                 data_vars={
-                    "fsr": fsr,
-                    "mass_to_charge_std_err": (
-                        ["mass_to_charge"],
-                        mdevs,
+                    "fsr": (
+                        ["uts"],
+                        [fsr],
+                    ),
+                    "mass_to_charge_uncertainty": (
+                        [],
+                        dm,
                         {
-                            "units": info["x_unit"],
                             "standard_name": "mass_to_charge standard_error",
+                            "standard_error_multiplier": 1,
+                            "yadg_uncertainty_type": "abs",
+                            "yadg_uncertainty_distribution": "rectangular",
+                            "yadg_uncertainty_source": "scaling",
                         },
                     ),
                     "y": (
                         ["uts", "mass_to_charge"],
                         [yvals],
-                        {"units": info["y_unit"], "ancilliary_variables": "y_std_err"},
+                        {
+                            "units": info["y_unit"],
+                            "ancilliary_variables": "y_uncertainty",
+                        },
                     ),
-                    "y_std_err": (
-                        ["uts", "mass_to_charge"],
-                        [ydevs],
-                        {"units": info["y_unit"], "standard_name": "y standard_error"},
+                    "y_uncertainty": (
+                        [],
+                        sigma_adc,
+                        {
+                            "standard_name": "y standard_error",
+                            "standard_error_multiplier": 1,
+                            "yadg_uncertainty_type": "abs",
+                            "yadg_uncertainty_distribution": "rectangular",
+                            "yadg_uncertainty_source": "scaling",
+                        },
                     ),
                 },
                 coords={
@@ -260,7 +263,7 @@ def extract_from_path(
                         mvals,
                         {
                             "units": info["x_unit"],
-                            "ancillary_variables": "mass_to_charge_std_err",
+                            "ancillary_variables": "mass_to_charge_uncertainty",
                         },
                     ),
                     "uts": (["uts"], [uts_timestamp]),

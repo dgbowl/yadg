@@ -30,8 +30,7 @@ parameters are currently parsed:
 
 Uncertainties
 `````````````
-Uncertainties in temperatures are set to 2.2°C, which is the usual value for a Type-K
-thermocouple.
+- all values: set to 2.2°C, which is the usual value for a Type-K thermocouple.
 
 Notes on file structure
 ```````````````````````
@@ -127,17 +126,28 @@ def extract_from_path(
         for k, meta in devices.items():
             if meta["id"] == id:
                 #  The type of the device should be thermocouple
+                ku = f"{meta['name'].replace(' ', '_')}_uncertainty"
                 if meta["type"] == "thermocouple":
-                    unit = {"units": "degC"}
+                    unit = {"units": "degC", "ancillary_variables": ku}
                 else:
                     raise RuntimeError("Unknown type {meta['type']!r}.")
                 yvals = data[~np.isnan(data)]
-                ydevs = np.ones(len(yvals)) * 2.2
+                ydevs = 2.2
                 xvals = np.arange(len(yvals)) * meta["xmul"] + uts
                 newds = xr.Dataset(
                     data_vars={
                         meta["name"]: (["uts"], yvals, unit),
-                        f"{meta['name']}_std_err": (["uts"], ydevs, unit),
+                        ku: (
+                            [],
+                            ydevs,
+                            {
+                                "standard_name": f"{meta['name']} standard_error",
+                                "standard_error_multiplier": 1,
+                                "yadg_uncertainty_type": "abs",
+                                "yadg_uncertainty_distribution": "rectangular",
+                                "yadg_uncertainty_source": "datasheets",
+                            },
+                        ),
                     },
                     coords={"uts": (["uts"], xvals)},
                 )

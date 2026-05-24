@@ -28,15 +28,15 @@ Schema
         xout:               (uts, species)        # Mole fraction (normalised conc.)
         retention time:     (uts, species)        # Retention time
 
+Uncertainties
+`````````````
+- all values: derived from the string to float conversion.
+
 Metadata
 ````````
 The following metadata is extracted:
 
     - ``method``: Name of the chromatographic method.
-
-Uncertainties
-`````````````
-The uncertainties are derived from the string representation of the floats.
 
 .. codeauthor::
     Peter Kraus
@@ -135,23 +135,29 @@ def extract_from_path(
         devs = []
         for i in range(len(data)):
             ivals, idevs = zip(
-                *[data[i][kk].get(cn, (np.nan, np.nan)) for cn in species]
+                *[data[i][kk].get(cn, (np.nan, np.inf)) for cn in species]
             )
             vals.append(ivals)
-            devs.append(idevs)
+            devs.append(min(idevs))
         data_vars[kk] = (
             ["uts", "species"],
             vals,
-            {"anciliary_variables": f"{kk}_std_err"},
+            {"anciliary_variables": f"{kk}_uncertainty"},
         )
-        data_vars[f"{kk}_std_err"] = (
-            ["uts", "species"],
-            devs,
-            {"standard_name": f"{kk} standard_error"},
+        ku = f"{kk.replace(' ', '_')}_uncertainty"
+        data_vars[ku] = (
+            [],
+            min(devs),
+            {
+                "standard_name": f"{kk} standard_error",
+                "standard_error_multiplier": 1,
+                "yadg_uncertainty_type": "abs",
+                "yadg_uncertainty_distribution": "rectangular",
+                "yadg_uncertainty_source": "str_conv",
+            },
         )
         if data_units[kk] is not None:
             data_vars[kk][2]["units"] = data_units[kk]
-            data_vars[f"{kk}_std_err"][2]["units"] = data_units[kk]
 
     ds = xr.Dataset(
         data_vars=data_vars,

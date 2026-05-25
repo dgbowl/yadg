@@ -145,7 +145,7 @@ def extract_from_path(
                                 "standard_error_multiplier": 1,
                                 "yadg_uncertainty_type": "abs",
                                 "yadg_uncertainty_distribution": "rectangular",
-                                "yadg_uncertainty_source": "datasheets",
+                                "yadg_uncertainty_source": "datasheet",
                             },
                         ),
                     },

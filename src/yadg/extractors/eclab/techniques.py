@@ -32,11 +32,11 @@ in :func:`get_resolution`.
 
 """
 
-import numpy as np
-from math import sqrt
-from typing import Any
 import bisect
 import logging
+import numpy as np
+import xarray as xr
+
 
 logger = logging.getLogger(__name__)
 
@@ -1697,7 +1697,19 @@ def param_from_key(param: str, key: int | str, to_str: bool = True) -> str | flo
     return key
 
 
-def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> float:
+def get_unc(name: str, range: float) -> tuple[float, dict]:
+    val = dev_VI(name=name, fsr=range)
+    attrs = {
+        "standard_name": f"{name} standard_error",
+        "standard_error_multiplier": 1,
+        "yadg_uncertainty_type": "abs",
+        "yadg_uncertainty_distribution": "normal",
+        "yadg_uncertainty_source": "datasheet",
+    }
+    return val, attrs
+
+
+def dev_VI(name: str, fsr: float) -> float:
     """
     Function that returns the resolution of a voltage or current based on its name,
     value, E-range and I-range.
@@ -1705,151 +1717,40 @@ def dev_VI(name: str, value: float, unit: str, Erange: float, Irange: float) -> 
     The values used here are hard-coded from VMP-3 potentiostats.
 
     """
-    if name in {"control_V", "control_V 2"} and unit in {"V"}:
+    if name in {"control_V", "control_V 2"}:
         # VMP-3: bisect function between 5 µV and 300 µV, as the
         # voltage is stored in a 16-bit int.
-        if Erange >= 20.0:
+        if fsr >= 20.0:
             return 305.18e-6
         else:
             res = [5e-6, 10e-6, 20e-6, 50e-6, 100e-6, 150e-6, 200e-6, 300e-6, 305.18e-6]
-            i = bisect.bisect_right(res, Erange / np.iinfo(np.uint16).max)
+            i = bisect.bisect_right(res, fsr / np.iinfo(np.uint16).max)
             return res[i]
-    elif name in {"control_I", "control_I 2"} and unit in {"mA"}:
+    elif name in {"control_I", "control_I 2"}:
         # VMP-3: 0.004% of FSR, 760 µV at 10 µA I-range
-        return max(Irange * 0.004 / 100, 760e-12)
-    elif unit in {"V", "mV", "μV"}:
+        return max(fsr * 0.004 / 100, 760e-12)
+    elif name in {"V", "<V>"}:
         # VMP-3: 0.0015% of FSR, 75 µV minimum
-        return max(Erange * 0.0015 / 100, 75e-6)
-    elif unit in {"A", "mA", "µA", "nA", "pA"}:
+        return max(fsr * 0.0015 / 100, 75e-6)
+    elif name in {"I", "<I>"}:
         # VMP-3: 0.004% of FSR
-        return Irange * 0.004 / 100
+        return fsr * 0.004 / 100
     else:
-        raise RuntimeError(f"Unknown quantity {name!r} passed with unit {unit!r}.")
+        raise RuntimeError(f"Unknown quantity {name!r}.")
 
 
-def dev_derived(
-    name: str,
-    unit: str,
-    val: float,
-    rtol_I: float,
-    rtol_V: float,
-    rtol_VI: float,
-) -> float:
-    """
-    Function that returns the resolution of a derived quantity based on its unit,
-    value, and the relative error in the current and voltage.
-
-    The values used here are hard-coded from VMP-3 potentiostats.
-
-    """
-    if unit in {"V", "mV", "µV"}:
-        return val * rtol_V
-    elif unit in {"A", "mA", "µA", "nA", "pA"}:
-        return val * rtol_I
-    elif unit in {"Hz"}:
-        # VMP-3: using accuracy: 1% of value
-        return val * 0.01
-    elif unit in {"deg"}:
-        # VMP-3: using accuracy: 1 degree
-        return 1.0
-    elif unit in {"Ω", "S", "W", "Ω⁻¹"}:
-        # [Ω] = [V]/[A];
-        # [S] = [A]/[V];
-        # [W] = [A]*[V];
-        return val * rtol_VI
-    elif unit in {"C"}:
-        # [C] = [A]*[s];
-        return val * rtol_I
-    elif unit in {"mA·h"}:
-        # [A·h] = [A]*[h]
-        return val * rtol_I
-    elif unit in {"W·h"}:
-        # [W·h] = [A]*[V]*[h]
-        return val * rtol_VI
-    elif unit in {"µF", "nF"}:
-        # [F] = [C]/[V] = [A]*[s]/[V]
-        return val * rtol_VI
-    elif unit in {"Ω·cm", "Ω·m"}:
-        # [Ω·m] = [Ω]*[m] = [V]*[m]/[A]
-        return val * rtol_VI
-    elif unit in {"mS/cm", "S/cm", "mS/m", "S/m"}:
-        # [S/m] = 1 / ([Ω]*[m]) = [A] / ([V]*[m])
-        return val * rtol_VI
-    elif unit in {"s"}:
-        # Based on the EC-Lib documentation,
-        # 50 us is a safe upper limit for timebase
-        return 50e-6
-    elif unit in {"%"}:
-        return 0.1
-    elif name in {"Re(M)", "Im(M)", "|M|"}:
-        return float("nan")
-    elif name in {"Tan(Delta)"}:
-        return float("nan")
-    elif name in {"Re(Permittivity)", "Im(Permittivity)", "|Permittivity|"}:
-        # εr = ε/ε0
-        # ε -> [F]/[m] = [A]*[s]/[V]
-        return val * rtol_VI
-    elif unit in {"°C"}:
-        return 1e-6  # Based on quantization error in measurements
-    else:
-        raise RuntimeError(
-            f"Could not get resolution of quantity {name!r} with unit {unit!r}."
+def split_control(ds: xr.Dataset):
+    if "control" in ds and "mode" in ds:
+        mask = xr.where(ds["mode"].values == 2, True, False)
+        ds["control_V"] = xr.DataArray(
+            data=xr.where(mask, 1, float("nan")) * ds["control"].values,
+            dims=("uts",),
+            attrs={"ancillary_variables": "control_V_uncertainty", "units": "V"},
         )
-
-
-def get_devs(
-    vals: dict[str, Any],
-    units: dict[str, str],
-    Erange: float,
-    Irange: float,
-    devs: dict[str, float] = None,
-) -> dict[str, float]:
-    rtol_V = 0.0
-    rtol_I = 0.0
-    if devs is None:
-        devs = {}
-    for col in ["<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"]:
-        val = vals.get(col)
-        unit = units.get(col)
-        if val is None:
-            continue
-        devs[col] = max(
-            dev_VI(col, abs(val), unit, Erange, Irange),
-            devs.get(col, float("nan")),
+        ds["control_I"] = xr.DataArray(
+            data=xr.where(~mask, 1, float("nan")) * ds["control"].values,
+            dims=("uts",),
+            attrs={"ancillary_variables": "control_I_uncertainty", "units": "mA"},
         )
-        if val == 0.0:
-            continue
-        elif col in {"Ewe", "<Ewe>"}:
-            rtol_V = min(max(rtol_V, devs[col] / abs(val)), 1.0)
-        elif col in {"I", "<I>"}:
-            rtol_I = min(max(rtol_I, devs[col] / abs(val)), 1.0)
-
-    r_sqrtVI = sqrt(rtol_I**2 + rtol_V**2)
-
-    for col, val in vals.items():
-        if col in {"<Ewe>", "<I>", "Ewe", "I", "control_I", "control_V"}:
-            continue
-        elif col.startswith("unknown_"):
-            continue
-        unit = units.get(col)
-        if isinstance(val, float):
-            if col in devs:
-                devs[col] = max(
-                    devs[col],
-                    dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI),
-                )
-            else:
-                devs[col] = dev_derived(col, unit, abs(val), rtol_I, rtol_V, r_sqrtVI)
-
-    return devs
-
-
-def split_control(vals: dict, units: dict):
-    if "control" in vals:
-        mode = vals.get("mode", 3)
-        vals["control_V"] = np.nan if mode in {1, 3} else vals["control"]
-        vals["control_I"] = np.nan if mode in {2} else vals["control"]
-        units["control_V"] = "V"
-        units["control_I"] = "mA"
-        del vals["control"]
-    return vals, units
+        del ds["control"]
+    return ds

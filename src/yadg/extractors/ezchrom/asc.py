@@ -23,6 +23,11 @@ Schema
         data_vars:
           signal:         (uts, elution_time)   # Signal data
 
+Uncertainties
+`````````````
+- ``signal``: using scaling from Y-axis multiplier.
+- ``elution_time``: using scaling from X-axis multiplier.
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -32,26 +37,18 @@ The following metadata is extracted:
     - ``method``: Name of the chromatographic method.
     - ``version``: Version of the CH file (only "179" is currently supported.)
 
-Uncertainties
-`````````````
-The uncertainties in ``signal`` are derived from the string representation of the float.
-
-For ``elution_time``, an uncertainty of one X-axis multiplier is used.
-
 
 .. codeauthor::
     Peter Kraus
 
 """
 
-import numpy as np
 import logging
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-import xarray as xr
-from xarray import DataTree
+import numpy as np
 from pathlib import Path
-from yadg.extractors import get_extract_dispatch
+from xarray import DataTree, Dataset
 from yadg import dgutils
+from yadg.extractors import get_extract_dispatch
 
 extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
@@ -105,9 +102,7 @@ def extract_from_path(
             _yunits = [each.strip() for each in parts[1:]]
             yunits = [i.replace("25", "").strip() for i in _yunits]
             if yunits != _yunits:
-                logger.warning(
-                    "Implicit conversion of y-axis unit from '25 µV' to 'µV'."
-                )
+                logger.info("Implicit conversion of y-axis unit from '25 µV' to 'µV'.")
                 yunits = [i.replace("25", "") for i in yunits]
         if line.startswith("X Axis Multiplier:"):
             parts = line.split("\t")
@@ -128,7 +123,6 @@ def extract_from_path(
     ), f"datasc: Inconsistent number of traces in {source}."
 
     data = {}
-    units = {}
     for ti, npts in enumerate(npoints):
         assert xunits[ti] == "Minutes", (
             f"datasc: X units label of trace {ti} in {source} was not understood."
@@ -136,54 +130,49 @@ def extract_from_path(
         dt = 60
         xmul = xmuls[ti] * dt / samplerates[ti]
         ymul = ymuls[ti]
-        xsn = np.arange(npts) * xmul
-        xss = np.ones(npts) * xmul
-        ysn, yss = zip(*[tuple_fromstr(li) for li in lines[si : si + npts]])
-        si += npts
-        data[f"{ti}"] = {
-            "t": (xsn, xss),
-            "y": (np.array(ysn) * ymul, np.array(yss) * ymul),
+        data_vars = {
+            "signal": (
+                ("uts", "elution_time"),
+                [[float(i) * ymul for i in lines[si : si + npts]]],
+                {"units": yunits[ti], "ancillary_variables": "signal_uncertainty"},
+            ),
+            "signal_uncertainty": (
+                [],
+                ymul,
+                {
+                    "standard_name": "signal standard_error",
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
+                    "yadg_uncertainty_distribution": "rectangular",
+                    "yadg_uncertainty_source": "scaling",
+                },
+            ),
+            "elution_time_uncertainty": (
+                [],
+                xmul,
+                {
+                    "standard_name": "elution_time standard_error",
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
+                    "yadg_uncertainty_distribution": "rectangular",
+                    "yadg_uncertainty_source": "scaling",
+                },
+            ),
         }
-        units[f"{ti}"] = {"t": "s", "y": yunits[ti]}
-
-    traces = sorted(data.keys())
-    vals = {}
-    for ti in traces:
-        fvals = xr.Dataset(
-            data_vars={
-                "signal": (
-                    ["uts", "elution_time"],
-                    [data[ti]["y"][0]],
-                    {"units": units[ti]["y"], "ancillary_variables": "signal_std_err"},
-                ),
-                "signal_std_err": (
-                    ["uts", "elution_time"],
-                    [data[ti]["y"][1]],
-                    {"units": units[ti]["y"], "standard_name": "signal standard_error"},
-                ),
-                "elution_time_std_err": (
-                    ["elution_time"],
-                    data[ti]["t"][1],
-                    {
-                        "units": units[ti]["t"],
-                        "standard_name": "elution_time standard_error",
-                    },
-                ),
-            },
-            coords={
-                "elution_time": (
-                    ["elution_time"],
-                    data[ti]["t"][0],
-                    {
-                        "units": units[ti]["t"],
-                        "ancillary_variables": "elution_time_std_err",
-                    },
-                ),
-                "uts": (["uts"], [uts]),
-            },
-            attrs={},
-        )
-        vals[ti] = fvals
-    dt = DataTree.from_dict(vals)
+        coords = {
+            "elution_time": (
+                ("elution_time",),
+                np.arange(npts) * xmul,
+                {"units": "s", "ancillary_variables": "elution_time_uncertainty"},
+            ),
+            "uts": (
+                ("uts",),
+                [uts],
+            ),
+        }
+        si += npts
+        ds = Dataset(data_vars=data_vars, coords=coords)
+        data[f"{ti}"] = ds
+    dt = DataTree.from_dict(data)
     dt.attrs = dict(original_metadata=metadata)
     return dt

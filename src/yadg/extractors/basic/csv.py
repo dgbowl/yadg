@@ -33,6 +33,10 @@ Schema
       data_vars:
         {{ headers }}:  (uts)                 # Populated from file headers
 
+Uncertainties
+`````````````
+- all values: string to float conversion
+
 Metadata
 ````````
 No metadata is extracted.
@@ -43,78 +47,16 @@ No metadata is extracted.
 """
 
 import logging
-from pydantic import BaseModel
-from babel.numbers import parse_decimal
-from xarray import DataTree
-from typing import Callable
 from pathlib import Path
-from yadg.extractors import get_extract_dispatch
+from pydantic import BaseModel
 from yadg import dgutils
+from yadg.dgutils.table import process_table
+from yadg.extractors import get_extract_dispatch
+from xarray import DataTree, Dataset
+
 
 extract = get_extract_dispatch()
 logger = logging.getLogger(__name__)
-
-
-def process_row(
-    headers: list,
-    items: list,
-    datefunc: Callable,
-    datecolumns: list[int],
-    locale: str = "en_GB",
-) -> tuple[dict, dict]:
-    """
-    A function that processes a row of a table.
-
-    This is the main worker function of :mod:`basic.csv` module, but is often
-    re-used by any other parser that needs to process tabular data.
-
-    Parameters
-    ----------
-    headers
-        A list of headers of the table.
-
-    items
-        A list of values corresponding to the headers. Must be the same length as
-        headers.
-
-    datefunc
-        A function that will generate ``uts`` given a list of values.
-
-    datecolumns
-        Column indices that need to be passed to ``datefunc`` to generate uts.
-
-    Returns
-    -------
-    vals, devs
-        A tuple of result dictionaries, with the first element containing the values
-        and the second element containing the uncertainties of the values.
-
-    """
-    if len(headers) != len(items):
-        raise RuntimeError(
-            f"Length mismatch between provided headers {headers!r} and items {items!r}."
-        )
-
-    vals = {}
-    devs = {}
-    columns = [column.strip() for column in items]
-
-    # Process raw data, assign sigma and units
-    vals["uts"] = datefunc(*[columns[i] for i in datecolumns])
-    for ci, header in enumerate(headers):
-        if ci in datecolumns:
-            continue
-        elif columns[ci] == "":
-            continue
-        try:
-            dec = parse_decimal(columns[ci], locale=locale)
-            exp = dec.as_tuple().exponent
-            vals[header] = float(dec)
-            devs[header] = 10**exp
-        except ValueError:
-            vals[header] = columns[ci]
-
-    return vals, devs
 
 
 @extract.register(Path)
@@ -138,7 +80,12 @@ def extract(
         # at the beginning of each line.
         lines = [i.encode().decode(encoding) for i in infile.readlines()]
     assert len(lines) >= 2
-    headers = [h.strip().strip(strip) for h in lines[0].split(parameters.sep)]
+    headers = [
+        h.replace("/", "_").strip().strip(strip) for h in lines[0].split(parameters.sep)
+    ]
+    # Strip trailing columns; data will be dumped too!
+    while headers[-1] == "":
+        headers = headers[:-1]
 
     datecolumns, datefunc, fulldate = dgutils.infer_timestamp_from(
         headers=headers, spec=parameters.timestamp, timezone=timezone
@@ -164,16 +111,21 @@ def extract(
     units = dgutils.sanitize_units(units)
 
     # Process rows
-    data_vals = {}
-    meta_vals = {}
-    for li, line in enumerate(lines[si:]):
-        vals, devs = process_row(
-            headers,
-            [i.strip().strip(strip) for i in line.split(parameters.sep)],
-            datefunc,
-            datecolumns,
-            locale=locale,
-        )
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, li)
+    data_vars = process_table(
+        lines[si:],
+        headers=headers,
+        sep=parameters.sep,
+        strip=parameters.strip,
+        locale=locale,
+        datecolumns=datecolumns,
+        datefunc=datefunc,
+    )
+    coords = dict(uts=data_vars.pop("uts"))
+    attrs = dict() if fulldate else dict(fulldate=False)
 
-    return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, units, fulldate))
+    for k in units:
+        if k in data_vars:
+            data_vars[k][2]["units"] = units[k]
+
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
+    return DataTree(ds)

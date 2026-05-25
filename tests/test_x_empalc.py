@@ -27,7 +27,7 @@ def test_empalc_consistency(afile, bfile, _datadir):
     bret = extract_csv(source=Path(bfile), encoding="utf-8")
 
     for key in aret.variables:
-        if key.endswith("std_err"):
+        if key.endswith("_uncertainty"):
             continue
         try:
             xr.testing.assert_allclose(aret[key], bret[key])

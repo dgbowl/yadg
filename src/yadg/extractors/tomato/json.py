@@ -25,6 +25,12 @@ Schema
         cycle number:   (uts)       # Cycle number (within technique)
         index:          (uts)       # Technique index
 
+
+Uncertainties
+`````````````
+- ``I``: constant uncertainty of 0.0015% FSR up to 0.76 µA, from VMP-3 datasheets
+- ``Ewe`` and ``Ece``: constant uncertainty of 0.004% FSR up to 75 µV, from VMP-3 datasheets.
+
 Metadata
 ````````
 No metadata is extracted.
@@ -47,13 +53,6 @@ might be invalid (after the run has finished) or not in sync with the ``data`` (
 a technique change happened). However, ``previous`` may not be present in the first
 data file of an experiment.
 
-Uncertainties
-`````````````
-To determine the measurement errors, the values from BioLogic manual are used: for
-measured voltages (:math:`E_{\\text{we}}` and :math:`E_{\\text{ce}}`) this corresponds
-to a constant uncertainty of 0.004% of the applied E-range with a maximum of 75 uV,
-while for currents (:math:`I`) this is a constant uncertainty of 0.0015% of the applied
-I-range with a maximum of 0.76 uA.
 
 .. codeauthor::
     Peter Kraus
@@ -115,13 +114,13 @@ def biologic_tomato_json(fn: Path, jsdata: dict) -> DataTree:
         "index": [],
         "time": [],
         "Ewe": [],
-        "Ewe_std_err": [],
         "Ece": [],
-        "Ece_std_err": [],
         "I": [],
-        "I_std_err": [],
         "cycle": [],
     }
+
+    E_dev = max(E_range * 0.0015 / 100, 75e-6)
+    I_dev = max(I_range * 0.004 / 100, 760e-12)
 
     for point in jsdata["data"]:
         for k, v in point.items():
@@ -129,10 +128,8 @@ def biologic_tomato_json(fn: Path, jsdata: dict) -> DataTree:
                 data_vars[k].append(uts + v)
             elif k in {"Ewe", "Ece"}:
                 data_vars[k].append(v)
-                data_vars[f"{k}_std_err"].append(max(E_range * 0.0015 / 100, 75e-6))
             elif k in {"I"}:
                 data_vars[k].append(v)
-                data_vars[f"{k}_std_err"].append(max(I_range * 0.004 / 100, 760e-12))
             elif k in {"cycle"}:
                 data_vars[k].append(v)
             else:
@@ -145,24 +142,28 @@ def biologic_tomato_json(fn: Path, jsdata: dict) -> DataTree:
     uts = data_vars.pop("time")
 
     data_vars = {k: v for k, v in data_vars.items() if len(v) > 0}
+    keys = list(data_vars.keys())
 
-    for k in data_vars:
+    for k in keys:
         if k in {"Ewe", "Ece", "I"}:
+            ku = f"{k}_uncertainty"
             data_vars[k] = (
                 ["uts"],
                 data_vars[k],
                 {
                     "units": "A" if k == "I" else "V",
-                    "ancillary_variables": f"{k}_std_err",
+                    "ancillary_variables": ku,
                 },
             )
-        elif k.endswith("_std_err"):
-            data_vars[k] = (
-                ["uts"],
-                data_vars[k],
+            data_vars[ku] = (
+                [],
+                I_dev if k == "I" else E_dev,
                 {
-                    "units": "A" if k == "I" else "V",
-                    "standard_name": f"{k.replace('_std_err', '')} standard_error",
+                    "standard_name": f"{k} standard_error",
+                    "standard_error_multiplier": 1,
+                    "yadg_uncertainty_type": "abs",
+                    "yadg_uncertainty_distribution": "rectangular",
+                    "yadg_uncertainty_source": "datasheet",
                 },
             )
         else:
@@ -179,11 +180,7 @@ def dummy_tomato_json(fn: Path, jsdata: dict) -> DataTree:
     meta_vals = {}
     for vi, vals in enumerate(jsdata["data"]):
         vals["uts"] = vals.pop("time")
-        devs = {}
-        for k, v in vals.items():
-            if k not in {"time", "address", "channel"}:
-                devs[k] = 0.0
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, vi)
+        dgutils.append_dicts(vals, {}, data_vals, meta_vals, vi)
     return DataTree(dgutils.dicts_to_dataset(data_vals, meta_vals, fulldate=False))
 
 

@@ -18,6 +18,10 @@ Schema
       data_vars:
         intensity:      (angle)          # Measured intensity
 
+Uncertainties
+`````````````
+- all values: string to float conversion.
+
 Metadata
 ````````
 No metadata is present in files.
@@ -34,11 +38,9 @@ timestamp.
     Peter Kraus
 """
 
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-import numpy as np
-from xarray import DataTree
-import xarray as xr
 from pathlib import Path
+from xarray import DataTree, Dataset
+from yadg.dgutils.table import process_table
 from yadg.extractors import get_extract_dispatch
 
 extract = get_extract_dispatch()
@@ -53,37 +55,16 @@ def extract_from_path(
 ) -> DataTree:
     with open(source, "r", encoding=encoding) as xy_file:
         xy = xy_file.readlines()
-    datapoints = [li.strip().split() for li in xy]
-    angle, intensity = list(zip(*datapoints))
-    angle, _ = list(zip(*[tuple_fromstr(a) for a in angle]))
-    insty, _ = list(zip(*[tuple_fromstr(i) for i in intensity]))
-    idevs = np.ones(len(insty))
-    adiff = np.abs(np.diff(angle)) * 0.5
-    adiff = np.append(adiff, adiff[-1])
-    vals = xr.Dataset(
-        data_vars={
-            "intensity": (
-                ["angle"],
-                list(insty),
-                {"units": "counts", "ancillary_variables": "intensity_std_err"},
-            ),
-            "intensity_std_err": (
-                ["angle"],
-                idevs,
-                {"units": "counts", "standard_name": "intensity standard_error"},
-            ),
-            "angle_std_err": (
-                ["angle"],
-                adiff,
-                {"units": "deg", "standard_name": "angle standard_error"},
-            ),
-        },
-        coords={
-            "angle": (
-                ["angle"],
-                list(angle),
-                {"units": "deg", "ancillary_variables": "angle_std_err"},
-            ),
-        },
+
+    data_vars = process_table(
+        lines=xy,
+        headers=["angle", "intensity"],
     )
-    return DataTree(vals)
+    data_vars["intensity"] = (
+        ["angle"],
+        data_vars["intensity"][1],
+        data_vars["intensity"][2],
+    )
+    coords = dict(angle=data_vars.pop("angle"))
+    ds = Dataset(data_vars=data_vars, coords=coords)
+    return DataTree(ds)

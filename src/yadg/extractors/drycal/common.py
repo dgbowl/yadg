@@ -8,15 +8,13 @@ and ensuring timestamps are increasing.
 
 """
 
-from pydantic import BaseModel
-from typing import Optional
-from xarray import Dataset
 import logging
-import xarray as xr
+from pydantic import BaseModel
 from striprtf.striprtf import rtf_to_text
-
+from typing import Optional
+from xarray import Dataset, DataArray
 from yadg import dgutils
-from yadg.extractors.basic.csv import process_row
+from yadg.dgutils.table import process_table
 
 logger = logging.getLogger(__name__)
 
@@ -63,19 +61,29 @@ def rtf(
     for line in lines[di:]:
         if line.strip() != "":
             dl.append(line)
-    headers, units, data = drycal_table(dl, sep="|")
+    headers, units = drycal_header(dl[0], sep="|")
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec=TimeDate(time={"index": 4, "format": "%I:%M:%S %p"}), timezone=timezone
+        spec=TimeDate(time={"index": 5, "format": "%I:%M:%S %p"}), timezone=timezone
     )
 
-    # Process rows
-    data_vals = {}
-    meta_vals = {}
-    for pi, point in enumerate(data):
-        vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, pi)
+    data_vars = process_table(
+        lines=dl[1:],
+        headers=headers,
+        datecolumns=datecolumns,
+        datefunc=datefunc,
+        sep="|",
+    )
+    coords = dict(uts=data_vars.pop("uts"))
+    attrs = dict(fulldate=False)
+    data_vars.pop("Sample")
+    data_vars.pop("Sample_uncertainty")
 
-    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
+    for k in units:
+        if k in data_vars:
+            data_vars[k][2]["units"] = units[k]
+
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
+    return ds
 
 
 def sep(
@@ -106,27 +114,38 @@ def sep(
     for line in lines[di:]:
         if line.strip() != "":
             dl.append(line)
-    headers, units, data = drycal_table(dl, sep=sep)
+    headers, units = drycal_header(dl[0], sep=sep)
+    print(dl[1])
 
-    if "AM" in data[0][-1].upper() or "PM" in data[0][-1].upper():
+    if "AM" in dl[1].upper() or "PM" in dl[1].upper():
         fmt = "%I:%M:%S %p"
     else:
         fmt = "%H:%M:%S"
     datecolumns, datefunc, _ = dgutils.infer_timestamp_from(
-        spec=TimeDate(time={"index": 4, "format": fmt}), timezone=timezone
+        spec=TimeDate(time={"index": 5, "format": fmt}), timezone=timezone
     )
 
-    # Process rows
-    data_vals = {}
-    meta_vals = {}
-    for pi, point in enumerate(data):
-        vals, devs = process_row(headers[1:], point[1:], datefunc, datecolumns)
-        dgutils.append_dicts(vals, devs, data_vals, meta_vals, pi)
+    data_vars = process_table(
+        lines=dl[1:],
+        headers=headers,
+        datecolumns=datecolumns,
+        datefunc=datefunc,
+        sep=sep,
+    )
+    coords = dict(uts=data_vars.pop("uts"))
+    attrs = dict(fulldate=False)
+    data_vars.pop("Sample")
+    data_vars.pop("Sample_uncertainty")
 
-    return dgutils.dicts_to_dataset(data_vals, meta_vals, units, False)
+    for k in units:
+        if k in data_vars:
+            data_vars[k][2]["units"] = units[k]
+
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
+    return ds
 
 
-def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
+def drycal_header(line: str, sep: str = ",") -> tuple[list, dict]:
     """
     DryCal table-processing function.
 
@@ -135,11 +154,9 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
     The returned values are always of :class:`(str)` type, any post-processing is done
     in the calling routine.
     """
-    items = [i.strip() for i in lines[0].split(sep)]
+    items = [i.strip() for i in line.split(sep)]
     headers = []
     units = {}
-    data = []
-    trim = False
     for item in items:
         for rs in [". ", " "]:
             parts = item.split(rs)
@@ -151,18 +168,10 @@ def drycal_table(lines: list, sep: str = ",") -> tuple[list, dict, list]:
         else:
             units[parts[0]] = " "
     if items[-1] == "":
-        trim = True
         headers = headers[:-1]
-    for line in lines[1:]:
-        cols = line.split(sep)
-        assert len(cols) == len(items)
-        if trim:
-            data.append(cols[:-1])
-        else:
-            data.append(cols)
 
     units = dgutils.sanitize_units(units)
-    return headers, units, data
+    return headers, units
 
 
 def check_timestamps(vals: Dataset) -> Dataset:
@@ -179,6 +188,6 @@ def check_timestamps(vals: Dataset) -> Dataset:
                 ndays += 1
                 uts = utslist[i] + ndays * 86400
             utslist[i] = uts
-    vals["uts"] = xr.DataArray(data=utslist, dims=["uts"])
+    vals["uts"] = DataArray(data=utslist, dims=["uts"])
     vals.attrs["fulldate"] = False
     return vals

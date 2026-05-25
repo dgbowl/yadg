@@ -21,6 +21,10 @@ The output schema is only defined for the ``tomato.json`` filetype.
     data_vars:
       {{ param_keys }}  (None)       # All parameter key/value pairs
 
+Uncertainties
+`````````````
+No uncertainties produced by this extractor.
+
 Metadata
 ````````
 No metadata is returned.

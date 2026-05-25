@@ -21,6 +21,12 @@ Schema
         data_vars:
           y:            (E)                   # Signal data
 
+
+Uncertainties
+`````````````
+- ``E``: the step-width of the linearly spaced energy values.
+- ``y``: a constant value of ``12.5`` counts per second from observed data.
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -107,34 +113,18 @@ After the trace headers follow the datapoints. After the number of
 datapoints there is a single 32bit float with the trace's dwelling time
 again.
 
-Uncertainties
-`````````````
-The uncertainties of ``"E"`` are taken as the step-width of
-the linearly spaced energy values.
-
-The uncertainties ``"s"`` of ``"y"`` are currently set to a constant
-value of ``12.5`` counts per second as all the signals in the files seen so
-far only seem to take on values in those steps.
-
-.. admonition:: TODO
-
-    https://github.com/dgbowl/yadg/issues/13
-
-    Determining the uncertainty of the counts per second signal in XPS
-    traces from the phispe parser should be done in a better way.
-
 .. codeauthor::
     Nicolas Vetsch
 
 """
 
-import re
 import numpy as np
-import xarray as xr
-from xarray import DataTree
+import re
 import yadg.dgutils as dgutils
-from yadg.extractors import get_extract_dispatch
 from pathlib import Path
+from xarray import DataTree, Dataset
+from yadg.extractors import get_extract_dispatch
+
 
 extract = get_extract_dispatch()
 
@@ -330,10 +320,10 @@ def _process_traces(spe: list[bytes], trace_defs: list[dict]) -> dict:
             "e_pass": trace_def["e_pass"],
             "description": trace_def["description"],
             "yvals": datapoints,
-            "ydevs": np.ones(len(datapoints)) * 12.5,
+            "ydevs": 12.5,
             "yunit": "counts / s",
             "Evals": energies,
-            "Edevs": np.ones(len(energies)) * abs(dE),
+            "Edevs": abs(dE),
             "Eunit": "eV",
         }
     return traces
@@ -358,29 +348,41 @@ def extract_from_path(
     traces = _process_traces(spe, trace_defs)
     vals = {}
     for v in traces.values():
-        fvals = xr.Dataset(
+        fvals = Dataset(
             data_vars={
                 "y": (
                     ["E"],
                     v["yvals"],
-                    {"units": v["yunit"], "ancillary_variables": "y_std_err"},
+                    {"units": v["yunit"], "ancillary_variables": "y_uncertainty"},
                 ),
-                "y_std_err": (
-                    ["E"],
+                "y_uncertainty": (
+                    [],
                     v["ydevs"],
-                    {"units": v["yunit"], "standard_name": "y standard_error"},
+                    {
+                        "standard_name": "y standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "scaling",
+                    },
                 ),
-                "E_std_err": (
-                    ["E"],
+                "E_uncertainty": (
+                    [],
                     v["Edevs"],
-                    {"units": v["Eunit"], "standard_name": "E standard_error"},
+                    {
+                        "standard_name": "E standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "scaling",
+                    },
                 ),
             },
             coords={
                 "E": (
                     ["E"],
                     v["Evals"],
-                    {"units": v["Eunit"], "ancillary_variables": "E_std_err"},
+                    {"units": v["Eunit"], "ancillary_variables": "E_uncertainty"},
                 ),
             },
         )

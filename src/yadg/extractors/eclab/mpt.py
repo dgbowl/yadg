@@ -33,6 +33,15 @@ in a typical ``.mpt`` file.
      Note that in most cases, either the instantaneous or the averaged quantities are
      stored - only rarely are both available!
 
+Uncertainties
+`````````````
+- ``control_V``: VMP-3 specsheet using maximum E Range as FSR with 16-bit conversion
+- ``control_I``: VMP-3 specsheet using maximum I Range as FSR with 760 µV minimum
+- ``V``, ``<V>``: VMP-3 specsheet using maximum E Range as FSR
+- ``I``, ``<I>``: VMP-3 specsheet using maximum I Range as FSR
+- all other values: string to float conversion
+
+
 Notes on file structure
 ```````````````````````
 These human-readable files are sectioned into header lines and data lines.
@@ -53,53 +62,19 @@ The metadata will contain the information from the header of the file.
 """
 
 import logging
-from typing import Any
+from .mpt_columns import column_units
+from .techniques import param_from_key, get_unc, split_control
 from babel.numbers import parse_decimal
+from pathlib import Path
+from typing import Any
 from xarray import DataTree, Dataset, DataArray
 from yadg import dgutils
-from .techniques import get_devs, param_from_key, split_control
-from .mpt_columns import column_units
-from pathlib import Path
 from yadg.extractors import get_extract_dispatch
+from yadg.dgutils.table import process_table
+
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
-
-
-def dicts_to_dataset(
-    data: dict[str, list[Any]],
-    meta: dict[str, list[Any]],
-    units: dict[str, str] = dict(),
-    fulldate: bool = True,
-) -> Dataset:
-    darrs = {}
-    for key, val in data.items():
-        attrs = {}
-        u = units.get(key, None)
-        if u is not None:
-            attrs["units"] = u
-        if key == "uts":
-            continue
-        if "/" in key:
-            logger.warning(f"Replacing '/' for '_' in column {key!r}.")
-            k = key.replace("/", "_")
-        else:
-            k = key
-        darrs[k] = DataArray(data=val, dims=["uts"], attrs=attrs)
-        if key in meta and darrs[k].dtype.kind in {"i", "u", "f", "c", "m", "M"}:
-            err = f"{k}_std_err"
-            darrs[k].attrs["ancillary_variables"] = err
-            attrs["standard_name"] = f"{k} standard_error"
-            darrs[err] = DataArray(data=meta[key], dims=["uts"], attrs=attrs)
-    if "uts" in data:
-        coords = dict(uts=data.pop("uts"))
-    else:
-        coords = dict()
-    if fulldate:
-        attrs = dict()
-    else:
-        attrs = dict(fulldate=False)
-    return Dataset(data_vars=darrs, coords=coords, attrs=attrs)
 
 
 def process_settings(lines: list[str]) -> dict[str, str]:
@@ -257,8 +232,6 @@ def process_header(
 
 def process_data(
     lines: list[str],
-    Eranges: list[float],
-    Iranges: list[float],
     locale: str,
 ):
     """Processes the data lines.
@@ -296,50 +269,38 @@ def process_data(
             units[c] = u
     # Remove empty lines from data_lines, see issue #151.
     data_lines = [line for line in lines[2:] if line.strip() != ""]
-    allvals = dict()
-    allmeta = dict()
-    warn_I_range = False
-    for li, line in enumerate(data_lines):
-        values = line.split("\t")
-        vals = dict()
-        devs = dict()
-        for ci, name in enumerate(columns):
-            value = values[ci]
-            if units.get(name) is None:
-                ival = int(parse_decimal(value, locale=locale))
-                if name == "I Range":
-                    vals[name] = param_from_key("I Range", ival)
-                else:
-                    vals[name] = ival
-            else:
-                try:
-                    dec = parse_decimal(value, locale=locale)
-                    vals[name] = float(dec)
-                    exp = dec.as_tuple().exponent
-                    devs[name] = float("nan") if isinstance(exp, str) else 10**exp
-                except ValueError:
-                    sval = value.strip()
-                    vals[name] = sval
 
-        Ns = vals.get("Ns", 0)
-        Erange = Eranges[Ns] if isinstance(Eranges, list) else Eranges
-        Irstr = Iranges[Ns] if isinstance(Iranges, list) else Iranges
-        if "I Range" in vals:
-            Irstr = vals["I Range"]
-        Irange = param_from_key("I Range", Irstr, to_str=False)
+    if len(data_lines) > 0:
+        data_vars = process_table(
+            lines=data_lines,
+            headers=columns,
+            locale=locale,
+            uncertainties_int_columns=False,
+        )
+    else:
+        data_vars = {}
 
-        # I Range can be None if it's set to "Auto", "PAC" or other such string.
-        if Irange is None:
-            warn_I_range = True
-            Irange = 1.0
+    for k in data_vars:
+        if k.endswith("_uncertainty"):
+            continue
+        data_vars[k] = (("uts",), *data_vars[k][1:])
 
-        vals, units = split_control(vals, units)
-        devs = get_devs(vals=vals, units=units, Erange=Erange, Irange=Irange, devs=devs)
-        dgutils.append_dicts(vals, devs, allvals, allmeta, li=li)
-    if warn_I_range:
-        logger.warning("I Range could not be understood, defaulting to 1 A.")
+    if "I Range" in data_vars:
+        params = [param_from_key("I Range", int(v)) for v in data_vars["I Range"][1]]
+        data_vars["I Range"] = (
+            data_vars["I Range"][0],
+            params,
+            data_vars["I Range"][2],
+        )
 
-    ds = dicts_to_dataset(allvals, allmeta, units, fulldate=False)
+    coords = dict()
+    attrs = dict(fulldate=False)
+
+    for k in units:
+        if k in data_vars:
+            data_vars[k][2]["units"] = units[k]
+
+    ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
     return ds
 
 
@@ -366,10 +327,7 @@ def extract_from_path(
         logger.warning("Header contains no settings and hence no timestamp.")
         start_time = 0.0
         fulldate = False
-        Eranges = 10.0
-        logger.warning("E Range not specified due to missing header, setting to 10 V.")
-        Iranges = "1 A"
-        logger.warning("I Range not specified due to missing header, setting to 1 A.")
+        Erange = 10.0
     else:
         header = process_header(header_lines, timezone, locale)
         start_time = header.get("uts")
@@ -378,19 +336,39 @@ def extract_from_path(
         fulldate = True
         Er_max = params.get("E range max (V)", [10.0])
         Er_min = params.get("E range min (V)", [0.0])
-        Eranges = [_max - _min for _max, _min in zip(Er_max, Er_min)]
-        Iranges = params.get("I Range", ["1 A"])
+        Erange = max([_max - _min for _max, _min in zip(Er_max, Er_min)])
+
     # Arrange all the data into the correct format.
     # TODO: Metadata could be handled in a nicer way.
     metadata = {"settings": settings, "params": params}
 
-    ds = process_data(data_lines, Eranges, Iranges, locale)
+    # Data processing including mpt quirks
+    ds = process_data(data_lines, locale)
+
+    if "I Range" in ds:
+        Irange = max(
+            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
+        )
+    else:
+        Irange = 1.0
+
+    ds = split_control(ds)
+
+    val, attrs = get_unc("control_V", Erange)
+    ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
+    val, attrs = get_unc("control_I", Irange)
+    ds["control_I_uncertainty"] = DataArray(val, attrs=attrs)
+
+    for k in {"V", "<V>", "I", "<I>"}:
+        if k in ds:
+            val, attrs = get_unc(k, Irange if "I" in k else Erange)
+            ds[f"{k}_uncertainty"] = DataArray(val, attrs=attrs)
+
     if "time" in ds:
-        ds["uts"] = ds["time"] + start_time
+        ds["uts"] = ds["time"].values + start_time
     else:
         ds["uts"] = [start_time]
     if fulldate:
         del ds.attrs["fulldate"]
     ds.attrs["original_metadata"] = metadata
-
     return DataTree(ds)

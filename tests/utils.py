@@ -1,7 +1,6 @@
 import json
 import yaml
 import yadg.core
-from xarray import DataTree
 import xarray as xr
 from dgbowl_schemas.yadg import to_dataschema
 
@@ -17,24 +16,34 @@ def datagram_from_file(infile):
 
 
 def compare_datatrees(
-    ret: DataTree,
-    ref: DataTree,
+    ret: xr.DataTree,
+    ref: xr.DataTree,
     atol: float = 1e-6,
     thislevel=False,
     descend=False,
+    uncertainties=True,
 ):
-    for k in ret:
-        assert k in ref, f"Entry {k!r} not present in reference DataTree."
-    for k in ref:
-        assert k in ret, f"Entry {k!r} not present in result DataTree."
-
     if thislevel:
         check_attrs(ret.attrs, ref.attrs)
 
+    for k in ref:
+        if k.endswith("_uncertainty") and uncertainties is False:
+            continue
+        assert k in ret, f"Entry {k!r} not present in result DataTree."
+
     for k in ret:
-        if isinstance(ret[k], DataTree):
+        if k.endswith("_uncertainty") and uncertainties is False:
+            continue
+        assert k in ref, f"Entry {k!r} not present in reference DataTree."
+
+        if isinstance(ret[k], xr.DataTree):
             compare_datatrees(
-                ret[k], ref[k], atol=atol, thislevel=descend, descend=descend
+                ret[k],
+                ref[k],
+                atol=atol,
+                thislevel=descend,
+                descend=descend,
+                uncertainties=uncertainties,
             )
         elif isinstance(ret[k], (xr.Dataset, xr.DataArray)):
             try:

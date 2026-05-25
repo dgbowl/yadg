@@ -30,6 +30,13 @@ Schema
           signal:         (uts, elution_time)   # Signal data
           valve:          (uts)                 # Valve position
 
+Uncertainties
+`````````````
+- ``concentration``: estimated from 4 significant digits in ``area``.
+- ``xout``: estimated from 4 significant digits in ``area``.
+- ``elution_time``: scaling factor using number of samples per second.
+- all other values: estimated from last significant digit in json files.
+
 Metadata
 ````````
 No metadata is currently extracted.
@@ -79,6 +86,12 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
         "retention time": {},
     }
 
+    uncs = {
+        "height": 1.0,
+        "area": 0.001,
+        "retention time": 0.01,
+    }
+
     species = set()
 
     # sort detector keys to ensure alphabetic order for ID matching
@@ -125,20 +138,39 @@ def chromdata(jsdata: dict, uts: float) -> Dataset:
     data_vars = {}
     if len(species) > 0:
         for k, v in units.items():
-            vals, devs = zip(*[raw[k].get(s, (np.nan, np.nan)) for s in species])
+            vals, devs = zip(*[raw[k].get(s, (np.nan, np.inf)) for s in species])
             data_vars[k] = (
                 ["uts", "species"],
                 [vals],
-                {"ancillary_variables": f"{k}_std_err"},
+                {"ancillary_variables": f"{k}_uncertainty"},
             )
-            data_vars[f"{k}_std_err"] = (
-                ["uts", "species"],
-                [devs],
-                {"standard_name": f"{k} stdandard_error"},
-            )
+            ku = f"{k.replace(' ', '_')}_uncertainty"
+            if k in uncs:
+                data_vars[ku] = (
+                    [],
+                    uncs[k],
+                    {
+                        "standard_name": "uncertainty standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "str_conv",
+                    },
+                )
+            else:
+                data_vars[ku] = (
+                    [],
+                    4,
+                    {
+                        "standard_name": "uncertainty standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "sig",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "str_conv",
+                    },
+                )
             if v is not None:
                 data_vars[k][2]["units"] = v
-                data_vars[f"{k}_std_err"][2]["units"] = v
 
     ds = xr.Dataset(
         data_vars=data_vars,
@@ -159,24 +191,36 @@ def chromtrace(jsdata: dict, uts: float) -> DataTree:
                 "signal": (
                     ["uts", "elution_time"],
                     [detdict["values"]],
-                    {"ancillary_variables": "signal_std_err"},
+                    {"ancillary_variables": "signal_uncertainty"},
                 ),
-                "signal_std_err": (
-                    ["uts", "elution_time"],
-                    [np.ones(detdict["nValuesExpected"])],
-                    {"standard_name": "signal standard_error"},
+                "signal_uncertainty": (
+                    [],
+                    1.0,
+                    {
+                        "standard_name": "signal standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "str_conv",
+                    },
                 ),
-                "elution_time_std_err": (
-                    ["elution_time"],
-                    np.ones(detdict["nValuesExpected"]) / detdict["nValuesPerSecond"],
-                    {"units": "s", "standard_name": "elution_time standard_error"},
+                "elution_time_uncertainty": (
+                    [],
+                    1.0 / detdict["nValuesPerSecond"],
+                    {
+                        "standard_name": "uncertainty standard_error",
+                        "standard_error_multiplier": 1,
+                        "yadg_uncertainty_type": "abs",
+                        "yadg_uncertainty_distribution": "rectangular",
+                        "yadg_uncertainty_source": "scaling",
+                    },
                 ),
             },
             coords={
                 "elution_time": (
                     ["elution_time"],
                     np.arange(detdict["nValuesExpected"]) / detdict["nValuesPerSecond"],
-                    {"units": "s", "ancillary_variables": "elution_time_std_err"},
+                    {"units": "s", "ancillary_variables": "elution_time_uncertainty"},
                 ),
                 "uts": (["uts"], [uts]),
             },
@@ -184,7 +228,10 @@ def chromtrace(jsdata: dict, uts: float) -> DataTree:
         )
         valve = jsdata.get("annotations", {}).get("valcoPosition", None)
         if valve is not None:
-            fvals["valve"] = valve
+            fvals["valve"] = (
+                ["uts"],
+                [valve],
+            )
         vals[detname] = fvals
 
     dt = DataTree.from_dict(vals)

@@ -28,6 +28,10 @@ Schema
         data_vars:
           signal:         (uts, elution_time)   # Signal data
 
+Uncertainties
+`````````````
+- all values: string to float conversion
+
 Metadata
 ````````
 The following metadata is extracted:
@@ -35,29 +39,25 @@ The following metadata is extracted:
     - ``sampleid``: Sample name.
     - ``datafile``: Original path of the data file.
 
-Uncertainties
-`````````````
-All uncertainties are derived from the string representation of the floats.
 
 .. codeauthor::
     Peter Kraus
 
 """
 
-import numpy as np
-from uncertainties.core import str_to_number_with_uncert as tuple_fromstr
-from yadg import dgutils
-from yadg.extractors import get_extract_dispatch
+import logging
 import xarray as xr
 from pathlib import Path
-from xarray import DataTree
-import logging
+from xarray import DataTree, Dataset
+from yadg import dgutils
+from yadg.dgutils.table import process_table
+from yadg.extractors import get_extract_dispatch
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
 
 
-def _process_headers(headers: list, columns: list, timezone: str) -> dict:
+def process_headers(headers: list, columns: list, timezone: str) -> tuple[dict, float]:
     orig_meta = {k: v.strip() for k, v in zip(headers, columns)}
     if "Date Acquired" in orig_meta:
         uts = dgutils.str_to_uts(
@@ -71,18 +71,34 @@ def _process_headers(headers: list, columns: list, timezone: str) -> dict:
     return orig_meta, uts
 
 
-def _to_trace(tx, ty):
-    tvals, tdevs = [x for x in zip(*tx)]
-    yvals, ydevs = [x for x in zip(*ty)]
-    trace = {
-        "tvals": np.array(tvals) * 60,
-        "yvals": list(yvals),
-        # CHROMTAB files seem to have fixed precision,
-        # let us pick the maximum deviation and apply it
-        "tdev": max(tdevs) * 60,
-        "ydev": max(ydevs),
-    }
-    return trace
+def process_trace(lines: list[str], uts: float) -> Dataset:
+    data_vars = process_table(
+        lines=lines,
+        headers=["elution_time", "signal"],
+        sep=",",
+    )
+    data_vars["elution_time"] = (
+        data_vars["elution_time"][0],
+        [v * 60.0 for v in data_vars["elution_time"][1]],
+        data_vars["elution_time"][2],
+    )
+    data_vars["elution_time"][2]["units"] = "s"
+    data_vars["elution_time_uncertainty"] = (
+        [],
+        data_vars["elution_time_uncertainty"][1] * 60,
+        data_vars["elution_time_uncertainty"][2],
+    )
+    coords = dict(
+        elution_time=data_vars.pop("elution_time"),
+        uts=(("uts",), [uts]),
+    )
+    data_vars["signal"] = (
+        ("uts", "elution_time"),
+        [data_vars["signal"][1]],
+        data_vars["signal"][2],
+    )
+    ds = Dataset(data_vars=data_vars, coords=coords)
+    return ds
 
 
 @extract.register(Path)
@@ -96,101 +112,48 @@ def extract_from_path(
     with open(source, "r", encoding=encoding, errors="ignore") as infile:
         lines = infile.readlines()
     orig_meta = {}
-    uts = []
-    tx = []
-    ty = []
+    tstart = 0
+    tend = 0
+    dtdict = {}
+    uts = None
+    utsnext = None
     detname = None
-    tstep = dict()
-    data = []
-    traces = set()
-    for line in lines:
-        parts = line.strip().split(",")
-        if len(parts) > 2:
-            if '"Date Acquired"' in parts:
-                if tx != [] and ty != [] and detname is not None:
-                    tstep[detname] = _to_trace(tx, ty)
-                    tx = []
-                    ty = []
-                if len(tstep) > 0:
-                    data.append(tstep)
-                    tstep = dict()
-                headers = [p.replace('"', "") for p in parts]
-            else:
-                columns = [p.replace('"', "") for p in parts]
-                ret = _process_headers(headers, columns, timezone)
-                uts.append(ret[1])
-                dgutils.merge_meta(orig_meta, ret[0])
-        elif len(parts) == 1:
-            if tx != [] and ty != [] and detname is not None:
-                tstep[detname] = _to_trace(tx, ty)
-                tx = []
-                ty = []
-            detname = parts[0].replace('"', "").split("\\")[-1]
-            traces.add(detname)
-        elif len(parts) == 2:
-            x, y = [tuple_fromstr(i) for i in parts]
-            tx.append(x)
-            ty.append(y)
-    trace = _to_trace(tx, ty)
-    tstep[detname] = trace
-    data.append(tstep)
+    for li, line in enumerate(lines):
+        # process headers etc.
+        if '"' in line:
+            parts = line.strip().split(",")
+            if len(parts) == 1:
+                if tstart != tend:
+                    ds = process_trace(lines[tstart : tend + 1], uts)
+                    dtdict[detname].append(ds)
+                uts = utsnext
+                detname = parts[0].replace('"', "").split("\\")[-1]
+                if detname not in dtdict:
+                    dtdict[detname] = []
+                tstart = li + 1
+                tend = tstart
+            elif len(parts) > 2:
+                if '"Date Acquired"' in parts:
+                    headers = [p.replace('"', "") for p in parts]
+                else:
+                    columns = [p.replace('"', "") for p in parts]
+                    thismeta, utsnext = process_headers(headers, columns, timezone)
+                    dgutils.merge_meta(orig_meta, thismeta)
+        else:
+            tend = li
+    if tstart != tend:
+        ds = process_trace(lines[tstart : tend + 1], uts)
+        dtdict[detname].append(ds)
 
-    traces = sorted(traces)
-    vals = {}
-    for tr in traces:
-        dsets = []
-        for ti, ts in enumerate(data):
-            ds = xr.Dataset(
-                data_vars={
-                    "signal": (
-                        ["elution_time"],
-                        ts[tr]["yvals"],
-                        {"ancillary_variables": "signal_uncertainty"},
-                    ),
-                    "signal_uncertainty": (
-                        [],
-                        ts[tr]["ydev"],
-                        {
-                            "standard_name": "signal standard_error",
-                            "yadg_uncertainty_absolute": 1,
-                            "yadg_uncertainty_distribution": "rectangular",
-                            "yadg_uncertainty_source": "sigfig",
-                        },
-                    ),
-                    "elution_time_uncertainty": (
-                        [],
-                        ts[tr]["tdev"],
-                        {
-                            "units": "s",
-                            "standard_name": "elution_time standard_error",
-                            "yadg_uncertainty_absolute": 1,
-                            "yadg_uncertainty_distribution": "rectangular",
-                            "yadg_uncertainty_source": "sigfig",
-                        },
-                    ),
-                },
-                coords={
-                    "elution_time": (
-                        ["elution_time"],
-                        ts[tr]["tvals"],
-                        {
-                            "units": "s",
-                            "ancillary_variables": "elution_time_uncertainty",
-                        },
-                    ),
-                    "uts": (["uts"], [uts[ti]]),
-                },
-                attrs={},
-            )
-            # ds["uts"] = [uts[ti]]
-            dsets.append(ds)
-        vals[tr] = xr.concat(
+    dt = {}
+    for detname, dsets in dtdict.items():
+        dt[detname] = xr.concat(
             dsets,
             dim="uts",
             data_vars="different",
             compat="identical",
             join="outer",
         )
-    dt = DataTree.from_dict(vals)
+    dt = DataTree.from_dict(dt)
     dt.attrs = {"original_metadata": orig_meta}
     return dt

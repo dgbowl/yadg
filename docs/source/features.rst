@@ -9,13 +9,44 @@ Units
 +++++
 In the resulting |NetCDF| files, the unit annotations are stored in ``.attrs["units"]`` on each :class:`xarray.DataArray`, that is within each "column" of each "node" of the :class:`~xarray.DataTree`. If an entry does not contain ``.attrs["units"]``, the quantity is dimensionless.
 
+.. _uncertainties-label:
+
 Uncertainties
 +++++++++++++
 In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in **yadg** is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint, i.e. the resolution. The precision of the measurement (which is normally a higher value than that of the resolution) can be obtained using post-processing, e.g. as a ``mean()`` and ``stdev()`` of a series of data.
 
-Unless more information is available, when converting :class:`str` data to :class:`float`, the uncertainty is determined from the last significant digit specified in the :class:`str`. For this, the functionality from within the |uncertainties|_ package is used.
+In the resulting |NetCDF| files, the uncertainties for each ``f"{entry}"`` are stored as a separate data variable, ``f"{entry}_uncertainty"``. The link between the nominal value and its uncertainty is annotated using ``.attrs["ancillary_variables"] = f"{entry}_uncertainty"``. The reverse link between the uncertainty and its nominal value is annotated similarly, using ``.attrs["standard_name"] = f"{entry} standard_error"``. This follows the `NetCDF CF Metadata Conventions <https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html>`_, see `Section 3.4 on Ancillary Data <https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#ancillary-data>`_. See the following code sections for a hypothetical variable ``"var"`` and its uncertainty ``"var_uncertainty"``:
 
-In the resulting |NetCDF| files, the uncertainties for each ``f"{entry}"`` are stored as a separate data variable, ``f"{entry}_std_err"``. The link between the nominal value and its uncertainty is annotated using ``.attrs["ancillary_variables"] = f"{entry}_std_err"``. The reverse link between the uncertainty and its nominal value is annotated similarly, using ``.attrs["standard_name"] = f"{entry} standard_error"``. This follows the `NetCDF CF Metadata Conventions <https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html>`_, see `Section 3.4 on Ancillary Data <https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#ancillary-data>`_.
+.. code-block:: yaml
+
+    val(...): float | list[float];
+        val.units = "V"
+        val.ancillary_variables = "val_uncertainty"
+
+    val_uncertainty(...): float | int;
+        val_uncertainty.standard_name = "val standard_error"
+        val_uncertainty.standard_error_multiplier = 1
+        val_uncertainty.yadg_uncertainty_type = {"sig", "abs", "rel"}
+        val_uncertainty.yadg_uncertainty_source = {"str_conv", "scaling", "datasheet", "explicit", ...}
+        val_uncertainty.yadg_uncertainty_distribution = {"normal", "rectangular", ...}
+
+Uncertainty types are annotated using ``.yadg_uncertainty_type``, they are:
+
+- ``abs``, where the uncertainty is an absolute :class:`float` value, in the (implicit) units of the parent ``val``,
+- ``sig``, where the uncertainty is the :class:`int` number of significant figures to which ``val`` should be rounded,
+- ``rel``, where the uncertainty is a relative :class:`float` value by which ``val`` should be multiplied.
+
+Uncertainty sources are annotated using ``.yadg_uncertainty_source``, they include:
+
+- ``str_conv``, i.e. obtained from :class:`str`-to-:class:`float` conversion; in general, these can be of type ``abs``, if the :class:`string` represents a fixed-point decimal, or of type ``sig``, if the :class:`string` represents a number in scientific notation.
+- ``scaling``, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate would be the data spacing, or when the data is originally stored as :class:`int`` and multiplied by a scaling constant :class:`float`, it is this constant.
+- ``datasheet``, i.e. obtained from knowledge about the instrument, e.g. the way it internally does :class:`int`-to-:class:`float` (ADC) conversion, or if a reasonable estimate is widely known.
+- ``explicit``, i.e. when uncertainties are reported within the files directly.
+
+Uncertainty distributions are annotated using ``.yadg_uncertainty_distribution``, they are:
+
+- ``normal``, i.e. the uncertainty is normally distributed (such as a standard error around a mean should be)
+- ``rectangular``, i.e. the uncertainty is uniformly shaped (such as in :class:`string`-to-:class:`float` conversion)
 
 
 Timestamping

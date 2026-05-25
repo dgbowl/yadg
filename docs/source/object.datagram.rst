@@ -28,7 +28,7 @@ The contents of the attribute fields for each `step` will vary depending on the 
     - the **yadg**-provenance metadata include ``yadg_extract_date`` and ``yadg_extract_Extractor`` containing the ISO8601 timestamp and a copy of the `extractor` defaults used to create this node;
     - an ``original_metadata`` entry containing all extracted metadata present in the original files;
     - a `coord` field ``uts`` contains a Unix timestamp (:class:`float`);
-    - uncertainties for entries in `data_vals` are stored using separate entries with names composed as ``f"{entry}_std_err"``
+    - uncertainties for entries in `data_vals` are stored using separate entries with names composed as ``f"{entry}_uncertainty"``
 
        - the parent ``f"{entry}"`` is pointing to its uncertainty by annotation using the ``ancillary_variables`` field;
        - the uncertainty links back to the ``f"{entry}"`` by annotation using the ``standard_name`` field;

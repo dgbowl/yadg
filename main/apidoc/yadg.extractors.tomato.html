@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>tomato: For tomato outputs &mdash; yadg 6.2.dev9 documentation</title>
+  <title>tomato: For tomato outputs &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,10 +16,9 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="../_static/documentation_options.js?v=5d26faad"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -79,9 +78,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.tomato.json.biologic_tomato_json"><code class="docutils literal notranslate"><span class="pre">biologic_tomato_json()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.tomato.json.dummy_tomato_json"><code class="docutils literal notranslate"><span class="pre">dummy_tomato_json()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.tomato.json.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
@@ -170,6 +169,13 @@ the below discusses the output of a <code class="docutils literal notranslate"><
 </pre></div>
 </div>
 </section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">I</span></code>: constant uncertainty of 0.0015% FSR up to 0.76 µA, from VMP-3 datasheets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ewe</span></code> and <code class="docutils literal notranslate"><span class="pre">Ece</span></code>: constant uncertainty of 0.004% FSR up to 75 µV, from VMP-3 datasheets.</p></li>
+</ul>
+</section>
 <section id="metadata">
 <h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>No metadata is extracted.</p>
@@ -190,29 +196,21 @@ status is recorded at the time of data polling, which means the values in <code 
 might be invalid (after the run has finished) or not in sync with the <code class="docutils literal notranslate"><span class="pre">data</span></code> (if
 a technique change happened). However, <code class="docutils literal notranslate"><span class="pre">previous</span></code> may not be present in the first
 data file of an experiment.</p>
-</section>
-<section id="uncertainties">
-<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
-<p>To determine the measurement errors, the values from BioLogic manual are used: for
-measured voltages (<span class="math notranslate nohighlight">\(E_{\text{we}}\)</span> and <span class="math notranslate nohighlight">\(E_{\text{ce}}\)</span>) this corresponds
-to a constant uncertainty of 0.004% of the applied E-range with a maximum of 75 uV,
-while for currents (<span class="math notranslate nohighlight">\(I\)</span>) this is a constant uncertainty of 0.0015% of the applied
-I-range with a maximum of 0.76 uA.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.tomato.json.biologic_tomato_json">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">biologic_tomato_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.biologic_tomato_json" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">biologic_tomato_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.biologic_tomato_json" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.tomato.json.dummy_tomato_json">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">dummy_tomato_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.dummy_tomato_json" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">dummy_tomato_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.dummy_tomato_json" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.tomato.json.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.tomato.json.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.tomato.json.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -245,7 +243,7 @@ I-range with a maximum of 0.76 uA.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

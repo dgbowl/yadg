@@ -54,3 +54,11 @@ yadg.dgutils.schemautils module
    :members:
    :undoc-members:
    :show-inheritance:
+
+yadg.dgutils.table module
+-------------------------
+
+.. automodule:: yadg.dgutils.table
+   :members:
+   :undoc-members:
+   :show-inheritance:

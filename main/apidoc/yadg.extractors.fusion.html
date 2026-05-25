@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fusion: For Fusion chromatograms &mdash; yadg 6.2.dev9 documentation</title>
+  <title>fusion: For Fusion chromatograms &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="../_static/documentation_options.js?v=5d26faad"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -73,8 +73,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fusion.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -84,19 +84,20 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fusion.json.chromdata"><code class="docutils literal notranslate"><span class="pre">chromdata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fusion.json.chromtrace"><code class="docutils literal notranslate"><span class="pre">chromtrace()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fusion.json.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.fusion.zip">yadg.extractors.fusion.zip module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Usage</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip"><code class="docutils literal notranslate"><span class="pre">Fusion_zip</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fusion.zip.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -191,6 +192,12 @@ be parsed instead.</p>
 </pre></div>
 </div>
 </section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>all values: derived from the string to float conversion.</p></li>
+</ul>
+</section>
 <section id="metadata">
 <h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
@@ -199,15 +206,11 @@ be parsed instead.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: Name of the chromatographic method.</p></li>
 </ul>
 </div></blockquote>
-</section>
-<section id="uncertainties">
-<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
-<p>The uncertainties are derived from the string representation of the floats.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fusion.csv.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.csv.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.csv.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -261,23 +264,32 @@ chromatogram and the post-processed results.</p>
 </div>
 </section>
 <section id="id3">
-<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>Uncertainties<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">concentration</span></code>: estimated from 4 significant digits in <code class="docutils literal notranslate"><span class="pre">area</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xout</span></code>: estimated from 4 significant digits in <code class="docutils literal notranslate"><span class="pre">area</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elution_time</span></code>: scaling factor using number of samples per second.</p></li>
+<li><p>all other values: estimated from last significant digit in json files.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Metadata<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>No metadata is currently extracted.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fusion.json.chromdata">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">chromdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.chromdata" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">chromdata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.4.0)"><span class="pre">Dataset</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.chromdata" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fusion.json.chromtrace">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">chromtrace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.chromtrace" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">chromtrace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jsdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.chromtrace" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fusion.json.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.json.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.json.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -287,8 +299,8 @@ chromatogram and the post-processed results.</p>
 provided zip file, and then uses the <a class="reference internal" href="#module-yadg.extractors.fusion.json" title="yadg.extractors.fusion.json"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fusion.json</span></code></a> extractor
 to parse every fusion-data file present in the archive.</p>
 <p>Contains both the data from the raw chromatogram and the post-processed results.</p>
-<section id="id4">
-<h3>Usage<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>Usage<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>Available since <code class="docutils literal notranslate"><span class="pre">yadg-4.0</span></code>.</p>
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="dgbowl_schemas.yadg.dataschema_6_0.filetype.Fusion_zip">
@@ -310,8 +322,8 @@ to parse every fusion-data file present in the archive.</p>
 </dd></dl>
 
 </section>
-<section id="id5">
-<h3>Schema<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Schema<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">uts</span><span class="p">:</span><span class="w">              </span><span class="kt">!!float</span>
@@ -332,14 +344,14 @@ to parse every fusion-data file present in the archive.</p>
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h3>Metadata<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>Metadata<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <p>No metadata is currently extracted.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fusion.zip.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.zip.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.zip.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fusion.zip.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fusion.zip.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -372,7 +384,7 @@ to parse every fusion-data file present in the archive.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

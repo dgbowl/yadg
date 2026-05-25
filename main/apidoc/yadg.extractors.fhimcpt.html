@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fhimcpt: For MCPT set-up at FHI &mdash; yadg 6.2.dev9 documentation</title>
+  <title>fhimcpt: For MCPT set-up at FHI &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="../_static/documentation_options.js?v=5d26faad"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -73,6 +73,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fhimcpt.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
@@ -83,7 +84,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.fhimcpt.vna.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -209,6 +211,12 @@ information about the timestamp, temperatures, and inlet / process flows.</p>
 </pre></div>
 </div>
 </section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>all values: string to float conversion</p></li>
+</ul>
+</section>
 <section id="metadata">
 <h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>No metadata is returned.</p>
@@ -216,7 +224,7 @@ information about the timestamp, temperatures, and inlet / process flows.</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fhimcpt.csv.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseModel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.csv.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseModel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.csv.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -256,25 +264,31 @@ this value.</p>
 <section id="id2">
 <h3>Schema<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">xarray.DataTree</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">S11</span><span class="p">:</span><span class="w">              </span><span class="kt">!!xarray.Dataset</span>
-<span class="w">    </span><span class="nt">coords</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">freq</span><span class="p">:</span><span class="w">       </span><span class="kt">!!float</span><span class="w">     </span><span class="c1"># An array of measurement frequencies</span>
-<span class="w">    </span><span class="nt">data_vars</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">Re(G)</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(freq)</span><span class="w">      </span><span class="c1"># Real part of Γ</span>
-<span class="w">        </span><span class="nt">Im(G)</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">(freq)</span><span class="w">      </span><span class="c1"># Imaginary part of Γ</span>
-<span class="w">        </span><span class="nt">average</span><span class="p">:</span><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">      </span><span class="c1"># Number of traces averaged</span>
-<span class="w">        </span><span class="nt">bandwidth</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">      </span><span class="c1"># Filter bandwidth</span>
+<span class="w">  </span><span class="nt">coords</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">frequency</span><span class="p">:</span><span class="w">       </span><span class="kt">!!float</span><span class="w">           </span><span class="c1"># An array of measurement frequencies</span>
+<span class="w">  </span><span class="nt">data_vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">S11_real</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">(frequency)</span><span class="w">       </span><span class="c1"># Real part of the response</span>
+<span class="w">    </span><span class="nt">S11_imag</span><span class="p">:</span><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">(frequency)</span><span class="w">       </span><span class="c1"># Imagunary part of the response</span>
+<span class="w">    </span><span class="nt">average</span><span class="p">:</span><span class="w">         </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">            </span><span class="c1"># Number of traces averaged</span>
+<span class="w">    </span><span class="nt">bandwidth</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">(None)</span><span class="w">            </span><span class="c1"># Filter bandwidth</span>
 </pre></div>
 </div>
 </section>
 <section id="id3">
-<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>Uncertainties<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">frequency</span></code>: explicit from bandwidth / average</p></li>
+<li><p>all other values: string to float conversion</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Metadata<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>No metadata is returned.</p>
 <p><em>Code author: Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.fhimcpt.vna.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.vna.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.vna.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.fhimcpt.vna.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.fhimcpt.vna.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -307,7 +321,7 @@ this value.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

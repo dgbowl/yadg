@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version next &mdash; yadg 6.2.dev9 documentation</title>
+  <title>yadg version next &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="_static/documentation_options.js?v=5d26faad"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -110,14 +110,24 @@
 <p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
+<li><p>New uncertainty handling. Uncertainties for data are now stored as <code class="docutils literal notranslate"><span class="pre">{val}_uncertainty</span></code> instead of <code class="docutils literal notranslate"><span class="pre">{val}_std_err</span></code>, and they are generally a single <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> per data variable. See the <a class="reference internal" href="features.html#uncertainties-label"><span class="std std-ref">Uncertainties</span></a> section in the Features document. The change was motivated by the following issues:</p>
+<ul>
+<li><p>The uncertainties, as stored in the <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files produced in previous versions of <a class="reference internal" href="apidoc/yadg.html#module-yadg" title="yadg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yadg</span></code></a>, were simply too large – often inflating the size of the file by 100%, without adding much value.</p></li>
+<li><p>The origin of the uncertainty was often unclear and certainly not machine-readable, so it was difficult to judge whether it should be trusted or not.</p></li>
+<li><p>The suffix <code class="docutils literal notranslate"><span class="pre">_std_err</span></code> implied the uncertainty corresponds to the standard error of the data, this is however not true.</p></li>
+</ul>
+</li>
 <li><p>Support for Battery Capacity Determination (BCD) technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a>. Note that the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters in BCD are renamed to <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">2</span></code> in both <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a> files. Thank you to <a class="reference external" href="https://github.com/JL-CEA">Joachim Laviolette</a> for providing test files.</p></li>
 </ul>
 </div></blockquote>
 <p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
+<li><p>The new uncertainty handling is a breaking change compared to <code class="xref py py-obj docutils literal notranslate"><span class="pre">yadg-6.x</span></code></p></li>
 <li><p>For all extractors, the <code class="docutils literal notranslate"><span class="pre">source</span></code> (positional) argument now must be specified instead of <code class="docutils literal notranslate"><span class="pre">fn</span></code> or <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p></li>
-<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv" title="yadg.extractors.agilent.csv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.csv</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable now has <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> as a proper coordinate. Previously, the <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> was expanded manually to the length of the largest trace present in the file, with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> used as padding for shorter traces. An arbitrary coordinate <code class="docutils literal notranslate"><span class="pre">_</span></code> was also present. Now, <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is expanded automatically by <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html#xarray.concat" title="(in xarray v2026.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.concat()</span></code></a>, inserting <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> into the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable as necessary for <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> which are not present in each trace.</p></li>
+<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv" title="yadg.extractors.agilent.csv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.csv</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable now has <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> as a proper coordinate. Previously, the <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> was expanded manually to the length of the largest trace present in the file, with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> used as padding for shorter traces. An arbitrary coordinate <code class="docutils literal notranslate"><span class="pre">_</span></code> was also present. Now, <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is expanded automatically by <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html#xarray.concat" title="(in xarray v2026.4.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.concat()</span></code></a>, inserting <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> into the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable as necessary for <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> which are not present in each trace.</p></li>
+<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.touchstone.snp</span></code></a>, the acquisition parameters (S11, S21 etc.) are no longer NetCDF groups, but the label is prepended to the property name (e.g. <code class="docutils literal notranslate"><span class="pre">S11/real</span></code> is now <code class="docutils literal notranslate"><span class="pre">S11_real</span></code>). This means the <code class="docutils literal notranslate"><span class="pre">frequency</span></code> coordinate is not duplicated.</p></li>
+<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.vna" title="yadg.extractors.fhimcpt.vna"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fhimcpt.vna</span></code></a>, the schema now follows <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snp</span></code></a> for consistency.</p></li>
 </ul>
 </div></blockquote>
 <p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> include:</p>
@@ -154,7 +164,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>panalytical: For Panalytical XRD data &mdash; yadg 6.2.dev9 documentation</title>
+  <title>panalytical: For Panalytical XRD data &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="../_static/documentation_options.js?v=5d26faad"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,7 +40,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -80,9 +80,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#notes-on-file-structure">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.process_comments"><code class="docutils literal notranslate"><span class="pre">process_comments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.process_header"><code class="docutils literal notranslate"><span class="pre">process_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.process_data"><code class="docutils literal notranslate"><span class="pre">process_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.csv.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -92,10 +95,14 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Notes on file structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.etree_to_dict"><code class="docutils literal notranslate"><span class="pre">etree_to_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.process_values"><code class="docutils literal notranslate"><span class="pre">process_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.process_scan"><code class="docutils literal notranslate"><span class="pre">process_scan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.process_comment"><code class="docutils literal notranslate"><span class="pre">process_comment()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.process_measurement"><code class="docutils literal notranslate"><span class="pre">process_measurement()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xrdml.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -105,8 +112,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Metadata</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">Notes on file structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Notes on file structure</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.panalytical.xy.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
 </ul>
 </li>
@@ -228,6 +236,13 @@
 </pre></div>
 </div>
 </section>
+<section id="uncertainties">
+<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">angle</span></code>: string to float conversion.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intensity</span></code>: string to float conversion.</p></li>
+</ul>
+</section>
 <section id="metadata">
 <h3>Metadata<a class="headerlink" href="#metadata" title="Link to this heading"></a></h3>
 <p>With the exception of the <code class="docutils literal notranslate"><span class="pre">comment</span></code>, the metadata present in the csv file is extracted
@@ -237,17 +252,51 @@ from the file header without post-processing.</p>
 <h3>Notes on file structure<a class="headerlink" href="#notes-on-file-structure" title="Link to this heading"></a></h3>
 <p>These files are split into a <code class="docutils literal notranslate"><span class="pre">[Measurement</span> <span class="pre">conditions]</span></code> and a <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code>
 section. The former stores the metadata and the latter all the datapoints.</p>
-</section>
-<section id="uncertainties">
-<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
-<p>The uncertainties of <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code> are taken from the number of significant figures.</p>
-<p>The uncertainties of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are taken from the number of significant figures.</p>
 <p><em>Code author: Nicolas Vetsch,
 Peter Kraus</em></p>
 </section>
 <dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.process_comments">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">process_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.process_comments" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.process_header">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">process_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.process_header" title="Link to this definition"></a></dt>
+<dd><p>Processes the header section, staring with the <code class="docutils literal notranslate"><span class="pre">[Measurement</span> <span class="pre">conditions]</span></code> line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>header</strong> – The header portion as a string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>header</strong> – A dictionary containing the processed metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.process_data">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">process_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.process_data" title="Link to this definition"></a></dt>
+<dd><p>Processes the data section, starting with the <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code> line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – The data portion as a string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The values and uncertainties in angle and intensity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>avals, adevs, ivals, idevs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.panalytical.csv.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.csv.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.csv.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -289,7 +338,14 @@ Peter Kraus</em></p>
 </div>
 </section>
 <section id="id3">
-<h3>Metadata<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<h3>Uncertainties<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">angle</span></code>: are taken as the step-width of the linearly spaced <span class="math notranslate nohighlight">\(2\theta\)</span> values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intensity</span></code>: are from count values which seem to be integers.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Metadata<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>The following metadata is extracted:</p>
 <blockquote>
 <div><ul class="simple">
@@ -307,20 +363,13 @@ Peter Kraus</em></p>
 file. If something important is missing, please contact us!</p>
 </div>
 </section>
-<section id="id4">
-<h3>Notes on file structure<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>Notes on file structure<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <p>These are xml-formatted files, which we here parse using the <code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.etree</span></code>
 library into a Python <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">angle</span></code> returned from this parser is based on a linear interpolation of the start
 and end point of the scan, and is the <span class="math notranslate nohighlight">\(2\theta\)</span>. The values of <span class="math notranslate nohighlight">\(\omega\)</span>
 are discarded.</p>
-</section>
-<section id="id5">
-<h3>Uncertainties<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
-<p>The uncertainties of in <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code> are taken as the step-width of the linearly spaced
-<span class="math notranslate nohighlight">\(2\theta\)</span> values.</p>
-<p>The uncertainties of of <code class="docutils literal notranslate"><span class="pre">&quot;intensity&quot;</span></code> are currently set to a constant
-value of 1.0 count as all the supported files seem to produce integer values.</p>
 <p><em>Code author: Nicolas Vetsch,
 Peter Kraus</em></p>
 </section>
@@ -334,8 +383,39 @@ Element text is stored into <cite>“#text”</cite> for all nodes.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.process_values">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">process_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.process_values" title="Link to this definition"></a></dt>
+<dd><p>Recursively parses dicts in the following format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;#text&quot;</span><span class="p">:</span> <span class="o">...</span><span class="p">,</span> <span class="s2">&quot;@unit&quot;</span><span class="p">:</span> <span class="o">...</span><span class="p">},</span> <span class="o">...</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>into a single string:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{&quot;key&quot;: f&quot;{#text} {@unit}&quot;, ...}
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.process_scan">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">process_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.process_scan" title="Link to this definition"></a></dt>
+<dd><p>Parses the scan section of the file. Creates the explicit positions based
+on the number of measured intensities and the start &amp; end position.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.process_comment">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">process_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.process_comment" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.process_measurement">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">process_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.process_measurement" title="Link to this definition"></a></dt>
+<dd><p>A function that processes each section of the XRD XML file.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.panalytical.xrdml.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xrdml.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xrdml.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -377,11 +457,17 @@ csv files should be used instead.</p>
 </div>
 </section>
 <section id="id8">
-<h3>Metadata<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
-<p>No metadata is present in files.</p>
+<h3>Uncertainties<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>all values: string to float conversion.</p></li>
+</ul>
 </section>
 <section id="id9">
-<h3>Notes on file structure<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<h3>Metadata<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<p>No metadata is present in files.</p>
+</section>
+<section id="id10">
+<h3>Notes on file structure<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <p>These files basically just contain the <code class="docutils literal notranslate"><span class="pre">[Scan</span> <span class="pre">points]</span></code> part of Panalytical csv files.
 As a consequence, no metadata is recorded, and the format does not have an associated
 timestamp.</p>
@@ -390,7 +476,7 @@ Peter Kraus</em></p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.panalytical.xy.extract_from_path">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xy.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xy.extract_from_path" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.panalytical.xy.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span><a class="headerlink" href="#yadg.extractors.panalytical.xy.extract_from_path" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -423,7 +509,7 @@ Peter Kraus</em></p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

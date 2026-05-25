@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Key features of yadg &mdash; yadg 6.2.dev9 documentation</title>
+  <title>Key features of yadg &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="_static/documentation_options.js?v=5d26faad"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -124,13 +124,42 @@
 <p>One of the key features of <strong>yadg</strong> is the enforced association of units and uncertainties with measured properties. This means that all experimental quantities are accompanied by an uncertainty estimate, derived either from the <code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code> conversion of the data, or from instrumental resolution, if known.</p>
 <section id="units">
 <h3>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h3>
-<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the unit annotations are stored in <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code> on each <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, that is within each “column” of each “node” of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>. If an entry does not contain <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code>, the quantity is dimensionless.</p>
+<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the unit annotations are stored in <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code> on each <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, that is within each “column” of each “node” of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>. If an entry does not contain <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code>, the quantity is dimensionless.</p>
 </section>
 <section id="uncertainties">
-<h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
+<span id="uncertainties-label"></span><h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
 <p>In many cases it is possible to define more than one uncertainty for each measurement: for example, accuracy, precision, as well as instrument resolution etc. may be available. The convention in <strong>yadg</strong> is that when both a measure of within-measurement uncertainty (resolution) and a cross-measurement error (accuracy) are available, the stored uncertainty corresponds to the instrumental resolution associated with each datapoint, i.e. the resolution. The precision of the measurement (which is normally a higher value than that of the resolution) can be obtained using post-processing, e.g. as a <code class="docutils literal notranslate"><span class="pre">mean()</span></code> and <code class="docutils literal notranslate"><span class="pre">stdev()</span></code> of a series of data.</p>
-<p>Unless more information is available, when converting <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> data to <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, the uncertainty is determined from the last significant digit specified in the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>. For this, the functionality from within the <a class="reference external" href="https://pythonhosted.org/uncertainties/"><strong>uncertainties</strong></a> package is used.</p>
-<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the uncertainties for each <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}&quot;</span></code> are stored as a separate data variable, <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}_std_err&quot;</span></code>. The link between the nominal value and its uncertainty is annotated using <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;ancillary_variables&quot;]</span> <span class="pre">=</span> <span class="pre">f&quot;{entry}_std_err&quot;</span></code>. The reverse link between the uncertainty and its nominal value is annotated similarly, using <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;standard_name&quot;]</span> <span class="pre">=</span> <span class="pre">f&quot;{entry}</span> <span class="pre">standard_error&quot;</span></code>. This follows the <a class="reference external" href="https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html">NetCDF CF Metadata Conventions</a>, see <a class="reference external" href="https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#ancillary-data">Section 3.4 on Ancillary Data</a>.</p>
+<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the uncertainties for each <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}&quot;</span></code> are stored as a separate data variable, <code class="docutils literal notranslate"><span class="pre">f&quot;{entry}_uncertainty&quot;</span></code>. The link between the nominal value and its uncertainty is annotated using <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;ancillary_variables&quot;]</span> <span class="pre">=</span> <span class="pre">f&quot;{entry}_uncertainty&quot;</span></code>. The reverse link between the uncertainty and its nominal value is annotated similarly, using <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;standard_name&quot;]</span> <span class="pre">=</span> <span class="pre">f&quot;{entry}</span> <span class="pre">standard_error&quot;</span></code>. This follows the <a class="reference external" href="https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html">NetCDF CF Metadata Conventions</a>, see <a class="reference external" href="https://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#ancillary-data">Section 3.4 on Ancillary Data</a>. See the following code sections for a hypothetical variable <code class="docutils literal notranslate"><span class="pre">&quot;var&quot;</span></code> and its uncertainty <code class="docutils literal notranslate"><span class="pre">&quot;var_uncertainty&quot;</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">val(...)</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float | list[float];</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val.units = &quot;V&quot;</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val.ancillary_variables = &quot;val_uncertainty&quot;</span>
+
+<span class="nt">val_uncertainty(...)</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float | int;</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val_uncertainty.standard_name = &quot;val standard_error&quot;</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val_uncertainty.standard_error_multiplier = 1</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val_uncertainty.yadg_uncertainty_type = {&quot;sig&quot;, &quot;abs&quot;, &quot;rel&quot;}</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val_uncertainty.yadg_uncertainty_source = {&quot;str_conv&quot;, &quot;scaling&quot;, &quot;datasheet&quot;, &quot;explicit&quot;, ...}</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">val_uncertainty.yadg_uncertainty_distribution = {&quot;normal&quot;, &quot;rectangular&quot;, ...}</span>
+</pre></div>
+</div>
+<p>Uncertainty types are annotated using <code class="docutils literal notranslate"><span class="pre">.yadg_uncertainty_type</span></code>, they are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">abs</span></code>, where the uncertainty is an absolute <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> value, in the (implicit) units of the parent <code class="docutils literal notranslate"><span class="pre">val</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sig</span></code>, where the uncertainty is the <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> number of significant figures to which <code class="docutils literal notranslate"><span class="pre">val</span></code> should be rounded,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rel</span></code>, where the uncertainty is a relative <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> value by which <code class="docutils literal notranslate"><span class="pre">val</span></code> should be multiplied.</p></li>
+</ul>
+<p>Uncertainty sources are annotated using <code class="docutils literal notranslate"><span class="pre">.yadg_uncertainty_source</span></code>, they include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">str_conv</span></code>, i.e. obtained from <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion; in general, these can be of type <code class="docutils literal notranslate"><span class="pre">abs</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code> represents a fixed-point decimal, or of type <code class="docutils literal notranslate"><span class="pre">sig</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code> represents a number in scientific notation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaling</span></code>, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate would be the data spacing, or when the data is originally stored as <code class="xref py py-class docutils literal notranslate"><span class="pre">int`</span></code> and multiplied by a scaling constant <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, it is this constant.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">datasheet</span></code>, i.e. obtained from knowledge about the instrument, e.g. the way it internally does <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> (ADC) conversion, or if a reasonable estimate is widely known.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">explicit</span></code>, i.e. when uncertainties are reported within the files directly.</p></li>
+</ul>
+<p>Uncertainty distributions are annotated using <code class="docutils literal notranslate"><span class="pre">.yadg_uncertainty_distribution</span></code>, they are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">normal</span></code>, i.e. the uncertainty is normally distributed (such as a standard error around a mean should be)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rectangular</span></code>, i.e. the uncertainty is uniformly shaped (such as in <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion)</p></li>
+</ul>
 </section>
 </section>
 <section id="timestamping">
@@ -145,14 +174,14 @@
 </section>
 <section id="original-metadata">
 <h2>Original metadata<a class="headerlink" href="#original-metadata" title="Link to this heading"></a></h2>
-<p>By default, <strong>yadg</strong> attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry within the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> on the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> nodes, which is serialised into json strings in the <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function.</p>
+<p>By default, <strong>yadg</strong> attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry within the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> on the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> nodes, which is serialised into json strings in the <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> functionality has been introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code> and its implementation might change in future versions.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When merging multiple files into one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it may happen that the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry is not identical in between the processed files. In such cases, executing <strong>yadg</strong> with the <code class="docutils literal notranslate"><span class="pre">--ignore-merge-errors</span></code> option will drop the conflicting metadata entries and proceed with the processing.</p>
+<p>When merging multiple files into one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it may happen that the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry is not identical in between the processed files. In such cases, executing <strong>yadg</strong> with the <code class="docutils literal notranslate"><span class="pre">--ignore-merge-errors</span></code> option will drop the conflicting metadata entries and proceed with the processing.</p>
 </div>
 </section>
 <section id="dataschema-validation">
@@ -188,7 +217,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

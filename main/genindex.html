@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; yadg 6.2.dev9 documentation</title>
+  <title>Index &mdash; yadg 6.2.dev10 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -15,7 +15,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e2116f3f"></script>
+        <script src="_static/documentation_options.js?v=5d26faad"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -36,7 +36,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev9
+                6.2.dev10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -182,8 +182,6 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.data_to_dataset">data_to_dataset() (in module yadg.extractors.touchstone.snp)</a>
-</li>
       <li><a href="apidoc/yadg.extractors.drycal.html#yadg.extractors.drycal.common.TimeDate.date">date (yadg.extractors.drycal.common.TimeDate attribute)</a>
 </li>
       <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.deprecated">deprecated() (in module yadg.dgutils)</a>
@@ -192,21 +190,17 @@
         <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.helpers.deprecated">(in module yadg.dgutils.helpers)</a>
 </li>
       </ul></li>
-      <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.techniques.dev_derived">dev_derived() (in module yadg.extractors.eclab.techniques)</a>
+      <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.techniques.dev_VI">dev_VI() (in module yadg.extractors.eclab.techniques)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.techniques.dev_VI">dev_VI() (in module yadg.extractors.eclab.techniques)</a>
-</li>
       <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.dicts_to_dataset">dicts_to_dataset() (in module yadg.dgutils)</a>
 
       <ul>
         <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.dsutils.dicts_to_dataset">(in module yadg.dgutils.dsutils)</a>
 </li>
-        <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.dicts_to_dataset">(in module yadg.extractors.eclab.mpt)</a>
-</li>
       </ul></li>
-      <li><a href="apidoc/yadg.extractors.drycal.html#yadg.extractors.drycal.common.drycal_table">drycal_table() (in module yadg.extractors.drycal.common)</a>
+      <li><a href="apidoc/yadg.extractors.drycal.html#yadg.extractors.drycal.common.drycal_header">drycal_header() (in module yadg.extractors.drycal.common)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.tomato.html#yadg.extractors.tomato.json.dummy_tomato_json">dummy_tomato_json() (in module yadg.extractors.tomato.json)</a>
 </li>
@@ -364,7 +358,7 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.techniques.get_devs">get_devs() (in module yadg.extractors.eclab.techniques)</a>
+      <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.techniques.get_unc">get_unc() (in module yadg.extractors.eclab.techniques)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -429,6 +423,8 @@
         <li><a href="apidoc/yadg.dgutils.html#module-yadg.dgutils.pintutils">yadg.dgutils.pintutils</a>
 </li>
         <li><a href="apidoc/yadg.dgutils.html#module-yadg.dgutils.schemautils">yadg.dgutils.schemautils</a>
+</li>
+        <li><a href="apidoc/yadg.dgutils.html#module-yadg.dgutils.table">yadg.dgutils.table</a>
 </li>
         <li><a href="apidoc/yadg.extractors.html#module-yadg.extractors">yadg.extractors</a>
 </li>
@@ -577,27 +573,43 @@
 </li>
       <li><a href="apidoc/yadg.html#yadg.subcommands.process">process() (in module yadg.subcommands)</a>
 </li>
-      <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments">process_comments() (in module yadg.extractors.touchstone.snp)</a>
+      <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.process_comment">process_comment() (in module yadg.extractors.panalytical.xrdml)</a>
 </li>
+      <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.process_comments">process_comments() (in module yadg.extractors.panalytical.csv)</a>
+
+      <ul>
+        <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_comments">(in module yadg.extractors.touchstone.snp)</a>
+</li>
+      </ul></li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_data">process_data() (in module yadg.extractors.eclab.mpr)</a>
 
       <ul>
         <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_data">(in module yadg.extractors.eclab.mpt)</a>
 </li>
+        <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.process_data">(in module yadg.extractors.panalytical.csv)</a>
+</li>
       </ul></li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_ext">process_ext() (in module yadg.extractors.eclab.mpr)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_external">process_external() (in module yadg.extractors.eclab.mpt)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.touchstone.html#yadg.extractors.touchstone.snp.process_filename">process_filename() (in module yadg.extractors.touchstone.snp)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_header">process_header() (in module yadg.extractors.eclab.mpt)</a>
+
+      <ul>
+        <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.csv.process_header">(in module yadg.extractors.panalytical.csv)</a>
+</li>
+      </ul></li>
+      <li><a href="apidoc/yadg.extractors.agilent.html#yadg.extractors.agilent.csv.process_headers">process_headers() (in module yadg.extractors.agilent.csv)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_log">process_log() (in module yadg.extractors.eclab.mpr)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_loop">process_loop() (in module yadg.extractors.eclab.mpr)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.process_measurement">process_measurement() (in module yadg.extractors.panalytical.xrdml)</a>
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.process_modules">process_modules() (in module yadg.extractors.eclab.mpr)</a>
 </li>
@@ -605,7 +617,9 @@
 </li>
       <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_params">process_params() (in module yadg.extractors.eclab.mpt)</a>
 </li>
-      <li><a href="apidoc/yadg.extractors.basic.html#yadg.extractors.basic.csv.process_row">process_row() (in module yadg.extractors.basic.csv)</a>
+      <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.table.process_row">process_row() (in module yadg.dgutils.table)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.process_scan">process_scan() (in module yadg.extractors.panalytical.xrdml)</a>
 </li>
       <li><a href="apidoc/yadg.html#yadg.core.process_schema">process_schema() (in module yadg.core)</a>
 </li>
@@ -615,6 +629,12 @@
         <li><a href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpt.process_settings">(in module yadg.extractors.eclab.mpt)</a>
 </li>
       </ul></li>
+      <li><a href="apidoc/yadg.dgutils.html#yadg.dgutils.table.process_table">process_table() (in module yadg.dgutils.table)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.agilent.html#yadg.extractors.agilent.csv.process_trace">process_trace() (in module yadg.extractors.agilent.csv)</a>
+</li>
+      <li><a href="apidoc/yadg.extractors.panalytical.html#yadg.extractors.panalytical.xrdml.process_values">process_values() (in module yadg.extractors.panalytical.xrdml)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -794,6 +814,13 @@
 
       <ul>
         <li><a href="apidoc/yadg.dgutils.html#module-yadg.dgutils.schemautils">module</a>
+</li>
+      </ul></li>
+      <li>
+    yadg.dgutils.table
+
+      <ul>
+        <li><a href="apidoc/yadg.dgutils.html#module-yadg.dgutils.table">module</a>
 </li>
       </ul></li>
       <li>
@@ -1169,7 +1196,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev9
+      v: 6.2.dev10
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -244,7 +244,7 @@ def test_eclab_mpt_old(afile, bfile, datadir):
         try:
             xr.testing.assert_allclose(aret[key], bret[key])
         except AssertionError as e:
-            if key in {"Efficiency", "Efficiency_std_err"}:
+            if key in {"Efficiency", "Efficiency_uncertainty"}:
                 pass
             else:
                 e.args = (e.args[0] + f"\nError happened on key: {key!r}\n",)

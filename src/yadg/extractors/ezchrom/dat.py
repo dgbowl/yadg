@@ -159,12 +159,5 @@ def extract_from_path(
                 ),
             },
         )
-        for var in ds.variables:
-            if f"{var}_std_err" in ds.variables:
-                ds[var].attrs["ancillary_variables"] = f"{var}_std_err"
-            elif var.endswith("_std_err"):
-                end = var.index("_std_err")
-                if var[:end] in ds.variables:
-                    ds[var].attrs["standard_name"] = f"{var[:end]} standard_error"
         dt[f"/{key}"] = ds
     return DataTree.from_dict(dt)

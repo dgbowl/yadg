@@ -169,7 +169,6 @@ def biologic_tomato_json(fn: Path, jsdata: dict) -> DataTree:
         else:
             data_vars[k] = (["uts"], data_vars[k])
 
-
     ds = xr.Dataset(data_vars, coords=dict(uts=uts))
     if not fulldate:
         ds.attrs["fulldate"] = False

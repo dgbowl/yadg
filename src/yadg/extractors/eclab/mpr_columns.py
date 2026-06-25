@@ -163,6 +163,9 @@ data_columns = {
     245: ("<f4", "|Ece h5|", "V"),
     246: ("<f4", "|Ece h6|", "V"),
     247: ("<f4", "|Ece h7|", "V"),
+    248: ("<f4", "Rac", "Ω"),
+    249: ("<f4", "Rdc", "Ω"),
+    253: ("<u1", "Acir or Dcir Control", None),
 }
 
 # Conflict resolution map. If both the outer and inner column ID are present,

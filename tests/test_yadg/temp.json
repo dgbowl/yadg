@@ -1,0 +1,66 @@
+{
+ "metadata": {
+  "provenance": {
+   "type": "yadg update",
+   "metadata": {
+    "yadg": {
+     "version": "4.2.4",
+     "command": "/home/kraus/miniconda3/envs/yadg-4.2.5/bin/yadg update schema schema_3.1.0.json test"
+    },
+    "update_schema": {
+     "updater": "schema_3to4"
+    }
+   }
+  },
+  "version": "4.2",
+  "timezone": "localtime"
+ },
+ "steps": [
+  {
+   "parser": "meascsv",
+   "input": {
+    "files": [
+     "./data_3.1.0/00-experiment/measurement.csv"
+    ]
+   },
+   "tag": "00-measurement.json",
+   "parameters": {
+    "Tcalfile": "./calibrations/2019-10-29-100_500C.json",
+    "MFCcalfile": "./calibrations/2019-09-25-MFCcal.json",
+    "convert": {
+     "flow": {
+      "flow high": {},
+      "flow low": {},
+      "unit": "ml/min"
+     }
+    }
+   }
+  },
+  {
+   "parser": "qftrace",
+   "input": {
+    "folders": [
+     "./data_3.1.0/01-inert"
+    ]
+   },
+   "tag": "01-inert.json",
+   "parameters": {
+    "method": "kajfez",
+    "cutoff": 0.4
+   }
+  },
+  {
+   "parser": "chromtrace",
+   "input": {
+    "folders": [
+     "./data_3.1.0/GC/"
+    ],
+    "suffix": "dat.asc"
+   },
+   "tag": "13-gc.json",
+   "parameters": {
+    "calfile": "./calibrations/2019-11-15-GCcal.json"
+   }
+  }
+ ]
+}

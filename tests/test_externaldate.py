@@ -5,7 +5,7 @@ from .utils import compare_datatrees, datagram_from_file
 
 
 @pytest.mark.parametrize(
-    "infile,",
+    "infile",
     (
         "ts0.yml",
         "ts1.yml",

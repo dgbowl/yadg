@@ -9,8 +9,9 @@ from pathlib import Path
 @pytest.mark.parametrize(
     "infile",
     [
-        #"ds.4.2.dg.json",
-        "2019-09-30-30624-propane-01.datagram.json",
+        "ds.4.0.dg.json",
+        "ds.4.1.dg.json",
+        "ds.4.2.dg.json",
     ],
 )
 def test_yadg_json(infile, datadir):

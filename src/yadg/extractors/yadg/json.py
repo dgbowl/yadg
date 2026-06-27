@@ -1,5 +1,5 @@
 """
-This module parses yadg ``json`` legacy datagrams.
+This module can be used to update yadg ``json`` legacy datagrams.
 
 Usage
 `````
@@ -14,9 +14,9 @@ Schema
     xarray.DataTree:
       {{ step_name }}
         coords:
-          uts:             !!float           # Unix timestamp, optional
+          uts:             !!float           # Unix timestamp
         data_vars:
-          {{ values }}:    (uts)             # Real part of the response
+          {{ values }}:    (uts)             # Data present in source datagram
 
 
 Uncertainties
@@ -40,29 +40,80 @@ logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
 
 
-def process_ts(obj: list, data_vars: dict, units: dict):
-    for ts in obj:
-        if ts is None:
-            continue
-        for k, v in ts.items():
-            k = sanitize_name(k)
-            if isinstance(v, dict) and {"n", "s", "u"} == set(v.keys()):
-                ku = f"{k.replace(' ', '_')}_uncertainty"
-                if k not in data_vars:
-                    data_vars[k] = []
-                    data_vars[ku] = []
-                    units[k] = []
-                data_vars[k].append(v["n"])
-                data_vars[ku].append(v["s"])
-                units[k].append(v["u"])
-            elif isinstance(v, dict):
+def ziplist(obj: list) -> dict:
+    okeys = obj[0].keys()
+    tmp = zip(okeys, *[[d.get(k) for k in okeys] for d in obj])
+    return {t[0]: t[1:] for t in tmp}
+
+
+def store_nsu(key: str, parts: dict, data_vars: dict, dims: list):
+    assert len(set(parts["u"])) == 1
+    attrs = build_attrs(key)
+    if parts["u"][0] is not None:
+        attrs["units"] = parts["u"][0]
+    data_vars[key] = ([d for d in dims], list(parts["n"]), attrs)
+
+    ku = f"{key.replace(' ', '_')}_uncertainty"
+    attrs = build_attrs(ku)
+    if parts["u"][0] is not None:
+        attrs["units"] = parts["u"][0]
+
+    if "uts" in dims and all([ts == parts["s"][0] for ts in parts["s"]]):
+        dims.pop(dims.index("uts"))
+        data_vars[ku] = ([d for d in dims], parts["s"][0], attrs)
+    else:
+        data_vars[ku] = ([d for d in dims], list(parts["s"]), attrs)
+
+
+def process_ts(obj: list, data_vars: dict, coords: dict):
+    parts = ziplist(obj)
+    for k, v in parts.items():
+        k = sanitize_name(k)
+        if all([isinstance(ts, dict) for ts in v]):
+            vparts = ziplist(v)
+            if {"n", "s", "u"} == set(vparts.keys()):
+                store_nsu(k, vparts, data_vars, ["uts"])
+            elif k == "traces":
+                for kk in vparts:
+                    vvparts = ziplist(vparts[kk])
+                    if kk == "S11":
+                        fparts = ziplist(vvparts["f"])
+                        dim = "frequency"
+                        assert all([ts == fparts["n"][0] for ts in fparts["n"]])
+                        fparts["n"] = fparts["n"][0]
+                        fparts["s"] = fparts["s"][0]
+                        store_nsu(dim, fparts, data_vars, [dim])
+                        for name in {"Re(G)", "Re(Γ)", "Im(G)", "Im(Γ)"}:
+                            if name.startswith("Re"):
+                                tag = f"{kk}_real"
+                            else:
+                                tag = f"{kk}_imag"
+                            if name in vvparts:
+                                vvvparts = ziplist(vvparts[name])
+                                store_nsu(tag, vvvparts, data_vars, ["uts", dim])
+                    elif {"id", "t", "y"} == set(vvparts.keys()):
+                        tparts = ziplist(vvparts["t"])
+                        dim = f"elution_time({kk})"
+                        assert all([ts == tparts["n"][0] for ts in tparts["n"]])
+                        tparts["n"] = tparts["n"][0]
+                        tparts["s"] = tparts["s"][0]
+                        store_nsu(dim, tparts, data_vars, [dim])
+                        yparts = ziplist(vvparts["y"])
+                        store_nsu(f"signal({kk})", yparts, data_vars, ["uts", dim])
+                    else:
+                        raise NotImplementedError(
+                            f"Processing of trace {kk!r} not yet implemented."
+                        )
+            elif k == "S11":
+                for name in {"Q", "f"}:
+                    vvparts = ziplist(vparts[name])
+                    store_nsu(f"{k}_{name}", vvparts, data_vars, ["uts", k])
+            else:
                 raise NotImplementedError(
                     "Recursive data has not been implemented yet."
                 )
-            else:
-                if k not in data_vars:
-                    data_vars[k] = []
-                data_vars[k].append(v)
+        else:
+            data_vars[k] = (["uts"], list(v))
 
 
 def build_attrs(key: str) -> dict:
@@ -87,7 +138,7 @@ def sanitize_name(k: str) -> str:
     return k
 
 
-def vars_from_data(data: list[dict], ver: int) -> tuple[dict, dict, dict]:
+def vars_from_4_x_data(data: list[dict]) -> tuple[dict, dict, dict]:
     tmp = zip(data[0].keys(), *[[d.get(k) for k in data[0].keys()] for d in data])
     parts = {t[0]: t[1:] for t in tmp}
 
@@ -103,66 +154,30 @@ def vars_from_data(data: list[dict], ver: int) -> tuple[dict, dict, dict]:
         )
     }
     data_vars = {}
-    units = {}
     if "raw" in parts:
-        process_ts(obj=parts["raw"], data_vars=data_vars, units=units)
+        process_ts(obj=parts["raw"], data_vars=data_vars, coords=coords)
     if "derived" in parts:
-        process_ts(obj=parts["derived"], data_vars=data_vars, units=units)
-
-    if ver == 3:
-        for k in parts:
-            if isinstance(parts[k], (tuple,list)) and all([isinstance(p, float) for p in parts[k]]):
-                data_vars[k]
-            #if isinstance(parts[k][0], float):
-            if k not in {"uts", "raw", "derived"}:
-                print(f"{parts[k]=}")
-                process_ts(obj=parts[k], data_vars=data_vars, units=units)
-
-    for k in data_vars:
-        if k.endswith("_uncertainty"):
-            if len(set(data_vars[k])) == 1:
-                data_vars[k] = ([], data_vars[k][0], build_attrs(k))
-            else:
-                data_vars[k] = (["uts"], data_vars[k], build_attrs(k))
-        else:
-            attrs = build_attrs(k)
-            if k in units and len(set(units[k])) != 1:
-                raise NotImplementedError("Inconsistent units not yet supported.")
-            elif k in units:
-                attrs.update({"units": units[k][0]})
-            data_vars[k] = (["uts"], data_vars[k], attrs)
+        process_ts(obj=parts["derived"], data_vars=data_vars, coords=coords)
 
     return data_vars, coords, meta
 
 
-def process_4_2(jsdata: dict) -> DataTree:
+def process_4_x(jsdata: dict) -> DataTree:
     dtdict = {}
     for step in jsdata["steps"]:
         tag = step["metadata"].pop("tag")
-        data_vars, coords, meta = vars_from_data(step["data"], 4)
+        data_vars, coords, meta = vars_from_4_x_data(step["data"])
         attrs = dict(original_metadata=step["metadata"])
         attrs.update(meta)
         ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
+        if tag in dtdict:
+            logger.warning(f"Duplicate tag {tag!r} in datagram.")
+            tag = f"{len(dtdict.keys()):02d}"
         dtdict[tag] = ds
 
     dt = DataTree.from_dict(dtdict)
     dt.attrs = dict(original_metadata=jsdata["metadata"])
     return dt
-
-def process_3_x(jsdata: list) -> DataTree:
-    dtdict = {}
-    for step in jsdata:
-        tag = step["input"]["export"]
-        data_vars, coords, meta = vars_from_data(step["results"], 3)
-        attrs = dict(original_metadata=step["metadata"])
-        attrs.update(meta)
-        ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
-        dtdict[tag] = ds
-
-    dt = DataTree.from_dict(dtdict)
-    #dt.attrs = dict(original_metadata=jsdata["metadata"])
-    return dt
-
 
 
 @extract.register(Path)
@@ -176,6 +191,13 @@ def extract_from_path(
         jsdata = json.load(infile)
 
     if isinstance(jsdata, list):
-        return process_3_x(jsdata)
+        raise NotImplementedError(
+            "Upgrading datagrams from version 3.1.0 is not supported. "
+            "If you need this functionality, please file a bug report."
+        )
+    elif jsdata["metadata"]["datagram_version"].startswith("4.0"):
+        return process_4_x(jsdata)
+    elif jsdata["metadata"]["datagram_version"].startswith("4.1"):
+        return process_4_x(jsdata)
     elif jsdata["metadata"]["datagram_version"].startswith("4.2"):
-        return process_4_2(jsdata)
+        return process_4_x(jsdata)

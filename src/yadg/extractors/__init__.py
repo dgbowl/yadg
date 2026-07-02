@@ -167,17 +167,42 @@ def extract_from_bytes(
     return ret
 
 
-def extract_from_zip(source: Path, extractor: FileType, **kwargs: dict) -> DataTree:
-    logger.critical(f"{extractor=}")
+def extract_from_zip(
+    source: Path,
+    extractor: FileType,
+    ignore_merge_errors: bool = False,
+    **kwargs: dict,
+) -> DataTree:
+    """
+    Extracts data and metadata from the provided zip file path using the supplied extractor.
+
+    The zip file is extracted into a temporary directory, and all top-level files that match
+    the extractor.suffix are then processed. Metadata in the files within the zip is combined
+    strictly, unless :obj:`ignore_merge_errors` is set to :obj:`True`.
+
+
+    Parameters
+    ----------
+
+    source:
+        A :obj:`Path` pointing to the zip file.
+
+    extractor:
+        A :class:`FileType` object describing the extraction process.
+
+    ignore_merge_errors:
+        A :class:`bool` for enforcing metadata consistency.
+    """
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
 
     zf = zipfile.ZipFile(source)
-    strict_merge = not kwargs.get("ignore_merge_errors", False)
+    strict_merge = not ignore_merge_errors
     if strict_merge is False:
         logger.info(
-            "Will drop metadata conflicts in individual %s files.", extractor.filetype
+            "Will drop metadata conflicts in individual %s files.",
+            extractor.filetype,
         )
 
     with tempfile.TemporaryDirectory() as tempdir:

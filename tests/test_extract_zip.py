@@ -7,15 +7,21 @@ from .utils import compare_datatrees
 
 
 @pytest.mark.parametrize(
-    "filetype, infile",
+    "filetype, infile, ignore",
     [
-        ("fusion.json", "20220608-porosity-study-15p-Cu-10mA-GC.zip"),
+        ("fusion.json", "fusion-json.zip", False),
+        ("ezchrom.asc", "ezchrom-asc.zip", False),
+        ("eclab.mpr", "eclab-mpr.zip", True),
     ],
 )
-def test_yadg_extract_from_zip(filetype, infile, datadir):
+def test_yadg_extract_from_zip(filetype, infile, ignore, datadir):
     os.chdir(datadir)
     ret = extract(
-        filetype=filetype, path=Path(infile), locale="en_GB", timezone="Europe/Berlin"
+        filetype=filetype,
+        path=Path(infile),
+        locale="en_GB",
+        timezone="Europe/Berlin",
+        ignore_merge_errors=ignore,
     )
     outfile = f"{infile}.nc"
     ret.to_netcdf(f"{outfile}.tmp", engine="h5netcdf")

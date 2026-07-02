@@ -6,7 +6,7 @@ from dgbowl_schemas.yadg.dataschema import DataSchema
 from pydantic import BaseModel
 from yadg import dgutils
 
-__latest_dataschema__ = "6.0"
+__latest_dataschema__ = "7.0"
 logger = logging.getLogger(__name__)
 
 

@@ -167,9 +167,8 @@ def extract_from_bytes(
     return ret
 
 
-def extract_from_zip(
-    source: Path, extractor: FileType, suffix: list, **kwargs: dict
-) -> DataTree:
+def extract_from_zip(source: Path, extractor: FileType, **kwargs: dict) -> DataTree:
+    logger.critical(f"{extractor=}")
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
     func = getattr(m, "extract")
@@ -186,9 +185,15 @@ def extract_from_zip(
         dtdict = None
         filenames = []
         for ffn in os.listdir(tempdir):
-            for suff in suffix:
-                if ffn.endswith(suff):
+            for suffix in extractor.suffix:
+                if ffn.endswith(suffix):
                     filenames.append(ffn)
+        if len(ffn) == 0:
+            logger.critical(
+                "No files of filetype '%s' were found using suffix %s.",
+                extractor.filetype,
+                extractor.suffix,
+            )
 
         for ffn in sorted(filenames):
             logger.debug("Processing filename '%s'", ffn)

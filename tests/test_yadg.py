@@ -255,7 +255,7 @@ def test_yadg_preset_dataschema_compat(datadir):
         ("eclab.mpt", "mb.issue_95.de.mpt", "de_DE"),
     ],
 )
-def test_yadg_extract_locale(filetype, infile, locale, datadir):
+def test_yadg_extract_locale_metadata(filetype, infile, locale, datadir):
     os.chdir(datadir)
     command = [
         "yadg",

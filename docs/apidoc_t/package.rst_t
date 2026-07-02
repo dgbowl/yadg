@@ -45,6 +45,8 @@
 {{- "**tomato**: For tomato outputs" | heading }}
 {% elif 'yadg.extractors.touchstone' == pkgname %}
 {{- "**touchstone**: For Touchstone VNA files" | heading }}
+{% elif 'yadg.extractors.yadg' == pkgname %}
+{{- "**yadg**: For legacy yadg files" | heading }}
 {% else %}
 {{- [pkgname, "package"] | join(" ") | e | heading }}
 {% endif %}

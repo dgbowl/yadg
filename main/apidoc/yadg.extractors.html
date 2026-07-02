@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg.extractors package &mdash; yadg 6.2.dev11 documentation</title>
+  <title>yadg.extractors package &mdash; yadg 6.2.dev12 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=f95e7eb4"></script>
+        <script src="../_static/documentation_options.js?v=cea6f4de"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev11
+                6.2.dev12
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -73,6 +73,7 @@
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.yadg.html"><strong>yadg</strong>: For legacy yadg files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
@@ -565,6 +566,26 @@ default extractor object. Coerces any <code class="xref py py-class docutils lit
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="yadg.extractors.yadg.html"><strong>yadg</strong>: For legacy yadg files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="yadg.extractors.yadg.html#module-yadg.extractors.yadg.json">yadg.extractors.yadg.json module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#usage">Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="yadg.extractors.yadg.html#dgbowl_schemas.yadg.dataschema_7_0.filetype.Yadg_json"><code class="docutils literal notranslate"><span class="pre">Yadg_json</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#schema">Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.ziplist"><code class="docutils literal notranslate"><span class="pre">ziplist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.store_nsu"><code class="docutils literal notranslate"><span class="pre">store_nsu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.process_ts"><code class="docutils literal notranslate"><span class="pre">process_ts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.build_attrs"><code class="docutils literal notranslate"><span class="pre">build_attrs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.sanitize_name"><code class="docutils literal notranslate"><span class="pre">sanitize_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.vars_from_4_x_data"><code class="docutils literal notranslate"><span class="pre">vars_from_4_x_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.process_4_x"><code class="docutils literal notranslate"><span class="pre">process_4_x()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="yadg.extractors.yadg.html#yadg.extractors.yadg.json.extract_from_path"><code class="docutils literal notranslate"><span class="pre">extract_from_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -596,7 +617,7 @@ default extractor object. Coerces any <code class="xref py py-class docutils lit
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev11
+      v: 6.2.dev12
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

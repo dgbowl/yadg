@@ -27,3 +27,4 @@ Subpackages
    yadg.extractors.quadstar
    yadg.extractors.tomato
    yadg.extractors.touchstone
+   yadg.extractors.yadg

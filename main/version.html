@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg 6.2.dev11 documentation</title>
+  <title>yadg version history &mdash; yadg 6.2.dev12 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=f95e7eb4"></script>
+        <script src="_static/documentation_options.js?v=cea6f4de"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev11
+                6.2.dev12
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -73,12 +73,13 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.yadg.html"><strong>yadg</strong>: For legacy yadg files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#yadg-version-next"><strong>yadg</strong> version next</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-7-0"><strong>yadg</strong> version 7.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-2"><strong>yadg</strong> version 6.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-1"><strong>yadg</strong> version 6.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-0"><strong>yadg</strong> version 6.0</a></li>
@@ -120,10 +121,10 @@
              
   <section id="yadg-version-history">
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Link to this heading"></a></h1>
-<section id="yadg-version-next">
-<h2><strong>yadg</strong> version next<a class="headerlink" href="#yadg-version-next" title="Link to this heading"></a></h2>
+<section id="yadg-version-7-0">
+<h2><strong>yadg</strong> version 7.0<a class="headerlink" href="#yadg-version-7-0" title="Link to this heading"></a></h2>
 <p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
-<p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
+<p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-7.0</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>New uncertainty handling. Uncertainties for data are now stored as <code class="docutils literal notranslate"><span class="pre">{val}_uncertainty</span></code> instead of <code class="docutils literal notranslate"><span class="pre">{val}_std_err</span></code>, and they are generally a single <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> per data variable. See the <a class="reference internal" href="features.html#uncertainties-label"><span class="std std-ref">Uncertainties</span></a> section in the Features document. The change was motivated by the following issues:</p>
@@ -134,9 +135,10 @@
 </ul>
 </li>
 <li><p>Support for Battery Capacity Determination (BCD) technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a>. Note that the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters in BCD are renamed to <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">2</span></code> in both <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a> files. Thank you to <a class="reference external" href="https://github.com/JL-CEA">Joachim Laviolette</a> for providing test files.</p></li>
+<li><p>Support for updating legacy yadg <code class="docutils literal notranslate"><span class="pre">json</span></code> <em>datagrams</em> in <a class="reference internal" href="apidoc/yadg.extractors.yadg.html#module-yadg.extractors.yadg.json" title="yadg.extractors.yadg.json"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.yadg.json</span></code></a>. With this module, <em>datagrams</em> generated using <code class="docutils literal notranslate"><span class="pre">yadg-4.x</span></code> series can be updated to the new <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> format introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p></li>
 </ul>
 </div></blockquote>
-<p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> are:</p>
+<p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-7.0</span></code> are:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>The new uncertainty handling is a breaking change compared to <code class="xref py py-obj docutils literal notranslate"><span class="pre">yadg-6.x</span></code></p></li>
@@ -146,7 +148,7 @@
 <li><p>In <a class="reference internal" href="apidoc/yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.vna" title="yadg.extractors.fhimcpt.vna"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fhimcpt.vna</span></code></a>, the schema now follows <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">snp</span></code></a> for consistency.</p></li>
 </ul>
 </div></blockquote>
-<p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-next</span></code> include:</p>
+<p>Bug fixes in <code class="docutils literal notranslate"><span class="pre">yadg-7.0</span></code> include:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>The parameter <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> files should be <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">/</span> <span class="pre">N</span></code> when set to 1, not <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
@@ -578,7 +580,7 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev11
+      v: 6.2.dev12
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to use yadg &mdash; yadg 6.2.dev11 documentation</title>
+  <title>How to use yadg &mdash; yadg 6.2.dev12 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=f95e7eb4"></script>
+        <script src="_static/documentation_options.js?v=cea6f4de"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev11
+                6.2.dev12
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.quadstar.html"><strong>quadstar</strong>: For Quadstar MS data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.tomato.html"><strong>tomato</strong>: For tomato outputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.touchstone.html"><strong>touchstone</strong>: For Touchstone VNA files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidoc/yadg.extractors.yadg.html"><strong>yadg</strong>: For legacy yadg files</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">yadg developer manual</span></p>
 <ul>
@@ -175,7 +176,7 @@ default extractor object. Coerces any <code class="xref py py-class docutils lit
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.filetype.FileType" title="(in dgbowl-schemas v124.dev5)"><span class="pre">FileType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FileType</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
 <dd><p>Extracts data and metadata from the provided path using the supplied extractor.</p>
 <p>The individual extractor functionality of yadg is called from here. The data is
 always returned as a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>. The <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entries in
@@ -194,7 +195,7 @@ write the returned object into a file.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.filetype.FileType" title="(in dgbowl-schemas v124.dev5)"><span class="pre">FileType</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract_from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FileType</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
 <dd><p>Extracts data and metadata from the provided raw bytes using the supplied extractor.</p>
 <p>The individual extractor functionality of yadg is called from here. The data is
 always returned as a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code>. The <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entries in
@@ -264,7 +265,7 @@ write the returned object into a file.</p>
 <h3>API for processing <cite>dataschema</cite><a class="headerlink" href="#api-for-processing-dataschema" title="Link to this heading"></a></h3>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema_6_0.html#dgbowl_schemas.yadg.dataschema_6_0.DataSchema" title="(in dgbowl-schemas v124.dev5)"><span class="pre">DataSchema</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_merge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.core.</span></span><span class="sig-name descname"><span class="pre">process_schema</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataschema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataSchema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_merge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
 <dd><p>The main <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> processing function of yadg.</p>
 <p>Takes in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataSchema</span></code> object, updates it to the latest version compatible
 with the installed version of yadg, processes each <cite>step</cite>, and returns a single
@@ -311,7 +312,7 @@ has to be identical. Defaults to <code class="docutils literal notranslate"><spa
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev11
+      v: 6.2.dev12
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

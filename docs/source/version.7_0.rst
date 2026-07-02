@@ -1,17 +1,17 @@
-**yadg** version next
-`````````````````````
+**yadg** version 7.0
+````````````````````
 
 ..
-   .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.2&color=blue&logo=github
-     :target: https://github.com/PeterKraus/yadg/tree/6.2
-   .. image:: https://img.shields.io/static/v1?label=yadg&message=v6.2&color=blue&logo=pypi
-     :target: https://pypi.org/project/yadg/6.2/
+   .. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=github
+     :target: https://github.com/PeterKraus/yadg/tree/7.0
+   .. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=pypi
+     :target: https://pypi.org/project/yadg/7.0/
    .. image:: https://img.shields.io/static/v1?label=release%20date&message=2025-08-20&color=red&logo=pypi
 
 
 Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).
 
-New features in ``yadg-next`` are:
+New features in ``yadg-7.0`` are:
 
   - New uncertainty handling. Uncertainties for data are now stored as ``{val}_uncertainty`` instead of ``{val}_std_err``, and they are generally a single :class:`float` or :class:`int` per data variable. See the :ref:`Uncertainties <uncertainties-label>` section in the Features document. The change was motivated by the following issues:
 
@@ -21,7 +21,9 @@ New features in ``yadg-next`` are:
 
   - Support for Battery Capacity Determination (BCD) technique in :mod:`yadg.extractors.eclab.mpr` and :mod:`yadg.extractors.eclab.mpt`. Note that the ``Set I/C`` parameters in BCD are renamed to ``Set I/C 1`` and ``Set I/C 2`` in both :mod:`~yadg.extractors.eclab.mpr` and :mod:`~yadg.extractors.eclab.mpt` files. Thank you to `Joachim Laviolette <https://github.com/JL-CEA>`_ for providing test files.
 
-Breaking changes in ``yadg-next`` are:
+  - Support for updating legacy yadg ``json`` *datagrams* in :mod:`yadg.extractors.yadg.json`. With this module, *datagrams* generated using ``yadg-4.x`` series can be updated to the new ``NetCDF`` format introduced in ``yadg-5.0``.
+
+Breaking changes in ``yadg-7.0`` are:
 
   - The new uncertainty handling is a breaking change compared to :obj:`yadg-6.x`
   - For all extractors, the ``source`` (positional) argument now must be specified instead of ``fn`` or ``path``.
@@ -29,7 +31,7 @@ Breaking changes in ``yadg-next`` are:
   - In :mod:`yadg.extractors.touchstone.snp`, the acquisition parameters (S11, S21 etc.) are no longer NetCDF groups, but the label is prepended to the property name (e.g. ``S11/real`` is now ``S11_real``). This means the ``frequency`` coordinate is not duplicated.
   - In :mod:`yadg.extractors.fhimcpt.vna`, the schema now follows :mod:`~yadg.extractors.touchstone.snp` for consistency.
 
-Bug fixes in ``yadg-next`` include:
+Bug fixes in ``yadg-7.0`` include:
 
   - The parameter ``Set I/C`` in :mod:`yadg.extractors.eclab.mpr` files should be ``C / N`` when set to 1, not ``C``.
   - Added columns 248 (``Rac``), 249 (``Rdc``), and 253 (``Acir od Dcir Control``) in :mod:`yadg.extractors.eclab.mpr` and :mod:`yadg.extractors.eclab.mpt`. Thanks to Muthu Vallinayagam from TU Freiberg for reporting the issue.

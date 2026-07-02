@@ -176,6 +176,7 @@ def test_yadg_preset_roundtrip_uts(datadir):
         ("eclab.mpr", "cp.mpr"),
         ("agilent.ch", "agilent.CH"),
         ("fusion.json", "fusion.fusion-data"),
+        ("yadg.json", "ds.4.2.dg.json"),
     ],
 )
 def test_yadg_extract_with_metadata(filetype, infile, datadir):

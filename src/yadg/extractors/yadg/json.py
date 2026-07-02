@@ -145,7 +145,7 @@ def vars_from_4_x_data(data: list[dict]) -> tuple[dict, dict, dict]:
     meta = {}
     for k in {"fn"}:
         if k in parts:
-            meta[k] = set(parts[k])
+            meta[k] = list(set(parts[k]))
 
     coords = {
         "uts": (
@@ -168,7 +168,8 @@ def process_4_x(jsdata: dict) -> DataTree:
         tag = step["metadata"].pop("tag")
         data_vars, coords, meta = vars_from_4_x_data(step["data"])
         attrs = dict(original_metadata=step["metadata"])
-        attrs.update(meta)
+        # We do not store the fn key for now.
+        # attrs.update(meta)
         ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
         if tag in dtdict:
             logger.warning(f"Duplicate tag {tag!r} in datagram.")

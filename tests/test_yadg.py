@@ -255,7 +255,7 @@ def test_yadg_preset_dataschema_compat(datadir):
         ("eclab.mpt", "mb.issue_95.de.mpt", "de_DE"),
     ],
 )
-def test_yadg_extract_locale(filetype, infile, locale, datadir):
+def test_yadg_extract_locale_metadata(filetype, infile, locale, datadir):
     os.chdir(datadir)
     command = [
         "yadg",
@@ -270,6 +270,35 @@ def test_yadg_extract_locale(filetype, infile, locale, datadir):
     ]
     subprocess.run(command, check=True)
     assert os.path.exists("test.nc")
+    ret = open_datatree("test.nc", engine="h5netcdf")
+    ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)
+
+
+@pytest.mark.parametrize(
+    "filetype, infile, suffix",
+    [
+        ("ezchrom.asc", "ezchrom-asc.zip", None),
+        ("ezchrom.asc", "ezchrom-txt.zip", ".txt"),
+    ],
+)
+def test_yadg_extract_from_zip(filetype, infile, suffix, datadir):
+    os.chdir(datadir)
+    command = [
+        "yadg",
+        "extract",
+        filetype,
+        infile,
+        "test.nc",
+        "--locale",
+        "en_GB",
+        "--timezone",
+        "Europe/Berlin",
+    ]
+    if suffix is not None:
+        command.append("--suffix")
+        command.append(suffix)
+    subprocess.run(command, check=True)
     ret = open_datatree("test.nc", engine="h5netcdf")
     ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)

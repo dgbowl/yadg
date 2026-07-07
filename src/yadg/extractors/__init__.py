@@ -225,7 +225,7 @@ def extract_from_zip(
             logger.critical(
                 "No files of filetype '%s' were found in the zip file using suffix %s.",
                 extractor.filetype,
-                suffices,
+                extractor.suffix,
             )
 
         for ffn in sorted(filenames):

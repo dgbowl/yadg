@@ -1414,6 +1414,7 @@ unit_map = {
 
 vs_map = (
     ("Eoc", 0),
+    ("Ectrl", 1),
     ("Emeas", 2),
     ("Ei", 3),
     ("Ref", 4),

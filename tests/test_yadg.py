@@ -273,3 +273,32 @@ def test_yadg_extract_locale_metadata(filetype, infile, locale, datadir):
     ret = open_datatree("test.nc", engine="h5netcdf")
     ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)
+
+
+@pytest.mark.parametrize(
+    "filetype, infile, suffix",
+    [
+        ("ezchrom.asc", "ezchrom-asc.zip", None),
+        ("ezchrom.asc", "ezchrom-txt.zip", ".txt"),
+    ],
+)
+def test_yadg_extract_from_zip(filetype, infile, suffix, datadir):
+    os.chdir(datadir)
+    command = [
+        "yadg",
+        "extract",
+        filetype,
+        infile,
+        "test.nc",
+        "--locale",
+        "en_GB",
+        "--timezone",
+        "Europe/Berlin",
+    ]
+    if suffix is not None:
+        command.append("--suffix")
+        command.append(suffix)
+    subprocess.run(command, check=True)
+    ret = open_datatree("test.nc", engine="h5netcdf")
+    ref = open_datatree(f"{infile}.nc", engine="h5netcdf")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)

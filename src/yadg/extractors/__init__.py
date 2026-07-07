@@ -73,8 +73,8 @@ def extract(
     ).extractor
 
     if path.suffix == ".zip" and zipfile.is_zipfile(path):
-        logger.warning("Processing zipfile")
-        return extract_from_zip(Path(path), extractor, **kwargs, suffix=["fusion-data"])
+        logger.info("Processing zipfile")
+        return extract_from_zip(Path(path), extractor, **kwargs)
     else:
         return extract_from_path(Path(path), extractor, **kwargs)
 
@@ -205,19 +205,24 @@ def extract_from_zip(
             extractor.filetype,
         )
 
+    if kwargs.get("suffix") is not None:
+        suffices = [kwargs.get("suffix")]
+    else:
+        suffices = extractor.suffix
+
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dtdict = None
         filenames = []
         for ffn in os.listdir(tempdir):
-            for suffix in extractor.suffix:
+            for suffix in suffices:
                 if ffn.endswith(suffix):
                     filenames.append(ffn)
-        if len(ffn) == 0:
+        if len(filenames) == 0:
             logger.critical(
-                "No files of filetype '%s' were found using suffix %s.",
+                "No files of filetype '%s' were found in the zip file using suffix %s.",
                 extractor.filetype,
-                extractor.suffix,
+                suffices,
             )
 
         for ffn in sorted(filenames):

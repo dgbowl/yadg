@@ -178,6 +178,12 @@ def run_with_arguments():
         type=str,
     )
     extract.add_argument(
+        "--suffix",
+        help="Set suffix to match files when extracting a zip archive.",
+        default=None,
+        type=str,
+    )
+    extract.add_argument(
         "--ignore-merge-errors",
         dest="ignore_merge_errors",
         action="store_true",

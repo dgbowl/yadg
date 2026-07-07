@@ -33,6 +33,7 @@ The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTre
         - `timezone` is set to the ``localtime`` of the `localhost`,
         - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
         - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
+        - `suffix` for matching files within extracted zip files.
 
     All of the above options might lead to improper parsing of the input files. While errors due to improper `encoding` are likely to be immediately obvious as they lead to crashes; `locale` errors might only be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); and incorrect `timezone` information may lead to errors that are much more subtle. You can specify the correct values for these three parameters, if known, on the command line using:
 
@@ -55,6 +56,9 @@ If you want to use **yadg** in your own code, you should use the common extracto
 .. autofunction:: yadg.extractors.extract_from_bytes
     :no-index:
 
+.. autofunction:: yadg.extractors.extract_from_zip
+    :no-index:
+
 .. warning::
 
     Please do not use the :func:`extract` functions from each extractor (e.g. :func:`yadg.extractors.eclab.mpr.extract_from_path`) directly. Those are not part of the user-facing API and their function signatures may change between minor or point versions.
@@ -71,6 +75,30 @@ To use **yadg** to extract and retrieve just the metadata contained in the input
 The metadata are returned as a ``.json`` file, and are generated using the :func:`~xarray.Dataset.to_dict` function of :class:`xarray.Dataset`. They contain a description of the data coordinates (``coords``), dimensions (``dims``), and variables (``data_vars``), and include their names, attributes, dtypes, and shapes.
 
 The list of supported `filetypes` that can be extracted using **yadg** can be found in the left sidebar. For more information about the `extractor` concept, see the |datatractor|_ project.
+
+.. _zip file extract:
+
+Extraction from zip files
+`````````````````````````
+If you want to extract data from a zip file containing multiple files of a known `FileType`, that is now possible and is handled completely transparently. For instance to extract all data (i.e. all `fusion.json` files) in the below archive:
+
+.. code-block::
+
+    fusion-json.zip
+      ├ 15p-Cu-10mA-01 - Jun 08 2022, 14;57.fusion-data
+      ├ 15p-Cu-10mA-01 - Jun 08 2022, 15;03.fusion-data
+      ├ ...
+      ├ 15p-Cu-10mA-01 - Jun 08 2022, 16;17.fusion-data
+      └ 15p-Cu-10mA-01 - Jun 08 2022, 16;23.fusion-data
+
+you can use the ``yadg extract`` invocation passing the ``fusion.json`` as `FileType` as per usual, together with a suffix of the top level files that should be extracted (here: ``.fusion-data``).
+
+.. code-block::
+
+    yadg extract fusion.json fusion-json.zip output.nc --suffix .fusion-data
+
+The zip file will be extracted into a temporary folder, and all files in the top level of the zip file that match the provided suffix will be extracted using the appropriate extractor. Note that reasonable default suffix values for each `FileType` are provided.
+
 
 .. _parser mode:
 

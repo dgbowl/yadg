@@ -41,8 +41,9 @@ def extract(
     """
     Extract data and metadata from a path using the supplied filetype.
 
-    A wrapper around the :func:`extract_from_path` worker function, which creates a
-    default extractor object. Coerces any :class:`str`s provided as ``path`` to :class:`Path`.
+    A wrapper around the :func:`extract_from_path` and :func:`extract_from_zip` worker functions.
+    Creates a default extractor object for a given ``filetype``. Coerces any :class:`str`s provided
+    as ``path`` to :class:`Path`. If the provided ``path`` is a zip file, it is treated as such.
 
     Parameters
     ----------
@@ -171,14 +172,15 @@ def extract_from_zip(
     source: Path,
     extractor: FileType,
     ignore_merge_errors: bool = False,
+    suffix: str = None,
     **kwargs: dict,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided zip file path using the supplied extractor.
 
     The zip file is extracted into a temporary directory, and all top-level files that match
-    the extractor.suffix are then processed. Metadata in the files within the zip is combined
-    strictly, unless :obj:`ignore_merge_errors` is set to :obj:`True`.
+    the suffix, or the extractor.suffix, are then processed. Metadata in the files within the
+    zip is combined strictly, unless :obj:`ignore_merge_errors` is set to :obj:`True`.
 
 
     Parameters
@@ -192,6 +194,10 @@ def extract_from_zip(
 
     ignore_merge_errors:
         A :class:`bool` for enforcing metadata consistency.
+
+    suffix:
+        A :class:`str` for matching files within the zip file to the extractor. Defaults to
+        ``None``, which means the value provided in ``extractor.suffix`` will be used.
     """
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
@@ -205,8 +211,8 @@ def extract_from_zip(
             extractor.filetype,
         )
 
-    if kwargs.get("suffix") is not None:
-        suffices = [kwargs.get("suffix")]
+    if suffix is not None:
+        suffices = [suffix]
     else:
         suffices = extractor.suffix
 

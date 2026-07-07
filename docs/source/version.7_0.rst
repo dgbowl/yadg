@@ -23,6 +23,8 @@ New features in ``yadg-7.0`` are:
 
   - Support for updating legacy yadg ``json`` *datagrams* in :mod:`yadg.extractors.yadg.json`. With this module, *datagrams* generated using ``yadg-4.x`` series can be updated to the new ``NetCDF`` format introduced in ``yadg-5.0``.
 
+  - Support for extracting data from zip files containing known filetypes using ``yadg extract`` as well as :func:`yadg.extractors.extract`. More details are provided in :ref:`usage instructions<zip file extract>`. This also means that :mod:`yadg.extractors.fusion.zip` is not needed any more.
+
 Breaking changes in ``yadg-7.0`` are:
 
   - The new uncertainty handling is a breaking change compared to :obj:`yadg-6.x`

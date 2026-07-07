@@ -36,6 +36,7 @@ def extract(
     timezone: str = None,
     encoding: str = None,
     locale: str = None,
+    suffix: str = None,
     **kwargs: dict,
 ) -> DataTree:
     """
@@ -63,6 +64,9 @@ def extract(
     locale:
         A :class:`str` containing the locale name, e.g. "de_CH".
 
+    suffix:
+        A :class:`str` containing a non-default suffix for matching files within a zip file.
+
     """
     extractor = ExtractorFactory(
         extractor={
@@ -72,6 +76,9 @@ def extract(
             "locale": locale,
         }
     ).extractor
+
+    if suffix is not None:
+        extractor.suffix = [suffix]
 
     if path.suffix == ".zip" and zipfile.is_zipfile(path):
         logger.info("Processing zipfile")
@@ -172,15 +179,14 @@ def extract_from_zip(
     source: Path,
     extractor: FileType,
     ignore_merge_errors: bool = False,
-    suffix: str = None,
     **kwargs: dict,
 ) -> DataTree:
     """
     Extracts data and metadata from the provided zip file path using the supplied extractor.
 
     The zip file is extracted into a temporary directory, and all top-level files that match
-    the suffix, or the extractor.suffix, are then processed. Metadata in the files within the
-    zip is combined strictly, unless :obj:`ignore_merge_errors` is set to :obj:`True`.
+    the :obj:`extractor.suffix`, are then processed. Metadata in the files within the zip file
+    are combined strictly, unless :obj:`ignore_merge_errors` is set to :obj:`True`.
 
 
     Parameters
@@ -194,10 +200,6 @@ def extract_from_zip(
 
     ignore_merge_errors:
         A :class:`bool` for enforcing metadata consistency.
-
-    suffix:
-        A :class:`str` for matching files within the zip file to the extractor. Defaults to
-        ``None``, which means the value provided in ``extractor.suffix`` will be used.
     """
 
     m = importlib.import_module(f"yadg.extractors.{extractor.filetype}")
@@ -211,17 +213,12 @@ def extract_from_zip(
             extractor.filetype,
         )
 
-    if suffix is not None:
-        suffices = [suffix]
-    else:
-        suffices = extractor.suffix
-
     with tempfile.TemporaryDirectory() as tempdir:
         zf.extractall(tempdir)
         dtdict = None
         filenames = []
         for ffn in os.listdir(tempdir):
-            for suffix in suffices:
+            for suffix in extractor.suffix:
                 if ffn.endswith(suffix):
                     filenames.append(ffn)
         if len(filenames) == 0:

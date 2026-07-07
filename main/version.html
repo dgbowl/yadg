@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg 6.2.dev12 documentation</title>
+  <title>yadg version history &mdash; yadg 6.2.dev13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=cea6f4de"></script>
+        <script src="_static/documentation_options.js?v=6ade70c7"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev12
+                6.2.dev13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -136,6 +136,7 @@
 </li>
 <li><p>Support for Battery Capacity Determination (BCD) technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a>. Note that the <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span></code> parameters in BCD are renamed to <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">I/C</span> <span class="pre">2</span></code> in both <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpr</span></code></a> and <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mpt</span></code></a> files. Thank you to <a class="reference external" href="https://github.com/JL-CEA">Joachim Laviolette</a> for providing test files.</p></li>
 <li><p>Support for updating legacy yadg <code class="docutils literal notranslate"><span class="pre">json</span></code> <em>datagrams</em> in <a class="reference internal" href="apidoc/yadg.extractors.yadg.html#module-yadg.extractors.yadg.json" title="yadg.extractors.yadg.json"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.yadg.json</span></code></a>. With this module, <em>datagrams</em> generated using <code class="docutils literal notranslate"><span class="pre">yadg-4.x</span></code> series can be updated to the new <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> format introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.0</span></code>.</p></li>
+<li><p>Support for extracting data from zip files containing known filetypes using <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> as well as <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a>. More details are provided in <a class="reference internal" href="usage.html#zip-file-extract"><span class="std std-ref">usage instructions</span></a>. This also means that <code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fusion.zip</span></code> is not needed any more.</p></li>
 </ul>
 </div></blockquote>
 <p>Breaking changes in <code class="docutils literal notranslate"><span class="pre">yadg-7.0</span></code> are:</p>
@@ -580,7 +581,7 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev12
+      v: 6.2.dev13
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

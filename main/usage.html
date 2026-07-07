@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to use yadg &mdash; yadg 6.2.dev12 documentation</title>
+  <title>How to use yadg &mdash; yadg 6.2.dev13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=cea6f4de"></script>
+        <script src="_static/documentation_options.js?v=6ade70c7"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev12
+                6.2.dev13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -56,6 +56,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#extractor-mode"><cite>Extractor</cite> mode</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#api-endpoint-for-extractor-mode">API endpoint for <cite>extractor</cite> mode</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#metadata-only-extraction">Metadata-only extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extraction-from-zip-files">Extraction from zip files</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#parser-mode"><cite>Parser</cite> mode</a><ul>
@@ -145,6 +146,7 @@
 <li><p><cite>timezone</cite> is set to the <code class="docutils literal notranslate"><span class="pre">localtime</span></code> of the <cite>localhost</cite>,</p></li>
 <li><p><cite>locale</cite> is set to the default <code class="docutils literal notranslate"><span class="pre">LC.NUMERIC</span></code> locale of the <cite>localhost</cite>,</p></li>
 <li><p><cite>encoding</cite> of the input files is set to <code class="docutils literal notranslate"><span class="pre">UTF-8</span></code> or the <cite>extractor</cite> default.</p></li>
+<li><p><cite>suffix</cite> for matching files within extracted zip files.</p></li>
 </ul>
 </div></blockquote>
 <p>All of the above options might lead to improper parsing of the input files. While errors due to improper <cite>encoding</cite> are likely to be immediately obvious as they lead to crashes; <cite>locale</cite> errors might only be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); and incorrect <cite>timezone</cite> information may lead to errors that are much more subtle. You can specify the correct values for these three parameters, if known, on the command line using:</p>
@@ -157,10 +159,11 @@
 <p>If you want to use <strong>yadg</strong> in your own code, you should use the common extractors API available in the <a class="reference internal" href="apidoc/yadg.extractors.html#module-yadg.extractors" title="yadg.extractors"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors</span></code></a> module:</p>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
 <dd><p>Extract data and metadata from a path using the supplied filetype.</p>
-<p>A wrapper around the <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_from_path()</span></code> worker function, which creates a
-default extractor object. Coerces any <code class="xref py py-class docutils literal notranslate"><span class="pre">str`s</span> <span class="pre">provided</span> <span class="pre">as</span> <span class="pre">``path`</span></code> to <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>.</p>
+<p>A wrapper around the <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_from_path()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">extract_from_zip()</span></code> worker functions.
+Creates a default extractor object for a given <code class="docutils literal notranslate"><span class="pre">filetype</span></code>. Coerces any <code class="xref py py-class docutils literal notranslate"><span class="pre">str`s</span> <span class="pre">provided</span>
+<span class="pre">as</span> <span class="pre">``path`</span></code> to <code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>. If the provided <code class="docutils literal notranslate"><span class="pre">path</span></code> is a zip file, it is treated as such.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -169,6 +172,7 @@ default extractor object. Coerces any <code class="xref py py-class docutils lit
 <li><p><strong>timezone</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> containing the TZ identifier, e.g. “Europe/Berlin”.</p></li>
 <li><p><strong>encoding</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> containing the encoding, e.g. “utf-8”.</p></li>
 <li><p><strong>locale</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> containing the locale name, e.g. “de_CH”.</p></li>
+<li><p><strong>suffix</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> containing a non-default suffix for matching files within a zip file.</p></li>
 </ul>
 </dd>
 </dl>
@@ -212,6 +216,24 @@ write the returned object into a file.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.</span></span><span class="sig-name descname"><span class="pre">extract_from_zip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FileType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_merge_errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><span class="pre">DataTree</span></a></span></span></dt>
+<dd><p>Extracts data and metadata from the provided zip file path using the supplied extractor.</p>
+<p>The zip file is extracted into a temporary directory, and all top-level files that match
+the <code class="xref py py-obj docutils literal notranslate"><span class="pre">extractor.suffix</span></code>, are then processed. Metadata in the files within the zip file
+are combined strictly, unless <code class="xref py py-obj docutils literal notranslate"><span class="pre">ignore_merge_errors</span></code> is set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – A <code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code> pointing to the zip file.</p></li>
+<li><p><strong>extractor</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">FileType</span></code> object describing the extraction process.</p></li>
+<li><p><strong>ignore_merge_errors</strong> – A <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code> for enforcing metadata consistency.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Please do not use the <code class="xref py py-func docutils literal notranslate"><span class="pre">extract()</span></code> functions from each extractor (e.g. <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#yadg.extractors.eclab.mpr.extract_from_path" title="yadg.extractors.eclab.mpr.extract_from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr.extract_from_path()</span></code></a>) directly. Those are not part of the user-facing API and their function signatures may change between minor or point versions.</p>
@@ -225,6 +247,23 @@ write the returned object into a file.</p>
 </div>
 <p>The metadata are returned as a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file, and are generated using the <code class="xref py py-func docutils literal notranslate"><span class="pre">to_dict()</span></code> function of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>. They contain a description of the data coordinates (<code class="docutils literal notranslate"><span class="pre">coords</span></code>), dimensions (<code class="docutils literal notranslate"><span class="pre">dims</span></code>), and variables (<code class="docutils literal notranslate"><span class="pre">data_vars</span></code>), and include their names, attributes, dtypes, and shapes.</p>
 <p>The list of supported <cite>filetypes</cite> that can be extracted using <strong>yadg</strong> can be found in the left sidebar. For more information about the <cite>extractor</cite> concept, see the <a class="reference external" href="https://github.com/datatractor">Datatractor</a> project.</p>
+</section>
+<section id="extraction-from-zip-files">
+<span id="zip-file-extract"></span><h3>Extraction from zip files<a class="headerlink" href="#extraction-from-zip-files" title="Link to this heading"></a></h3>
+<p>If you want to extract data from a zip file containing multiple files of a known <cite>FileType</cite>, that is now possible and is handled completely transparently. For instance to extract all data (i.e. all <cite>fusion.json</cite> files) in the below archive:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>fusion-json.zip
+  ├ 15p-Cu-10mA-01 - Jun 08 2022, 14;57.fusion-data
+  ├ 15p-Cu-10mA-01 - Jun 08 2022, 15;03.fusion-data
+  ├ ...
+  ├ 15p-Cu-10mA-01 - Jun 08 2022, 16;17.fusion-data
+  └ 15p-Cu-10mA-01 - Jun 08 2022, 16;23.fusion-data
+</pre></div>
+</div>
+<p>you can use the <code class="docutils literal notranslate"><span class="pre">yadg</span> <span class="pre">extract</span></code> invocation passing the <code class="docutils literal notranslate"><span class="pre">fusion.json</span></code> as <cite>FileType</cite> as per usual, together with a suffix of the top level files that should be extracted (here: <code class="docutils literal notranslate"><span class="pre">.fusion-data</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">yadg</span> <span class="n">extract</span> <span class="n">fusion</span><span class="o">.</span><span class="n">json</span> <span class="n">fusion</span><span class="o">-</span><span class="n">json</span><span class="o">.</span><span class="n">zip</span> <span class="n">output</span><span class="o">.</span><span class="n">nc</span> <span class="o">--</span><span class="n">suffix</span> <span class="o">.</span><span class="n">fusion</span><span class="o">-</span><span class="n">data</span>
+</pre></div>
+</div>
+<p>The zip file will be extracted into a temporary folder, and all files in the top level of the zip file that match the provided suffix will be extracted using the appropriate extractor. Note that reasonable default suffix values for each <cite>FileType</cite> are provided.</p>
 </section>
 </section>
 <section id="parser-mode">
@@ -312,7 +351,7 @@ has to be identical. Defaults to <code class="docutils literal notranslate"><spa
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev12
+      v: 6.2.dev13
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

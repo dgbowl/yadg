@@ -51,6 +51,11 @@ in the settings, log and loop modules of the binary ``.mpr`` file.
 If no header is present, the timestamps will instead be calculated from
 the file's ``mtime()``.
 
+Any "Modify on" entries in the header are processed and the values in settings and/or
+parameters are updated appropriately. This is consistent with ``mpr`` file handling.
+History of these "Modify on" changes is not preserved.
+
+
 Metadata
 ````````
 The metadata will contain the information from the header of the file.
@@ -184,7 +189,6 @@ def process_header(
     elif lines[li + 1].startswith("External device configuration :"):
         li += 1
         for dext, line in enumerate(lines[li + 1 :]):
-            logger.debug(f"{dext=} {line=}")
             if line.startswith(" "):
                 pass
             else:
@@ -196,7 +200,6 @@ def process_header(
         dext = 1
 
     params = process_params(technique, lines[pstart + dext :], locale)
-    logger.critical(f"{params=}")
 
     for section in sections[3:]:
         if section.startswith("Modify on :"):

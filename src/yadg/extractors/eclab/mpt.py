@@ -168,10 +168,13 @@ def process_header(
     technique = sections[1].strip()
 
     lines = sections[2].split("\n")
+    pstart = None
     for li, line in enumerate(lines):
         if line.startswith("Cycle Definition :"):
+            pstart = li
             break
         elif line.startswith("Ei (V)"):
+            pstart = li - 1
             break
 
     settings = process_settings(lines[:li])
@@ -188,10 +191,12 @@ def process_header(
                 dext += 1
                 break
         settings.update(process_external(lines[li : li + dext]))
+        dext += 1
     else:
         dext = 1
 
-    params = process_params(technique, lines[li + dext :], locale)
+    params = process_params(technique, lines[pstart + dext :], locale)
+    logger.critical(f"{params=}")
 
     for section in sections[3:]:
         if section.startswith("Modify on :"):
@@ -204,14 +209,24 @@ def process_header(
                         settings[name] = val
                         logger.info("Overwriting setting '%s' to %s.", name, val)
                         continue
-                name = line[:20].rstrip()
-                try:
-                    val = [float(parse_decimal(line[20:].rstrip(), locale=locale))]
-                except ValueError:
-                    val = [line[20:].rstrip()]
+                n_sequences = int(len(line) / 20)
+                if n_sequences == 0:
+                    continue
+                items = [
+                    line[seq * 20 : (seq + 1) * 20].strip()
+                    for seq in range(n_sequences)
+                ]
+                name = items[0]
                 if name in params:
-                    params[name] = val
-                    logger.info("Overwriting parameter '%s' to %s.", name, val)
+                    for vi, val in enumerate(items[1:]):
+                        if val == "":
+                            continue
+                        try:
+                            val = float(parse_decimal(val, locale=locale))
+                        except ValueError:
+                            pass
+                        params[name][vi] = val
+                    logger.info("Overwriting parameter '%s' to %s.", name, params[name])
 
     # Parse the acquisition timestamp.
     if "Acquisition started on" in settings:

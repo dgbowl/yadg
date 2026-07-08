@@ -120,7 +120,10 @@ def process_params(technique: str, lines: list[str], locale: str) -> dict[str, A
         elif name not in params:
             params[name] = vals
         else:
-            raise RuntimeError(f"Trying to assign same parameter {items[0]!r} twice.")
+            logger.info(
+                "Overwriting parameter '%s' from %s to %s.", name, params[name], vals
+            )
+            params[name] = vals
         prev = name
     return params
 
@@ -144,7 +147,7 @@ def process_header(
     lines: list[str],
     timezone: str,
     locale: str,
-) -> tuple[dict, list, dict]:
+) -> dict:
     """Processes the header lines.
 
     Parameters
@@ -155,9 +158,9 @@ def process_header(
 
     Returns
     -------
-    tuple[dict, dict]
-        A dictionary containing the settings (and the technique
-        parameters) and a dictionary containing the loop indexes.
+    dict
+        A dictionary containing the header contents, including settings,
+        technique name, parameters, loops, and uts.
 
     """
     sections = "\n".join(lines).split("\n\n")
@@ -171,6 +174,12 @@ def process_header(
     for li, line in enumerate(lines):
         if line.startswith("Cycle Definition :"):
             break
+        elif line.startswith("Ei (V)"):
+            break
+    for section in sections[3:]:
+        if section.startswith("Modify on :"):
+            extras = section.split("\n")[1:]
+            lines = lines + extras
 
     settings = process_settings(lines[:li])
     # New thing in v11.61 - There can be an "External device configuration" section

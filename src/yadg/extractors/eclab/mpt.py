@@ -120,10 +120,7 @@ def process_params(technique: str, lines: list[str], locale: str) -> dict[str, A
         elif name not in params:
             params[name] = vals
         else:
-            logger.info(
-                "Overwriting parameter '%s' from %s to %s.", name, params[name], vals
-            )
-            params[name] = vals
+            raise RuntimeError(f"Trying to assign same parameter {items[0]!r} twice.")
         prev = name
     return params
 
@@ -176,10 +173,6 @@ def process_header(
             break
         elif line.startswith("Ei (V)"):
             break
-    for section in sections[3:]:
-        if section.startswith("Modify on :"):
-            extras = section.split("\n")[1:]
-            lines = lines + extras
 
     settings = process_settings(lines[:li])
     # New thing in v11.61 - There can be an "External device configuration" section
@@ -199,6 +192,26 @@ def process_header(
         dext = 1
 
     params = process_params(technique, lines[li + dext :], locale)
+
+    for section in sections[3:]:
+        if section.startswith("Modify on :"):
+            extras = section.split("\n")[1:]
+            for line in extras:
+                if ":" in line:
+                    name = line[: line.index(":")].strip()
+                    val = line[line.index(":") + 1 :].strip()
+                    if name in settings:
+                        settings[name] = val
+                        logger.info("Overwriting setting '%s' to %s.", name, val)
+                        continue
+                name = line[:20].rstrip()
+                try:
+                    val = [float(parse_decimal(line[20:].rstrip(), locale=locale))]
+                except ValueError:
+                    val = [line[20:].rstrip()]
+                if name in params:
+                    params[name] = val
+                    logger.info("Overwriting parameter '%s' to %s.", name, val)
 
     # Parse the acquisition timestamp.
     if "Acquisition started on" in settings:

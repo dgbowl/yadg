@@ -280,6 +280,7 @@ def test_yadg_extract_locale_metadata(filetype, infile, locale, datadir):
     [
         ("ezchrom.asc", "ezchrom-asc.zip", None),
         ("ezchrom.asc", "ezchrom-txt.zip", ".txt"),
+        ("fusion.zip", "fusion-json.zip", None),
     ],
 )
 def test_yadg_extract_from_zip(filetype, infile, suffix, datadir):

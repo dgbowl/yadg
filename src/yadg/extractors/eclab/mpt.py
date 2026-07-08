@@ -51,6 +51,11 @@ in the settings, log and loop modules of the binary ``.mpr`` file.
 If no header is present, the timestamps will instead be calculated from
 the file's ``mtime()``.
 
+Any "Modify on" entries in the header are processed and the values in settings and/or
+parameters are updated appropriately. This is consistent with ``mpr`` file handling.
+History of these "Modify on" changes is not preserved.
+
+
 Metadata
 ````````
 The metadata will contain the information from the header of the file.
@@ -144,7 +149,7 @@ def process_header(
     lines: list[str],
     timezone: str,
     locale: str,
-) -> tuple[dict, list, dict]:
+) -> dict:
     """Processes the header lines.
 
     Parameters
@@ -155,9 +160,9 @@ def process_header(
 
     Returns
     -------
-    tuple[dict, dict]
-        A dictionary containing the settings (and the technique
-        parameters) and a dictionary containing the loop indexes.
+    dict
+        A dictionary containing the header contents, including settings,
+        technique name, parameters, loops, and uts.
 
     """
     sections = "\n".join(lines).split("\n\n")
@@ -168,8 +173,13 @@ def process_header(
     technique = sections[1].strip()
 
     lines = sections[2].split("\n")
+    pstart = None
     for li, line in enumerate(lines):
         if line.startswith("Cycle Definition :"):
+            pstart = li
+            break
+        elif line.startswith("Ei (V)"):
+            pstart = li - 1
             break
 
     settings = process_settings(lines[:li])
@@ -179,17 +189,47 @@ def process_header(
     elif lines[li + 1].startswith("External device configuration :"):
         li += 1
         for dext, line in enumerate(lines[li + 1 :]):
-            logger.debug(f"{dext=} {line=}")
             if line.startswith(" "):
                 pass
             else:
                 dext += 1
                 break
         settings.update(process_external(lines[li : li + dext]))
+        dext += 1
     else:
         dext = 1
 
-    params = process_params(technique, lines[li + dext :], locale)
+    params = process_params(technique, lines[pstart + dext :], locale)
+
+    for section in sections[3:]:
+        if section.startswith("Modify on :"):
+            extras = section.split("\n")[1:]
+            for line in extras:
+                if ":" in line:
+                    name = line[: line.index(":")].strip()
+                    val = line[line.index(":") + 1 :].strip()
+                    if name in settings:
+                        settings[name] = val
+                        logger.info("Overwriting setting '%s' to %s.", name, val)
+                        continue
+                n_sequences = int(len(line) / 20)
+                if n_sequences == 0:
+                    continue
+                items = [
+                    line[seq * 20 : (seq + 1) * 20].strip()
+                    for seq in range(n_sequences)
+                ]
+                name = items[0]
+                if name in params:
+                    for vi, val in enumerate(items[1:]):
+                        if val == "":
+                            continue
+                        try:
+                            val = float(parse_decimal(val, locale=locale))
+                        except ValueError:
+                            pass
+                        params[name][vi] = val
+                    logger.info("Overwriting parameter '%s' to %s.", name, params[name])
 
     # Parse the acquisition timestamp.
     if "Acquisition started on" in settings:

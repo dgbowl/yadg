@@ -25,6 +25,7 @@ New features in ``yadg-7.0`` are:
 
   - Support for extracting data from zip files containing known filetypes using ``yadg extract`` as well as :func:`yadg.extractors.extract`. More details are provided in :ref:`usage instructions<zip file extract>`. This also means that :mod:`yadg.extractors.fusion.zip` is not needed any more.
 
+
 Breaking changes in ``yadg-7.0`` are:
 
   - The new uncertainty handling is a breaking change compared to :obj:`yadg-6.x`
@@ -39,3 +40,5 @@ Bug fixes in ``yadg-7.0`` include:
   - Added columns 248 (``Rac``), 249 (``Rdc``), and 253 (``Acir od Dcir Control``) in :mod:`yadg.extractors.eclab.mpr` and :mod:`yadg.extractors.eclab.mpt`. Thanks to Muthu Vallinayagam from TU Freiberg for reporting the issue.
   - The command line argument ``--ignore-merge-errors`` was not being passed to the individual extractors when using the ``yadg extract`` syntax.
   - Fixed passing of :mod:`yadg.extractors.fusion.json` files where no species are present.
+  - Fixed parsing of parameters in some :mod:`yadg.extractors.eclab.mpt` files, where "Cycle Definition" entry is missing.
+  - The "Modify on" entries in :mod:`yadg.extractors.eclab.mpt` files are now properly processed, resulting in consistent parameters (or settings) with :mod:`yadg.extractors.eclab.mpr`, where only the last modification is stored.

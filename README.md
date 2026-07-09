@@ -72,6 +72,7 @@ More detailed [usage instructions](https://dgbowl.github.io/yadg/main/usage.html
 - [Peter Kraus](http://github.com/PeterKraus)
 - [Nicolas Vetsch](http://github.com/vetschn)
 - [Carla Terboven](https://github.com/carla-terboven)
+- [Graham Kimbell](https://github.com/g-kimbell)
 
 ### Acknowledgements
 This project has received funding from the following sources:

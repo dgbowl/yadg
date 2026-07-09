@@ -7,7 +7,7 @@
 
 # ![yet another datagram](./docs/source/images/yadg_banner.png)
 
-A set of tools to *extract* raw data from scientific instruments into standardised [`DataTree`](https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html) in-memory objects, or into [`NetCDF`](https://www.unidata.ucar.edu/software/netcdf/) files on disk. The resulting data is annotated with metadata, provenance information, timestamps, units, and uncertainties. Currently developed at the [ConCat lab](https://www.tu.berlin/en/concat) at Technische Universität Berlin (Berlin, DE) and the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH).
+A set of tools to *extract* raw data from scientific instruments into standardised [`DataTree`](https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html) in-memory objects, or into [`NetCDF`](https://www.unidata.ucar.edu/software/netcdf/) files on disk. The resulting data is annotated with metadata, provenance information, timestamps, units, and uncertainties. Currently developed at the [ConCat lab](https://www.tu.berlin/en/concat) at Technische Universität Berlin (Berlin, DE), and previously at the [Materials for Energy Conversion](https://www.empa.ch/web/s501) lab at Empa (Dübendorf, CH).
 
 ### Capabilities:
 - Extraction of **chromatography data** from gas and liquid chromatograms. Supports several Agilent, EZChrom, Masshunter, and Fusion formats.

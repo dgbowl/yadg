@@ -79,12 +79,12 @@ def extract(
 
     if suffix is not None:
         extractor.suffix = [suffix]
-
+    path = Path(path)
     if path.suffix == ".zip" and zipfile.is_zipfile(path):
         logger.info("Processing zipfile")
-        return extract_from_zip(Path(path), extractor, **kwargs)
+        return extract_from_zip(path, extractor, **kwargs)
     else:
-        return extract_from_path(Path(path), extractor, **kwargs)
+        return extract_from_path(path, extractor, **kwargs)
 
 
 @deprecate_fn_path

@@ -14,7 +14,7 @@ from pathlib import Path
 )
 def test_drycal_txt(infile, datadir):
     os.chdir(datadir)
-    ret = extract(source=Path(infile), encoding="utf8", timezone="Europe/Berlin")
+    ret = extract(Path(infile), encoding="utf8", timezone="Europe/Berlin")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

@@ -15,7 +15,7 @@ from pathlib import Path
 )
 def test_fhimcpt_vna(infile, datadir):
     os.chdir(datadir)
-    ret = extract(source=Path(infile), encoding="utf8")
+    ret = extract(Path(infile), encoding="utf8")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

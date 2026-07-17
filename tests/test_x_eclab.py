@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 def check_file(fname, kwargs, func):
-    ret = func(source=Path(fname), **kwargs)
+    ret = func(Path(fname), **kwargs)
     outfile = f"{fname}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
@@ -21,7 +21,7 @@ def check_file(fname, kwargs, func):
 
 
 def check_file_extract_bytes(fname, bytes, kwargs, func):
-    ret = func(source=bytes, **kwargs)
+    ret = func(bytes, **kwargs)
     outfile = f"{fname}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
@@ -220,8 +220,8 @@ def test_eclab_consistency_partial_149(froot, locale, datadir):
 def test_eclab_mpt_locale(afile, bfile, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
-    aret = extract_mpt(source=Path(afile), locale="en_US", **kwargs)
-    bret = extract_mpt(source=Path(bfile), locale="de_DE", **kwargs)
+    aret = extract_mpt(Path(afile), locale="en_US", **kwargs)
+    bret = extract_mpt(Path(bfile), locale="de_DE", **kwargs)
     compare_datatrees(aret, bret)
 
 
@@ -237,8 +237,8 @@ def test_eclab_mpt_locale(afile, bfile, datadir):
 def test_eclab_mpt_old(afile, bfile, datadir):
     os.chdir(datadir)
     kwargs = dict(timezone="Europe/Berlin", encoding="windows-1252")
-    aret = extract_mpt(source=Path(afile), locale="en_US", **kwargs)
-    bret = extract_mpt(source=Path(bfile), locale="en_US", **kwargs)
+    aret = extract_mpt(Path(afile), locale="en_US", **kwargs)
+    bret = extract_mpt(Path(bfile), locale="en_US", **kwargs)
 
     for key in aret.variables:
         try:

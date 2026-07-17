@@ -15,7 +15,7 @@ from pathlib import Path
 )
 def test_phi_spe(infile, datadir):
     os.chdir(datadir)
-    ret = extract(source=Path(infile))
+    ret = extract(Path(infile))
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

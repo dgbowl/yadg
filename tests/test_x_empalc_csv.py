@@ -15,7 +15,7 @@ from pathlib import Path
 )
 def test_empalc_csv(infile, datadir):
     os.chdir(datadir)
-    ret = extract(source=Path(infile), encoding="utf-8")
+    ret = extract(Path(infile), encoding="utf-8")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

@@ -26,7 +26,10 @@ from pathlib import Path
 def test_touchstone_snp(infile, locale, datadir):
     os.chdir(datadir)
     ret = extract(
-        source=Path(infile), encoding="utf-8", timezone="Europe/Berlin", locale=locale
+        Path(infile),
+        encoding="utf-8",
+        timezone="Europe/Berlin",
+        locale=locale,
     )
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:

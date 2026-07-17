@@ -16,10 +16,7 @@ from pathlib import Path
 )
 def test_yadg_json(infile, datadir):
     os.chdir(datadir)
-    ret = extract(
-        source=Path(infile),
-        encoding="utf-8",
-    )
+    ret = extract(Path(infile), encoding="utf-8")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

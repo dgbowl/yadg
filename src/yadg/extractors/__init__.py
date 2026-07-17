@@ -5,7 +5,6 @@ import os
 import tempfile
 import zipfile
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
-from functools import wraps
 from functools import singledispatch
 from pathlib import Path
 from typing import Any

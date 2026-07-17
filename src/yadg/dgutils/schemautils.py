@@ -41,7 +41,7 @@ def update_schema(obj: list | dict | BaseModel) -> DataSchema:
     if isinstance(obj, dict):
         logger.info("Updating dict-style DataSchema")
         newobj = to_dataschema(**obj)
-    elif isinstance(object, BaseModel):
+    elif isinstance(obj, BaseModel):
         logger.info("Updating an existing DataSchema object")
         newobj = obj
     else:

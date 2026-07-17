@@ -5,6 +5,7 @@ import json
 from xarray import open_datatree
 import numpy as np
 from .utils import compare_datatrees
+from yadg.dgutils.schemautils import __latest_dataschema__
 
 
 def test_yadg_version():
@@ -54,18 +55,15 @@ def test_yadg_update_without_subcommand(datadir):
             assert False, err.stderr
 
 
-def test_yadg_update_310(datadir):
-    os.chdir(datadir)
-    command = ["yadg", "update", "schema_3.1.0.json"]
-    subprocess.run(command, check=True, capture_output=True)
-    assert os.path.exists("schema_3.1.0.new.json")
-
-
 def test_yadg_update_310_with_outfile(datadir):
     os.chdir(datadir)
     command = ["yadg", "update", "schema_3.1.0.json", "output.json"]
     subprocess.run(command, check=True, capture_output=True)
     assert os.path.exists("output.json")
+
+    with open("output.json", "r") as inp:
+        ret = json.load(inp)
+    assert ret["version"] == __latest_dataschema__
 
 
 def test_yadg_preset(datadir):

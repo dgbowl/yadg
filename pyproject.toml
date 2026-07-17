@@ -42,7 +42,7 @@ dependencies = [
     "pandas >= 2.0, < 3.0",
     "babel >= 2.15",
     "xarray >= 2024.10.0",
-    "dgbowl-schemas >= 126rc1"
+    "dgbowl-schemas >= 126"
 ]
 
 [project.optional-dependencies]

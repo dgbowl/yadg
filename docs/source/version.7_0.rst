@@ -42,3 +42,4 @@ Bug fixes in ``yadg-7.0`` include:
   - Fixed passing of :mod:`yadg.extractors.fusion.json` files where no species are present.
   - Fixed parsing of parameters in some :mod:`yadg.extractors.eclab.mpt` files, where "Cycle Definition" entry is missing.
   - The "Modify on" entries in :mod:`yadg.extractors.eclab.mpt` files are now properly processed, resulting in consistent parameters (or settings) with :mod:`yadg.extractors.eclab.mpr`, where only the last modification is stored.
+  - Old ``list``-style *DataSchemas* from ``yadg-3.1.0`` can now be updated to the latest *DataSchema* using :mod:`dgbowl_schemas.yadg.dataschema`.

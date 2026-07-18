@@ -24,7 +24,7 @@ In this mode, **yadg** can be invoked by providing just the `FileType` and the p
 
     yadg extract filetype infile [outfile]
 
-The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. In addition to any ``original_metadata`` stored in the ``.attrs`` object of the resulting :class:`~xarray.DataTree`, it will contain **yadg**-specific metadata, including the annotation of provenance (i.e. ``yadg extract``), `filetype` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
+The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTree`, and, if successful, saved as a |NetCDF|_ file, optionally using the specified ``outfile`` location. In addition to any ``original_metadata`` stored in the ``.attrs`` object of the resulting :class:`~xarray.DataTree`, it will contain **yadg**-specific metadata, including the annotation of provenance (i.e. ``yadg extract``), `FileType` information, and the resolved defaults of `timezone`, `locale`, and `encoding` used to create it.
 
 .. warning::
 
@@ -32,8 +32,8 @@ The ``infile`` will be then parsed using **yadg** into a :class:`~xarray.DataTre
 
         - `timezone` is set to the ``localtime`` of the `localhost`,
         - `locale` is set to the default ``LC.NUMERIC`` locale of the `localhost`,
-        - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default.
-        - `suffix` for matching files within extracted zip files.
+        - `encoding` of the input files is set to ``UTF-8`` or the `extractor` default,
+        - `suffix` for matching files within any extracted zip files is the `extractor` default.
 
     All of the above options might lead to improper parsing of the input files. While errors due to improper `encoding` are likely to be immediately obvious as they lead to crashes; `locale` errors might only be obvious upon inspection of data (e.g. data parsed using wrong decimal separators); and incorrect `timezone` information may lead to errors that are much more subtle. You can specify the correct values for these three parameters, if known, on the command line using:
 
@@ -61,7 +61,7 @@ If you want to use **yadg** in your own code, you should use the common extracto
 
 .. warning::
 
-    Please do not use the :func:`extract` functions from each extractor (e.g. :func:`yadg.extractors.eclab.mpr.extract_from_path`) directly. Those are not part of the user-facing API and their function signatures may change between minor or point versions.
+    Please do not use the :func:`extract` functions from each extractor (e.g. :func:`yadg.extractors.eclab.mpr.extract_from_path`) directly. Those are not part of the user-facing API and their function signatures may change between minor or point releases of :mod:`yadg`.
 
 
 Metadata-only extraction

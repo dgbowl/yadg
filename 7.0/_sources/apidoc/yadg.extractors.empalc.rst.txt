@@ -1,0 +1,24 @@
+**empalc**: For Empa's LC data
+==============================
+
+.. automodule:: yadg.extractors.empalc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.empalc.csv module
+---------------------------------
+
+.. automodule:: yadg.extractors.empalc.csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+yadg.extractors.empalc.xlsx module
+----------------------------------
+
+.. automodule:: yadg.extractors.empalc.xlsx
+   :members:
+   :undoc-members:
+   :show-inheritance:

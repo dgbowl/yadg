@@ -1,0 +1,16 @@
+**picolog**: For PicoTech PicoLog data
+======================================
+
+.. automodule:: yadg.extractors.picolog
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.picolog.tc08 module
+-----------------------------------
+
+.. automodule:: yadg.extractors.picolog.tc08
+   :members:
+   :undoc-members:
+   :show-inheritance:

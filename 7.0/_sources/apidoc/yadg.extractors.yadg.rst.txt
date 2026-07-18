@@ -1,0 +1,16 @@
+**yadg**: For legacy yadg files
+===============================
+
+.. automodule:: yadg.extractors.yadg
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+yadg.extractors.yadg.json module
+--------------------------------
+
+.. automodule:: yadg.extractors.yadg.json
+   :members:
+   :undoc-members:
+   :show-inheritance:

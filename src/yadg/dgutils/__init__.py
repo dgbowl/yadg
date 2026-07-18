@@ -1,4 +1,4 @@
-from .helpers import get_yadg_metadata, deprecated, removed
+from .helpers import get_yadg_metadata
 from .dateutils import (
     now,
     infer_timestamp_from,
@@ -14,8 +14,6 @@ from .dsutils import dicts_to_dataset, append_dicts, merge_dicttrees, merge_meta
 
 __all__ = [
     "get_yadg_metadata",
-    "deprecated",
-    "removed",
     "now",
     "infer_timestamp_from",
     "str_to_uts",

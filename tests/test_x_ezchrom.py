@@ -27,15 +27,8 @@ def ezchrom_datadir(tmpdir, request):
 )
 def test_ezchrom_consistency(dfile, afile, ezchrom_datadir):
     os.chdir(ezchrom_datadir)
-    aret = extract_dat(
-        source=Path(dfile),
-        timezone="Europe/Berlin",
-    )
-    bret = extract_asc(
-        source=Path(afile),
-        timezone="Europe/Berlin",
-        encoding="windows-1252",
-    )
+    aret = extract_dat(Path(dfile), timezone="Europe/Berlin")
+    bret = extract_asc(Path(afile), timezone="Europe/Berlin", encoding="windows-1252")
     for key in aret.variables:
         try:
             xr.testing.assert_allclose(aret[key], bret[key])

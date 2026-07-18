@@ -30,3 +30,9 @@ def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
     ret.to_netcdf(f"{outfile}.tmp", engine="h5netcdf")
     ref = xr.open_datatree(outfile, engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)
+
+
+def test_yadg__extractors_extract_str(datadir):
+    """Extract accepts a str path."""
+    os.chdir(datadir)
+    extract("eclab.mpr", "cp.mpr")

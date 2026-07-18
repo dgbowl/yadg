@@ -8,7 +8,7 @@ How to install **yadg**
 
     pip install yadg
 
-To install the latest development version of **yadg**, which is available on `the project GitHub <https://github.org/dgbowl/yadg>`, you can use the ``git+https://`` installation path:
+To install the latest development version of **yadg**, which is available on `the project GitHub <https://github.org/dgbowl/yadg>`_, you can use the ``git+https://`` installation path:
 
 .. code-block:: bash
 

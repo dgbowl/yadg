@@ -9,3 +9,4 @@ build/
 /public/
 docs/source/apidoc/
 .pytest*
+.ipynb_checkpoints*

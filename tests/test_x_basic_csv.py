@@ -89,7 +89,7 @@ from pathlib import Path
 def test_basic_csv(infile, params, datadir):
     os.chdir(datadir)
     ret = extract(
-        source=Path(infile),
+        Path(infile),
         parameters=Basic_csv(filetype="basic.csv", parameters={**params}).parameters,
         encoding="utf8",
         locale="en_GB",

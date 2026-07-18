@@ -14,7 +14,7 @@ from pathlib import Path
 )
 def test_agilent_dx(infile, datadir):
     os.chdir(datadir)
-    ret = extract(source=Path(infile), timezone="Europe/Berlin")
+    ret = extract(Path(infile), timezone="Europe/Berlin")
     outfile = f"{infile}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)

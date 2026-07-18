@@ -5,7 +5,6 @@ import os
 import tempfile
 import zipfile
 from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
-from functools import wraps
 from functools import singledispatch
 from pathlib import Path
 from typing import Any
@@ -14,20 +13,6 @@ from yadg import dgutils
 
 
 logger = logging.getLogger(__name__)
-
-
-def deprecate_fn_path(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if kwargs.get("source") is not None:
-            args = (kwargs.pop("source"),) + args
-        elif kwargs.get("fn") is not None:
-            dgutils.removed("fn", depout="7.0")
-        elif kwargs.get("path") is not None:
-            dgutils.removed("path", depout="7.0")
-        return func(*args, **kwargs)
-
-    return wrapper
 
 
 def extract(
@@ -79,15 +64,14 @@ def extract(
 
     if suffix is not None:
         extractor.suffix = [suffix]
-
+    path = Path(path)
     if path.suffix == ".zip" and zipfile.is_zipfile(path):
         logger.info("Processing zipfile")
-        return extract_from_zip(Path(path), extractor, **kwargs)
+        return extract_from_zip(path, extractor, **kwargs)
     else:
-        return extract_from_path(Path(path), extractor, **kwargs)
+        return extract_from_path(path, extractor, **kwargs)
 
 
-@deprecate_fn_path
 def extract_from_path(
     source: Path,
     extractor: FileType,
@@ -116,7 +100,7 @@ def extract_from_path(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(source=source, **vars(extractor), **kwargs)
+    ret: DataTree = func(source, **vars(extractor), **kwargs)
     jsonize_orig_meta(ret)
 
     ret.attrs.update(
@@ -231,7 +215,7 @@ def extract_from_zip(
         for ffn in sorted(filenames):
             logger.debug("Processing filename '%s'", ffn)
             path = Path(tempdir) / ffn
-            fdt = func(source=path, **vars(extractor))
+            fdt = func(path, **vars(extractor))
             jsonize_orig_meta(fdt)
             dtdict = dgutils.merge_dicttrees(dtdict, fdt.to_dict(), strict_merge)
 
@@ -262,7 +246,6 @@ __all__ = ["extract"]
 
 
 def get_extract_dispatch():
-    @deprecate_fn_path
     @singledispatch
     def extract(
         source: Any,

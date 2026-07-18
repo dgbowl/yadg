@@ -38,15 +38,15 @@ Uncertainty types are annotated using ``.yadg_uncertainty_type``, they are:
 
 Uncertainty sources are annotated using ``.yadg_uncertainty_source``, they include:
 
-- ``str_conv``, i.e. obtained from :class:`str`-to-:class:`float` conversion; in general, these can be of type ``abs``, if the :class:`string` represents a fixed-point decimal, or of type ``sig``, if the :class:`string` represents a number in scientific notation.
-- ``scaling``, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate would be the data spacing, or when the data is originally stored as :class:`int`` and multiplied by a scaling constant :class:`float`, it is this constant.
+- ``str_conv``, i.e. obtained from :class:`str`-to-:class:`float` conversion; in general, these can be of type ``abs``, if the :class:`str` represents a fixed-point decimal, or of type ``sig``, if the :class:`str` represents a number in scientific notation.
+- ``scaling``, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate of uncertainty may be the spacing of the datapoints. Alternatively, when the data is originally stored as :class:`int` and multiplied by a scaling constant :class:`float`, a good estimate may be this scaling constant.
 - ``datasheet``, i.e. obtained from knowledge about the instrument, e.g. the way it internally does :class:`int`-to-:class:`float` (ADC) conversion, or if a reasonable estimate is widely known.
 - ``explicit``, i.e. when uncertainties are reported within the files directly.
 
 Uncertainty distributions are annotated using ``.yadg_uncertainty_distribution``, they are:
 
 - ``normal``, i.e. the uncertainty is normally distributed (such as a standard error around a mean should be)
-- ``rectangular``, i.e. the uncertainty is uniformly shaped (such as in :class:`string`-to-:class:`float` conversion)
+- ``rectangular``, i.e. the uncertainty is uniformly shaped (such as in :class:`str`-to-:class:`float` conversion)
 
 
 Timestamping
@@ -65,7 +65,7 @@ Note that locale settings currently do not affect processing of date and time st
 
 Original metadata
 `````````````````
-By default, **yadg** attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the ``original_metadata`` entry within the ``.attrs`` on the :class:`~xarray.DataTree` nodes, which is serialised into json strings in the :func:`yadg.extractors.extract` function.
+By default, **yadg** attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the ``original_metadata`` entry within the ``.attrs`` on the :class:`~xarray.DataTree` nodes, which is serialised into json strings when exported into |NetCDF| in the :func:`yadg.extractors.extract` function.
 
 .. warning::
 

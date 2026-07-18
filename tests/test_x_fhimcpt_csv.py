@@ -16,7 +16,7 @@ from pathlib import Path
 def test_fhimcpt_csv(infile, datadir):
     os.chdir(datadir)
     ret = extract(
-        source=Path(infile),
+        Path(infile),
         parameters=FHI_csv(filetype="fhimcpt.csv", parameters={}).parameters,
         encoding="utf8",
         locale="en_GB",

@@ -16,7 +16,10 @@ Papers related to yadg
 If you found **yadg** useful, and would like your publication listed, let us know!
 
 .. [#]
-  Evans, M. L.; Rignanese, G.-M.; Elbert, D.; Kraus. P; *Datatractor: Metadata, automation, and registries for extractor interoperability in the chemical and materials sciences*, arXiv:2410.18839 [physics.data-an] **2024**, DOI: https://doi.org/10.48550/arXiv.2410.18839
+  Yakutovich, A. V.; Hollas, D.; Bainglass, E.; Yu, J.; Battaglia, C.; Bonacci, M.; Fernandez Vilanova, L.; Henne, S.; Kaestner, A.; Kenzelmann, M.; Kimbell, G.; Lass, J.; Lopes, F.; Mazzone, D. G.; Ortega-Guerrero A.; Wang, X.; Marzari, N.; Pignedoli, C. A.; Pizzi, G.; *Accelerating discovery across scientific disciplines through reproducible workflows with AiiDAlab*, Digital Discovery **2026**, *5*, 2310, DOI: https://doi.org/10.1039/d5dd00567a
+
+.. [#]
+  Evans, M. L.; Rignanese, G.-M.; Elbert, D.; Kraus. P; *Datatractor: Metadata, automation, and registries for extractor interoperability in the chemical and materials sciences*, MRS Bulletin **2025**, *50*, 838, DOI: https://doi.org/10.1557/s43577-025-00925-8
 
 .. [#]
   Stüble, P.; Müller, C.; Bohn, N.; Müller, M.; Hofmann, A.; Akçay, T.; Klemens, J.; Koeppe, A.; Kolli, S.; Rajagopal, D.; Geßwein, H.; Schabel, W.; Scharfer, P.; Selzer, M.; Binder, J. R.; Smith, A.; *From Powder to Pouch Cell: Setting up a Sodium-Ion Battery Reference System Based on Na3V2(PO4)3/C and Hard Carbon*, Batteries & Supercaps **2024**, e202400406, DOI: https://doi.org/10.1002/batt.202400406

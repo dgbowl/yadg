@@ -1,12 +1,11 @@
 **yadg** version 7.0
 ````````````````````
 
-..
-   .. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=github
-     :target: https://github.com/PeterKraus/yadg/tree/7.0
-   .. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=pypi
-     :target: https://pypi.org/project/yadg/7.0/
-   .. image:: https://img.shields.io/static/v1?label=release%20date&message=2025-08-20&color=red&logo=pypi
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=github
+  :target: https://github.com/PeterKraus/yadg/tree/7.0
+.. image:: https://img.shields.io/static/v1?label=yadg&message=v7.0&color=blue&logo=pypi
+  :target: https://pypi.org/project/yadg/7.0/
+.. image:: https://img.shields.io/static/v1?label=release%20date&message=2026-07-18&color=red&logo=pypi
 
 
 Developed in the `ConCat Lab <https://tu.berlin/en/concat>`_ at Technische Universität Berlin (Berlin, DE).
@@ -17,7 +16,7 @@ New features in ``yadg-7.0`` are:
 
     - The uncertainties, as stored in the ``NetCDF`` files produced in previous versions of :obj:`yadg`, were simply too large -- often inflating the size of the file by 100%, without adding much value.
     - The origin of the uncertainty was often unclear and certainly not machine-readable, so it was difficult to judge whether it should be trusted or not.
-    - The suffix ``_std_err`` implied the uncertainty corresponds to the standard error of the data, this is however not true.
+    - The suffix ``_std_err`` implied the uncertainty corresponds to the standard error of the data, this is however often not true.
 
   - Support for Battery Capacity Determination (BCD) technique in :mod:`yadg.extractors.eclab.mpr` and :mod:`yadg.extractors.eclab.mpt`. Note that the ``Set I/C`` parameters in BCD are renamed to ``Set I/C 1`` and ``Set I/C 2`` in both :mod:`~yadg.extractors.eclab.mpr` and :mod:`~yadg.extractors.eclab.mpt` files. Thank you to `Joachim Laviolette <https://github.com/JL-CEA>`_ for providing test files.
 
@@ -28,11 +27,11 @@ New features in ``yadg-7.0`` are:
 
 Breaking changes in ``yadg-7.0`` are:
 
-  - The new uncertainty handling is a breaking change compared to :obj:`yadg-6.x`
-  - For all extractors, the ``source`` (positional) argument now must be specified instead of ``fn`` or ``path``.
+  - The new uncertainty handling is a breaking change compared to ``yadg-6.x``.
+  - For all extractors, the ``source`` (positional) argument now must be specified instead of ``fn`` or ``path``. This should not be an issue if you use the proper :func:`yadg.extractors.extract` API.
   - In :mod:`yadg.extractors.agilent.csv`, the ``signal`` data variable now has ``elution_time`` as a proper coordinate. Previously, the ``elution_time`` was expanded manually to the length of the largest trace present in the file, with ``np.nan`` used as padding for shorter traces. An arbitrary coordinate ``_`` was also present. Now, ``elution_time`` is expanded automatically by :func:`xarray.concat`, inserting ``np.nan`` into the ``signal`` data variable as necessary for ``elution_time`` which are not present in each trace.
   - In :mod:`yadg.extractors.touchstone.snp`, the acquisition parameters (S11, S21 etc.) are no longer NetCDF groups, but the label is prepended to the property name (e.g. ``S11/real`` is now ``S11_real``). This means the ``frequency`` coordinate is not duplicated.
-  - In :mod:`yadg.extractors.fhimcpt.vna`, the schema now follows :mod:`~yadg.extractors.touchstone.snp` for consistency.
+  - In :mod:`yadg.extractors.fhimcpt.vna`, the schema now follows the above structure in :mod:`yadg.extractors.touchstone.snp` for consistency.
 
 Bug fixes in ``yadg-7.0`` include:
 
@@ -42,3 +41,4 @@ Bug fixes in ``yadg-7.0`` include:
   - Fixed passing of :mod:`yadg.extractors.fusion.json` files where no species are present.
   - Fixed parsing of parameters in some :mod:`yadg.extractors.eclab.mpt` files, where "Cycle Definition" entry is missing.
   - The "Modify on" entries in :mod:`yadg.extractors.eclab.mpt` files are now properly processed, resulting in consistent parameters (or settings) with :mod:`yadg.extractors.eclab.mpr`, where only the last modification is stored.
+  - Old ``list``-style *dataschemas* from ``yadg-3.1.0`` can now be updated to the latest *dataschema* using :mod:`dgbowl_schemas.yadg.dataschema`.

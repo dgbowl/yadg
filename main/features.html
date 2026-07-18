@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Key features of yadg &mdash; yadg 6.2.dev14 documentation</title>
+  <title>Key features of yadg &mdash; yadg 6.2.dev15 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=a157e00a"></script>
+        <script src="_static/documentation_options.js?v=052f6413"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                6.2.dev14
+                6.2.dev15
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -125,7 +125,7 @@
 <p>One of the key features of <strong>yadg</strong> is the enforced association of units and uncertainties with measured properties. This means that all experimental quantities are accompanied by an uncertainty estimate, derived either from the <code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">-&gt;</span> <span class="pre">float</span></code> conversion of the data, or from instrumental resolution, if known.</p>
 <section id="units">
 <h3>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h3>
-<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the unit annotations are stored in <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code> on each <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, that is within each “column” of each “node” of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>. If an entry does not contain <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code>, the quantity is dimensionless.</p>
+<p>In the resulting <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> files, the unit annotations are stored in <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code> on each <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2026.7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>, that is within each “column” of each “node” of the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>. If an entry does not contain <code class="docutils literal notranslate"><span class="pre">.attrs[&quot;units&quot;]</span></code>, the quantity is dimensionless.</p>
 </section>
 <section id="uncertainties">
 <span id="uncertainties-label"></span><h3>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading"></a></h3>
@@ -151,15 +151,15 @@
 </ul>
 <p>Uncertainty sources are annotated using <code class="docutils literal notranslate"><span class="pre">.yadg_uncertainty_source</span></code>, they include:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">str_conv</span></code>, i.e. obtained from <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion; in general, these can be of type <code class="docutils literal notranslate"><span class="pre">abs</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code> represents a fixed-point decimal, or of type <code class="docutils literal notranslate"><span class="pre">sig</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code> represents a number in scientific notation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">scaling</span></code>, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate would be the data spacing, or when the data is originally stored as <code class="xref py py-class docutils literal notranslate"><span class="pre">int`</span></code> and multiplied by a scaling constant <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, it is this constant.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str_conv</span></code>, i.e. obtained from <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion; in general, these can be of type <code class="docutils literal notranslate"><span class="pre">abs</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> represents a fixed-point decimal, or of type <code class="docutils literal notranslate"><span class="pre">sig</span></code>, if the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> represents a number in scientific notation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaling</span></code>, i.e. obtained from a scaling factor applied to the data; e.g. when the limits of an axis are known along with the number of points along that axis a good estimate of uncertainty may be the spacing of the datapoints. Alternatively, when the data is originally stored as <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> and multiplied by a scaling constant <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, a good estimate may be this scaling constant.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">datasheet</span></code>, i.e. obtained from knowledge about the instrument, e.g. the way it internally does <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> (ADC) conversion, or if a reasonable estimate is widely known.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">explicit</span></code>, i.e. when uncertainties are reported within the files directly.</p></li>
 </ul>
 <p>Uncertainty distributions are annotated using <code class="docutils literal notranslate"><span class="pre">.yadg_uncertainty_distribution</span></code>, they are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">normal</span></code>, i.e. the uncertainty is normally distributed (such as a standard error around a mean should be)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rectangular</span></code>, i.e. the uncertainty is uniformly shaped (such as in <code class="xref py py-class docutils literal notranslate"><span class="pre">string</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rectangular</span></code>, i.e. the uncertainty is uniformly shaped (such as in <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>-to-<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> conversion)</p></li>
 </ul>
 </section>
 </section>
@@ -175,19 +175,19 @@
 </section>
 <section id="original-metadata">
 <h2>Original metadata<a class="headerlink" href="#original-metadata" title="Link to this heading"></a></h2>
-<p>By default, <strong>yadg</strong> attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry within the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> on the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> nodes, which is serialised into json strings in the <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function.</p>
+<p>By default, <strong>yadg</strong> attempts to decode and store all understood metadata present in the extracted files. Currently, this metadata is stored in the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry within the <code class="docutils literal notranslate"><span class="pre">.attrs</span></code> on the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a> nodes, which is serialised into json strings when exported into <code class="docutils literal notranslate"><span class="pre">NetCDF</span></code> in the <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> function.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> functionality has been introduced in <code class="docutils literal notranslate"><span class="pre">yadg-5.1</span></code> and its implementation might change in future versions.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When merging multiple files into one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it may happen that the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry is not identical in between the processed files. In such cases, executing <strong>yadg</strong> with the <code class="docutils literal notranslate"><span class="pre">--ignore-merge-errors</span></code> option will drop the conflicting metadata entries and proceed with the processing.</p>
+<p>When merging multiple files into one <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataTree.html#xarray.DataTree" title="(in xarray v2026.7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></a>, it may happen that the <code class="docutils literal notranslate"><span class="pre">original_metadata</span></code> entry is not identical in between the processed files. In such cases, executing <strong>yadg</strong> with the <code class="docutils literal notranslate"><span class="pre">--ignore-merge-errors</span></code> option will drop the conflicting metadata entries and proceed with the processing.</p>
 </div>
 </section>
 <section id="dataschema-validation">
 <h2><cite>DataSchema</cite> validation<a class="headerlink" href="#dataschema-validation" title="Link to this heading"></a></h2>
-<p>Additionally, <strong>yadg</strong> provides <cite>DataSchema</cite> validation and updating functionality, by using the schema models from the <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema.html#module-dgbowl_schemas.yadg.dataschema" title="(in dgbowl-schemas v124.dev5)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema</span></code></a> package. The schemas are implemented in <a class="reference external" href="https://pydantic-docs.helpmanual.io/"><strong>Pydantic</strong></a>, and are developed in lockstep with <strong>yadg</strong>. This <strong>Pydantic</strong>-based validator class should be used to ensure that the incoming <cite>dataschema</cite> is valid.</p>
+<p>Additionally, <strong>yadg</strong> provides <cite>DataSchema</cite> validation and updating functionality, by using the schema models from the <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema.html#module-dgbowl_schemas.yadg.dataschema" title="(in dgbowl-schemas v126rc1.dev2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema</span></code></a> package. The schemas are implemented in <a class="reference external" href="https://pydantic-docs.helpmanual.io/"><strong>Pydantic</strong></a>, and are developed in lockstep with <strong>yadg</strong>. This <strong>Pydantic</strong>-based validator class should be used to ensure that the incoming <cite>dataschema</cite> is valid.</p>
 </section>
 </section>
 
@@ -218,7 +218,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 6.2.dev14
+      v: 6.2.dev15
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

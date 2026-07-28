@@ -3,7 +3,9 @@ on:
     pull_request:
         branches: ['main']
 jobs:
-    build:
+    call-lint:
+        uses: ./.github/workflows/workflow-lint.yml
+    call-build:
         strategy:
             matrix:
                 pyver: ['3.10', '3.11', '3.12', '3.13', '3.14']
@@ -15,7 +17,7 @@ jobs:
         with:
             pyver: ${{ matrix.pyver }}
             os: ${{ matrix.os }}
-    test:
+    call-test:
         needs: [build]
         strategy:
             matrix:
@@ -28,7 +30,7 @@ jobs:
         with:
             pyver: ${{ matrix.pyver }}
             os: ${{ matrix.os }}
-    pages:
+    call-pages:
         needs: [build]
         uses: ./.github/workflows/workflow-pages.yml
         with:

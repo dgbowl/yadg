@@ -1,8 +1,8 @@
-name: lint-every-pr
+---
+name: Lint
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+
 jobs:
   lint:
    runs-on: ubuntu-latest

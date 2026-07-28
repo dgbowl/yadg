@@ -3,18 +3,20 @@ on:
     push:
         branches: ['main']
 jobs:
-    build:
+    call-lint:
+        uses: ./.github/workflows/workflow-lint.yml
+    call-build:
         uses: ./.github/workflows/workflow-build.yml
         with:
             pyver: '3.10'
             os: 'ubuntu-latest'
-    test:
+    call-test:
         needs: [build]
         uses: ./.github/workflows/workflow-test.yml
         with:
             pyver: '3.10'
             os: 'ubuntu-latest'
-    pages:
+    call-pages:
         needs: [build]
         uses: ./.github/workflows/workflow-pages.yml
         with:

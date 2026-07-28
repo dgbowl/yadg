@@ -14,10 +14,10 @@ jobs:
     build:
         runs-on: ${{ inputs.os }}
         steps:
-          - uses: actions/checkout@v4
+          - uses: actions/checkout@v7
             with:
                 fetch-depth: 0
-          - uses: actions/setup-python@v5
+          - uses: actions/setup-python@v7
             with:
                 python-version: ${{ inputs.pyver }}
           - name: Install dependencies
@@ -29,7 +29,7 @@ jobs:
             shell: bash
             run: |
                 python -m build
-          - uses: actions/upload-artifact@v4
+          - uses: actions/upload-artifact@v7
             with:
                 name: dist-${{ inputs.os }}-${{ inputs.pyver }}
                 path: dist

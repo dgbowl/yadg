@@ -42,7 +42,13 @@ def test_yadg__extractors_extract_str(datadir):
 def test_yadg_extractors_extract_from_bytes(datadir):
     """Regression test for extract_from_bytes."""
     os.chdir(datadir)
-    extractor = ExtractorFactory(extractor={"filetype": "eclab.mpr"}).extractor
+    extractor = ExtractorFactory(
+        extractor={
+            "filetype": "eclab.mpr",
+            "timezone": "Europe/Berlin",
+            "locale": "en_GB",
+        }
+    ).extractor
     with open("cp.mpr", "rb") as f:
         source = f.read()
     ret = extract_from_bytes(source=source, extractor=extractor)

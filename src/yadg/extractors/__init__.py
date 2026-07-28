@@ -144,7 +144,7 @@ def extract_from_bytes(
     func = getattr(m, "extract")
 
     # Func should always return a xarray.DataTree
-    ret: DataTree = func(source=source, **vars(extractor))
+    ret: DataTree = func(source, **vars(extractor), **kwargs)
     jsonize_orig_meta(ret)
 
     ret.attrs.update(

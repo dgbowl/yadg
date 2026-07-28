@@ -1,6 +1,7 @@
 import pytest
 import os
-from yadg.extractors import extract
+from dgbowl_schemas.yadg.dataschema import ExtractorFactory
+from yadg.extractors import extract, extract_from_bytes
 import xarray as xr
 from pathlib import Path
 from .utils import compare_datatrees
@@ -36,3 +37,20 @@ def test_yadg__extractors_extract_str(datadir):
     """Extract accepts a str path."""
     os.chdir(datadir)
     extract("eclab.mpr", "cp.mpr")
+
+
+def test_yadg_extractors_extract_from_bytes(datadir):
+    """Regression test for extract_from_bytes."""
+    os.chdir(datadir)
+    extractor = ExtractorFactory(
+        extractor={
+            "filetype": "eclab.mpr",
+            "timezone": "Europe/Berlin",
+            "locale": "en_GB",
+        }
+    ).extractor
+    with open("cp.mpr", "rb") as f:
+        source = f.read()
+    ret = extract_from_bytes(source=source, extractor=extractor)
+    ref = xr.open_datatree("cp.mpr.nc", engine="h5netcdf")
+    compare_datatrees(ret, ref, thislevel=True, descend=True)

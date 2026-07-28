@@ -7,8 +7,10 @@ jobs:
   lint:
    runs-on: ubuntu-latest
    steps:
-     - uses: actions/checkout@v4
-     - uses: chartboost/ruff-action@v1
-     - uses: chartboost/ruff-action@v1
+     - uses: actions/checkout@v7
+     - name: Run ruff check
+       uses: astral-sh/ruff-action@v4.0.0
        with:
-         args: "format --check"
+         version: "<0.16"
+     - name: Run ruff format
+       run: ruff format --check

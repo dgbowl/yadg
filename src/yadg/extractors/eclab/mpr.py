@@ -209,6 +209,7 @@ from .techniques import (
     param_from_key,
     split_control,
     get_unc,
+    param_map,
 )
 from pathlib import Path
 from yadg import dgutils
@@ -452,9 +453,12 @@ def process_data(
                 # Rightshift flag by that amount.
                 data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
         elif unit is None:
-            keys, inverse = np.unique(values[name], return_inverse=True)
-            mapped = np.array([param_from_key(name, int(k)) for k in keys])
-            data_vars[name] = (("uts",), mapped[inverse], {})
+            if name in param_map:
+                keys, inverse = np.unique(values[name], return_inverse=True)
+                mapped = np.array([param_from_key(name, int(k)) for k in keys])
+                data_vars[name] = (("uts",), mapped[inverse], {})
+            else:
+                data_vars[name] = (("uts",), values[name].astype(np.int64), {})
         else:
             data_vars[name] = (
                 ("uts",),

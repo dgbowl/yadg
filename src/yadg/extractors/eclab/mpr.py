@@ -452,11 +452,9 @@ def process_data(
                 # Rightshift flag by that amount.
                 data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
         elif unit is None:
-            data_vars[name] = (
-                ("uts",),
-                [param_from_key(name, int(v)) for v in values[name]],
-                {},
-            )
+            keys, inverse = np.unique(values[name], return_inverse=True)
+            mapped = np.array([param_from_key(name, int(k)) for k in keys])
+            data_vars[name] = (("uts",), mapped[inverse], {})
         else:
             data_vars[name] = (
                 ("uts",),

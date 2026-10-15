@@ -641,7 +641,7 @@ def extract_raw_bytes(
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
     if "I Range" in ds:
         Irange = max(
-            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
+            param_from_key("I Range", v, False) for v in np.unique(ds["I Range"].values)
         )
     else:
         Irange = 1.0

@@ -548,14 +548,20 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         not present in the provided modules, returns None instead.
 
     """
-    modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     technique = None
-    for module in modules:
+
+    magic = b"MODULE"
+    view = memoryview(contents)  # avoid copies
+    pos = contents.find(magic)
+    while pos != -1:  # Find each section starting with MODULE
+        start = pos + len(magic)
         for mhd in module_header_dtypes:
             try:
-                header = dgutils.read_value(module, 0x0000, mhd)
-                if len(module) == mhd.itemsize + header["length"]:
+                header = dgutils.read_value(view, start, mhd)
+                end = start + mhd.itemsize + header["length"]
+                # If the version is correct, end lands at another MODULE or EOF
+                if end == len(contents) or contents.startswith(magic, end):
                     version = header.get("newver", 0) + header["oldver"]
                     logger.debug(
                         "Parsed module header with length %d, version %s",
@@ -579,20 +585,22 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             minver = "10.40"
 
         logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
-        module_data = module[mhd.itemsize :]
-        if name == "VMP Set":
-            technique, settings, params = process_settings(module_data, minver)
-
-        elif name == "VMP data":
-            ds = process_data(module_data, version, technique)
-        elif name == "VMP LOG":
-            log = process_log(module_data)
-        elif name == "VMP loop":
-            loop = process_loop(module_data)
-        elif name == "VMP ExtDev":
-            ext = process_ext(module_data)
+        module_data = view[start + mhd.itemsize : end]
+        if name == "VMP data":
+            ds = process_data(module_data, version, technique)  # Zero-copy for data
         else:
-            raise NotImplementedError(f"Unknown module: {name}.")
+            module_data = module_data.tobytes()  # Copy for metadata (needs decode)
+            if name == "VMP Set":
+                technique, settings, params = process_settings(module_data, minver)
+            elif name == "VMP LOG":
+                log = process_log(module_data)
+            elif name == "VMP loop":
+                loop = process_loop(module_data)
+            elif name == "VMP ExtDev":
+                ext = process_ext(module_data)
+            else:
+                raise NotImplementedError(f"Unknown module: {name}.")
+        pos = end if end < len(contents) else -1  # Go to the next module
     if ext is not None:
         settings.update(ext)
     return settings, params, ds, log, loop

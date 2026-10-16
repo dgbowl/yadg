@@ -209,6 +209,7 @@ from .techniques import (
     param_from_key,
     split_control,
     get_unc,
+    param_map,
 )
 from pathlib import Path
 from yadg import dgutils
@@ -445,18 +446,30 @@ def process_data(
         elif len(values[name]) == 0:
             continue
         elif name == "flags" and flaglist:
+            # Copy to contiguous array - faster than reading strided
+            flags = np.ascontiguousarray(values[name])
             for fname, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
+                data_vars[fname] = (("uts",), (flags & bitmask) >> shift, {})
         elif unit is None:
-            data_vars[name] = (
-                ("uts",),
-                [param_from_key(name, int(v)) for v in values[name]],
-                {},
-            )
+            if name in param_map:
+                # Map with a numpy array lookup table
+                # Get contiguous column
+                col = np.ascontiguousarray(values[name])
+                # Get unique values without sorting
+                keys = np.flatnonzero(np.bincount(col))
+                # Get the strings corresponding to those ints
+                mapped = np.array([param_from_key(name, int(k)) for k in keys])
+                # Build lookup table (with gaps), str vals at indices given by key
+                lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
+                lut[keys] = mapped
+                # Get the col of str vals through lookup table
+                data_vars[name] = (("uts",), lut[col], {})
+            else:
+                data_vars[name] = (("uts",), values[name].astype(np.int64), {})
         else:
             data_vars[name] = (
                 ("uts",),
@@ -546,14 +559,20 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         not present in the provided modules, returns None instead.
 
     """
-    modules = contents.split(b"MODULE")[1:]
     settings = log = loop = ext = None
     technique = None
-    for module in modules:
+
+    magic = b"MODULE"
+    view = memoryview(contents)  # avoid copies
+    pos = contents.find(magic)
+    while pos != -1:  # Find each section starting with MODULE
+        start = pos + len(magic)
         for mhd in module_header_dtypes:
             try:
-                header = dgutils.read_value(module, 0x0000, mhd)
-                if len(module) == mhd.itemsize + header["length"]:
+                header = dgutils.read_value(view, start, mhd)
+                end = start + mhd.itemsize + header["length"]
+                # If the version is correct, end lands at another MODULE or EOF
+                if end == len(contents) or contents.startswith(magic, end):
                     version = header.get("newver", 0) + header["oldver"]
                     logger.debug(
                         "Parsed module header with length %d, version %s",
@@ -577,20 +596,22 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             minver = "10.40"
 
         logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
-        module_data = module[mhd.itemsize :]
-        if name == "VMP Set":
-            technique, settings, params = process_settings(module_data, minver)
-
-        elif name == "VMP data":
-            ds = process_data(module_data, version, technique)
-        elif name == "VMP LOG":
-            log = process_log(module_data)
-        elif name == "VMP loop":
-            loop = process_loop(module_data)
-        elif name == "VMP ExtDev":
-            ext = process_ext(module_data)
+        module_data = view[start + mhd.itemsize : end]
+        if name == "VMP data":
+            ds = process_data(module_data, version, technique)  # Zero-copy for data
         else:
-            raise NotImplementedError(f"Unknown module: {name}.")
+            module_data = module_data.tobytes()  # Copy for metadata (needs decode)
+            if name == "VMP Set":
+                technique, settings, params = process_settings(module_data, minver)
+            elif name == "VMP LOG":
+                log = process_log(module_data)
+            elif name == "VMP loop":
+                loop = process_loop(module_data)
+            elif name == "VMP ExtDev":
+                ext = process_ext(module_data)
+            else:
+                raise NotImplementedError(f"Unknown module: {name}.")
+        pos = end if end < len(contents) else -1  # Go to the next module
     if ext is not None:
         settings.update(ext)
     return settings, params, ds, log, loop
@@ -639,7 +660,7 @@ def extract_raw_bytes(
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
     if "I Range" in ds:
         Irange = max(
-            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
+            param_from_key("I Range", v, False) for v in np.unique(ds["I Range"].values)
         )
     else:
         Irange = 1.0

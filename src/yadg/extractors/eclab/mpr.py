@@ -410,11 +410,9 @@ def process_data(
 
     Returns
     -------
-    list[dict]
-        Processed data ([{column -> value}, ..., {column -> value}]). If
-        the column unit is set to None, the value is an int. Otherwise,
-        the value is a dict with value ("n"), sigma ("s"), and unit
-        ("u").
+    tuple[Dataset, dict[str, np.ndarray]]
+        The processed data, and the unique integer keys present in each
+        column mapped via ``param_map``.
 
     """
     n_datapoints = np.frombuffer(data, offset=0x0000, dtype="<u4", count=1)[0]
@@ -440,6 +438,7 @@ def process_data(
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
 
     data_vars = {}
+    param_keys = {}
     for name, unit in zip(values.dtype.names, unitlist):
         if name.startswith("unknown_"):
             continue
@@ -461,6 +460,7 @@ def process_data(
                 col = np.ascontiguousarray(values[name])
                 # Get unique values without sorting
                 keys = np.flatnonzero(np.bincount(col))
+                param_keys[name] = keys
                 # Get the strings corresponding to those ints
                 mapped = np.array([param_from_key(name, int(k)) for k in keys])
                 # Build lookup table (with gaps), str vals at indices given by key
@@ -481,7 +481,7 @@ def process_data(
     attrs = dict(fulldate=False)
 
     ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
-    return ds
+    return ds, param_keys
 
 
 def process_log(data: bytes) -> dict:
@@ -544,7 +544,7 @@ def process_ext(data: bytes) -> dict:
     return ext
 
 
-def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
+def process_modules(contents: bytes) -> tuple[dict, dict, Dataset, dict, dict, dict]:
     """Handles the processing of all modules.
 
     Parameters
@@ -554,12 +554,13 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
     Returns
     -------
-    tuple[dict, list, dict, dict]
-        The processed settings, data, log, and loop modules. If they are
-        not present in the provided modules, returns None instead.
+    tuple[dict, dict, Dataset, dict, dict, dict]
+        The processed settings, params, data, unique ``param_map`` keys of the
+        data, log, and loop modules. If they are not present in the provided
+        modules, returns None instead.
 
     """
-    settings = log = loop = ext = None
+    settings = ds = param_keys = log = loop = ext = None
     technique = None
 
     magic = b"MODULE"
@@ -598,7 +599,8 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
         module_data = view[start + mhd.itemsize : end]
         if name == "VMP data":
-            ds = process_data(module_data, version, technique)  # Zero-copy for data
+            # Zero-copy for data
+            ds, param_keys = process_data(module_data, version, technique)
         else:
             module_data = module_data.tobytes()  # Copy for metadata (needs decode)
             if name == "VMP Set":
@@ -614,7 +616,7 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
         pos = end if end < len(contents) else -1  # Go to the next module
     if ext is not None:
         settings.update(ext)
-    return settings, params, ds, log, loop
+    return settings, params, ds, param_keys, log, loop
 
 
 @extract.register(Path)
@@ -647,7 +649,7 @@ def extract_raw_bytes(
 ) -> DataTree:
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     assert source[: len(file_magic)] == file_magic, "invalid file magic"
-    settings, params, ds, log, loop = process_modules(source)
+    settings, params, ds, param_keys, log, loop = process_modules(source)
     assert settings is not None, "no settings module"
     assert ds is not None, "no data module"
     # Arrange all the data into the correct format.
@@ -658,9 +660,9 @@ def extract_raw_bytes(
     E_range_max = params.get("E range max (V)", [float("inf")])
     E_range_min = params.get("E range min (V)", [float("-inf")])
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
-    if "I Range" in ds:
+    if "I Range" in param_keys:
         Irange = max(
-            param_from_key("I Range", v, False) for v in np.unique(ds["I Range"].values)
+            param_from_key("I Range", int(k), False) for k in param_keys["I Range"]
         )
     else:
         Irange = 1.0

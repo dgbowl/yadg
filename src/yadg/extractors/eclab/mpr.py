@@ -194,6 +194,7 @@ host address and an acquisition start timestamp in Microsoft OLE format.
 
 import logging
 import numpy as np
+from concurrent.futures import ThreadPoolExecutor
 from .mpr_columns import (
     module_header_dtypes,
     settings_dtypes,
@@ -219,6 +220,9 @@ from xarray import DataTree, Dataset, DataArray
 
 logger = logging.getLogger(__name__)
 extract = get_extract_dispatch()
+
+# Above this number of rows, use multi-threading
+THREADED_MIN_ROWS = 100_000
 
 
 def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
@@ -393,6 +397,46 @@ def parse_columns(
     return names, dtypes, units, flags
 
 
+def process_column(
+    name: str,
+    column: np.ndarray,
+    unit: str | None,
+    flaglist: dict,
+) -> tuple[dict, np.ndarray | None]:
+    """Converts one data column into data variables.
+
+    Returns the data variables, and the unique integer keys if the column is
+    mapped via ``param_map``.
+    """
+    if name == "flags" and flaglist:
+        # Copy to contiguous array - faster than reading strided
+        flags = np.ascontiguousarray(column)
+        data_vars = {}
+        for fname, bitmask in flaglist.items():
+            # Two's complement hack to find the position of the
+            # rightmost set bit.
+            shift = (bitmask & -bitmask).bit_length() - 1
+            # Rightshift flag by that amount.
+            data_vars[fname] = (("uts",), (flags & bitmask) >> shift, {})
+        return data_vars, None
+    elif unit is None:
+        if name in param_map:
+            # Map with a numpy array lookup table
+            # Get contiguous column
+            col = np.ascontiguousarray(column)
+            # Get unique values without sorting
+            keys = np.flatnonzero(np.bincount(col))
+            # Get the strings corresponding to those ints
+            mapped = np.array([param_from_key(name, int(k)) for k in keys])
+            # Build lookup table (with gaps), str vals at indices given by key
+            lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
+            lut[keys] = mapped
+            # Get the col of str vals through lookup table
+            return {name: (("uts",), lut[col], {})}, keys
+        return {name: (("uts",), column.astype(np.int64), {})}, None
+    return {name: (("uts",), column, {"units": unit})}, None
+
+
 def process_data(
     data: bytes,
     version: int,
@@ -437,45 +481,29 @@ def process_data(
 
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
 
+    columns = [
+        (name, unit)
+        for name, unit in zip(values.dtype.names, unitlist)
+        if not name.startswith("unknown_") and len(values[name]) > 0
+    ]
+
+    def job(c):
+        return process_column(c[0], values[c[0]], c[1], flaglist)
+
+    # If it's a big file, use multithreading to process columns
+    # If it's a small file, thread startup cost isn't worth it
+    if n_datapoints >= THREADED_MIN_ROWS:
+        with ThreadPoolExecutor() as pool:
+            results = list(pool.map(job, columns))
+    else:
+        results = list(map(job, columns))
+
     data_vars = {}
     param_keys = {}
-    for name, unit in zip(values.dtype.names, unitlist):
-        if name.startswith("unknown_"):
-            continue
-        elif len(values[name]) == 0:
-            continue
-        elif name == "flags" and flaglist:
-            # Copy to contiguous array - faster than reading strided
-            flags = np.ascontiguousarray(values[name])
-            for fname, bitmask in flaglist.items():
-                # Two's complement hack to find the position of the
-                # rightmost set bit.
-                shift = (bitmask & -bitmask).bit_length() - 1
-                # Rightshift flag by that amount.
-                data_vars[fname] = (("uts",), (flags & bitmask) >> shift, {})
-        elif unit is None:
-            if name in param_map:
-                # Map with a numpy array lookup table
-                # Get contiguous column
-                col = np.ascontiguousarray(values[name])
-                # Get unique values without sorting
-                keys = np.flatnonzero(np.bincount(col))
-                param_keys[name] = keys
-                # Get the strings corresponding to those ints
-                mapped = np.array([param_from_key(name, int(k)) for k in keys])
-                # Build lookup table (with gaps), str vals at indices given by key
-                lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
-                lut[keys] = mapped
-                # Get the col of str vals through lookup table
-                data_vars[name] = (("uts",), lut[col], {})
-            else:
-                data_vars[name] = (("uts",), values[name].astype(np.int64), {})
-        else:
-            data_vars[name] = (
-                ("uts",),
-                values[name],
-                {"units": unit},
-            )
+    for (name, _), (column_vars, keys) in zip(columns, results):
+        data_vars.update(column_vars)
+        if keys is not None:
+            param_keys[name] = keys
 
     coords = dict()
     attrs = dict(fulldate=False)

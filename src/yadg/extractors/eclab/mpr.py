@@ -446,12 +446,14 @@ def process_data(
         elif len(values[name]) == 0:
             continue
         elif name == "flags" and flaglist:
+            # Copy to contiguous array - faster than reading strided
+            flags = np.ascontiguousarray(values[name])
             for fname, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
+                data_vars[fname] = (("uts",), (flags & bitmask) >> shift, {})
         elif unit is None:
             if name in param_map:
                 # Map with a numpy array lookup table

@@ -454,9 +454,18 @@ def process_data(
                 data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
         elif unit is None:
             if name in param_map:
-                keys, inverse = np.unique(values[name], return_inverse=True)
+                # Map with a numpy array lookup table
+                # Get contiguous column
+                col = np.ascontiguousarray(values[name])
+                # Get unique values without sorting
+                keys = np.flatnonzero(np.bincount(col))
+                # Get the strings corresponding to those ints
                 mapped = np.array([param_from_key(name, int(k)) for k in keys])
-                data_vars[name] = (("uts",), mapped[inverse], {})
+                # Build lookup table (with gaps), str vals at indices given by key
+                lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
+                lut[keys] = mapped
+                # Get the col of str vals through lookup table
+                data_vars[name] = (("uts",), lut[col], {})
             else:
                 data_vars[name] = (("uts",), values[name].astype(np.int64), {})
         else:

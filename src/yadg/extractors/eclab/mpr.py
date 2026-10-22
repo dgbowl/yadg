@@ -493,7 +493,7 @@ def process_data(
     # If it's a big file, use multithreading to process columns
     # If it's a small file, thread startup cost isn't worth it
     if n_datapoints >= THREADED_MIN_ROWS:
-        with ThreadPoolExecutor() as pool:
+        with ThreadPoolExecutor(max_workers=4) as pool:  # No perf gain >4
             results = list(pool.map(job, columns))
     else:
         results = list(map(job, columns))

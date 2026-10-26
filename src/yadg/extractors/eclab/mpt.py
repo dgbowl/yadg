@@ -68,7 +68,7 @@ The metadata will contain the information from the header of the file.
 
 import logging
 from .mpt_columns import column_units
-from .techniques import get_unc, split_control, IRANGE_CODE_TO_STR, IRANGE_CODE_TO_VAL
+from .techniques import get_unc, split_control, PARAM_CODE_TO_STR, IRANGE_CODE_TO_VAL
 from babel.numbers import parse_decimal
 from pathlib import Path
 from typing import Any
@@ -331,7 +331,7 @@ def process_data(
         irange_codes = set(codes)
         data_vars["I Range"] = (
             data_vars["I Range"][0],
-            [IRANGE_CODE_TO_STR[c] for c in codes],
+            [PARAM_CODE_TO_STR["I Range"][c] for c in codes],
             data_vars["I Range"][2],
         )
 

@@ -1658,47 +1658,10 @@ param_map = {
     ),
 }
 
+PARAM_CODE_TO_STR: dict[str, dict[int, str]] = {
+    name: {x[1]: x[0] for x in params} for name, params in param_map.items()
+}
 IRANGE_CODE_TO_VAL: dict[int, float] = {x[1]: x[2] for x in param_map["I Range"]}
-IRANGE_CODE_TO_STR: dict[int, str] = {x[1]: x[0] for x in param_map["I Range"]}
-
-
-def param_from_key(param: str, key: int | str, to_str: bool = True) -> str | float:
-    """
-    Convert a supplied key of a certain parameter to its string or float value.
-
-    The function uses the map defined in ``param_map`` to convert between the
-    entries in the tuples, which contain the :class:`str` value of the parameter
-    (present in ``.mpt`` files), the :class:`int` value of the parameter (present
-    in ``.mpr`` files), and the corresponding :class:`float` value in SI units.
-
-    Parameters
-    ----------
-    param
-        The name of the parameter, a key within the ``param_map``. If ``param``
-        is not present in ``param_map``, the supplied key is returned back.
-
-    key
-        The key of the parameter that is to be converted to a different representation.
-
-    to_str
-        A switch between :class:`str` and :class:`float` output.
-
-    Returns
-    -------
-    key: str | float | int
-        The key converted to the requested format.
-
-    """
-    ii = 1 if isinstance(key, int) else 0
-    if param in param_map:
-        for i in param_map[param]:
-            if i[ii] == key:
-                if to_str:
-                    return i[0]
-                else:
-                    return i[2]
-        raise ValueError(f"element '{key}' for parameter '{param}' not understood.")
-    return key
 
 
 def get_unc(name: str, range: float) -> tuple[float, dict]:

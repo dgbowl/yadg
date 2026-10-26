@@ -206,12 +206,11 @@ from .mpr_columns import (
 )
 from .techniques import (
     technique_params_dtypes,
-    param_from_key,
     split_control,
     get_unc,
     param_map,
-    IRANGE_CODE_TO_STR,
     IRANGE_CODE_TO_VAL,
+    PARAM_CODE_TO_STR,
 )
 from pathlib import Path
 from yadg import dgutils
@@ -280,10 +279,10 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     params = []
     for pardict in pardicts:
         for k, v in pardict.items():
-            # MPR quirk: I Range off by one
-            if k == "I Range":
-                v += 1
-            pardict[k] = param_from_key(k, v, to_str=True)
+            if k in PARAM_CODE_TO_STR:
+                # MPR quirk: I Range off by one
+                code = v + 1 if k == "I Range" else v
+                pardict[k] = PARAM_CODE_TO_STR[k][code]
             # Handle NaNs and +/-Inf in params here
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
@@ -464,7 +463,7 @@ def process_data(
                 keys = np.flatnonzero(np.bincount(col))
                 param_keys[name] = keys
                 # Get the strings corresponding to those ints
-                mapped = np.array([IRANGE_CODE_TO_STR[int(k)] for k in keys])
+                mapped = np.array([PARAM_CODE_TO_STR["I Range"][int(k)] for k in keys])
                 # Build lookup table (with gaps), str vals at indices given by key
                 lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
                 lut[keys] = mapped

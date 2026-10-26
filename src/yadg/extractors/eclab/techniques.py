@@ -1658,6 +1658,8 @@ param_map = {
     ),
 }
 
+IRANGE_CODE_TO_VAL: dict[int, float] = {x[1]: x[2] for x in param_map["I Range"]}
+IRANGE_CODE_TO_STR: dict[int, str] = {x[1]: x[0] for x in param_map["I Range"]}
 
 def param_from_key(param: str, key: int | str, to_str: bool = True) -> str | float:
     """

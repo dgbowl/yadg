@@ -210,6 +210,8 @@ from .techniques import (
     split_control,
     get_unc,
     param_map,
+    IRANGE_CODE_TO_STR,
+    IRANGE_CODE_TO_VAL,
 )
 from pathlib import Path
 from yadg import dgutils
@@ -462,7 +464,7 @@ def process_data(
                 keys = np.flatnonzero(np.bincount(col))
                 param_keys[name] = keys
                 # Get the strings corresponding to those ints
-                mapped = np.array([param_from_key(name, int(k)) for k in keys])
+                mapped = np.array([IRANGE_CODE_TO_STR[int(k)] for k in keys])
                 # Build lookup table (with gaps), str vals at indices given by key
                 lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
                 lut[keys] = mapped
@@ -660,12 +662,7 @@ def extract_raw_bytes(
     E_range_max = params.get("E range max (V)", [float("inf")])
     E_range_min = params.get("E range min (V)", [float("-inf")])
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
-    if "I Range" in param_keys:
-        Irange = max(
-            param_from_key("I Range", int(k), False) for k in param_keys["I Range"]
-        )
-    else:
-        Irange = 1.0
+    Irange = max(IRANGE_CODE_TO_VAL[int(k)] for k in param_keys["I Range"]) if "I Range" in param_keys else 1.0
     val, attrs = get_unc("control_V", Erange)
     ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
     relE = val / Erange

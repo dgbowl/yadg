@@ -14,8 +14,6 @@ def check_file(fname, kwargs, func):
     outfile = f"{fname}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)
     return ret
 
@@ -25,8 +23,6 @@ def check_file_extract_bytes(fname, bytes, kwargs, func):
     outfile = f"{fname}.pkl"
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)
     return ret
 

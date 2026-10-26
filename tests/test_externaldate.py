@@ -23,6 +23,4 @@ def test_externaldate_dataschema(infile, datadir):
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref)

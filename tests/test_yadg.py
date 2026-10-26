@@ -18,27 +18,23 @@ def test_yadg_version():
 
 def test_yadg_process_without_schema(tmp_path):
     command = ["yadg", "process"]
-    with pytest.raises(AssertionError, match="error: the following arguments"):
-        try:
-            subprocess.run(command, check=True, capture_output=True, cwd=tmp_path)
-        except subprocess.CalledProcessError as err:
-            assert False, err.stderr
+    res = subprocess.run(command, capture_output=True, text=True, cwd=tmp_path)
+    assert res.returncode != 0
+    assert "error: the following arguments" in res.stderr
 
 
 def test_yadg_process_with_bad_schema(tmp_path):
     command = ["yadg", "process", "somefile.json"]
-    with pytest.raises(AssertionError, match="Supplied dataschema filename"):
-        try:
-            subprocess.run(command, check=True, capture_output=True, cwd=tmp_path)
-        except subprocess.CalledProcessError as err:
-            assert False, err.stderr
+    res = subprocess.run(command, capture_output=True, text=True, cwd=tmp_path)
+    assert res.returncode != 0
+    assert "Supplied dataschema filename" in res.stderr
 
 
 def test_yadg_process_with_one_positional_arg(datadir, tmp_path):
     # By default outputs to working directory, so copy to temp location
     for file in ("test_schema.json", "data_3.1.0/00-experiment/measurement.csv"):
         (tmp_path / file).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(datadir / file,tmp_path / file)
+        shutil.copy2(datadir / file, tmp_path / file)
     command = ["yadg", "process", "test_schema.json"]
     subprocess.run(command, check=True, cwd=tmp_path)
     assert (tmp_path / "datagram.nc").exists()
@@ -53,11 +49,9 @@ def test_yadg_process_with_two_positional_args(datadir, tmp_path):
 
 def test_yadg_update_without_subcommand(tmp_path):
     command = ["yadg", "update"]
-    with pytest.raises(AssertionError, match="error: the following arguments"):
-        try:
-            subprocess.run(command, check=True, capture_output=True, cwd=tmp_path)
-        except subprocess.CalledProcessError as err:
-            assert False, err.stderr
+    res = subprocess.run(command, capture_output=True, text=True, cwd=tmp_path)
+    assert res.returncode != 0
+    assert "error: the following arguments" in res.stderr
 
 
 def test_yadg_update_310_with_outfile(datadir, tmp_path):
@@ -73,11 +67,9 @@ def test_yadg_update_310_with_outfile(datadir, tmp_path):
 
 def test_yadg_preset(tmp_path):
     command = ["yadg", "preset"]
-    with pytest.raises(AssertionError, match="error: the following arguments"):
-        try:
-            subprocess.run(command, check=True, capture_output=True, cwd=tmp_path)
-        except subprocess.CalledProcessError as err:
-            assert False, err.stderr
+    res = subprocess.run(command, capture_output=True, text=True, cwd=tmp_path)
+    assert res.returncode != 0
+    assert "error: the following arguments" in res.stderr
 
 
 def test_yadg_preset_with_preset_folder(datadir, tmp_path):

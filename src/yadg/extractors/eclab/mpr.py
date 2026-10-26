@@ -662,7 +662,11 @@ def extract_raw_bytes(
     E_range_max = params.get("E range max (V)", [float("inf")])
     E_range_min = params.get("E range min (V)", [float("-inf")])
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
-    Irange = max(IRANGE_CODE_TO_VAL[int(k)] for k in param_keys["I Range"]) if "I Range" in param_keys else 1.0
+    Irange = (
+        max(IRANGE_CODE_TO_VAL[int(k)] for k in param_keys["I Range"])
+        if "I Range" in param_keys
+        else 1.0
+    )
     val, attrs = get_unc("control_V", Erange)
     ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
     relE = val / Erange

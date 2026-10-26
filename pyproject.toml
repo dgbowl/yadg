@@ -73,3 +73,4 @@ dirty_template = "{tag}.dev{ccount}"
 [tool.pytest.ini_options]
 log_cli = false
 log_cli_level = "DEBUG"
+tmp_path_retention_policy = "failed"

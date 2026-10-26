@@ -68,7 +68,7 @@ The metadata will contain the information from the header of the file.
 
 import logging
 from .mpt_columns import column_units
-from .techniques import param_from_key, get_unc, split_control
+from .techniques import get_unc, split_control, IRANGE_CODE_TO_STR, IRANGE_CODE_TO_VAL
 from babel.numbers import parse_decimal
 from pathlib import Path
 from typing import Any
@@ -325,11 +325,13 @@ def process_data(
             continue
         data_vars[k] = (("uts",), *data_vars[k][1:])
 
+    irange_codes = set()
     if "I Range" in data_vars:
-        params = [param_from_key("I Range", int(v)) for v in data_vars["I Range"][1]]
+        codes = [int(v) for v in data_vars["I Range"][1]]
+        irange_codes = set(codes)
         data_vars["I Range"] = (
             data_vars["I Range"][0],
-            params,
+            [IRANGE_CODE_TO_STR[c] for c in codes],
             data_vars["I Range"][2],
         )
 
@@ -341,7 +343,7 @@ def process_data(
             data_vars[k][2]["units"] = units[k]
 
     ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
-    return ds
+    return ds, irange_codes
 
 
 @extract.register(Path)
@@ -383,14 +385,9 @@ def extract_from_path(
     metadata = {"settings": settings, "params": params}
 
     # Data processing including mpt quirks
-    ds = process_data(data_lines, locale)
+    ds, irange_codes = process_data(data_lines, locale)
 
-    if "I Range" in ds:
-        Irange = max(
-            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
-        )
-    else:
-        Irange = 1.0
+    Irange = max(IRANGE_CODE_TO_VAL[c] for c in irange_codes) if irange_codes else 1.0
 
     ds = split_control(ds)
 

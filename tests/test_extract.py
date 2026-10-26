@@ -22,13 +22,13 @@ from .utils import compare_datatrees
         ("picolog.tc08", "20220723-porosity-study-15p-Cu-200mA-longrun-07.picolog"),
     ],
 )
-def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir):
+def test_yadg_extractors_extract_with_metadata(filetype, infile, datadir, tmp_path):
     os.chdir(datadir)
     outfile = f"{infile}.nc"
     ret = extract(
         filetype=filetype, path=Path(infile), locale="en_GB", timezone="Europe/Berlin"
     )
-    ret.to_netcdf(f"{outfile}.tmp", engine="h5netcdf")
+    ret.to_netcdf(tmp_path / f"{outfile}.tmp", engine="h5netcdf")
     ref = xr.open_datatree(outfile, engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)
 

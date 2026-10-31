@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version 7.0 &mdash; yadg 7.0.dev2 documentation</title>
+  <title>yadg version 7.0 &mdash; yadg 7.0.dev3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=6f4253a0"></script>
+        <script src="_static/documentation_options.js?v=cb3ad7b9"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                7.0.dev2
+                7.0.dev3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -131,7 +131,7 @@
 <div><ul class="simple">
 <li><p>The new uncertainty handling is a breaking change compared to <code class="docutils literal notranslate"><span class="pre">yadg-6.x</span></code>.</p></li>
 <li><p>For all extractors, the <code class="docutils literal notranslate"><span class="pre">source</span></code> (positional) argument now must be specified instead of <code class="docutils literal notranslate"><span class="pre">fn</span></code> or <code class="docutils literal notranslate"><span class="pre">path</span></code>. This should not be an issue if you use the proper <a class="reference internal" href="apidoc/yadg.extractors.html#yadg.extractors.extract" title="yadg.extractors.extract"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.extractors.extract()</span></code></a> API.</p></li>
-<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv" title="yadg.extractors.agilent.csv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.csv</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable now has <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> as a proper coordinate. Previously, the <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> was expanded manually to the length of the largest trace present in the file, with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> used as padding for shorter traces. An arbitrary coordinate <code class="docutils literal notranslate"><span class="pre">_</span></code> was also present. Now, <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is expanded automatically by <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html#xarray.concat" title="(in xarray v2026.7.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.concat()</span></code></a>, inserting <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> into the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable as necessary for <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> which are not present in each trace.</p></li>
+<li><p>In <a class="reference internal" href="apidoc/yadg.extractors.agilent.html#module-yadg.extractors.agilent.csv" title="yadg.extractors.agilent.csv"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.agilent.csv</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable now has <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> as a proper coordinate. Previously, the <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> was expanded manually to the length of the largest trace present in the file, with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> used as padding for shorter traces. An arbitrary coordinate <code class="docutils literal notranslate"><span class="pre">_</span></code> was also present. Now, <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> is expanded automatically by <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html#xarray.concat" title="(in xarray v2026.9.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">xarray.concat()</span></code></a>, inserting <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> into the <code class="docutils literal notranslate"><span class="pre">signal</span></code> data variable as necessary for <code class="docutils literal notranslate"><span class="pre">elution_time</span></code> which are not present in each trace.</p></li>
 <li><p>In <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.touchstone.snp</span></code></a>, the acquisition parameters (S11, S21 etc.) are no longer NetCDF groups, but the label is prepended to the property name (e.g. <code class="docutils literal notranslate"><span class="pre">S11/real</span></code> is now <code class="docutils literal notranslate"><span class="pre">S11_real</span></code>). This means the <code class="docutils literal notranslate"><span class="pre">frequency</span></code> coordinate is not duplicated.</p></li>
 <li><p>In <a class="reference internal" href="apidoc/yadg.extractors.fhimcpt.html#module-yadg.extractors.fhimcpt.vna" title="yadg.extractors.fhimcpt.vna"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fhimcpt.vna</span></code></a>, the schema now follows the above structure in <a class="reference internal" href="apidoc/yadg.extractors.touchstone.html#module-yadg.extractors.touchstone.snp" title="yadg.extractors.touchstone.snp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.touchstone.snp</span></code></a> for consistency.</p></li>
 </ul>
@@ -145,7 +145,7 @@
 <li><p>Fixed passing of <a class="reference internal" href="apidoc/yadg.extractors.fusion.html#module-yadg.extractors.fusion.json" title="yadg.extractors.fusion.json"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.fusion.json</span></code></a> files where no species are present.</p></li>
 <li><p>Fixed parsing of parameters in some <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> files, where “Cycle Definition” entry is missing.</p></li>
 <li><p>The “Modify on” entries in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpt" title="yadg.extractors.eclab.mpt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpt</span></code></a> files are now properly processed, resulting in consistent parameters (or settings) with <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab.mpr" title="yadg.extractors.eclab.mpr"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab.mpr</span></code></a>, where only the last modification is stored.</p></li>
-<li><p>Old <code class="docutils literal notranslate"><span class="pre">list</span></code>-style <em>dataschemas</em> from <code class="docutils literal notranslate"><span class="pre">yadg-3.1.0</span></code> can now be updated to the latest <em>dataschema</em> using <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema.html#module-dgbowl_schemas.yadg.dataschema" title="(in dgbowl-schemas v126rc1.dev2)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema</span></code></a>.</p></li>
+<li><p>Old <code class="docutils literal notranslate"><span class="pre">list</span></code>-style <em>dataschemas</em> from <code class="docutils literal notranslate"><span class="pre">yadg-3.1.0</span></code> can now be updated to the latest <em>dataschema</em> using <a class="reference external" href="https://dgbowl.github.io/dgbowl-schemas/main/apidoc/dgbowl_schemas.yadg.dataschema.html#module-dgbowl_schemas.yadg.dataschema" title="(in dgbowl-schemas v126.dev3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dgbowl_schemas.yadg.dataschema</span></code></a>.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -174,7 +174,7 @@
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 7.0.dev2
+      v: 7.0.dev3
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

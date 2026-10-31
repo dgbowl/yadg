@@ -15,7 +15,7 @@ from .utils import compare_datatrees
         ("eclab.mpr", "eclab-mpr.zip", True, None),
     ],
 )
-def test_extract_from_zip(filetype, infile, ignore, suffix, datadir):
+def test_extract_from_zip(filetype, infile, ignore, suffix, datadir, tmp_path):
     os.chdir(datadir)
     ret = extract(
         filetype=filetype,
@@ -26,6 +26,6 @@ def test_extract_from_zip(filetype, infile, ignore, suffix, datadir):
         suffix=suffix,
     )
     outfile = f"{infile}.nc"
-    ret.to_netcdf(f"{outfile}.tmp", engine="h5netcdf")
+    ret.to_netcdf(tmp_path / f"{outfile}.tmp", engine="h5netcdf")
     ref = xr.open_datatree(outfile, engine="h5netcdf")
     compare_datatrees(ret, ref, thislevel=True, descend=True)

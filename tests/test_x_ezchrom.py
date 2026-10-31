@@ -1,20 +1,10 @@
 import pytest
-import os
-import shutil
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
 import xarray as xr
 from pathlib import Path
 
-
-@pytest.fixture
-def ezchrom_datadir(tmpdir, request):
-    filename = request.module.__file__
-    test_dir, _ = os.path.splitext(filename)
-    base_dir, _ = os.path.split(test_dir)
-    for ddir in ["test_x_ezchrom_dat", "test_x_ezchrom_asc"]:
-        shutil.copytree(os.path.join(base_dir, ddir), str(tmpdir), dirs_exist_ok=True)
-    return tmpdir
+DATA = Path(__file__).parent
 
 
 @pytest.mark.parametrize(
@@ -25,10 +15,13 @@ def ezchrom_datadir(tmpdir, request):
         ("230324.dat", "230324.dat.asc"),
     ],
 )
-def test_ezchrom_consistency(dfile, afile, ezchrom_datadir):
-    os.chdir(ezchrom_datadir)
-    aret = extract_dat(Path(dfile), timezone="Europe/Berlin")
-    bret = extract_asc(Path(afile), timezone="Europe/Berlin", encoding="windows-1252")
+def test_ezchrom_consistency(dfile, afile):
+    aret = extract_dat(DATA / "test_x_ezchrom_dat" / dfile, timezone="Europe/Berlin")
+    bret = extract_asc(
+        DATA / "test_x_ezchrom_asc" / afile,
+        timezone="Europe/Berlin",
+        encoding="windows-1252",
+    )
     for key in aret.variables:
         try:
             xr.testing.assert_allclose(aret[key], bret[key])

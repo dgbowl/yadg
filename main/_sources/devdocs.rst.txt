@@ -1,11 +1,21 @@
 Developer documentation
 -----------------------
+.. important::
+
+   No LLM / No generative AI policy.
+
+   - Please do not generate issues using LLMs.
+   - Do not create patches or submit pull requests with LLM-generated code.
+   - Please do not post LLM-generated comments on the issue tracker.
+
+   For further reasoning, please refer to `Johannes Link's excellent blog on this issue <https://blog.johanneslink.net/2025/11/04/to-gen-or-not-to-gen/>`_.
 
 .. note::
 
     If you want to use yadg in your project, you probably want to see :ref:`the API of the extractor mode <extractor api>` or process a `dataschema` using :func:`yadg.core.process_schema`.
 
 The project follows fairly standard developer practices. Every new feature should be associated with a test, and every PR requires linting and formatting using ``ruff``.
+
 
 Testing
 ```````

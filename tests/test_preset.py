@@ -5,7 +5,7 @@ import yadg.dgutils
 import yadg.core
 
 
-def standard_datagram_test(datagram, testspec):
+def standard_datagram_test(datagram, testspec, outdir):
     assert len(datagram.children) == testspec["nsteps"], "wrong number of steps"
     if isinstance(testspec["step"], str):
         step = datagram[f"{testspec['step']}"]
@@ -23,7 +23,7 @@ def standard_datagram_test(datagram, testspec):
             "wrong number of timesteps in a step: "
             f"ret: {len(step['uts'])}, ref: {testspec['nrows']}"
         )
-    datagram.to_netcdf(".test.nc", engine="h5netcdf")
+    datagram.to_netcdf(outdir / ".test.nc", engine="h5netcdf")
 
 
 @pytest.mark.parametrize(
@@ -33,7 +33,7 @@ def standard_datagram_test(datagram, testspec):
         ("data_2", {"nsteps": 2, "step": 0, "nrows": 2}),
     ],
 )
-def test_preset(input, ts, datadir):
+def test_preset(input, ts, datadir, tmp_path):
     os.chdir(datadir)
 
     with open(f"{input}.preset.json") as infile:
@@ -42,4 +42,4 @@ def test_preset(input, ts, datadir):
     schema = yadg.dgutils.update_schema(preset)
     ds = yadg.dgutils.schema_from_preset(schema, input)
     ret = yadg.core.process_schema(ds)
-    standard_datagram_test(ret, ts)
+    standard_datagram_test(ret, ts, tmp_path)

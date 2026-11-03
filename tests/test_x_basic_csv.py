@@ -99,8 +99,6 @@ def test_basic_csv(infile, params, datadir):
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)
 
 
@@ -155,8 +153,6 @@ def test_basic_csv_locale(infile, params, locale, datadir):
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)
 
 
@@ -188,6 +184,4 @@ def test_basic_csv_encoding(infile, params, encoding, datadir):
     with open(outfile, "rb") as inp:
         ref = pickle.load(inp)
     print(f"{ret=}")
-    with open(outfile, "wb") as out:
-        pickle.dump(ret, out, 5)
     compare_datatrees(ret, ref, thislevel=True)

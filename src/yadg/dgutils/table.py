@@ -1,19 +1,48 @@
-from babel.numbers import parse_decimal
-from decimal import Decimal
+import functools
+from babel import Locale
+from babel.numbers import (
+    LC_NUMERIC,
+    NumberFormatError,
+    get_decimal_symbol,
+    get_group_symbol,
+    parse_decimal,
+)
+from decimal import Decimal, InvalidOperation
 from typing import Callable
+
+
+@functools.cache
+def decimal_parser(locale: str | None = None) -> Callable[[str], Decimal]:
+    """Cache the function from `babel.numbers.parse_decimal` for `locale`."""
+    loc = Locale.parse(locale or LC_NUMERIC)
+    group = get_group_symbol(loc)
+    decimal = get_decimal_symbol(loc)
+    # babel substitutes other space characters for space-like group symbols
+    if group.isspace():
+        return functools.partial(parse_decimal, locale=loc)
+
+    def cached_parse_decimal(string: str) -> Decimal:
+        try:
+            return Decimal(string.replace(group, "").replace(decimal, "."))
+        except InvalidOperation as exc:
+            msg = f"{string!r} is not a valid decimal number"
+            raise NumberFormatError(msg) from exc
+
+    return cached_parse_decimal
 
 
 def process_row(
     items: list[str],
     locale: str = "en_GB",
 ) -> tuple[float, type, int, int]:
+    cached_parse_decimal = decimal_parser(locale)
     vals = []
     kind = []
     digs = []
     exps = []
     for item in items:
         try:
-            dec = parse_decimal(item, locale=locale)
+            dec = cached_parse_decimal(item)
             dtp = dec.as_tuple()
             if "e" in item or "E" in item:
                 kind.append(float)

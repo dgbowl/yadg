@@ -206,9 +206,11 @@ from .mpr_columns import (
 )
 from .techniques import (
     technique_params_dtypes,
-    param_from_key,
     split_control,
     get_unc,
+    param_map,
+    IRANGE_CODE_TO_VAL,
+    PARAM_CODE_TO_STR,
 )
 from pathlib import Path
 from yadg import dgutils
@@ -277,10 +279,10 @@ def process_settings(data: bytes, minver: str) -> tuple[dict, list]:
     params = []
     for pardict in pardicts:
         for k, v in pardict.items():
-            # MPR quirk: I Range off by one
-            if k == "I Range":
-                v += 1
-            pardict[k] = param_from_key(k, v, to_str=True)
+            if k in PARAM_CODE_TO_STR:
+                # MPR quirk: I Range off by one
+                code = v + 1 if k == "I Range" else v
+                pardict[k] = PARAM_CODE_TO_STR[k][code]
             # Handle NaNs and +/-Inf in params here
             if np.isnan(v) or np.isinf(v):
                 pardict[k] = str(v)
@@ -409,11 +411,9 @@ def process_data(
 
     Returns
     -------
-    list[dict]
-        Processed data ([{column -> value}, ..., {column -> value}]). If
-        the column unit is set to None, the value is an int. Otherwise,
-        the value is a dict with value ("n"), sigma ("s"), and unit
-        ("u").
+    tuple[Dataset, dict[str, np.ndarray]]
+        The processed data, and the unique integer keys present in each
+        column mapped via ``param_map``.
 
     """
     n_datapoints = np.frombuffer(data, offset=0x0000, dtype="<u4", count=1)[0]
@@ -439,24 +439,38 @@ def process_data(
     values = np.frombuffer(data, offset=offset, dtype=data_dtype, count=n_datapoints)
 
     data_vars = {}
+    param_keys = {}
     for name, unit in zip(values.dtype.names, unitlist):
         if name.startswith("unknown_"):
             continue
         elif len(values[name]) == 0:
             continue
         elif name == "flags" and flaglist:
+            # Copy to contiguous array - faster than reading strided
+            flags = np.ascontiguousarray(values[name])
             for fname, bitmask in flaglist.items():
                 # Two's complement hack to find the position of the
                 # rightmost set bit.
                 shift = (bitmask & -bitmask).bit_length() - 1
                 # Rightshift flag by that amount.
-                data_vars[fname] = (("uts",), (values[name] & bitmask) >> shift, {})
+                data_vars[fname] = (("uts",), (flags & bitmask) >> shift, {})
         elif unit is None:
-            data_vars[name] = (
-                ("uts",),
-                [param_from_key(name, int(v)) for v in values[name]],
-                {},
-            )
+            if name in param_map:
+                # Map with a numpy array lookup table
+                # Get contiguous column
+                col = np.ascontiguousarray(values[name])
+                # Get unique values without sorting
+                keys = np.flatnonzero(np.bincount(col))
+                param_keys[name] = keys
+                # Get the strings corresponding to those ints
+                mapped = np.array([PARAM_CODE_TO_STR["I Range"][int(k)] for k in keys])
+                # Build lookup table (with gaps), str vals at indices given by key
+                lut = np.empty(keys[-1] + 1, dtype=mapped.dtype)
+                lut[keys] = mapped
+                # Get the col of str vals through lookup table
+                data_vars[name] = (("uts",), lut[col], {})
+            else:
+                data_vars[name] = (("uts",), values[name].astype(np.int64), {})
         else:
             data_vars[name] = (
                 ("uts",),
@@ -468,7 +482,7 @@ def process_data(
     attrs = dict(fulldate=False)
 
     ds = Dataset(data_vars=data_vars, coords=coords, attrs=attrs)
-    return ds
+    return ds, param_keys
 
 
 def process_log(data: bytes) -> dict:
@@ -531,7 +545,7 @@ def process_ext(data: bytes) -> dict:
     return ext
 
 
-def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
+def process_modules(contents: bytes) -> tuple[dict, dict, Dataset, dict, dict, dict]:
     """Handles the processing of all modules.
 
     Parameters
@@ -541,19 +555,26 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
 
     Returns
     -------
-    tuple[dict, list, dict, dict]
-        The processed settings, data, log, and loop modules. If they are
-        not present in the provided modules, returns None instead.
+    tuple[dict, dict, Dataset, dict, dict, dict]
+        The processed settings, params, data, unique ``param_map`` keys of the
+        data, log, and loop modules. If they are not present in the provided
+        modules, returns None instead.
 
     """
-    modules = contents.split(b"MODULE")[1:]
-    settings = log = loop = ext = None
+    settings = ds = param_keys = log = loop = ext = None
     technique = None
-    for module in modules:
+
+    magic = b"MODULE"
+    view = memoryview(contents)  # avoid copies
+    pos = contents.find(magic)
+    while pos != -1:  # Find each section starting with MODULE
+        start = pos + len(magic)
         for mhd in module_header_dtypes:
             try:
-                header = dgutils.read_value(module, 0x0000, mhd)
-                if len(module) == mhd.itemsize + header["length"]:
+                header = dgutils.read_value(view, start, mhd)
+                end = start + mhd.itemsize + header["length"]
+                # If the version is correct, end lands at another MODULE or EOF
+                if end == len(contents) or contents.startswith(magic, end):
                     version = header.get("newver", 0) + header["oldver"]
                     logger.debug(
                         "Parsed module header with length %d, version %s",
@@ -577,23 +598,26 @@ def process_modules(contents: bytes) -> tuple[dict, list, list, dict, dict]:
             minver = "10.40"
 
         logger.debug("Read '%s' with version '%s' ('%s')", name, version, minver)
-        module_data = module[mhd.itemsize :]
-        if name == "VMP Set":
-            technique, settings, params = process_settings(module_data, minver)
-
-        elif name == "VMP data":
-            ds = process_data(module_data, version, technique)
-        elif name == "VMP LOG":
-            log = process_log(module_data)
-        elif name == "VMP loop":
-            loop = process_loop(module_data)
-        elif name == "VMP ExtDev":
-            ext = process_ext(module_data)
+        module_data = view[start + mhd.itemsize : end]
+        if name == "VMP data":
+            # Zero-copy for data
+            ds, param_keys = process_data(module_data, version, technique)
         else:
-            raise NotImplementedError(f"Unknown module: {name}.")
+            module_data = module_data.tobytes()  # Copy for metadata (needs decode)
+            if name == "VMP Set":
+                technique, settings, params = process_settings(module_data, minver)
+            elif name == "VMP LOG":
+                log = process_log(module_data)
+            elif name == "VMP loop":
+                loop = process_loop(module_data)
+            elif name == "VMP ExtDev":
+                ext = process_ext(module_data)
+            else:
+                raise NotImplementedError(f"Unknown module: {name}.")
+        pos = end if end < len(contents) else -1  # Go to the next module
     if ext is not None:
         settings.update(ext)
-    return settings, params, ds, log, loop
+    return settings, params, ds, param_keys, log, loop
 
 
 @extract.register(Path)
@@ -626,7 +650,7 @@ def extract_raw_bytes(
 ) -> DataTree:
     file_magic = b"BIO-LOGIC MODULAR FILE\x1a                         \x00\x00\x00\x00"
     assert source[: len(file_magic)] == file_magic, "invalid file magic"
-    settings, params, ds, log, loop = process_modules(source)
+    settings, params, ds, param_keys, log, loop = process_modules(source)
     assert settings is not None, "no settings module"
     assert ds is not None, "no data module"
     # Arrange all the data into the correct format.
@@ -637,12 +661,11 @@ def extract_raw_bytes(
     E_range_max = params.get("E range max (V)", [float("inf")])
     E_range_min = params.get("E range min (V)", [float("-inf")])
     Erange = max([a - b for a, b in zip(E_range_max, E_range_min)])
-    if "I Range" in ds:
-        Irange = max(
-            param_from_key("I Range", v, False) for v in set(ds["I Range"].values)
-        )
-    else:
-        Irange = 1.0
+    Irange = (
+        max(IRANGE_CODE_TO_VAL[int(k)] for k in param_keys["I Range"])
+        if "I Range" in param_keys
+        else 1.0
+    )
     val, attrs = get_unc("control_V", Erange)
     ds["control_V_uncertainty"] = DataArray(val, attrs=attrs)
     relE = val / Erange

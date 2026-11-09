@@ -34,9 +34,9 @@ in :func:`get_resolution`.
 
 import bisect
 import logging
+
 import numpy as np
 import xarray as xr
-
 
 logger = logging.getLogger(__name__)
 
@@ -1366,6 +1366,43 @@ _bcd_params_dtypes = [
 ]
 
 
+# ~~~~~~~~~~~~~ Constant Power (CPW) ~~~~~~~~~~~~~
+_cpw_params_dtypes = [
+    (
+        np.dtype(
+            [
+                ("P", "<f4"),
+                ("unit P", "|u1"),
+                ("tM (h:m:s)", "<f4"),
+                ("Neg. current", "|u4"),
+                ("IM", "<f4"),
+                ("unit IM", "|u1"),
+                ("I Range", "|u1"),
+                ("Bandwidth", "|u1"),
+                ("E range min (V)", "<f4"),
+                ("E range max (V)", "<f4"),
+                ("dE (mV)", "<f4"),
+                ("dq", "<f4"),
+                ("unit dq", "|u1"),
+                ("dt (s)", "<f4"),
+                ("EM (V)", "<f4"),
+                ("DQM", "<f4"),
+                ("unit DQM", "|u1"),
+                ("DxM", "<f4"),
+                ("tR (h:m:s)", "<f4"),
+                ("dER/dt (mV/h)", "<f4"),
+                ("dER (mV)", "<f4"),
+                ("dtR (s)", "<f4"),
+                ("EL (V)", "<f4"),
+                ("goto Ns'", "u4"),
+                ("nc cycles", "u4"),
+            ]
+        ),
+        {"11.50"},
+    )
+]
+
+
 # Maps the technique byte to its corresponding dtype.
 technique_params_dtypes = {
     0x04: ("GCPL", _gcpl_params_dtypes),
@@ -1377,6 +1414,7 @@ technique_params_dtypes = {
     0x1C: ("WAIT", _wait_params_dtypes),
     0x1D: ("PEIS", _peis_params_dtypes),
     0x1E: ("GEIS", _geis_params_dtype),
+    0x24: ("CPW", _cpw_params_dtypes),
     0x30: ("CV", _cv_params_dtypes),
     0x32: ("ZIR", _zir_params_dtypes),
     0x33: ("CVA", _cva_params_dtypes),
@@ -1401,6 +1439,13 @@ unit_map = {
         ("µA", 2, 1e-6),
         ("nA", 3, 1e-9),
         ("pA", 4, 1e-12),
+    ),
+    "P": (
+        ("W", 0, 1.0),
+        ("mW", 1, 1e-3),
+        ("µW", 2, 1e-6),
+        ("nW", 3, 1e-9),
+        ("pW", 4, 1e-12),
     ),
     "Q": (
         ("A.h", 0, 1.0),
@@ -1626,14 +1671,17 @@ param_map = {
     "unit dI": unit_map["I"],
     "unit dIp": unit_map["I"],
     "unit dq": unit_map["Q"],
+    "unit P": unit_map["P"],
     "unit dQ": unit_map["Q"],
     "unit dQM": unit_map["Q"],
+    "unit DQM": unit_map["Q"],
     "unit dQp": unit_map["Q"],
     "unit f": unit_map["f"],
     "unit fi": unit_map["f"],
     "unit ff": unit_map["f"],
     "unit  Ia": unit_map["I"],
     "unit Im": unit_map["I"],
+    "unit IM": unit_map["I"],
     "unit Imax": unit_map["I"],
     "unit Imin": unit_map["I"],
     "unit Is": unit_map["I"],

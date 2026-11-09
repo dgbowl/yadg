@@ -1,0 +1,24 @@
+{
+    "metadata": {
+        "provenance": {"type": "manual"},
+        "version": "4.1"
+    },
+    "steps": [
+        {
+            "parser": "qftrace",
+            "input": {"folders": ["f1", "f2"], "suffix": "csv"},
+            "parameters": {
+                "method": "kajfez",
+                "cutoff": 0.4
+            }
+        },
+        {
+            "parser": "chromtrace",
+            "input": {"folders": [""], "suffix": "dat.asc"},
+            "parameters": {
+                "filetype": "ezchrom.asc",
+                "calfile": "calib/fhi_gccal.json"
+            }
+        }
+    ]
+}

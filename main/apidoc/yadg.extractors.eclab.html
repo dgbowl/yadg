@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eclab: For BioLogic data files &mdash; yadg 7.0.dev4 documentation</title>
+  <title>eclab: For BioLogic data files &mdash; yadg 7.0.dev5 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=00b34774"></script>
+        <script src="../_static/documentation_options.js?v=a4cbc36d"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="../_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                7.0.dev4
+                7.0.dev5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -105,7 +105,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.mpt_columns">yadg.extractors.eclab.mpt_columns module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-yadg.extractors.eclab.techniques">yadg.extractors.eclab.techniques module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#techniques-parameters-for-implemented-techniques"><strong>techniques</strong>: Parameters for implemented techniques.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.techniques.param_from_key"><code class="docutils literal notranslate"><span class="pre">param_from_key()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.techniques.get_unc"><code class="docutils literal notranslate"><span class="pre">get_unc()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.techniques.dev_VI"><code class="docutils literal notranslate"><span class="pre">dev_VI()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yadg.extractors.eclab.techniques.split_control"><code class="docutils literal notranslate"><span class="pre">split_control()</span></code></a></li>
@@ -404,13 +403,11 @@ and bitmasks.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Processed data ([{column -&gt; value}, …, {column -&gt; value}]). If
-the column unit is set to None, the value is an int. Otherwise,
-the value is a dict with value (“n”), sigma (“s”), and unit
-(“u”).</p>
+<dd class="field-even"><p>The processed data, and the unique integer keys present in each
+column mapped via <code class="docutils literal notranslate"><span class="pre">param_map</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[dict]</p>
+<dd class="field-odd"><p>tuple[Dataset, dict[str, np.ndarray]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -468,18 +465,19 @@ the value is a dict with value (“n”), sigma (“s”), and unit
 
 <dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.mpr.process_modules">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_modules" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.mpr.</span></span><span class="sig-name descname"><span class="pre">process_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.9.0)"><span class="pre">Dataset</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.mpr.process_modules" title="Link to this definition"></a></dt>
 <dd><p>Handles the processing of all modules.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>contents</strong> – The contents of an .mpr file, minus the file magic.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The processed settings, data, log, and loop modules. If they are
-not present in the provided modules, returns None instead.</p>
+<dd class="field-even"><p>The processed settings, params, data, unique <code class="docutils literal notranslate"><span class="pre">param_map</span></code> keys of the
+data, log, and loop modules. If they are not present in the provided
+modules, returns None instead.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[dict, list, dict, dict]</p>
+<dd class="field-odd"><p>tuple[dict, dict, Dataset, dict, dict, dict]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -699,32 +697,6 @@ Peter Kraus,
 Carla Terboven</em></p>
 </section>
 <dl class="py function">
-<dt class="sig sig-object py" id="yadg.extractors.eclab.techniques.param_from_key">
-<span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.techniques.</span></span><span class="sig-name descname"><span class="pre">param_from_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#yadg.extractors.eclab.techniques.param_from_key" title="Link to this definition"></a></dt>
-<dd><p>Convert a supplied key of a certain parameter to its string or float value.</p>
-<p>The function uses the map defined in <code class="docutils literal notranslate"><span class="pre">param_map</span></code> to convert between the
-entries in the tuples, which contain the <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> value of the parameter
-(present in <code class="docutils literal notranslate"><span class="pre">.mpt</span></code> files), the <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> value of the parameter (present
-in <code class="docutils literal notranslate"><span class="pre">.mpr</span></code> files), and the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> value in SI units.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>param</strong> – The name of the parameter, a key within the <code class="docutils literal notranslate"><span class="pre">param_map</span></code>. If <code class="docutils literal notranslate"><span class="pre">param</span></code>
-is not present in <code class="docutils literal notranslate"><span class="pre">param_map</span></code>, the supplied key is returned back.</p></li>
-<li><p><strong>key</strong> – The key of the parameter that is to be converted to a different representation.</p></li>
-<li><p><strong>to_str</strong> – A switch between <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code> output.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>key</strong> – The key converted to the requested format.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str | float | int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="yadg.extractors.eclab.techniques.get_unc">
 <span class="sig-prename descclassname"><span class="pre">yadg.extractors.eclab.techniques.</span></span><span class="sig-name descname"><span class="pre">get_unc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yadg.extractors.eclab.techniques.get_unc" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -772,7 +744,7 @@ value, E-range and I-range.</p>
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 7.0.dev4
+      v: 7.0.dev5
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

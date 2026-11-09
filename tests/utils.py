@@ -1,8 +1,12 @@
 import json
-import yaml
-import yadg.core
+import pickle
+from pathlib import Path
+
 import xarray as xr
+import yaml
 from dgbowl_schemas.yadg import to_dataschema
+
+import yadg.core
 
 
 def datagram_from_file(infile):
@@ -77,3 +81,12 @@ def check_attrs(ret: dict, ref: dict):
                 f"Metadata entry {k!r} is not allowed at this level of DataTree."
             )
         assert ret[k] == ref[k]
+
+
+def check_file(fname, kwargs, func):
+    ret = func(Path(fname), **kwargs)
+    outfile = f"{fname}.pkl"
+    with open(outfile, "rb") as inp:
+        ref = pickle.load(inp)
+    compare_datatrees(ret, ref, thislevel=True)
+    return ret

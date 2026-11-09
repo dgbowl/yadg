@@ -1,4 +1,3 @@
-import functools
 from decimal import Decimal, InvalidOperation
 from typing import Callable
 
@@ -8,20 +7,18 @@ from babel.numbers import (
     NumberFormatError,
     get_decimal_symbol,
     get_group_symbol,
-    parse_decimal,
 )
 
 
-@functools.cache
-def decimal_parser(locale: str | None = None) -> Callable[[str], Decimal]:
-    """Cache the function from `babel.numbers.parse_decimal` for `locale`."""
+def get_parse_decimal(locale: str | None = None) -> Callable[[str], Decimal]:
+    """Create a str -> Decimal converter for a `locale`."""
     loc = Locale.parse(locale or LC_NUMERIC)
     group = get_group_symbol(loc)
     decimal = get_decimal_symbol(loc)
 
-    # babel substitutes other space characters for space-like group symbols
     def cached_parse_decimal(string: str) -> Decimal:
         try:
+            # babel substitutes other space characters for space-like group symbols
             if group.isspace():
                 return Decimal("".join(string.split()).replace(decimal, "."))
             else:
@@ -35,16 +32,15 @@ def decimal_parser(locale: str | None = None) -> Callable[[str], Decimal]:
 
 def process_row(
     items: list[str],
-    locale: str = "en_GB",
+    parse_decimal: Callable[[str], Decimal],
 ) -> tuple[float, type, int, int]:
-    cached_parse_decimal = decimal_parser(locale)
     vals = []
     kind = []
     digs = []
     exps = []
     for item in items:
         try:
-            dec = cached_parse_decimal(item)
+            dec = parse_decimal(item)
             dtp = dec.as_tuple()
             if "e" in item or "E" in item:
                 kind.append(float)
@@ -125,12 +121,13 @@ def process_table(
     precs = {k: 0 for k in headers}
     if datecolumns is not None:
         uts = []
+    cached_parse_decimal = get_parse_decimal(locale)
 
     for line in lines:
         parts = [i.strip().strip(strip) for i in line.split(sep)]
         if datecolumns is not None:
             uts.append(datefunc(*[parts[i] for i in datecolumns]))
-        vs, ts, ds, es = process_row(parts, locale)
+        vs, ts, ds, es = process_row(parts, cached_parse_decimal)
         for i, (k, v, t, d, e) in enumerate(zip(headers, vs, ts, ds, es)):
             if datecolumns is not None and i in datecolumns:
                 continue

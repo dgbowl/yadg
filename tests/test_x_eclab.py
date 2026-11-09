@@ -1,21 +1,15 @@
-import pytest
 import os
-import xarray as xr
-import numpy as np
 import pickle
-from yadg.extractors.eclab.mpr import extract as extract_mpr
-from yadg.extractors.eclab.mpt import extract as extract_mpt
-from .utils import compare_datatrees
 from pathlib import Path
 
+import numpy as np
+import pytest
+import xarray as xr
 
-def check_file(fname, kwargs, func):
-    ret = func(Path(fname), **kwargs)
-    outfile = f"{fname}.pkl"
-    with open(outfile, "rb") as inp:
-        ref = pickle.load(inp)
-    compare_datatrees(ret, ref, thislevel=True)
-    return ret
+from yadg.extractors.eclab.mpr import extract as extract_mpr
+from yadg.extractors.eclab.mpt import extract as extract_mpt
+
+from .utils import check_file, compare_datatrees
 
 
 def check_file_extract_bytes(fname, bytes, kwargs, func):

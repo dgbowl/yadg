@@ -1,27 +1,30 @@
+import os
+
 import pytest
+import xarray as xr
+
 from yadg.extractors.ezchrom.asc import extract as extract_asc
 from yadg.extractors.ezchrom.dat import extract as extract_dat
-import xarray as xr
-from pathlib import Path
 
-DATA = Path(__file__).parent
+from .utils import check_file
+
+KWARGS = dict(timezone="Europe/Berlin", encoding="windows-1252")
 
 
 @pytest.mark.parametrize(
-    "dfile, afile",
+    "froot",
     [
-        ("2023-06-29-007.dat", "2023-06-29-007.dat.asc"),
-        ("2023-06-29-014.dat", "2023-06-29-014.dat.asc"),
-        ("230324.dat", "230324.dat.asc"),
+        "2023-06-29-007",
+        "2023-06-29-014",
+        "230324",
     ],
 )
-def test_ezchrom_consistency(dfile, afile):
-    aret = extract_dat(DATA / "test_x_ezchrom_dat" / dfile, timezone="Europe/Berlin")
-    bret = extract_asc(
-        DATA / "test_x_ezchrom_asc" / afile,
-        timezone="Europe/Berlin",
-        encoding="windows-1252",
-    )
+def test_ezchrom_consistency(froot, datadir):
+    os.chdir(datadir)
+
+    aret = check_file(f"{froot}.dat", KWARGS, extract_dat)
+    bret = check_file(f"{froot}.dat.asc", KWARGS, extract_asc)
+
     for key in aret.variables:
         try:
             xr.testing.assert_allclose(aret[key], bret[key])

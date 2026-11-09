@@ -8,20 +8,22 @@ from yadg.extractors.ezchrom.dat import extract as extract_dat
 
 from .utils import check_file
 
+KWARGS = dict(timezone="Europe/Berlin", encoding="windows-1252")
+
 
 @pytest.mark.parametrize(
-    "froot, locale",
+    "froot",
     [
-        ("2023-06-29-007", "en_US"),
-        ("2023-06-29-014", "de_DE"),
-        ("230324", "en_US"),
+        "2023-06-29-007",
+        "2023-06-29-014",
+        "230324",
     ],
 )
-def test_eclab_consistency(froot, locale, datadir):
+def test_ezchrom_consistency(froot, datadir):
     os.chdir(datadir)
-    kwargs = dict(timezone="Europe/Berlin", locale=locale, encoding="windows-1252")
-    aret = check_file(f"{froot}.dat", kwargs, extract_dat)
-    bret = check_file(f"{froot}.dat.asc", kwargs, extract_asc)
+
+    aret = check_file(f"{froot}.dat", KWARGS, extract_dat)
+    bret = check_file(f"{froot}.dat.asc", KWARGS, extract_asc)
 
     for key in aret.variables:
         try:

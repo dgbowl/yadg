@@ -1,4 +1,7 @@
 import functools
+from decimal import Decimal, InvalidOperation
+from typing import Callable
+
 from babel import Locale
 from babel.numbers import (
     LC_NUMERIC,
@@ -7,8 +10,6 @@ from babel.numbers import (
     get_group_symbol,
     parse_decimal,
 )
-from decimal import Decimal, InvalidOperation
-from typing import Callable
 
 
 @functools.cache
@@ -17,13 +18,14 @@ def decimal_parser(locale: str | None = None) -> Callable[[str], Decimal]:
     loc = Locale.parse(locale or LC_NUMERIC)
     group = get_group_symbol(loc)
     decimal = get_decimal_symbol(loc)
-    # babel substitutes other space characters for space-like group symbols
-    if group.isspace():
-        return functools.partial(parse_decimal, locale=loc)
 
+    # babel substitutes other space characters for space-like group symbols
     def cached_parse_decimal(string: str) -> Decimal:
         try:
-            return Decimal(string.replace(group, "").replace(decimal, "."))
+            if group.isspace():
+                return Decimal("".join(string.split()).replace(decimal, "."))
+            else:
+                return Decimal(string.replace(group, "").replace(decimal, "."))
         except InvalidOperation as exc:
             msg = f"{string!r} is not a valid decimal number"
             raise NumberFormatError(msg) from exc

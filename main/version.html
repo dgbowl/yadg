@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>yadg version history &mdash; yadg 7.0.dev5 documentation</title>
+  <title>yadg version history &mdash; yadg 7.0.dev6 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/autodoc_pydantic.css" type="text/css" />
@@ -16,7 +16,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=a4cbc36d"></script>
+        <script src="_static/documentation_options.js?v=93334907"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -39,7 +39,7 @@
               <img src="_static/yadg.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                7.0.dev5
+                7.0.dev6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -79,6 +79,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="devdocs.html">Developer documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>yadg</strong> version history</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yadg-version-7-1"><strong>yadg</strong> version 7.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-7-0"><strong>yadg</strong> version 7.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-2"><strong>yadg</strong> version 6.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yadg-version-6-1"><strong>yadg</strong> version 6.1</a></li>
@@ -121,6 +122,18 @@
              
   <section id="yadg-version-history">
 <h1><strong>yadg</strong> version history<a class="headerlink" href="#yadg-version-history" title="Link to this heading"></a></h1>
+<section id="yadg-version-7-1">
+<h2><strong>yadg</strong> version 7.1<a class="headerlink" href="#yadg-version-7-1" title="Link to this heading"></a></h2>
+<p>Developed in the <a class="reference external" href="https://tu.berlin/en/concat">ConCat Lab</a> at Technische Universität Berlin (Berlin, DE).</p>
+<p>New features in <code class="docutils literal notranslate"><span class="pre">yadg-7.1</span></code> are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Added support for the CPW technique in <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab" title="yadg.extractors.eclab"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab</span></code></a> module. Thank you to <a class="reference external" href="https://github.com/mathcodemaster">Franz Pichler</a> for sharing a test file.</p></li>
+<li><p>Significant speed-up for <a class="reference internal" href="apidoc/yadg.extractors.eclab.html#module-yadg.extractors.eclab" title="yadg.extractors.eclab"><code class="xref py py-mod docutils literal notranslate"><span class="pre">yadg.extractors.eclab</span></code></a> extractors by reworking <cite>param</cite> look-up (<a class="reference external" href="https://github.com/dgbowl/yadg/pull/271">#271</a>).</p></li>
+<li><p>Significant speed-up for all extractors relying on <a class="reference internal" href="apidoc/yadg.dgutils.html#yadg.dgutils.table.process_table" title="yadg.dgutils.table.process_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">yadg.dgutils.table.process_table()</span></code></a> by processing the supplied locale only once per call and not on every row  (<a class="reference external" href="https://github.com/dgbowl/yadg/pull/271">#271</a>).</p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="yadg-version-7-0">
 <h2><strong>yadg</strong> version 7.0<a class="headerlink" href="#yadg-version-7-0" title="Link to this heading"></a></h2>
 <a class="reference external image-reference" href="https://github.com/PeterKraus/yadg/tree/7.0"><img alt="https://img.shields.io/static/v1?label=yadg&amp;message=v7.0&amp;color=blue&amp;logo=github" src="https://img.shields.io/static/v1?label=yadg&amp;message=v7.0&amp;color=blue&amp;logo=github" /></a>
@@ -471,7 +484,7 @@ sustainable batteries of the future.</p>
 <img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2022-02-14&amp;color=red&amp;logo=pypi" />
 <p>A major rewrite of <strong>yadg</strong>. Developed at Empa - Materials Science and Technology, in
 Dübendorf. The code includes documentation, test suite, and is tested using CI. This
-version has been published in JOSS <a class="reference internal" href="citing.html#kraus2022b" id="id7"><span>[Kraus2022b]</span></a>.</p>
+version has been published in JOSS <a class="reference internal" href="citing.html#kraus2022b" id="id10"><span>[Kraus2022b]</span></a>.</p>
 <p>Major features are:</p>
 <blockquote>
 <div><ul class="simple">
@@ -536,7 +549,7 @@ sustainable batteries of the future.</p>
 <img alt="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" src="https://img.shields.io/static/v1?label=release%20date&amp;message=2021-09-11&amp;color=red&amp;logo=pypi" />
 <p>First released version of <strong>yadg</strong>, containing functionality developed at the
 Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described in
-<a class="reference internal" href="citing.html#kraus2022a" id="id8"><span>[Kraus2022a]</span></a>.</p>
+<a class="reference internal" href="citing.html#kraus2022a" id="id11"><span>[Kraus2022a]</span></a>.</p>
 <p>Major features are:</p>
 <blockquote>
 <div><ul class="simple">
@@ -587,7 +600,7 @@ Fritz Haber Institute in Berlin. Design ideas, decisions, and workflow described
   <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       <span class="fa fa-book"> Other Versions</span>
-      v: 7.0.dev5
+      v: 7.0.dev6
       <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions"> 

@@ -11,7 +11,6 @@ and ensuring timestamps are increasing.
 import logging
 from typing import Optional
 
-import numpy as np
 from pydantic import BaseModel
 from striprtf.striprtf import rtf_to_text
 from xarray import DataArray, Dataset

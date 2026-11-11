@@ -9,10 +9,13 @@ and ensuring timestamps are increasing.
 """
 
 import logging
+from typing import Optional
+
+import numpy as np
 from pydantic import BaseModel
 from striprtf.striprtf import rtf_to_text
-from typing import Optional
-from xarray import Dataset, DataArray
+from xarray import DataArray, Dataset
+
 from yadg import dgutils
 from yadg.dgutils.table import process_table
 
@@ -177,7 +180,7 @@ def drycal_header(line: str, sep: str = ",") -> tuple[list, dict]:
 def check_timestamps(vals: Dataset) -> Dataset:
     warn = True
     ndays = 0
-    utslist = vals.uts.values
+    utslist = vals.uts.values.copy()
     for i in range(1, vals.uts.size):
         if utslist[i] < utslist[i - 1]:
             if warn:

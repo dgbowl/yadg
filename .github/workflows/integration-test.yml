@@ -7,7 +7,7 @@ jobs:
   test-supported:
     strategy:
       matrix:
-        pyver: ['3.10', '3.11', '3.12', '3.13', '3.14']
+        pyver: ['3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
         os: ['ubuntu-latest']
     runs-on: ${{ matrix.os }}
     steps:
@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         pyver: ['3.9']
-        os: ['ubuntu-latest']
+        os: ['ubuntu-24.04']
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/setup-python@v5

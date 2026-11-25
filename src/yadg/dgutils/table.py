@@ -1,10 +1,9 @@
+from collections.abc import Callable
 from decimal import Decimal, InvalidOperation
-from typing import Callable
 
 from babel import Locale
 from babel.numbers import (
     LC_NUMERIC,
-    NumberFormatError,
     get_decimal_symbol,
     get_group_symbol,
 )
@@ -16,18 +15,16 @@ def get_parse_decimal(locale: str | None = None) -> Callable[[str], Decimal]:
     group = get_group_symbol(loc)
     decimal = get_decimal_symbol(loc)
 
-    def cached_parse_decimal(string: str) -> Decimal:
-        try:
-            # babel substitutes other space characters for space-like group symbols
-            if group.isspace():
-                return Decimal("".join(string.split()).replace(decimal, "."))
-            else:
-                return Decimal(string.replace(group, "").replace(decimal, "."))
-        except InvalidOperation as exc:
-            msg = f"{string!r} is not a valid decimal number"
-            raise NumberFormatError(msg) from exc
+    if group.isspace():
+        # Need to remove all space-like characters, not just the group character
+        def parse_decimal(string: str) -> Decimal:
+            return Decimal("".join(string.split()).replace(decimal, "."))
+    else:
 
-    return cached_parse_decimal
+        def parse_decimal(string: str) -> Decimal:
+            return Decimal(string.replace(group, "").replace(decimal, "."))
+
+    return parse_decimal
 
 
 def process_row(
@@ -53,7 +50,7 @@ def process_row(
                 kind.append(Decimal)
             digs.append(len(dtp.digits))
             exps.append(dtp.exponent)
-        except ValueError:
+        except (ValueError, InvalidOperation):
             if item == "":
                 vals.append(float("nan"))
                 kind.append(int)

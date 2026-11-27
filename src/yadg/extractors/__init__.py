@@ -4,24 +4,55 @@ import logging
 import os
 import tempfile
 import zipfile
-from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
 from functools import singledispatch
 from pathlib import Path
-from typing import Any
-from xarray import DataTree
-from yadg import dgutils
+from typing import Any, Literal
 
+from dgbowl_schemas.yadg.dataschema import ExtractorFactory, FileType
+from xarray import DataTree
+
+from yadg import dgutils
 
 logger = logging.getLogger(__name__)
 
+FiletypeName = Literal[
+    "agilent.ch",
+    "agilent.csv",
+    "agilent.dx",
+    "basic.csv",
+    "drycal.csv",
+    "drycal.rtf",
+    "drycal.txt",
+    "eclab.mpr",
+    "eclab.mpt",
+    "empalc.csv",
+    "empalc.xlsx",
+    "example",
+    "ezchrom.asc",
+    "ezchrom.dat",
+    "fhimcpt.csv",
+    "fhimcpt.vna",
+    "fusion.csv",
+    "fusion.json",
+    "panalytical.csv",
+    "panalytical.xrdml",
+    "panalytical.xy",
+    "phi.spe",
+    "picolog.tc08",
+    "quadstar.sac",
+    "tomato.json",
+    "touchstone.snp",
+    "yadg.json",
+]
+
 
 def extract(
-    filetype: str,
+    filetype: FiletypeName,
     path: Path | str,
-    timezone: str = None,
-    encoding: str = None,
-    locale: str = None,
-    suffix: str = None,
+    timezone: str | None = None,
+    encoding: str | None = None,
+    locale: str | None = None,
+    suffix: str | None = None,
     **kwargs: dict,
 ) -> DataTree:
     """
